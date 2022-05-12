@@ -44,10 +44,10 @@ const backendDependencies = {
  * `/openmrs/spa/hello`.
  */
 function setupOpenMRS() {
-  const moduleName = "@openmrs/esm-template-app";
+  const moduleName = "esm-ugandaemr-app";
 
   const options = {
-    featureName: "hello-world",
+    featureName: "UgandaEMR",
     moduleName,
   };
 

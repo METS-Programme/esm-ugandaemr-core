@@ -1,6 +1,6 @@
 ![Node.js CI](https://github.com/openmrs/openmrs-esm-template-app/workflows/Node.js%20CI/badge.svg)
 
-# OpenMRS ESM Template App
+# UgandaEMR ESM  App
 
 This repository provides a starting point for creating your own
 [OpenMRS Microfrontend](https://wiki.openmrs.org/display/projects/OpenMRS+3.0%3A+A+Frontend+Framework+that+enables+collaboration+and+better+User+Experience).
