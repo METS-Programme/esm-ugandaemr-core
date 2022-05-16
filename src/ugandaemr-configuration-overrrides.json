@@ -1,3 +1,56 @@
 {
-
-}
+    "@openmrs/esm-patient-chart-app": {
+      "extensionSlots": {
+        "program-management-summary-slot": {
+          "remove": [
+            "program-management-summary-ext"
+          ]
+        },
+        "patient-chartdashboard-slot": {
+          "remove": [
+            "cacx-appointments-dashboard",
+            "cacx-summary-dashboard",
+            "cacx-visits-dashboard",
+            "covid-assessments-dashboard",
+            "covid-lab-results",
+            "covid-vaccinations-dashboard",
+            "pre-exposure-prophylaxis",
+            "hts-service-summary-dashboard",
+            "medications-summary-dashboard",
+            "lab-results-summary-dashboard-slot",
+            "partner-notification-services-slot",
+            "adherence-counselling-summary-slot",
+            "general-counselling-summary-slot",
+            "visits-summary-slot",
+            "visits-summary-ext"
+          ]
+        }
+      }
+    },
+    "openmrs-esm-ohri-core-app": {
+      "extensionSlots": {
+        "dashboard-slot": {
+          "remove": [
+            "hiv-dashboard-items",
+            "covid-dashboard-items"
+          ]
+        }
+      }
+    },
+    "@openmrs/esm-styleguide": {
+      "Brand color #1": "#1A3054",
+      "Brand color #2": "#131E35",
+      "Brand color #3": "#0078A6"
+    },
+    "@openmrs/esm-login-app": {
+      "logo": {
+        "src": "https://ohri-demo.globalhealthapp.net/openmrs/images/logos/ohri_logo_lightbg.svg",
+        "alt": "Logo"
+      }
+    },
+    "@openmrs/esm-primary-navigation-app": {
+      "logo": {
+        "src": "https://ohri-demo.globalhealthapp.net/openmrs/images/logos/ohri_logo_darkbg.svg"
+      }
+    }
+  }

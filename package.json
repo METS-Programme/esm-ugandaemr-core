@@ -1,8 +1,8 @@
 {
   "name": "esm-ugandaemr-app",
-  "version": "3.0.0",
+  "version": "0.0.1",
   "license": "MPL-2.0",
-  "description": "A microfrontend template OpenMRS",
+  "description": "A microfrontend for UgandaEMR built on top of OHRI and OpenMRS 3.x",
   "browser": "dist/esm-ugandaemr-app.js",
   "main": "src/index.ts",
   "source": true,
