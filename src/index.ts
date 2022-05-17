@@ -5,8 +5,16 @@
  * microfrontend.
  */
 
-import { getAsyncLifecycle, defineConfigSchema } from "@openmrs/esm-framework";
+import {
+  getAsyncLifecycle,
+  defineConfigSchema,
+  provide,
+} from "@openmrs/esm-framework";
 import { configSchema } from "./config-schema";
+import ugandaEmrOverrides from "./ugandaemr-configuration-overrrides.json";
+import formsRegistry from "./forms/forms-registry";
+import { addToBaseFormsRegistry } from "openmrs-ohri-form-engine-lib";
+import { createDashboardLink } from "@openmrs/esm-patient-common-lib";
 
 /**
  * This tells the app shell how to obtain translation files: that they
@@ -52,40 +60,47 @@ function setupOpenMRS() {
   };
 
   defineConfigSchema(moduleName, configSchema);
+  provide(ugandaEmrOverrides);
+  addToBaseFormsRegistry(formsRegistry);
 
   return {
-    pages: [
-      {
-        load: getAsyncLifecycle(() => import("./hello"), options),
-        route: "hello",
-      },
-    ],
+    pages: [],
     extensions: [
       {
-        id: "Red box",
+        id: "cervical-cancer-summary-ext",
+        slot: "program-management-summary-slot",
         load: getAsyncLifecycle(
-          () => import("./boxes/extensions/red-box"),
-          options
+          () => import("./pages/cervical-cancer/cacx-screening.component"),
+          {
+            featureName: "program-summary-extension",
+            moduleName,
+          }
         ),
-        slot: "Boxes",
       },
-      {
-        id: "Blue box",
-        load: getAsyncLifecycle(
-          () => import("./boxes/extensions/blue-box"),
-          options
-        ),
-        slot: "Boxes",
-        // same as `slots: ["Boxes"],`
-      },
-      {
-        id: "Brand box",
-        load: getAsyncLifecycle(
-          () => import("./boxes/extensions/brand-box"),
-          options
-        ),
-        slot: "Boxes",
-      },
+      // Sample code to add new sidenav links
+      // {
+      //   id: "new-dashboard",
+      //   slot: "patient-chart-dashboard-slot",
+      //   load: getSyncLifecycle(
+      //     createDashboardLink(dashboardMeta),
+      //     options
+      //   ),
+      //   meta: dashboardMeta,
+      // },
+      // {
+      //   id: "new-page-summary-ext",
+      //   slot: "new-dashboard-slot",
+      //   load: getAsyncLifecycle(
+      //     () =>
+      //       import(
+      //         "./pages/new-directory/new-page.component"
+      //       ),
+      //     {
+      //       featureName: "new-page-extension",
+      //       moduleName,
+      //     }
+      //   ),
+      // },
     ],
   };
 }

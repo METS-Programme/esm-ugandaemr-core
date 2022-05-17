@@ -1,0 +1,3 @@
+export const CaCx_REGISTRATION_ENCOUNTER_TYPE = "";
+export const CaCx_SCREENING_LOG_ENCOUNTER_TYPE = "";
+export const CaCx_TREATMENT_ENCOUNTER_TYPE = "";
