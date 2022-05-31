@@ -7938,9 +7938,9 @@ opener@^1.5.2:
   integrity sha512-ur5UIdyw5Y7yEj9wLzhqXiy6GZ3Mwx0yGI+5sMn2r0N0v3cKJvUmFH5yPP+WXh9e0xfyzyJX95D8l088DNFj7A==
 
 openmrs-esm-ohri-commons-lib@next:
-  version "0.6.42-pre.1557"
-  resolved "https://registry.yarnpkg.com/openmrs-esm-ohri-commons-lib/-/openmrs-esm-ohri-commons-lib-0.6.42-pre.1557.tgz#437967afe897d2cf8c2faec00ca40b1616965aa1"
-  integrity sha512-Re39w4U/0h4JeQDHYE2WBZeTtyRs+xwe9to7bpySpK3YntghnofEOIkPEaAWpjLZrBICCbBPV617xCG2Yl4LSg==
+  version "0.6.45-pre.1616"
+  resolved "https://registry.yarnpkg.com/openmrs-esm-ohri-commons-lib/-/openmrs-esm-ohri-commons-lib-0.6.45-pre.1616.tgz#d9d79cc05af4801d9c9b1ed976f107a56929f751"
+  integrity sha512-THIte5Ckt7rjNGKGY1IluzOcKC2ImUka52XqoMzxE3DY8XsTTlLKFmFNYvl7jbwNwqWahN/4cb2z4LmBlg7esw==
   dependencies:
     "@carbon/icons-react" "^10.49.0"
     ace-builds "^1.4.14"
@@ -7951,7 +7951,7 @@ openmrs-esm-ohri-commons-lib@next:
     jest-coverage-badges "^1.0.0"
     lodash-es "^4.17.15"
     moment "^2.29.3"
-    openmrs-ohri-form-engine-lib "^0.1.7"
+    openmrs-ohri-form-engine-lib next
     react-ace "^9.4.4"
     react-anchor-link-smooth-scroll "^1.0.12"
     react-markdown "^7.1.0"
@@ -7964,12 +7964,35 @@ openmrs-esm-ohri-commons-lib@next:
     yup "^0.29.1"
 
 openmrs-ohri-form-engine-lib@^0.1.7:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/openmrs-ohri-form-engine-lib/-/openmrs-ohri-form-engine-lib-0.1.8.tgz#2fa205db4fdb8372abca9ebcb8635507db19efdb"
-  integrity sha512-PrkYDVgoHL1laxvfYkNtxT389rQa7kQFxodLOdIiv8jwF38uaG2WlQBWWM2UOaxZUS+LN0ynb8jF6HVPArV8Tg==
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/openmrs-ohri-form-engine-lib/-/openmrs-ohri-form-engine-lib-0.1.10.tgz#d8463c862b4424a2f5c44c9878e31ce3edcf607b"
+  integrity sha512-7Zolkxf16GZhYGFTGiTxzOUvw7wYP12VBqO59fgRstboo56d3VehrzWxFI1B5PxpsEdBNJlbVtXhefuLTku+GA==
   dependencies:
     "@carbon/icons-react" "^10.18.0"
-    "@openmrs/esm-framework" next
+    ace-builds "^1.4.12"
+    carbon-components-react "^7.25.0"
+    enzyme "^3.11.0"
+    enzyme-adapter-react-16 "^1.15.6"
+    formik "^2.2.6"
+    jest-coverage-badges "^1.0.0"
+    lodash-es "^4.17.15"
+    moment "^2.29.1"
+    react-ace "^9.4.4"
+    react-anchor-link-smooth-scroll "^1.0.12"
+    react-markdown "^7.1.0"
+    react-scroll "^1.8.2"
+    react-test-renderer "^16.9.0"
+    react-waypoint "^10.1.0"
+    semver "^7.3.5"
+    systemjs-webpack-interop "^2.3.2"
+    yup "^0.29.1"
+
+openmrs-ohri-form-engine-lib@next:
+  version "0.1.10-pre.28"
+  resolved "https://registry.yarnpkg.com/openmrs-ohri-form-engine-lib/-/openmrs-ohri-form-engine-lib-0.1.10-pre.28.tgz#5604b7b2900bc8ff9d47755cb1501fcb91cbcf19"
+  integrity sha512-sYi4OqcB34/2ul8+qlEbQ1E1H7lr2knM1F3uxbmWkZ5qXZ+82gQpzOkFt+HbHY3kvBWUg2LC+guiF03jZNSVbQ==
+  dependencies:
+    "@carbon/icons-react" "^10.18.0"
     ace-builds "^1.4.12"
     carbon-components-react "^7.25.0"
     enzyme "^3.11.0"
