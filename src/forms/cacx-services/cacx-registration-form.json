@@ -1660,5 +1660,5 @@
 	"processor": "EncounterFormProcessor",
 	"uuid": "xxxx",
 	"referencedForms": [],
-  "encounterType": ""
+  	"encounterType": "6d647bd4-33d6-4d04-a04a-595d2159b456"
 }

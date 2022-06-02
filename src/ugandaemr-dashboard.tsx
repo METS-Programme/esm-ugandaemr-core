@@ -1,8 +1,24 @@
 import React from "react";
 
-// Template for adding new sidenav links
-// export const dashboardMeta = {
-//   slot: "new-dashboard-slot",
-//   config: { columns: 1, type: "grid" },
-//   title: "New Dashboard",
-// };
+export const mchDashboardMeta = {
+  title: "MCH",
+  slotName: "mch-dashboard-slot",
+};
+
+export const pncDashboardMeta = {
+  slot: "pnc-dashboard-slot",
+  config: { columns: 1, type: "grid" },
+  title: "Postnatal",
+};
+
+export const ancDashboardMeta = {
+  slot: "anc-dashboard-slot",
+  config: { columns: 1, type: "grid" },
+  title: "Antenatal",
+};
+
+export const eidDashboardMeta = {
+  slot: "eid-dashboard-slot",
+  config: { columns: 1, type: "grid" },
+  title: "EID",
+};
