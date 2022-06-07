@@ -1,3 +1,5 @@
 export const CaCx_REGISTRATION_ENCOUNTER_TYPE = "";
-export const CaCx_SCREENING_LOG_ENCOUNTER_TYPE = "";
-export const CaCx_TREATMENT_ENCOUNTER_TYPE = "";
+export const CaCx_SCREENING_LOG_ENCOUNTER_TYPE =
+  "91725548-a1a9-4b28-be6d-0509ba37bb0f";
+export const CaCx_TREATMENT_ENCOUNTER_TYPE =
+  "6d647bd4-33d6-4d04-a04a-595d2159b456";

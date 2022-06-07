@@ -3,54 +3,69 @@
       "extensionSlots": {
         "program-management-summary-slot": {
           "remove": [
-            "program-management-summary-ext"
+            "program-management-summary-ext",
+            "test-results-summary-dashboard",
+            "conditions-summary-dashboard",
+            "results-summary-dashboard", 
+            "allergies-summary-dashboard",
+            "attachments-results-summary-dashboard",
+            "drug-orders-summary-dashboard"
           ]
         },
-        "patient-chartdashboard-slot": {
+        "patient-chart-dashboard-slot": {
           "remove": [
-            "cacx-appointments-dashboard",
-            "cacx-summary-dashboard",
-            "cacx-visits-dashboard",
-            "covid-assessments-dashboard",
-            "covid-lab-results",
-            "covid-vaccinations-dashboard",
-            "pre-exposure-prophylaxis",
-            "hts-service-summary-dashboard",
-            "medications-summary-dashboard",
-            "lab-results-summary-dashboard-slot",
-            "partner-notification-services-slot",
-            "adherence-counselling-summary-slot",
-            "general-counselling-summary-slot",
-            "visits-summary-slot",
-            "visits-summary-ext"
+            "test-results-summary-dashboard",
+            "conditions-summary-dashboard",
+            "programs-summary-dashboard",
+            "allergies-summary-dashboard",
+            "attachments-results-summary-dashboard",
+            "ohri-hiv-care-and-treatment", 
+            "ohri-hiv-prevention",
+            "ohri-covid"
+          ]
+        },
+        "cacx-visits-slot": {
+          "remove": [
+            "cacx-visits-ext"
           ]
         }
       }
     },
-    "openmrs-esm-ohri-core-app": {
-      "extensionSlots": {
-        "dashboard-slot": {
-          "remove": [
-            "hiv-dashboard-items",
-            "covid-dashboard-items"
-          ]
+    "openmrs-esm-ohri-covid-app": {
+        "extensionSlots": {
+          "ohri-covid-patient-chart-slot": {
+            "remove": [
+              "covid-assessments-dashboard",
+              "covid-lab-results",
+              "covid-vaccinations-dashboard"
+            ]
+          }
         }
-      }
-    },
+      },
+      "openmrs-esm-ohri-core-app": {
+        "extensionSlots": {
+          "dashboard-slot": {
+            "remove": [
+              "covid-dashboard-items",
+              "hiv-dashboard-items"
+            ]
+          }
+        }
+      },
     "@openmrs/esm-styleguide": {
-      "Brand color #1": "#1A3054",
-      "Brand color #2": "#131E35",
-      "Brand color #3": "#0078A6"
+        "Brand color #1": "#02210b",
+        "Brand color #2": "#074519",
+        "Brand color #3": "#125726"
     },
     "@openmrs/esm-login-app": {
       "logo": {
-        "src": "https://ohri-demo.globalhealthapp.net/openmrs/images/logos/ohri_logo_lightbg.svg",
+        "src": "https://raw.githubusercontent.com/METS-Programme/esm-ugandaemr-core/master/public/ugandaemr_logo_narrow.png",
         "alt": "Logo"
       }
     },
     "@openmrs/esm-primary-navigation-app": {
       "logo": {
-        "src": "https://ohri-demo.globalhealthapp.net/openmrs/images/logos/ohri_logo_darkbg.svg"
+        "src": "https://raw.githubusercontent.com/METS-Programme/esm-ugandaemr-core/master/public/ugandaemr_logo_wide.png"
       }
     }
   }

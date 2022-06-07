@@ -9,12 +9,22 @@ import {
   getAsyncLifecycle,
   defineConfigSchema,
   provide,
+  getSyncLifecycle,
 } from "@openmrs/esm-framework";
 import { configSchema } from "./config-schema";
 import ugandaEmrOverrides from "./ugandaemr-configuration-overrrides.json";
 import formsRegistry from "./forms/forms-registry";
 import { addToBaseFormsRegistry } from "openmrs-ohri-form-engine-lib";
-import { createDashboardLink } from "@openmrs/esm-patient-common-lib";
+import {
+  createDashboardGroup,
+  createDashboardLink,
+} from "@openmrs/esm-patient-common-lib";
+import {
+  ancDashboardMeta,
+  eidDashboardMeta,
+  mchDashboardMeta,
+  pncDashboardMeta,
+} from "./ugandaemr-dashboard";
 
 /**
  * This tells the app shell how to obtain translation files: that they
@@ -68,39 +78,79 @@ function setupOpenMRS() {
     extensions: [
       {
         id: "cervical-cancer-summary-ext",
-        slot: "program-management-summary-slot",
+        slot: "cacx-visits-slot",
         load: getAsyncLifecycle(
-          () => import("./pages/cervical-cancer/cacx-screening.component"),
+          () =>
+            import("./pages/cervical-cancer/cacx-visits/cacx-visits.component"),
           {
-            featureName: "program-summary-extension",
+            featureName: "cervical-cancer-summary-extension",
             moduleName,
           }
         ),
       },
-      // Sample code to add new sidenav links
-      // {
-      //   id: "new-dashboard",
-      //   slot: "patient-chart-dashboard-slot",
-      //   load: getSyncLifecycle(
-      //     createDashboardLink(dashboardMeta),
-      //     options
-      //   ),
-      //   meta: dashboardMeta,
-      // },
-      // {
-      //   id: "new-page-summary-ext",
-      //   slot: "new-dashboard-slot",
-      //   load: getAsyncLifecycle(
-      //     () =>
-      //       import(
-      //         "./pages/new-directory/new-page.component"
-      //       ),
-      //     {
-      //       featureName: "new-page-extension",
-      //       moduleName,
-      //     }
-      //   ),
-      // },
+      {
+        id: "mch-dashboard",
+        slot: "patient-chart-dashboard-slot",
+        load: getSyncLifecycle(createDashboardGroup(mchDashboardMeta), options),
+        meta: mchDashboardMeta,
+      },
+      //add PNC slot onto MCH dashboard
+      {
+        id: "pnc-dashboard",
+        slot: "mch-dashboard-slot",
+        load: getSyncLifecycle(createDashboardLink(pncDashboardMeta), options),
+        meta: pncDashboardMeta,
+      },
+      //add PNC action to open a component
+      {
+        id: "pnc-summary-ext",
+        slot: "pnc-dashboard-slot",
+        load: getAsyncLifecycle(
+          () => import("./pages/mch/pnc-register.component"),
+          {
+            featureName: "pnc-extension",
+            moduleName,
+          }
+        ),
+      },
+      //add ANC slot onto MCH dashboard
+      {
+        id: "anc-dashboard",
+        slot: "mch-dashboard-slot",
+        load: getSyncLifecycle(createDashboardLink(ancDashboardMeta), options),
+        meta: ancDashboardMeta,
+      },
+      //add ANC action to open a component
+      {
+        id: "anc-summary-ext",
+        slot: "anc-dashboard-slot",
+        load: getAsyncLifecycle(
+          () => import("./pages/mch/anc-register.component"),
+          {
+            featureName: "anc-extension",
+            moduleName,
+          }
+        ),
+      },
+      //add EID slot onto MCH dashboard
+      {
+        id: "eid-dashboard",
+        slot: "mch-dashboard-slot",
+        load: getSyncLifecycle(createDashboardLink(eidDashboardMeta), options),
+        meta: eidDashboardMeta,
+      },
+      //add EID action to open a component
+      {
+        id: "eid-summary-ext",
+        slot: "eid-dashboard-slot",
+        load: getAsyncLifecycle(
+          () => import("./pages/mch/eid-register.component"),
+          {
+            featureName: "eid-extension",
+            moduleName,
+          }
+        ),
+      },
     ],
   };
 }

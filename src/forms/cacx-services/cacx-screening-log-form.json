@@ -587,8 +587,9 @@
 							"label": "General Patient Note",
 							"type": "obs",
 							"questionOptions": {
-								"rendering": "text",
+								"rendering": "textarea",
 								"concept": "165095AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"rows":5,
 								"conceptMappings": [
 									{
 										"type": "CIEL",
@@ -606,5 +607,5 @@
 	"processor": "EncounterFormProcessor",
 	"uuid": "xxxx",
 	"referencedForms": [],
-	"encounterType": ""
+	"encounterType": "91725548-2d90-4b28-be6d-0509ba37bb0f"
 }
