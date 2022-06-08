@@ -5,8 +5,8 @@ import { useTranslation } from "react-i18next";
 const EidRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
-  const headerTitle = t("eid Register", "EID Register");
-  const displayText = t("eid Register", "EID Register");
+  const headerTitle = t("eidRegister", "EID Register");
+  const displayText = t("eidRegister", "EID Register");
 
   return (
     <>

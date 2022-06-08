@@ -6,11 +6,11 @@ const AncRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
   const headerTitle = t(
-    "Integrated Antenatal Register",
+    "integratedAntenatalRegister",
     "Integrated Antenatal Register"
   );
   const displayText = t(
-    "Integrated Antenatal Register",
+    "integratedAntenatalRegister",
     "Integrated Antenatal Register"
   );
 

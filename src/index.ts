@@ -62,7 +62,7 @@ const backendDependencies = {
  * `/openmrs/spa/hello`.
  */
 function setupOpenMRS() {
-  const moduleName = "esm-ugandaemr-app";
+  const moduleName = "@ugandaemr/esm-ugandaemr-app";
 
   const options = {
     featureName: "UgandaEMR",
@@ -72,7 +72,6 @@ function setupOpenMRS() {
   defineConfigSchema(moduleName, configSchema);
   provide(ugandaEmrOverrides);
   addToBaseFormsRegistry(formsRegistry);
-
   return {
     pages: [],
     extensions: [

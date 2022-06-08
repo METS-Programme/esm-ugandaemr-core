@@ -6,11 +6,11 @@ const PncRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
   const headerTitle = t(
-    "Integrated Postnatal Register",
+    "integratedPostnatalRegister",
     "Integrated Postnatal Register"
   );
   const displayText = t(
-    "Integrated Postnatal Register",
+    "integratedPostnatalRegister",
     "Integrated Postnatal Register"
   );
 

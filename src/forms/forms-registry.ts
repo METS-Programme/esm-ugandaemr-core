@@ -2,7 +2,7 @@ import cacx_registration from "./cacx-services/cacx-registration-form.json";
 import cacx_screening_log from "./cacx-services/cacx-screening-log-form.json";
 
 export default {
-  "uganda-emr-cacx": {
+  uganda_emr_cacx: {
     cacx_registration: {
       "1.0": cacx_registration,
     },

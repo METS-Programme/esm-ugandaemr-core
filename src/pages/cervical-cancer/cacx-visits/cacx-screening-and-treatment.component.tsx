@@ -39,10 +39,10 @@ const CaCxScreening: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
     <EncounterList
       patientUuid={patientUuid}
       encounterUuid={CaCx_SCREENING_LOG_ENCOUNTER_TYPE}
-      form={{ package: "uganda-emr-cacx", name: "cacx_screening_log" }}
+      form={{ package: "uganda_emr_cacx", name: "cacx_screening_log" }}
       columns={columns}
-      headerTitle={headerTitle}
       description={displayText}
+      headerTitle={headerTitle}
       dropdownText="Add"
     />
   );

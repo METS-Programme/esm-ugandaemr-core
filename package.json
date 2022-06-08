@@ -1,6 +1,6 @@
 {
-  "name": "esm-ugandaemr-app",
-  "version": "0.0.1",
+  "name": "@ugandaemr/esm-ugandaemr-app",
+  "version": "0.1.0",
   "license": "MPL-2.0",
   "description": "A microfrontend for UgandaEMR built on top of OHRI and OpenMRS 3.x",
   "browser": "dist/esm-ugandaemr-app.js",
@@ -29,23 +29,26 @@
   ],
   "keywords": [
     "openmrs",
-    "microfrontends"
+    "microfrontends",
+    "ugandaEMR",
+    "ugandaemr"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/openmrs/openmrs-esm-ugandaemr-app.git"
+    "url": "git+https://github.com/METS-Programme/esm-ugandaemr-core.git"
   },
-  "homepage": "https://github.com/openmrs/openmrs-esm-ugandaemr-app#readme",
+  "homepage": "https://github.com/METS-Programme/esm-ugandaemr-core#readme",
   "publishConfig": {
     "access": "public"
   },
   "bugs": {
-    "url": "https://github.com/openmrs/openmrs-esm-ugandaemr-app/issues"
+    "url": "https://github.com/METS-Programme/esm-ugandaemr-core/issues"
   },
   "dependencies": {
     "@carbon/icons-react": "^10.18.0",
     "carbon-components-react": "^7.25.0",
     "lodash-es": "^4.17.15",
+    "openmrs-esm-ohri-commons-lib": "^0.6.45",
     "openmrs-ohri-form-engine-lib": "^0.1.7"
   },
   "peerDependencies": {
@@ -65,8 +68,8 @@
     "@babel/preset-react": "^7.13.13",
     "@babel/preset-typescript": "^7.13.0",
     "@babel/runtime": "^7.14.0",
-    "@openmrs/esm-framework": "next",
-    "@openmrs/esm-patient-common-lib": "next",
+    "@openmrs/esm-framework": "^3.3.2-pre.50",
+    "@openmrs/esm-patient-common-lib": "^3.1.1-pre.57",
     "@testing-library/dom": "^7.31.2",
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
@@ -92,7 +95,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.0.4",
     "jest-cli": "^27.0.4",
-    "openmrs": "next",
+    "openmrs": "^3.3.2-pre.50",
     "openmrs-esm-ohri-commons-lib": "next",
     "prettier": "^2.3.0",
     "pretty-quick": "^3.1.0",
