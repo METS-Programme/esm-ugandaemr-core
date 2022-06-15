@@ -11,14 +11,14 @@ import { useTranslation } from "react-i18next";
 const columns: EncounterListColumn[] = [
   {
     key: "date",
-    header: "Date",
+    header: "Encounter Date",
     getValue: (encounter) => {
       return getObsFromEncounter(encounter, "");
     },
   },
   {
-    key: "testResult",
-    header: "Test Result",
+    key: "entryPoint",
+    header: "Entry Point",
     getValue: (encounter) => {
       return getObsFromEncounter(encounter, "");
     },
@@ -39,7 +39,7 @@ const CaCxScreening: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
     <EncounterList
       patientUuid={patientUuid}
       encounterUuid={CaCx_SCREENING_LOG_ENCOUNTER_TYPE}
-      form={{ package: "uganda_emr_cacx", name: "cacx_screening_log" }}
+      form={{ package: "uganda_emr_cacx", name: "cacx_registration" }}
       columns={columns}
       description={displayText}
       headerTitle={headerTitle}
