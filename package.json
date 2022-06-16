@@ -8,7 +8,6 @@
   "source": true,
   "scripts": {
     "start": "openmrs develop --backend http://localhost:8080 --api-url /openmrs/ --port 4200",
-
     "serve": "webpack serve --mode=development",
     "build": "webpack --mode production",
     "analyze": "webpack --mode=production --env.analyze=true",
@@ -32,7 +31,7 @@
     "openmrs",
     "microfrontends",
     "ugandaEMR",
-    "ugandaemr"
+    "ugandaemr",
   ],
   "repository": {
     "type": "git",
@@ -49,7 +48,7 @@
     "@carbon/icons-react": "^10.18.0",
     "carbon-components-react": "^7.25.0",
     "lodash-es": "^4.17.15",
-    "openmrs-esm-ohri-commons-lib": "^0.6.45"
+    "@ohri/openmrs-esm-ohri-commons-lib": "^0.6.45"
   },
   "peerDependencies": {
     "@openmrs/esm-framework": "^3.14.0-pre",
@@ -60,8 +59,7 @@
     "react-i18next": "11.x",
     "react-router-dom": "5.x",
     "rxjs": "6.x",
-    "openmrs-ohri-form-engine-lib": "^0.1.x"
-
+    "@ohri/openmrs-ohri-form-engine-lib": "^0.1.x"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
@@ -106,8 +104,7 @@
     "react-router-dom": "^5.2.0",
     "rxjs": "^6.5.4",
     "typescript": "^4.3.2",
-    "openmrs-ohri-form-engine-lib": "^0.1.7"
-
+    "@ohri/openmrs-ohri-form-engine-lib": "^0.1.7"
   },
   "resolutions": {
     "@types/react": "17.0.2",

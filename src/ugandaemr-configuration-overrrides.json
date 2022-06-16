@@ -6,7 +6,7 @@
             "program-management-summary-ext",
             "test-results-summary-dashboard",
             "conditions-summary-dashboard",
-            "results-summary-dashboard", 
+            "results-summary-dashboard",
             "allergies-summary-dashboard",
             "attachments-results-summary-dashboard",
             "drug-orders-summary-dashboard"
@@ -19,7 +19,7 @@
             "programs-summary-dashboard",
             "allergies-summary-dashboard",
             "attachments-results-summary-dashboard",
-            "ohri-hiv-care-and-treatment", 
+            "ohri-hiv-care-and-treatment",
             "ohri-hiv-prevention",
             "ohri-covid"
           ]
@@ -31,7 +31,7 @@
         }
       }
     },
-    "openmrs-esm-ohri-covid-app": {
+    "@ohri/openmrs-esm-ohri-covid-app": {
         "extensionSlots": {
           "ohri-covid-patient-chart-slot": {
             "remove": [
@@ -42,7 +42,7 @@
           }
         }
       },
-      "openmrs-esm-ohri-core-app": {
+      "@ohri/openmrs-esm-ohri-core-app": {
         "extensionSlots": {
           "dashboard-slot": {
             "remove": [
@@ -56,16 +56,5 @@
         "Brand color #1": "#02210b",
         "Brand color #2": "#074519",
         "Brand color #3": "#125726"
-    },
-    "@openmrs/esm-login-app": {
-      "logo": {
-        "src": "https://raw.githubusercontent.com/METS-Programme/esm-ugandaemr-core/master/public/ugandaemr_logo_narrow.png",
-        "alt": "Logo"
-      }
-    },
-    "@openmrs/esm-primary-navigation-app": {
-      "logo": {
-        "src": "https://raw.githubusercontent.com/METS-Programme/esm-ugandaemr-core/master/public/ugandaemr_logo_wide.png"
-      }
     }
   }
