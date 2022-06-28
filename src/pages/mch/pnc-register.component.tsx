@@ -6,7 +6,7 @@ import {
 } from "openmrs-esm-ohri-commons-lib/src/index";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { MCH_INTEGRATED_POSTNATAL_REGISTER_ENCOUNTER_TYPE } from "../../constants";
+import { POSTNATAL_ENCOUNTER_TYPE } from "../../constants";
 const columns: EncounterListColumn[] = [
   {
     key: "date",
@@ -58,7 +58,7 @@ const PncRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterUuid={MCH_INTEGRATED_POSTNATAL_REGISTER_ENCOUNTER_TYPE}
+      encounterUuid={POSTNATAL_ENCOUNTER_TYPE}
       form={{
         package: "uganda_emr_mch",
         name: "integrated_postnatal_register",
