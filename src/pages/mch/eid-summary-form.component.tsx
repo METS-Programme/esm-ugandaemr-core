@@ -47,8 +47,8 @@ const columns: EncounterListColumn[] = [
 const EidRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
-  const headerTitle = t("eidRegister", "EID Register");
-  const displayText = t("eidRegister", "EID Register");
+  const headerTitle = t("eidRegister", "EID Register Summary Section");
+  const displayText = t("eidRegister", "EID Register Summary Section");
 
   return (
     <EncounterList
@@ -63,4 +63,4 @@ const EidRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   );
 };
 
-export default EidRegister;
+export default EidSummary;
