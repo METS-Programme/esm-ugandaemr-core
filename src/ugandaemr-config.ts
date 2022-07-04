@@ -1,5 +1,5 @@
-import ugandaEmrLogo from "./static/ugandaemr_logo.svg";
-import ugandaEmrBannerLogo from "./static/ugandaemr_banner_logo.svg";
+import ugandaEmrLogo from "./images/ugandaemr_logo.png";
+import ugandaEmrBannerLogo from "./images/ugandaemr_banner_logo.png";
 
 export default {
   "@openmrs/esm-login-app": {

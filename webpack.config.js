@@ -12,4 +12,17 @@ config.overrides.resolve = {
       "@ohri/openmrs-ohri-form-engine-lib/src/index",
   },
 };
+config.module = {
+  rules: [
+    {
+      test: /\.(png|jpe?g|gif)$/i,
+      use: [
+        {
+          loader: "file-loader",
+        },
+      ],
+    },
+  ],
+};
+
 module.exports = config;
