@@ -9,6 +9,26 @@
           "isExpanded": "true",
           "questions": [
             {
+              "label": "Encounter Date",
+              "type": "obs",
+              "required": "true",
+              "questionOptions": {
+                "rendering": "date",
+                "concept": "dce153a7-30ab-102d-86b0-7a5022ba4115"
+              },
+              "id": "ed_00600"
+            },
+            {
+              "label": "Client Number",
+              "type": "obs",
+              "required": "true",
+              "questionOptions": {
+                "rendering": "text",
+                "concept": "c7231d96-34d8-4bf7-a509-c810f75e3329"
+              },
+              "id": "cn_00601"
+            },
+            {
               "label": "ANC Visit number",
               "type": "obs",
               "questionOptions": {
@@ -23,21 +43,6 @@
                   {
                     "concept": "a3ff912e-8298-4743-84cb-62e267c91b58",
                     "label": "2nd ANC visit",
-                    "conceptMappings": []
-                  },
-                  {
-                    "concept": "588ac57f-a4d0-47c2-9852-92502194ec4a",
-                    "label": "1st ANC visit",
-                    "conceptMappings": []
-                  },
-                  {
-                    "concept": "a3ff912e-8298-4743-84cb-62e267c91b58",
-                    "label": "2nd ANC visit",
-                    "conceptMappings": []
-                  },
-                  {
-                    "concept": "dc353acd-1d7f-4b62-a38b-96cd0924a798",
-                    "label": "Lignocaine Batch Number",
                     "conceptMappings": []
                   },
                   {
@@ -77,6 +82,7 @@
                   }
                 ]
               },
+              "required": "true",
               "id": "anvist_001"
             },
             {
@@ -135,6 +141,7 @@
             {
               "label": "EDD",
               "type": "obs",
+              "required": "true",
               "questionOptions": {
                 "rendering": "date",
                 "concept": "5b110c7d-8031-4526-9724-f262d6e2733e"
@@ -338,6 +345,30 @@
                 ]
               },
               "id": "stk_0024"
+            },
+            {
+              "label": "STK RESULT",
+              "type": "obs",
+              "hide": {
+                "hideWhenExpression": "stk_0024 != '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
+              },
+              "questionOptions": {
+                "rendering": "select",
+                "concept": "e47d9ead-5b33-4315-9ea0-42669e4491b6",
+                "answers": [
+                  {
+                    "concept": "dc866728-30ab-102d-86b0-7a5022ba4115",
+                    "label": "POSITIVE",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "dc85aa72-30ab-102d-86b0-7a5022ba4115",
+                    "label": "NEGATIVE",
+                    "conceptMappings": []
+                  }
+                ]
+              },
+              "id": "stk_005"
             }
           ]
         },
@@ -823,7 +854,7 @@
               "label": "HB",
               "type": "obs",
               "questionOptions": {
-                "rendering": "text",
+                "rendering": "number",
                 "concept": "dc548e89-30ab-102d-86b0-7a5022ba4115"
               },
               "id": "hc_063"
@@ -957,7 +988,7 @@
               "label": "Protein",
               "type": "obs",
               "questionOptions": {
-                "rendering": "text",
+                "rendering": "number",
                 "concept": "1d27fe95-27cc-4102-b49d-28bc3f319c74",
                 "conceptMappings": [
                   {
@@ -1343,11 +1374,6 @@
                 "rendering": "select",
                 "concept": "8c346216-c444-4528-a174-5139922218ed",
                 "answers": [
-                  {
-                    "concept": "dcd695dc-30ab-102d-86b0-7a5022ba4115",
-                    "label": "YES",
-                    "conceptMappings": []
-                  },
                   {
                     "concept": "dcd695dc-30ab-102d-86b0-7a5022ba4115",
                     "label": "YES",
