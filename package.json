@@ -31,7 +31,7 @@
     "openmrs",
     "microfrontends",
     "ugandaEMR",
-    "ugandaemr",
+    "ugandaemr"
   ],
   "repository": {
     "type": "git",
@@ -69,7 +69,7 @@
     "@babel/preset-typescript": "^7.13.0",
     "@babel/runtime": "^7.14.0",
     "@openmrs/esm-framework": "^3.3.2-pre.50",
-    "@openmrs/esm-patient-common-lib": "^3.1.1-pre.57",
+    "@openmrs/esm-patient-common-lib": "^3.2.1-pre.132",
     "@testing-library/dom": "^7.31.2",
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",

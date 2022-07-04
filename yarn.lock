@@ -1853,10 +1853,10 @@
     uuid "^8.3.2"
     workbox-window "^6.1.5"
 
-"@openmrs/esm-patient-common-lib@^3.1.1-pre.57":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@openmrs/esm-patient-common-lib/-/esm-patient-common-lib-3.2.0.tgz#781db817776ccda61c744a63551f62d79c2d0fa8"
-  integrity sha512-IJPYmjIlIcgZXM6LBfERDTsQmyZaihn8CDcYN17j3NmpN54C7oVGpNRr7nRF+lHBAMcHs/e1G5O/HJ2YWy//Og==
+"@openmrs/esm-patient-common-lib@^3.2.1-pre.132":
+  version "3.2.1-pre.132"
+  resolved "https://registry.yarnpkg.com/@openmrs/esm-patient-common-lib/-/esm-patient-common-lib-3.2.1-pre.132.tgz#7807c2a3582e1b26320963312fb5653c81e8462f"
+  integrity sha512-FKB8K9TjGQJ1gLEFK3tLpruv8tFQf9E3WrYO8OaFiuhUiBzNP7gUdGlVkEogi9/yMjfG+UNc0OA6VEpmjIatag==
   dependencies:
     lodash-es "^4.17.15"
     uuid "^8.3.2"

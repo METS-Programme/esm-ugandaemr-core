@@ -3,7 +3,7 @@ import {
   EncounterList,
   EncounterListColumn,
   getObsFromEncounter,
-} from "openmrs-esm-ohri-commons-lib/src/index";
+} from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { EID_FOLLOWUP_ENCOUNTER_TYPE } from "../../constants";
