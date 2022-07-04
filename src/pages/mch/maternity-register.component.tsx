@@ -7,7 +7,7 @@ import {
 } from "openmrs-esm-ohri-commons-lib/src/index";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { MCH_INTEGRATED_MATERNITY_REGISTER_ENCOUNTER_TYPE } from "../../constants";
+import { MATERNITY_ENCOUNTER_TYPE } from "../../constants";
 
 const columns: EncounterListColumn[] = [
   {
@@ -30,7 +30,9 @@ const columns: EncounterListColumn[] = [
     getValue: () => {},
   },
 ];
-const AncRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
+const MaternityRegister: React.FC<{ patientUuid: string }> = ({
+  patientUuid,
+}) => {
   const { t } = useTranslation();
 
   const headerTitle = t(
@@ -45,7 +47,7 @@ const AncRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterUuid={MCH_INTEGRATED_MATERNITY_REGISTER_ENCOUNTER_TYPE}
+      encounterUuid={MATERNITY_ENCOUNTER_TYPE}
       form={{
         package: "uganda_emr_mch",
         name: "integrated_maternity_register",

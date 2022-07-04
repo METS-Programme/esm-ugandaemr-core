@@ -6,7 +6,7 @@ import {
 } from "openmrs-esm-ohri-commons-lib/src/index";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { MCH_INTEGRATED_POSTNATAL_REGISTER_ENCOUNTER_TYPE } from "../../constants";
+import { POSTNATAL_ENCOUNTER_TYPE } from "../../constants";
 const columns: EncounterListColumn[] = [
   {
     key: "date",
