@@ -6,7 +6,7 @@ import {
 } from "openmrs-esm-ohri-commons-lib/src/index";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { MCH_EID_FOLLOWUP_ENCOUNTER_TYPE } from "../../constants";
+import { EID_FOLLOWUP_ENCOUNTER_TYPE } from "../../constants";
 
 const columns: EncounterListColumn[] = [
   {
@@ -47,13 +47,19 @@ const columns: EncounterListColumn[] = [
 const EidRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
-  const headerTitle = t("eidRegisterfollowupsection", "EID Register Follow up Section");
-  const displayText = t("eidRegisterfollowupsection", "EID Register Follow up Section");
+  const headerTitle = t(
+    "eidRegisterfollowupsection",
+    "EID Register Follow up Section"
+  );
+  const displayText = t(
+    "eidRegisterfollowupsection",
+    "EID Register Follow up Section"
+  );
 
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterUuid={MCH_EID_FOLLOWUP_ENCOUNTER_TYPE}
+      encounterUuid={EID_FOLLOWUP_ENCOUNTER_TYPE}
       form={{ package: "uganda_emr_mch", name: "eid_follow_up" }}
       columns={columns}
       description={displayText}
@@ -63,4 +69,4 @@ const EidRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   );
 };
 
-export default EidFollowup;
+export default EidRegister;

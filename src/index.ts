@@ -143,7 +143,7 @@ function setupOpenMRS() {
         id: "eid-summary-ext",
         slot: "eid-dashboard-slot",
         load: getAsyncLifecycle(
-          () => import("./pages/mch/eid-register.component"),
+          () => import("./pages/mch/eid-summary-form.component"),
           {
             featureName: "eid-extension",
             moduleName,
