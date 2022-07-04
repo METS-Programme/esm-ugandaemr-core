@@ -13,8 +13,9 @@ import {
 } from "@openmrs/esm-framework";
 import { configSchema } from "./config-schema";
 import ugandaEmrOverrides from "./ugandaemr-configuration-overrrides.json";
+import ugandaEmrConfig from "./ugandaemr-config";
 import formsRegistry from "./forms/forms-registry";
-import { addToBaseFormsRegistry } from "openmrs-ohri-form-engine-lib";
+import { addToBaseFormsRegistry } from "@ohri/openmrs-ohri-form-engine-lib";
 import {
   createDashboardGroup,
   createDashboardLink,
@@ -71,6 +72,7 @@ function setupOpenMRS() {
 
   defineConfigSchema(moduleName, configSchema);
   provide(ugandaEmrOverrides);
+  provide(ugandaEmrConfig);
   addToBaseFormsRegistry(formsRegistry);
   return {
     pages: [],

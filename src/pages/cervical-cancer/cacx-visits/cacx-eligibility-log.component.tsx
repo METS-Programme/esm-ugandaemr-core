@@ -1,10 +1,9 @@
 import React from "react";
-
 import {
   EncounterList,
   EncounterListColumn,
   getObsFromEncounter,
-} from "openmrs-esm-ohri-commons-lib/src/index";
+} from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
 import { CaCx_TREATMENT_ENCOUNTER_TYPE } from "../../../constants";
 import { useTranslation } from "react-i18next";
 
