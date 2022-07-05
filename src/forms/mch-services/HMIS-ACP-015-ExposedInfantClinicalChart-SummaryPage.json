@@ -200,7 +200,7 @@
               ]
             },
             {
-              "label": "Birth Defect",
+              "label": "Birth Defect?",
               "type": "obs",
               "questionOptions": {
                 "rendering": "radio",
@@ -225,6 +225,58 @@
                   "unspecified": "true",
                   "hide": {
                     "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
+            },
+                        {
+              "label": "Neurotube Defect?",
+              "type": "obs",
+              "questionOptions": {
+                "rendering": "radio",
+                "concept": "165402",
+                "answers": [
+                  {
+                    "label": "Yes",
+                    "concept": "1065"
+                  },
+                  {
+                    "label": "Other",
+                    "concept": "90002"
+                  }
+                ],
+                "conceptMappings": []
+              },
+              "id": "neurotube_defect",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "true",
+                  "unspecified": "true",
+                  "hide": {
+                    "hideWhenExpression": "!includes('birth_defect', '1065')"
+                  },
+                  "validators": []
+                }
+              ]
+            },
+            {
+              "label": "Other Specify",
+              "type": "obs",
+              "questionOptions": {
+                "rendering": "text",
+                "concept": "90002",
+                "conceptMappings": []
+              },
+              "id": "mother_name",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "true",
+                  "unspecified": "true",
+                  "hide": {
+                    "hideWhenExpression": "!includes('neurotube_defect', '90002')"
                   },
                   "validators": []
                 }
@@ -2123,9 +2175,15 @@
       ]
     }
   ],
+  "availableIntents": [
+    {
+      "intent": "*",
+      "display": "EID Summary"
+    }
+  ],
   "processor": "EncounterFormProcessor",
-  "uuid": "xxxx",
+  "uuid": "860c5f2f-cf3c-4c3f-b0c4-9958b6a5a938",
+  "encounterType": "9fcfcc91-ad60-4d84-9710-11cc25258719",
   "referencedForms": [],
-  "encounterType": "6d647bd4-33d6-4d04-a04a-595d2159b456",
   "allowUnspecifiedAll": true
 }

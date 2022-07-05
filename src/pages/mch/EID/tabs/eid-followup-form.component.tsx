@@ -6,7 +6,7 @@ import {
 } from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { EID_SUMMARY_ENCOUNTER_TYPE } from "../../constants";
+import { EID_FOLLOWUP_ENCOUNTER_TYPE } from "../../../../constants";
 
 const columns: EncounterListColumn[] = [
   {
@@ -44,17 +44,23 @@ const columns: EncounterListColumn[] = [
   },
 ];
 
-const EIDSummaryForm: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
+const EidRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
-  const headerTitle = t("eidRegister", "EID Register Summary Section");
-  const displayText = t("eidRegister", "EID Register Summary Section");
+  const headerTitle = t(
+    "eidRegisterfollowupsection",
+    "EID Register Follow up Section"
+  );
+  const displayText = t(
+    "eidRegisterfollowupsection",
+    "EID Register Follow up Section"
+  );
 
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterUuid={EID_SUMMARY_ENCOUNTER_TYPE}
-      form={{ package: "uganda_emr_mch", name: "eid_summary" }}
+      encounterUuid={EID_FOLLOWUP_ENCOUNTER_TYPE}
+      form={{ package: "uganda_emr_mch", name: "eid_followup" }}
       columns={columns}
       description={displayText}
       headerTitle={headerTitle}
@@ -63,4 +69,4 @@ const EIDSummaryForm: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   );
 };
 
-export default EIDSummaryForm;
+export default EidRegister;

@@ -980,9 +980,15 @@
       ]
     }
   ],
-  "processor":"EncounterFormProcessor",
-  "uuid":"xxxx",
-  "referencedForms":[
-    
-  ]
+  "availableIntents": [
+    {
+      "intent": "*",
+      "display": "EID Encounter"
+    }
+  ],
+  "processor": "EncounterFormProcessor",
+  "uuid": "6f6b4802-7642-4226-84dc-ea7db01924b6",
+  "encounterType": "4345dacb-909d-429c-99aa-045f2db77e2b",
+  "referencedForms": [],
+  "allowUnspecifiedAll": true
 }
