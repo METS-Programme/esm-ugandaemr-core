@@ -24,6 +24,7 @@ import {
   eidDashboardMeta,
   mchDashboardMeta,
   pncDashboardMeta,
+  maternityMetaData,
 } from "./ugandaemr-dashboard";
 
 /**
@@ -146,6 +147,23 @@ function setupOpenMRS() {
           () => import("./pages/mch/eid-summary-form.component"),
           {
             featureName: "eid-extension",
+            moduleName,
+          }
+        ),
+      },
+      {
+        id: "maternity-dashboard",
+        slot: "mch-dashboard-slot",
+        load: getSyncLifecycle(createDashboardLink(maternityMetaData), options),
+        meta: maternityMetaData,
+      },
+      {
+        id: "maternity-register-extension",
+        slot: "maternity-dashboard-slot",
+        load: getAsyncLifecycle(
+          () => import("./pages/mch/maternity-register.component"),
+          {
+            featureName: "maternity-extension",
             moduleName,
           }
         ),

@@ -1,5 +1,5 @@
 {
-	"name": "",
+	"name": "POC IntegratedMaternityRegister.",
 	"pages": [
 		{
 			"label": "Admission an HIV Information",
@@ -2563,5 +2563,7 @@
 	],
 	"processor": "EncounterFormProcessor",
 	"uuid": "xxxx",
-	"referencedForms": []
+	"referencedForms": [],
+	"encounterType": "119cf7cc-1f6c-473e-a29d-60fbc2bbca72",
+	"allowUnspecifiedAll": true
 }
