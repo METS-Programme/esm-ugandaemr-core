@@ -22,3 +22,9 @@ export const eidDashboardMeta = {
   config: { columns: 1, type: "grid" },
   title: "EID",
 };
+
+export const maternityMetaData = {
+  slot: "maternity-dashboard-slot",
+  config: { columns: 1, type: "grid" },
+  title: "Maternity",
+};
