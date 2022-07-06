@@ -26,6 +26,7 @@ import {
   mchDashboardMeta,
   pncDashboardMeta,
   maternityMetaData,
+  opdDashboardMeta,
 } from "./ugandaemr-dashboard";
 
 /**
@@ -78,6 +79,12 @@ function setupOpenMRS() {
   return {
     pages: [],
     extensions: [
+      // {
+      //   id: "odp-dashboard",
+      //   slot: "patient-chart-dashboard-slot",
+      //   load: getSyncLifecycle(createDashboardGroup(opdDashboardMeta), options),
+      //   meta: opdDashboardMeta,
+      // },
       {
         id: "cervical-cancer-summary-ext",
         slot: "cacx-visits-slot",

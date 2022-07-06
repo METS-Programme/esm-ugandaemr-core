@@ -24,6 +24,15 @@
             "ohri-covid"
           ]
         },
+      "patient-chart-summary-dashboard-slot": {
+        "remove": [
+          "conditions-overview-widget",
+          "immunization-overview-widget",
+          "notes-overview-widget",
+          "offline-tools-patient-chart-actions-widget",
+          "patient-clinical-view-overview"
+        ]
+      },
         "cacx-visits-slot": {
           "remove": [
             "cacx-visits-ext"
