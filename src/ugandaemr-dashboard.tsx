@@ -1,7 +1,7 @@
 import React from "react";
 
 export const mchDashboardMeta = {
-  title: "MCH",
+  title: "MCH Clinic",
   slotName: "mch-dashboard-slot",
 };
 
@@ -20,11 +20,16 @@ export const ancDashboardMeta = {
 export const eidDashboardMeta = {
   slot: "eid-dashboard-slot",
   config: { columns: 1, type: "grid" },
-  title: "EID",
+  title: "HIV Exposed Infant",
 };
 
 export const maternityMetaData = {
   slot: "maternity-dashboard-slot",
   config: { columns: 1, type: "grid" },
   title: "Maternity",
+};
+
+export const opdDashboardMeta = {
+  title: "OPD",
+  slotName: "opd-dashboard-slot",
 };

@@ -7,21 +7,25 @@ import {
 } from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
 import { GenderMale16 } from "@carbon/icons-react";
 import { useTranslation } from "react-i18next";
-import { MATERNITY_ENCOUNTER_TYPE } from "../../constants";
+import {
+  ADMISSION_DATE,
+  DELIVERY_TYPE,
+  MATERNITY_ENCOUNTER_TYPE,
+} from "../../constants";
 
 const columns: EncounterListColumn[] = [
   {
-    key: "date",
-    header: "Encounter Date",
+    key: "admissionDate",
+    header: "Admission Date",
     getValue: (encounter) => {
-      return getObsFromEncounter(encounter, "");
+      return getObsFromEncounter(encounter, ADMISSION_DATE);
     },
   },
   {
-    key: "entryPoint",
-    header: "Entry Point",
+    key: "deliveryType",
+    header: "Delivery Type",
     getValue: (encounter) => {
-      return getObsFromEncounter(encounter, "");
+      return getObsFromEncounter(encounter, DELIVERY_TYPE);
     },
   },
   {

@@ -13,20 +13,7 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "number",
-								"concept": "1425AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-								"max": "",
-								"min": "",
-								"showDate": "",
-								"conceptMappings": [
-									{
-										"type": "SNOMED-NP",
-										"value": "298057009"
-									},
-									{
-										"type": "SNOMED-MVP",
-										"value": "15901000105004"
-									}
-								]
+								"concept": "38460266-6bcd-47e8-844c-649d34323810"
 							},
 							"id": "anc_number"
 						},
@@ -35,10 +22,7 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "number",
-								"concept": "78654",
-								"max": "",
-								"min": "",
-								"showDate": ""
+								"concept": "1646AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 							},
 							"id": "ipd_number"
 						},
@@ -47,8 +31,7 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "date",
-								"concept": "cb9b223e-a09c-4f8a-b34d-a0934a2af04a",
-								"weeksList": ""
+								"concept": "cb9b223e-a09c-4f8a-b34d-a0934a2af04a"
 							},
 							"id": "date_of_admission"
 						},
@@ -57,10 +40,7 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "number",
-								"concept": "c7231d96-34d8-4bf7-a509-c810f75e3329",
-								"max": "",
-								"min": "",
-								"showDate": ""
+								"concept": "c7231d96-34d8-4bf7-a509-c810f75e3329"
 							},
 							"id": "admission_number"
 						},
@@ -69,10 +49,7 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "number",
-								"concept": "c7231d96-34d8-4bf7-a509-c810f75e3329",
-								"max": "",
-								"min": "",
-								"showDate": ""
+								"concept": "dcc39097-30ab-102d-86b0-7a5022ba4115"
 							},
 							"id": "gravida"
 						},
@@ -81,10 +58,7 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "number",
-								"concept": "1053",
-								"max": "",
-								"min": "",
-								"showDate": ""
+								"concept": "1053AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 							},
 							"id": "parity"
 						},
@@ -93,7 +67,7 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "number",
-								"concept": "162983",
+								"concept": "0b995cb8-7d0d-46c0-bd1a-bd322387c870",
 								"max": "",
 								"min": "",
 								"showDate": ""
@@ -105,32 +79,61 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "radio",
-								"concept": "67ea4375-0f4f-4e67-b8b0-403942753a4d",
+								"concept": "dcc3ac63-30ab-102d-86b0-7a5022ba4115",
 								"answers": [
 									{
-										"concept": "ea730d69-7eec-486a-aaf2-54f8bab5a44c",
-										"label": "TRANSFER IN",
+										"concept": "dc9aee12-30ab-102d-86b0-7a5022ba4115",
+										"label": "SPONTANEOUS VAGINAL DELIVERY",
 										"conceptMappings": []
 									},
 									{
-										"concept": "160036AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-										"label": "Patient transferred out",
+										"concept": "dc9af278-30ab-102d-86b0-7a5022ba4115",
+										"label": "CESAREAN SECTION",
 										"conceptMappings": []
 									},
 									{
-										"concept": "14714862-6c78-49da-b65b-f249cccddfb6",
-										"label": "Ref In",
+										"concept": "510c9c4b-9f8c-4f90-aeb0-3d83cb899fa2",
+										"label": "Forceps or Vacuum Extractor Delivery",
 										"conceptMappings": []
 									},
 									{
-										"concept": "1ca0db4a-c5c6-48ed-9e17-84905f4487eb",
-										"label": "Community",
+										"concept": "dc9af8cf-30ab-102d-86b0-7a5022ba4115",
+										"label": "BREECH",
 										"conceptMappings": []
 									},
 									{
-										"concept": "865811ad-796f-48c2-b575-1f530122c408",
-										"label": "Health Facility",
-										"conceptMappings": []
+										"concept": "5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Other",
+										"conceptMappings": [
+											{
+												"type": "PIH Malawi",
+												"value": "Malawi: 6408"
+											},
+											{
+												"type": "org.openmrs.module.mdrtb",
+												"value": "OTHER"
+											},
+											{
+												"type": "CIEL",
+												"value": "5622"
+											},
+											{
+												"type": "SNOMED MVP",
+												"value": "MVP: 56221000105001"
+											},
+											{
+												"type": "PIH",
+												"value": "5622"
+											},
+											{
+												"type": "AMPATH",
+												"value": "5622"
+											},
+											{
+												"type": "SNOMED NP",
+												"value": "NP: 74964007"
+											}
+										]
 									}
 								]
 							},
@@ -140,11 +143,8 @@
 							"label": "Reason For Admission",
 							"type": "obs",
 							"questionOptions": {
-								"rendering": "number",
-								"concept": "165460",
-								"max": "",
-								"min": "",
-								"showDate": ""
+								"rendering": "text",
+								"concept": "03967f0d-70a7-4c65-b2d8-4b3ad6b2a3d8"
 							},
 							"id": "reason_for_admission"
 						}
@@ -209,11 +209,8 @@
 							"label": "CD4 Count",
 							"type": "obs",
 							"questionOptions": {
-								"rendering": "number",
-								"concept": "dcbcba2c-30ab-102d-86b0-7a5022ba4115",
-								"max": "",
-								"min": "",
-								"showDate": ""
+								"rendering": "text",
+								"concept": "dcbcba2c-30ab-102d-86b0-7a5022ba4115"
 							},
 							"id": "cd4_count"
 						},
@@ -222,8 +219,7 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "date",
-								"concept": "1ae6f663-d3b0-4527-bb8f-4ed18a9ca96c",
-								"weeksList": ""
+								"concept": "159376AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 							},
 							"id": "CD4 Date"
 						},
@@ -232,7 +228,7 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "date",
-								"concept": "159376AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"concept": "0b434cfa-b11c-4d14-aaa2-9aed6ca2da88",
 								"weeksList": ""
 							},
 							"id": "Date Viral Load Taken"
@@ -241,11 +237,8 @@
 							"label": "Viral Load Results",
 							"type": "obs",
 							"questionOptions": {
-								"rendering": "number",
+								"rendering": "select",
 								"concept": "dca12261-30ab-102d-86b0-7a5022ba4115",
-								"max": "",
-								"min": "",
-								"showDate": "",
 								"answers": [
 									{
 										"concept": "dca1269d-30ab-102d-86b0-7a5022ba4115",
@@ -614,7 +607,7 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "text",
-								"concept": "ART"
+								"concept": "105ef9de-ad90-4c08-bcd5-ab48f74f6287"
 							},
 							"id": "ART Number"
 						},
@@ -2564,6 +2557,6 @@
 	"processor": "EncounterFormProcessor",
 	"uuid": "xxxx",
 	"referencedForms": [],
-	"encounterType": "119cf7cc-1f6c-473e-a29d-60fbc2bbca72",
+	"encounterType": "a9f11592-22e7-45fc-904d-dfe24cb1fc67",
 	"allowUnspecifiedAll": true
 }
