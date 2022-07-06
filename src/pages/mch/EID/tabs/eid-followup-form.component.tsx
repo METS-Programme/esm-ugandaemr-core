@@ -3,10 +3,10 @@ import {
   EncounterList,
   EncounterListColumn,
   getObsFromEncounter,
-} from "openmrs-esm-ohri-commons-lib/src/index";
+} from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { MCH_EID_SUMMARY_ENCOUNTER_TYPE } from "../../constants";
+import { EID_FOLLOWUP_ENCOUNTER_TYPE } from "../../../../constants";
 
 const columns: EncounterListColumn[] = [
   {
@@ -47,14 +47,20 @@ const columns: EncounterListColumn[] = [
 const EidRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
-  const headerTitle = t("eidRegister", "EID Register");
-  const displayText = t("eidRegister", "EID Register");
+  const headerTitle = t(
+    "eidRegisterfollowupsection",
+    "EID Register Follow up Section"
+  );
+  const displayText = t(
+    "eidRegisterfollowupsection",
+    "EID Register Follow up Section"
+  );
 
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterUuid={MCH_EID_SUMMARY_ENCOUNTER_TYPE}
-      form={{ package: "uganda_emr_mch", name: "eid_summary" }}
+      encounterUuid={EID_FOLLOWUP_ENCOUNTER_TYPE}
+      form={{ package: "uganda_emr_mch", name: "eid_followup" }}
       columns={columns}
       description={displayText}
       headerTitle={headerTitle}

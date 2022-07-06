@@ -1,23 +1,25 @@
 import React from "react";
 import {
+  EmptyStateComingSoon,
   EncounterList,
   EncounterListColumn,
   getObsFromEncounter,
 } from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
-import { CaCx_TREATMENT_ENCOUNTER_TYPE } from "../../../constants";
+import { GenderMale16 } from "@carbon/icons-react";
 import { useTranslation } from "react-i18next";
+import { MATERNITY_ENCOUNTER_TYPE } from "../../constants";
 
 const columns: EncounterListColumn[] = [
   {
     key: "date",
-    header: "Date",
+    header: "Encounter Date",
     getValue: (encounter) => {
       return getObsFromEncounter(encounter, "");
     },
   },
   {
-    key: "testResult",
-    header: "Test Result",
+    key: "entryPoint",
+    header: "Entry Point",
     getValue: (encounter) => {
       return getObsFromEncounter(encounter, "");
     },
@@ -28,20 +30,28 @@ const columns: EncounterListColumn[] = [
     getValue: () => {},
   },
 ];
-
-const CaCxEligibilityLog: React.FC<{ patientUuid: string }> = ({
+const MaternityRegister: React.FC<{ patientUuid: string }> = ({
   patientUuid,
 }) => {
   const { t } = useTranslation();
 
-  const headerTitle = t("CaCx Eligibility Log", "CaCx Eligibility Log");
-  const displayText = t("CaCx Eligibility Log", "CaCx Eligibility Log");
+  const headerTitle = t(
+    "integratedMaternityRegister",
+    "Integrated Maternity Register"
+  );
+  const displayText = t(
+    "integratedMaternityRegister",
+    "Integrated Maternity Register"
+  );
 
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterUuid={CaCx_TREATMENT_ENCOUNTER_TYPE}
-      form={{ package: "uganda_emr_cacx", name: "cacx_screening_log" }}
+      encounterUuid={MATERNITY_ENCOUNTER_TYPE}
+      form={{
+        package: "uganda_emr_mch",
+        name: "integrated_maternity_register",
+      }}
       columns={columns}
       description={displayText}
       headerTitle={headerTitle}
@@ -50,4 +60,4 @@ const CaCxEligibilityLog: React.FC<{ patientUuid: string }> = ({
   );
 };
 
-export default CaCxEligibilityLog;
+export default MaternityRegister;

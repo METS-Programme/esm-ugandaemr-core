@@ -2,7 +2,7 @@
 
 # UgandaEMR ESM
 
-A microfrontend for UgandaEMR built on top of [OHRI](https://github.com/UCSF-IGHS/openmrs-esm-ohri) and OpenMRS 3.x
+A microfrontend for UgandaEMR built on top of OpenMRS 3.x and some componets of  [OHRI](https://github.com/UCSF-IGHS/openmrs-esm-ohri)
 
 For more information on how to get started, please refer to the
 [OpenMRS 3.x documentation](https://wiki.openmrs.org/display/projects/OpenMRS+3.0%3A+A+Frontend+Framework+that+enables+collaboration+and+better+User+Experience).

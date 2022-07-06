@@ -13,8 +13,9 @@ import {
 } from "@openmrs/esm-framework";
 import { configSchema } from "./config-schema";
 import ugandaEmrOverrides from "./ugandaemr-configuration-overrrides.json";
+import ugandaEmrConfig from "./ugandaemr-config";
 import formsRegistry from "./forms/forms-registry";
-import { addToBaseFormsRegistry } from "openmrs-ohri-form-engine-lib";
+import { addToBaseFormsRegistry } from "@ohri/openmrs-ohri-form-engine-lib";
 import {
   createDashboardGroup,
   createDashboardLink,
@@ -24,6 +25,7 @@ import {
   eidDashboardMeta,
   mchDashboardMeta,
   pncDashboardMeta,
+  maternityMetaData,
 } from "./ugandaemr-dashboard";
 
 /**
@@ -71,6 +73,7 @@ function setupOpenMRS() {
 
   defineConfigSchema(moduleName, configSchema);
   provide(ugandaEmrOverrides);
+  provide(ugandaEmrConfig);
   addToBaseFormsRegistry(formsRegistry);
   return {
     pages: [],
@@ -143,9 +146,26 @@ function setupOpenMRS() {
         id: "eid-summary-ext",
         slot: "eid-dashboard-slot",
         load: getAsyncLifecycle(
-          () => import("./pages/mch/eid-register.component"),
+          () => import("./pages/mch/EID/eid-services.components"),
           {
             featureName: "eid-extension",
+            moduleName,
+          }
+        ),
+      },
+      {
+        id: "maternity-dashboard",
+        slot: "mch-dashboard-slot",
+        load: getSyncLifecycle(createDashboardLink(maternityMetaData), options),
+        meta: maternityMetaData,
+      },
+      {
+        id: "maternity-register-extension",
+        slot: "maternity-dashboard-slot",
+        load: getAsyncLifecycle(
+          () => import("./pages/mch/maternity-register.component"),
+          {
+            featureName: "maternity-extension",
             moduleName,
           }
         ),

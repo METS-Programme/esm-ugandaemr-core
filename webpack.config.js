@@ -8,7 +8,21 @@ config.overrides.resolve = {
   extensions: [".tsx", ".ts", ".jsx", ".js", ".scss"],
   alias: {
     "@openmrs/esm-framework": "@openmrs/esm-framework/src/internal",
-    "openmrs-ohri-form-engine-lib": "openmrs-ohri-form-engine-lib/src/index",
+    "@ohri/openmrs-ohri-form-engine-lib":
+      "@ohri/openmrs-ohri-form-engine-lib/src/index",
   },
 };
+config.module = {
+  rules: [
+    {
+      test: /\.(png|jpe?g|gif)$/i,
+      use: [
+        {
+          loader: "file-loader",
+        },
+      ],
+    },
+  ],
+};
+
 module.exports = config;
