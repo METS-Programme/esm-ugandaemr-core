@@ -7,7 +7,11 @@
   "main": "src/index.ts",
   "source": true,
   "scripts": {
+<<<<<<< HEAD
     "start": "openmrs develop ",
+=======
+    "start": "openmrs develop",
+>>>>>>> organising patient chart summary dashboard slot
     "serve": "webpack serve --mode=development",
     "build": "webpack --mode production",
     "analyze": "webpack --mode=production --env.analyze=true",
