@@ -1,38 +1,25 @@
+import React from "react";
 import {
   EmptyStateComingSoon,
   EncounterList,
   EncounterListColumn,
   getObsFromEncounter,
 } from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
-import React from "react";
+import { GenderMale16 } from "@carbon/icons-react";
 import { useTranslation } from "react-i18next";
-import { EID_FOLLOWUP_ENCOUNTER_TYPE } from "../../../../constants";
+import { ANTENATAL_ENCOUNTER_TYPE } from "../../../constants";
 
 const columns: EncounterListColumn[] = [
   {
     key: "date",
-    header: "Date Chart Opened",
+    header: "Encounter Date",
     getValue: (encounter) => {
       return getObsFromEncounter(encounter, "");
     },
   },
   {
-    key: "testResult",
+    key: "entryPoint",
     header: "Entry Point",
-    getValue: (encounter) => {
-      return getObsFromEncounter(encounter, "");
-    },
-  },
-  {
-    key: "testResult",
-    header: "Date of NVP",
-    getValue: (encounter) => {
-      return getObsFromEncounter(encounter, "");
-    },
-  },
-  {
-    key: "testResult",
-    header: "Date of CTX",
     getValue: (encounter) => {
       return getObsFromEncounter(encounter, "");
     },
@@ -43,24 +30,26 @@ const columns: EncounterListColumn[] = [
     getValue: () => {},
   },
 ];
-
-const EidRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
+const ANCRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
   const headerTitle = t(
-    "eidRegisterfollowupsection",
-    "EID Register Follow up Section"
+    "integratedAntenatalRegister",
+    "Integrated Antenatal Register"
   );
   const displayText = t(
-    "eidRegisterfollowupsection",
-    "EID Register Follow up Section"
+    "integratedAntenatalRegister",
+    "Integrated Antenatal Register"
   );
 
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterUuid={EID_FOLLOWUP_ENCOUNTER_TYPE}
-      form={{ package: "uganda_emr_mch", name: "eid_followup" }}
+      encounterUuid={ANTENATAL_ENCOUNTER_TYPE}
+      form={{
+        package: "uganda_emr_mch",
+        name: "integrated_antenatal_register",
+      }}
       columns={columns}
       description={displayText}
       headerTitle={headerTitle}
@@ -69,4 +58,4 @@ const EidRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   );
 };
 
-export default EidRegister;
+export default ANCRegister;

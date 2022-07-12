@@ -27,6 +27,8 @@ import {
   pncDashboardMeta,
   maternityMetaData,
   opdDashboardMeta,
+  familyhealthDashboardMeta,
+  childHealthDashboardMeta,
 } from "./ugandaemr-dashboard";
 
 /**
@@ -98,11 +100,45 @@ function setupOpenMRS() {
         ),
       },
       {
-        id: "mch-dashboard",
+        id: "family-health-clinic-dashboard",
         slot: "patient-chart-dashboard-slot",
+        load: getSyncLifecycle(
+          createDashboardGroup(familyhealthDashboardMeta),
+          options
+        ),
+        meta: familyhealthDashboardMeta,
+      },
+      //add MCH slot onto Family Health dashboard
+      {
+        id: "mch-dashboard",
+        slot: "family-health-dashboard-slot",
         load: getSyncLifecycle(createDashboardGroup(mchDashboardMeta), options),
         meta: mchDashboardMeta,
       },
+
+      //add Child Health slot onto Family Health dashboard
+      {
+        id: "child-health-dashboard",
+        slot: "family-health-dashboard-slot",
+        load: getSyncLifecycle(
+          createDashboardLink(childHealthDashboardMeta),
+          options
+        ),
+        meta: childHealthDashboardMeta,
+      },
+      //add Child Health action to open a component
+      {
+        id: "child-health-summary-ext",
+        slot: "child-health-dashboard-slot",
+        load: getAsyncLifecycle(
+          () => import("./pages/family-health-clinic/child-health.component"),
+          {
+            featureName: "child-health-extension",
+            moduleName,
+          }
+        ),
+      },
+
       //add PNC slot onto MCH dashboard
       {
         id: "pnc-dashboard",
@@ -115,7 +151,8 @@ function setupOpenMRS() {
         id: "pnc-summary-ext",
         slot: "pnc-dashboard-slot",
         load: getAsyncLifecycle(
-          () => import("./pages/mch/pnc-register.component"),
+          () =>
+            import("./pages/family-health-clinic/mch/pnc-register.component"),
           {
             featureName: "pnc-extension",
             moduleName,
@@ -134,7 +171,8 @@ function setupOpenMRS() {
         id: "anc-summary-ext",
         slot: "anc-dashboard-slot",
         load: getAsyncLifecycle(
-          () => import("./pages/mch/anc-register.component"),
+          () =>
+            import("./pages/family-health-clinic/mch/anc-register.component"),
           {
             featureName: "anc-extension",
             moduleName,
@@ -153,24 +191,32 @@ function setupOpenMRS() {
         id: "eid-summary-ext",
         slot: "eid-dashboard-slot",
         load: getAsyncLifecycle(
-          () => import("./pages/mch/EID/eid-services.components"),
+          () =>
+            import(
+              "./pages/family-health-clinic/mch/EID/eid-services.components"
+            ),
           {
             featureName: "eid-extension",
             moduleName,
           }
         ),
       },
+      //add maternity slot onto MCH dashboard
       {
         id: "maternity-dashboard",
         slot: "mch-dashboard-slot",
         load: getSyncLifecycle(createDashboardLink(maternityMetaData), options),
         meta: maternityMetaData,
       },
+      //add maternity action to open a component
       {
         id: "maternity-register-extension",
         slot: "maternity-dashboard-slot",
         load: getAsyncLifecycle(
-          () => import("./pages/mch/maternity-register.component"),
+          () =>
+            import(
+              "./pages/family-health-clinic/mch/maternity-register.component"
+            ),
           {
             featureName: "maternity-extension",
             moduleName,

@@ -11,7 +11,7 @@ import {
   ADMISSION_DATE,
   DELIVERY_TYPE,
   MATERNITY_ENCOUNTER_TYPE,
-} from "../../constants";
+} from "../../../constants";
 
 const columns: EncounterListColumn[] = [
   {

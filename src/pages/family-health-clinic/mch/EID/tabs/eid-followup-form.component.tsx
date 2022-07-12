@@ -6,7 +6,8 @@ import {
 } from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { POSTNATAL_ENCOUNTER_TYPE } from "../../constants";
+import { EID_FOLLOWUP_ENCOUNTER_TYPE } from "../../../../../constants";
+
 const columns: EncounterListColumn[] = [
   {
     key: "date",
@@ -43,26 +44,23 @@ const columns: EncounterListColumn[] = [
   },
 ];
 
-const PncRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
+const EidRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
   const headerTitle = t(
-    "integratedPostnatalRegister",
-    "Integrated Postnatal Register"
+    "eidRegisterfollowupsection",
+    "EID Register Follow up Section"
   );
   const displayText = t(
-    "integratedPostnatalRegister",
-    "Integrated Postnatal Register"
+    "eidRegisterfollowupsection",
+    "EID Register Follow up Section"
   );
 
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterUuid={POSTNATAL_ENCOUNTER_TYPE}
-      form={{
-        package: "uganda_emr_mch",
-        name: "integrated_postnatal_register",
-      }}
+      encounterUuid={EID_FOLLOWUP_ENCOUNTER_TYPE}
+      form={{ package: "uganda_emr_mch", name: "eid_followup" }}
       columns={columns}
       description={displayText}
       headerTitle={headerTitle}
@@ -71,4 +69,4 @@ const PncRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   );
 };
 
-export default PncRegister;
+export default EidRegister;

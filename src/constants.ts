@@ -12,6 +12,8 @@ export const ANTENATAL_ENCOUNTER_TYPE = "87e341b6-cfb5-4796-a867-e4f80158c2a3";
 export const POSTNATAL_ENCOUNTER_TYPE = "fa6f3ff5-b784-43fb-ab35-a08ab7dbf074";
 export const MATERNITY_ENCOUNTER_TYPE = "a9f11592-22e7-45fc-904d-dfe24cb1fc67";
 
+export const CHILD_REGISTER_ENCOUNTER_TYPE = "";
+
 //maternity
 export const ADMISSION_DATE = "cb9b223e-a09c-4f8a-b34d-a0934a2af04a";
 export const DELIVERY_TYPE = "dcc3ac63-30ab-102d-86b0-7a5022ba4115";
