@@ -1,6 +1,6 @@
 import cacx_registration from "./cacx-services/cacx-registration-form.json";
 import cacx_screening_log from "./cacx-services/cacx-screening-log-form.json";
-import integrated_antenatal_register from "./family-health-services/mch-services/integrated-antenatal-register-form.json";
+import integrated_antenatal_register from "./family-health-services/mch-services/HMIS-005-IntegratedAntenatalRegister.json";
 import eid_summary from "./family-health-services/mch-services/HMIS-ACP-015-ExposedInfantClinicalChart-SummaryPage.json";
 import eid_followup from "./family-health-services/mch-services/HMIS-ACP-015-ExposedInfantClinicalChart-EncounterPage.json";
 import integrated_postnatal_register from "./family-health-services/mch-services/integrated-postnatal-register-form.json";
