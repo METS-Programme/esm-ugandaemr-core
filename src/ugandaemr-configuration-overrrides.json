@@ -18,10 +18,7 @@
             "conditions-summary-dashboard",
             "programs-summary-dashboard",
             "allergies-summary-dashboard",
-            "attachments-results-summary-dashboard",
-            "ohri-hiv-care-and-treatment",
-            "ohri-hiv-prevention",
-            "ohri-covid"
+            "attachments-results-summary-dashboard"
           ]
         },
       "patient-chart-summary-dashboard-slot": {
@@ -40,27 +37,6 @@
         }
       }
     },
-    "@ohri/openmrs-esm-ohri-covid-app": {
-        "extensionSlots": {
-          "ohri-covid-patient-chart-slot": {
-            "remove": [
-              "covid-assessments-dashboard",
-              "covid-lab-results",
-              "covid-vaccinations-dashboard"
-            ]
-          }
-        }
-      },
-      "@ohri/openmrs-esm-ohri-core-app": {
-        "extensionSlots": {
-          "dashboard-slot": {
-            "remove": [
-              "covid-dashboard-items",
-              "hiv-dashboard-items"
-            ]
-          }
-        }
-      },
     "@openmrs/esm-styleguide": {
         "Brand color #1": "#02210b",
         "Brand color #2": "#074519",

@@ -1,25 +1,24 @@
 import React from "react";
-import {
-  EncounterList,
-  EncounterListColumn,
-  getObsFromEncounter,
-} from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
 import { CaCx_TREATMENT_ENCOUNTER_TYPE } from "../../../constants";
 import { useTranslation } from "react-i18next";
+import {
+  getObervationFromEncounter,
+  ListEncounter,
+} from "../../../utils/encounter/list-encounter";
 
-const columns: EncounterListColumn[] = [
+const columns = [
   {
     key: "date",
     header: "Date",
     getValue: (encounter) => {
-      return getObsFromEncounter(encounter, "");
+      return getObervationFromEncounter(encounter, "");
     },
   },
   {
     key: "testResult",
     header: "Test Result",
     getValue: (encounter) => {
-      return getObsFromEncounter(encounter, "");
+      return getObervationFromEncounter(encounter, "");
     },
   },
   {
@@ -38,7 +37,7 @@ const CaCxEligibilityLog: React.FC<{ patientUuid: string }> = ({
   const displayText = t("CaCx Eligibility Log", "CaCx Eligibility Log");
 
   return (
-    <EncounterList
+    <ListEncounter
       patientUuid={patientUuid}
       encounterUuid={CaCx_TREATMENT_ENCOUNTER_TYPE}
       form={{ package: "uganda_emr_cacx", name: "cacx_screening_log" }}

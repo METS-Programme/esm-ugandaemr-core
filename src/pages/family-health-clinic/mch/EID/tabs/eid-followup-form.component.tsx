@@ -1,40 +1,38 @@
-import {
-  EmptyStateComingSoon,
-  EncounterList,
-  EncounterListColumn,
-  getObsFromEncounter,
-} from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { EID_FOLLOWUP_ENCOUNTER_TYPE } from "../../../../../constants";
+import {
+  getObervationFromEncounter,
+  ListEncounter,
+} from "../../../../../utils/encounter/list-encounter";
 
-const columns: EncounterListColumn[] = [
+const columns = [
   {
     key: "date",
     header: "Date Chart Opened",
     getValue: (encounter) => {
-      return getObsFromEncounter(encounter, "");
+      return getObervationFromEncounter(encounter, "");
     },
   },
   {
     key: "testResult",
     header: "Entry Point",
     getValue: (encounter) => {
-      return getObsFromEncounter(encounter, "");
+      return getObervationFromEncounter(encounter, "");
     },
   },
   {
     key: "testResult",
     header: "Date of NVP",
     getValue: (encounter) => {
-      return getObsFromEncounter(encounter, "");
+      return getObervationFromEncounter(encounter, "");
     },
   },
   {
     key: "testResult",
     header: "Date of CTX",
     getValue: (encounter) => {
-      return getObsFromEncounter(encounter, "");
+      return getObervationFromEncounter(encounter, "");
     },
   },
   {
@@ -57,7 +55,7 @@ const EidRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   );
 
   return (
-    <EncounterList
+    <ListEncounter
       patientUuid={patientUuid}
       encounterUuid={EID_FOLLOWUP_ENCOUNTER_TYPE}
       form={{ package: "uganda_emr_mch", name: "eid_followup" }}
