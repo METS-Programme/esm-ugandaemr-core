@@ -29,6 +29,7 @@ import {
   opdDashboardMeta,
   familyhealthDashboardMeta,
   childHealthDashboardMeta,
+  outpatientDashboardMeta,
 } from "./ugandaemr-dashboard";
 
 /**
@@ -81,12 +82,35 @@ function setupOpenMRS() {
   return {
     pages: [],
     extensions: [
-      // {
-      //   id: "odp-dashboard",
-      //   slot: "patient-chart-dashboard-slot",
-      //   load: getSyncLifecycle(createDashboardGroup(opdDashboardMeta), options),
-      //   meta: opdDashboardMeta,
-      // },
+      //add opd slot onto patient chart dashboard
+      {
+        id: "opd-dashboard",
+        slot: "patient-chart-dashboard-slot",
+        load: getSyncLifecycle(createDashboardGroup(opdDashboardMeta), options),
+        meta: opdDashboardMeta,
+      },
+      //add outpatient slot onto opd dashboard
+      {
+        id: "outpatient-dashboard",
+        slot: "opd-dashboard-slot",
+        load: getSyncLifecycle(
+          createDashboardLink(outpatientDashboardMeta),
+          options
+        ),
+        meta: outpatientDashboardMeta,
+      },
+      //add outpatient action to open a component
+      {
+        id: "outpatient-ext",
+        slot: "outpatient-dashboard-slot1",
+        load: getAsyncLifecycle(
+          () => import("./pages/opd/outpatient-register.component"),
+          {
+            featureName: "outpatient-extension",
+            moduleName,
+          }
+        ),
+      },
       {
         id: "cervical-cancer-summary-ext",
         slot: "cacx-visits-slot",

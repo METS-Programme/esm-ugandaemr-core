@@ -34,6 +34,12 @@ export const opdDashboardMeta = {
   slotName: "opd-dashboard-slot",
 };
 
+export const outpatientDashboardMeta = {
+  title: "Outpatient Register",
+  slot: "outpatient-dashboard-slot1",
+  config: { columns: 1, type: "grid" },
+};
+
 export const childHealthDashboardMeta = {
   slot: "child-health-dashboard-slot",
   config: { columns: 1, type: "grid" },
