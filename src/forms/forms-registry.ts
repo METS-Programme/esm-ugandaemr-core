@@ -6,7 +6,7 @@ import eid_followup from "./family-health-services/mch-services/HMIS-ACP-015-Exp
 import integrated_postnatal_register from "./family-health-services/mch-services/integrated-postnatal-register-form.json";
 import integrated_maternity_register from "./family-health-services/mch-services/integrated-maternity-register.json";
 import child_health_register from "./family-health-services/HIMS-EPI-007-childHealthRegister.json";
-
+import outpatient_register from "./opd/HMIS-OPD-002-OutpatientRegister.json";
 export default {
   uganda_emr_cacx: {
     cacx_registration: {
@@ -40,6 +40,11 @@ export default {
   uganda_emr_family_health: {
     child_health_register: {
       "1.0": child_health_register,
+    },
+  },
+  uganda_emr_opd: {
+    outpatient_register: {
+      "1.0": outpatient_register,
     },
   },
 };

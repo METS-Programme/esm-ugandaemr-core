@@ -1,7 +1,6 @@
 export const opdDashboardMeta = {
-  slot: "opd-dashboard-slot",
-  config: { columns: 1, type: "grid" },
   title: "Outpatient Department",
+  slotName: "opd-dashboard-slot",
 };
 
 export const familyHealthDashboardMeta = {
@@ -42,7 +41,13 @@ export const pncDashboardMeta = {
 export const ancDashboardMeta = {
   slot: "anc-dashboard-slot",
   config: { columns: 1, type: "grid" },
-  title: "Antenatal",
+  title: "Antenatal"
+}
+
+export const outpatientDashboardMeta = {
+  title: "Outpatient Register",
+  slot: "outpatient-dashboard-slot1",
+  config: { columns: 1, type: "grid" },
 };
 
 export const maternityMeta = {
