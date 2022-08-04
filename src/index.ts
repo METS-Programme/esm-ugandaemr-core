@@ -27,6 +27,7 @@ import {
 import { moduleName } from "./constants";
 =======
   outpatientDashboardMeta,
+  referralNoteDashboardMeta,
 } from "./ugandaemr-dashboard";
 >>>>>>> Add outpatient registration form
 
@@ -80,6 +81,28 @@ function setupOpenMRS() {
           () => import("./pages/opd/outpatient-register.component"),
           {
             featureName: "outpatient-extension",
+            moduleName,
+          }
+        ),
+      },
+      //add referral note slot onto opd dashboard
+      {
+        id: "referral-note-dashboard",
+        slot: "opd-dashboard-slot",
+        load: getSyncLifecycle(
+          createDashboardLink(referralNoteDashboardMeta),
+          options
+        ),
+        meta: referralNoteDashboardMeta,
+      },
+      //add referral note action to open a component
+      {
+        id: "referral-note-ext",
+        slot: "referral-note-dashboard-slot",
+        load: getAsyncLifecycle(
+          () => import("./pages/opd/referral-note.component"),
+          {
+            featureName: "referral-note-extension",
             moduleName,
           }
         ),
