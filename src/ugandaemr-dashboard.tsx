@@ -40,6 +40,12 @@ export const outpatientDashboardMeta = {
   config: { columns: 1, type: "grid" },
 };
 
+export const referralNoteDashboardMeta = {
+  title: "Referral Note",
+  slot: "referral-note-dashboard-slot",
+  config: { columns: 1, type: "grid" },
+};
+
 export const childHealthDashboardMeta = {
   slot: "child-health-dashboard-slot",
   config: { columns: 1, type: "grid" },

@@ -1,8 +1,8 @@
 {
-	"name": "HMIS OPD 002: OUTPATIENT REGISTER",
+	"name": "HMIS OPD 002 OUTPATIENT REGISTER",
 	"pages": [
 		{
-			"label": "OUTPATIENT REGISTER",
+			"label": "Visit Details, Vitals and Nutrition Assessment",
 			"sections": [
 				{
 					"label": "Visit Details",
@@ -457,11 +457,28 @@
 								"showDate": ""
 							},
 							"id": "1342"
+						},
+						{
+							"label": "BMI for Age Z-score",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "number",
+								"concept": "1062584AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"max": "",
+								"min": "",
+								"showDate": ""
+							},
+							"id": "1062584"
 						}
 					]
-				},
+				}
+			]
+		},
+		{
+			"label": "Follow-up Information and Social History",
+			"sections": [
 				{
-					"label": "Follow-up Information and Social History",
+					"label": "Follow-up Information",
 					"isExpanded": "true",
 					"questions": [
 						{
@@ -610,7 +627,13 @@
 								]
 							},
 							"id": "90269"
-						},
+						}
+					]
+				},
+				{
+					"label": "Social History",
+					"isExpanded": "true",
+					"questions": [
 						{
 							"label": "Tobacco Use",
 							"type": "obs",
@@ -735,7 +758,12 @@
 							"id": "159449"
 						}
 					]
-				},
+				}
+			]
+		},
+		{
+			"label": "Investigations",
+			"sections": [
 				{
 					"label": "Investigations",
 					"isExpanded": "true",
@@ -1012,7 +1040,7 @@
 							},
 							"id": "165178"
 						},
-                        {
+						{
 							"label": "Patient Lab results",
 							"type": "obs",
 							"questionOptions": {
@@ -1021,7 +1049,7 @@
 							},
 							"id": "165364"
 						},
-                        {
+						{
 							"label": "Patient screened for HIV?",
 							"type": "obs",
 							"questionOptions": {
@@ -1040,7 +1068,28 @@
 							},
 							"id": "165968"
 						},
-                        {
+						{
+							"label": "Patient eligible for HIV testing?",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "radio",
+								"concept": "c65da115d-f6a3-4d13-b182-c2e982a3a796",
+								"answers": [
+									{
+										"concept": "dcd695dc-30ab-102d-86b0-7a5022ba4115",
+										"label": "YES",
+										"conceptMappings": []
+									},
+									{
+										"concept": "dcd69c06-30ab-102d-86b0-7a5022ba4115",
+										"label": "NO",
+										"conceptMappings": []
+									}
+								]
+							},
+							"id": "1651780"
+						},
+						{
 							"label": "Linked to TB Clinic?",
 							"type": "obs",
 							"questionOptions": {
@@ -1103,7 +1152,7 @@
 							},
 							"id": "164435"
 						},
-                        {
+						{
 							"label": "Clinic Name",
 							"type": "obs",
 							"questionOptions": {
@@ -1112,7 +1161,7 @@
 							},
 							"id": "165048"
 						},
-                        {
+						{
 							"label": "Client TB Number",
 							"type": "obs",
 							"questionOptions": {
@@ -1121,10 +1170,14 @@
 							},
 							"id": "164955"
 						}
-
 					]
-				},
-                {
+				}
+			]
+		},
+		{
+			"label": "Classification and Diagnosis",
+			"sections": [
+				{
 					"label": "Classification",
 					"isExpanded": "true",
 					"questions": [
@@ -1151,7 +1204,7 @@
 						}
 					]
 				},
-                {
+				{
 					"label": "Diagnosis",
 					"isExpanded": "true",
 					"questions": [
@@ -1188,7 +1241,12 @@
 							"id": "159392"
 						}
 					]
-				},
+				}
+			]
+		},
+		{
+			"label": "Prescription and Disability",
+			"sections": [
 				{
 					"label": "Prescription",
 					"isExpanded": "true",
@@ -1198,37 +1256,452 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "text",
-								"concept": "1443AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+								"concept": "1282AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 							},
-							"id": "1443"
+							"id": "1282"
 						},
 						{
 							"label": "Units",
 							"type": "obs",
 							"questionOptions": {
-								"rendering": "text",
-								"concept": "162264AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-								"conceptMappings": [
-									{
-										"type": "CIEL",
-										"value": "162264"
-									},
-									{
-										"type": "SNOMED CT",
-										"value": "CT: 258997004"
-									}
-								]
+								"rendering": "number",
+								"concept": "160856AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"max": "",
+								"min": "",
+								"showDate": ""
 							},
-							"id": "162264"
+							"id": "160856"
 						},
 						{
 							"label": "Dose",
 							"type": "obs",
 							"questionOptions": {
-								"rendering": "text",
-								"concept": "dd277495-30ab-102d-86b0-7a5022ba4115"
+								"rendering": "select",
+								"concept": "160855AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"answers": [
+									{
+										"concept": "160862AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Once daily",
+										"conceptMappings": [
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 229797004"
+											},
+											{
+												"type": "CIEL",
+												"value": "160862"
+											}
+										]
+									},
+									{
+										"concept": "160863AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Once daily, at bedtime",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "160863"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 396142006"
+											}
+										]
+									},
+									{
+										"concept": "160864AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Once daily, in the evening",
+										"conceptMappings": [
+											{
+												"type": "SNOMED NP",
+												"value": "NP: 396147000"
+											},
+											{
+												"type": "CIEL",
+												"value": "160864"
+											}
+										]
+									},
+									{
+										"concept": "160865AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Once daily, in the morning",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "160865"
+											},
+											{
+												"type": "SNOMED NP",
+												"value": "NP: 229797004"
+											}
+										]
+									},
+									{
+										"concept": "160861AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Twice daily with meals",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "160861"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 421589008"
+											}
+										]
+									},
+									{
+										"concept": "160860AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Twice daily after meals",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "160860"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 422231003"
+											}
+										]
+									},
+									{
+										"concept": "160859AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Twice daily before meals",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "160859"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 422231003"
+											}
+										]
+									},
+									{
+										"concept": "160858AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Twice daily",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "160858"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 229799001"
+											}
+										]
+									},
+									{
+										"concept": "160866AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Thrice daily",
+										"conceptMappings": [
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 229798009"
+											},
+											{
+												"type": "CIEL",
+												"value": "160866"
+											}
+										]
+									},
+									{
+										"concept": "160867AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Thrice daily, after meals",
+										"conceptMappings": [
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 421409007"
+											},
+											{
+												"type": "CIEL",
+												"value": "160867"
+											}
+										]
+									},
+									{
+										"concept": "160868AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Thrice daily, before meals",
+										"conceptMappings": [
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 396145008"
+											},
+											{
+												"type": "CIEL",
+												"value": "160868"
+											}
+										]
+									},
+									{
+										"concept": "160869AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Thrice daily, with meals",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "160869"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 396146009"
+											}
+										]
+									},
+									{
+										"concept": "160870AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Four times daily",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "160870"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 307439001"
+											}
+										]
+									},
+									{
+										"concept": "160871AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Four times daily, after meals and at bedtime",
+										"conceptMappings": [
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 421969000"
+											},
+											{
+												"type": "CIEL",
+												"value": "160871"
+											}
+										]
+									},
+									{
+										"concept": "160872AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Four times daily, before meals and at bedtime",
+										"conceptMappings": [
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 420660006"
+											},
+											{
+												"type": "CIEL",
+												"value": "160872"
+											}
+										]
+									},
+									{
+										"concept": "162135AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "One time",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "162135"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 307486002"
+											}
+										]
+									},
+									{
+										"concept": "162243AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Every 30 min",
+										"conceptMappings": [
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 225767001"
+											},
+											{
+												"type": "CIEL",
+												"value": "162243"
+											}
+										]
+									},
+									{
+										"concept": "162244AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Every hour",
+										"conceptMappings": [
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 225768006"
+											},
+											{
+												"type": "CIEL",
+												"value": "162244"
+											}
+										]
+									},
+									{
+										"concept": "162245AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Every two hours",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "162245"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 225750008"
+											}
+										]
+									},
+									{
+										"concept": "162246AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Every three hours",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "162246"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 225753005"
+											}
+										]
+									},
+									{
+										"concept": "162247AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Every four hours",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "162247"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 225756002"
+											}
+										]
+									},
+									{
+										"concept": "162248AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Every five hours",
+										"conceptMappings": [
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 396137003"
+											},
+											{
+												"type": "CIEL",
+												"value": "162248"
+											}
+										]
+									},
+									{
+										"concept": "162249AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Every six hours",
+										"conceptMappings": [
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 307468000"
+											},
+											{
+												"type": "CIEL",
+												"value": "162249"
+											}
+										]
+									},
+									{
+										"concept": "162250AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Every eight hours",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "162250"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 307469008"
+											}
+										]
+									},
+									{
+										"concept": "162251AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Every twelve hours",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "162251"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 307470009"
+											}
+										]
+									},
+									{
+										"concept": "162252AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Every twenty-four hours",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "162252"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 396125000"
+											}
+										]
+									},
+									{
+										"concept": "162254AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Every thirty-six hours",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "162254"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 396126004"
+											}
+										]
+									},
+									{
+										"concept": "162253AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Every forty-eight hours",
+										"conceptMappings": [
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 396125000"
+											},
+											{
+												"type": "CIEL",
+												"value": "162253"
+											}
+										]
+									},
+									{
+										"concept": "162255AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Every seventy-two hours",
+										"conceptMappings": [
+											{
+												"type": "CIEL",
+												"value": "162255"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 396126004"
+											}
+										]
+									},
+									{
+										"concept": "162256AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Every Monday, Wednesday and Friday",
+										"conceptMappings": [
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 444763000"
+											},
+											{
+												"type": "CIEL",
+												"value": "162256"
+											}
+										]
+									}
+								]
 							},
-							"id": "90304"
+							"id": "160855"
 						},
 						{
 							"label": "Duration",
@@ -1456,5 +1929,5 @@
 	"processor": "EncounterFormProcessor",
 	"uuid": "xxxx",
 	"referencedForms": [],
-    "encounterType":"ee4780f5-b5eb-423b-932f-00b5879df5ab"
+	"encounterType": "ee4780f5-b5eb-423b-932f-00b5879df5ab"
 }
