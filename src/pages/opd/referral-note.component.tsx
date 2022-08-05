@@ -7,7 +7,7 @@ import {
 } from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
 import { GenderMale16 } from "@carbon/icons-react";
 import { useTranslation } from "react-i18next";
-import { REFARRAL_NOTE_ENCOUNTER_TYPE } from "../../constants";
+import { REFERRAL_NOTE_ENCOUNTER_TYPE } from "../../constants";
 
 const columns: EncounterListColumn[] = [
   {
@@ -39,7 +39,7 @@ const ReferralNote: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterUuid={REFARRAL_NOTE_ENCOUNTER_TYPE}
+      encounterUuid={REFERRAL_NOTE_ENCOUNTER_TYPE}
       form={{
         package: "uganda_emr_opd",
         name: "referral_note",

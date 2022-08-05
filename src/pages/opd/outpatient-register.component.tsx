@@ -7,7 +7,7 @@ import {
 } from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
 import { GenderMale16 } from "@carbon/icons-react";
 import { useTranslation } from "react-i18next";
-import { OUTPATIENT_REGISTER_ENCOUNTER_TYPE } from "../../constants";
+import { OUTPATIENT_DEPARTMENT_ENCOUNTER_TYPE } from "../../constants";
 
 const columns: EncounterListColumn[] = [
   {
@@ -41,7 +41,7 @@ const OutpatientRegister: React.FC<{ patientUuid: string }> = ({
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterUuid={OUTPATIENT_REGISTER_ENCOUNTER_TYPE}
+      encounterUuid={OUTPATIENT_DEPARTMENT_ENCOUNTER_TYPE}
       form={{
         package: "uganda_emr_opd",
         name: "outpatient_register",

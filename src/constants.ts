@@ -22,7 +22,7 @@ export const ADMISSION_DATE = "cb9b223e-a09c-4f8a-b34d-a0934a2af04a";
 export const DELIVERY_TYPE = "dcc3ac63-30ab-102d-86b0-7a5022ba4115";
 
 // opd
-export const OUTPATIENT_REGISTER_ENCOUNTER_TYPE =
+export const OUTPATIENT_DEPARTMENT_ENCOUNTER_TYPE =
   "ee4780f5-b5eb-423b-932f-00b5879df5ab";
-export const REFARRAL_NOTE_ENCOUNTER_TYPE =
+export const REFERRAL_NOTE_ENCOUNTER_TYPE =
   "e0e4780f5-b5eb-423b-932f-00b5879df5ab";
