@@ -1,3 +1,4 @@
+
 {
 	"name": "HMIS OPD 002 OUTPATIENT REGISTER",
 	"pages": [
@@ -16,7 +17,15 @@
 								"concept": "dce153a7-30ab-102d-86b0-7a5022ba4115",
 								"weeksList": ""
 							},
-							"id": "90273"
+							"id": "90273",
+						
+							"required": "true",
+							"validators": [
+								{
+							 	  "type": "js_expression",
+								  "message": "Please indicate whether the client is currently in HIV care or under ART"
+								}
+							  ]
 						},
 						{
 							"label": "Serial Number",
@@ -58,7 +67,10 @@
 								"rendering": "text",
 								"concept": "9bf35577-f802-437d-8ca3-84ab15191d6e"
 							},
-							"id": "164436"
+							"id": "164436",
+							"hide": {
+								"hideWhenExpression": "isEmpty('165855')"
+							  }
 						},
 						{
 							"label": "Ref out number",
@@ -67,10 +79,16 @@
 								"rendering": "text",
 								"concept": "6442c9f6-25e8-4c8e-af8a-e9f6845ceaed"
 							},
-							"id": "99763"
+							"id": "99763",
+							"hide": {
+								"hideWhenExpression": "isEmpty('165855') "
+							  }
 						}
 					]
 				},
+
+
+				      
 				{
 					"label": "Vitals",
 					"isExpanded": "true",
