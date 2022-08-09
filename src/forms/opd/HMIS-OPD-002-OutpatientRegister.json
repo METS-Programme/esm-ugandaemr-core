@@ -59,6 +59,7 @@
 								]
 							},
 							"id": "165855"
+							
 						},
 						{
 							"label": "Ref in number",
@@ -81,7 +82,7 @@
 							},
 							"id": "99763",
 							"hide": {
-								"hideWhenExpression": "isEmpty('165855') "
+								"hideWhenExpression": "isEmpty('165855') || isEmpty('165855') "
 							  }
 						}
 					]
