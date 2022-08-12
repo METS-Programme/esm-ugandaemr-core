@@ -31,9 +31,9 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "text",
-								"concept": "c09159851-557b-4c09-8942-65b7989aa20a"
+								"concept": "1d2b6134-3990-4ae9-bdf7-f72a9d7e8d42"
 							},
-							"id": "91598"
+							"id": "166779"
 						},
 						{
 							"label": "Subcounty/Division ",
@@ -194,8 +194,7 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "date",
-								"concept": "785aceb7-2bd5-4955-ba69-627ca1befa64",
-								"weeksList": ""
+								"concept": "785aceb7-2bd5-4955-ba69-627ca1befa64"
 							},
 							"id": "99701"
 						},
@@ -243,10 +242,10 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "textarea",
-								"concept": "1faf8107-641b-4d84-8719-0b8af018043c",
+								"concept": "c5f4bbe7-ccf3-4d15-9170-329c110e4578",
 								"rows": ""
 							},
-							"id": "165936"
+							"id": "166621"
 						},
 						{
 							"label": "Name of clinician",

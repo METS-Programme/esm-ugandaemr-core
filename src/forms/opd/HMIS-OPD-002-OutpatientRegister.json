@@ -65,6 +65,7 @@
 							"type": "obs",
 							"required": {
 								"type": "conditionalRequired",
+								"message": "Patient marked as transferred in. Please provide the Ref in number.",
 								"referenceQuestionId": "165855",
 								"referenceQuestionAnswers": [
 									"ea730d69-7eec-486a-aaf2-54f8bab5a44c"
@@ -75,8 +76,15 @@
 								"concept": "9bf35577-f802-437d-8ca3-84ab15191d6e"
 							},
 							"id": "164436",
+							"validators": [
+								{
+									"type": "js_expression",
+									"failsWhenExpression": "!isEmpty(165855) && arrayContains(['ea730d69-7eec-486a-aaf2-54f8bab5a44c'], 165855) && isEmpty(myValue)",
+									"message": "Patient marked as transferred in. Please provide the Ref in number."
+								}
+							],
 							"hide": {
-								"hideWhenExpression": "isEmpty(165855) || 165855 != 'ea730d69-7eec-486a-aaf2-54f8bab5a44c'"
+								"hideWhenExpression": "isEmpty(165855) || 165855 !== 'ea730d69-7eec-486a-aaf2-54f8bab5a44c'"
 							}
 						},
 						{
@@ -479,28 +487,25 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "number",
-								"id": "1342",
 								"concept": "dca1f717-30ab-102d-86b0-7a5022ba4115",
 								"max": "100",
 								"min": "0",
 								"calculate": {
 									"calculateExpression": "calcBMI(height,weight)"
 								}
-							}
+							},
+							"id": "1342"
 						},
 						{
 							"label": "BMI for Age Z-score",
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "number",
-								"concept": "1062584AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"concept": "adf312a6-9b34-4786-af7a-43875d7e44ff",
 								"max": "100",
-								"min": "0",
-								"calculate": {
-									"calculateExpression": "calcBMIForAgeZscore(bmiForAgeRef, height, weight)"
-								}
+								"min": "0"
 							},
-							"id": "1062584"
+							"id": "166756"
 						}
 					]
 				}
@@ -1009,7 +1014,9 @@
 								"type": "conditionalRequired",
 								"referenceQuestionId": "164433",
 								"referenceQuestionAnswers": [
-									"dc54c43f-30ab-102d-86b0-7a5022ba4115 || 1643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA || f1468c2d-34f3-4224-9eb5-8fa50294fda5"
+									"dc54c43f-30ab-102d-86b0-7a5022ba4115",
+									"1643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+									"f1468c2d-34f3-4224-9eb5-8fa50294fda5"
 								]
 							},
 							"questionOptions": {
@@ -1135,7 +1142,7 @@
 						{
 							"label": "Patient Lab results",
 							"type": "obs",
-                            "required": {
+							"required": {
 								"type": "conditionalRequired",
 								"referenceQuestionId": "165178",
 								"referenceQuestionAnswers": [
@@ -1239,7 +1246,7 @@
 								]
 							},
 							"id": "160108",
-                            "hide": {
+							"hide": {
 								"hideWhenExpression": "isEmpty(165178) || 165178 != 'dcd695dc-30ab-102d-86b0-7a5022ba4115'"
 							}
 						},
@@ -1267,7 +1274,7 @@
 							"type": "obs",
 							"questionOptions": {
 								"rendering": "radio",
-								"concept": "c65da115d-f6a3-4d13-b182-c2e982a3a796",
+								"concept": "93434e17-6570-4990-bc72-f3ee8d6bf7c1",
 								"answers": [
 									{
 										"concept": "dcd695dc-30ab-102d-86b0-7a5022ba4115",
@@ -1281,7 +1288,7 @@
 									}
 								]
 							},
-							"id": "1651780"
+							"id": "166778"
 						},
 						{
 							"label": "Linked to TB Clinic?",
@@ -1352,14 +1359,14 @@
 								]
 							},
 							"id": "164435",
-                            "hide": {
+							"hide": {
 								"hideWhenExpression": "isEmpty(160108) || 160108 != '703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
 							}
 						},
 						{
 							"label": "Clinic Name",
 							"type": "obs",
-                            "required": {
+							"required": {
 								"type": "conditionalRequired",
 								"referenceQuestionId": "164435",
 								"referenceQuestionAnswers": [
@@ -1378,7 +1385,7 @@
 						{
 							"label": "Client TB Number",
 							"type": "obs",
-                            "required": {
+							"required": {
 								"type": "conditionalRequired",
 								"referenceQuestionId": "164435",
 								"referenceQuestionAnswers": [
@@ -2113,56 +2120,14 @@
 								"concept": "162558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
 								"answers": [
 									{
-										"concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-										"label": "Yes",
-										"conceptMappings": [
-											{
-												"type": "PIH",
-												"value": "1065"
-											},
-											{
-												"type": "SNOMED CT",
-												"value": "CT: 373066001"
-											},
-											{
-												"type": "PIH Malawi",
-												"value": "Malawi: 1065"
-											},
-											{
-												"type": "CIEL",
-												"value": "1065"
-											},
-											{
-												"type": "AMPATH",
-												"value": "1065"
-											}
-										]
+										"concept": "dcd695dc-30ab-102d-86b0-7a5022ba4115",
+										"label": "YES",
+										"conceptMappings": []
 									},
 									{
-										"concept": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-										"label": "No",
-										"conceptMappings": [
-											{
-												"type": "PIH",
-												"value": "1066"
-											},
-											{
-												"type": "PIH Malawi",
-												"value": "Malawi: 1066"
-											},
-											{
-												"type": "AMPATH",
-												"value": "1066"
-											},
-											{
-												"type": "CIEL",
-												"value": "1066"
-											},
-											{
-												"type": "SNOMED CT",
-												"value": "CT: 373067005"
-											}
-										]
+										"concept": "dcd69c06-30ab-102d-86b0-7a5022ba4115",
+										"label": "NO",
+										"conceptMappings": []
 									}
 								]
 							},
@@ -2171,20 +2136,20 @@
 						{
 							"label": "Type of Disability",
 							"type": "obs",
-                            "required": {
-                                "type": "conditionalRequired",
-                                "referenceQuestionId": "162558",
-                                "referenceQuestionAnswers": [
-                                    "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                ]
-                            },
+							"required": {
+								"type": "conditionalRequired",
+								"referenceQuestionId": "162558",
+								"referenceQuestionAnswers": [
+									"dcd695dc-30ab-102d-86b0-7a5022ba4115"
+								]
+							},
 							"questionOptions": {
 								"rendering": "text",
 								"concept": "c894f746-3a8f-4f9a-a3e1-fa9acb02228d"
 							},
 							"id": "164945",
 							"hide": {
-								"hideWhenExpression": "isEmpty(162558) || 162558 != '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
+								"hideWhenExpression": "isEmpty(162558) || 162558 != 'dcd695dc-30ab-102d-86b0-7a5022ba4115'"
 							}
 						},
 						{
@@ -2208,7 +2173,7 @@
 							},
 							"id": "164204",
 							"hide": {
-								"hideWhenExpression": "isEmpty(162558) || 162558 != '1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'"
+								"hideWhenExpression": "isEmpty(162558) || 162558 != 'dcd695dc-30ab-102d-86b0-7a5022ba4115'"
 							}
 						}
 					]
