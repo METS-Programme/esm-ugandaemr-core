@@ -5,7 +5,6 @@ import {
   EncounterListColumn,
   getObsFromEncounter,
 } from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
-import { GenderMale16 } from "@carbon/icons-react";
 import { useTranslation } from "react-i18next";
 import { ANTENATAL_ENCOUNTER_TYPE } from "../../../constants";
 
@@ -54,6 +53,11 @@ const ANCRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
       description={displayText}
       headerTitle={headerTitle}
       dropdownText="Add"
+      launchOptions={{
+        hideFormLauncher: false,
+        moduleName: "",
+        displayText: "Integrated Antenatal Register",
+      }}
     />
   );
 };

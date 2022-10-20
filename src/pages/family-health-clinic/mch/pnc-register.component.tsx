@@ -67,6 +67,11 @@ const PncRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
       description={displayText}
       headerTitle={headerTitle}
       dropdownText="Add"
+      launchOptions={{
+        hideFormLauncher: false,
+        moduleName: "",
+        displayText: "Integrated Postnatal Register",
+      }}
     />
   );
 };
