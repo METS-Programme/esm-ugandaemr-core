@@ -1,8 +1,8 @@
 import React from "react";
 
-export const mchDashboardMeta = {
-  title: "MCH",
-  slotName: "mch-dashboard-slot",
+export const familyhealthDashboardMeta = {
+  title: "Family Health Clinic",
+  slotName: "family-health-dashboard-slot",
 };
 
 export const pncDashboardMeta = {
@@ -20,11 +20,27 @@ export const ancDashboardMeta = {
 export const eidDashboardMeta = {
   slot: "eid-dashboard-slot",
   config: { columns: 1, type: "grid" },
-  title: "EID",
+  title: "HIV Exposed Infant",
 };
 
 export const maternityMetaData = {
   slot: "maternity-dashboard-slot",
   config: { columns: 1, type: "grid" },
   title: "Maternity",
+};
+
+export const opdDashboardMeta = {
+  title: "OPD",
+  slotName: "opd-dashboard-slot",
+};
+
+export const childHealthDashboardMeta = {
+  slot: "child-health-dashboard-slot",
+  config: { columns: 1, type: "grid" },
+  title: "Child Health",
+};
+
+export const mchDashboardMeta = {
+  title: "MCH",
+  slotName: "mch-dashboard-slot",
 };

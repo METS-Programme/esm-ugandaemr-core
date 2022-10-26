@@ -1,0 +1,1313 @@
+{
+	"name": "POC HMIS EPI 007: Child Register",
+	"pages": [
+		{
+			"label": "Nutrition",
+			"sections": [
+				{
+					"label": "Nutrition Information",
+					"isExpanded": "true",
+					"questions": [
+						{
+							"label": "PAB",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "text",
+								"concept": "164826AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"answers": [
+									{
+										"concept": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "No",
+										"conceptMappings": [
+											{
+												"type": "PIH",
+												"value": "1066"
+											},
+											{
+												"type": "PIH Malawi",
+												"value": "Malawi: 1066"
+											},
+											{
+												"type": "AMPATH",
+												"value": "1066"
+											},
+											{
+												"type": "CIEL",
+												"value": "1066"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 373067005"
+											}
+										]
+									},
+									{
+										"concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Yes",
+										"conceptMappings": [
+											{
+												"type": "PIH",
+												"value": "1065"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 373066001"
+											},
+											{
+												"type": "PIH Malawi",
+												"value": "Malawi: 1065"
+											},
+											{
+												"type": "CIEL",
+												"value": "1065"
+											},
+											{
+												"type": "AMPATH",
+												"value": "1065"
+											}
+										]
+									},
+									{
+										"concept": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Unknown",
+										"conceptMappings": [
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 261665006"
+											},
+											{
+												"type": "PIH",
+												"value": "1067"
+											},
+											{
+												"type": "org.openmrs.module.mdrtb",
+												"value": "UNKNOWN"
+											},
+											{
+												"type": "AMPATH",
+												"value": "1067"
+											},
+											{
+												"type": "CIEL",
+												"value": "1067"
+											}
+										]
+									}
+								]
+							},
+							"id": "pab"
+						},
+						{
+							"label": "Weight",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "text",
+								"concept": "94e4aeea-84d0-4207-aacb-ce38fe8e109c"
+							},
+							"id": "weight"
+						},
+						{
+							"label": "Weight for Age (z-score) [revisit concept]",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "text",
+								"concept": "162584AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							},
+							"id": "weight_for_age_zscore"
+						},
+						{
+							"label": "Height/Length for Age",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "select",
+								"concept": "164088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"answers": [
+									{
+										"concept": "112467AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Tall Stature",
+										"conceptMappings": []
+									},
+									{
+										"concept": "164085AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Nutritional stunting",
+										"conceptMappings": []
+									},
+									{
+										"concept": "164086AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Severe nutritional stunting",
+										"conceptMappings": []
+									},
+									{
+										"concept": "dc9816bd-30ab-102d-86b0-7a5022ba4115",
+										"label": "NORMAL",
+										"conceptMappings": []
+									}
+								]
+							},
+							"id": "height_for_age"
+						},
+						{
+							"label": "Weight for Height/Length (Z-Score) [revisit concept]",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "select",
+								"concept": "165062AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"answers": [
+									{
+										"concept": "35a89dcf-d35c-4fc6-8d51-e958b666a0f3",
+										"label": "Z-Score1 (< -3)",
+										"conceptMappings": []
+									},
+									{
+										"concept": "3709d446-3017-4c19-a1af-2da64975928b",
+										"label": "Z-Score2 (-3_<-1)",
+										"conceptMappings": []
+									},
+									{
+										"concept": "11b62d4d-b879-4727-8e26-9bced62269db",
+										"label": "Z-Score3 (-1_1)",
+										"conceptMappings": []
+									},
+									{
+										"concept": "ab51899b-e5b9-4b20-965c-fa0d3d2ff6fb",
+										"label": "Z-Score4 (>1_3)",
+										"conceptMappings": []
+									},
+									{
+										"concept": "73b79d62-17d1-4958-93cb-0f22760db69e",
+										"label": "Z-Score5 (>3)",
+										"conceptMappings": []
+									}
+								]
+							},
+							"id": "weight_for_height"
+						},
+						{
+							"label": "MUAC (cm)",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "text",
+								"concept": "1343AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"conceptMappings": [
+									{
+										"type": "SNOMED CT",
+										"value": "CT: 284473002"
+									},
+									{
+										"type": "AMPATH",
+										"value": "1343"
+									},
+									{
+										"type": "PIH",
+										"value": "1290"
+									},
+									{
+										"type": "CIEL",
+										"value": "1343"
+									}
+								]
+							},
+							"id": "muac_cm"
+						},
+						{
+							"label": "MUAC Code",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "select",
+								"concept": "5f86d19d-9546-4466-89c0-6f80c101191b",
+								"answers": [
+									{
+										"concept": "de330d01-5586-4eed-a645-e04b6bd13701",
+										"label": "RED",
+										"conceptMappings": []
+									},
+									{
+										"concept": "8846c03f-67bf-4aeb-8ca7-39bf79b4ebf3",
+										"label": "GREEN",
+										"conceptMappings": []
+									},
+									{
+										"concept": "a3b1734c-4743-4b9d-8e71-08d0459d29b9",
+										"label": "YELLOW",
+										"conceptMappings": []
+									}
+								]
+							},
+							"id": "muac_code"
+						},
+						{
+							"label": "INRNo",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "text",
+								"concept": "40d04ad1-babf-426f-85d7-e6ba156919bd"
+							},
+							"id": "INRNo"
+						},
+						{
+							"label": "Received LLIN",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "radio",
+								"concept": "165025AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"answers": [
+									{
+										"concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Yes",
+										"conceptMappings": [
+											{
+												"type": "PIH",
+												"value": "1065"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 373066001"
+											},
+											{
+												"type": "PIH Malawi",
+												"value": "Malawi: 1065"
+											},
+											{
+												"type": "CIEL",
+												"value": "1065"
+											},
+											{
+												"type": "AMPATH",
+												"value": "1065"
+											}
+										]
+									},
+									{
+										"concept": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "No",
+										"conceptMappings": [
+											{
+												"type": "PIH",
+												"value": "1066"
+											},
+											{
+												"type": "PIH Malawi",
+												"value": "Malawi: 1066"
+											},
+											{
+												"type": "AMPATH",
+												"value": "1066"
+											},
+											{
+												"type": "CIEL",
+												"value": "1066"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 373067005"
+											}
+										]
+									}
+								]
+							},
+							"id": "received_llin"
+						},
+						{
+							"label": "Date Received LLIN",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "date",
+								"concept": "165026AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"weeksList": ""
+							},
+							"id": "date_received_llin"
+						}
+					]
+				}
+			]
+		},
+		{
+			"label": "Vaccination",
+			"sections": [
+				{
+					"label": "BCG",
+					"isExpanded": "true",
+					"questions": [
+						{
+							"label": "Date BCG was given",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "date",
+								"concept": "165012AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"weeksList": ""
+							},
+							"id": "date_bcg_was_given"
+						}
+					]
+				},
+				{
+					"label": "Polio Dates [create concepts for each polio date]",
+					"isExpanded": "true",
+					"questions": [
+						{
+							"label": "Polio Date 0",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "date",
+								"concept": "165006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"weeksList": ""
+							},
+							"id": "polio_date_0"
+						},
+						{
+							"label": "Polio Date 1",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "date",
+								"concept": "165006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"weeksList": ""
+							},
+							"id": "polio_date_1"
+						},
+						{
+							"label": "Polio Date 2",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "date",
+								"concept": "165006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"weeksList": ""
+							},
+							"id": "polio_date_2"
+						},
+						{
+							"label": "Polio Date 3",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "date",
+								"concept": "165006AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"weeksList": ""
+							},
+							"id": "polio_date_3"
+						}
+					]
+				},
+				{
+					"label": "IPV",
+					"isExpanded": "true",
+					"questions": [
+						{
+							"label": "Date IPV",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "date",
+								"concept": "165011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"weeksList": ""
+							},
+							"id": "date_ipv"
+						}
+					]
+				},
+				{
+					"label": "DPT- HepB- HIB/Infant Screening for HIV Exposure",
+					"isExpanded": "true",
+					"questions": [
+						{
+							"label": "Date DPT- HepB- HIB",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "date",
+								"concept": "165013AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"weeksList": ""
+							},
+							"id": "date_dpt_hepb_hib"
+						},
+						{
+							"label": "Infant Screened for HIV Exposure [missing concept]",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "radio",
+								"concept": "2c48beab-1fc0-4000-91e0-523f8d22f0b5",
+								"answers": [
+									{
+										"concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Yes",
+										"conceptMappings": [
+											{
+												"type": "PIH",
+												"value": "1065"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 373066001"
+											},
+											{
+												"type": "PIH Malawi",
+												"value": "Malawi: 1065"
+											},
+											{
+												"type": "CIEL",
+												"value": "1065"
+											},
+											{
+												"type": "AMPATH",
+												"value": "1065"
+											}
+										]
+									},
+									{
+										"concept": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "No",
+										"conceptMappings": [
+											{
+												"type": "PIH",
+												"value": "1066"
+											},
+											{
+												"type": "PIH Malawi",
+												"value": "Malawi: 1066"
+											},
+											{
+												"type": "AMPATH",
+												"value": "1066"
+											},
+											{
+												"type": "CIEL",
+												"value": "1066"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 373067005"
+											}
+										]
+									}
+								]
+							},
+							"id": "infant_screened_for_hiv_exposure"
+						},
+						{
+							"label": "Exposed [missing concept]",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "radio",
+								"concept": "2c48beab-1fc0-4000-91e0-523f8d22f0b5",
+								"answers": [
+									{
+										"concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Yes",
+										"conceptMappings": [
+											{
+												"type": "PIH",
+												"value": "1065"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 373066001"
+											},
+											{
+												"type": "PIH Malawi",
+												"value": "Malawi: 1065"
+											},
+											{
+												"type": "CIEL",
+												"value": "1065"
+											},
+											{
+												"type": "AMPATH",
+												"value": "1065"
+											}
+										]
+									},
+									{
+										"concept": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "No",
+										"conceptMappings": [
+											{
+												"type": "PIH",
+												"value": "1066"
+											},
+											{
+												"type": "PIH Malawi",
+												"value": "Malawi: 1066"
+											},
+											{
+												"type": "AMPATH",
+												"value": "1066"
+											},
+											{
+												"type": "CIEL",
+												"value": "1066"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 373067005"
+											}
+										]
+									}
+								]
+							},
+							"id": "exposed"
+						},
+						{
+							"label": "Tested",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "radio",
+								"concept": "e0027ef8-b5f1-4098-8586-2a7af9997c65",
+								"answers": [
+									{
+										"label": "yes",
+										"concept": "dcd695dc-30ab-102d-86b0-7a5022ba4115"
+									},
+									{
+										"label": "no",
+										"concept": "dcd69c06-30ab-102d-86b0-7a5022ba4115"
+									}
+								]
+							},
+							"id": "tested"
+						}
+					]
+				},
+				{
+					"label": "PCV",
+					"isExpanded": "true",
+					"questions": [
+						{
+							"label": "Date PCV 1",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "date",
+								"concept": "62d87122-0a08-4e04-b57c-7e1b2f821854"
+							},
+							"id": "date_pcv_1"
+						},
+						{
+							"label": "Date PCV 2",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "date",
+								"concept": "b0b23e6f-e0a9-41d2-85f6-541d21da4683",
+								"weeksList": ""
+							},
+							"id": "date_pcv_2"
+						},
+						{
+							"label": "Date PCV 3",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "date",
+								"concept": "e47e2908-3fd1-4e05-9cf8-9c357bcc4a7f",
+								"weeksList": ""
+							},
+							"id": "date_pcv_3"
+						}
+					]
+				},
+				{
+					"label": "Rota Virus [create concepts for each Rota Virus date]",
+					"isExpanded": "true",
+					"questions": [
+						{
+							"label": "Rota Virus 1",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "date",
+								"concept": "165021AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"weeksList": ""
+							},
+							"id": "rota_virus_1"
+						},
+						{
+							"label": "Rota Virus 2",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "date",
+								"concept": "165021AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"weeksList": ""
+							},
+							"id": "rota_virus_2"
+						}
+					]
+				}
+			]
+		},
+		{
+			"label": "Measles Vaccination & Nutrition Assessment",
+			"sections": [
+				{
+					"label": "Date of Measles Rubella 1 (MR1) Vaccination",
+					"isExpanded": "true",
+					"questions": [
+						{
+							"label": "Date of Measles Rubella 1 (MR1) Vaccination [missing concept]",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "date",
+								"concept": "165029AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"weeksList": ""
+							},
+							"id": "date_of_measles_rubella1_vaccination"
+						}
+					]
+				},
+				{
+					"label": "Nutrition Information",
+					"isExpanded": "true",
+					"questions": [
+						{
+							"label": "Age",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "text",
+								"concept": "143bcb27-c68b-470d-be1d-35d50c5c8161"
+							},
+							"id": "age"
+						},
+						{
+							"label": "Weight for Age (z-score) [revisit concept]",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "text",
+								"concept": "162584AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+							},
+							"id": "weight_for_age_zscore"
+						},
+						{
+							"label": "Height/Length for Age",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "select",
+								"concept": "164088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"answers": [
+									{
+										"concept": "112467AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Tall Stature",
+										"conceptMappings": []
+									},
+									{
+										"concept": "164085AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Nutritional stunting",
+										"conceptMappings": []
+									},
+									{
+										"concept": "164086AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Severe nutritional stunting",
+										"conceptMappings": []
+									},
+									{
+										"concept": "dc9816bd-30ab-102d-86b0-7a5022ba4115",
+										"label": "NORMAL",
+										"conceptMappings": []
+									}
+								]
+							},
+							"id": "height_for_age"
+						},
+						{
+							"label": "Weight for Height/Length (Z-Score) [revisit concept]",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "select",
+								"concept": "165062AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"answers": [
+									{
+										"concept": "35a89dcf-d35c-4fc6-8d51-e958b666a0f3",
+										"label": "Z-Score1 (< -3)",
+										"conceptMappings": []
+									},
+									{
+										"concept": "3709d446-3017-4c19-a1af-2da64975928b",
+										"label": "Z-Score2 (-3_<-1)",
+										"conceptMappings": []
+									},
+									{
+										"concept": "11b62d4d-b879-4727-8e26-9bced62269db",
+										"label": "Z-Score3 (-1_1)",
+										"conceptMappings": []
+									},
+									{
+										"concept": "ab51899b-e5b9-4b20-965c-fa0d3d2ff6fb",
+										"label": "Z-Score4 (>1_3)",
+										"conceptMappings": []
+									},
+									{
+										"concept": "73b79d62-17d1-4958-93cb-0f22760db69e",
+										"label": "Z-Score5 (>3)",
+										"conceptMappings": []
+									}
+								]
+							},
+							"id": "weight_for_height"
+						},
+						{
+							"label": "MUAC (cm)",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "text",
+								"concept": "1343AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"conceptMappings": [
+									{
+										"type": "SNOMED CT",
+										"value": "CT: 284473002"
+									},
+									{
+										"type": "AMPATH",
+										"value": "1343"
+									},
+									{
+										"type": "PIH",
+										"value": "1290"
+									},
+									{
+										"type": "CIEL",
+										"value": "1343"
+									}
+								]
+							},
+							"id": "muac_cm"
+						},
+						{
+							"label": "MUAC Code",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "select",
+								"concept": "5f86d19d-9546-4466-89c0-6f80c101191b",
+								"answers": [
+									{
+										"concept": "de330d01-5586-4eed-a645-e04b6bd13701",
+										"label": "RED",
+										"conceptMappings": []
+									},
+									{
+										"concept": "8846c03f-67bf-4aeb-8ca7-39bf79b4ebf3",
+										"label": "GREEN",
+										"conceptMappings": []
+									},
+									{
+										"concept": "a3b1734c-4743-4b9d-8e71-08d0459d29b9",
+										"label": "YELLOW",
+										"conceptMappings": []
+									}
+								]
+							},
+							"id": "muac_code"
+						},
+						{
+							"label": "INRNo",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "text",
+								"concept": "40d04ad1-babf-426f-85d7-e6ba156919bd"
+							},
+							"id": "INRNo"
+						}
+					]
+				},
+				{
+					"label": "Immunization",
+					"isExpanded": "true",
+					"questions": [
+						{
+							"label": "Fully Immunized by 1 year",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "radio",
+								"concept": "165031AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"answers": [
+									{
+										"concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Yes",
+										"conceptMappings": [
+											{
+												"type": "PIH",
+												"value": "1065"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 373066001"
+											},
+											{
+												"type": "PIH Malawi",
+												"value": "Malawi: 1065"
+											},
+											{
+												"type": "CIEL",
+												"value": "1065"
+											},
+											{
+												"type": "AMPATH",
+												"value": "1065"
+											}
+										]
+									},
+									{
+										"concept": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "No",
+										"conceptMappings": [
+											{
+												"type": "PIH",
+												"value": "1066"
+											},
+											{
+												"type": "PIH Malawi",
+												"value": "Malawi: 1066"
+											},
+											{
+												"type": "AMPATH",
+												"value": "1066"
+											},
+											{
+												"type": "CIEL",
+												"value": "1066"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 373067005"
+											}
+										]
+									}
+								]
+							},
+							"id": "fully_immunized_by_1_year"
+						},
+						{
+							"label": "Date of Measles Rubella 2 (MR2) Vaccination [missing concept]",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "date",
+								"concept": "165029AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"weeksList": ""
+							},
+							"id": "date_of_measles_rubella2_vaccination"
+						}
+					]
+				}
+			]
+		},
+		{
+			"label": "Feeding/Disability/Maternal EMTCT Status",
+			"sections": [
+				{
+					"label": "Feeding Practices",
+					"isExpanded": "true",
+					"questions": [
+						{
+							"label": "Feeding Practices",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "select",
+								"concept": "dc9a00a2-30ab-102d-86b0-7a5022ba4115",
+								"answers": [
+									{
+										"concept": "dc9afd27-30ab-102d-86b0-7a5022ba4115",
+										"label": "EXPRESSED BREASTMILK",
+										"conceptMappings": []
+									},
+									{
+										"concept": "dc9a30bc-30ab-102d-86b0-7a5022ba4115",
+										"label": "WEANED",
+										"conceptMappings": []
+									},
+									{
+										"concept": "dcb277f7-30ab-102d-86b0-7a5022ba4115",
+										"label": "INFANT FORMULA",
+										"conceptMappings": []
+									},
+									{
+										"concept": "dc99cb90-30ab-102d-86b0-7a5022ba4115",
+										"label": "BREASTFED PREDOMINATELY",
+										"conceptMappings": []
+									},
+									{
+										"concept": "dcd5487d-30ab-102d-86b0-7a5022ba4115",
+										"label": "MIXED FEEDING",
+										"conceptMappings": []
+									},
+									{
+										"concept": "dcbd637e-30ab-102d-86b0-7a5022ba4115",
+										"label": "BREASTFED EXCLUSIVELY",
+										"conceptMappings": []
+									},
+									{
+										"concept": "dc911673-30ab-102d-86b0-7a5022ba4115",
+										"label": "COW MILK",
+										"conceptMappings": []
+									},
+									{
+										"concept": "40fdb5b6-e8ac-424d-988c-f2f2937348db",
+										"label": "REPLACEMENT FEEDING",
+										"conceptMappings": []
+									}
+								]
+							},
+							"id": "feeding_practices"
+						},
+						{
+							"label": "Disability [concept answers missing]",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "multicheckbox",
+								"concept": "dce0d9c2-30ab-102d-86b0-7a5022ba4115",
+								"answers": [
+									{
+										"concept": "dcde670d-30ab-102d-86b0-7a5022ba4115",
+										"label": "SEVERE SEVERITY",
+										"conceptMappings": []
+									},
+									{
+										"concept": "dca2882a-30ab-102d-86b0-7a5022ba4115",
+										"label": "LIFE THREATENING SEVERITY",
+										"conceptMappings": []
+									},
+									{
+										"concept": "dcde529a-30ab-102d-86b0-7a5022ba4115",
+										"label": "MILD SEVERITY",
+										"conceptMappings": []
+									},
+									{
+										"concept": "dcde56ba-30ab-102d-86b0-7a5022ba4115",
+										"label": "MODERATE SEVERITY",
+										"conceptMappings": []
+									},
+									{
+										"concept": "dcde4e82-30ab-102d-86b0-7a5022ba4115",
+										"label": "NO PROBLEM",
+										"conceptMappings": []
+									},
+									{
+										"concept": "206AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Seizure",
+										"conceptMappings": [
+											{
+												"type": "AMPATH",
+												"value": "205"
+											},
+											{
+												"type": "PIH Malawi",
+												"value": "Malawi: 7782"
+											},
+											{
+												"type": "ICD-10-WHO",
+												"value": "R56.8"
+											},
+											{
+												"type": "AMPATH",
+												"value": "910"
+											},
+											{
+												"type": "IMO ProblemIT",
+												"value": "ProblemIT: 193829"
+											},
+											{
+												"type": "CIEL",
+												"value": "206"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 91175000"
+											},
+											{
+												"type": "AMPATH",
+												"value": "206"
+											},
+											{
+												"type": "PIH",
+												"value": "206"
+											}
+										]
+									},
+									{
+										"concept": "dc54722c-30ab-102d-86b0-7a5022ba4115",
+										"label": "DIARRHEA",
+										"conceptMappings": []
+									},
+									{
+										"concept": "dccf6a36-30ab-102d-86b0-7a5022ba4115",
+										"label": "VISION DIFFICULTIES",
+										"conceptMappings": []
+									},
+									{
+										"concept": "dc8da01e-30ab-102d-86b0-7a5022ba4115",
+										"label": "HEARING DIFFICULTIES",
+										"conceptMappings": []
+									},
+									{
+										"concept": "118789AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Dysphagia",
+										"conceptMappings": [
+											{
+												"type": "PIH",
+												"value": "1355"
+											},
+											{
+												"type": "AMPATH",
+												"value": "881"
+											},
+											{
+												"type": "3BT",
+												"value": "10027911"
+											},
+											{
+												"type": "CIEL",
+												"value": "118789"
+											},
+											{
+												"type": "ICPC2",
+												"value": "D21"
+											},
+											{
+												"type": "SNOMED NP",
+												"value": "NP: 288939007"
+											},
+											{
+												"type": "ICD-10-WHO",
+												"value": "R13"
+											},
+											{
+												"type": "IMO ProblemIT",
+												"value": "ProblemIT: 41555"
+											},
+											{
+												"type": "SNOMED CT",
+												"value": "CT: 40739000"
+											}
+										]
+									},
+									{
+										"concept": "122936AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										"label": "Walking disability",
+										"conceptMappings": []
+									},
+									{
+										"concept": "2b978e19-11f5-4738-a207-3f7173b7882a",
+										"label": "Weak Arms/Legs",
+										"conceptMappings": []
+									},
+									{
+										"concept": "61f275e3-add1-4c3d-abe0-56e6b231382a",
+										"label": "Acting Unsual",
+										"conceptMappings": []
+									},
+									{
+										"concept": "3f4e1e6a-50cb-4721-b2f6-ab3e842994f0",
+										"label": "Difficulty in Walking",
+										"conceptMappings": []
+									},
+									{
+										"concept": "dc658a81-30ab-102d-86b0-7a5022ba4115",
+										"label": "SKIN DISORDERS",
+										"conceptMappings": []
+									}
+								]
+							},
+							"id": "disability"
+						}
+					]
+				},
+				{
+					"label": "Maternal eMTCT Status",
+					"isExpanded": "true",
+					"questions": [
+						{
+							"label": "EMTCT Code",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "select",
+								"concept": "d5b0394c-424f-41db-bc2f-37180dcdbe74",
+								"answers": [
+									{
+										"concept": "6da9b915-8668-4642-8ed4-7d2a346881cb",
+										"label": "Counselled but declined HIV testing",
+										"conceptMappings": []
+									},
+									{
+										"concept": "05f16fc5-1d82-4ce8-9b44-a3125fbbf2d7",
+										"label": "Counseled and tested but didnÃ¢â‚¬â„¢t receive results",
+										"conceptMappings": []
+									},
+									{
+										"concept": "86e394fd-8d85-4cb3-86d7-d4b9bfc3e43a",
+										"label": "Counseled, tested results given - client tested HIV Negative",
+										"conceptMappings": []
+									},
+									{
+										"concept": "25c448ff-5fe4-4a3a-8c0a-b5aaea9d5465",
+										"label": "Counseled, tested results given - client tested HIV Positive",
+										"conceptMappings": []
+									},
+									{
+										"concept": "12d878f9-899c-4b3c-bf57-c6226c307a53",
+										"label": "Revisit ANC with Known HIV- status",
+										"conceptMappings": []
+									},
+									{
+										"concept": "60155e4d-1d49-4e97-9689-758315967e0f",
+										"label": "Revisit ANC with Known HIV+ status",
+										"conceptMappings": []
+									},
+									{
+										"concept": "81bd3e58-9389-41e7-be1a-c6723f899e56",
+										"label": "New ANC clients with Known HIV- status",
+										"conceptMappings": []
+									},
+									{
+										"concept": "1f177240-85f6-4f10-964a-cfc7722408b3",
+										"label": "New ANC clients with Known HIV+ status",
+										"conceptMappings": []
+									},
+									{
+										"concept": "8dcaefaa-aa91-4c24-aaeb-122cff549ab3",
+										"label": "Clients who test HIV+ on retest",
+										"conceptMappings": []
+									},
+									{
+										"concept": "a08d9331-b437-485c-8eff-1923f3d43630",
+										"label": "Clients who test HIV- on retest",
+										"conceptMappings": []
+									},
+									{
+										"concept": "48723c9c-c931-4fde-81cd-6178c9a9a70b",
+										"label": "TR √",
+										"conceptMappings": []
+									},
+									{
+										"concept": "4d301db0-c517-4556-9f7c-d837bac90144",
+										"label": "TRR √",
+										"conceptMappings": []
+									},
+									{
+										"concept": "d0cd851a-0a11-4196-b0ac-459bf003594f",
+										"label": "Test For Verification",
+										"conceptMappings": []
+									}
+								]
+							},
+							"id": "emtct_code"
+						},
+						{
+							"label": "ART Code [needs concept]",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "text",
+								"concept": "code"
+							},
+							"id": "art_code"
+						}
+					]
+				}
+			]
+		},
+		{
+			"label": "Medication",
+			"sections": [
+				{
+					"label": "Vitamin A Administration",
+					"isExpanded": "true",
+					"questions": [
+						{
+							"label": "1st Dose Administered",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "radio",
+								"concept": "165032AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"answers": [
+									{
+										"label": "yes",
+										"concept": "dcd695dc-30ab-102d-86b0-7a5022ba4115"
+									},
+									{
+										"label": "no",
+										"concept": "dcd69c06-30ab-102d-86b0-7a5022ba4115"
+									}
+								]
+							},
+							"id": "1st_dose_administered"
+						},
+						{
+							"label": "2nd Dose Administered",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "radio",
+								"concept": "165033AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"answers": [
+									{
+										"label": "yes",
+										"concept": "dcd695dc-30ab-102d-86b0-7a5022ba4115"
+									},
+									{
+										"label": "no",
+										"concept": "dcd69c06-30ab-102d-86b0-7a5022ba4115"
+									}
+								]
+							},
+							"id": "2nd_dose_administered"
+						}
+					]
+				},
+				{
+					"label": "Deworming",
+					"isExpanded": "true",
+					"questions": [
+						{
+							"label": "1st Dose Administered",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "radio",
+								"concept": "165035AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"answers": [
+									{
+										"label": "yes",
+										"concept": "dcd695dc-30ab-102d-86b0-7a5022ba4115"
+									},
+									{
+										"label": "no",
+										"concept": "dcd69c06-30ab-102d-86b0-7a5022ba4115"
+									}
+								]
+							},
+							"id": "1st_dose_administered"
+						},
+						{
+							"label": "2nd Dose Administered",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "radio",
+								"concept": "165034AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+								"answers": [
+									{
+										"label": "yes",
+										"concept": "dcd695dc-30ab-102d-86b0-7a5022ba4115"
+									},
+									{
+										"label": "no",
+										"concept": "dcd69c06-30ab-102d-86b0-7a5022ba4115"
+									}
+								]
+							},
+							"id": "2nd_dose_administered"
+						}
+					]
+				}
+			]
+		},
+		{
+			"label": "Remarks",
+			"sections": [
+				{
+					"label": "Remarks",
+					"isExpanded": "true",
+					"questions": [
+						{
+							"label": "Comments",
+							"type": "obs",
+							"questionOptions": {
+								"rendering": "textarea",
+								"concept": "bdd9c3cf-02b0-42a3-96ab-fbba9fbd0af6",
+								"rows": ""
+							},
+							"id": "remarks"
+						}
+					]
+				}
+			]
+		}
+	],
+	"processor": "EncounterFormProcessor",
+	"uuid": "xxxx",
+	"referencedForms": []
+}

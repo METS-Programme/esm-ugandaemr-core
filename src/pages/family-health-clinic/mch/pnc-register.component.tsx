@@ -1,25 +1,37 @@
-import React from "react";
 import {
   EmptyStateComingSoon,
   EncounterList,
   EncounterListColumn,
   getObsFromEncounter,
 } from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
-import { GenderMale16 } from "@carbon/icons-react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { ANTENATAL_ENCOUNTER_TYPE } from "../../constants";
-
+import { POSTNATAL_ENCOUNTER_TYPE } from "../../../constants";
 const columns: EncounterListColumn[] = [
   {
     key: "date",
-    header: "Encounter Date",
+    header: "Date Chart Opened",
     getValue: (encounter) => {
       return getObsFromEncounter(encounter, "");
     },
   },
   {
-    key: "entryPoint",
+    key: "testResult",
     header: "Entry Point",
+    getValue: (encounter) => {
+      return getObsFromEncounter(encounter, "");
+    },
+  },
+  {
+    key: "testResult",
+    header: "Date of NVP",
+    getValue: (encounter) => {
+      return getObsFromEncounter(encounter, "");
+    },
+  },
+  {
+    key: "testResult",
+    header: "Date of CTX",
     getValue: (encounter) => {
       return getObsFromEncounter(encounter, "");
     },
@@ -30,25 +42,26 @@ const columns: EncounterListColumn[] = [
     getValue: () => {},
   },
 ];
-const ANCRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
+
+const PncRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
   const headerTitle = t(
-    "integratedAntenatalRegister",
-    "Integrated Antenatal Register"
+    "integratedPostnatalRegister",
+    "Integrated Postnatal Register"
   );
   const displayText = t(
-    "integratedAntenatalRegister",
-    "Integrated Antenatal Register"
+    "integratedPostnatalRegister",
+    "Integrated Postnatal Register"
   );
 
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterUuid={ANTENATAL_ENCOUNTER_TYPE}
+      encounterUuid={POSTNATAL_ENCOUNTER_TYPE}
       form={{
         package: "uganda_emr_mch",
-        name: "integrated_antenatal_register",
+        name: "integrated_postnatal_register",
       }}
       columns={columns}
       description={displayText}
@@ -58,4 +71,4 @@ const ANCRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   );
 };
 
-export default ANCRegister;
+export default PncRegister;

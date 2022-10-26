@@ -1,10 +1,12 @@
 import cacx_registration from "./cacx-services/cacx-registration-form.json";
 import cacx_screening_log from "./cacx-services/cacx-screening-log-form.json";
-import integrated_antenatal_register from "./mch-services/HMIS-005-IntegratedAntenatalRegister.json";
-import eid_summary from "./mch-services/HMIS-ACP-015-ExposedInfantClinicalChart-SummaryPage.json";
-import eid_followup from "./mch-services/HMIS-ACP-015-ExposedInfantClinicalChart-EncounterPage.json";
-import integrated_postnatal_register from "./mch-services/integrated-postnatal-register-form.json";
-import integrated_maternity_register from "./mch-services/integrated-maternity-register.json";
+import integrated_antenatal_register from "./family-health-services/mch-services/HMIS-005-IntegratedAntenatalRegister.json";
+import eid_summary from "./family-health-services/mch-services/HMIS-ACP-015-ExposedInfantClinicalChart-SummaryPage.json";
+import eid_followup from "./family-health-services/mch-services/HMIS-ACP-015-ExposedInfantClinicalChart-EncounterPage.json";
+import integrated_postnatal_register from "./family-health-services/mch-services/integrated-postnatal-register-form.json";
+import integrated_maternity_register from "./family-health-services/mch-services/integrated-maternity-register.json";
+import child_health_register from "./family-health-services/HIMS-EPI-007-childHealthRegister.json";
+
 export default {
   uganda_emr_cacx: {
     cacx_registration: {
@@ -29,6 +31,15 @@ export default {
     },
     integrated_maternity_register: {
       "1.0": integrated_maternity_register,
+    },
+    child_health_register: {
+      "1.0": child_health_register,
+    },
+  },
+
+  uganda_emr_family_health: {
+    child_health_register: {
+      "1.0": child_health_register,
     },
   },
 };

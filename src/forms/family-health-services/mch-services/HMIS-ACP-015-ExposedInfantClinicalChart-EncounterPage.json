@@ -92,7 +92,18 @@
                   }
                 ]
               },
-              "id":"visit_number"
+              "id":"visit_number",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "true",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
               "label":"Date of Appointment",
@@ -102,7 +113,23 @@
                 "concept":"99443",
                 "weeksList":""
               },
-              "id":"date_of_appointment"
+              "id":"date_of_appointment",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": [
+                    {
+                      "type": "date",
+                      "allowFutureDates": "false"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "label":"Date of Visit",
@@ -112,7 +139,23 @@
                 "concept":"",
                 "weeksList":""
               },
-              "id":"date_of_visit"
+              "id":"date_of_visit",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": [
+                    {
+                      "type": "date",
+                      "allowFutureDates": "false"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "label":"Next appointment date",
@@ -122,7 +165,23 @@
                 "concept":"5096",
                 "weeksList":""
               },
-              "id":"next_appointment_date"
+              "id":"next_appointment_date",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": [
+                    {
+                      "type": "date",
+                      "allowFutureDates": "true"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -139,17 +198,28 @@
                 "answers": [
                   {
                     "concept": "163006",
-                    "label": "Positive",
+                    "label": "PCR Test",
                     "conceptMappings": []
                   },
                   {
                     "concept": "163007",
-                    "label": "Negative",
+                    "label": "Antibody Test",
                     "conceptMappings": []
                   }
                 ]
               },
-              "id":"hiv_test"
+              "id":"hiv_test",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
               "label":"Infant feeding code",
@@ -190,7 +260,18 @@
                   }                  
                 ]
               },
-              "id":"infant_feeding_code"
+              "id":"infant_feeding_code",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
               "label":"Immunisation codes",
@@ -291,7 +372,18 @@
                   }
                 ]
               },
-              "id":"immunisation_codes"
+              "id":"immunisation_codes",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
               "label":"Others specify",
@@ -300,7 +392,18 @@
                 "rendering":"text",
                 "concept":"90002"
               },
-              "id":"others_specify"
+              "id":"others_specify",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "!includes('immunisation_codes', '90002')"
+                  },
+                  "validators": []
+                }
+              ]
             }
           ]
         }
@@ -314,22 +417,48 @@
           "isExpanded":"true",
           "questions":[
             {
-              "label":"Height",
+              "label":"Height (cm)",
               "type":"obs",
               "questionOptions":{
                 "rendering":"number",
-                "concept":"5090"
+                "concept":"5090",
+                "max": "300",
+                "min": "0"
               },
-              "id":"height"
+              "id":"height",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
-              "label":"Weight",
+              "label":"Weight (kg)",
               "type":"obs",
               "questionOptions":{
                 "rendering":"number",
-                "concept":"5089"
+                "concept":"5089",
+                "max": "500",
+                "min": "0"
               },
-              "id":"weight"
+              "id":"weight",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
               "label":"Z-score",
@@ -365,7 +494,18 @@
                   }
                 ]
               },
-              "id":"z_score"
+              "id":"z_score",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
               "label":"Muac (cm)",
@@ -374,7 +514,18 @@
                 "rendering":"number",
                 "concept":"1343"
               },
-              "id":"muac"
+              "id":"muac",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
               "label":"MUAC CODE",
@@ -400,7 +551,18 @@
                   }                
                 ]
               },
-              "id":"muac_code"
+              "id":"muac_code",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             }
           ]
         },
@@ -412,7 +574,7 @@
               "label":"Clinical Assessment for signs and symptoms for HIV",
               "type":"obs",
               "questionOptions":{
-                "rendering":"select",
+                "rendering":"checkbox",
                 "concept":"162853",
                 "answers":[
                   {
@@ -487,7 +649,18 @@
                   }
                 ]
               },
-              "id":"Clinical_assessment _for_signs_and_symptoms_for_HIV"
+              "id":"Clinical_assessment_for_signs_and_symptoms_for_HIV",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
               "label":"Other-specify",
@@ -496,7 +669,18 @@
                 "rendering":"text",
                 "concept":"90002"
               },
-              "id":"other_specify"
+              "id":"other_specify",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "!includes('Clinical_assessment_for_signs_and_symptoms_for_HIV','90002')"
+                  },
+                  "validators": []
+                }
+              ]
             }
           ]
         },
@@ -508,7 +692,7 @@
               "label":"Development milestone",
               "type":"obs",
               "questionOptions":{
-                "rendering":"select",
+                "rendering":"checkbox",
                 "concept":"162864",
                 "answers":[
                     {
@@ -558,16 +742,46 @@
                   }
                 ]
               },
-              "id":"development_milestone"
+              "id":"development_milestone",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
-              "label":"Head Circumfrence",
+              "label":"Head Circumfrence(cm)",
               "type":"obs",
               "questionOptions":{
                 "rendering":"number",
-                "concept":"5314"
+                "concept":"5314",
+                "min":"0",
+                "max":"60"
               },
-              "id":"head_circumfrence"
+              "id":"head_circumfrence",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                 "validators": [
+                      {
+                        "type": "js_expression",
+                        "failsWhenExpression": "false",
+                        "message": "Head Circumfrence cannot be larger than 60cms"
+                      }
+                    ]
+                }
+              ]
             }
           ]
         }
@@ -584,7 +798,7 @@
               "label":"laboratory tests",
               "type":"obs",
               "questionOptions":{
-                "rendering":"select",
+                "rendering":"checkbox",
                 "concept":"1271",
                 "answers":[
                   {
@@ -624,7 +838,18 @@
                   }
                 ]
               },
-              "id":"laboratory_tests"
+              "id":"laboratory_tests",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             }
           ]
         }
@@ -644,7 +869,18 @@
                 "rendering":"text",
                 "concept":"1282"
               },
-              "id":"drug"
+              "id":"drug",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
               "label":"Strength",
@@ -653,7 +889,18 @@
                 "rendering":"text",
                 "concept":"1444"
               },
-              "id":"drug_strength"
+              "id":"drug_strength",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
               "label":"Quantity",
@@ -662,28 +909,280 @@
                 "rendering":"text",
                 "concept":"160856"
               },
-              "id":"quantity"
+              "id":"quantity",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
               "label":"QTY Unit",
               "type":"obs",
               "questionOptions":{
-                "rendering":"radio",
+                "rendering":"select",
                 "concept":"165791",
-                "answers":[
+                "answers":[                  
                   {
-                    "concept":"162402",
-                    "label":"GRANDCHILD",
-                    "conceptMappings":[]
+                    "concept": "162395",
+                    "label": "Bag",
+                    "conceptMappings": []
                   },
                   {
-                    "concept":"162384",
-                    "label":"Partner or spouse",
-                    "conceptMappings":[]
+                    "concept": "162396",
+                    "label": "Box",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162397",
+                    "label": "Cartridge",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162398",
+                    "label": "Dose Pack",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162399",
+                    "label": "Each",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162400",
+                    "label": "Inhaler",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162401",
+                    "label": "Kit",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "1514",
+                    "label": "Packets",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162335",
+                    "label": "Ampule(s)",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162376",
+                    "label": "Application",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162351",
+                    "label": "Bar",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162383",
+                    "label": "Biscuit Wafer",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162354",
+                    "label": "Can",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "1608",
+                    "label": "Capsule",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162355",
+                    "label": "Container",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162356",
+                    "label": "Drop",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162357",
+                    "label": "Enema",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162358",
+                    "label": "Fluid Ounce",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162359",
+                    "label": "Gallon",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "161554",
+                    "label": "Gram",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162360",
+                    "label": "Gum",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162361",
+                    "label": "Inch",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162264",
+                    "label": "International units",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162362",
+                    "label": "Kilogram",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162262",
+                    "label": "Litre",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162363",
+                    "label": "Lozenge",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162364",
+                    "label": "Milliequivalent",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162365",
+                    "label": "Metric drop",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162366",
+                    "label": "Microgram",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "161553",
+                    "label": "Milligram",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162263",
+                    "label": "Milliliter",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162367",
+                    "label": "Million units",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162368",
+                    "label": "Nebulizer",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162369",
+                    "label": "Pad",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162370",
+                    "label": "Patch",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162371",
+                    "label": "Pint",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162372",
+                    "label": "Puff",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162373",
+                    "label": "Ring pessary",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162374",
+                    "label": "Scoopful",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162375",
+                    "label": "Spray",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "1518",
+                    "label": "Suppository",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162377",
+                    "label": "Syringe",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "1513",
+                    "label": "Tablet",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162378",
+                    "label": "Tablespoon",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162379",
+                    "label": "Teaspoon",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162380",
+                    "label": "Tube",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162381",
+                    "label": "Unit",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "162382",
+                    "label": "Vial",
+                    "conceptMappings": []
                   }
                 ]
               },
-              "id":"qty_unit"
+              "id":"quantity_unit",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
               "label":"Duration",
@@ -692,7 +1191,18 @@
                 "rendering":"number",
                 "concept":"159368"
               },
-              "id":"duration"
+              "id":"duration",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
               "label":"Duration Unit",
@@ -743,7 +1253,18 @@
                   }
                 ]
               },
-              "id":"duration_unit"
+              "id":"duration_unit",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             }
           ]
         },
@@ -770,7 +1291,18 @@
                   }
                 ]
               },
-              "id":"cotrim"
+              "id":"cotrim",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
               "label":"NVP",
@@ -791,7 +1323,18 @@
                   }
                 ]
               },
-              "id":"nvp"
+              "id":"nvp",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             }
           ]
         },
@@ -803,7 +1346,7 @@
               "label":"Refill of ART for Mother",
               "type":"obs",
               "questionOptions":{
-                "rendering": "text",
+                "rendering": "radio",
                 "concept": "162854",
                 "answers": [
                   {
@@ -818,7 +1361,18 @@
                   }
                 ]
               },
-              "id":"refill_of_art_for_mother"
+              "id":"refill_of_art_for_mother",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
               "label":"Other Medication/care items",
@@ -954,16 +1508,38 @@
                   }
                 ]
               },
-              "id":"other_medication_careitems"
+              "id":"other_medication_careitems",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
-              "label":"Others_specify",
+              "label":"Others specify",
               "type":"obs",
               "questionOptions":{
                 "rendering":"text",
                 "concept":"90002"
               },
-              "id":"others_specify"
+              "id":"others_specify",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "!includes('other_medication_careitems','90002')"
+                  },
+                  "validators": []
+                }
+              ]
             },
             {
               "label":"Actions Taken",
@@ -973,7 +1549,18 @@
                 "concept":"162865",
                 "rows": 5
               },
-              "id":"actions_taken"
+              "id":"actions_taken",
+              "behaviours": [
+                {
+                  "intent": "*",
+                  "required": "false",
+                  "unspecified": "false",
+                  "hide": {
+                    "hideWhenExpression": "false"
+                  },
+                  "validators": []
+                }
+              ]
             }
           ]
         }
@@ -990,5 +1577,5 @@
   "uuid": "6f6b4802-7642-4226-84dc-ea7db01924b6",
   "encounterType": "4345dacb-909d-429c-99aa-045f2db77e2b",
   "referencedForms": [],
-  "allowUnspecifiedAll": true
+  "allowUnspecifiedAll": false
 }
