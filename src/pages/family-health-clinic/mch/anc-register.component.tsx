@@ -1,27 +1,23 @@
 import React from "react";
-import {
-  EmptyStateComingSoon,
-  EncounterList,
-  EncounterListColumn,
-  getObsFromEncounter,
-} from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
-import { GenderMale16 } from "@carbon/icons-react";
 import { useTranslation } from "react-i18next";
 import { ANTENATAL_ENCOUNTER_TYPE } from "../../../constants";
+import ListEncounter, {
+  getObervationFromEncounter,
+} from "../../../utils/encounter/list-encounter";
 
-const columns: EncounterListColumn[] = [
+const columns = [
   {
     key: "date",
     header: "Encounter Date",
     getValue: (encounter) => {
-      return getObsFromEncounter(encounter, "");
+      return getObervationFromEncounter(encounter, "");
     },
   },
   {
     key: "entryPoint",
     header: "Entry Point",
     getValue: (encounter) => {
-      return getObsFromEncounter(encounter, "");
+      return getObervationFromEncounter(encounter, "");
     },
   },
   {
@@ -43,7 +39,7 @@ const ANCRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   );
 
   return (
-    <EncounterList
+    <ListEncounter
       patientUuid={patientUuid}
       encounterUuid={ANTENATAL_ENCOUNTER_TYPE}
       form={{
