@@ -32,9 +32,7 @@ const CaCxEligibilityLog: React.FC<{ patientUuid: string }> = ({
   patientUuid,
 }) => {
   const { t } = useTranslation();
-
   const headerTitle = t("CaCx Eligibility Log", "CaCx Eligibility Log");
-  const displayText = t("CaCx Eligibility Log", "CaCx Eligibility Log");
 
   return (
     <ListEncounter
@@ -42,14 +40,9 @@ const CaCxEligibilityLog: React.FC<{ patientUuid: string }> = ({
       encounterUuid={CaCx_TREATMENT_ENCOUNTER_TYPE}
       form={{ package: "uganda_emr_cacx", name: "cacx_screening_log" }}
       columns={columns}
-      description={displayText}
+      description={headerTitle}
       headerTitle={headerTitle}
-      dropdownText="Add"
-      launchOptions={{
-        hideFormLauncher: false,
-        moduleName: "",
-        displayText: "CaCx Eligibility Log",
-      }}
+      displayText="Add"
     />
   );
 };

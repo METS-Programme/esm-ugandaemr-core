@@ -33,21 +33,15 @@ const CaCxScreening: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
   const headerTitle = t("cacxScreening", "Cacx Screening and Treatment");
-  const displayText = t("cacxScreening", "Cacx Screening and Treatment");
   return (
     <ListEncounter
       patientUuid={patientUuid}
       encounterUuid={CaCx_SCREENING_LOG_ENCOUNTER_TYPE}
       form={{ package: "uganda_emr_cacx", name: "cacx_registration" }}
       columns={columns}
-      description={displayText}
+      description={headerTitle}
       headerTitle={headerTitle}
-      dropdownText="Add"
-      launchOptions={{
-        hideFormLauncher: false,
-        moduleName: "",
-        displayText: "Cacx Screening and Treatment",
-      }}
+      displayText="Add"
     />
   );
 };

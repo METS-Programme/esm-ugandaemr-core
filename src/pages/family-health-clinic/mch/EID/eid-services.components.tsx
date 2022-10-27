@@ -1,5 +1,5 @@
 import React from "react";
-import { Tabs, Tab } from "carbon-components-react";
+import { Tabs, Tab } from "@carbon/react";
 import styles from "../common.scss";
 import EidSummary from "./tabs/eid-summary-form.component";
 import EidFollowup from "./tabs/eid-followup-form.component";

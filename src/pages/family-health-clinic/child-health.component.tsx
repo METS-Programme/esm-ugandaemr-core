@@ -46,9 +46,7 @@ const ChildHealthRegister: React.FC<{ patientUuid: string }> = ({
   patientUuid,
 }) => {
   const { t } = useTranslation();
-
   const headerTitle = t("childHealthRegister", "Child Health Register");
-  const displayText = t("childHealthRegister", "Child Health Register");
 
   return (
     <ListEncounter
@@ -59,14 +57,9 @@ const ChildHealthRegister: React.FC<{ patientUuid: string }> = ({
         name: "child_health_register",
       }}
       columns={columns}
-      description={displayText}
+      description={headerTitle}
       headerTitle={headerTitle}
-      dropdownText="Add"
-      launchOptions={{
-        hideFormLauncher: false,
-        moduleName: "",
-        displayText: "Child Health Register",
-      }}
+      displayText="Add"
     />
   );
 };

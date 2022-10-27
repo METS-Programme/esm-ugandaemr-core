@@ -44,9 +44,7 @@ const columns = [
 
 const EIDSummaryForm: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();
-
   const headerTitle = t("eidRegister", "EID Register Summary Section");
-  const displayText = t("eidRegister", "EID Register Summary Section");
 
   return (
     <ListEncounter
@@ -54,14 +52,9 @@ const EIDSummaryForm: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
       encounterUuid={EID_SUMMARY_ENCOUNTER_TYPE}
       form={{ package: "uganda_emr_mch", name: "eid_summary" }}
       columns={columns}
-      description={displayText}
+      description={headerTitle}
       headerTitle={headerTitle}
-      dropdownText="Add"
-      launchOptions={{
-        hideFormLauncher: false,
-        moduleName: "",
-        displayText: "EID Register Summary Section",
-      }}
+      displayText="Add"
     />
   );
 };

@@ -48,11 +48,6 @@ const PncRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
     "integratedPostnatalRegister",
     "Integrated Postnatal Register"
   );
-  const displayText = t(
-    "integratedPostnatalRegister",
-    "Integrated Postnatal Register"
-  );
-
   return (
     <ListEncounter
       patientUuid={patientUuid}
@@ -62,14 +57,9 @@ const PncRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
         name: "integrated_postnatal_register",
       }}
       columns={columns}
-      description={displayText}
+      description={headerTitle}
       headerTitle={headerTitle}
-      dropdownText="Add"
-      launchOptions={{
-        hideFormLauncher: false,
-        moduleName: "",
-        displayText: "Integrated Postnatal Register",
-      }}
+      displayText="Add"
     />
   );
 };

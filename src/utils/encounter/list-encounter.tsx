@@ -1,13 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
 import {
-  EmptyStateComingSoon,
   EncounterList,
   EncounterListColumn,
   getObsFromEncounter,
-} from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
-import { MATERNITY_ENCOUNTER_TYPE } from "../../constants";
+} from "@ohri/openmrs-esm-ohri-commons-lib";
+import { moduleName } from "../../index";
 
 export const ListEncounter = ({
   patientUuid,
@@ -16,7 +14,7 @@ export const ListEncounter = ({
   columns,
   description,
   headerTitle,
-  dropdownText,
+  displayText,
 }) => {
   const tablecolumns: EncounterListColumn[] = columns;
 
@@ -26,9 +24,12 @@ export const ListEncounter = ({
       encounterUuid={encounterUuid}
       form={form}
       columns={tablecolumns}
-      description={description}
       headerTitle={headerTitle}
-      dropdownText={dropdownText}
+      description={description}
+      launchOptions={{
+        displayText: displayText,
+        moduleName: moduleName,
+      }}
     />
   );
 };
