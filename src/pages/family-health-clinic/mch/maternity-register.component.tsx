@@ -11,20 +11,23 @@ import {
   DELIVERY_TYPE,
   MATERNITY_ENCOUNTER_TYPE,
 } from "../../../constants";
+import ListEncounter, {
+  getObervationFromEncounter,
+} from "../../../utils/encounter/list-encounter";
 
-const columns: EncounterListColumn[] = [
+const columns = [
   {
     key: "admissionDate",
     header: "Admission Date",
     getValue: (encounter) => {
-      return getObsFromEncounter(encounter, ADMISSION_DATE);
+      return getObervationFromEncounter(encounter, ADMISSION_DATE);
     },
   },
   {
     key: "deliveryType",
     header: "Delivery Type",
     getValue: (encounter) => {
-      return getObsFromEncounter(encounter, DELIVERY_TYPE);
+      return getObervationFromEncounter(encounter, DELIVERY_TYPE);
     },
   },
   {
@@ -48,7 +51,7 @@ const MaternityRegister: React.FC<{ patientUuid: string }> = ({
   );
 
   return (
-    <EncounterList
+    <ListEncounter
       patientUuid={patientUuid}
       encounterUuid={MATERNITY_ENCOUNTER_TYPE}
       form={{
