@@ -62,6 +62,11 @@ const ChildHealthRegister: React.FC<{ patientUuid: string }> = ({
       description={displayText}
       headerTitle={headerTitle}
       dropdownText="Add"
+      launchOptions={{
+        hideFormLauncher: false,
+        moduleName: "",
+        displayText: "Child Health Register",
+      }}
     />
   );
 };

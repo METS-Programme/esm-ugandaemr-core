@@ -1,4 +1,10 @@
 import React from "react";
+import {
+  EmptyStateComingSoon,
+  EncounterList,
+  EncounterListColumn,
+  getObsFromEncounter,
+} from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
 import { useTranslation } from "react-i18next";
 import { ANTENATAL_ENCOUNTER_TYPE } from "../../../constants";
 import ListEncounter, {
@@ -50,6 +56,11 @@ const ANCRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
       description={displayText}
       headerTitle={headerTitle}
       dropdownText="Add"
+      launchOptions={{
+        hideFormLauncher: false,
+        moduleName: "",
+        displayText: "Integrated Antenatal Register",
+      }}
     />
   );
 };

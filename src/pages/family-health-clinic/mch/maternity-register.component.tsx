@@ -1,4 +1,10 @@
 import React from "react";
+import {
+  EmptyStateComingSoon,
+  EncounterList,
+  EncounterListColumn,
+  getObsFromEncounter,
+} from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
 import { useTranslation } from "react-i18next";
 import {
   ADMISSION_DATE,
@@ -56,6 +62,11 @@ const MaternityRegister: React.FC<{ patientUuid: string }> = ({
       description={displayText}
       headerTitle={headerTitle}
       dropdownText="Add"
+      launchOptions={{
+        hideFormLauncher: false,
+        moduleName: "",
+        displayText: "Integrated Maternity Register",
+      }}
     />
   );
 };

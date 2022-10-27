@@ -63,6 +63,11 @@ const EidRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
       description={displayText}
       headerTitle={headerTitle}
       dropdownText="Add"
+      launchOptions={{
+        hideFormLauncher: false,
+        moduleName: "",
+        displayText: "EID Register Follow up Section",
+      }}
     />
   );
 };

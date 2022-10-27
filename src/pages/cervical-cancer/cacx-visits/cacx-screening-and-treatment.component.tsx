@@ -43,6 +43,11 @@ const CaCxScreening: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
       description={displayText}
       headerTitle={headerTitle}
       dropdownText="Add"
+      launchOptions={{
+        hideFormLauncher: false,
+        moduleName: "",
+        displayText: "Cacx Screening and Treatment",
+      }}
     />
   );
 };
