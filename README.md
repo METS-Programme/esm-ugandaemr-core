@@ -1,4 +1,4 @@
-![Node.js CI](https://github.com/METS-Programme/esm-ugandaemr-core/workflows/Node.js%20CI/badge.svg)
+![UgandaEMR CI](https://github.com/METS-Programme/esm-ugandaemr-core/workflows/Node.js%20CI/badge.svg)
 
 # UgandaEMR ESM
 

@@ -51,12 +51,6 @@ function setupOpenMRS() {
   return {
     pages: [],
     extensions: [
-      // {
-      //   id: "odp-dashboard",
-      //   slot: "patient-chart-dashboard-slot",
-      //   load: getSyncLifecycle(createDashboardGroup(opdDashboardMeta), options),
-      //   meta: opdDashboardMeta,
-      // },
       {
         id: "cervical-cancer-summary-ext",
         slot: "cacx-visits-slot",
@@ -85,7 +79,6 @@ function setupOpenMRS() {
         load: getSyncLifecycle(createDashboardGroup(mchDashboardMeta), options),
         meta: mchDashboardMeta,
       },
-
       //add Child Health slot onto Family Health dashboard
       {
         id: "child-health-dashboard",
@@ -108,7 +101,6 @@ function setupOpenMRS() {
           }
         ),
       },
-
       //add PNC slot onto MCH dashboard
       {
         id: "pnc-dashboard",
@@ -163,7 +155,7 @@ function setupOpenMRS() {
         load: getAsyncLifecycle(
           () =>
             import(
-              "./pages/family-health-clinic/mch/EID/eid-services.components"
+              "./pages/family-health-clinic/mch/eid/eid-services.component"
             ),
           {
             featureName: "eid-extension",
@@ -171,7 +163,7 @@ function setupOpenMRS() {
           }
         ),
       },
-      //add maternity slot onto MCH dashboard
+      //add mat./pages/family-health-clinic/mch/EID/eid-services.component
       {
         id: "maternity-dashboard",
         slot: "mch-dashboard-slot",
