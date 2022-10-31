@@ -49,10 +49,6 @@ const EidRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
     "eidRegisterfollowupsection",
     "EID Register Follow up Section"
   );
-  const displayText = t(
-    "eidRegisterfollowupsection",
-    "EID Register Follow up Section"
-  );
 
   return (
     <ListEncounter
@@ -60,9 +56,9 @@ const EidRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
       encounterUuid={EID_FOLLOWUP_ENCOUNTER_TYPE}
       form={{ package: "uganda_emr_mch", name: "eid_followup" }}
       columns={columns}
-      description={displayText}
+      description={headerTitle}
       headerTitle={headerTitle}
-      dropdownText="Add"
+      displayText="Add"
     />
   );
 };

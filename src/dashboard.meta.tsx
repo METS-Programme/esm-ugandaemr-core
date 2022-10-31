@@ -1,5 +1,3 @@
-import React from "react";
-
 export const familyhealthDashboardMeta = {
   title: "Family Health Clinic",
   slotName: "family-health-dashboard-slot",

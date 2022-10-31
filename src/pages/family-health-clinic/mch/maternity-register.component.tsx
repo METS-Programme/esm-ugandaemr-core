@@ -39,10 +39,6 @@ const MaternityRegister: React.FC<{ patientUuid: string }> = ({
     "integratedMaternityRegister",
     "Integrated Maternity Register"
   );
-  const displayText = t(
-    "integratedMaternityRegister",
-    "Integrated Maternity Register"
-  );
 
   return (
     <ListEncounter
@@ -53,9 +49,9 @@ const MaternityRegister: React.FC<{ patientUuid: string }> = ({
         name: "integrated_maternity_register",
       }}
       columns={columns}
-      description={displayText}
+      description={headerTitle}
       headerTitle={headerTitle}
-      dropdownText="Add"
+      displayText="Add"
     />
   );
 };

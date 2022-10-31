@@ -33,10 +33,6 @@ const ANCRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
     "integratedAntenatalRegister",
     "Integrated Antenatal Register"
   );
-  const displayText = t(
-    "integratedAntenatalRegister",
-    "Integrated Antenatal Register"
-  );
 
   return (
     <ListEncounter
@@ -47,9 +43,9 @@ const ANCRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
         name: "integrated_antenatal_register",
       }}
       columns={columns}
-      description={displayText}
+      description={headerTitle}
       headerTitle={headerTitle}
-      dropdownText="Add"
+      displayText="Add"
     />
   );
 };
