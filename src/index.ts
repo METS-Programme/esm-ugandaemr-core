@@ -72,14 +72,12 @@ function setupOpenMRS() {
         ),
         meta: familyhealthDashboardMeta,
       },
-      //add MCH slot onto Family Health dashboard
       {
         id: "mch-dashboard",
         slot: "family-health-dashboard-slot",
         load: getSyncLifecycle(createDashboardGroup(mchDashboardMeta), options),
         meta: mchDashboardMeta,
       },
-      //add Child Health slot onto Family Health dashboard
       {
         id: "child-health-dashboard",
         slot: "family-health-dashboard-slot",
@@ -89,7 +87,6 @@ function setupOpenMRS() {
         ),
         meta: childHealthDashboardMeta,
       },
-      //add Child Health action to open a component
       {
         id: "child-health-summary-ext",
         slot: "child-health-dashboard-slot",
@@ -101,14 +98,12 @@ function setupOpenMRS() {
           }
         ),
       },
-      //add PNC slot onto MCH dashboard
       {
         id: "pnc-dashboard",
         slot: "mch-dashboard-slot",
         load: getSyncLifecycle(createDashboardLink(pncDashboardMeta), options),
         meta: pncDashboardMeta,
       },
-      //add PNC action to open a component
       {
         id: "pnc-summary-ext",
         slot: "pnc-dashboard-slot",
@@ -121,14 +116,12 @@ function setupOpenMRS() {
           }
         ),
       },
-      //add ANC slot onto MCH dashboard
       {
         id: "anc-dashboard",
         slot: "mch-dashboard-slot",
         load: getSyncLifecycle(createDashboardLink(ancDashboardMeta), options),
         meta: ancDashboardMeta,
       },
-      //add ANC action to open a component
       {
         id: "anc-summary-ext",
         slot: "anc-dashboard-slot",
@@ -141,14 +134,12 @@ function setupOpenMRS() {
           }
         ),
       },
-      //add EID slot onto MCH dashboard
       {
         id: "eid-dashboard",
         slot: "mch-dashboard-slot",
         load: getSyncLifecycle(createDashboardLink(eidDashboardMeta), options),
         meta: eidDashboardMeta,
       },
-      //add EID action to open a component
       {
         id: "eid-summary-ext",
         slot: "eid-dashboard-slot",
@@ -163,14 +154,12 @@ function setupOpenMRS() {
           }
         ),
       },
-      //add mat./pages/family-health-clinic/mch/EID/eid-services.component
       {
         id: "maternity-dashboard",
         slot: "mch-dashboard-slot",
         load: getSyncLifecycle(createDashboardLink(maternityMetaData), options),
         meta: maternityMetaData,
       },
-      //add maternity action to open a component
       {
         id: "maternity-register-extension",
         slot: "maternity-dashboard-slot",

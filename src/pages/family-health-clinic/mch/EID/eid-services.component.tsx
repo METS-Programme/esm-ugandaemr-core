@@ -8,7 +8,7 @@ interface OverviewListProps {
   patientUuid: string;
 }
 
-const EIDServices: React.FC<OverviewListProps> = ({ patientUuid }) => (
+const EidServices: React.FC<OverviewListProps> = ({ patientUuid }) => (
   <div className={styles.tabContainer}>
     <Tabs type="container">
       <Tab label="EID Summary" className="tab-12rem">
@@ -21,4 +21,4 @@ const EIDServices: React.FC<OverviewListProps> = ({ patientUuid }) => (
   </div>
 );
 
-export default EIDServices;
+export default EidServices;
