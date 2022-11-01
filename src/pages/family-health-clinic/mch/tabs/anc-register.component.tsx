@@ -1,11 +1,11 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { EncounterListColumn } from "@ohri/openmrs-esm-ohri-commons-lib";
-import { ANTENATAL_ENCOUNTER_TYPE } from "../../../constants";
+import { ANTENATAL_ENCOUNTER_TYPE } from "../../../../constants";
 import {
   getObervationFromEncounter,
   ListEncounter,
-} from "../../../utils/encounter/list-encounter";
+} from "../../../../utils/encounter/list-encounter";
 
 const ANCRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();

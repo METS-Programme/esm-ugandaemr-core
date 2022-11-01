@@ -5,7 +5,7 @@ import {
   getObsFromEncounter,
 } from "@ohri/openmrs-esm-ohri-commons-lib";
 import { useTranslation } from "react-i18next";
-import { moduleName, POSTNATAL_ENCOUNTER_TYPE } from "../../../constants";
+import { moduleName, POSTNATAL_ENCOUNTER_TYPE } from "../../../../constants";
 
 const PncRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();

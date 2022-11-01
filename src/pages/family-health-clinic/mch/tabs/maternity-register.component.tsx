@@ -4,11 +4,11 @@ import {
   ADMISSION_DATE,
   DELIVERY_TYPE,
   MATERNITY_ENCOUNTER_TYPE,
-} from "../../../constants";
+} from "../../../../constants";
 import {
   ListEncounter,
   getObervationFromEncounter,
-} from "../../../utils/encounter/list-encounter";
+} from "../../../../utils/encounter/list-encounter";
 
 const columns = [
   {
