@@ -1,37 +1,43 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { EncounterListColumn } from "@ohri/openmrs-esm-ohri-commons-lib";
 import { ANTENATAL_ENCOUNTER_TYPE } from "../../../constants";
-import ListEncounter, {
+import {
   getObervationFromEncounter,
+  ListEncounter,
 } from "../../../utils/encounter/list-encounter";
 
-const columns = [
-  {
-    key: "date",
-    header: "Encounter Date",
-    getValue: (encounter) => {
-      return getObervationFromEncounter(encounter, "");
-    },
-  },
-  {
-    key: "entryPoint",
-    header: "Entry Point",
-    getValue: (encounter) => {
-      return getObervationFromEncounter(encounter, "");
-    },
-  },
-  {
-    key: "actions",
-    header: "Actions",
-    getValue: () => {},
-  },
-];
 const ANCRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
   const headerTitle = t(
     "integratedAntenatalRegister",
     "Integrated Antenatal Register"
+  );
+
+  const columns: EncounterListColumn[] = useMemo(
+    () => [
+      {
+        key: "date",
+        header: "Encounter Date",
+        getValue: (encounter) => {
+          return getObervationFromEncounter(encounter, "");
+        },
+      },
+      {
+        key: "entryPoint",
+        header: "Entry Point",
+        getValue: (encounter) => {
+          return getObervationFromEncounter(encounter, "");
+        },
+      },
+      {
+        key: "actions",
+        header: "Actions",
+        getValue: () => {},
+      },
+    ],
+    []
   );
 
   return (

@@ -17,3 +17,13 @@ export const CHILD_REGISTER_ENCOUNTER_TYPE = "";
 //maternity
 export const ADMISSION_DATE = "cb9b223e-a09c-4f8a-b34d-a0934a2af04a";
 export const DELIVERY_TYPE = "dcc3ac63-30ab-102d-86b0-7a5022ba4115";
+
+// TEST IDs
+export const covid_Assessment_EncounterUUID =
+  "253a43d3-c99e-415c-8b78-ee7d4d3c1d54";
+export const covidEncounterDateTime_UUID =
+  "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+export const covidReasonsForTestingConcep_UUID =
+  "ae46f4b1-c15d-4bba-ab41-b9157b82b0ce";
+
+export const moduleName = "@ugandaemr/esm-ugandaemr-app";

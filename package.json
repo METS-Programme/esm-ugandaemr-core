@@ -46,8 +46,8 @@
   },
   "dependencies": {
     "@carbon/react": "^1.14.0",
-    "@ohri/openmrs-esm-ohri-commons-lib": "^1.0.0-pre.2035",
-    "@ohri/openmrs-ohri-form-engine-lib": "^1.0.0",
+    "@ohri/openmrs-esm-ohri-commons-lib": "1.0.0-pre.2020",
+    "@ohri/openmrs-ohri-form-engine-lib": "^1.0.1-pre.145",
     "@openmrs/esm-patient-common-lib": "^4.0.0",
     "dayjs": "^1.11.6",
     "install-peers": "^1.0.4",

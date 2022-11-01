@@ -5,7 +5,8 @@ import {
   DELIVERY_TYPE,
   MATERNITY_ENCOUNTER_TYPE,
 } from "../../../constants";
-import ListEncounter, {
+import {
+  ListEncounter,
   getObervationFromEncounter,
 } from "../../../utils/encounter/list-encounter";
 
