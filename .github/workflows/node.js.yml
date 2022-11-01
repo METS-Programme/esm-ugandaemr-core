@@ -50,11 +50,7 @@ jobs:
           node-version: "18.x"
           registry-url: "https://registry.npmjs.org"
       - run: yarn install --immutable
-      - run: yarn version "$(node -e "console.log(require('semver').inc(require('./package.json').version, 'patch'))")-pre.${{ github.run_number }}"
-      - run: yarn build
-      # - run: git config user.email "info@openmrs.org" && git config user.name "UgandaEMR CI"
-      # - run: git add . && git commit -m "Prerelease version" --no-verify
-      - run: yarn config set npmAuthToken "${NODE_AUTH_TOKEN}" && yarn npm publish --tag next
+      - run: sed -i -e "s/\(\"version\":\\s\+\"\([0-9]\+\.\?\)\+\)/\1-pre.${{ github.run_number }}/" 'package.json'
       - run: yarn publish --access public --tag next
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
@@ -82,6 +78,6 @@ jobs:
           node-version: "18.x"
           registry-url: 'https://registry.npmjs.org'
       - run: yarn install --immutable
-      - run: yarn config set npmAuthToken "${NODE_AUTH_TOKEN}" &&  yarn npm publish
+      - run: yarn config set npmAuthToken "${NODE_AUTH_TOKEN}" &&  yarn npm publish --tag latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
