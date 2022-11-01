@@ -43,9 +43,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Download Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v2
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v1
         with:
           node-version: "18.x"
           registry-url: "https://registry.npmjs.org"
@@ -56,12 +56,6 @@ jobs:
       - run: yarn publish --access public --tag next
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: dist
-          path: |
-            dist
 
   release:
     runs-on: ubuntu-latest
