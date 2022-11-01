@@ -2394,9 +2394,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ohri/openmrs-esm-ohri-commons-lib@npm:1.0.0-pre.2020":
-  version: 1.0.0-pre.2020
-  resolution: "@ohri/openmrs-esm-ohri-commons-lib@npm:1.0.0-pre.2020"
+"@ohri/openmrs-esm-ohri-commons-lib@npm:next":
+  version: 1.0.1-pre.2047
+  resolution: "@ohri/openmrs-esm-ohri-commons-lib@npm:1.0.1-pre.2047"
   dependencies:
     "@carbon/react": ^1.13.0
     "@ohri/openmrs-ohri-form-engine-lib": ^1.0.0-pre.118
@@ -2411,7 +2411,7 @@ __metadata:
     dayjs: ^1.8.16
     react: ^18.2.0
     react-i18next: ^11.18.6
-  checksum: e651d1aea062e2e0f3e0e4d3c0d497263bbd5f280fefe21517c599fb0917f37443c8e7ef91e83d2658e2e211e380412512e37e33075052bcd206a91596cc2cce
+  checksum: f887436ef2a6b41144e78473aaf003e87e93500d2f016d5bd8304862b1b107e82712aa74ee9c10f11fb75e7ee0221fd3538391b865a33977ccb8841ed9d3426f
   languageName: node
   linkType: hard
 
@@ -3701,7 +3701,7 @@ __metadata:
   resolution: "@ugandaemr/esm-ugandaemr-app@workspace:."
   dependencies:
     "@carbon/react": ^1.14.0
-    "@ohri/openmrs-esm-ohri-commons-lib": 1.0.0-pre.2020
+    "@ohri/openmrs-esm-ohri-commons-lib": next
     "@ohri/openmrs-ohri-form-engine-lib": ^1.0.1-pre.145
     "@openmrs/esm-framework": 4.0.2-pre.336
     "@openmrs/esm-patient-common-lib": ^4.0.0

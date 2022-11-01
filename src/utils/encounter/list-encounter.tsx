@@ -4,7 +4,7 @@ import {
   EncounterListColumn,
   getObsFromEncounter,
 } from "@ohri/openmrs-esm-ohri-commons-lib";
-import { moduleName } from "../../index";
+import { moduleName } from "../../constants";
 
 export const ListEncounter = ({
   patientUuid,
