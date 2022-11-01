@@ -10,6 +10,8 @@ config.overrides.resolve = {
     "@openmrs/esm-framework": "@openmrs/esm-framework/src/internal",
     "@ohri/openmrs-ohri-form-engine-lib":
       "@ohri/openmrs-ohri-form-engine-lib/src/index",
+    "@ohri/openmrs-esm-ohri-commons-lib":
+      "@ohri/openmrs-esm-ohri-commons-lib/src/index",
   },
 };
 config.module = {

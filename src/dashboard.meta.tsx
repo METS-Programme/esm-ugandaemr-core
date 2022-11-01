@@ -1,8 +1,38 @@
-export const familyhealthDashboardMeta = {
+export const opdDashboardMeta = {
+  slot: "opd-dashboard-slot",
+  config: { columns: 1, type: "grid" },
+  title: "Outpatient Department",
+};
+
+export const familyHealthDashboardMeta = {
   title: "Family Health Clinic",
   slotName: "family-health-dashboard-slot",
 };
 
+export const mchDashboardMeta = {
+  slot: "mch-dashboard-slot",
+  title: "Maternal Child Health",
+};
+
+export const hivExposedInfantMeta = {
+  slot: "hiv-exposed-infant-slot",
+  config: { columns: 1, type: "grid" },
+  title: "HIV Exposed Infant",
+};
+
+export const childHealthDashboardMeta = {
+  slot: "child-health-dashboard-slot",
+  config: { columns: 1, type: "grid" },
+  title: "Child Health",
+};
+
+export const familyPlanningDashboardMeta = {
+  slot: "family-planning-dashboard-slot",
+  config: { columns: 1, type: "grid" },
+  title: "Family Planning",
+};
+
+// MCH tabs
 export const pncDashboardMeta = {
   slot: "pnc-dashboard-slot",
   config: { columns: 1, type: "grid" },
@@ -15,30 +45,8 @@ export const ancDashboardMeta = {
   title: "Antenatal",
 };
 
-export const eidDashboardMeta = {
-  slot: "eid-dashboard-slot",
-  config: { columns: 1, type: "grid" },
-  title: "HIV Exposed Infant",
-};
-
-export const maternityMetaData = {
+export const maternityMeta = {
   slot: "maternity-dashboard-slot",
   config: { columns: 1, type: "grid" },
   title: "Maternity",
-};
-
-export const opdDashboardMeta = {
-  title: "OPD",
-  slotName: "opd-dashboard-slot",
-};
-
-export const childHealthDashboardMeta = {
-  slot: "child-health-dashboard-slot",
-  config: { columns: 1, type: "grid" },
-  title: "Child Health",
-};
-
-export const mchDashboardMeta = {
-  title: "MCH",
-  slotName: "mch-dashboard-slot",
 };

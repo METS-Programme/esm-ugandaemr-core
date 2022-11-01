@@ -1,4 +1,4 @@
-@import '../../../root.scss';
+@import '../root.scss';
 
 .widgetContainer {
   background-color: $ui-background;
@@ -30,9 +30,4 @@
 
 .tabContainer li button {
   width: 100% !important;
-  }
-  
-  
-  // .hivStatusTag {
-  // min-width: 80px;
-  // }
+}

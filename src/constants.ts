@@ -1,3 +1,6 @@
+export const moduleName = "@ugandaemr/esm-ugandaemr-app";
+
+// Concepts
 export const CaCx_REGISTRATION_ENCOUNTER_TYPE =
   "7a555cfc-e3f4-4f33-8d2b-0d0a117dbc16";
 export const CaCx_SCREENING_LOG_ENCOUNTER_TYPE =
