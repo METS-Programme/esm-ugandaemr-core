@@ -49,7 +49,9 @@ jobs:
         with:
           node-version: "18.x"
           registry-url: "https://registry.npmjs.org"
-      - run: yarn install --immutable
+      - run: yarn
+      - run: git config user.email "<>" && git config user.name "GitHub Actions Bot"
+      - run: git add . && git commit -m "Prerelease version" --no-verify
       - run: sed -i -e "s/\(\"version\":\\s\+\"\([0-9]\+\.\?\)\+\)/\1-pre.${{ github.run_number }}/" 'package.json'
       - run: yarn publish --access public --tag next
         env:
