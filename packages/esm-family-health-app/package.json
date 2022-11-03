@@ -9,9 +9,12 @@
   "scripts": {
     "start": "openmrs develop",
     "serve": "webpack serve --mode=development",
+    "debug": "npm run serve",
     "build": "webpack --mode production",
     "analyze": "webpack --mode=production --env.analyze=true",
-    "typescript": "tsc"
+    "lint": "eslint src --ext tsx,ts --fix --max-warnings=0",
+    "typescript": "tsc",
+    "extract-translations": "i18next 'src/**/*.component.tsx' --config ../../tools/i18next-parser.config.js"
   },
   "browserslist": [
     "extends browserslist-config-openmrs"
@@ -34,7 +37,6 @@
     "url": "https://github.com/METS-Programme/esm-ugandaemr-core/issues"
   },
   "dependencies": {
-    "dayjs": "^1.11.6",
     "@carbon/react": "^1.14.0",
     "lodash-es": "^4.17.15"
   },

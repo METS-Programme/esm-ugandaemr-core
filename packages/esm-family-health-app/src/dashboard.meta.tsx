@@ -42,7 +42,7 @@ export const ancDashboardMeta = {
   slot: "anc-dashboard-slot",
   config: { columns: 1, type: "grid" },
   title: "Antenatal",
-}
+};
 
 export const outpatientDashboardMeta = {
   title: "Outpatient Register",

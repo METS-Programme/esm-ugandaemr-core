@@ -1,11 +1,9 @@
 import React from "react";
 import {
-  EmptyStateComingSoon,
   EncounterList,
   EncounterListColumn,
   getObsFromEncounter,
 } from "@ohri/openmrs-esm-ohri-commons-lib/src/index";
-import { GenderMale16 } from "@carbon/icons-react";
 import { useTranslation } from "react-i18next";
 import { REFERRAL_NOTE_ENCOUNTER_TYPE } from "../../constants";
 

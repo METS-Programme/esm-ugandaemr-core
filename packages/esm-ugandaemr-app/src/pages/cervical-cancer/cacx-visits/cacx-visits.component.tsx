@@ -1,12 +1,12 @@
-import { Tab, Tabs } from "@carbon/react";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import CaCxEligibilityLog from "./cacx-eligibility-log.component";
-import CaCxScreening from "./cacx-screening-and-treatment.component";
+import { Tab, Tabs } from '@carbon/react';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import CaCxEligibilityLog from './cacx-eligibility-log.component';
+import CaCxScreening from './cacx-screening-and-treatment.component';
 
 const CaCxVisits: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();
-  const headerTitle = t("cacxVisits", "Cacx Visits");
+  const headerTitle = t('cacxVisits', 'Cacx Visits');
 
   return (
     <Tabs type="container">
