@@ -1,6 +1,5 @@
 {
-  "name": "@ugandaemr/esm-ugandaemr-app",
-  "version": "1.0.0",
+  "name": "@ugandaemr/esm-ugandaemr",
   "license": "MPL-2.0",
   "description": "A microfrontend for UgandaEMR built on top of OpenMRS 3.x and OHRI",
   "browser": "dist/esm-ugandaemr-app.js",
@@ -43,16 +42,6 @@
   },
   "bugs": {
     "url": "https://github.com/METS-Programme/esm-ugandaemr-core/issues"
-  },
-  "dependencies": {
-    "dayjs": "^1.11.6",
-    "lodash-es": "^4.17.15",
-    "swr": "^1.3.0"
-  },
-  "peerDependencies": {
-    "@openmrs/esm-framework": "4.x",
-    "react": "18.x",
-    "react-i18next": "11.x"
   },
   "devDependencies": {
     "@carbon/react": "^1.14.0",

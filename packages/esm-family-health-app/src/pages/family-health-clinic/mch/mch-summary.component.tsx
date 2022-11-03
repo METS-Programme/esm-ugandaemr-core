@@ -16,18 +16,18 @@ const MchSummary: React.FC<PatientChartProps> = ({ patientUuid }) => {
       <Tabs>
         <TabList contained>
           <Tab>{t("antenatal", "Antenatal")}</Tab>
-          <Tab>{t("postnatal", "Postnatal")}</Tab>
           <Tab>{t("maternity", "Maternity")}</Tab>
+          <Tab>{t("postnatal", "Postnatal")}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
             <ANCRegister patientUuid={patientUuid} />
           </TabPanel>
           <TabPanel>
-            <PncRegister patientUuid={patientUuid} />
+            <MaternityRegister patientUuid={patientUuid} />
           </TabPanel>
           <TabPanel>
-            <MaternityRegister patientUuid={patientUuid} />
+            <PncRegister patientUuid={patientUuid} />
           </TabPanel>
         </TabPanels>
       </Tabs>

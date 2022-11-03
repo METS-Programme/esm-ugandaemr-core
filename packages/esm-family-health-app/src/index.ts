@@ -14,10 +14,7 @@ import {
   createDashboardLink,
 } from "@openmrs/esm-patient-common-lib";
 import {
-  ancDashboardMeta,
   mchDashboardMeta,
-  pncDashboardMeta,
-  opdDashboardMeta,
   familyHealthDashboardMeta,
   childHealthDashboardMeta,
   hivExposedInfantMeta,
@@ -41,7 +38,7 @@ const backendDependencies = {
 
 function setupOpenMRS() {
   const options = {
-    featureName: "UgandaEMR",
+    featureName: "@ugandaemr/esm-family-health-app",
     moduleName,
   };
 
@@ -102,35 +99,6 @@ function setupOpenMRS() {
             moduleName,
           }
         ),
-      },
-      {
-        id: "cervical-cancer-summary-ext",
-        slot: "cacx-visits-slot",
-        load: getAsyncLifecycle(
-          () =>
-            import("./pages/cervical-cancer/cacx-visits/cacx-visits.component"),
-          {
-            featureName: "cervical-cancer-summary-extension",
-            moduleName,
-          }
-        ),
-      },
-      {
-        id: "opd-dashboard",
-        slot: "patient-chart-dashboard-slot",
-        load: getSyncLifecycle(createDashboardLink(opdDashboardMeta), options),
-        meta: opdDashboardMeta,
-      },
-      {
-        id: "opd-dashboard-ext",
-        slot: "opd-dashboard-slot",
-        load: getAsyncLifecycle(() => import("./pages/opd/opd.component"), {
-          featureName: "opd-dashboard-summary",
-          moduleName,
-        }),
-        meta: {
-          columnSpan: 4,
-        },
       },
       {
         id: "family-health-clinic-dashboard",
