@@ -20,16 +20,12 @@ import {
   opdDashboardMeta,
   familyHealthDashboardMeta,
   childHealthDashboardMeta,
-<<<<<<< HEAD
   hivExposedInfantMeta,
   familyPlanningDashboardMeta,
-} from "./dashboard.meta";
-import { moduleName } from "./constants";
-=======
   outpatientDashboardMeta,
   referralNoteDashboardMeta,
-} from "./ugandaemr-dashboard";
->>>>>>> Add outpatient registration form
+} from "./dashboard.meta";
+import { moduleName } from "./constants";
 
 const importTranslation = require.context(
   "../translations",
