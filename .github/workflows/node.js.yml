@@ -2,7 +2,7 @@ name: UgandaEMR CI
 
 on:
   push:
-    branches: [packaging] # this needs to be changed back to master once testing is done
+    branches: [master]
   pull_request:
     branches: [master]
   release:
