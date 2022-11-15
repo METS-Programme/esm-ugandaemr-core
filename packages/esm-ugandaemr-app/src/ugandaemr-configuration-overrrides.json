@@ -1,0 +1,45 @@
+{
+    "@openmrs/esm-patient-chart-app": {
+      "extensionSlots": {
+        "program-management-summary-slot": {
+          "remove": [
+            "program-management-summary-ext",
+            "test-results-summary-dashboard",
+            "conditions-summary-dashboard",
+            "results-summary-dashboard",
+            "allergies-summary-dashboard",
+            "attachments-results-summary-dashboard",
+            "drug-orders-summary-dashboard"
+          ]
+        },
+        "patient-chart-dashboard-slot": {
+          "remove": [
+            "test-results-summary-dashboard",
+            "conditions-summary-dashboard",
+            "programs-summary-dashboard",
+            "allergies-summary-dashboard",
+            "attachments-results-summary-dashboard"
+          ]
+        },
+      "patient-chart-summary-dashboard-slot": {
+        "remove": [
+          "conditions-overview-widget",
+          "immunization-overview-widget",
+          "notes-overview-widget",
+          "offline-tools-patient-chart-actions-widget",
+          "patient-clinical-view-overview"
+        ]
+      },
+        "cacx-visits-slot": {
+          "remove": [
+            "cacx-visits-ext"
+          ]
+        }
+      }
+    },
+    "@openmrs/esm-styleguide": {
+        "Brand color #1": "#02210b",
+        "Brand color #2": "#074519",
+        "Brand color #3": "#125726"
+    }
+  }
