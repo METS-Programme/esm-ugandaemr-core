@@ -5,6 +5,7 @@
   ],
   "extends": ["ts-react-important-stuff", "plugin:prettier/recommended"],
   "rules": {
+    "quotes": ["single"],
     "no-restricted-imports": [
       "error",
       {

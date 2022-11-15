@@ -31,3 +31,7 @@
 .tabContainer li button {
   width: 100% !important;
 }
+
+:global(.cds--tab--list) button {
+  max-width: 14rem !important;
+}

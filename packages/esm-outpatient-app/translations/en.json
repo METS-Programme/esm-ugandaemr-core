@@ -1,3 +1,5 @@
 {
-  "opd": "OutPatient Department"
+  "opd": "OutPatient Department",
+  "opdRegister": "OutPatient Register",
+  "referralNote": "Referral Note"
 }

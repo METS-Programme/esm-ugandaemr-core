@@ -4,11 +4,8 @@ import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 import formsRegistry from './forms/forms-registry';
 import { addToBaseFormsRegistry } from '@ohri/openmrs-ohri-form-engine-lib';
 import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
-import {
-  outpatientDashboardMeta,
-  referralNoteDashboardMeta,
-} from "./dashboard.meta";
-import { moduleName } from "./constants";
+import { opdDashboardMeta, referralNoteDashboardMeta } from './dashboard.meta';
+import { moduleName } from './constants';
 
 const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -38,7 +35,7 @@ function setupOpenMRS() {
       {
         id: 'opd-dashboard-ext',
         slot: 'opd-dashboard-slot',
-        load: getAsyncLifecycle(() => import('./pages/opd/opd.component'), {
+        load: getAsyncLifecycle(() => import('./pages/opd/outpatient.component'), {
           featureName: 'opd-dashboard-summary',
           moduleName,
         }),
