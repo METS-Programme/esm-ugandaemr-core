@@ -3608,6 +3608,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ohri/openmrs-esm-ohri-cervical-cancer-app@npm:next":
+  version: 1.0.7-pre.2447
+  resolution: "@ohri/openmrs-esm-ohri-cervical-cancer-app@npm:1.0.7-pre.2447"
+  dependencies:
+    "@carbon/react": ^1.13.0
+  peerDependencies:
+    "@openmrs/esm-framework": 4.x
+    "@openmrs/esm-patient-common-lib": 4.x
+    dayjs: ^1.8.16
+    react: ^18.2.0
+    react-i18next: ^11.18.6
+  checksum: 81a109a3aa230cae97f047e5fa56b33b9414c3918d06257cdbed380ac3be97dcb553e579338cba28dbcfee40c128afa958b18f79dc3c3bf3859b246dc64f5879
+  languageName: node
+  linkType: hard
+
 "@ohri/openmrs-esm-ohri-commons-lib@npm:next":
   version: 1.0.3-pre.2419
   resolution: "@ohri/openmrs-esm-ohri-commons-lib@npm:1.0.3-pre.2419"
@@ -3626,6 +3641,24 @@ __metadata:
     react: ^18.2.0
     react-i18next: ^11.18.6
   checksum: fca9ca09124f3081218b70f21529a3f23cc1fd37d4fc65a58995a40535338d4ee46fb24ce63d6ffd57496d51febef99d18fc9f3fc9be5c53bc08582c7d675032
+  languageName: node
+  linkType: hard
+
+"@ohri/openmrs-esm-ohri-hiv-app@npm:next":
+  version: 1.0.7-pre.2447
+  resolution: "@ohri/openmrs-esm-ohri-hiv-app@npm:1.0.7-pre.2447"
+  dependencies:
+    "@carbon/react": ^1.13.0
+    lodash-es: ^4.17.15
+    moment: ^2.29.1
+  peerDependencies:
+    "@openmrs/esm-framework": 4.x
+    "@openmrs/esm-patient-common-lib": 4.x
+    dayjs: ^1.8.16
+    react: ^18.2.0
+    react-i18next: ^11.7.0
+    webpack: ^5.74.0
+  checksum: fc008948818a8c7a92c25d7677630f1c4ec050c73fc121df299cceb0487f7b47dcee636463954eefc0e7fec59b8cee550859311bacad98cad84f6b27499df748
   languageName: node
   linkType: hard
 
@@ -5012,7 +5045,9 @@ __metadata:
   resolution: "@ugandaemr/esm-ugandaemr-core@workspace:."
   dependencies:
     "@carbon/react": ^1.14.0
+    "@ohri/openmrs-esm-ohri-cervical-cancer-app": next
     "@ohri/openmrs-esm-ohri-commons-lib": next
+    "@ohri/openmrs-esm-ohri-hiv-app": next
     "@openmrs/esm-framework": next
     "@openmrs/esm-patient-common-lib": next
     "@swc/cli": ^0.1.57

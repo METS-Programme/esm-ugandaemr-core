@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "openmrs develop --sources 'packages/esm-*-app'",
+    "start": "openmrs develop --backend http://localhost:8080 --api-url /openmrs/ --port 2080 --sources 'packages/esm-*-app'",
     "ci:publish": "lerna publish from-package --yes",
     "ci:prepublish": "lerna publish from-package --no-git-reset --yes --dist-tag next",
     "release": "lerna version --no-git-tag-version",
@@ -24,7 +24,9 @@
   },
   "devDependencies": {
     "@carbon/react": "^1.14.0",
+    "@ohri/openmrs-esm-ohri-cervical-cancer-app": "next",
     "@ohri/openmrs-esm-ohri-commons-lib": "next",
+    "@ohri/openmrs-esm-ohri-hiv-app": "next",
     "@openmrs/esm-framework": "next",
     "@openmrs/esm-patient-common-lib": "next",
     "@swc/cli": "^0.1.57",

@@ -18,7 +18,9 @@
             "conditions-summary-dashboard",
             "programs-summary-dashboard",
             "allergies-summary-dashboard",
-            "attachments-results-summary-dashboard"
+            "attachments-results-summary-dashboard",
+            "results-summary-dashboard",
+            "drug-orders-summary-dashboard"
           ]
         },
       "patient-chart-summary-dashboard-slot": {
