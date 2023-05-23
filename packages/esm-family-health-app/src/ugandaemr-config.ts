@@ -1,4 +1,4 @@
-import ugandaEmrLogo from './images/ugandaemr_logo.png';
+import ugandaEmrLogo from './images/login_logo.jpeg';
 import ugandaEmrBannerLogo from './images/ugandaemr_banner_logo.png';
 
 export default {
