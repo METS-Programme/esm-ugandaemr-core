@@ -2,7 +2,7 @@ import { getAsyncLifecycle, defineConfigSchema, provide, getSyncLifecycle } from
 import { configSchema } from './config-schema';
 import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 import formsRegistry from './forms/forms-registry';
-import { addToBaseFormsRegistry } from '@ohri/openmrs-ohri-form-engine-lib';
+import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
 import { opdDashboardMeta, referralNoteDashboardMeta } from './dashboard.meta';
 import { moduleName } from './constants';

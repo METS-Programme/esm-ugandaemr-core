@@ -19,8 +19,12 @@
     "extract-translations": "lerna run extract-translations -- --config ../../tools/i18next-parser.config.js"
   },
   "dependencies": {
+    "@openmrs/openmrs-form-engine-lib": "next",
     "dayjs": "^1.11.6",
     "swr": "^2.1.1"
+  },
+  "peerDependencies": {
+    "@openmrs/openmrs-form-engine-lib": "1.x"
   },
   "devDependencies": {
     "@carbon/react": "^1.14.0",
@@ -44,6 +48,7 @@
     "@typescript-eslint/parser": "^5.40.0",
     "concurrently": "^7.4.0",
     "cross-env": "^7.0.3",
+    "css-loader": "^6.7.4",
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-ts-react-important-stuff": "^3.0.0",
