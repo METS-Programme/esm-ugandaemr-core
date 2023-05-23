@@ -1,4 +1,4 @@
 
-# esm-outpatient-app
+# esm-patient-queues-app
 
-Outpatient microfrontend with for patient workflows.
+Patient queues microfrontend with for patient workflows.
