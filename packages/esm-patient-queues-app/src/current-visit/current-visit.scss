@@ -1,0 +1,34 @@
+@use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/type';
+@import '~@openmrs/esm-styleguide/src/vars';
+
+.visitContainer {
+  background-color: $ui-background;
+  display: grid;
+  grid-template-columns: max-content auto;
+}
+
+.bodyLong01 {
+  @include type.type-style('body-01');
+}
+
+.heading {
+  @include type.type-style('heading-compact-02');
+}
+
+.subHeading {
+  @include type.type-style('label-01');
+  color: $text-02;
+}
+
+.structuredListRow {
+  border-bottom: none;
+}
+
+.structuredList {
+  margin-bottom: 0;
+}
+
+.wrapper {
+  margin: spacing.$spacing-03;
+}

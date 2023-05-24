@@ -1,0 +1,80 @@
+@use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/type';
+@import '~@openmrs/esm-styleguide/src/vars';
+
+.patientChart {
+  text-decoration: none;
+}
+
+:global(.omrs-breakpoint-gt-tablet) .patientChart {
+  background-color: $ui-02;
+}
+
+.container {
+  & .patientBanner {
+    background-color: red !important;
+  }
+}
+
+.patientBanner {
+  display: flex;
+}
+
+.patientName {
+  @include type.type-style('heading-03');
+}
+
+.patientAvatar {
+  width: spacing.$spacing-11;
+  height: spacing.$spacing-11;
+  margin: spacing.$spacing-05 spacing.$spacing-05 0;
+  border-radius: 1px;
+}
+
+.patientInfo {
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  margin: spacing.$spacing-05 0;
+  cursor: pointer;
+}
+
+.demographics {
+  @include type.type-style('body-compact-02');
+  color: $text-02;
+  margin: 0.3rem 0;
+}
+
+.identifiers {
+  @include type.type-style('body-compact-02');
+  color: $ui-04;
+}
+
+.actionsContainer {
+  padding-top: spacing.$spacing-03;
+  margin-top: spacing.$spacing-05;
+}
+
+.sortingCriteriaSelect {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  @include type.type-style('body-compact-02');
+  width: 100%;
+
+  :global(.cds--dropdown__wrapper--inline) {
+    gap: 0;
+  }
+
+  :global(.cds--list-box__menu-icon) {
+    height: spacing.$spacing-05;
+  }
+
+  :global(.cds--list-box__menu) {
+    left: -7.5rem;
+  }
+
+  :global(.cds--label) {
+    margin-right: spacing.$spacing-02;
+  }
+}

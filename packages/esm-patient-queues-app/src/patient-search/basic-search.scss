@@ -1,0 +1,139 @@
+@use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/type';
+@import '~@openmrs/esm-styleguide/src/vars';
+
+.searchboxContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: spacing.$spacing-05;
+}
+
+.searchboxLayer {
+  flex-grow: 1;
+}
+
+.tileContainer {
+  :global(.omrs-breakpoint-gt-tablet) & {
+    margin: 0 1.5rem 0;
+  }
+
+  :global(.omrs-breakpoint-lt-desktop) & {
+    width: 60%;
+    margin: auto;
+  }
+}
+
+.tile {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0 1.5rem;
+  text-align: center;
+  border: 1px solid $ui-03;
+}
+
+.helperText {
+  margin-top: 1.25rem;
+  color: $text-02;
+
+  .primaryText {
+    @include type.type-style('heading-compact-01');
+  }
+
+  .secondaryText {
+    width: 12rem;
+    margin-top: 0.25rem;
+    @include type.type-style('body-01');
+  }
+}
+
+.separator {
+  @include type.type-style('heading-03');
+  color: $text-02;
+  width: 12rem;
+  margin: 3rem auto;
+  overflow: hidden;
+  text-align: center;
+
+  &::before,
+  &::after {
+    background-color: $text-03;
+    content: '';
+    display: inline-block;
+    height: 1px;
+    position: relative;
+    vertical-align: middle;
+    width: 50%;
+  }
+
+  &::before {
+    right: 1rem;
+    margin-left: -50%;
+  }
+
+  &::after {
+    left: 1rem;
+    margin-right: -50%;
+  }
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resultsContainer {
+  height: 100vh;
+}
+
+.lightBackground {
+  @extend .resultsContainer;
+  background-color: white;
+}
+
+.loadingContainer {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > div {
+    width: fit-content !important;
+  }
+}
+
+.helperText {
+  color: var(--omrs-color-ink-medium-contrast);
+  margin-left: 2.375rem;
+}
+
+.resultsText {
+  @include type.type-style('label-01');
+  color: $text-02;
+  border-bottom: 0.063rem solid $ui-03;
+  padding: spacing.$spacing-03 0rem;
+}
+
+.emptyResultText {
+  @include type.type-style('heading-compact-01');
+  color: $text-02;
+  margin-top: spacing.$spacing-05;
+  margin-bottom: 0.313rem;
+}
+
+.actionText {
+  @include type.type-style('body-01');
+  color: $text-02;
+}
+
+.emptySearchResultsTile {
+  text-align: center;
+  margin-top: spacing.$spacing-05;
+  padding: spacing.$spacing-09 0rem;
+}
+
+:global(.omrs-breakpoint-gt-tablet) .emptySearchResultsTile {
+  background-color: $ui-02;
+}

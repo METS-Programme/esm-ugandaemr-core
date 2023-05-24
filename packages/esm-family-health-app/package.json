@@ -46,6 +46,6 @@
     "react-i18next": "11.x"
   },
   "devDependencies": {
-    "webpack": "^5.74.0"
+    "webpack": "^5.83.1"
   }
 }
