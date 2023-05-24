@@ -1,0 +1,112 @@
+{
+  "name": "POC Clinical Assessment",
+  "pages": [
+    {
+      "label": "Clinical Assessment ",
+      "sections": [
+        {
+          "label": "Client Details",
+          "isExpanded": "true",
+          "questions": [
+            {
+              "label": "Date of Enrollment",
+              "type": "obs",
+              "required": false,
+              "id": "enrollment_data",
+              "questionOptions": {
+                "rendering": "date",
+                "concept": "31c5c7aa-4948-473e-890b-67fe2fbbd71a",
+                "conceptMappings": [],
+                "answers": []
+              },
+              "validators": []
+            },
+            {
+              "label": "ART Number",
+              "type": "obs",
+              "required": true,
+              "id": "art_number",
+              "questionOptions": {
+                "rendering": "text",
+                "concept": "b12f285a-0a26-44b5-83b3-e229bda74679",
+                "conceptMappings": [],
+                "answers": []
+              },
+              "validators": []
+            },
+            {
+              "label": "Entry points",
+              "type": "obs",
+              "required": true,
+              "id": "entry_points",
+              "questionOptions": {
+                "rendering": "select",
+                "concept": "164993AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "conceptMappings": [],
+                "answers": [
+                  {
+                    "concept": "dcd7e8e5-30ab-102d-86b0-7a5022ba4115",
+                    "label": "eMTCT",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "dcd9939d-30ab-102d-86b0-7a5022ba4115",
+                    "label": "TB",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "e9469d61-b0c3-4785-81c6-057c7bc099fc",
+                    "label": "YCC",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "7d24a93f-73a9-4e7c-a722-ebc3e35809b4",
+                    "label": "SMC",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "dcd9ecc2-30ab-102d-86b0-7a5022ba4115",
+                    "label": "Outreach",
+                    "conceptMappings": []
+                  }
+                ]
+              }
+            },
+            {
+              "label": "Base line regimen",
+              "type": "obs",
+              "required": true,
+              "id": "baseline_regimen",
+              "questionOptions": {
+                "rendering": "select",
+                "concept": "c3332e8d-2548-4ad6-931d-6855692694a3",
+                "conceptMappings": [],
+                "answers": [
+                  {
+                    "concept": "f99ef0fa-b299-4573-ae31-f4d09b1b69d5",
+                    "label": "TDF-FTC-NVP",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "dd2b84c5-30ab-102d-86b0-7a5022ba4115",
+                    "label": "D4T-3TC-NVP",
+                    "conceptMappings": []
+                  },
+                  {
+                    "concept": "dd2b361c-30ab-102d-86b0-7a5022ba4115",
+                    "label": "AZT-3TC-NVP",
+                    "conceptMappings": []
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "processor": "EncounterFormProcessor",
+  "encounterType": "8d5b27bc-c2cc-11de-8d13-0010c6dffd0f",
+  "referencedForms": [],
+  "uuid": "52653a60-8300-4c13-be4d-4b746da06fee"
+}

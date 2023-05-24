@@ -1,10 +1,12 @@
-import { getAsyncLifecycle, defineConfigSchema, provide } from '@openmrs/esm-framework';
+import { getAsyncLifecycle, defineConfigSchema, provide, getSyncLifecycle } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 import ugandaEmrConfig from './ugandaemr-config';
 import formsRegistry from './forms/forms-registry';
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { moduleName } from './constants';
+import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
+import { clinicalAssessmentDashboardMeta, opdDashboardMeta } from './dashboard.meta';
 
 const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -33,6 +35,23 @@ function setupOpenMRS() {
           featureName: 'cervical-cancer-summary-extension',
           moduleName,
         }),
+      },
+      {
+        id: 'clinical-assessment-dashboard',
+        slot: 'patient-chart-dashboard-slot',
+        load: getSyncLifecycle(createDashboardLink(clinicalAssessmentDashboardMeta), options),
+        meta: clinicalAssessmentDashboardMeta,
+      },
+      {
+        id: 'clinical-assessment-dashboard-ext',
+        slot: 'clinical-assessment-dashboard-slot',
+        load: getAsyncLifecycle(() => import('./pages/hiv/clinical-assessment.component'), {
+          featureName: 'clinical-assessment-dashboard-summary',
+          moduleName,
+        }),
+        meta: {
+          columnSpan: 4,
+        },
       },
     ],
   };
