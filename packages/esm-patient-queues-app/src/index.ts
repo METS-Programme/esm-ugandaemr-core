@@ -38,7 +38,7 @@ function setupOpenMRS() {
       },
       {
         load: getAsyncLifecycle(() => import('./queue-patient-linelists/queue-services-table.component'), options),
-        route: /^queue-list/,
+        route: /^patient-queues/,
         online: true,
         offline: true,
       },
@@ -52,7 +52,7 @@ function setupOpenMRS() {
         offline: true,
       },
       {
-        id: 'service-queues-dashboard-link',
+        id: 'patient-queues-dashboard-link',
         slot: 'homepage-dashboard-slot',
         load: getSyncLifecycle(createDashboardLink(dashboardMeta), options),
         meta: dashboardMeta,
@@ -61,7 +61,7 @@ function setupOpenMRS() {
       },
       {
         id: 'home-dashboard',
-        slot: 'service-queues-dashboard-slot',
+        slot: 'patient-queues-dashboard-slot',
         load: getAsyncLifecycle(() => import('./home.component'), options),
         online: true,
         offline: true,

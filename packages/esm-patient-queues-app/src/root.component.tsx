@@ -17,7 +17,7 @@ const Root: React.FC = () => {
         <BrowserRouter basename={`${spaBasePath}/service-queues`}>
           <Routes>
             <Route path="/appointments-list/:value/" element={<AppointmentsTable />} />
-            <Route path="/queue-list/:value/" element={<ServicesTable />} />
+            <Route path="/patient-queues/:value/" element={<ServicesTable />} />
           </Routes>
         </BrowserRouter>
       </SWRConfig>
