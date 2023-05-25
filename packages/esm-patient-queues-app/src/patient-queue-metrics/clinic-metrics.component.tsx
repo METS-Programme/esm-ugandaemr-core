@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dropdown } from '@carbon/react';
 import MetricsCard from './metrics-card.component';
-import MetricsHeader from './metrics-header.component';
 import {
   updateSelectedServiceName,
   updateSelectedServiceUuid,
@@ -55,7 +54,6 @@ function ClinicMetrics() {
 
   return (
     <>
-      <MetricsHeader />
       <div className={styles.cardContainer}>
         <MetricsCard
           label={t('patients', 'Patients')}
