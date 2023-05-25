@@ -3779,20 +3779,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openmrs/esm-api@npm:^4.3.1-pre.632":
-  version: 4.4.1
-  resolution: "@openmrs/esm-api@npm:4.4.1"
-  dependencies:
-    "@types/fhir": 0.0.31
-    lodash-es: ^4.17.21
-  peerDependencies:
-    "@openmrs/esm-config": 4.x
-    "@openmrs/esm-error-handling": 4.x
-    "@openmrs/esm-offline": 4.x
-  checksum: 5127385f73fd22ff9aef46256b91eee7e4d5be83f71d2ec4868867ebf74164d669331863f15f3cb7173b1887bd9ecd87d2fc11ab03b63385629c3acb206c35d5
-  languageName: node
-  linkType: hard
-
 "@openmrs/esm-api@npm:^4.4.2-pre.733":
   version: 4.4.2-pre.738
   resolution: "@openmrs/esm-api@npm:4.4.2-pre.738"
@@ -4224,37 +4210,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openmrs/openmrs-form-engine-lib@npm:next":
-  version: 1.0.0-pre.249
-  resolution: "@openmrs/openmrs-form-engine-lib@npm:1.0.0-pre.249"
-  dependencies:
-    ace-builds: ^1.4.12
-    enzyme: ^3.11.0
-    enzyme-adapter-react-16: ^1.15.6
-    formik: ^2.2.6
-    jest-coverage-badges: ^1.0.0
-    lodash-es: ^4.17.15
-    react-anchor-link-smooth-scroll: ^1.0.12
-    react-error-boundary: ^4.0.3
-    react-markdown: ^7.1.0
-    react-scroll: ^1.8.2
-    react-test-renderer: ^16.9.0
-    react-waypoint: ^10.3.0
-    semver: ^7.3.5
-    yup: ^0.29.1
-  peerDependencies:
-    "@carbon/react": 1.x
-    "@openmrs/esm-framework": 4.x
-    react: ^18.2.0
-    react-i18next: 11.x
-    rxjs: 6.x
-  checksum: b1f49fc18efaa03433e2269023569f0de4f5c673740a7c77e616cb50ad4f629cfe5c9d302342e3a11895c3509e39eb2382a88cab1a0f7c79c9b4871f0fc82c14
-  languageName: node
-  linkType: hard
-
-"@openmrs/webpack-config@npm:4.3.1-pre.632":
-  version: 4.3.1-pre.632
-  resolution: "@openmrs/webpack-config@npm:4.3.1-pre.632"
+"@openmrs/webpack-config@npm:4.2.1-pre.621":
+  version: 4.2.1-pre.621
+  resolution: "@openmrs/webpack-config@npm:4.2.1-pre.621"
   dependencies:
     "@babel/core": ^7.17.9
     "@babel/types": ^7.17.0
@@ -4274,7 +4232,7 @@ __metadata:
     webpack-stats-plugin: ^1.0.3
   peerDependencies:
     webpack: 5.x
-  checksum: d3dc984983d9b76e663c65eaadfe9bef7e03bfe9be92380228c575d999e7a7687f0569c57c2317c084a411fc8eee9fa3d789fe0df655f9d25e9d1d8b7a5104d4
+  checksum: 5df75790574c0f6e533d1469062bf76a8156e2eed2ad7bf43a023e5caf74efce6302133da32b33ed0ad23aaeef08dd6d4dd34a88cdd78352dd24ada10c7d0879
   languageName: node
   linkType: hard
 
