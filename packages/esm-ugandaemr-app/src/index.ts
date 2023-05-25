@@ -1,11 +1,11 @@
-import { getAsyncLifecycle, defineConfigSchema, provide } from '@openmrs/esm-framework';
+import { getAsyncLifecycle, defineConfigSchema, provide, getSyncLifecycle } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 import ugandaEmrConfig from './ugandaemr-config';
 import formsRegistry from './forms/forms-registry';
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { moduleName } from './constants';
-
+import { PatientListTable } from '@ohri/openmrs-esm-ohri-commons-lib';
 const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
 const backendDependencies = {
@@ -31,6 +31,14 @@ function setupOpenMRS() {
         slot: 'cacx-visits-slot',
         load: getAsyncLifecycle(() => import('./pages/cervical-cancer/cacx-visits/cacx-visits.component'), {
           featureName: 'cervical-cancer-summary-extension',
+          moduleName,
+        }),
+      },
+      {
+        id: 'all-system-patients',
+        slot: 'homepage-widgets-slot',
+        load: getSyncLifecycle(PatientListTable, {
+          featureName: 'all-system-patients-extension',
           moduleName,
         }),
       },

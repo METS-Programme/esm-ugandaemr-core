@@ -3605,8 +3605,8 @@ __metadata:
   linkType: hard
 
 "@ohri/openmrs-esm-ohri-commons-lib@npm:next":
-  version: 1.0.7-pre.2499
-  resolution: "@ohri/openmrs-esm-ohri-commons-lib@npm:1.0.7-pre.2499"
+  version: 1.0.7-pre.2506
+  resolution: "@ohri/openmrs-esm-ohri-commons-lib@npm:1.0.7-pre.2506"
   dependencies:
     "@carbon/react": ^1.13.0
     "@openmrs/openmrs-form-engine-lib": 1.0.0-pre.244
@@ -3621,13 +3621,13 @@ __metadata:
     dayjs: ^1.8.16
     react: ^18.2.0
     react-i18next: ^11.18.6
-  checksum: eb2a4fc5b9211e766439a513eaeea391fac14cf44b48c3839ca8c43c92da9a461bbbdb53bb51b81e7d0271b1ffbcd9b7505337c5f9a05ca68eb0884376fc7e36
+  checksum: 6a3069c47d0c26e10371d7e0369a7d0255c1a558fd85b2deff1223482de346edfcad9c7688a2c8d656549e683bd8492fbd6b74c43069979e28eefe71e7affbeb
   languageName: node
   linkType: hard
 
-"@openmrs/esm-api@npm:^4.4.2-pre.733":
-  version: 4.4.2-pre.733
-  resolution: "@openmrs/esm-api@npm:4.4.2-pre.733"
+"@openmrs/esm-api@npm:^4.2.1-pre.621":
+  version: 4.2.1-pre.621
+  resolution: "@openmrs/esm-api@npm:4.2.1-pre.621"
   dependencies:
     "@types/fhir": 0.0.31
     lodash-es: ^4.17.21
@@ -3852,7 +3852,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openmrs/openmrs-form-engine-lib@npm:1.0.0-pre.244, @openmrs/openmrs-form-engine-lib@npm:next":
+"@openmrs/openmrs-form-engine-lib@npm:1.0.0-pre.244":
   version: 1.0.0-pre.244
   resolution: "@openmrs/openmrs-form-engine-lib@npm:1.0.0-pre.244"
   dependencies:
@@ -3880,9 +3880,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openmrs/webpack-config@npm:4.4.2-pre.733":
-  version: 4.4.2-pre.733
-  resolution: "@openmrs/webpack-config@npm:4.4.2-pre.733"
+"@openmrs/webpack-config@npm:4.2.1-pre.621":
+  version: 4.2.1-pre.621
+  resolution: "@openmrs/webpack-config@npm:4.2.1-pre.621"
   dependencies:
     "@babel/core": ^7.17.9
     "@babel/types": ^7.17.0

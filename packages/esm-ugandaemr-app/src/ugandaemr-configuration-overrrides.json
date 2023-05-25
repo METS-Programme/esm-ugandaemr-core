@@ -41,5 +41,20 @@
         "Brand color #1": "#02210b",
         "Brand color #2": "#074519",
         "Brand color #3": "#125726"
+    },
+    "@openmrs/esm-home-app":{
+      "extensionSlots":{
+        "homepage-dashboard-slot":{
+          "remove": [
+            "patient-lists-dashboard-link"
+          ]
+        },
+       "homepage-widgets-slot": {
+        "remove":[
+          "active-visits-widget"
+          ,"home-appointments"
+        ]
+        }
+      }
     }
   }
