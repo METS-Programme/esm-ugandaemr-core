@@ -5,7 +5,7 @@ import ugandaEmrConfig from './ugandaemr-config';
 import formsRegistry from './forms/forms-registry';
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { moduleName } from './constants';
-import { PatientListTable } from '@ohri/openmrs-esm-ohri-commons-lib';
+import { OHRIHome } from '@ohri/openmrs-esm-ohri-commons-lib';
 const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
 const backendDependencies = {
@@ -35,12 +35,19 @@ function setupOpenMRS() {
         }),
       },
       {
-        id: 'all-system-patients',
+        id: 'home-db-ext',
         slot: 'homepage-widgets-slot',
-        load: getSyncLifecycle(PatientListTable, {
-          featureName: 'all-system-patients-extension',
+        load: getSyncLifecycle(OHRIHome, {
+          featureName: 'landing-page',
           moduleName,
         }),
+        meta: {
+          title: 'Home DB',
+          slot: 'home-db-slot',
+          config: {
+            programme: 'general-homne',
+          },
+        },
       },
     ],
   };

@@ -1493,6 +1493,160 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@esbuild/android-arm64@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/android-arm64@npm:0.16.17"
+  conditions: os=android & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@esbuild/android-arm@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/android-arm@npm:0.16.17"
+  conditions: os=android & cpu=arm
+  languageName: node
+  linkType: hard
+
+"@esbuild/android-x64@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/android-x64@npm:0.16.17"
+  conditions: os=android & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@esbuild/darwin-arm64@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/darwin-arm64@npm:0.16.17"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@esbuild/darwin-x64@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/darwin-x64@npm:0.16.17"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@esbuild/freebsd-arm64@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/freebsd-arm64@npm:0.16.17"
+  conditions: os=freebsd & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@esbuild/freebsd-x64@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/freebsd-x64@npm:0.16.17"
+  conditions: os=freebsd & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-arm64@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/linux-arm64@npm:0.16.17"
+  conditions: os=linux & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-arm@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/linux-arm@npm:0.16.17"
+  conditions: os=linux & cpu=arm
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-ia32@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/linux-ia32@npm:0.16.17"
+  conditions: os=linux & cpu=ia32
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-loong64@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/linux-loong64@npm:0.16.17"
+  conditions: os=linux & cpu=loong64
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-mips64el@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/linux-mips64el@npm:0.16.17"
+  conditions: os=linux & cpu=mips64el
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-ppc64@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/linux-ppc64@npm:0.16.17"
+  conditions: os=linux & cpu=ppc64
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-riscv64@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/linux-riscv64@npm:0.16.17"
+  conditions: os=linux & cpu=riscv64
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-s390x@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/linux-s390x@npm:0.16.17"
+  conditions: os=linux & cpu=s390x
+  languageName: node
+  linkType: hard
+
+"@esbuild/linux-x64@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/linux-x64@npm:0.16.17"
+  conditions: os=linux & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@esbuild/netbsd-x64@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/netbsd-x64@npm:0.16.17"
+  conditions: os=netbsd & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@esbuild/openbsd-x64@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/openbsd-x64@npm:0.16.17"
+  conditions: os=openbsd & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@esbuild/sunos-x64@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/sunos-x64@npm:0.16.17"
+  conditions: os=sunos & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@esbuild/win32-arm64@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/win32-arm64@npm:0.16.17"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@esbuild/win32-ia32@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/win32-ia32@npm:0.16.17"
+  conditions: os=win32 & cpu=ia32
+  languageName: node
+  linkType: hard
+
+"@esbuild/win32-x64@npm:0.16.17":
+  version: 0.16.17
+  resolution: "@esbuild/win32-x64@npm:0.16.17"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
 "@eslint/eslintrc@npm:^1.3.3":
   version: 1.3.3
   resolution: "@eslint/eslintrc@npm:1.3.3"
@@ -3625,6 +3779,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@openmrs/esm-api@npm:^4.3.1-pre.632":
+  version: 4.4.1
+  resolution: "@openmrs/esm-api@npm:4.4.1"
+  dependencies:
+    "@types/fhir": 0.0.31
+    lodash-es: ^4.17.21
+  peerDependencies:
+    "@openmrs/esm-config": 4.x
+    "@openmrs/esm-error-handling": 4.x
+    "@openmrs/esm-offline": 4.x
+  checksum: 5127385f73fd22ff9aef46256b91eee7e4d5be83f71d2ec4868867ebf74164d669331863f15f3cb7173b1887bd9ecd87d2fc11ab03b63385629c3acb206c35d5
+  languageName: node
+  linkType: hard
+
 "@openmrs/esm-api@npm:^4.4.2-pre.733":
   version: 4.4.2-pre.738
   resolution: "@openmrs/esm-api@npm:4.4.2-pre.738"
@@ -3639,13 +3807,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openmrs/esm-app-shell@npm:4.4.2-pre.733":
-  version: 4.4.2-pre.733
-  resolution: "@openmrs/esm-app-shell@npm:4.4.2-pre.733"
+"@openmrs/esm-app-shell@npm:4.3.1-pre.632":
+  version: 4.3.1-pre.632
+  resolution: "@openmrs/esm-app-shell@npm:4.3.1-pre.632"
   dependencies:
     "@carbon/react": ^1.12.0
-    "@openmrs/esm-framework": 4.4.2-pre.733
-    "@openmrs/esm-styleguide": 4.4.2-pre.733
+    "@openmrs/esm-framework": 4.3.1-pre.632
+    "@openmrs/esm-styleguide": 4.3.1-pre.632
     dayjs: ^1.10.4
     dexie: ^3.0.3
     i18next: ^19.6.0
@@ -3659,13 +3827,23 @@ __metadata:
     react-router-dom: ^6.3.0
     rxjs: ^6.5.3
     single-spa: ^5.9.2
-    swc-loader: ^0.2.3
     systemjs: ^6.8.3
     workbox-core: ^6.1.5
     workbox-routing: ^6.1.5
     workbox-strategies: ^6.1.5
     workbox-window: ^6.1.5
-  checksum: 1efe42bc268d2e756fd62b400a036d5dd45645243e54b0476c2b998f7e7f46a42bb9afab4723b10a854b7b317bb989875ef9007503dcee3234e8c6f6a6fa1328
+  checksum: ea47942c5dfffa6b8daab91a3885f58413c7bf30659bd9ee48794985b9185bc8bc713e7d2e3d469575b4bfa3dd66b21e3caa48f8651f627bef372528b80ffd39
+  languageName: node
+  linkType: hard
+
+"@openmrs/esm-breadcrumbs@npm:^4.3.1-pre.632":
+  version: 4.4.1
+  resolution: "@openmrs/esm-breadcrumbs@npm:4.4.1"
+  dependencies:
+    path-to-regexp: 6.1.0
+  peerDependencies:
+    "@openmrs/esm-state": 4.x
+  checksum: 507f9533efe149ab3d15c35568bb7f8b3b0b64fc04cafe9b51de8bcc92f22575b96b9435e4adf382b322a5515d6afa57939cb87eb4a3ac26eceea5f3e7458ed2
   languageName: node
   linkType: hard
 
@@ -3677,6 +3855,20 @@ __metadata:
   peerDependencies:
     "@openmrs/esm-state": 4.x
   checksum: 6bcdae96bc5657414dcba4f83809ea2e6a05bad1ac85729ab3474f18fa36403a1a6cd135762b4ed44dc7def96974032d05fda3abb37642ac11b2d290dcfe04e1
+  languageName: node
+  linkType: hard
+
+"@openmrs/esm-config@npm:^4.3.1-pre.632":
+  version: 4.4.1
+  resolution: "@openmrs/esm-config@npm:4.4.1"
+  dependencies:
+    ramda: ^0.26.1
+  peerDependencies:
+    "@openmrs/esm-globals": 4.x
+    "@openmrs/esm-state": 4.x
+    single-spa: 5.x
+    systemjs: 6.x
+  checksum: 506d5630bdccdf6eb759b034ccd072e97b58fb9f62c673e7ab3ebb80a68aff911a84b6f48c41c9f61df052c46e3a1bcc559d46fbcbacd6ea5e6e82914f31f332
   languageName: node
   linkType: hard
 
@@ -3703,12 +3895,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@openmrs/esm-error-handling@npm:^4.3.1-pre.632":
+  version: 4.4.1
+  resolution: "@openmrs/esm-error-handling@npm:4.4.1"
+  peerDependencies:
+    "@openmrs/esm-globals": 4.x
+  checksum: 18ee08789db7d1f5ea3dccf0a755e5f6cb710e15e750a4e38198858a81a5be8ad66fb78fd7df80815a6fbb030e766576bc2bc96f0096b85299d021337420fc47
+  languageName: node
+  linkType: hard
+
 "@openmrs/esm-error-handling@npm:^4.4.2-pre.733":
   version: 4.4.2-pre.733
   resolution: "@openmrs/esm-error-handling@npm:4.4.2-pre.733"
   peerDependencies:
     "@openmrs/esm-globals": 4.x
   checksum: f9856161b467354449b899310c97561708fd6052a471e9a73b7ac407fbf77a3ae5cc95c446cdeb957cd6907ecd61343e6d755020dd883c40189abd8a71cb364f
+  languageName: node
+  linkType: hard
+
+"@openmrs/esm-extensions@npm:^4.3.1-pre.632":
+  version: 4.4.1
+  resolution: "@openmrs/esm-extensions@npm:4.4.1"
+  dependencies:
+    lodash-es: ^4.17.21
+  peerDependencies:
+    "@openmrs/esm-api": 4.x
+    "@openmrs/esm-config": 4.x
+    "@openmrs/esm-state": 4.x
+    single-spa: 5.x
+  checksum: 62f579dff3dc43a69a58334610ff3ac727a39d066ba92ad36e843a970ad999face7122a4dc135e5bf67310f83595a3c4124029a452435eeadb2ee5e3a28e4939
   languageName: node
   linkType: hard
 
@@ -3726,7 +3941,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openmrs/esm-framework@npm:4.4.2-pre.733, @openmrs/esm-framework@npm:next":
+"@openmrs/esm-framework@npm:4.3.1-pre.632":
+  version: 4.3.1-pre.632
+  resolution: "@openmrs/esm-framework@npm:4.3.1-pre.632"
+  dependencies:
+    "@openmrs/esm-api": ^4.3.1-pre.632
+    "@openmrs/esm-breadcrumbs": ^4.3.1-pre.632
+    "@openmrs/esm-config": ^4.3.1-pre.632
+    "@openmrs/esm-error-handling": ^4.3.1-pre.632
+    "@openmrs/esm-extensions": ^4.3.1-pre.632
+    "@openmrs/esm-globals": ^4.3.1-pre.632
+    "@openmrs/esm-offline": ^4.3.1-pre.632
+    "@openmrs/esm-react-utils": ^4.3.1-pre.632
+    "@openmrs/esm-state": ^4.3.1-pre.632
+    "@openmrs/esm-styleguide": ^4.3.1-pre.632
+    "@openmrs/esm-utils": ^4.3.1-pre.632
+    dayjs: ^1.10.7
+  checksum: ad2541521f66ae801898dfdfafb36f1676ff63ea6d2324b84dcf8c007e21aeb76d5563fce4b2e00aaf48ed8af2c424dccf29da63628a9aabd4e04bacc07a9e11
+  languageName: node
+  linkType: hard
+
+"@openmrs/esm-framework@npm:next":
   version: 4.4.2-pre.733
   resolution: "@openmrs/esm-framework@npm:4.4.2-pre.733"
   dependencies:
@@ -3747,12 +3982,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@openmrs/esm-globals@npm:^4.3.1-pre.632":
+  version: 4.4.1
+  resolution: "@openmrs/esm-globals@npm:4.4.1"
+  peerDependencies:
+    single-spa: 5.x
+  checksum: e0f770b30310e1dd84dd91352546bfd68f9ae039f1434b62700487c7e8ff7eba86481db929c337cd1da8d114a49d2e14a4299fa01764dc5184e1c139fd0eafdc
+  languageName: node
+  linkType: hard
+
 "@openmrs/esm-globals@npm:^4.4.2-pre.733":
   version: 4.4.2-pre.733
   resolution: "@openmrs/esm-globals@npm:4.4.2-pre.733"
   peerDependencies:
     single-spa: 5.x
   checksum: 2686ecb37da612df6ec015007d54c16ff7928e258c50bfc4e591d378c57c9581ef517e8f0811dba995b5a033d6aae79229a0fdf449f478f6ebaf03f4482570b7
+  languageName: node
+  linkType: hard
+
+"@openmrs/esm-offline@npm:^4.3.1-pre.632":
+  version: 4.4.1
+  resolution: "@openmrs/esm-offline@npm:4.4.1"
+  dependencies:
+    dexie: ^3.0.3
+    lodash-es: ^4.17.21
+    uuid: ^9.0.0
+    workbox-window: ^6.1.5
+  peerDependencies:
+    "@openmrs/esm-api": 4.x
+    "@openmrs/esm-globals": 4.x
+    "@openmrs/esm-state": 4.x
+    "@openmrs/esm-styleguide": 4.x
+    rxjs: 6.x
+  checksum: 3f01619c4c7a64493a8187704f824c0c8daf8e16dd360a3ec814cc1176fca85a3027f5bd626280027e783fd9de4da12f15651e591c673727b6df809679427597
   languageName: node
   linkType: hard
 
@@ -3789,6 +4051,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@openmrs/esm-react-utils@npm:^4.3.1-pre.632":
+  version: 4.4.1
+  resolution: "@openmrs/esm-react-utils@npm:4.4.1"
+  dependencies:
+    lodash-es: ^4.17.21
+    single-spa-react: ^5.0.0
+    swr: ^2.0.1
+  peerDependencies:
+    "@openmrs/esm-api": 4.x
+    "@openmrs/esm-config": 4.x
+    "@openmrs/esm-error-handling": 4.x
+    "@openmrs/esm-extensions": 4.x
+    "@openmrs/esm-globals": 4.x
+    dayjs: 1.x
+    i18next: 19.x
+    react: 18.x
+    react-dom: 18.x
+    react-i18next: 11.x
+  checksum: 89f1a744550a20534977508445906c74775a24e12405b15728b8b7691e7b6d4351ee95295cf3a5e76a02356b311ff78667345b50495400ffda34b9d48fa73caa
+  languageName: node
+  linkType: hard
+
 "@openmrs/esm-react-utils@npm:^4.4.2-pre.733":
   version: 4.4.2-pre.733
   resolution: "@openmrs/esm-react-utils@npm:4.4.2-pre.733"
@@ -3811,6 +4095,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@openmrs/esm-state@npm:^4.3.1-pre.632":
+  version: 4.4.1
+  resolution: "@openmrs/esm-state@npm:4.4.1"
+  dependencies:
+    zustand: ^4.3.6
+  checksum: 3128b2fa30a6deea97fdff8b8d35c20c233af2b9a453352ac9e0022f09a0af9c8a1bb41f461f2d2c1280a4bd22a2cf84d24c4e4d69a1f31eaee0736e8eeeb3bb
+  languageName: node
+  linkType: hard
+
 "@openmrs/esm-state@npm:^4.4.2-pre.733":
   version: 4.4.2-pre.733
   resolution: "@openmrs/esm-state@npm:4.4.2-pre.733"
@@ -3820,7 +4113,45 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openmrs/esm-styleguide@npm:4.4.2-pre.733, @openmrs/esm-styleguide@npm:^4.4.2-pre.733":
+"@openmrs/esm-styleguide@npm:4.3.1-pre.632":
+  version: 4.3.1-pre.632
+  resolution: "@openmrs/esm-styleguide@npm:4.3.1-pre.632"
+  dependencies:
+    "@carbon/charts": ^1.6.3
+    "@carbon/react": ^1.12.0
+    d3: ^7.8.0
+    lodash-es: ^4.17.21
+  peerDependencies:
+    "@openmrs/esm-extensions": 4.x
+    "@openmrs/esm-react-utils": 4.x
+    "@openmrs/esm-state": 4.x
+    react: 18.x
+    react-dom: 18.x
+    rxjs: 6.x
+  checksum: 0a23d3cc46989e0a2f19c9f21c59e0d1114c2e9d4eeae05127bfc4b09489db7ddf6c51685c0bd25bee807cafcc798c09c7178e637679bd23b3c869e95e7ed152
+  languageName: node
+  linkType: hard
+
+"@openmrs/esm-styleguide@npm:^4.3.1-pre.632":
+  version: 4.4.1
+  resolution: "@openmrs/esm-styleguide@npm:4.4.1"
+  dependencies:
+    "@carbon/charts": ^1.6.3
+    "@carbon/react": ^1.12.0
+    d3: ^7.8.0
+    lodash-es: ^4.17.21
+  peerDependencies:
+    "@openmrs/esm-extensions": 4.x
+    "@openmrs/esm-react-utils": 4.x
+    "@openmrs/esm-state": 4.x
+    react: 18.x
+    react-dom: 18.x
+    rxjs: 6.x
+  checksum: e3eb35ae6710c74dbeb51862cab563840fbb6c28565093323954cc00a819594e97be82458238693fcddaafcd123257e444ae3b5ec4144d52d5ca3ce0c6b8eca2
+  languageName: node
+  linkType: hard
+
+"@openmrs/esm-styleguide@npm:^4.4.2-pre.733":
   version: 4.4.2-pre.733
   resolution: "@openmrs/esm-styleguide@npm:4.4.2-pre.733"
   dependencies:
@@ -3836,6 +4167,19 @@ __metadata:
     react-dom: 18.x
     rxjs: 6.x
   checksum: 83573d093bea0d340450b420ec6890eaf519713d4d3cc26bc9d107f3fc67c3f026f21468cc228a55736ee09244d3ff607a3f02f2ad9d5945e2ef9c9e5b8a5fc0
+  languageName: node
+  linkType: hard
+
+"@openmrs/esm-utils@npm:^4.3.1-pre.632":
+  version: 4.4.1
+  resolution: "@openmrs/esm-utils@npm:4.4.1"
+  dependencies:
+    semver: 7.3.2
+  peerDependencies:
+    dayjs: 1.x
+    i18next: 19.x
+    rxjs: 6.x
+  checksum: dac56d4e9109aa025b882180ddaad5988679aef3ff3b197ea55424d53035861ccbde0dc5d251c26c6e28c3e9ee9adfe6411bc26323a81cdc2f617853a76b9c24
   languageName: node
   linkType: hard
 
@@ -3908,9 +4252,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openmrs/webpack-config@npm:4.4.2-pre.733":
-  version: 4.4.2-pre.733
-  resolution: "@openmrs/webpack-config@npm:4.4.2-pre.733"
+"@openmrs/webpack-config@npm:4.3.1-pre.632":
+  version: 4.3.1-pre.632
+  resolution: "@openmrs/webpack-config@npm:4.3.1-pre.632"
   dependencies:
     "@babel/core": ^7.17.9
     "@babel/types": ^7.17.0
@@ -3930,7 +4274,7 @@ __metadata:
     webpack-stats-plugin: ^1.0.3
   peerDependencies:
     webpack: 5.x
-  checksum: 5df75790574c0f6e533d1469062bf76a8156e2eed2ad7bf43a023e5caf74efce6302133da32b33ed0ad23aaeef08dd6d4dd34a88cdd78352dd24ada10c7d0879
+  checksum: d3dc984983d9b76e663c65eaadfe9bef7e03bfe9be92380228c575d999e7a7687f0569c57c2317c084a411fc8eee9fa3d789fe0df655f9d25e9d1d8b7a5104d4
   languageName: node
   linkType: hard
 
@@ -5098,7 +5442,7 @@ __metadata:
     jest-environment-jsdom: ^28.1.2
     lerna: ^5.6.1
     lodash: ^4.17.21
-    openmrs: next
+    openmrs: 4.3.1-pre.632
     prettier: ^2.7.1
     pretty-quick: ^3.1.3
     react: ^18.2.0
@@ -8984,6 +9328,99 @@ __metadata:
   languageName: node
   linkType: hard
 
+"esbuild-loader@npm:^2.20.0":
+  version: 2.21.0
+  resolution: "esbuild-loader@npm:2.21.0"
+  dependencies:
+    esbuild: ^0.16.17
+    joycon: ^3.0.1
+    json5: ^2.2.0
+    loader-utils: ^2.0.0
+    tapable: ^2.2.0
+    webpack-sources: ^1.4.3
+  peerDependencies:
+    webpack: ^4.40.0 || ^5.0.0
+  checksum: a0456ed7794e2c220a6068e92d739bc19765bff352bf7e44442aa8127631cc517ecd02a3ee969e31fa6b6a91befeac928296488c95e3818a776cd3b11d46348c
+  languageName: node
+  linkType: hard
+
+"esbuild@npm:^0.16.17":
+  version: 0.16.17
+  resolution: "esbuild@npm:0.16.17"
+  dependencies:
+    "@esbuild/android-arm": 0.16.17
+    "@esbuild/android-arm64": 0.16.17
+    "@esbuild/android-x64": 0.16.17
+    "@esbuild/darwin-arm64": 0.16.17
+    "@esbuild/darwin-x64": 0.16.17
+    "@esbuild/freebsd-arm64": 0.16.17
+    "@esbuild/freebsd-x64": 0.16.17
+    "@esbuild/linux-arm": 0.16.17
+    "@esbuild/linux-arm64": 0.16.17
+    "@esbuild/linux-ia32": 0.16.17
+    "@esbuild/linux-loong64": 0.16.17
+    "@esbuild/linux-mips64el": 0.16.17
+    "@esbuild/linux-ppc64": 0.16.17
+    "@esbuild/linux-riscv64": 0.16.17
+    "@esbuild/linux-s390x": 0.16.17
+    "@esbuild/linux-x64": 0.16.17
+    "@esbuild/netbsd-x64": 0.16.17
+    "@esbuild/openbsd-x64": 0.16.17
+    "@esbuild/sunos-x64": 0.16.17
+    "@esbuild/win32-arm64": 0.16.17
+    "@esbuild/win32-ia32": 0.16.17
+    "@esbuild/win32-x64": 0.16.17
+  dependenciesMeta:
+    "@esbuild/android-arm":
+      optional: true
+    "@esbuild/android-arm64":
+      optional: true
+    "@esbuild/android-x64":
+      optional: true
+    "@esbuild/darwin-arm64":
+      optional: true
+    "@esbuild/darwin-x64":
+      optional: true
+    "@esbuild/freebsd-arm64":
+      optional: true
+    "@esbuild/freebsd-x64":
+      optional: true
+    "@esbuild/linux-arm":
+      optional: true
+    "@esbuild/linux-arm64":
+      optional: true
+    "@esbuild/linux-ia32":
+      optional: true
+    "@esbuild/linux-loong64":
+      optional: true
+    "@esbuild/linux-mips64el":
+      optional: true
+    "@esbuild/linux-ppc64":
+      optional: true
+    "@esbuild/linux-riscv64":
+      optional: true
+    "@esbuild/linux-s390x":
+      optional: true
+    "@esbuild/linux-x64":
+      optional: true
+    "@esbuild/netbsd-x64":
+      optional: true
+    "@esbuild/openbsd-x64":
+      optional: true
+    "@esbuild/sunos-x64":
+      optional: true
+    "@esbuild/win32-arm64":
+      optional: true
+    "@esbuild/win32-ia32":
+      optional: true
+    "@esbuild/win32-x64":
+      optional: true
+  bin:
+    esbuild: bin/esbuild
+  checksum: 4c2cc609ecfb426554bc3f75beb92d89eb2d0c515cfceebaa36c7599d7dcaab7056b70f6d6b51e72b45951ddf9021ee28e356cf205f8e42cc055d522312ea30c
+  languageName: node
+  linkType: hard
+
 "escalade@npm:^3.1.1":
   version: 3.1.1
   resolution: "escalade@npm:3.1.1"
@@ -12287,6 +12724,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"joycon@npm:^3.0.1":
+  version: 3.1.1
+  resolution: "joycon@npm:3.1.1"
+  checksum: 8003c9c3fc79c5c7602b1c7e9f7a2df2e9916f046b0dbad862aa589be78c15734d11beb9fe846f5e06138df22cb2ad29961b6a986ba81c4920ce2b15a7f11067
+  languageName: node
+  linkType: hard
+
 "jpeg-js@npm:^0.4.2":
   version: 0.4.4
   resolution: "jpeg-js@npm:0.4.4"
@@ -14502,12 +14946,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openmrs@npm:next":
-  version: 4.4.2-pre.733
-  resolution: "openmrs@npm:4.4.2-pre.733"
+"openmrs@npm:4.3.1-pre.632":
+  version: 4.3.1-pre.632
+  resolution: "openmrs@npm:4.3.1-pre.632"
   dependencies:
-    "@openmrs/esm-app-shell": 4.4.2-pre.733
-    "@openmrs/webpack-config": 4.4.2-pre.733
+    "@openmrs/esm-app-shell": 4.3.1-pre.632
+    "@openmrs/webpack-config": 4.3.1-pre.632
     "@pnpm/npm-conf": ^2.1.0
     autoprefixer: ^10.4.2
     axios: ^0.21.1
@@ -14515,6 +14959,7 @@ __metadata:
     copy-webpack-plugin: ^10.0.0
     cssnano: ^5.0.16
     ejs: ^3.1.8
+    esbuild-loader: ^2.20.0
     glob: ^7.1.3
     html-webpack-plugin: ^5.5.0
     inquirer: ^7.3.3
@@ -14524,7 +14969,6 @@ __metadata:
     postcss: ^8.4.6
     postcss-loader: ^6.2.1
     rimraf: ^3.0.2
-    swc-loader: ^0.2.3
     tar: ^6.0.5
     typescript: ~4.5.2
     webpack: ^5.75.0
@@ -14535,7 +14979,7 @@ __metadata:
     yargs: ^17.6.2
   bin:
     openmrs: dist/cli.js
-  checksum: 9f2047bd6c49cad4cd12d7330e49e78f06bb5d7f25764d13c6ed83e60581424b61f77d577ab104e6d65cd7db840fa65eed6a131a4e44c3356b2ee4a669c7fe8d
+  checksum: e07e3af152b539a80dc0a58e0b869340ef51c8acebcb751ad2ce3511d908a90554f82a1a21f3067d31522bf458182298ef901a122d16f1af19f8faf8f80923e2
   languageName: node
   linkType: hard
 

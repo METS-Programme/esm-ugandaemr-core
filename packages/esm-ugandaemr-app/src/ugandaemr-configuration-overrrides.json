@@ -44,9 +44,16 @@
     },
     "@openmrs/esm-home-app":{
       "extensionSlots":{
+        "dashboard-slot":{
+
+        },
         "homepage-dashboard-slot":{
+          "add":[
+            "covid-home-header-ext"
+          ],
           "remove": [
-            "patient-lists-dashboard-link"
+            "patient-lists-dashboard-link",
+            "service-queues-dashboard-link"
           ]
         },
        "homepage-widgets-slot": {
