@@ -5,7 +5,8 @@ import ugandaEmrConfig from './ugandaemr-config';
 import formsRegistry from './forms/forms-registry';
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { moduleName } from './constants';
-import { OHRIHome } from '@ohri/openmrs-esm-ohri-commons-lib';
+import { OHRIHome, OHRIWelcomeSection } from '@ohri/openmrs-esm-ohri-commons-lib';
+import { DashboardWrapper } from './db/ug-emr-db-wrapper.component';
 const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
 const backendDependencies = {
@@ -35,8 +36,16 @@ function setupOpenMRS() {
         }),
       },
       {
-        id: 'home-db-ext',
+        id: 'emr-db-wrapper',
         slot: 'homepage-widgets-slot',
+        load: getSyncLifecycle(DashboardWrapper, {
+          featureName: 'db-wrapper',
+          moduleName,
+        }),
+      },
+      {
+        id: 'home-db-ext',
+        slot: 'ug-emr-db-wrapper',
         load: getSyncLifecycle(OHRIHome, {
           featureName: 'landing-page',
           moduleName,
@@ -48,6 +57,22 @@ function setupOpenMRS() {
             programme: 'general-homne',
           },
         },
+      },
+      {
+        id: 'general-homne-header',
+        slot: 'landing-page-home-header-slot',
+        load: getSyncLifecycle(OHRIWelcomeSection, {
+          featureName: 'general-home-header',
+          moduleName,
+        }),
+      },
+      {
+        id: 'tiles-ext',
+        slot: 'landing-page-home-tiles-slot',
+        load: getAsyncLifecycle(() => import('./tiles/all-patients-count-tile'), {
+          featureName: 'tiles',
+          moduleName,
+        }),
       },
     ],
   };
