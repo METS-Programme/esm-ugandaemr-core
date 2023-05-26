@@ -55,7 +55,7 @@ export interface PatientQueue {
   locationTo: QueueLocation;
   // encounter: string; // TODO add encounter type
   status: string; // TODO add status enum
-  priority: string; // TODO add priority enum
+  priority: number; // TODO add priority enum
   priorityComment: string;
   visitNumber: string;
   comment: string;

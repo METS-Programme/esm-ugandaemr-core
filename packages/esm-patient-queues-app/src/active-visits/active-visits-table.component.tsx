@@ -1,4 +1,4 @@
-import React, { useMemo, useState, MouseEvent, AnchorHTMLAttributes, useCallback, useEffect } from 'react';
+import React, { useMemo, useState, MouseEvent, AnchorHTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Button,
@@ -30,7 +30,7 @@ import {
   Tile,
   Pagination,
 } from '@carbon/react';
-import { Add, ArrowRight } from '@carbon/react/icons';
+import { Add, Edit } from '@carbon/react/icons';
 import {
   useLayoutType,
   navigate,
@@ -40,38 +40,22 @@ import {
   usePagination,
   useConfig,
   ConfigObject,
-  UserHasAccess,
-  useSession,
-  showModal,
 } from '@openmrs/esm-framework';
-import {
-  useVisitQueueEntries,
-  useServices,
-  getOriginFromPathName,
-  MappedVisitQueueEntry,
-} from './active-visits-table.resource';
-import CurrentVisit from '../current-visit/current-visit-summary.component';
+import { useServices, getOriginFromPathName } from './active-visits-table.resource';
 import PatientSearch from '../patient-search/patient-search.component';
 import PastVisit from '../past-visit/past-visit.component';
 import styles from './active-visits-table.scss';
-import { SearchTypes } from '../types';
-import ClearQueueEntries from '../clear-queue-entries-dialog/clear-queue-entries.component';
 import {
   updateSelectedServiceName,
   updateSelectedServiceUuid,
   useSelectedServiceName,
   useSelectedQueueLocationUuid,
-  useIsPermanentProviderQueueRoom,
-  useSelectedServiceUuid,
 } from '../helpers/helpers';
-import { buildStatusString, formatWaitTime, getTagType, timeDiffInMinutes } from '../helpers/functions';
-import EditMenu from '../queue-entry-table-components/edit-entry.component';
+import { formatWaitTime, getTagType } from '../helpers/functions';
 import ActionsMenu from '../queue-entry-table-components/actions-menu.component';
 import StatusIcon from '../queue-entry-table-components/status-icon.component';
-import TransitionMenu from '../queue-entry-table-components/transition-entry.component';
-import { useQueueRooms } from '../add-provider-queue-room/add-provider-queue-room.resource';
-import OpenChartMenu from '../queue-entry-table-components/open-chart.component';
-import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
+import { usePatientQueuesList } from './patient-queues.resource';
+import { SearchTypes } from '../types';
 
 type FilterProps = {
   rowIds: Array<string>;
@@ -84,12 +68,6 @@ type FilterProps = {
 interface NameLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   to: string;
   from: string;
-}
-
-interface PaginationData {
-  goTo: (page: number) => void;
-  results: Array<MappedVisitQueueEntry>;
-  currentPage: number;
 }
 
 const PatientNameLink: React.FC<NameLinkProps> = ({ from, to, children }) => {
@@ -111,24 +89,16 @@ function ActiveVisitsTable() {
   const { services } = useServices(currentQueueLocation);
   const currentServiceName = useSelectedServiceName();
   const currentLocationUuid = useSelectedQueueLocationUuid();
-  const currentServiceUuid = useSelectedServiceUuid();
-  const { visitQueueEntries, isLoading } = useVisitQueueEntries(currentServiceName, currentLocationUuid);
+
+  const { patientQueueEntries, isLoading } = usePatientQueuesList(currentLocationUuid);
+
   const [showOverlay, setShowOverlay] = useState(false);
   const [view, setView] = useState('');
   const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
   const layout = useLayoutType();
   const config = useConfig() as ConfigObject;
   const useQueueTableTabs = config.showQueueTableTab;
-  const currentUserSession = useSession();
-  const providerUuid = currentUserSession?.currentProvider?.uuid;
-  const differenceInTime = timeDiffInMinutes(
-    new Date(),
-    new Date(localStorage.getItem('lastUpdatedQueueRoomTimestamp')),
-  );
-  const { queueLocations } = useQueueLocations();
-  const { rooms, isLoading: loading } = useQueueRooms(queueLocations[0]?.id, currentServiceUuid);
 
-  const isPermanentProviderQueueRoom = useIsPermanentProviderQueueRoom();
   const currentPathName: string = window.location.pathname;
   const fromPage: string = getOriginFromPathName(currentPathName);
 
@@ -136,11 +106,7 @@ function ActiveVisitsTable() {
   const [currentPageSize, setPageSize] = useState(10);
   const [overlayHeader, setOverlayTitle] = useState('');
 
-  const {
-    goTo,
-    results: paginatedQueueEntries,
-    currentPage,
-  }: PaginationData = usePagination(visitQueueEntries, currentPageSize);
+  const { goTo, results: paginatedQueueEntries, currentPage } = usePagination(patientQueueEntries, currentPageSize);
 
   const tableHeaders = useMemo(
     () => [
@@ -148,11 +114,6 @@ function ActiveVisitsTable() {
         id: 0,
         header: t('name', 'Name'),
         key: 'name',
-      },
-      {
-        id: 1,
-        header: t('queueNumber', 'QueueNumber'),
-        key: 'queueNumber',
       },
       {
         id: 2,
@@ -188,9 +149,6 @@ function ActiveVisitsTable() {
           </PatientNameLink>
         ),
       },
-      queueNumber: {
-        content: <span className={styles.statusContainer}>{entry?.visitQueueNumber}</span>,
-      },
       priority: {
         content: (
           <>
@@ -219,7 +177,7 @@ function ActiveVisitsTable() {
         content: (
           <span className={styles.statusContainer}>
             <StatusIcon status={entry.status.toLowerCase()} />
-            <span>{buildStatusString(entry.status.toLowerCase(), entry.service)}</span>
+            <span>{entry.status}</span>
           </span>
         ),
       },
@@ -227,7 +185,7 @@ function ActiveVisitsTable() {
         content: <span className={styles.statusContainer}>{formatWaitTime(entry.waitTime, t)}</span>,
       },
     }));
-  }, [paginatedQueueEntries]);
+  }, [paginatedQueueEntries, t, fromPage]);
 
   const handleFilter = ({ rowIds, headers, cellsById, inputValue, getCellId }: FilterProps): Array<string> => {
     return rowIds.filter((rowId) =>
@@ -253,29 +211,11 @@ function ActiveVisitsTable() {
     );
   };
 
-  const launchAddProviderRoomModal = useCallback(() => {
-    const dispose = showModal('add-provider-to-room-modal', {
-      closeModal: () => dispose(),
-      providerUuid,
-    });
-  }, [providerUuid]);
-
-  useEffect(() => {
-    if (
-      !loading &&
-      rooms?.length > 0 &&
-      differenceInTime >= 1 &&
-      (isPermanentProviderQueueRoom == 'false' || isPermanentProviderQueueRoom === null)
-    ) {
-      launchAddProviderRoomModal();
-    }
-  }, [currentServiceUuid, rooms]);
-
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;
   }
 
-  if (visitQueueEntries?.length) {
+  if (patientQueueEntries?.length) {
     return (
       <div className={styles.container}>
         {useQueueTableTabs === false ? (
@@ -343,7 +283,6 @@ function ActiveVisitsTable() {
                       size="sm"
                     />
                   </Layer>
-                  <ClearQueueEntries visitQueueEntries={visitQueueEntries} />
                 </TableToolbarContent>
               </TableToolbar>
               <Table {...getTableProps()} className={styles.activeVisitsTable}>
@@ -365,16 +304,10 @@ function ActiveVisitsTable() {
                             <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
                           ))}
                           <TableCell className="cds--table-column-menu">
-                            <TransitionMenu queueEntry={visitQueueEntries?.[index]} closeModal={() => true} />
+                            <Edit size={16} className={styles.editIcon} />
                           </TableCell>
                           <TableCell className="cds--table-column-menu">
-                            <EditMenu queueEntry={visitQueueEntries?.[index]} closeModal={() => true} />
-                          </TableCell>
-                          <TableCell className="cds--table-column-menu">
-                            <OpenChartMenu patientUuid={visitQueueEntries?.[index]?.patientUuid} />
-                          </TableCell>
-                          <TableCell className="cds--table-column-menu">
-                            <ActionsMenu queueEntry={visitQueueEntries?.[index]} closeModal={() => true} />
+                            <ActionsMenu queueEntry={patientQueueEntries?.[index]} closeModal={() => true} />
                           </TableCell>
                         </TableExpandRow>
                         {row.isExpanded ? (
@@ -386,12 +319,6 @@ function ActiveVisitsTable() {
                                   <Tab>{t('previousVisit', 'Previous visit')} </Tab>
                                 </TabList>
                                 <TabPanels>
-                                  <TabPanel>
-                                    <CurrentVisit
-                                      patientUuid={tableRows?.[index]?.patientUuid}
-                                      visitUuid={tableRows?.[index]?.visitUuid}
-                                    />
-                                  </TabPanel>
                                   <TabPanel>
                                     <PastVisit patientUuid={tableRows?.[index]?.patientUuid} />
                                   </TabPanel>
@@ -432,7 +359,7 @@ function ActiveVisitsTable() {
                 page={currentPage}
                 pageSize={currentPageSize}
                 pageSizes={pageSizes}
-                totalItems={visitQueueEntries?.length}
+                totalItems={patientQueueEntries?.length}
                 className={styles.pagination}
                 onChange={({ pageSize, page }) => {
                   if (pageSize !== currentPageSize) {

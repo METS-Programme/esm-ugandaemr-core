@@ -64,7 +64,6 @@
 
   input {
     background-color: $ui-02 !important;
-    // height: 2rem !important;
   }
 }
 
@@ -239,4 +238,10 @@
 .addPatientToListBtn {
   margin-left: spacing.$spacing-05;
   height: spacing.$spacing-09;
+}
+
+.editIcon {
+  color: $interactive-01;
+  margin-top: 0.5rem;
+  cursor: pointer;
 }
