@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "openmrs develop --backend https://ugandaemr-backend.mets.or.ug/ --port 8888 --sources 'packages/esm-ugandaemr-app'",
+    "start": "openmrs develop --backend https://ugandaemr-backend.mets.or.ug --port 7907 --sources 'packages/esm-*-app'",
     "ci:prepublish": "lerna publish from-package --no-git-reset --yes --dist-tag next",
     "release": "lerna version --no-git-tag-version",
     "verify": "turbo run lint && turbo run typescript",

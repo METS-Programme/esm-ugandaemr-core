@@ -69,8 +69,16 @@ function setupOpenMRS() {
       {
         id: 'tiles-ext',
         slot: 'landing-page-home-tiles-slot',
-        load: getAsyncLifecycle(() => import('./tiles/all-patients-count-tile'), {
+        load: getAsyncLifecycle(() => import('./views/home/summary-tiles/ugemr-home-summary-tiles.component'), {
           featureName: 'tiles',
+          moduleName,
+        }),
+      },
+      {
+        id: 'tabs-ext',
+        slot: 'landing-page-home-tabs-slot',
+        load: getAsyncLifecycle(() => import('./views/home/patient-tabs/ugemr-home-patient-tabs.component'), {
+          featureName: 'tabs',
           moduleName,
         }),
       },
