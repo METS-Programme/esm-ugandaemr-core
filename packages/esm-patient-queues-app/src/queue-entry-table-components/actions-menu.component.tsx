@@ -1,16 +1,16 @@
 import React, { useCallback } from 'react';
 import { navigate, showModal } from '@openmrs/esm-framework';
 import { useTranslation } from 'react-i18next';
-import { MappedVisitQueueEntry } from '../active-visits/active-visits-table.resource';
+import { MappedPatientQueueEntry } from '../active-visits/patient-queues.resource';
 import { Layer, OverflowMenu, OverflowMenuItem } from '@carbon/react';
 import styles from './actions-menu.scss';
 
 interface ActionsMenuProps {
-  queueEntry: MappedVisitQueueEntry;
+  queueEntry: MappedPatientQueueEntry;
   closeModal: () => void;
 }
 
-const ActionsMenu: React.FC<ActionsMenuProps> = ({ queueEntry, closeModal }) => {
+const ActionsMenu: React.FC<ActionsMenuProps> = ({ queueEntry }) => {
   const { t } = useTranslation();
 
   const launchEndVisitModal = useCallback(() => {
