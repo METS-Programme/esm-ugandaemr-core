@@ -16,6 +16,12 @@ function PatientSummaryTiles({ launchWorkSpace }) {
         subTitle: 'Active Patients',
         value: 0,
       },
+      {
+        title: 'Active Patients',
+        linkAddress: '#',
+        subTitle: 'Active Patients',
+        value: 0,
+      },
     ],
     [],
   );

@@ -5,8 +5,9 @@ import ugandaEmrConfig from './ugandaemr-config';
 import formsRegistry from './forms/forms-registry';
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { moduleName } from './constants';
-import { OHRIHome, OHRIWelcomeSection } from '@ohri/openmrs-esm-ohri-commons-lib';
+import { OHRIHome, OHRIWelcomeSection, PatientListTable } from '@ohri/openmrs-esm-ohri-commons-lib';
 import { DashboardWrapper } from './db/ug-emr-db-wrapper.component';
+import { facilityListMeta } from './dashboard.meta';
 const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
 const backendDependencies = {
@@ -61,7 +62,7 @@ function setupOpenMRS() {
       {
         id: 'general-homne-header',
         slot: 'landing-page-home-header-slot',
-        load: getSyncLifecycle(OHRIWelcomeSection, {
+        load: getAsyncLifecycle(() => import('./views/home/header/ugemr-home-header.component'), {
           featureName: 'general-home-header',
           moduleName,
         }),
