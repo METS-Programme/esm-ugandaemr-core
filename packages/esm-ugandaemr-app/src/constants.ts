@@ -1,5 +1,7 @@
 export const moduleName = '@ugandaemr/esm-ugandaemr-app';
 
+export const spaBasePath = `${window.spaBase}/home`;
+
 // Concepts
 export const CaCx_REGISTRATION_ENCOUNTER_TYPE = '7a555cfc-e3f4-4f33-8d2b-0d0a117dbc16';
 export const CaCx_SCREENING_LOG_ENCOUNTER_TYPE = '7e4b975c-204d-4d28-ba36-33877995434e';

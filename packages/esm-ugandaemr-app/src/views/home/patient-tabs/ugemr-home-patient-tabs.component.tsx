@@ -1,9 +1,7 @@
 import React from 'react';
 import { Tabs, Tab, Row, Column, TabList, TabPanels, TabPanel } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
-import ActiveVisitsTable from '../../../../../esm-patient-queues-app/src/active-visits/active-visits-table.component'
-import FacilitiesList from '../../facilities/ug-emr-facilities.component'
-
+import ActiveVisitsTable from '../../../../../esm-patient-queues-app/src/active-visits/active-visits-table.component';
 
 function UgEmrPatientTabs() {
   const { t } = useTranslation();
@@ -12,14 +10,10 @@ function UgEmrPatientTabs() {
     <Tabs type="container">
       <TabPanels>
         <TabList>
-          <Tab>{t('Registry Facilities')}</Tab>
           <Tab>{t('Active Visits')}</Tab>
         </TabList>
         <TabPanel>
-        {/* <FacilitiesList/> */}
-        </TabPanel>
-        <TabPanel>
-        <ActiveVisitsTable />
+          <ActiveVisitsTable />
         </TabPanel>
       </TabPanels>
     </Tabs>
