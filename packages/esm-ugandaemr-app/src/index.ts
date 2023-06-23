@@ -60,7 +60,7 @@ function setupOpenMRS() {
         },
       },
       {
-        id: 'general-homne-header',
+        id: 'general-home-header',
         slot: 'landing-page-home-header-slot',
         load: getAsyncLifecycle(() => import('./views/home/header/ugemr-home-header.component'), {
           featureName: 'general-home-header',

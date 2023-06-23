@@ -1,8 +1,8 @@
 import React from 'react';
 import { Tabs, Tab, Row, Column, TabList, TabPanels, TabPanel } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
-import { OHRIHome, OHRIWelcomeSection, PatientListTable } from '@ohri/openmrs-esm-ohri-commons-lib';
 import ActiveVisitsTable from '../../../../../esm-patient-queues-app/src/active-visits/active-visits-table.component'
+import FacilitiesList from '../../facilities/ug-emr-facilities.component'
 
 
 function UgEmrPatientTabs() {
@@ -11,9 +11,15 @@ function UgEmrPatientTabs() {
   return (
     <Tabs type="container">
       <TabPanels>
+        <TabList>
+          <Tab>{t('Registry Facilities')}</Tab>
+          <Tab>{t('Active Visits')}</Tab>
+        </TabList>
+        <TabPanel>
+        {/* <FacilitiesList/> */}
+        </TabPanel>
         <TabPanel>
         <ActiveVisitsTable />
-        {/* <PatientListTable/> */}
         </TabPanel>
       </TabPanels>
     </Tabs>
