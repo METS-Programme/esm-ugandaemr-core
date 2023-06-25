@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import MetricsCard from '../summary-tiles/cards/home-metrics-card.component';
+import MetricsCard from './cards/home-metrics-card.component';
 
-import styles from './ugemr-home-summary-tiles.scss';
+import styles from './home-metrics.scss';
 
 export interface Service {
   uuid: string;
@@ -16,9 +16,9 @@ function HomeMetricsCards() {
     <>
       <div className={styles.cardContainer}>
         <MetricsCard
-          label={t('patients', 'Patients')}
+          label={t('registeredpatients', 'Registered Patients')}
           value={0}
-          headerLabel={t('checkedInPatients', 'Checked in patients')}
+          headerLabel={t('totalPatients', 'Total Patients')}
           service="scheduled"
         />
         <MetricsCard
@@ -26,13 +26,6 @@ function HomeMetricsCards() {
           value={0}
           headerLabel={`${t('waitingFor', 'Waiting for')}:`}
           service="Patients"
-        />
-
-        <MetricsCard
-          label={t('minutes', 'Minutes')}
-          value={0}
-          headerLabel={t('averageWaitTime', 'Average wait time today')}
-          service="waitTime"
         />
       </div>
     </>

@@ -70,7 +70,7 @@ function setupOpenMRS() {
       {
         id: 'tiles-ext',
         slot: 'landing-page-home-tiles-slot',
-        load: getAsyncLifecycle(() => import('./views/home/summary-tiles/ugemr-home-summary-tiles.component'), {
+        load: getAsyncLifecycle(() => import('./views/home/home-metrics/home-metrics.component'), {
           featureName: 'tiles',
           moduleName,
         }),
@@ -78,7 +78,7 @@ function setupOpenMRS() {
       {
         id: 'tabs-ext',
         slot: 'landing-page-home-tabs-slot',
-        load: getAsyncLifecycle(() => import('./views/home/patient-tabs/ugemr-home-patient-tabs.component'), {
+        load: getAsyncLifecycle(() => import('./views/home/visit-tabs/home-visit-tabs.component'), {
           featureName: 'tabs',
           moduleName,
         }),
