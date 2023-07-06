@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "openmrs develop --backend https://ugandaemr-backend.mets.or.ug --sources 'packages/esm-*-app'",
+    "start": "openmrs develop --backend https://ugandaemr-backend.mets.or.ug --api-url /openmrs/ --port 4200 --sources 'packages/esm-*-app'",
     "ci:publish": "lerna publish from-package --yes",
     "ci:prepublish": "lerna publish from-package --no-git-reset --yes --dist-tag next",
     "release": "lerna version --no-git-tag-version",
@@ -24,7 +24,7 @@
     "swr": "^2.1.1"
   },
   "peerDependencies": {
-    "@openmrs/openmrs-form-engine-lib": "1.x"
+    "@openmrs/openmrs-form-engine-lib": "*"
   },
   "devDependencies": {
     "@carbon/react": "^1.14.0",

@@ -6,12 +6,17 @@ import { Tabs, Tab, TabList, TabPanels, TabPanel } from '@carbon/react';
 import OutpatientRegister from './tabs/outpatient-register.component';
 import ReferralNote from './tabs/referral-note.component';
 
-const Outpatient: React.FC<PatientChartProps> = ({ patientUuid }) => {
+
+interface OverviewListProps {
+  patientUuid: string;
+}
+
+const Outpatient: React.FC<OverviewListProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
   const pageTitle = t('opd', 'OutPatient Department');
 
   return (
-    <div className={styles.tabContainer}>
+    //<div className={styles.tabContainer}>
       <Tabs>
         <TabList contained>
           <Tab>{t('opdRegister', 'OutPatient Register')}</Tab>
@@ -26,7 +31,7 @@ const Outpatient: React.FC<PatientChartProps> = ({ patientUuid }) => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-    </div>
+   // </div>
   );
 };
 

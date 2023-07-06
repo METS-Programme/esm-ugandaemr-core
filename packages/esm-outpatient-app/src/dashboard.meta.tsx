@@ -1,16 +1,19 @@
 export const opdDashboardMeta = {
   title: 'Outpatient Department',
   slot: 'opd-dashboard-slot',
+  isExpanded: false,
 };
 
 export const outpatientDashboardMeta = {
   title: 'Outpatient Register',
   slot: 'outpatient-dashboard-slot1',
-  config: { columns: 1, type: 'grid' },
+  columns: 1,
+  path: 'outpatient-dashboard',
 };
 
 export const referralNoteDashboardMeta = {
   title: 'Referral Note',
   slot: 'referral-note-dashboard-slot',
-  config: { columns: 1, type: 'grid' },
+  columns: 1,
+  path: 'referral-note-dashboard',
 };

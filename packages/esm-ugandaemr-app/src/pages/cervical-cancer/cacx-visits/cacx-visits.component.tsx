@@ -4,20 +4,32 @@ import { useTranslation } from 'react-i18next';
 import CaCxEligibilityLog from './cacx-eligibility-log.component';
 import CaCxScreening from './cacx-screening-and-treatment.component';
 
-const CaCxVisits: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
+interface OverviewListProps {
+  patientUuid: string;
+}
+
+const CaCxVisits: React.FC<OverviewListProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
-  const headerTitle = t('cacxVisits', 'Cacx Visits');
 
   return (
-    <Tabs type="container">
-      <Tab label="Cacx Eligibility Log" style={{ padding: 0 }}>
-        <CaCxEligibilityLog patientUuid={patientUuid} />
-      </Tab>
-      <Tab label="CaCx Screening and Treatment" style={{ padding: 0 }}>
-        <CaCxScreening patientUuid={patientUuid} />
-      </Tab>
+    <Tabs>
+      <TabList contained>
+        <Tab className="tab-12rem">{t('cacxRegistration', 'Cacx Registration')}</Tab>
+        <Tab>{t('cacxScreening', 'CaCx Screening')}</Tab>
+        <Tab>{t('cacxTreatment', 'CaCx Treatment')}</Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel>
+          <CaCxRegistrationList patientUuid={patientUuid} />
+        </TabPanel>
+        <TabPanel>
+          <CacxScreeningList patientUuid={patientUuid} />
+        </TabPanel>
+        <TabPanel>
+          <CacxTreatmentList patientUuid={patientUuid} />
+        </TabPanel>
+      </TabPanels>
     </Tabs>
   );
 };
 
-export default CaCxVisits;

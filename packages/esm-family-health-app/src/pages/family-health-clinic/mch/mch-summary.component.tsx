@@ -7,15 +7,17 @@ import ANCRegister from './tabs/anc-register.component';
 import PncRegister from './tabs/pnc-register.component';
 import MaternityRegister from './tabs/maternity-register.component';
 
-const MchSummary: React.FC<PatientChartProps> = ({ patientUuid }) => {
+interface OverviewListProps {
+  patientUuid: string;
+}
+const MchSummary: React.FC<OverviewListProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
-  const headerTitle = t('mchSummary', 'Maternal Child Health');
 
   return (
     <div className={styles.tabContainer}>
       <Tabs>
         <TabList contained>
-          <Tab>{t('antenatal', 'Antenatal')}</Tab>
+          <Tab className="tab-12rem">{t('antenatal', 'Antenatal')}</Tab>
           <Tab>{t('maternity', 'Maternity')}</Tab>
           <Tab>{t('postnatal', 'Postnatal')}</Tab>
         </TabList>
@@ -31,6 +33,7 @@ const MchSummary: React.FC<PatientChartProps> = ({ patientUuid }) => {
           </TabPanel>
         </TabPanels>
       </Tabs>
+
     </div>
   );
 };
