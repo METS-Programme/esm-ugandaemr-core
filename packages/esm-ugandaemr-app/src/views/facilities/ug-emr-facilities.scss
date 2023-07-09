@@ -51,6 +51,37 @@ background-color: #ffffff;
 
 }
 
+
+.search {
+  max-width: 16rem;
+
+  input {
+    background-color: $ui-02 !important;
+  }
+}
+
 .tabContainer li button{
 width: 100% !important;
+}
+
+
+.tileContainer {
+  background-color: $ui-02;
+  border-top: 1px solid $ui-03;
+  padding: 5rem 0;
+}
+
+.tile {
+  margin: auto;
+  width: fit-content;
+}
+
+.tileContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menuItem {
+  max-width: none;
 }

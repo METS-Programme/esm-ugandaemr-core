@@ -1,13 +1,12 @@
-import { getAsyncLifecycle, defineConfigSchema, provide, getSyncLifecycle } from '@openmrs/esm-framework';
-import { configSchema } from './config-schema';
-import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
-import ugandaEmrConfig from './ugandaemr-config';
-import formsRegistry from './forms/forms-registry';
+import { OHRIHome } from '@ohri/openmrs-esm-ohri-commons-lib';
+import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
+import { configSchema } from './config-schema';
 import { moduleName } from './constants';
-import { OHRIHome, OHRIWelcomeSection, PatientListTable } from '@ohri/openmrs-esm-ohri-commons-lib';
 import { DashboardWrapper } from './db/ug-emr-db-wrapper.component';
-import { facilityListMeta } from './dashboard.meta';
+import formsRegistry from './forms/forms-registry';
+import ugandaEmrConfig from './ugandaemr-config';
+import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
 const backendDependencies = {
@@ -82,6 +81,25 @@ function setupOpenMRS() {
           featureName: 'tabs',
           moduleName,
         }),
+      },
+      {
+        id: 'active-queue-patient-workspace',
+        slot: 'action-menu-non-chart-items-slot',
+        load: getAsyncLifecycle(() => import('../src/workspace/active-queue-patients-wsp-button.component'), {
+          featureName: 'active patients workspace',
+          moduleName,
+        }),
+      },
+
+      {
+        id: 'active-queue-patients',
+        load: getAsyncLifecycle(
+          () => import('../../esm-patient-queues-app/src/active-visits/active-visits-table.component'),
+          {
+            featureName: 'active patients workspace',
+            moduleName,
+          },
+        ),
       },
     ],
   };

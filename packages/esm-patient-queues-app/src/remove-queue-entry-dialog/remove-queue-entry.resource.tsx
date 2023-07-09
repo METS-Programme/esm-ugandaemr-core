@@ -1,52 +1,29 @@
-import { openmrsFetch, updateVisit } from '@openmrs/esm-framework';
+import { Visit, defaultVisitCustomRepresentation, openmrsFetch, updateVisit } from '@openmrs/esm-framework';
 import dayjs from 'dayjs';
-import { endPatientStatus } from '../active-visits/active-visits-table.resource';
-import { AppointmentsFetchResponse, EndVisitPayload } from '../types';
-import useSWR from 'swr';
-import { omrsDateFormat, timeZone } from '../constants';
+import { useMemo } from 'react';
 import { first } from 'rxjs/operators';
+import useSWR from 'swr';
+import { endPatientStatus } from '../active-visits/active-visits-table.resource';
+import { omrsDateFormat, timeZone } from '../constants';
+import { AppointmentsFetchResponse, EndVisitPayload } from '../types';
 
 const statusChangeTime = dayjs(new Date()).format(omrsDateFormat);
 
-export async function voidQueueEntry(
-  queueUuid: string,
+interface VisitReturnType {
+  error: Error;
+  mutate: () => void;
+  isValidating: boolean;
+  currentVisit: Visit | null;
+  isLoading: boolean;
+}
 
-  queueEntryUuid: string,
+export async function voidQueueEntry(
   endedAt: Date,
   endCurrentVisitPayload: EndVisitPayload,
   visitUuid: string,
-  appointments: any,
 ) {
   const abortController = new AbortController();
 
-  if (endCurrentVisitPayload) {
-    if (appointments?.length) {
-      appointments.forEach(async (appointment) => {
-        await Promise.all([changeAppointmentStatus('Completed', appointment.uuid)]);
-      });
-    }
-
-    await Promise.all([endPatientStatus(queueUuid, queueEntryUuid, endedAt)]);
-
-    return updateVisit(visitUuid, endCurrentVisitPayload, abortController)
-      .pipe(first())
-      .subscribe(
-        (response) => {
-          return response.status;
-        },
-        (error) => {
-          return error;
-        },
-      );
-  } else {
-    return await Promise.all([endPatientStatus(queueUuid, queueEntryUuid, endedAt)])
-      .then((res) => {
-        return res;
-      })
-      .catch((error) => {
-        return error;
-      });
-  }
 }
 
 export function useCheckedInAppointments(patientUuid: string, startDate: string) {
@@ -90,4 +67,30 @@ export async function changeAppointmentStatus(toStatus: string, appointmentUuid:
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
   });
+}
+
+
+export function useVisit(patientUuid: string): VisitReturnType {
+  const { data, error, mutate, isValidating } = useSWR<{
+    data: { results: Array<Visit> };
+  }>(
+    patientUuid
+      ? `/ws/rest/v1/visit?patient=${patientUuid}&v=${defaultVisitCustomRepresentation}&includeInactive=false&v=full`
+      : null,
+    openmrsFetch
+  );
+
+  const currentVisit = useMemo(
+    () =>
+      data?.data.results.find((visit) => visit.stopDatetime === null) ?? null,
+    [data?.data.results]
+  );
+
+  return {
+    error,
+    mutate,
+    isValidating,
+    currentVisit,
+    isLoading: !data && !error,
+  };
 }

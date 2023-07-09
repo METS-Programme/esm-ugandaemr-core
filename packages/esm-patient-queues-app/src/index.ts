@@ -136,6 +136,11 @@ function setupOpenMRS() {
           options,
         ),
       },
+
+      {
+        id: 'start-visit-dialog-ext',
+        load: getAsyncLifecycle(() => import('./visit-prompt/start-visit-dialog.component'), options),
+      },
     ],
   };
 }

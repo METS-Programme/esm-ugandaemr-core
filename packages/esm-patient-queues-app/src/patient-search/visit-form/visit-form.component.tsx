@@ -1,6 +1,3 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import dayjs from 'dayjs';
-import { first } from 'rxjs/operators';
 import {
   Button,
   ButtonSet,
@@ -8,8 +5,11 @@ import {
   DatePicker,
   DatePickerInput,
   Form,
+  FormGroup,
   InlineNotification,
   Layer,
+  RadioButton,
+  RadioButtonGroup,
   Row,
   Select,
   SelectItem,
@@ -17,36 +17,39 @@ import {
   Switch,
   TimePicker,
   TimePickerSelect,
-  FormGroup,
-  RadioButton,
-  RadioButtonGroup,
 } from '@carbon/react';
-import { ArrowLeft } from '@carbon/react/icons';
-import { useTranslation } from 'react-i18next';
 import {
-  useLocations,
-  useSession,
+  ConfigObject,
   ExtensionSlot,
-  useLayoutType,
-  useVisitTypes,
   saveVisit,
-  toOmrsIsoString,
-  toDateObjectStrict,
   showNotification,
   showToast,
+  toDateObjectStrict,
+  toOmrsIsoString,
   useConfig,
-  ConfigObject,
+  useLayoutType,
+  useLocations,
+  useSession,
+  useVisitTypes,
 } from '@openmrs/esm-framework';
-import BaseVisitType from './base-visit-type.component';
-import { addQueueEntry, useVisitQueueEntries } from '../../active-visits/active-visits-table.resource';
-import { convertTime12to24, amPm } from '../../helpers/time-helpers';
-import { MemoizedRecommendedVisitType } from './recommended-visit-type.component';
-import { useActivePatientEnrollment } from '../hooks/useActivePatientEnrollment';
-import { SearchTypes, PatientProgram, NewVisitPayload } from '../../types';
-import styles from './visit-form.scss';
-import { useDefaultLoginLocation } from '../hooks/useDefaultLocation';
+import dayjs from 'dayjs';
 import isEmpty from 'lodash-es/isEmpty';
-
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { first } from 'rxjs/operators';
+import {
+  addQueueEntry,
+  useVisitQueueEntries
+} from '../../active-visits/active-visits-table.resource';
+import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
+import { useQueueLocations } from '../../patient-search/hooks/useQueueLocations';
+import { NewVisitPayload, PatientProgram, SearchTypes } from '../../types';
+import { useActivePatientEnrollment } from '../hooks/useActivePatientEnrollment';
+import { useDefaultLoginLocation } from '../hooks/useDefaultLocation';
+import { useQueueRoomLocations } from '../hooks/useQueueRooms';
+import BaseVisitType from './base-visit-type.component';
+import { MemoizedRecommendedVisitType } from './recommended-visit-type.component';
+import styles from './visit-form.scss';
 interface VisitFormProps {
   toggleSearchType: (searchMode: SearchTypes, patientUuid) => void;
   patientUuid: string;
@@ -59,6 +62,8 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const isTablet = useLayoutType() === 'tablet';
   const locations = useLocations();
   const sessionUser = useSession();
+  const { queueLocations } = useQueueLocations();
+
   const { defaultFacility, isLoading: loadingDefaultFacility } = useDefaultLoginLocation();
 
   const config = useConfig() as ConfigObject;
@@ -78,6 +83,10 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const [selectedLocation, setSelectedLocation] = useState('');
   const [visitType, setVisitType] = useState('');
 
+  const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
+
+  const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
+
   useEffect(() => {
     if (locations?.length && sessionUser) {
       setSelectedLocation(sessionUser?.sessionLocation?.uuid);
@@ -88,16 +97,17 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
     }
   }, [locations, sessionUser, loadingDefaultFacility]);
 
+
+
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
 
       // retrieve values from queue extension
-      const queueLocation = event?.target['queueLocation']?.value;
-      const serviceUuid = event?.target['service']?.value;
+      const location = event?.target['location']?.value;
+      const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
       const priority = event?.target['priority']?.value;
       const status = event?.target['status']?.value;
-      const sortWeight = event?.target['sortWeight']?.value;
 
       if (!visitType) {
         setIsMissingVisitType(true);
@@ -130,13 +140,11 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
               // add new queue entry if visit created successfully
               addQueueEntry(
                 response.data.uuid,
-                serviceUuid,
+                nextQueueLocationUuid,
                 patientUuid,
                 priority,
                 status,
-                sortWeight,
-                queueLocation,
-                visitQueueNumberAttributeUuid,
+                location,
               ).then(
                 ({ status }) => {
                   if (status === 201) {
@@ -200,19 +208,19 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
             <ExtensionSlot extensionSlotName="visit-form-header-slot" className={styles.dataGridRow} state={state} />
           </Row>
         )}
-        <div className={styles.backButton}>
+        {/* <div className={styles.backButton}>
           {mode === true ? null : (
             <Button
               kind="ghost"
               renderIcon={(props) => <ArrowLeft size={24} {...props} />}
               iconDescription={t('backToScheduledVisits', 'Back to scheduled visits')}
               size="sm"
-              onClick={() => toggleSearchType(SearchTypes.SCHEDULED_VISITS, patientUuid)}
+              onClick={() => toggleSearchType(SearchTypes.VISIT_FORM, patientUuid)}
             >
               <span>{t('backToScheduledVisits', 'Back to scheduled visits')}</span>
             </Button>
           )}
-        </div>
+        </div> */}
         <Stack gap={8} className={styles.container}>
           <section className={styles.section}>
             <div className={styles.sectionTitle}>{t('dateAndTimeOfVisit', 'Date and time of visit')}</div>
@@ -258,9 +266,9 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
           </section>
 
           <section className={styles.section}>
-            <div className={styles.sectionTitle}>{t('facility', 'Facility')}</div>
+            <div className={styles.sectionTitle}>{t('clinic', 'Clinic')}</div>
             <Select
-              labelText={t('selectFacility', 'Select a facility')}
+              labelText={t('selectClinic', 'Select a clinic')}
               id="location"
               invalidText="Required"
               value={selectedLocation}
@@ -351,8 +359,36 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
               />
             </section>
           )}
+          <section className={styles.section}>
+            <div className={styles.sectionTitle}>{t('nextServicePoint', 'Next Service Point')}</div>
+            <ResponsiveWrapper isTablet={isTablet}>
+              <Select
+                labelText={t('selectNextServicePoint', 'Select next service point')}
+                id="nextQueueLocation"
+                name="nextQueueLocation"
+                invalidText="Required"
+                value={selectedNextQueueLocation}
+                onChange={(event) => setSelectedNextQueueLocation(event.target.value)}
+              >
+                {!selectedNextQueueLocation ? (
+                  <SelectItem text={t('selectNextServicePoint', 'Select next service point')} value="" />
+                ) : null}
+                {!isEmpty(defaultFacility) ? (
+                  <SelectItem key={defaultFacility?.uuid} text={defaultFacility?.display} value={defaultFacility?.uuid}>
+                    {defaultFacility?.display}
+                  </SelectItem>
+                ) : queueRoomLocations?.length > 0 ? (
+                  queueRoomLocations.map((location) => (
+                    <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
+                      {location.display}
+                    </SelectItem>
+                  ))
+                ) : null}
+              </Select>
+            </ResponsiveWrapper>
+          </section>
         </Stack>
-        <ExtensionSlot extensionSlotName="add-queue-entry-slot" />
+        {/* <ExtensionSlot extensionSlotName="add-queue-entry-slot" /> */}
       </div>
       <ButtonSet className={isTablet ? styles.tablet : styles.desktop}>
         <Button className={styles.button} kind="secondary" onClick={closePanel}>

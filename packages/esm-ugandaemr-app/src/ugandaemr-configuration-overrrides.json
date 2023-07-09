@@ -74,8 +74,8 @@
         },
        "homepage-widgets-slot": {
         "remove":[
-          "active-visits-widget"
-          ,"home-appointments"
+          "active-visits-widget",
+          "home-appointments"
         ]
         }
       }

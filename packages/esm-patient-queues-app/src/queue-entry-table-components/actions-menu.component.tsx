@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
+import { Layer, OverflowMenu, OverflowMenuItem } from '@carbon/react';
 import { navigate, showModal } from '@openmrs/esm-framework';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MappedPatientQueueEntry } from '../active-visits/patient-queues.resource';
-import { Layer, OverflowMenu, OverflowMenuItem } from '@carbon/react';
 import styles from './actions-menu.scss';
 
 interface ActionsMenuProps {
@@ -19,6 +19,13 @@ const ActionsMenu: React.FC<ActionsMenuProps> = ({ queueEntry }) => {
       queueEntry,
     });
   }, [queueEntry]);
+
+  const launchNextQueueModal = useCallback(() => {
+    const dispose = showModal('edit-queue-entry-status-modal', {
+      closeModal: () => dispose(),
+      queueEntry,
+    });
+  },[queueEntry]);
 
   return (
     <Layer>
@@ -44,6 +51,15 @@ const ActionsMenu: React.FC<ActionsMenuProps> = ({ queueEntry }) => {
           itemText={t('endVisit', 'End visit')}
         >
           {t('endVisit', 'End Visit')}
+        </OverflowMenuItem>
+        <OverflowMenuItem
+          className={styles.menuItem}
+          id="#sendToNext"
+          onClick={launchNextQueueModal}
+          hasDivider
+          itemText={t('sendToNext', 'Send to Next Queue Room')}
+        >
+          {t('sendToNext', 'Send to Next Queue Room')}
         </OverflowMenuItem>
       </OverflowMenu>
     </Layer>
