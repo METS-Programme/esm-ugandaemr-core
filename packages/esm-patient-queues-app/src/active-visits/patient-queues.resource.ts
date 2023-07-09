@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import useSWR from 'swr';
 
 import { formatDate, openmrsFetch, parseDate } from '@openmrs/esm-framework';
-import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
 import { PatientQueue, UuidDisplay } from '../types/patient-queues';
 
 export interface MappedPatientQueueEntry {
@@ -21,11 +20,8 @@ export interface MappedPatientQueueEntry {
   identifiers: Array<UuidDisplay>;
 }
 
-export function usePatientQueuesList(locationUuid: string) {
-  const { queueLocations } = useQueueLocations();
-  const queueLocationUuid = locationUuid ? locationUuid : queueLocations[0]?.id;
-
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&status=pending&location=${queueLocationUuid}`;
+export function usePatientQueuesList(currentQueueRoomLocationUuid: string, currentQueueLocationUuid: string) {
+  const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&room=${currentQueueRoomLocationUuid}`; // https://ugandaemr-backend.mets.or.ug/openmrs/ws/rest/v1/patientqueue?v=full&status=pending&location=86863db4-6101-4ecf-9a86-5e716d6504e4&room=d2bf14fd-109a-4ca6-b61d-5d8cee9f94f1
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,
@@ -35,20 +31,21 @@ export function usePatientQueuesList(locationUuid: string) {
     return {
       ...queue,
       id: queue.uuid,
-      name: queue.patient.person.display,
-      patientUuid: queue.patient.uuid,
+      name: queue.patient?.person.display,
+      patientUuid: queue.patient?.uuid,
       priorityComment: queue.priorityComment,
       priority: queue.priorityComment === 'Urgent' ? 'Priority' : queue.priorityComment,
       waitTime: queue.dateCreated ? `${dayjs().diff(dayjs(queue.dateCreated), 'minutes')}` : '--',
       status: queue.status,
-      patientAge: queue.patient.person?.age,
-      patientSex: queue.patient.person?.gender === 'M' ? 'MALE' : 'FEMALE',
+      patientAge: queue.patient?.person?.age,
+      patientSex: queue.patient?.person?.gender === 'M' ? 'MALE' : 'FEMALE',
       patientDob: queue.patient?.person?.birthdate
         ? formatDate(parseDate(queue.patient.person.birthdate), { time: false })
         : '--',
       identifiers: queue.patient?.identifiers,
-      locationFrom: queue.locationFrom.uuid,
-      locationTo: queue.locationTo.uuid,
+      locationFrom: queue.locationFrom?.uuid,
+      locationTo: queue.locationTo?.uuid,
+      queueRoom: queue.locationTo?.display,
       visitNumber: queue.visitNumber,
     };
   });

@@ -1,29 +1,47 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Calendar, Location } from '@carbon/react/icons';
 import { Dropdown } from '@carbon/react';
+import { Calendar, Location } from '@carbon/react/icons';
 import { formatDate, useSession } from '@openmrs/esm-framework';
-import PatientQueueIllustration from './patient-queue-illustration.component';
-import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
-  updateSelectedQueueLocationUuid,
-  updateSelectedQueueLocationName,
-  updateSelectedServiceName,
-  useSelectedQueueLocationName,
+  updateSelectedQueueRoomLocationName,
+  updateSelectedQueueRoomLocationUuid,
+  useSelectedQueueRoomLocationName,
+  useSelectedQueueRoomLocationUuid,
 } from '../helpers/helpers';
+import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import styles from './patient-queue-header.scss';
+import PatientQueueIllustration from './patient-queue-illustration.component';
 
 const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
   const { t } = useTranslation();
   const userSession = useSession();
   const userLocation = userSession?.sessionLocation?.display;
-  const { queueLocations } = useQueueLocations();
-  const currentQueueLocationName = useSelectedQueueLocationName();
+
+  // queue rooms
+  const { queueRoomLocations } = useQueueRoomLocations(userSession?.sessionLocation?.uuid);
+  const currentQueueRoomLocationName = useSelectedQueueRoomLocationName();
+  const currentQueueRoomLocationUuid = useSelectedQueueRoomLocationUuid();
+
+
+  const [initialSelectedItem, setInitialSelectItem] = useState(() => {
+    if (currentQueueRoomLocationName && currentQueueRoomLocationUuid) {
+      return false;
+    } else if (currentQueueRoomLocationName === t('all', 'All')) {
+      return true;
+    } else {
+      return true;
+    }
+  });
 
   const handleQueueLocationChange = ({ selectedItem }) => {
-    updateSelectedQueueLocationUuid(selectedItem.id);
-    updateSelectedQueueLocationName(selectedItem.name);
-    updateSelectedServiceName('All');
+    updateSelectedQueueRoomLocationUuid(selectedItem.uuid);
+    updateSelectedQueueRoomLocationName(selectedItem.name);
+    if (selectedItem.uuid == undefined) {
+      setInitialSelectItem(true);
+    } else {
+      setInitialSelectItem(false);
+    }
   };
 
   return (
@@ -47,13 +65,13 @@ const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
           <div className={styles.dropdown}>
             <label className={styles.view}>{t('view', 'View')}:</label>
             <Dropdown
-              id="typeOfCare"
-              label={currentQueueLocationName ?? queueLocations?.[0]?.name}
-              items={[{ display: `${t('all', 'All')}` }, ...queueLocations]}
-              itemToString={(item) => (item ? item.name : '')}
+              id="queueRooms"
+              label={initialSelectedItem}
               type="inline"
+              items={[{ display: `${t('all', 'All')}` }, ...queueRoomLocations]}
+              itemToString={(item) => (item ? item.display : '')}
               onChange={handleQueueLocationChange}
-            />
+              />
           </div>
         </div>
       </div>

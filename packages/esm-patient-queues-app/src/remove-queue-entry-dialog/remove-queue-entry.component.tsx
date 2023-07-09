@@ -1,5 +1,3 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button, ModalBody, ModalFooter, ModalHeader } from '@carbon/react';
 import {
   parseDate,
@@ -7,12 +5,12 @@ import {
   showToast,
   toDateObjectStrict,
   toOmrsIsoString,
-  useVisit,
 } from '@openmrs/esm-framework';
-import { MappedQueueEntry } from '../types';
-import { startOfDay } from '../constants';
-import { useCheckedInAppointments, voidQueueEntry } from './remove-queue-entry.resource';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useVisitQueueEntries } from '../active-visits/active-visits-table.resource';
+import { MappedQueueEntry } from '../types';
+import { useVisit, voidQueueEntry } from './remove-queue-entry.resource';
 import styles from './remove-queue-entry.scss';
 
 interface RemoveQueueEntryDialogProps {
@@ -24,9 +22,7 @@ const RemoveQueueEntryDialog: React.FC<RemoveQueueEntryDialogProps> = ({ queueEn
   const { t } = useTranslation();
   const { currentVisit } = useVisit(queueEntry.patientUuid);
   const { mutate } = useVisitQueueEntries('', '');
-  const abortController = new AbortController();
 
-  const { data: appointments } = useCheckedInAppointments(queueEntry.patientUuid, startOfDay);
 
   const removeQueueEntry = () => {
     const endCurrentVisitPayload = {
@@ -39,12 +35,9 @@ const RemoveQueueEntryDialog: React.FC<RemoveQueueEntryDialogProps> = ({ queueEn
     const endedAt = toDateObjectStrict(toOmrsIsoString(new Date()));
 
     voidQueueEntry(
-      queueEntry.queueUuid,
-      queueEntry.queueEntryUuid,
       endedAt,
       endCurrentVisitPayload,
-      queueEntry.visitUuid,
-      appointments,
+      queueEntry.id,
     ).then((response) => {
       closeModal();
       mutate();
@@ -69,7 +62,7 @@ const RemoveQueueEntryDialog: React.FC<RemoveQueueEntryDialogProps> = ({ queueEn
     <div>
       <ModalHeader
         closeModal={closeModal}
-        label={t('serviceQueue', 'Service queue')}
+        label={t('serviceQueue', 'Patient queue')}
         title={t('removeFromQueueAndEndVisit', 'Remove patient from queue and end active visit?')}
       />
       <ModalBody>

@@ -1,19 +1,14 @@
-import React, { useCallback, useState } from 'react';
 import {
   Button,
+  ContentSwitcher,
+  Form,
   ModalBody,
   ModalFooter,
   ModalHeader,
-  Form,
-  ContentSwitcher,
-  Switch,
   Select,
   SelectItem,
-  InlineNotification,
-  RadioButton,
-  RadioButtonGroup,
+  Switch,
 } from '@carbon/react';
-import { useTranslation } from 'react-i18next';
 import {
   ConfigObject,
   navigate,
@@ -22,8 +17,17 @@ import {
   toDateObjectStrict,
   toOmrsIsoString,
   useConfig,
+  useLocations,
+  useSession,
 } from '@openmrs/esm-framework';
+import isEmpty from 'lodash-es/isEmpty';
+import React, { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDefaultLoginLocation } from '../patient-search/hooks/useDefaultLocation';
+import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
+import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
+
 import {
   updateQueueEntry,
   usePriority,
@@ -31,7 +35,6 @@ import {
   useStatus,
   useVisitQueueEntries,
 } from './active-visits-table.resource';
-import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
 import styles from './change-status-dialog.scss';
 
 interface ChangeStatusDialogProps {
@@ -41,6 +44,8 @@ interface ChangeStatusDialogProps {
 
 const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModal }) => {
   const { t } = useTranslation();
+
+  const { defaultFacility, isLoading: loadingDefaultFacility } = useDefaultLoginLocation();
 
   const [priority, setPriority] = useState(queueEntry?.priorityUuid);
   const [newQueueUuid, setNewQueueUuid] = useState('');
@@ -54,25 +59,26 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
   const { statuses } = useStatus();
   const [queueStatus, setQueueStatus] = useState(queueEntry?.statusUuid);
 
+  const locations = useLocations();
+  const sessionUser = useSession();
+
+  const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
+
+  const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
+
   const changeQueueStatus = useCallback(
     (event) => {
       event.preventDefault();
-      const defaultPriority = config.concepts.defaultPriorityConceptUuid;
-      setEditLocation(false);
-      const queuePriority = priority === '' ? defaultPriority : priority;
-      const emergencyPriorityConceptUuid = config.concepts.emergencyPriorityConceptUuid;
-      const sortWeight = priority === emergencyPriorityConceptUuid ? 1.0 : 0.0;
       const endDate = toDateObjectStrict(toOmrsIsoString(new Date()));
       updateQueueEntry(
         queueEntry?.visitUuid,
-        queueEntry?.queueUuid,
-        event?.target['service']?.value,
-        queueEntry?.queueEntryUuid,
+        '86863db4-6101-4ecf-9a86-5e716d6504e4',
+        'd2bf14fd-109a-4ca6-b61d-5d8cee9f94f1',
+        queueEntry?.id,
         queueEntry?.patientUuid,
-        queuePriority,
-        queueStatus,
+        priority,
+        'pending',
         endDate,
-        sortWeight,
       ).then(
         ({ status }) => {
           if (status === 201) {
@@ -84,7 +90,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
             });
             closeModal();
             mutate();
-            navigate({ to: `${window.spaBase}/home/service-queues` });
+            navigate({ to: `${window.spaBase}/home/patient-queues` });
           }
         },
         (error) => {
@@ -98,14 +104,10 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
       );
     },
     [
-      config.concepts.defaultPriorityConceptUuid,
-      config.concepts.emergencyPriorityConceptUuid,
-      priority,
       queueEntry?.visitUuid,
       queueEntry?.queueUuid,
       queueEntry?.queueEntryUuid,
       queueEntry?.patientUuid,
-      queueStatus,
       t,
       closeModal,
       mutate,
@@ -122,7 +124,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
         <Form onSubmit={changeQueueStatus}>
           <ModalHeader
             closeModal={closeModal}
-            title={t('movePatientToNextService', 'Move patient to the next service?')}
+            title={t('movePatientToNextQueueRoom', 'Move patient to the next queue room?')}
           />
           <ModalBody>
             <div className={styles.modalBody}>
@@ -133,26 +135,31 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
             </div>
             <section>
               <Select
-                labelText={t('selectQueueLocation', 'Select a queue location')}
-                id="location"
+                labelText={t('selectNextQueueRoom', 'Select next queue room ')}
+                id="nextQueueLocation"
+                name="nextQueueLocation"
                 invalidText="Required"
-                value={selectedQueueLocation}
-                onChange={(event) => {
-                  setSelectedQueueLocation(event.target.value);
-                  setEditLocation(true);
-                }}
+                value={selectedNextQueueLocation}
+                onChange={(event) => setSelectedNextQueueLocation(event.target.value)}
               >
-                {!selectedQueueLocation ? <SelectItem text={t('selectOption', 'Select an option')} value="" /> : null}
-                {queueLocations?.length > 0 &&
-                  queueLocations.map((location) => (
-                    <SelectItem key={location.id} text={location.name} value={location.id}>
-                      {location.name}
+                {!selectedNextQueueLocation ? (
+                  <SelectItem text={t('selectNextQueueRoom', 'Select next queue room ')} value="" />
+                ) : null}
+                {!isEmpty(defaultFacility) ? (
+                  <SelectItem key={defaultFacility?.uuid} text={defaultFacility?.display} value={defaultFacility?.uuid}>
+                    {defaultFacility?.display}
+                  </SelectItem>
+                ) : queueRoomLocations?.length > 0 ? (
+                  queueRoomLocations.map((location) => (
+                    <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
+                      {location.display}
                     </SelectItem>
-                  ))}
+                  ))
+                ) : null}
               </Select>
             </section>
 
-            <section className={styles.section}>
+            {/* <section className={styles.section}>
               <div className={styles.sectionTitle}>{t('queueService', 'Queue service')}</div>
               <Select
                 labelText={t('selectService', 'Select a service')}
@@ -172,9 +179,9 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
                     </SelectItem>
                   ))}
               </Select>
-            </section>
+            </section> */}
 
-            <section className={styles.section}>
+            {/* <section className={styles.section}>
               <div className={styles.sectionTitle}>{t('queueStatus', 'Queue status')}</div>
               {!statuses?.length ? (
                 <InlineNotification
@@ -197,7 +204,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
                     statuses.map(({ uuid, display }) => <RadioButton key={uuid} labelText={display} value={uuid} />)}
                 </RadioButtonGroup>
               )}
-            </section>
+            </section> */}
 
             <section className={styles.section}>
               <div className={styles.sectionTitle}>{t('queuePriority', 'Queue priority')}</div>
@@ -226,7 +233,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
             <Button kind="secondary" onClick={closeModal}>
               {t('cancel', 'Cancel')}
             </Button>
-            <Button type="submit">{t('moveToNextService', 'Move to next service')}</Button>
+            <Button type="submit">{t('moveToNextQueue', 'Move to next queue room')}</Button>
           </ModalFooter>
         </Form>
       </div>

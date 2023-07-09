@@ -1,15 +1,22 @@
+import { InlineNotification, Layer, RadioButton, RadioButtonGroup, Select, SelectItem, TextInput } from '@carbon/react';
+import {
+  ConfigObject, useConfig, useLayoutType, useSession,
+} from '@openmrs/esm-framework';
 import React, { useEffect, useState } from 'react';
-import { InlineNotification, Layer, Select, SelectItem, RadioButtonGroup, RadioButton, TextInput } from '@carbon/react';
-import { useQueueLocations } from '../hooks/useQueueLocations';
+import { useTranslation } from 'react-i18next';
 import { usePriority, useStatus } from '../../active-visits/active-visits-table.resource';
 import { useServices } from '../../patient-queue-metrics/queue-metrics.resource';
+import { useQueueRoomLocations } from '../../patient-search/hooks/useQueueRooms'; //patient-search/hooks/useQueueRooms
+import { useQueueLocations } from '../hooks/useQueueLocations';
 import styles from './visit-form-queue-fields.scss';
-import { ConfigObject, useConfig, useLayoutType } from '@openmrs/esm-framework';
-import { useTranslation } from 'react-i18next';
+
+
 
 const StartVisitQueueFields: React.FC = () => {
   const { t } = useTranslation();
   const isTablet = useLayoutType() === 'tablet';
+  const userSession = useSession();
+
   const { priorities } = usePriority();
   const { statuses } = useStatus();
   const { queueLocations } = useQueueLocations();
@@ -17,8 +24,10 @@ const StartVisitQueueFields: React.FC = () => {
   const defaultStatus = config.concepts.defaultStatusConceptUuid;
   const defaultPriority = config.concepts.defaultPriorityConceptUuid;
   const emergencyPriorityConceptUuid = config.concepts.emergencyPriorityConceptUuid;
-  const [selectedQueueLocation, setSelectedQueueLocation] = useState(queueLocations[0]?.id);
-  const { allServices, isLoading } = useServices(selectedQueueLocation);
+  const { queueRoomLocations } = useQueueRoomLocations(userSession?.sessionLocation?.uuid);
+
+  const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
+  const { allServices, isLoading } = useServices(selectedNextQueueLocation);
   const [priority, setPriority] = useState(defaultPriority);
   const [status, setStatus] = useState(defaultStatus);
   const [sortWeight, setSortWeight] = useState(0);
@@ -31,37 +40,37 @@ const StartVisitQueueFields: React.FC = () => {
   }, [priority]);
 
   useEffect(() => {
-    if (allServices?.length > 0) {
-      setSelectedService(allServices[0].uuid);
+    if (queueRoomLocations?.length > 0) {
+      setSelectedService(queueRoomLocations[0].uuid);
     }
-  }, [allServices]);
+  }, [queueRoomLocations]);
 
   useEffect(() => {
     if (queueLocations?.length > 0) {
-      setSelectedQueueLocation(queueLocations[0].id);
+      setSelectedNextQueueLocation(queueLocations[0].id);
     }
   }, [queueLocations]);
 
   return (
     <div className={styles.container}>
       <section className={styles.section}>
-        <div className={styles.sectionTitle}>{t('queueLocation', 'Queue Location')}</div>
+        <div className={styles.sectionTitle}>{t('nextServicePoint', 'Next Service Point')}</div>
         <ResponsiveWrapper isTablet={isTablet}>
           <Select
-            labelText={t('selectQueueLocation', 'Select a queue location')}
+            labelText={t('selectNextServicePoint', 'Select next service point')}
             id="queueLocation"
             name="queueLocation"
             invalidText="Required"
-            value={selectedQueueLocation}
-            onChange={(event) => setSelectedQueueLocation(event.target.value)}
+            value={selectedNextQueueLocation}
+            onChange={(event) => setSelectedNextQueueLocation(event.target.value)}
           >
-            {!selectedQueueLocation ? (
-              <SelectItem text={t('selectLocation', 'Select a queue location')} value="" />
+            {!selectedNextQueueLocation ? (
+              <SelectItem text={t('selectNextServicePoint', 'Select next service point')} value="" />
             ) : null}
-            {queueLocations?.length > 0 &&
-              queueLocations.map((location) => (
-                <SelectItem key={location.id} text={location.name} value={location.id}>
-                  {location.name}
+            {queueRoomLocations?.length > 0 &&
+              queueRoomLocations.map((location) => (
+                <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
+                  {location.display}
                 </SelectItem>
               ))}
           </Select>

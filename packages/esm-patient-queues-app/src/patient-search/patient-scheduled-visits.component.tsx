@@ -1,50 +1,50 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Button,
   ButtonSet,
-  Switch,
   ContentSwitcher,
-  RadioTile,
-  TileGroup,
   DataTableSkeleton,
   InlineLoading,
   InlineNotification,
+  RadioTile,
+  Switch,
+  TileGroup,
 } from '@carbon/react';
 import {
-  formatDatetime,
-  useLayoutType,
-  parseDate,
+  ConfigObject,
   ErrorState,
-  toOmrsIsoString,
-  toDateObjectStrict,
+  NewVisitPayload,
+  formatDatetime,
+  parseDate,
+  saveVisit,
   showNotification,
   showToast,
-  useSession,
-  useLocations,
-  NewVisitPayload,
-  saveVisit,
-  useVisitTypes,
-  useVisit,
+  toDateObjectStrict,
+  toOmrsIsoString,
   useConfig,
-  ConfigObject,
+  useLayoutType,
+  useLocations,
+  useSession,
+  useVisit,
+  useVisitTypes,
 } from '@openmrs/esm-framework';
-import { Appointment, SearchTypes } from '../types';
-import styles from './patient-scheduled-visits.scss';
-import { useScheduledVisits } from './hooks/useScheduledVisits';
+import dayjs from 'dayjs';
+import head from 'lodash-es/head';
 import isNil from 'lodash-es/isNil';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { first } from 'rxjs/operators';
 import {
   usePriority,
   useServices,
   useStatus,
-  useVisitQueueEntries,
+  useVisitQueueEntries
 } from '../active-visits/active-visits-table.resource';
-import { addQueueEntry } from './visit-form/queue.resource';
-import { first } from 'rxjs/operators';
-import { convertTime12to24, amPm } from '../helpers/time-helpers';
-import dayjs from 'dayjs';
-import head from 'lodash-es/head';
+import { amPm, convertTime12to24 } from '../helpers/time-helpers';
+import { Appointment, SearchTypes } from '../types';
 import { useQueueLocations } from './hooks/useQueueLocations';
+import { useScheduledVisits } from './hooks/useScheduledVisits';
+import styles from './patient-scheduled-visits.scss';
+import { addQueueEntry } from './visit-form/queue.resource';
 interface PatientScheduledVisitsProps {
   toggleSearchType: (searchMode: SearchTypes, patientUuid, mode) => void;
   patientUuid: string;
@@ -142,7 +142,6 @@ const ScheduledVisits: React.FC<{
                   service,
                   appointment,
                   selectedQueueLocation,
-                  visitQueueNumberAttributeUuid,
                 ).then(
                   ({ status }) => {
                     if (status === 201) {
