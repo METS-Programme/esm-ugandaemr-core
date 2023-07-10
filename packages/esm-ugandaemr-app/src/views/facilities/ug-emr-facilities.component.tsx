@@ -1,4 +1,5 @@
 import {
+  Button,
   DataTable,
   DataTableHeader,
   DataTableSkeleton,
@@ -17,7 +18,8 @@ import {
   TableToolbarSearch,
   Tile,
 } from '@carbon/react';
-import { isDesktop, useLayoutType, usePagination } from '@openmrs/esm-framework';
+import { Add } from '@carbon/react/icons';
+import { isDesktop, showModal, useLayoutType, usePagination } from '@openmrs/esm-framework';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFacilities, useFacilityRegions } from './ug-emr-facilities.resource';
@@ -31,18 +33,43 @@ type FilterProps = {
   getCellId: (row, key) => string;
 };
 
-export const filterFacilitiesByName = (searchTerm: string, facilities: Array<any>) => {
-  return facilities.filter((facility) => facility.name.includes(searchTerm));
-};
+function AddMenu({
+  facility,
+  status,
+  uniqueIdentifier,
+}: {
+  facility: string;
+  status: string;
+  uniqueIdentifier: string;
+}) {
+  const { t } = useTranslation();
+  const launchAddVisitToQueueModal = useCallback(() => {
+    const dispose = showModal('set-facility-identifier', {
+      closeModal: () => dispose(),
+      facility,
+      status,
+      uniqueIdentifier,
+    });
+  }, [facility, status, uniqueIdentifier]);
+
+  return (
+    <Button
+      kind="ghost"
+      onClick={launchAddVisitToQueueModal}
+      iconDescription={t('setHospitalIdentifierTooltip', 'Set Identifier')}
+      renderIcon={(props) => <Add size={16} {...props} />}
+    >
+      {t('setHospitalIdentifier', 'Set Identifier')}
+    </Button>
+  );
+}
 
 const FacilitiesList: React.FC = () => {
   const { t } = useTranslation();
   const layout = useLayoutType();
   const [allRows, setAllRows] = useState([]);
-  const [filteredResults, setFilteredResults] = useState([]);
   const isTablet = useLayoutType() === 'tablet';
 
-  const [searchTerm, setSearchTerm] = useState();
   // facilities
   const { facilities, isError, isLoading } = useFacilities();
 
@@ -58,38 +85,32 @@ const FacilitiesList: React.FC = () => {
     { id: 1, key: 'status', header: t('status', 'Status') },
     { id: 2, key: 'subCounty', header: t('subCounty', 'Subcounty') },
     { id: 3, key: 'address', header: t('address', 'Address') },
-    { id: 4, key: 'dhisIdentifier', header: t('dhisIdentifier', 'DHIS Identifier'), isSortable: true },
+    { id: 4, key: 'uniqueIdentifier', header: t('uniqueIdentifier', 'Unique Identifier'), isSortable: true },
     { id: 5, key: 'historicalIdentifier', header: t('uniqueIdentifier', 'Historical Identifier'), isSortable: true },
+    { id: 6, key: 'action', header: t('actionHeader', 'Action') },
   ];
   const headerTitle = 'Facilities';
 
+  // memoized
   useEffect(() => {
     let rows = [];
-    for (let facility of paginatedFacilityEntries) {
-      rows.push({
+
+    paginatedFacilityEntries.map((facility) => {
+      return rows.push({
+        id: facility.resource.id,
         name: facility.resource.name,
         status: facility.resource.status,
         subCounty: facility.resource.partOf.display,
         address: facility.resource.address.text,
-        dhisIdentifier: facility.resource.extension.find((id: { url: string }) => id.url === 'uniqueIdentifier')
+        uniqueIdentifier: facility.resource.extension.find((id: { url: string }) => id.url === 'uniqueIdentifier')
           .valueString,
         historicalIdentifier: facility.resource.extension.find(
           (id: { url: string }) => id.url === 'historicalIdentifier',
         ).valueCode,
       });
-    }
+    });
     setAllRows(rows);
   }, [paginatedFacilityEntries]);
-
-  const handleSearch = useCallback(
-    (searchTerm) => {
-      setSearchTerm(searchTerm);
-      const filtrate = filterFacilitiesByName(searchTerm, allRows);
-      setFilteredResults(filtrate);
-      return true;
-    },
-    [searchTerm],
-  );
 
   const handleFilter = ({ rowIds, headers, cellsById, inputValue, getCellId }: FilterProps): Array<string> => {
     return rowIds.filter((rowId) =>
@@ -101,15 +122,7 @@ const FacilitiesList: React.FC = () => {
         if (typeof filterableValue === 'boolean') {
           return false;
         }
-        if (filterableValue.hasOwnProperty('content')) {
-          if (Array.isArray(filterableValue.content.props.children)) {
-            return ('' + filterableValue.content.props.children[1].props.children).toLowerCase().includes(filterTerm);
-          }
-          if (typeof filterableValue.content.props.children === 'object') {
-            return ('' + filterableValue.content.props.children.props.children).toLowerCase().includes(filterTerm);
-          }
-          return ('' + filterableValue.content.props.children).toLowerCase().includes(filterTerm);
-        }
+
         return ('' + filterableValue).toLowerCase().includes(filterTerm);
       }),
     );
@@ -131,7 +144,7 @@ const FacilitiesList: React.FC = () => {
         size={isTablet ? 'lg' : 'sm'}
         useZebraStyles
       >
-        {({ rows, headers, getHeaderProps, getTableProps, getRowProps,onInputChange }) => (
+        {({ rows, headers, getHeaderProps, getTableProps, onInputChange }) => (
           <div>
             <TableContainer title={headerTitle}>
               <TableToolbar
@@ -160,18 +173,25 @@ const FacilitiesList: React.FC = () => {
               </TableToolbar>
               <Table {...getTableProps()}>
                 <TableHead>
-                  <TableRow >
+                  <TableRow>
                     {headers.map((header) => (
                       <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
                     ))}
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row,index) => (
+                  {rows.map((row, index) => (
                     <TableRow key={row.id}>
                       {row.cells.map((cell) => (
                         <TableCell key={cell.id}>{cell.value}</TableCell>
                       ))}
+                      <TableCell>
+                        <AddMenu
+                          facility={allRows?.[index].name}
+                          status={allRows?.[index].status}
+                          uniqueIdentifier={allRows?.[index].uniqueIdentifier}
+                        />
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
