@@ -79,7 +79,7 @@ const FacilitiesList: React.FC = () => {
       });
     }
     setAllRows(rows);
-  }, [paginatedFacilityEntries]);
+  }, [paginatedFacilityEntries,allRows]);
 
   const handleSearch = useCallback(
     (searchTerm) => {
