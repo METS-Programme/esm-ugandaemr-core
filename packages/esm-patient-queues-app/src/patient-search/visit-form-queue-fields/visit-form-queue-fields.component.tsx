@@ -1,7 +1,5 @@
 import { InlineNotification, Layer, RadioButton, RadioButtonGroup, Select, SelectItem, TextInput } from '@carbon/react';
-import {
-  ConfigObject, useConfig, useLayoutType, useSession,
-} from '@openmrs/esm-framework';
+import { ConfigObject, useConfig, useLayoutType, useSession } from '@openmrs/esm-framework';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { usePriority, useStatus } from '../../active-visits/active-visits-table.resource';
@@ -9,8 +7,6 @@ import { useServices } from '../../patient-queue-metrics/queue-metrics.resource'
 import { useQueueRoomLocations } from '../../patient-search/hooks/useQueueRooms'; //patient-search/hooks/useQueueRooms
 import { useQueueLocations } from '../hooks/useQueueLocations';
 import styles from './visit-form-queue-fields.scss';
-
-
 
 const StartVisitQueueFields: React.FC = () => {
   const { t } = useTranslation();

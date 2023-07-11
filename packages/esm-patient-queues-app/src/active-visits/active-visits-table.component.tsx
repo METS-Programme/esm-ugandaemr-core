@@ -38,7 +38,7 @@ import {
   useConfig,
   useLayoutType,
   usePagination,
-  useSession
+  useSession,
 } from '@openmrs/esm-framework';
 import React, { AnchorHTMLAttributes, MouseEvent, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';

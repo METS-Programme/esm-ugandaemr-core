@@ -18,7 +18,7 @@ import {
   usePriority,
   useServices,
   useStatus,
-  useVisitQueueEntries
+  useVisitQueueEntries,
 } from '../active-visits/active-visits-table.resource';
 import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
 import { ActiveVisit } from '../visits-missing-inqueue/visits-missing-inqueue.resource';
@@ -48,7 +48,6 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
   const config = useConfig() as ConfigObject;
   const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
   const [priority, setPriority] = useState(config.concepts.defaultPriorityConceptUuid);
-  
 
   const addVisitToQueue = useCallback(() => {
     if (!queueUuid) {
@@ -65,16 +64,9 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
     const emergencyPriorityConceptUuid = config.concepts.emergencyPriorityConceptUuid;
     const sortWeight = priority === emergencyPriorityConceptUuid ? 1.0 : 0.0;
     const status = config.concepts.defaultStatusConceptUuid;
-    // generate 
+    // generate
 
-    addQueueEntry(
-      visitUuid,
-      queueUuid,
-      patientUuid,
-      priority,
-      status,
-      selectedQueueLocation,
-    ).then(
+    addQueueEntry(visitUuid, queueUuid, patientUuid, priority, status, selectedQueueLocation).then(
       ({ status }) => {
         if (status === 201) {
           showToast({

@@ -24,15 +24,14 @@ const initialPermanentProviderQueueRoomState = {
 };
 
 // queue room
-const initialQueueRoomLocationNameState = {queueRoomLocationName : localStorage.getItem('queueRoomLocationName')};
-const initialQueueRoomLocationUuidState = {queueRoomLocationUuid : localStorage.getItem('queueRoomLocationUuid')};
+const initialQueueRoomLocationNameState = { queueRoomLocationName: localStorage.getItem('queueRoomLocationName') };
+const initialQueueRoomLocationUuidState = { queueRoomLocationUuid: localStorage.getItem('queueRoomLocationUuid') };
 
-export function getSelectedQueueRoomLocationName(){
-  return getGlobalStore<{queueRoomLocationName :string}>('queueRoomLocationName', initialQueueRoomLocationNameState)
-};
-export function getSelectedQueueRoomLocationUuid(){
-  return getGlobalStore<{queueRoomLocationUuid :string}>('queueRoomLocationUuid', initialQueueRoomLocationUuidState)
-
+export function getSelectedQueueRoomLocationName() {
+  return getGlobalStore<{ queueRoomLocationName: string }>('queueRoomLocationName', initialQueueRoomLocationNameState);
+}
+export function getSelectedQueueRoomLocationUuid() {
+  return getGlobalStore<{ queueRoomLocationUuid: string }>('queueRoomLocationUuid', initialQueueRoomLocationUuidState);
 }
 
 export const updateSelectedQueueRoomLocationName = (currentQueueRoomLocationName: string) => {
@@ -51,7 +50,9 @@ export const useSelectedQueueRoomLocationName = () => {
   );
 
   useEffect(() => {
-    getSelectedQueueRoomLocationName().subscribe(({ queueRoomLocationName }) => setCurrentQueueRoomLocationName(queueRoomLocationName));
+    getSelectedQueueRoomLocationName().subscribe(({ queueRoomLocationName }) =>
+      setCurrentQueueRoomLocationName(queueRoomLocationName),
+    );
   }, []);
   return currentQueueRoomLocationName;
 };
@@ -62,12 +63,12 @@ export const useSelectedQueueRoomLocationUuid = () => {
   );
 
   useEffect(() => {
-    getSelectedQueueRoomLocationUuid().subscribe(({ queueRoomLocationUuid }) => setCurrentQueueRoomLocationUuid(queueRoomLocationUuid));
+    getSelectedQueueRoomLocationUuid().subscribe(({ queueRoomLocationUuid }) =>
+      setCurrentQueueRoomLocationUuid(queueRoomLocationUuid),
+    );
   }, []);
   return currentQueueRoomLocationUuid;
 };
-
-
 
 export function getSelectedServiceName() {
   return getGlobalStore<{ serviceName: string }>('queueSelectedServiceName', initialServiceNameState);

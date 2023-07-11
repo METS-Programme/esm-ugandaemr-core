@@ -25,7 +25,7 @@ const ActionsMenu: React.FC<ActionsMenuProps> = ({ queueEntry }) => {
       closeModal: () => dispose(),
       queueEntry,
     });
-  },[queueEntry]);
+  }, [queueEntry]);
 
   return (
     <Layer>

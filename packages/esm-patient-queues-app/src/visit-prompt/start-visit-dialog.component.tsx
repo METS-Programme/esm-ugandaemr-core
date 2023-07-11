@@ -15,11 +15,7 @@ interface StartVisitDialogProps {
   launchPatientChart?: boolean;
 }
 
-const StartVisitDialog: React.FC<StartVisitDialogProps> = ({
-  queueEntry,
-  closeModal,
-  launchPatientChart,
-}) => {
+const StartVisitDialog: React.FC<StartVisitDialogProps> = ({ queueEntry, closeModal, launchPatientChart }) => {
   const { defaultFacility, isLoading: loadingDefaultFacility } = useDefaultLoginLocation();
   const isTablet = useLayoutType() === 'tablet';
   const locations = useLocations();

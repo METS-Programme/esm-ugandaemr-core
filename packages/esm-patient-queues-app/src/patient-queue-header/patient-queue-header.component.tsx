@@ -23,7 +23,6 @@ const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
   const currentQueueRoomLocationName = useSelectedQueueRoomLocationName();
   const currentQueueRoomLocationUuid = useSelectedQueueRoomLocationUuid();
 
-
   const [initialSelectedItem, setInitialSelectItem] = useState(() => {
     if (currentQueueRoomLocationName && currentQueueRoomLocationUuid) {
       return false;
@@ -71,7 +70,7 @@ const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
               items={[{ display: `${t('all', 'All')}` }, ...queueRoomLocations]}
               itemToString={(item) => (item ? item.display : '')}
               onChange={handleQueueLocationChange}
-              />
+            />
           </div>
         </div>
       </div>

@@ -79,7 +79,7 @@ const FacilitiesList: React.FC = () => {
       });
     }
     setAllRows(rows);
-  }, [paginatedFacilityEntries,allRows]);
+  }, [paginatedFacilityEntries, allRows]);
 
   const handleSearch = useCallback(
     (searchTerm) => {
@@ -131,7 +131,7 @@ const FacilitiesList: React.FC = () => {
         size={isTablet ? 'lg' : 'sm'}
         useZebraStyles
       >
-        {({ rows, headers, getHeaderProps, getTableProps, getRowProps,onInputChange }) => (
+        {({ rows, headers, getHeaderProps, getTableProps, getRowProps, onInputChange }) => (
           <div>
             <TableContainer title={headerTitle}>
               <TableToolbar
@@ -160,14 +160,14 @@ const FacilitiesList: React.FC = () => {
               </TableToolbar>
               <Table {...getTableProps()}>
                 <TableHead>
-                  <TableRow >
+                  <TableRow>
                     {headers.map((header) => (
                       <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
                     ))}
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row,index) => (
+                  {rows.map((row, index) => (
                     <TableRow key={row.id}>
                       {row.cells.map((cell) => (
                         <TableCell key={cell.id}>{cell.value}</TableCell>
