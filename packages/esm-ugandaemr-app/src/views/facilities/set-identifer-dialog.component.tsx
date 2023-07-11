@@ -24,7 +24,7 @@ const SetFacilityIdentifier: React.FC<SetFacilityDialogProps> = ({
   const setIdentifier = useMemo(() => {
     updateSelectedFacilityName(facility);
     updateSelectedFacilityIdentifier(uniqueIdentifier)
-  },[]);
+  },[facility,uniqueIdentifier]);
 
   return (
     <div>
