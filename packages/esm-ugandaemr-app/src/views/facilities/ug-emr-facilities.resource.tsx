@@ -1,5 +1,4 @@
 import useSWR from 'swr';
-import { RegionsResponse } from '../../types';
 
 export interface FacilityResponse {
   message: string;
@@ -122,8 +121,7 @@ export interface Search {
 export function useFacilities() {
   const apiUrl = `https://nhfr-staging-api.planetsystems.co/nhfrApi/v0.0.1/externalSystem/search`;
 
-  const fetcher = (apiUrl) =>
-    fetch(apiUrl).then((res) => res.json());
+  const fetcher = (apiUrl) => fetch(apiUrl).then((res) => res.json());
 
   const { data, error, isLoading } = useSWR<FacilityResponse, Error>(apiUrl, fetcher);
 

@@ -110,7 +110,7 @@ const FacilitiesList: React.FC = () => {
       });
     });
     setAllRows(rows);
-  }, [paginatedFacilityEntries,allRows]);
+  }, [paginatedFacilityEntries, allRows]);
 
   const handleFilter = ({ rowIds, headers, cellsById, inputValue, getCellId }: FilterProps): Array<string> => {
     return rowIds.filter((rowId) =>
