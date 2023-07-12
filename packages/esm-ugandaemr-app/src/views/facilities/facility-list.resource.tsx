@@ -1,4 +1,5 @@
 import useSWR from 'swr';
+import { REGISTRY_REGIONS_URL, REGISTRY_URL } from '../../constants';
 import { RegionsResponse } from '../../types';
 
 export interface FacilityResponse {
@@ -34,7 +35,6 @@ export interface Entry {
 export interface Resource {
   resourceType: string;
   id: string;
-  meta: Meta2;
   extension: Extension[];
   status: string;
   name: string;
@@ -46,12 +46,6 @@ export interface Resource {
   managingOrganization: ManagingOrganization;
   partOf: PartOf;
   hoursOfOperation: HoursOfOperation[];
-}
-
-export interface Meta2 {
-  versionId: string;
-  lastUpdated: string;
-  source: string;
 }
 
 export interface Extension {
@@ -120,11 +114,10 @@ export interface Search {
 }
 
 export function useFacilities() {
-  const apiUrl = `https://nhfr-staging-api.planetsystems.co/nhfrApi/v0.0.1/externalSystem/search`;
 
-  const fetcher = (apiUrl) => fetch(apiUrl).then((res) => res.json());
+  const fetcher = (REGISTRY_URL) => fetch(REGISTRY_URL).then((res) => res.json());
 
-  const { data, error, isLoading } = useSWR<FacilityResponse, Error>(apiUrl, fetcher);
+  const { data, error, isLoading } = useSWR<FacilityResponse, Error>(REGISTRY_URL, fetcher);
 
   return {
     facilities: data ? data.data?.entry : [],
@@ -134,11 +127,10 @@ export function useFacilities() {
 }
 
 export function useFacilityRegions() {
-  const apiUrl = `https://nhfr-staging-api.planetsystems.co/nhfrApi/v0.0.1/externalSystem/by/Region`;
 
-  const fetcher = (apiUrl) => fetch(apiUrl).then((res) => res.json());
+  const fetcher = (REGISTRY_REGIONS_URL) => fetch(REGISTRY_REGIONS_URL).then((res) => res.json());
 
-  const { data, error, isLoading } = useSWR<RegionsResponse, Error>(apiUrl, fetcher);
+  const { data, error, isLoading } = useSWR<RegionsResponse, Error>(REGISTRY_REGIONS_URL, fetcher);
 
   return {
     regions: data ? data.data?.entry : [],

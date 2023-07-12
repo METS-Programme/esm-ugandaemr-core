@@ -22,7 +22,7 @@ import { Add } from '@carbon/react/icons';
 import { isDesktop, showModal, useLayoutType, usePagination } from '@openmrs/esm-framework';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFacilities, useFacilityRegions } from './ug-emr-facilities.resource';
+import { useFacilities, useFacilityRegions } from './facility-list.resource';
 import styles from './ug-emr-facilities.scss';
 
 type FilterProps = {
@@ -64,7 +64,7 @@ function AddMenu({
   );
 }
 
-const FacilitiesList: React.FC = () => {
+const FacilityList: React.FC = () => {
   const { t } = useTranslation();
   const layout = useLayoutType();
   const [allRows, setAllRows] = useState([]);
@@ -230,4 +230,4 @@ const FacilitiesList: React.FC = () => {
   );
 };
 
-export default FacilitiesList;
+export default FacilityList;
