@@ -3,7 +3,8 @@ import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
-import { DashboardWrapper } from './db/ug-emr-db-wrapper.component';
+import { createDashboardLink } from './createDashboardLink';
+import { facilityListMeta } from './dashboard.meta';
 import formsRegistry from './forms/forms-registry';
 import ugandaEmrConfig from './ugandaemr-config';
 import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
@@ -35,57 +36,61 @@ function setupOpenMRS() {
           moduleName,
         }),
       },
+
       {
-        id: 'emr-db-wrapper',
-        slot: 'homepage-widgets-slot',
-        load: getSyncLifecycle(DashboardWrapper, {
-          featureName: 'db-wrapper',
-          moduleName,
-        }),
+        id: 'facility-list-dashboard-link',
+        slot: 'homepage-dashboard-slot',
+        load: getSyncLifecycle(createDashboardLink(facilityListMeta), options),
+        meta: facilityListMeta,
+        online: true,
+        offline: true,
       },
       {
-        id: 'home-db-ext',
-        slot: 'ug-emr-db-wrapper',
+        id: 'facility-list-dashboard-ext',
+        slot: 'facility-ohri-home-dashboard-slot',
         load: getSyncLifecycle(OHRIHome, {
-          featureName: 'landing-page',
+          featureName: 'facility landing page',
           moduleName,
         }),
         meta: {
-          title: 'Home DB',
-          slot: 'home-db-slot',
+          name: 'facility-list',
+          slot: 'facility-list-dashboard-slot',
           config: {
-            programme: 'general-homne',
+            columns: 1,
+            dashboardTitle: 'Facility Home ',
+            programme: 'facility-page',
           },
         },
       },
       {
-        id: 'general-home-header',
-        slot: 'landing-page-home-header-slot',
+        id: 'facility-home-header',
+        slot: 'facility-landing-page-home-header-slot',
         load: getAsyncLifecycle(() => import('./views/home/header/ugemr-home-header.component'), {
           featureName: 'general-home-header',
           moduleName,
         }),
       },
       {
-        id: 'tiles-ext',
-        slot: 'landing-page-home-tiles-slot',
+        id: 'facility-tiles-ext',
+        slot: 'facility-landing-page-home-tiles-slot',
         load: getAsyncLifecycle(() => import('./views/home/home-metrics/home-metrics.component'), {
           featureName: 'tiles',
           moduleName,
         }),
       },
       {
-        id: 'tabs-ext',
-        slot: 'landing-page-home-tabs-slot',
+        id: 'facility-tabs-ext',
+        slot: 'facility-landing-page-home-tabs-slot',
         load: getAsyncLifecycle(() => import('./views/home/visit-tabs/home-visit-tabs.component'), {
           featureName: 'tabs',
           moduleName,
         }),
       },
+
       {
         id: 'active-queue-patient-workspace',
         slot: 'action-menu-non-chart-items-slot',
-        load: getAsyncLifecycle(() => import('../src/workspace/active-queue-patients-wsp-button.component'), {
+        load: getAsyncLifecycle(() => import('./workspace/queue-patients-wsp-button.component'), {
           featureName: 'active patients workspace',
           moduleName,
         }),

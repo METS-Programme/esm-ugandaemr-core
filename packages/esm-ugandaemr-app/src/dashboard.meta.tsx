@@ -1,5 +1,3 @@
-import { Home, ListBulleted, Calendar, Medication, Events } from '@carbon/react/icons';
-
 // Uncomment this and use it as a starting point for your dashboard
 // export const sampleMeta = {
 //   slot: "test-dashboard-slot",
@@ -8,9 +6,17 @@ import { Home, ListBulleted, Calendar, Medication, Events } from '@carbon/react/
 // };
 
 export const facilityListMeta = {
-    name: 'facility-lists',
-    slot: 'ohri-patient-list-slot',
-    config: { columns: 1, type: 'grid', icon: ListBulleted },
-    isLink: true,
-    title: 'Facility Lists',
-  };
+  name: 'facility-lists',
+  slot: 'facility-ohri-home-dashboard-slot',
+  title: 'Facility List',
+  meta: {
+    name: 'facility-list',
+    slot: 'facility-list-dashboard-slot',
+    dashboardTitle: 'Facility Home',
+    config: {
+      columns: 1,
+      type: 'grid',
+      programme: 'facility-page',
+    },
+  },
+};
