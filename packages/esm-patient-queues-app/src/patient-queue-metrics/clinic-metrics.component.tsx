@@ -72,7 +72,7 @@ function ClinicMetrics() {
          <Dropdown
               id="locationFilter"
               label={currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display}
-              items={[{ display: `${t('all', 'All')}` }, ...queueRoomLocations]}
+              items={[...queueRoomLocations]}
               itemToString={(item) => (item ? item.display : '')}
               type="inline"
               onChange={handleQueueLocationChange}

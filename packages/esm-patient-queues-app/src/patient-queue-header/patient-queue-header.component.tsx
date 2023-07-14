@@ -1,13 +1,12 @@
 import { Dropdown } from '@carbon/react';
 import { Calendar, Location } from '@carbon/react/icons';
 import { formatDate, useSession } from '@openmrs/esm-framework';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   updateSelectedQueueRoomLocationName,
   updateSelectedQueueRoomLocationUuid,
-  useSelectedQueueRoomLocationName,
-  useSelectedQueueRoomLocationUuid,
+  useSelectedQueueRoomLocationName
 } from '../helpers/helpers';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import styles from './patient-queue-header.scss';
@@ -21,27 +20,11 @@ const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
   // queue rooms
   const { queueRoomLocations } = useQueueRoomLocations(userSession?.sessionLocation?.uuid);
   const currentQueueRoomLocationName = useSelectedQueueRoomLocationName();
-  const currentQueueRoomLocationUuid = useSelectedQueueRoomLocationUuid();
-
-
-  const [initialSelectedItem, setInitialSelectItem] = useState(() => {
-    if (currentQueueRoomLocationName && currentQueueRoomLocationUuid) {
-      return false;
-    } else if (currentQueueRoomLocationName === t('all', 'All')) {
-      return true;
-    } else {
-      return true;
-    }
-  });
 
   const handleQueueLocationChange = ({ selectedItem }) => {
     updateSelectedQueueRoomLocationUuid(selectedItem.uuid);
     updateSelectedQueueRoomLocationName(selectedItem.name);
-    if (selectedItem.uuid == undefined) {
-      setInitialSelectItem(true);
-    } else {
-      setInitialSelectItem(false);
-    }
+
   };
 
   return (
@@ -50,7 +33,7 @@ const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
         <div className={styles['left-justified-items']}>
           <PatientQueueIllustration />
           <div className={styles['page-labels']}>
-            <p>{t('patientQueue', 'Patient queue')}</p>
+            <p>{t('home', 'Home ')}</p>
             <p className={styles['page-name']}>{title ?? t('home', 'Home')}</p>
           </div>
         </div>
@@ -66,9 +49,9 @@ const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
             <label className={styles.view}>{t('view', 'View')}:</label>
             <Dropdown
               id="queueRooms"
-              label={initialSelectedItem}
+              label={currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display}
               type="inline"
-              items={[{ display: `${t('all', 'All')}` }, ...queueRoomLocations]}
+              items={[...queueRoomLocations]}
               itemToString={(item) => (item ? item.display : '')}
               onChange={handleQueueLocationChange}
               />

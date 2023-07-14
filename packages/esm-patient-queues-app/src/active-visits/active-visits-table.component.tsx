@@ -38,7 +38,7 @@ import {
   useConfig,
   useLayoutType,
   usePagination,
-  useSession
+  useSession,
 } from '@openmrs/esm-framework';
 import React, { AnchorHTMLAttributes, MouseEvent, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -90,6 +90,7 @@ const PatientNameLink: React.FC<NameLinkProps> = ({ from, to, children }) => {
     </a>
   );
 };
+
 
 function ActiveVisitsTable() {
   const { t } = useTranslation();
@@ -155,7 +156,6 @@ function ActiveVisitsTable() {
   const handleQueueRoomLocationChange = ({ selectedItem }) => {
     updateSelectedQueueRoomLocationUuid(selectedItem.uuid);
     updateSelectedQueueRoomLocationName(selectedItem.display);
-    updateSelectedQueueRoomLocationName('All');
   };
 
   const tableRows = useMemo(() => {
@@ -245,7 +245,7 @@ function ActiveVisitsTable() {
             <div className={styles.headerBtnContainer}></div>
             <div className={styles.headerContainer}>
               <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
-                <h4>{t('currentlyInQueue', 'Currently in queue')}</h4>
+              <h4>{`Currently in ${currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display} queue`}</h4>
               </div>
               <div className={styles.headerButtons}>
                 <ExtensionSlot
@@ -289,10 +289,10 @@ function ActiveVisitsTable() {
                     <Dropdown
                       id="queuelocationFilter"
                       titleText={t('showPatientsWaitingFor', 'Show patients waiting for') + ':'}
-                      label={currentQueueRoomLocationName}
+                      label={currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display}
                       type="inline"
-                      items={[{ display: `${t('all', 'All')}` }, ...queueRoomLocations]}
-                      itemToString={(item) => (item ? item.display : '')}
+                      items={[...queueRoomLocations]}
+                      itemToString={(item) => (item ? item.display : 'Not Set')}
                       onChange={handleQueueRoomLocationChange}
                       size="sm"
                     />
@@ -412,7 +412,7 @@ function ActiveVisitsTable() {
         <>
           <div className={styles.headerContainer}>
             <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
-              <h4>{t('currentlyInQueue', 'Currently in queue')}</h4>
+              <h4>{`Currently in ${currentQueueRoomLocationName} queue`}</h4>
             </div>
             <div className={styles.headerButtons}>
               <ExtensionSlot
