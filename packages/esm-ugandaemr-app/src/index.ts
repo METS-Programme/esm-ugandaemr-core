@@ -90,7 +90,7 @@ function setupOpenMRS() {
       {
         id: 'active-queue-patient-workspace',
         slot: 'action-menu-non-chart-items-slot',
-        load: getAsyncLifecycle(() => import('./workspace/queue-patients-wsp-button.component'), {
+        load: getAsyncLifecycle(() => import('./workspace/queue-patients-action-button.component'), {
           featureName: 'active patients workspace',
           moduleName,
         }),
