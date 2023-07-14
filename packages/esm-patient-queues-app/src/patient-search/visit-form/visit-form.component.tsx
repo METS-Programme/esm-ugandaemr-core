@@ -1,22 +1,12 @@
 import {
   Button,
   ButtonSet,
-  ContentSwitcher,
-  DatePicker,
-  DatePickerInput,
   Form,
-  FormGroup,
-  InlineNotification,
   Layer,
-  RadioButton,
-  RadioButtonGroup,
   Row,
   Select,
   SelectItem,
-  Stack,
-  Switch,
-  TimePicker,
-  TimePickerSelect,
+  Stack
 } from '@carbon/react';
 import {
   ConfigObject,
@@ -47,8 +37,6 @@ import { NewVisitPayload, PatientProgram, SearchTypes } from '../../types';
 import { useActivePatientEnrollment } from '../hooks/useActivePatientEnrollment';
 import { useDefaultLoginLocation } from '../hooks/useDefaultLocation';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
-import BaseVisitType from './base-visit-type.component';
-import { MemoizedRecommendedVisitType } from './recommended-visit-type.component';
 import styles from './visit-form.scss';
 interface VisitFormProps {
   toggleSearchType: (searchMode: SearchTypes, patientUuid) => void;
@@ -222,7 +210,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
           )}
         </div> */}
         <Stack gap={8} className={styles.container}>
-          <section className={styles.section}>
+          {/* <section className={styles.section}>
             <div className={styles.sectionTitle}>{t('dateAndTimeOfVisit', 'Date and time of visit')}</div>
             <div className={styles.dateTimeSection}>
               <DatePicker
@@ -263,9 +251,9 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
                 </TimePicker>
               </ResponsiveWrapper>
             </div>
-          </section>
+          </section> */}
 
-          <section className={styles.section}>
+          {/* <section className={styles.section}>
             <div className={styles.sectionTitle}>{t('clinic', 'Clinic')}</div>
             <Select
               labelText={t('selectClinic', 'Select a clinic')}
@@ -288,9 +276,9 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
                 ))
               ) : null}
             </Select>
-          </section>
+          </section> */}
 
-          {config.showRecommendedVisitTypeTab && (
+          {/* {config.showRecommendedVisitTypeTab && (
             <section>
               <div className={styles.sectionTitle}>{t('program', 'Program')}</div>
               <FormGroup legendText={t('selectProgramType', 'Select program type')}>
@@ -358,7 +346,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
                 subtitle={t('selectVisitType', 'Please select a Visit Type')}
               />
             </section>
-          )}
+          )} */}
           <section className={styles.section}>
             <div className={styles.sectionTitle}>{t('nextServicePoint', 'Next Service Point')}</div>
             <ResponsiveWrapper isTablet={isTablet}>
