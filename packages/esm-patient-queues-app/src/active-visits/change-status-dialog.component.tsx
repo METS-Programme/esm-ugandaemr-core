@@ -1,39 +1,22 @@
+import { Button, Form, ModalBody, ModalFooter, ModalHeader, Select, SelectItem, TextArea } from '@carbon/react';
 import {
-  Button,
-  ContentSwitcher,
-  Form,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  Select,
-  SelectItem,
-  Switch,
-} from '@carbon/react';
-import {
-  ConfigObject,
   navigate,
   showNotification,
   showToast,
   toDateObjectStrict,
   toOmrsIsoString,
-  useConfig,
-  useLocations,
-  useSession,
+  useSession
 } from '@openmrs/esm-framework';
 import isEmpty from 'lodash-es/isEmpty';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDefaultLoginLocation } from '../patient-search/hooks/useDefaultLocation';
-import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 
 import {
   updateQueueEntry,
-  usePriority,
-  useServices,
-  useStatus,
-  useVisitQueueEntries,
+  useVisitQueueEntries
 } from './active-visits-table.resource';
 import styles from './change-status-dialog.scss';
 
@@ -47,19 +30,9 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
 
   const { defaultFacility, isLoading: loadingDefaultFacility } = useDefaultLoginLocation();
 
-  const [priority, setPriority] = useState(queueEntry?.priorityUuid);
-  const [newQueueUuid, setNewQueueUuid] = useState('');
-  const { priorities } = usePriority();
-  const config = useConfig() as ConfigObject;
   const [selectedQueueLocation, setSelectedQueueLocation] = useState(queueEntry?.queueLocation);
-  const { services } = useServices(selectedQueueLocation);
-  const { queueLocations } = useQueueLocations();
-  const [editLocation, setEditLocation] = useState(false);
   const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
-  const { statuses } = useStatus();
-  const [queueStatus, setQueueStatus] = useState(queueEntry?.statusUuid);
 
-  const locations = useLocations();
   const sessionUser = useSession();
 
   const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
@@ -70,16 +43,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
     (event) => {
       event.preventDefault();
       const endDate = toDateObjectStrict(toOmrsIsoString(new Date()));
-      updateQueueEntry(
-        queueEntry?.visitUuid,
-        '86863db4-6101-4ecf-9a86-5e716d6504e4',
-        'd2bf14fd-109a-4ca6-b61d-5d8cee9f94f1',
-        queueEntry?.id,
-        queueEntry?.patientUuid,
-        priority,
-        'pending',
-        endDate,
-      ).then(
+      updateQueueEntry('', '', '', '', '', '', '', '', endDate).then(
         ({ status }) => {
           if (status === 201) {
             showToast({
@@ -159,74 +123,16 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
               </Select>
             </section>
 
-            {/* <section className={styles.section}>
-              <div className={styles.sectionTitle}>{t('queueService', 'Queue service')}</div>
-              <Select
-                labelText={t('selectService', 'Select a service')}
-                id="service"
+            <section>
+              <TextArea
+                labelText={t('notes', 'Enter notes ')}
+                id="nextNotes"
+                name="nextNotes"
                 invalidText="Required"
-                value={newQueueUuid}
-                onChange={(event) => setNewQueueUuid(event.target.value)}
-              >
-                {!newQueueUuid && editLocation === true ? (
-                  <SelectItem text={t('selectService', 'Select a service')} value="" />
-                ) : null}
-                {!queueEntry.queueUuid ? <SelectItem text={t('selectService', 'Select a service')} value="" /> : null}
-                {services?.length > 0 &&
-                  services.map((service) => (
-                    <SelectItem key={service.uuid} text={service.display} value={service.uuid}>
-                      {service.display}
-                    </SelectItem>
-                  ))}
-              </Select>
-            </section> */}
-
-            {/* <section className={styles.section}>
-              <div className={styles.sectionTitle}>{t('queueStatus', 'Queue status')}</div>
-              {!statuses?.length ? (
-                <InlineNotification
-                  className={styles.inlineNotification}
-                  kind={'error'}
-                  lowContrast
-                  subtitle={t('configureStatus', 'Please configure status to continue.')}
-                  title={t('noStatusConfigured', 'No status configured')}
-                />
-              ) : (
-                <RadioButtonGroup
-                  className={styles.radioButtonWrapper}
-                  name="status"
-                  defaultSelected={queueStatus}
-                  onChange={(uuid) => {
-                    setQueueStatus(uuid);
-                  }}
-                >
-                  {statuses?.length > 0 &&
-                    statuses.map(({ uuid, display }) => <RadioButton key={uuid} labelText={display} value={uuid} />)}
-                </RadioButtonGroup>
-              )}
-            </section> */}
-
-            <section className={styles.section}>
-              <div className={styles.sectionTitle}>{t('queuePriority', 'Queue priority')}</div>
-              <ContentSwitcher
-                size="sm"
-                selectedIndex={1}
-                onChange={(event) => {
-                  setPriority(event.name as any);
-                }}
-              >
-                {priorities?.length > 0 ? (
-                  priorities.map(({ uuid, display }) => {
-                    return <Switch name={uuid} text={display} key={uuid} value={uuid} />;
-                  })
-                ) : (
-                  <Switch
-                    name={t('noPriorityFound', 'No priority found')}
-                    text={t('noPriorityFound', 'No priority found')}
-                    value={null}
-                  />
-                )}
-              </ContentSwitcher>
+                helperText="Please enter notes"
+                maxCount={500}
+                enableCounter
+              />
             </section>
           </ModalBody>
           <ModalFooter>
