@@ -268,13 +268,14 @@ export const getOriginFromPathName = (pathname = '') => {
 };
 
 export async function updateQueueEntry(
-  visitUuid: string,
   locationFrom: string,
   locationTo: string,
   queueEntryUuid: string,
   patientUuid: string,
   priority: string,
   status: string,
+  priorityComment: string,
+  comment: string,
   endedAt: Date,
 ) {
   const abortController = new AbortController();
@@ -289,15 +290,15 @@ export async function updateQueueEntry(
       patient: patientUuid,
       provider: '',
       locationFrom: locationFrom,
-      locationTo: locationTo !== undefined ? queueEntryUuid : 'Not Set',
-      status: status ? status : 'completed',
+      locationTo: locationTo !== undefined ? locationTo : 'Not Set',
+      status: status ? status : 'pending',
       encounter: null,
       priority: priority ? priority : 1,
-      priorityComment: 'Urgent',
-      comment: 'Na',
+      priorityComment: priorityComment ? priorityComment : 'This is urgent',
+      comment: comment ? comment : 'This is urgent',
       endedAt: endedAt,
       queueId: queueEntryUuid !== undefined ? queueEntryUuid : 'Not Set',
-      queueRoom: queueEntryUuid !== undefined ? queueEntryUuid : 'Not Set',
+      queueRoom: locationFrom !== undefined ? locationFrom : 'Not Set',
     },
   });
 }
