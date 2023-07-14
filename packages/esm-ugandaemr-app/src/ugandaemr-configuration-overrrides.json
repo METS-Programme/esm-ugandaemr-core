@@ -1,6 +1,18 @@
 {
     "@openmrs/esm-patient-chart-app": {
       "extensionSlots": {
+        "action-menu-chart-items-slot":{
+          "remove":[
+              "order-basket-action-menu",
+              "visit-note-nav-button",
+              "clinical-form-action-menu"
+          ]
+        },
+        "action-menu-non-chart-items-slot":{
+          "remove":[
+            "patient-list-action-menu"
+          ]
+        },
         "program-management-summary-slot": {
           "remove": [
             "program-management-summary-ext",
@@ -60,16 +72,11 @@
     },
     "@openmrs/esm-home-app":{
       "extensionSlots":{
-        "dashboard-slot":{
-
-        },
         "homepage-dashboard-slot":{
-          "add":[
-            "covid-home-header-ext"
-          ],
           "remove": [
             "patient-lists-dashboard-link",
-            "service-queues-dashboard-link"
+            "service-queues-dashboard-link",
+            "home-widget-db-link"
           ]
         },
        "homepage-widgets-slot": {
