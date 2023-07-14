@@ -1,12 +1,12 @@
 import { Button } from '@carbon/react';
-import { ShoppingCart } from '@carbon/react/icons';
+import { UserMultiple } from '@carbon/react/icons';
 import { useLayoutType } from '@openmrs/esm-framework';
 import { launchPatientWorkspace } from '@openmrs/esm-patient-common-lib';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import styles from './active-queue-patients-wsp.scss';
+import styles from './queue-patients-wsp.scss';
 
-const ActiveQueuePatientsActionButton: React.FC = () => {
+const QueuePatientsActionButton: React.FC = () => {
   const layout = useLayoutType();
   const { t } = useTranslation();
 
@@ -32,7 +32,7 @@ const ActiveQueuePatientsActionButton: React.FC = () => {
       size="sm"
       renderIcon={(props) => (
         <div className={styles.elementContainer}>
-          <ShoppingCart size={20} {...props} />{' '}
+          <UserMultiple size={20} {...props} />{' '}
         </div>
       )}
       hasIconOnly
@@ -45,4 +45,4 @@ const ActiveQueuePatientsActionButton: React.FC = () => {
   );
 };
 
-export default ActiveQueuePatientsActionButton;
+export default QueuePatientsActionButton;
