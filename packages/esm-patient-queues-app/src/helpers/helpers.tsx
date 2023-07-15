@@ -1,7 +1,6 @@
-import { AppointmentSummary, QueueServiceInfo } from '../types';
 import { getGlobalStore } from '@openmrs/esm-framework';
 import { useEffect, useState } from 'react';
-import { boolean } from 'yup';
+import { AppointmentSummary } from '../types';
 
 export const getServiceCountByAppointmentType = (
   appointmentSummary: Array<AppointmentSummary>,
@@ -22,6 +21,55 @@ const initialSelectedQueueRoomTimestamp = { providerQueueRoomTimestamp: new Date
 const initialPermanentProviderQueueRoomState = {
   isPermanentProviderQueueRoom: localStorage.getItem('isPermanentProviderQueueRoom'),
 };
+
+// queue room
+const initialQueueRoomLocationNameState = { queueRoomLocationName: localStorage.getItem('queueRoomLocationName') };
+const initialQueueRoomLocationUuidState = { queueRoomLocationUuid: localStorage.getItem('queueRoomLocationUuid') };
+
+export function getSelectedQueueRoomLocationName() {
+  return getGlobalStore<{ queueRoomLocationName: string }>('queueRoomLocationName', initialQueueRoomLocationNameState);
+}
+export function getSelectedQueueRoomLocationUuid() {
+  return getGlobalStore<{ queueRoomLocationUuid: string }>('queueRoomLocationUuid', initialQueueRoomLocationUuidState);
+}
+
+export const updateSelectedQueueRoomLocationName = (currentQueueRoomLocationName: string) => {
+  const store = getSelectedQueueRoomLocationName();
+  store.setState({ queueRoomLocationName: currentQueueRoomLocationName });
+};
+
+export const updateSelectedQueueRoomLocationUuid = (currentQueueRoomLocationUuid: string) => {
+  const store = getSelectedQueueRoomLocationUuid();
+  store.setState({ queueRoomLocationUuid: currentQueueRoomLocationUuid });
+};
+
+export const useSelectedQueueRoomLocationName = () => {
+  const [currentQueueRoomLocationName, setCurrentQueueRoomLocationName] = useState(
+    initialQueueRoomLocationNameState.queueRoomLocationName,
+  );
+
+  useEffect(() => {
+    getSelectedQueueRoomLocationName().subscribe(({ queueRoomLocationName }) =>
+      setCurrentQueueRoomLocationName(queueRoomLocationName),
+    );
+  }, []);
+  return currentQueueRoomLocationName;
+};
+
+export const useSelectedQueueRoomLocationUuid = () => {
+  const [currentQueueRoomLocationUuid, setCurrentQueueRoomLocationUuid] = useState(
+    initialQueueRoomLocationUuidState.queueRoomLocationUuid,
+  );
+
+  useEffect(() => {
+    getSelectedQueueRoomLocationUuid().subscribe(({ queueRoomLocationUuid }) =>
+      setCurrentQueueRoomLocationUuid(queueRoomLocationUuid),
+    );
+  }, []);
+  return currentQueueRoomLocationUuid;
+};
+
+//
 
 export function getSelectedServiceName() {
   return getGlobalStore<{ serviceName: string }>('queueSelectedServiceName', initialServiceNameState);
@@ -165,4 +213,47 @@ export const useIsPermanentProviderQueueRoom = () => {
     );
   }, []);
   return currentIsPermanentProviderQueueRoom;
+};
+
+// facility
+const initialFacilityNameState = { facilityName: localStorage.getItem('facilityName') };
+const initialFacilityIdentifierState = { facilityIdentifier: localStorage.getItem('facilityIdentifier') };
+
+export function getSelectedFacilityName() {
+  return getGlobalStore<{ facilityName: string }>('facilityName', initialFacilityNameState);
+}
+export function getSelectedFacilityIdentifier() {
+  return getGlobalStore<{ facilityIdentifier: string }>('facilityIdentifier', initialFacilityIdentifierState);
+}
+
+export const updateSelectedFacilityName = (currentFacilityName: string) => {
+  const store = getSelectedFacilityName();
+  store.setState({ facilityName: currentFacilityName });
+};
+
+export const updateSelectedFacilityIdentifier = (currentFacilityIdentifier: string) => {
+  const store = getSelectedFacilityIdentifier();
+  store.setState({ facilityIdentifier: currentFacilityIdentifier });
+};
+
+export const useSelectedFacilityName = () => {
+  const [currentFacilityName, setCurrentFacilityName] = useState(initialFacilityNameState.facilityName);
+
+  useEffect(() => {
+    getSelectedFacilityName().subscribe(({ facilityName }) => setCurrentFacilityName(facilityName));
+  }, []);
+  return currentFacilityName;
+};
+
+export const useSelectedFacilityIdentifier = () => {
+  const [currentFacilityIdentifier, setCurrentFacilityIdentifier] = useState(
+    initialFacilityIdentifierState.facilityIdentifier,
+  );
+
+  useEffect(() => {
+    getSelectedFacilityIdentifier().subscribe(({ facilityIdentifier }) =>
+      setCurrentFacilityIdentifier(facilityIdentifier),
+    );
+  }, []);
+  return currentFacilityIdentifier;
 };

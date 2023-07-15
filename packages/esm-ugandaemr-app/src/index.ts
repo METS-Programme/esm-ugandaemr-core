@@ -1,12 +1,13 @@
-import { getAsyncLifecycle, defineConfigSchema, provide, getSyncLifecycle } from '@openmrs/esm-framework';
-import { configSchema } from './config-schema';
-import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
-import ugandaEmrConfig from './ugandaemr-config';
-import formsRegistry from './forms/forms-registry';
+import { OHRIHome } from '@ohri/openmrs-esm-ohri-commons-lib';
+import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
+import { configSchema } from './config-schema';
 import { moduleName } from './constants';
-import { OHRIHome, OHRIWelcomeSection } from '@ohri/openmrs-esm-ohri-commons-lib';
-import { DashboardWrapper } from './db/ug-emr-db-wrapper.component';
+import { createDashboardLink } from './createDashboardLink';
+import { facilityListMeta } from './dashboard.meta';
+import formsRegistry from './forms/forms-registry';
+import ugandaEmrConfig from './ugandaemr-config';
+import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
 const backendDependencies = {
@@ -35,50 +36,80 @@ function setupOpenMRS() {
           moduleName,
         }),
       },
+
       {
-        id: 'emr-db-wrapper',
-        slot: 'homepage-widgets-slot',
-        load: getSyncLifecycle(DashboardWrapper, {
-          featureName: 'db-wrapper',
-          moduleName,
-        }),
+        id: 'facility-list-dashboard-link',
+        slot: 'homepage-dashboard-slot',
+        load: getSyncLifecycle(createDashboardLink(facilityListMeta), options),
+        meta: facilityListMeta,
+        online: true,
+        offline: true,
       },
       {
-        id: 'home-db-ext',
-        slot: 'ug-emr-db-wrapper',
+        id: 'facility-list-dashboard-ext',
+        slot: 'facility-ohri-home-dashboard-slot',
         load: getSyncLifecycle(OHRIHome, {
-          featureName: 'landing-page',
+          featureName: 'facility landing page',
           moduleName,
         }),
         meta: {
-          title: 'Home DB',
-          slot: 'home-db-slot',
+          name: 'facility-list',
+          slot: 'facility-list-dashboard-slot',
           config: {
-            programme: 'general-homne',
+            columns: 1,
+            dashboardTitle: 'Facility Home ',
+            programme: 'facility-page',
           },
         },
       },
       {
-        id: 'general-homne-header',
-        slot: 'landing-page-home-header-slot',
-        load: getSyncLifecycle(OHRIWelcomeSection, {
+        id: 'facility-home-header',
+        slot: 'facility-landing-page-home-header-slot',
+        load: getAsyncLifecycle(() => import('./views/home/header/ugemr-home-header.component'), {
           featureName: 'general-home-header',
           moduleName,
         }),
       },
       {
-        id: 'tiles-ext',
-        slot: 'landing-page-home-tiles-slot',
-        load: getAsyncLifecycle(() => import('./views/home/summary-tiles/ugemr-home-summary-tiles.component'), {
+        id: 'facility-tiles-ext',
+        slot: 'facility-landing-page-home-tiles-slot',
+        load: getAsyncLifecycle(() => import('./views/home/home-metrics/home-metrics.component'), {
           featureName: 'tiles',
           moduleName,
         }),
       },
       {
-        id: 'tabs-ext',
-        slot: 'landing-page-home-tabs-slot',
-        load: getAsyncLifecycle(() => import('./views/home/patient-tabs/ugemr-home-patient-tabs.component'), {
+        id: 'facility-tabs-ext',
+        slot: 'facility-landing-page-home-tabs-slot',
+        load: getAsyncLifecycle(() => import('./views/home/visit-tabs/home-visit-tabs.component'), {
           featureName: 'tabs',
+          moduleName,
+        }),
+      },
+
+      {
+        id: 'active-queue-patient-workspace',
+        slot: 'action-menu-non-chart-items-slot',
+        load: getAsyncLifecycle(() => import('./workspace/queue-patients-action-button.component'), {
+          featureName: 'active patients workspace',
+          moduleName,
+        }),
+      },
+
+      {
+        id: 'active-queue-patients',
+        load: getAsyncLifecycle(
+          () => import('../../esm-patient-queues-app/src/active-visits/active-visits-table.component'),
+          {
+            featureName: 'active patients workspace',
+            moduleName,
+          },
+        ),
+      },
+      {
+        id: 'set-facility-identifier',
+        load: getAsyncLifecycle(() => import('./views/facilities/set-identifer-dialog.component'), {
+          featureName: 'set facility identifier dialog',
           moduleName,
         }),
       },

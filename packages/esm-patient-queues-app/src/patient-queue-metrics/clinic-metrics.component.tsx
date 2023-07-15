@@ -1,19 +1,19 @@
+import { Dropdown } from '@carbon/react';
+import { useSession } from '@openmrs/esm-framework';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dropdown } from '@carbon/react';
-import MetricsCard from './metrics-card.component';
-import {
-  updateSelectedServiceName,
-  updateSelectedServiceUuid,
-  useSelectedServiceName,
-  useSelectedServiceUuid,
-  useSelectedQueueLocationUuid,
-} from '../helpers/helpers';
-import { useActiveVisits, useAverageWaitTime } from './clinic-metrics.resource';
-import { useServiceMetricsCount, useServices } from './queue-metrics.resource';
 import { useVisitQueueEntries } from '../active-visits/active-visits-table.resource';
+import {
+  updateSelectedQueueRoomLocationName,
+  updateSelectedQueueRoomLocationUuid,
+  useSelectedQueueRoomLocationName,
+  useSelectedQueueRoomLocationUuid
+} from '../helpers/helpers';
+import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
+import { useActiveVisits, useAverageWaitTime } from './clinic-metrics.resource';
 import styles from './clinic-metrics.scss';
-import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
+import MetricsCard from './metrics-card.component';
+
 
 export interface Service {
   uuid: string;
@@ -22,29 +22,31 @@ export interface Service {
 
 function ClinicMetrics() {
   const { t } = useTranslation();
+  const userSession = useSession();
 
-  const currentQueueLocation = useSelectedQueueLocationUuid();
-  const { queueLocations } = useQueueLocations();
-  const { allServices } = useServices(currentQueueLocation ?? queueLocations?.[0]?.id);
-  const currentServiceUuid = useSelectedServiceUuid();
-  const currentServiceName = useSelectedServiceName();
-  const { serviceCount } = useServiceMetricsCount(currentServiceName, currentQueueLocation);
+   // queue rooms
+   const { queueRoomLocations } = useQueueRoomLocations(userSession?.sessionLocation?.uuid);
+   const currentQueueRoomLocationName = useSelectedQueueRoomLocationName();
+   const currentQueueRoomLocationUuid = useSelectedQueueRoomLocationUuid();
+
   const [initialSelectedItem, setInitialSelectItem] = useState(() => {
-    if (currentServiceName && currentServiceUuid) {
+    if (currentQueueRoomLocationName && currentQueueRoomLocationUuid) {
       return false;
-    } else if (currentServiceName === t('all', 'All')) {
+    } else if (currentQueueRoomLocationName === t('all', 'All')) {
       return true;
     } else {
       return true;
     }
   });
-  const { visitQueueEntriesCount } = useVisitQueueEntries(currentServiceName, currentQueueLocation);
+  const { visitQueueEntriesCount } = useVisitQueueEntries(currentQueueRoomLocationName, currentQueueRoomLocationUuid);
   const { activeVisitsCount, isLoading: loading } = useActiveVisits();
-  const { waitTime } = useAverageWaitTime(currentServiceUuid, '');
+  const { waitTime } = useAverageWaitTime(currentQueueRoomLocationUuid, '');
 
-  const handleServiceChange = ({ selectedItem }) => {
-    updateSelectedServiceUuid(selectedItem.uuid);
-    updateSelectedServiceName(selectedItem.display);
+ 
+
+  const handleQueueLocationChange = ({ selectedItem }) => {
+    updateSelectedQueueRoomLocationUuid(selectedItem.uuid);
+    updateSelectedQueueRoomLocationName(selectedItem.name);
     if (selectedItem.uuid == undefined) {
       setInitialSelectItem(true);
     } else {
@@ -63,20 +65,18 @@ function ClinicMetrics() {
         />
         <MetricsCard
           label={t('patients', 'Patients')}
-          value={initialSelectedItem ? visitQueueEntriesCount : serviceCount}
+          value={initialSelectedItem ? visitQueueEntriesCount : 0}
           headerLabel={`${t('waitingFor', 'Waiting for')}:`}
-          service={currentServiceName}
-          serviceUuid={currentServiceUuid}
-          locationUuid={currentQueueLocation}
+          locationUuid={currentQueueRoomLocationUuid}
         >
-          <Dropdown
-            id="inline"
-            type="inline"
-            label={currentServiceName ?? `${t('all', 'All')}`}
-            items={[{ display: `${t('all', 'All')}` }, ...allServices]}
-            itemToString={(item) => (item ? item.display : '')}
-            onChange={handleServiceChange}
-          />
+         <Dropdown
+              id="locationFilter"
+              label={currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display}
+              items={[...queueRoomLocations]}
+              itemToString={(item) => (item ? item.display : '')}
+              type="inline"
+              onChange={handleQueueLocationChange}
+            />
         </MetricsCard>
         <MetricsCard
           label={t('minutes', 'Minutes')}

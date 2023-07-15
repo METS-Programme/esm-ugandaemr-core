@@ -4,27 +4,28 @@ import { formatDate, useSession } from '@openmrs/esm-framework';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  updateSelectedQueueRoomLocationName,
-  updateSelectedQueueRoomLocationUuid,
-  useSelectedQueueRoomLocationName
-} from '../helpers/helpers';
-import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
-import styles from './patient-queue-header.scss';
-import PatientQueueIllustration from './patient-queue-illustration.component';
+  updateSelectedQueueLocationName,
+  updateSelectedQueueLocationUuid,
+  updateSelectedServiceName,
+  useSelectedFacilityName,
+  useSelectedQueueLocationName,
+} from '../../../../../esm-patient-queues-app/src/helpers/helpers';
+import PatientQueueIllustration from '../../../../../esm-patient-queues-app/src/patient-queue-header/patient-queue-illustration.component';
+import { useQueueLocations } from '../../../../../esm-patient-queues-app/src/patient-search/hooks/useQueueLocations';
+import styles from './patient-home-header.scss';
 
-const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
+const PatientHomeHeader: React.FC<{ title?: string }> = ({ title }) => {
   const { t } = useTranslation();
   const userSession = useSession();
   const userLocation = userSession?.sessionLocation?.display;
-
-  // queue rooms
-  const { queueRoomLocations } = useQueueRoomLocations(userSession?.sessionLocation?.uuid);
-  const currentQueueRoomLocationName = useSelectedQueueRoomLocationName();
+  const { queueLocations } = useQueueLocations();
+  const currentQueueLocationName = useSelectedQueueLocationName();
+  const currentFacilityName  = useSelectedFacilityName();
 
   const handleQueueLocationChange = ({ selectedItem }) => {
-    updateSelectedQueueRoomLocationUuid(selectedItem.uuid);
-    updateSelectedQueueRoomLocationName(selectedItem.name);
-
+    updateSelectedQueueLocationUuid(selectedItem.id);
+    updateSelectedQueueLocationName(selectedItem.name);
+    updateSelectedServiceName('All');
   };
 
   return (
@@ -33,12 +34,14 @@ const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
         <div className={styles['left-justified-items']}>
           <PatientQueueIllustration />
           <div className={styles['page-labels']}>
-            <p>{t('home', 'Home ')}</p>
+            {/* <p>{t('patientQueue', 'Patient queue')}</p> */}
             <p className={styles['page-name']}>{title ?? t('home', 'Home')}</p>
           </div>
         </div>
         <div className={styles['right-justified-items']}>
           <div className={styles['date-and-location']}>
+            <div>{currentFacilityName} </div>
+            <span className={styles.middot}>&middot;</span>
             <Location size={16} />
             <span className={styles.value}>{userLocation}</span>
             <span className={styles.middot}>&middot;</span>
@@ -48,13 +51,13 @@ const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
           <div className={styles.dropdown}>
             <label className={styles.view}>{t('view', 'View')}:</label>
             <Dropdown
-              id="queueRooms"
-              label={currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display}
+              id="typeOfCare"
+              label={currentQueueLocationName ?? queueLocations?.[0]?.name}
+              items={[{ display: `${t('all', 'All')}` }, ...queueLocations]}
+              itemToString={(item) => (item ? item.name : '')}
               type="inline"
-              items={[...queueRoomLocations]}
-              itemToString={(item) => (item ? item.display : '')}
               onChange={handleQueueLocationChange}
-              />
+            />
           </div>
         </div>
       </div>
@@ -62,4 +65,4 @@ const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
   );
 };
 
-export default PatientQueueHeader;
+export default PatientHomeHeader;

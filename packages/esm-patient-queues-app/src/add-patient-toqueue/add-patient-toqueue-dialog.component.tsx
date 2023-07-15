@@ -1,5 +1,3 @@
-import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Button,
   Form,
@@ -7,22 +5,24 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
+  RadioButton,
+  RadioButtonGroup,
   Select,
   SelectItem,
-  RadioButtonGroup,
-  RadioButton,
 } from '@carbon/react';
 import { ConfigObject, showNotification, showToast, useConfig } from '@openmrs/esm-framework';
+import React, { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   addQueueEntry,
   usePriority,
   useServices,
   useStatus,
-  useVisitQueueEntries,
+  useVisitQueueEntries
 } from '../active-visits/active-visits-table.resource';
-import styles from './add-patient-toqueue-dialog.scss';
-import { ActiveVisit } from '../visits-missing-inqueue/visits-missing-inqueue.resource';
 import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
+import { ActiveVisit } from '../visits-missing-inqueue/visits-missing-inqueue.resource';
+import styles from './add-patient-toqueue-dialog.scss';
 
 interface AddVisitToQueueDialogProps {
   visitDetails: ActiveVisit;
@@ -48,6 +48,7 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
   const config = useConfig() as ConfigObject;
   const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
   const [priority, setPriority] = useState(config.concepts.defaultPriorityConceptUuid);
+  
 
   const addVisitToQueue = useCallback(() => {
     if (!queueUuid) {
@@ -64,7 +65,7 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
     const emergencyPriorityConceptUuid = config.concepts.emergencyPriorityConceptUuid;
     const sortWeight = priority === emergencyPriorityConceptUuid ? 1.0 : 0.0;
     const status = config.concepts.defaultStatusConceptUuid;
-    const visitQueueNumberAttributeUuid = config.concepts.visitQueueNumberAttributeUuid;
+    // generate 
 
     addQueueEntry(
       visitUuid,
@@ -72,9 +73,7 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
       patientUuid,
       priority,
       status,
-      sortWeight,
       selectedQueueLocation,
-      visitQueueNumberAttributeUuid,
     ).then(
       ({ status }) => {
         if (status === 201) {

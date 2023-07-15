@@ -20,6 +20,10 @@
   },
   "dependencies": {
     "@openmrs/openmrs-form-engine-lib": "next",
+    "@types/base-64": "^1.0.0",
+    "axios": "^1.4.0",
+    "base-64": "^1.0.0",
+    "buffer": "^6.0.3",
     "dayjs": "^1.11.6",
     "swr": "^2.1.1"
   },
