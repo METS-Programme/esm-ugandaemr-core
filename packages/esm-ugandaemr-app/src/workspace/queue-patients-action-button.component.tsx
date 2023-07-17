@@ -10,7 +10,7 @@ const QueuePatientsActionButton: React.FC = () => {
   const layout = useLayoutType();
   const { t } = useTranslation();
 
-  const handleClick = useCallback(() => launchPatientWorkspace('active-queue-patients'), []);
+  const handleClick = useCallback(() => launchPatientWorkspace('queue-patients-workspace'), []);
 
   if (layout === 'tablet') {
     return (
@@ -21,7 +21,7 @@ const QueuePatientsActionButton: React.FC = () => {
         tabIndex={0}
         iconDescription={t('activeQueuePatients', 'Active Queue Patients')}
         onClick={handleClick}
-      ></Button>
+      />
     );
   }
 
