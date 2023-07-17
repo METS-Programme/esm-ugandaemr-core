@@ -1,11 +1,22 @@
-import { Button, Form, ModalBody, ModalFooter, ModalHeader, Select, SelectItem, TextArea } from '@carbon/react';
+import {
+  Button,
+  ContentSwitcher,
+  Form,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Select,
+  SelectItem,
+  Switch,
+  TextArea,
+} from '@carbon/react';
 import {
   navigate,
   showNotification,
   showToast,
   toDateObjectStrict,
   toOmrsIsoString,
-  useSession
+  useSession,
 } from '@openmrs/esm-framework';
 import isEmpty from 'lodash-es/isEmpty';
 import React, { useCallback, useState } from 'react';
@@ -14,10 +25,7 @@ import { useDefaultLoginLocation } from '../patient-search/hooks/useDefaultLocat
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 
-import {
-  updateQueueEntry,
-  useVisitQueueEntries
-} from './active-visits-table.resource';
+import { updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
 import styles from './change-status-dialog.scss';
 
 interface ChangeStatusDialogProps {
@@ -29,6 +37,8 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
   const { t } = useTranslation();
 
   const { defaultFacility, isLoading: loadingDefaultFacility } = useDefaultLoginLocation();
+
+  const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
 
   const [selectedQueueLocation, setSelectedQueueLocation] = useState(queueEntry?.queueLocation);
   const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
@@ -97,6 +107,19 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
                 {t('years', 'Years')}
               </h5>
             </div>
+
+            <section className={styles.section}>
+              <div className={styles.sectionTitle}>{t('priority', 'Priority')}</div>
+              <ContentSwitcher
+                selectedIndex={contentSwitcherIndex}
+                className={styles.contentSwitcher}
+                onChange={({ index }) => setContentSwitcherIndex(index)}
+              >
+                <Switch name="urgent" text={t('notUrgent', 'Not Urgent')} />
+                <Switch name="urgent" text={t('urgent', 'Urgent')} />
+                <Switch name="emergency" text={t('emergency', 'Emergency')} />
+              </ContentSwitcher>
+            </section>
             <section>
               <Select
                 labelText={t('selectNextQueueRoom', 'Select next queue room ')}
@@ -139,7 +162,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
             <Button kind="secondary" onClick={closeModal}>
               {t('cancel', 'Cancel')}
             </Button>
-            <Button type="submit">{t('moveToNextQueue', 'Move to next queue room')}</Button>
+            <Button type="submit">{t('moveToNextQueue', 'Move to next QueueRoom')}</Button>
           </ModalFooter>
         </Form>
       </div>

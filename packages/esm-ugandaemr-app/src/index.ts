@@ -1,4 +1,3 @@
-import { OHRIHome } from '@ohri/openmrs-esm-ohri-commons-lib';
 import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { configSchema } from './config-schema';
@@ -47,21 +46,13 @@ function setupOpenMRS() {
       },
       {
         id: 'facility-list-dashboard-ext',
-        slot: 'facility-ohri-home-dashboard-slot',
-        load: getSyncLifecycle(OHRIHome, {
+        slot: 'facility-home-dashboard-slot',
+        load: getAsyncLifecycle(() => import('./views/facilities/facility-list-home.component'), {
           featureName: 'facility landing page',
           moduleName,
         }),
-        meta: {
-          name: 'facility-list',
-          slot: 'facility-list-dashboard-slot',
-          config: {
-            columns: 1,
-            dashboardTitle: 'Facility Home ',
-            programme: 'facility-page',
-          },
-        },
       },
+
       {
         id: 'facility-home-header',
         slot: 'facility-landing-page-home-header-slot',
@@ -106,9 +97,17 @@ function setupOpenMRS() {
           },
         ),
       },
+
+      {
+        id: 'queue-patients-workspace',
+        load: getAsyncLifecycle(() => import('./workspace/queue-patients-workspace.component'), {
+          featureName: 'active patients workspace',
+          moduleName,
+        }),
+      },
       {
         id: 'set-facility-identifier',
-        load: getAsyncLifecycle(() => import('./views/facilities/set-identifer-dialog.component'), {
+        load: getAsyncLifecycle(() => import('./views/facilities/facility-list/set-identifer-dialog.component'), {
           featureName: 'set facility identifier dialog',
           moduleName,
         }),

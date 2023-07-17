@@ -1,11 +1,9 @@
 import { Layer, Tile } from '@carbon/react';
-import { ArrowRight } from '@carbon/react/icons';
-import { ConfigurableLink } from '@openmrs/esm-framework';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import styles from './metrics-card.scss';
+import styles from './facility-metrics-card.scss';
 
-interface MetricsCardProps {
+interface FacilityMetricsCardProps {
   label: string;
   value: number | string;
   headerLabel: string;
@@ -15,7 +13,7 @@ interface MetricsCardProps {
   locationUuid?: string;
 }
 
-const MetricsCard: React.FC<MetricsCardProps> = ({
+const FacilityMetricsCard: React.FC<FacilityMetricsCardProps> = ({
   label,
   value,
   headerLabel,
@@ -34,24 +32,6 @@ const MetricsCard: React.FC<MetricsCardProps> = ({
             <label className={styles.headerLabel}>{headerLabel}</label>
             {children}
           </div>
-          {service == 'scheduled' ? (
-            <div className={styles.link}>
-              <ConfigurableLink className={styles.link} to=''>
-                {t('patientList', 'Patient list')}
-              </ConfigurableLink>
-              <ArrowRight size={16} />
-            </div>
-          ) : service == 'waitTime' ? null : (
-            <div className={styles.link}>
-              <ConfigurableLink
-                className={styles.link}
-                to=''
-              >
-                {t('patientList', 'Patient list')}
-              </ConfigurableLink>
-              <ArrowRight size={16} />
-            </div>
-          )}
         </div>
         <div>
           <label className={styles.totalsLabel}>{label}</label>
@@ -62,4 +42,4 @@ const MetricsCard: React.FC<MetricsCardProps> = ({
   );
 };
 
-export default MetricsCard;
+export default FacilityMetricsCard;

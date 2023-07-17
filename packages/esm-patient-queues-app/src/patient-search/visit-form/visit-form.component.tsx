@@ -1,13 +1,4 @@
-import {
-  Button,
-  ButtonSet,
-  Form,
-  Layer,
-  Row,
-  Select,
-  SelectItem,
-  Stack
-} from '@carbon/react';
+import { Button, ButtonSet, ContentSwitcher, Form, Layer, Row, Select, SelectItem, Stack, Switch } from '@carbon/react';
 import {
   ConfigObject,
   ExtensionSlot,
@@ -27,10 +18,7 @@ import isEmpty from 'lodash-es/isEmpty';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { first } from 'rxjs/operators';
-import {
-  addQueueEntry,
-  useVisitQueueEntries
-} from '../../active-visits/active-visits-table.resource';
+import { addQueueEntry, useVisitQueueEntries } from '../../active-visits/active-visits-table.resource';
 import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
 import { useQueueLocations } from '../../patient-search/hooks/useQueueLocations';
 import { NewVisitPayload, PatientProgram, SearchTypes } from '../../types';
@@ -85,8 +73,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
     }
   }, [locations, sessionUser, loadingDefaultFacility]);
 
-
-
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
@@ -126,14 +112,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
           (response) => {
             if (response.status === 201) {
               // add new queue entry if visit created successfully
-              addQueueEntry(
-                response.data.uuid,
-                nextQueueLocationUuid,
-                patientUuid,
-                priority,
-                status,
-                location,
-              ).then(
+              addQueueEntry(response.data.uuid, nextQueueLocationUuid, patientUuid, priority, status, location).then(
                 ({ status }) => {
                   if (status === 201) {
                     showToast({
@@ -347,6 +326,19 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
               />
             </section>
           )} */}
+          <section className={styles.section}>
+            <div className={styles.sectionTitle}>{t('priority', 'Priority')}</div>
+            <ContentSwitcher
+              selectedIndex={contentSwitcherIndex}
+              className={styles.contentSwitcher}
+              onChange={({ index }) => setContentSwitcherIndex(index)}
+            >
+              <Switch name="urgent" text={t('notUrgent', 'Not Urgent')} />
+              <Switch name="urgent" text={t('urgent', 'Urgent')} />
+              <Switch name="emergency" text={t('emergency', 'Emergency')} />
+            </ContentSwitcher>
+          </section>
+
           <section className={styles.section}>
             <div className={styles.sectionTitle}>{t('nextServicePoint', 'Next Service Point')}</div>
             <ResponsiveWrapper isTablet={isTablet}>

@@ -149,6 +149,10 @@ function ActiveVisitsTable() {
         header: t('waitTime', 'Wait time'),
         key: 'waitTime',
       },
+      {
+        id: 5,
+        header: t('actions', 'Actions'),
+      },
     ],
     [t],
   );
