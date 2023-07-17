@@ -5,19 +5,15 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
-  RadioButton,
-  RadioButtonGroup,
   Select,
-  SelectItem,
+  SelectItem
 } from '@carbon/react';
 import { ConfigObject, showNotification, showToast, useConfig } from '@openmrs/esm-framework';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   addQueueEntry,
-  usePriority,
   useServices,
-  useStatus,
   useVisitQueueEntries
 } from '../active-visits/active-visits-table.resource';
 import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
@@ -38,8 +34,6 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
   const patientName = visitDetails?.name;
   const patientAge = visitDetails?.age;
   const patientSex = visitDetails?.gender;
-  const { priorities } = usePriority();
-  const { statuses, isLoading } = useStatus();
   const [selectedQueueLocation, setSelectedQueueLocation] = useState('');
   const { services } = useServices(selectedQueueLocation);
   const { queueLocations } = useQueueLocations();
@@ -47,7 +41,6 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
   const [isMissingService, setIsMissingService] = useState(false);
   const config = useConfig() as ConfigObject;
   const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
-  const [priority, setPriority] = useState(config.concepts.defaultPriorityConceptUuid);
   
 
   const addVisitToQueue = useCallback(() => {
@@ -57,14 +50,11 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
     }
     setIsMissingService(false);
 
-    if (!priority) {
-      setIsMissingPriority(true);
-      return;
-    }
-    setIsMissingPriority(false);
-    const emergencyPriorityConceptUuid = config.concepts.emergencyPriorityConceptUuid;
-    const sortWeight = priority === emergencyPriorityConceptUuid ? 1.0 : 0.0;
+
     const status = config.concepts.defaultStatusConceptUuid;
+    const priorityComment = "Emergency";
+    const comment = '';
+    const priority = 1;
     // generate 
 
     addQueueEntry(
@@ -74,6 +64,8 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
       priority,
       status,
       selectedQueueLocation,
+      priorityComment,
+      comment,
     ).then(
       ({ status }) => {
         if (status === 201) {
@@ -98,10 +90,6 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
     );
   }, [
     queueUuid,
-    priority,
-    config.concepts.emergencyPriorityConceptUuid,
-    config.concepts.defaultStatusConceptUuid,
-    config.concepts.visitQueueNumberAttributeUuid,
     visitUuid,
     patientUuid,
     selectedQueueLocation,
@@ -169,7 +157,7 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
             </section>
           )}
 
-          <section className={styles.section}>
+          {/* <section className={styles.section}>
             <div className={styles.sectionTitle}>{t('queueStatus', 'Queue status')}</div>
             {!priorities?.length ? (
               <InlineNotification
@@ -192,7 +180,7 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
                   priorities.map(({ uuid, display }) => <RadioButton key={uuid} labelText={display} value={uuid} />)}
               </RadioButtonGroup>
             )}
-          </section>
+          </section> */}
           {isMissingPriority && (
             <section>
               <InlineNotification
