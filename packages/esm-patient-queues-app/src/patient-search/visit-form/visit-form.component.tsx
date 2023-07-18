@@ -43,7 +43,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const { defaultFacility, isLoading: loadingDefaultFacility } = useDefaultLoginLocation();
 
   const config = useConfig() as ConfigObject;
-  const [contentSwitcherIndex, setContentSwitcherIndex] = useState(config.showRecommendedVisitTypeTab ? 0 : 1);
+  const [contentSwitcherIndex, setContentSwitcherIndex] = useState(0);
   const [isMissingVisitType, setIsMissingVisitType] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [timeFormat, setTimeFormat] = useState<amPm>(new Date().getHours() >= 12 ? 'PM' : 'AM');
@@ -58,6 +58,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const visitQueueNumberAttributeUuid = config.concepts.visitQueueNumberAttributeUuid;
   const [selectedLocation, setSelectedLocation] = useState('');
   const [visitType, setVisitType] = useState('');
+  const [priorityComment, setPriorityComment] = useState('');
 
   const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
@@ -73,15 +74,31 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
     }
   }, [locations, sessionUser, loadingDefaultFacility]);
 
+  useMemo(() => {
+    switch (contentSwitcherIndex) {
+      case 0: {
+        setPriorityComment('Not Urgent');
+        break;
+      }
+      case 1: {
+        setPriorityComment('Urgent');
+        break;
+      }
+      case 2: {
+        setPriorityComment('Emergency');
+        break;
+      }
+    }
+  }, [contentSwitcherIndex]);
+
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
 
       // retrieve values from queue extension
-      const location = event?.target['location']?.value;
       const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
-      const priority = event?.target['priority']?.value;
-      const status = event?.target['status']?.value;
+      const status = 'pending';
+      const comment = '';
 
       if (!visitType) {
         setIsMissingVisitType(true);
@@ -112,7 +129,16 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
           (response) => {
             if (response.status === 201) {
               // add new queue entry if visit created successfully
-              addQueueEntry(response.data.uuid, nextQueueLocationUuid, patientUuid, priority, status, location).then(
+              addQueueEntry(
+                response.data.uuid,
+                nextQueueLocationUuid,
+                patientUuid,
+                contentSwitcherIndex,
+                status,
+                selectedLocation,
+                priorityComment,
+                comment,
+              ).then(
                 ({ status }) => {
                   if (status === 201) {
                     showToast({
@@ -333,7 +359,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
               className={styles.contentSwitcher}
               onChange={({ index }) => setContentSwitcherIndex(index)}
             >
-              <Switch name="urgent" text={t('notUrgent', 'Not Urgent')} />
+              <Switch name="notUrgent" text={t('notUrgent', 'Not Urgent')} />
               <Switch name="urgent" text={t('urgent', 'Urgent')} />
               <Switch name="emergency" text={t('emergency', 'Emergency')} />
             </ContentSwitcher>

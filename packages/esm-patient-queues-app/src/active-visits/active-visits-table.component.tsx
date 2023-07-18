@@ -42,7 +42,7 @@ import {
 } from '@openmrs/esm-framework';
 import React, { AnchorHTMLAttributes, MouseEvent, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { buildStatusString, formatWaitTime, getTagType, trimVisitNumber, getTagColor } from '../helpers/functions';
+import { buildStatusString, formatWaitTime, getTagColor, getTagType, trimVisitNumber } from '../helpers/functions';
 import {
   updateSelectedQueueRoomLocationName,
   updateSelectedQueueRoomLocationUuid,
@@ -208,8 +208,8 @@ function ActiveVisitsTable() {
         ),
       },
       waitTime: {
-        content: (
-        <Tag>
+        content:(
+          <Tag>
           <span className={styles.statusContainer} style={{ color: `${getTagColor(entry.waitTime)}` }}>
           {formatWaitTime(entry.waitTime, t)}
         </span>
