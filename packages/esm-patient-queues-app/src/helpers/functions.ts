@@ -45,6 +45,17 @@ export const formatWaitTime = (waitTime: string, t) => {
   }
 };
 
+export const getTagColor = (waitTime: string) => {
+  const num = parseInt(waitTime);
+  if (num <= 30) {
+    return 'green';
+  } else if (num > 30 && num <= 45) {
+    return 'orange';
+  } else {
+    return 'red';
+  }
+};
+
 export const getGender = (gender, t) => {
   switch (gender) {
     case 'M':
