@@ -1,119 +1,148 @@
-import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
-import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
+import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, registerBreadcrumbs } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
-import { moduleName } from './constants';
 import { createDashboardLink } from './createDashboardLink';
-import { facilityListMeta } from './dashboard.meta';
-import formsRegistry from './forms/forms-registry';
-import ugandaEmrConfig from './ugandaemr-config';
-import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
+import { dashboardMeta } from './dashboard.meta';
+
+declare var __VERSION__: string;
+// __VERSION__ is replaced by Webpack with the version from package.json
+const version = __VERSION__;
+
 const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
 const backendDependencies = {
-  fhir2: '^1.2.0',
   'webservices.rest': '^2.2.0',
 };
 
 function setupOpenMRS() {
+  const moduleName = '@ugandaemr/esm-patient-queues-app';
+
   const options = {
-    featureName: 'esm-ugandaemr-app',
+    featureName: 'patient queues',
     moduleName,
   };
 
-  defineConfigSchema(moduleName, configSchema);
-  provide(ugandaEmrOverrides);
-  provide(ugandaEmrConfig);
-  addToBaseFormsRegistry(formsRegistry);
-  return {
-    pages: [],
-    extensions: [
-      {
-        id: 'cervical-cancer-summary-ext',
-        slot: 'cacx-visits-slot',
-        load: getAsyncLifecycle(() => import('./pages/cervical-cancer/cacx-visits/cacx-visits.component'), {
-          featureName: 'cervical-cancer-summary-extension',
-          moduleName,
-        }),
-      },
+  registerBreadcrumbs([]);
 
+  defineConfigSchema(moduleName, configSchema);
+
+  return {
+    pages: [
       {
-        id: 'facility-list-dashboard-link',
-        slot: 'homepage-dashboard-slot',
-        load: getSyncLifecycle(createDashboardLink(facilityListMeta), options),
-        meta: facilityListMeta,
+        load: getAsyncLifecycle(
+          () => import('./queue-patient-linelists/scheduled-appointments-table.component'),
+          options,
+        ),
+        route: /^appointments-list/,
         online: true,
         offline: true,
       },
       {
-        id: 'facility-list-dashboard-ext',
-        slot: 'facility-home-dashboard-slot',
-        load: getAsyncLifecycle(() => import('./views/facilities/facility-list-home.component'), {
-          featureName: 'facility landing page',
+        load: getAsyncLifecycle(() => import('./queue-patient-linelists/queue-services-table.component'), options),
+        route: /^patient-queues/,
+        online: true,
+        offline: true,
+      },
+    ],
+    extensions: [
+      {
+        id: 'outpatient-side-nav-ext',
+        slot: 'outpatient-sidebar-slot',
+        load: getAsyncLifecycle(() => import('./side-menu/side-menu.component'), options),
+        online: true,
+        offline: true,
+      },
+      {
+        id: 'patient-queues-dashboard-link',
+        slot: 'homepage-dashboard-slot',
+        load: getSyncLifecycle(createDashboardLink(dashboardMeta), options),
+        meta: dashboardMeta,
+        online: true,
+        offline: true,
+      },
+      {
+        id: 'home-dashboard',
+        slot: 'patient-queues-dashboard-slot',
+        load: getAsyncLifecycle(() => import('./home.component'), options),
+        online: true,
+        offline: true,
+      },
+      {
+        id: 'edit-queue-entry-status-modal',
+        load: getAsyncLifecycle(() => import('./active-visits/change-status-dialog.component'), {
+          featureName: 'edit queue status',
           moduleName,
         }),
       },
-
       {
-        id: 'facility-home-header',
-        slot: 'facility-landing-page-home-header-slot',
-        load: getAsyncLifecycle(() => import('./views/home/header/ugemr-home-header.component'), {
-          featureName: 'general-home-header',
+        id: 'patient-info-banner-slot',
+        load: getAsyncLifecycle(() => import('./patient-info/patient-info.component'), {
+          featureName: 'patient info slot',
           moduleName,
         }),
       },
       {
-        id: 'facility-tiles-ext',
-        slot: 'facility-landing-page-home-tiles-slot',
-        load: getAsyncLifecycle(() => import('./views/home/home-metrics/home-metrics.component'), {
-          featureName: 'tiles',
+        id: 'add-patient-to-queue',
+        slot: 'add-patient-to-queue-slot',
+        load: getAsyncLifecycle(() => import('./patient-search/visit-form/visit-form.component'), {
+          featureName: 'patient info slot',
           moduleName,
         }),
       },
       {
-        id: 'facility-tabs-ext',
-        slot: 'facility-landing-page-home-tabs-slot',
-        load: getAsyncLifecycle(() => import('./views/home/visit-tabs/home-visit-tabs.component'), {
-          featureName: 'tabs',
+        id: 'remove-queue-entry',
+        load: getAsyncLifecycle(() => import('./remove-queue-entry-dialog/remove-queue-entry.component'), {
+          featureName: 'remove queue entry and end visit',
           moduleName,
         }),
       },
-
       {
-        id: 'active-queue-patient-workspace',
-        slot: 'action-menu-non-chart-items-slot',
-        load: getAsyncLifecycle(() => import('./workspace/queue-patients-action-button.component'), {
-          featureName: 'active patients workspace',
+        id: 'clear-all-queue-entries',
+        load: getAsyncLifecycle(() => import('./clear-queue-entries-dialog/clear-queue-entries-dialog.component'), {
+          featureName: 'clear all queue entries and end visits',
           moduleName,
         }),
       },
-
       {
-        id: 'active-queue-patients',
+        id: 'add-visit-to-queue-modal',
+        load: getAsyncLifecycle(() => import('./add-patient-toqueue/add-patient-toqueue-dialog.component'), {
+          featureName: 'add visit to queue',
+          moduleName,
+        }),
+      },
+      {
+        id: 'transition-queue-entry-status-modal',
+        load: getAsyncLifecycle(() => import('./transition-queue-entry/transition-queue-entry-dialog.component'), {
+          featureName: 'transition queue status',
+          moduleName,
+        }),
+      },
+      {
+        id: 'previous-visit-summary-widget',
+        slot: 'previous-visit-summary-slot',
+        load: getAsyncLifecycle(() => import('./past-visit/past-visit.component'), options),
+      },
+      {
+        id: 'add-provider-to-room-modal',
+        load: getAsyncLifecycle(() => import('./add-provider-queue-room/add-provider-queue-room.component'), {
+          featureName: 'add provider queue room',
+          moduleName,
+        }),
+      },
+      {
+        id: 'add-queue-entry-widget',
+        slot: 'add-queue-entry-slot',
         load: getAsyncLifecycle(
-          () => import('../../esm-patient-queues-app/src/active-visits/active-visits-table.component'),
-          {
-            featureName: 'active patients workspace',
-            moduleName,
-          },
+          () => import('./patient-search/visit-form-queue-fields/visit-form-queue-fields.component'),
+          options,
         ),
       },
 
       {
-        id: 'queue-patients-workspace',
-        load: getAsyncLifecycle(() => import('./workspace/queue-patients-workspace.component'), {
-          featureName: 'active patients workspace',
-          moduleName,
-        }),
-      },
-      {
-        id: 'set-facility-identifier',
-        load: getAsyncLifecycle(() => import('./views/facilities/facility-list/set-identifer-dialog.component'), {
-          featureName: 'set facility identifier dialog',
-          moduleName,
-        }),
+        id: 'start-visit-dialog-ext',
+        load: getAsyncLifecycle(() => import('./visit-prompt/start-visit-dialog.component'), options),
       },
     ],
   };
 }
 
-export { backendDependencies, importTranslation, setupOpenMRS };
+export { backendDependencies, importTranslation, setupOpenMRS, version };
