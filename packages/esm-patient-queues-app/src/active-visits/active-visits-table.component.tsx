@@ -1,5 +1,3 @@
-import React, { useMemo, useState, MouseEvent, AnchorHTMLAttributes } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Button,
   DataTable,
@@ -8,14 +6,18 @@ import {
   DefinitionTooltip,
   Dropdown,
   Layer,
+  Pagination,
   Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
   Table,
   TableBody,
   TableCell,
   TableContainer,
-  TableExpandedRow,
   TableExpandHeader,
   TableExpandRow,
+  TableExpandedRow,
   TableHead,
   TableHeader,
   TableRow,
@@ -23,39 +25,40 @@ import {
   TableToolbarContent,
   TableToolbarSearch,
   Tabs,
-  TabPanels,
-  TabPanel,
-  TabList,
   Tag,
   Tile,
-  Pagination,
 } from '@carbon/react';
-import { Add, Edit } from '@carbon/react/icons';
+import { Add } from '@carbon/react/icons';
 import {
-  useLayoutType,
-  navigate,
+  ConfigObject,
+  ExtensionSlot,
   interpolateUrl,
   isDesktop,
-  ExtensionSlot,
-  usePagination,
+  navigate,
   useConfig,
-  ConfigObject,
+  useLayoutType,
+  usePagination,
+  useSession,
 } from '@openmrs/esm-framework';
-import { useServices, getOriginFromPathName } from './active-visits-table.resource';
-import PatientSearch from '../patient-search/patient-search.component';
-import PastVisit from '../past-visit/past-visit.component';
-import styles from './active-visits-table.scss';
+import React, { AnchorHTMLAttributes, MouseEvent, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { buildStatusString, formatWaitTime, getTagType, trimVisitNumber, getTagColor } from '../helpers/functions';
 import {
-  updateSelectedServiceName,
-  updateSelectedServiceUuid,
-  useSelectedServiceName,
+  updateSelectedQueueRoomLocationName,
+  updateSelectedQueueRoomLocationUuid,
   useSelectedQueueLocationUuid,
+  useSelectedQueueRoomLocationName,
+  useSelectedQueueRoomLocationUuid,
 } from '../helpers/helpers';
-import { formatWaitTime, getTagType } from '../helpers/functions';
+import PastVisit from '../past-visit/past-visit.component';
+import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
+import PatientSearch from '../patient-search/patient-search.component';
 import ActionsMenu from '../queue-entry-table-components/actions-menu.component';
 import StatusIcon from '../queue-entry-table-components/status-icon.component';
-import { usePatientQueuesList } from './patient-queues.resource';
 import { SearchTypes } from '../types';
+import { getOriginFromPathName } from './active-visits-table.resource';
+import styles from './active-visits-table.scss';
+import { usePatientQueuesList } from './patient-queues.resource';
 
 type FilterProps = {
   rowIds: Array<string>;
@@ -68,6 +71,11 @@ type FilterProps = {
 interface NameLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   to: string;
   from: string;
+}
+
+export interface PatientQueueInfoProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+  patientUuid: string;
+  patientName: string;
 }
 
 const PatientNameLink: React.FC<NameLinkProps> = ({ from, to, children }) => {
@@ -83,14 +91,20 @@ const PatientNameLink: React.FC<NameLinkProps> = ({ from, to, children }) => {
   );
 };
 
+
 function ActiveVisitsTable() {
   const { t } = useTranslation();
-  const currentQueueLocation = useSelectedQueueLocationUuid();
-  const { services } = useServices(currentQueueLocation);
-  const currentServiceName = useSelectedServiceName();
-  const currentLocationUuid = useSelectedQueueLocationUuid();
+  const session = useSession();
+  const { queueRoomLocations } = useQueueRoomLocations(session?.sessionLocation?.uuid);
+  const currentQueueLocationUuid = useSelectedQueueLocationUuid();
 
-  const { patientQueueEntries, isLoading } = usePatientQueuesList(currentLocationUuid);
+  const currentQueueRoomLocationUuid = useSelectedQueueRoomLocationUuid();
+  const currentQueueRoomLocationName = useSelectedQueueRoomLocationName();
+
+  const { patientQueueEntries, isLoading } = usePatientQueuesList(
+    currentQueueRoomLocationUuid,
+    currentQueueLocationUuid,
+  );
 
   const [showOverlay, setShowOverlay] = useState(false);
   const [view, setView] = useState('');
@@ -112,6 +126,11 @@ function ActiveVisitsTable() {
     () => [
       {
         id: 0,
+        header: t('visitNumber', 'Visit Number'),
+        key: 'visitNumber',
+      },
+      {
+        id: 1,
         header: t('name', 'Name'),
         key: 'name',
       },
@@ -130,18 +149,25 @@ function ActiveVisitsTable() {
         header: t('waitTime', 'Wait time'),
         key: 'waitTime',
       },
+      {
+        id: 5,
+        header: t('actions', 'Actions'),
+      },
     ],
     [t],
   );
 
-  const handleServiceChange = ({ selectedItem }) => {
-    updateSelectedServiceUuid(selectedItem.uuid);
-    updateSelectedServiceName(selectedItem.display);
+  const handleQueueRoomLocationChange = ({ selectedItem }) => {
+    updateSelectedQueueRoomLocationUuid(selectedItem.uuid);
+    updateSelectedQueueRoomLocationName(selectedItem.display);
   };
 
   const tableRows = useMemo(() => {
     return paginatedQueueEntries?.map((entry) => ({
       ...entry,
+      visitNumber: {
+        content: <span>{trimVisitNumber(entry.visitNumber)}</span>,
+      },
       name: {
         content: (
           <PatientNameLink to={`\${openmrsSpaBase}/patient/${entry.patientUuid}/chart`} from={fromPage}>
@@ -177,12 +203,18 @@ function ActiveVisitsTable() {
         content: (
           <span className={styles.statusContainer}>
             <StatusIcon status={entry.status.toLowerCase()} />
-            <span>{entry.status}</span>
+            <span>{buildStatusString(entry.status.toLowerCase(), entry.queueRoom)}</span>
           </span>
         ),
       },
       waitTime: {
-        content: <span className={styles.statusContainer}>{formatWaitTime(entry.waitTime, t)}</span>,
+        content: (
+        <Tag>
+          <span className={styles.statusContainer} style={{ color: `${getTagColor(entry.waitTime)}` }}>
+          {formatWaitTime(entry.waitTime, t)}
+        </span>
+        </Tag>
+        ),
       },
     }));
   }, [paginatedQueueEntries, t, fromPage]);
@@ -223,14 +255,14 @@ function ActiveVisitsTable() {
             <div className={styles.headerBtnContainer}></div>
             <div className={styles.headerContainer}>
               <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
-                <h4>{t('patientsCurrentlyInQueue', 'Patients currently in queue')}</h4>
+              <h4>{`Currently in ${currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display} queue`}</h4>
               </div>
               <div className={styles.headerButtons}>
                 <ExtensionSlot
                   extensionSlotName="patient-search-button-slot"
                   state={{
-                    buttonText: t('addPatientToQueue', 'Add patient to queue'),
-                    overlayHeader: t('addPatientToQueue', 'Add patient to queue'),
+                    buttonText: t('checkIn', 'CheckIn'),
+                    overlayHeader: t('checkIn', 'CheckIn'),
                     buttonProps: {
                       kind: 'secondary',
                       renderIcon: (props) => <Add size={16} {...props} />,
@@ -238,9 +270,9 @@ function ActiveVisitsTable() {
                     },
                     selectPatientAction: (selectedPatientUuid) => {
                       setShowOverlay(true);
-                      setView(SearchTypes.SCHEDULED_VISITS);
+                      setView(SearchTypes.VISIT_FORM);
                       setViewState({ selectedPatientUuid });
-                      setOverlayTitle(t('addPatientWithAppointmentToQueue', 'Add patient with appointment to queue'));
+                      setOverlayTitle(t('checkIn', 'Check In'));
                     },
                   }}
                 />
@@ -265,13 +297,13 @@ function ActiveVisitsTable() {
                 <TableToolbarContent className={styles.toolbarContent}>
                   <div className={styles.filterContainer}>
                     <Dropdown
-                      id="serviceFilter"
+                      id="queuelocationFilter"
                       titleText={t('showPatientsWaitingFor', 'Show patients waiting for') + ':'}
-                      label={currentServiceName}
+                      label={currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display}
                       type="inline"
-                      items={[{ display: `${t('all', 'All')}` }, ...services]}
-                      itemToString={(item) => (item ? item.display : '')}
-                      onChange={handleServiceChange}
+                      items={[...queueRoomLocations]}
+                      itemToString={(item) => (item ? item.display : 'Not Set')}
+                      onChange={handleQueueRoomLocationChange}
                       size="sm"
                     />
                   </div>
@@ -303,10 +335,7 @@ function ActiveVisitsTable() {
                           {row.cells.map((cell) => (
                             <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
                           ))}
-                          <TableCell className="cds--table-column-menu">
-                            <Edit size={16} className={styles.editIcon} />
-                          </TableCell>
-                          <TableCell className="cds--table-column-menu">
+                          <TableCell>
                             <ActionsMenu queueEntry={patientQueueEntries?.[index]} closeModal={() => true} />
                           </TableCell>
                         </TableExpandRow>
@@ -393,14 +422,14 @@ function ActiveVisitsTable() {
         <>
           <div className={styles.headerContainer}>
             <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
-              <h4>{t('patientsCurrentlyInQueue', 'Patients currently in queue')}</h4>
+              <h4>{`Currently in ${currentQueueRoomLocationName} queue`}</h4>
             </div>
             <div className={styles.headerButtons}>
               <ExtensionSlot
                 extensionSlotName="patient-search-button-slot"
                 state={{
-                  buttonText: t('addPatientToQueue', 'Add patient to queue'),
-                  overlayHeader: t('addPatientToQueue', 'Add patient to queue'),
+                  buttonText: t('checkIn', 'Check In'),
+                  overlayHeader: t('checkIn', 'Check In'),
                   buttonProps: {
                     kind: 'secondary',
                     renderIcon: (props) => <Add size={16} {...props} />,
@@ -410,7 +439,7 @@ function ActiveVisitsTable() {
                     setShowOverlay(true);
                     setView(SearchTypes.SCHEDULED_VISITS);
                     setViewState({ selectedPatientUuid });
-                    setOverlayTitle(t('addPatientWithAppointmentToQueue', 'Add patient with appointment to queue'));
+                    setOverlayTitle(t('checkIn', 'Check In'));
                   },
                 }}
               />
@@ -424,8 +453,8 @@ function ActiveVisitsTable() {
           <ExtensionSlot
             extensionSlotName="patient-search-button-slot"
             state={{
-              buttonText: t('addPatientToQueue', 'Add patient to queue'),
-              overlayHeader: t('addPatientToQueue', 'Add patient to queue'),
+              buttonText: t('checkIn', 'Check In'),
+              overlayHeader: t('checkIn', 'Check In'),
               buttonProps: {
                 kind: 'ghost',
                 renderIcon: (props) => <Add size={16} {...props} />,
@@ -435,7 +464,7 @@ function ActiveVisitsTable() {
                 setShowOverlay(true);
                 setView(SearchTypes.SCHEDULED_VISITS);
                 setViewState({ selectedPatientUuid });
-                setOverlayTitle(t('addPatientWithAppointmentToQueue', 'Add patient with appointment to queue'));
+                setOverlayTitle(t('checkIn', 'Check In'));
               },
             }}
           />
