@@ -1,33 +1,27 @@
+import { FetchResponse, formatDate, openmrsFetch, parseDate, useConfig, Visit } from '@openmrs/esm-framework';
 import dayjs from 'dayjs';
-import isEmpty from 'lodash-es/isEmpty';
+import isToday from 'dayjs/plugin/isToday';
 import last from 'lodash-es/last';
+import { useTranslation } from 'react-i18next';
 import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
-import { useTranslation } from 'react-i18next';
-import {
-  FetchResponse,
-  formatDate,
-  openmrsFetch,
-  parseDate,
-  toDateObjectStrict,
-  toOmrsIsoString,
-  useConfig,
-  Visit,
-} from '@openmrs/esm-framework';
-import { Identifer, MappedServiceQueueEntry, QueueServiceInfo } from '../types';
 import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
-import isToday from 'dayjs/plugin/isToday';
+import { Identifer, MappedServiceQueueEntry, QueueServiceInfo } from '../types';
 
 export type QueuePriority = 'Emergency' | 'Not Urgent' | 'Priority' | 'Urgent';
 export type MappedQueuePriority = Omit<QueuePriority, 'Urgent'>;
 export type QueueService = 'Clinical consultation' | 'Triage';
-export type QueueStatus = 'Finished Service' | 'In Service' | 'Waiting';
+export type QueueStatus = 'Finished' | 'Picked' | 'Pending';
 dayjs.extend(isToday);
 
 export interface VisitQueueEntry {
   queueEntry: VisitQueueEntry;
   uuid: string;
   visit: Visit;
+}
+
+export interface VisitNumberResponse {
+  queueNumber: string;
 }
 
 export interface VisitQueueEntry {
@@ -139,7 +133,7 @@ interface MappedEncounter extends Omit<Encounter, 'encounterType' | 'provider'> 
 }
 
 export function useServices(location: string) {
-  const apiUrl = `/ws/rest/v1/queue?location=${location}`;
+  const apiUrl = `/ws/rest/v1/queue?location=${location}`; // ${fhirBaseUrl}/Location?_tag=Queue Room
 
   const { data } = useSWRImmutable<{ data: { results: Array<QueueServiceInfo> } }, Error>(
     location ? apiUrl : null,
@@ -274,45 +268,37 @@ export const getOriginFromPathName = (pathname = '') => {
 };
 
 export async function updateQueueEntry(
-  visitUuid: string,
-  previousQueueUuid: string,
-  newQueueUuid: string,
+  locationFrom: string,
+  locationTo: string,
   queueEntryUuid: string,
   patientUuid: string,
   priority: string,
   status: string,
+  priorityComment: string,
+  comment: string,
   endedAt: Date,
-  sortWeight: number,
 ) {
   const abortController = new AbortController();
-  const queueServiceUuid = isEmpty(newQueueUuid) ? previousQueueUuid : newQueueUuid;
 
-  await Promise.all([endPatientStatus(previousQueueUuid, queueEntryUuid, endedAt)]);
-
-  return openmrsFetch(`/ws/rest/v1/visit-queue-entry`, {
+  return openmrsFetch(`/ws/rest/v1/patientqueue`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     signal: abortController.signal,
     body: {
-      visit: { uuid: visitUuid },
-      queueEntry: {
-        status: {
-          uuid: status,
-        },
-        priority: {
-          uuid: priority,
-        },
-        queue: {
-          uuid: queueServiceUuid,
-        },
-        patient: {
-          uuid: patientUuid,
-        },
-        startedAt: toDateObjectStrict(toOmrsIsoString(new Date())),
-        sortWeight: sortWeight,
-      },
+      patient: patientUuid,
+      provider: '',
+      locationFrom: locationFrom,
+      locationTo: locationTo !== undefined ? locationTo : 'Not Set',
+      status: status ? status : 'pending',
+      encounter: null,
+      priority: priority ? priority : 1,
+      priorityComment: priorityComment ? priorityComment : 'This is urgent',
+      comment: comment ? comment : 'This is urgent',
+      endedAt: endedAt,
+      queueId: queueEntryUuid !== undefined ? queueEntryUuid : 'Not Set',
+      queueRoom: locationFrom !== undefined ? locationFrom : 'Not Set',
     },
   });
 }
@@ -367,60 +353,51 @@ export async function addQueueEntry(
   patientUuid: string,
   priority: string,
   status: string,
-  sortWeight: number,
   locationUuid: string,
-  visitQueueNumberAttributeUuid: string,
 ) {
   const abortController = new AbortController();
 
-  await Promise.all([generateVisitQueueNumber(locationUuid, visitUuid, queueUuid, visitQueueNumberAttributeUuid)]);
-
-  return openmrsFetch(`/ws/rest/v1/visit-queue-entry`, {
+  return openmrsFetch(`/ws/rest/v1/patientqueue`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     signal: abortController.signal,
     body: {
-      visit: { uuid: visitUuid },
-      queueEntry: {
-        status: {
-          uuid: status,
-        },
-        priority: {
-          uuid: priority,
-        },
-        queue: {
-          uuid: queueUuid,
-        },
-        patient: {
-          uuid: patientUuid,
-        },
-        startedAt: toDateObjectStrict(toOmrsIsoString(new Date())),
-        sortWeight: sortWeight,
-      },
+      patient: patientUuid,
+      provider: '',
+      locationFrom: locationUuid,
+      locationTo: queueUuid !== undefined ? queueUuid : 'Not Set',
+      status: status ? status : 'pending',
+      encounter: null,
+      priority: priority ? priority : 1,
+      priorityComment: 'Urgent',
+      comment: 'Na',
+      queueRoom: queueUuid !== undefined ? queueUuid : 'Not Set',
     },
   });
 }
 
-export async function generateVisitQueueNumber(
-  location: string,
-  visitUuid: string,
-  queueUuid: string,
-  visitQueueNumberAttributeUuid: string,
-) {
+export function generateVisitQueueNumber(location: string, patient: string) {
   const abortController = new AbortController();
-
-  await openmrsFetch(
-    `/ws/rest/v1/queue-entry-number?location=${location}&queue=${queueUuid}&visit=${visitUuid}&visitAttributeType=${visitQueueNumberAttributeUuid}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      signal: abortController.signal,
+  return openmrsFetch(`/ws/rest/v1/queuenumber?patient=${patient}&location=${location}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+    signal: abortController.signal,
+  });
+}
+
+export function useGenerateVisitQueueNumber(location: string, patient: string) {
+  const apiUrl = `/ws/rest/v1/queuenumber?patient=${patient}&location=${location}`;
+  const { data, error, isLoading } = useSWR<{ data: VisitNumberResponse }, Error>(apiUrl, openmrsFetch);
+
+  return {
+    visitNumber: data.data.queueNumber,
+    isLoading,
+    isError: error,
+  };
 }
 
 export function serveQueueEntry(servicePointName: string, ticketNumber: string, status: string) {

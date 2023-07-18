@@ -1,5 +1,4 @@
-import { openmrsFetch, toDateObjectStrict, toOmrsIsoString } from '@openmrs/esm-framework';
-import { generateVisitQueueNumber } from '../../active-visits/active-visits-table.resource';
+import { openmrsFetch } from '@openmrs/esm-framework';
 import { Appointment } from '../../types';
 
 export async function addQueueEntry(
@@ -9,40 +8,28 @@ export async function addQueueEntry(
   status: string,
   queueServiceUuid: string,
   appointment: Appointment,
-
   locationUuid: string,
-  visitQueueNumberAttributeUuid: string,
 ) {
   const abortController = new AbortController();
 
-  await Promise.all([
-    saveAppointment(appointment),
-    generateVisitQueueNumber(locationUuid, visitUuid, queueServiceUuid, visitQueueNumberAttributeUuid),
-  ]);
-
-  return openmrsFetch(`/ws/rest/v1/visit-queue-entry`, {
+  return openmrsFetch(`/ws/rest/v1/patientqueue`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     signal: abortController.signal,
     body: {
-      visit: { uuid: visitUuid },
-      queueEntry: {
-        status: {
-          uuid: status,
-        },
-        priority: {
-          uuid: priority,
-        },
-        queue: {
-          uuid: queueServiceUuid,
-        },
-        patient: {
-          uuid: patientUuid,
-        },
-        startedAt: toDateObjectStrict(toOmrsIsoString(new Date())),
-      },
+      patient: patientUuid,
+      provider: '',
+      locationFrom: locationUuid,
+      locationTo: queueServiceUuid !== undefined ? queueServiceUuid : 'Not Set',
+      status: status ? status : 'pending',
+      encounter: null,
+      visitNumber: '',
+      priority: 1,
+      priorityComment: 'Urgent',
+      comment: 'Na',
+      queueRoom: queueServiceUuid !== undefined ? queueServiceUuid : 'Not Set',
     },
   });
 }
