@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { RegionsResponse } from '../../types';
+import { RegionsResponse } from '../../../types';
 
 export interface FacilityResponse {
   message: string;
