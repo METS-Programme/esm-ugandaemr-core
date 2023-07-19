@@ -1,8 +1,8 @@
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@carbon/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { PatientChartProps } from '../../types';
 import styles from '../common.scss';
-import { Tabs, Tab, TabList, TabPanels, TabPanel } from '@carbon/react';
 import OutpatientRegister from './tabs/outpatient-register.component';
 import ReferralNote from './tabs/referral-note.component';
 

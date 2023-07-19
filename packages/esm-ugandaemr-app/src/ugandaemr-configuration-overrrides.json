@@ -30,7 +30,8 @@
             "conditions-summary-dashboard",
             "programs-summary-dashboard",
             "allergies-summary-dashboard",
-            "attachments-results-summary-dashboard"
+            "attachments-results-summary-dashboard",
+            "offline-tools-patient-chart-actions-dashboard-link"
           ]
         },
       "patient-chart-summary-dashboard-slot": {
