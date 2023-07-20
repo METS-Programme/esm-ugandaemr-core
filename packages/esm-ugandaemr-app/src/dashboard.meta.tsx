@@ -4,3 +4,9 @@
 //   config: { columns: 1, type: "grid" },
 //   title: "Test",
 // };
+
+export const facilityListMeta = {
+  name: 'facility-lists',
+  slot: 'facility-home-dashboard-slot',
+  title: 'Facility List',
+};

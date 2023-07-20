@@ -7,25 +7,44 @@ import { opdDashboardMeta } from './dashboard.meta';
 import formsRegistry from './forms/forms-registry';
 import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 
-export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
+const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
-const options = {
-  featureName: '@ugandaemr/esm-outpatient-app',
-  moduleName,
+const backendDependencies = {
+  fhir2: '^1.2.0',
+  'webservices.rest': '^2.2.0',
 };
 
-// start app
-export function startupApp() {
+function setupOpenMRS() {
+  const options = {
+    featureName: '@ugandaemr/esm-outpatient-app',
+    moduleName,
+  };
+
   defineConfigSchema(moduleName, configSchema);
   provide(ugandaEmrOverrides);
   addToBaseFormsRegistry(formsRegistry);
+  return {
+    pages: [],
+    extensions: [
+      {
+        id: 'opd-dashboard',
+        slot: 'patient-chart-dashboard-slot',
+        load: getSyncLifecycle(createDashboardLink(opdDashboardMeta), options),
+        meta: opdDashboardMeta,
+      },
+      {
+        id: 'opd-dashboard-ext',
+        slot: 'opd-dashboard-slot',
+        load: getAsyncLifecycle(() => import('./pages/opd/outpatient.component'), {
+          featureName: 'opd-dashboard-summary',
+          moduleName,
+        }),
+        meta: {
+          columnSpan: 4,
+        },
+      },
+    ],
+  };
 }
 
-// pages
-
-// extensions
-export const opdDashboard = getSyncLifecycle(createDashboardLink(opdDashboardMeta), options);
-export const opdDashboardExt = getAsyncLifecycle(() => import('./pages/opd/outpatient.component'), {
-  featureName: 'opd-dashboard-summary',
-  moduleName,
-});
+export { backendDependencies, importTranslation, setupOpenMRS };

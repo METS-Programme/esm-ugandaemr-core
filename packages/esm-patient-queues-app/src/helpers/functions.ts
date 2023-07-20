@@ -12,18 +12,24 @@ export const getTagType = (priority: string) => {
   }
 };
 
-export const buildStatusString = (status: string, service: string) => {
-  if (!status || !service) {
+export const buildStatusString = (status: string, location: string) => {
+  if (!status || !location) {
     return '';
   }
-
-  if (status === 'waiting') {
-    return `${status} for ${service}`;
-  } else if (status === 'in service') {
-    return `Attending ${service}`;
-  } else if (status === 'finished service') {
-    return `Finished ${service}`;
+  if (status === 'pending') {
+    return `${status} for ${location}`;
+  } else if (status === 'picked') {
+    return `Attending ${location}`;
+  } else if (status === 'completed') {
+    return `Finished ${location}`;
   }
+};
+
+export const trimVisitNumber = (visitNumber: string) => {
+  if (!visitNumber) {
+    return;
+  }
+  return visitNumber.substring(15);
 };
 
 export const formatWaitTime = (waitTime: string, t) => {
@@ -36,6 +42,17 @@ export const formatWaitTime = (waitTime: string, t) => {
     return rhours + ' ' + `${t('hoursAnd', 'hours and ')}` + rminutes + ' ' + `${t('minutes', 'minutes')}`;
   } else {
     return rminutes + ' ' + `${t('minutes', 'minutes')}`;
+  }
+};
+
+export const getTagColor = (waitTime: string) => {
+  const num = parseInt(waitTime);
+  if (num <= 30) {
+    return 'green';
+  } else if (num > 30 && num <= 45) {
+    return 'orange';
+  } else {
+    return 'red';
   }
 };
 

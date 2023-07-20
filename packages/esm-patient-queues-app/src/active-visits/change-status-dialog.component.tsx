@@ -1,37 +1,32 @@
-import React, { useCallback, useState } from 'react';
 import {
   Button,
+  ContentSwitcher,
+  Form,
   ModalBody,
   ModalFooter,
   ModalHeader,
-  Form,
-  ContentSwitcher,
-  Switch,
   Select,
   SelectItem,
-  InlineNotification,
-  RadioButton,
-  RadioButtonGroup,
+  Switch,
+  TextArea,
 } from '@carbon/react';
-import { useTranslation } from 'react-i18next';
 import {
-  ConfigObject,
   navigate,
   showNotification,
   showToast,
   toDateObjectStrict,
   toOmrsIsoString,
-  useConfig,
+  useLocations,
+  useSession,
 } from '@openmrs/esm-framework';
+import isEmpty from 'lodash-es/isEmpty';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDefaultLoginLocation } from '../patient-search/hooks/useDefaultLocation';
+import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
-import {
-  updateQueueEntry,
-  usePriority,
-  useServices,
-  useStatus,
-  useVisitQueueEntries,
-} from './active-visits-table.resource';
-import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
+
+import { updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
 import styles from './change-status-dialog.scss';
 
 interface ChangeStatusDialogProps {
@@ -41,38 +36,51 @@ interface ChangeStatusDialogProps {
 
 const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModal }) => {
   const { t } = useTranslation();
+  const locations = useLocations();
 
-  const [priority, setPriority] = useState(queueEntry?.priorityUuid);
-  const [newQueueUuid, setNewQueueUuid] = useState('');
-  const { priorities } = usePriority();
-  const config = useConfig() as ConfigObject;
+  const [selectedLocation, setSelectedLocation] = useState('');
+
+  const { defaultFacility, isLoading: loadingDefaultFacility } = useDefaultLoginLocation();
+
+  const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
+
   const [selectedQueueLocation, setSelectedQueueLocation] = useState(queueEntry?.queueLocation);
-  const { services } = useServices(selectedQueueLocation);
-  const { queueLocations } = useQueueLocations();
-  const [editLocation, setEditLocation] = useState(false);
+
   const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
-  const { statuses } = useStatus();
-  const [queueStatus, setQueueStatus] = useState(queueEntry?.statusUuid);
+
+  const sessionUser = useSession();
+
+  const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
+
+  const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
+
+  useEffect(() => {
+    if (locations?.length && sessionUser) {
+      setSelectedLocation(sessionUser?.sessionLocation?.uuid);
+    } else if (!loadingDefaultFacility && defaultFacility) {
+      setSelectedLocation(defaultFacility?.uuid);
+    }
+  }, [locations, sessionUser, loadingDefaultFacility]);
 
   const changeQueueStatus = useCallback(
     (event) => {
       event.preventDefault();
-      const defaultPriority = config.concepts.defaultPriorityConceptUuid;
-      setEditLocation(false);
-      const queuePriority = priority === '' ? defaultPriority : priority;
-      const emergencyPriorityConceptUuid = config.concepts.emergencyPriorityConceptUuid;
-      const sortWeight = priority === emergencyPriorityConceptUuid ? 1.0 : 0.0;
       const endDate = toDateObjectStrict(toOmrsIsoString(new Date()));
+      // const locationTo = event?.target['nextQueueLocation']?.value;
+      const status = 'pending';
+      const priorityComment = 'Moving to next Queue';
+      const comment = event?.target['nextNotes']?.value;
+
       updateQueueEntry(
-        queueEntry?.visitUuid,
-        queueEntry?.queueUuid,
-        event?.target['service']?.value,
-        queueEntry?.queueEntryUuid,
+        selectedLocation,
+        selectedNextQueueLocation,
+        queueEntry?.id,
         queueEntry?.patientUuid,
-        queuePriority,
-        queueStatus,
+        queueEntry?.priority,
+        status,
+        priorityComment,
+        comment,
         endDate,
-        sortWeight,
       ).then(
         ({ status }) => {
           if (status === 201) {
@@ -84,7 +92,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
             });
             closeModal();
             mutate();
-            navigate({ to: `${window.spaBase}/home/service-queues` });
+            navigate({ to: `${window.spaBase}/home/patient-queues` });
           }
         },
         (error) => {
@@ -98,14 +106,10 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
       );
     },
     [
-      config.concepts.defaultPriorityConceptUuid,
-      config.concepts.emergencyPriorityConceptUuid,
-      priority,
       queueEntry?.visitUuid,
       queueEntry?.queueUuid,
       queueEntry?.queueEntryUuid,
       queueEntry?.patientUuid,
-      queueStatus,
       t,
       closeModal,
       mutate,
@@ -122,7 +126,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
         <Form onSubmit={changeQueueStatus}>
           <ModalHeader
             closeModal={closeModal}
-            title={t('movePatientToNextService', 'Move patient to the next service?')}
+            title={t('movePatientToNextQueueRoom', 'Move patient to the next queue room?')}
           />
           <ModalBody>
             <div className={styles.modalBody}>
@@ -131,102 +135,62 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
                 {t('years', 'Years')}
               </h5>
             </div>
+
+            <section className={styles.section}>
+              <div className={styles.sectionTitle}>{t('priority', 'Priority')}</div>
+              <ContentSwitcher
+                selectedIndex={contentSwitcherIndex}
+                className={styles.contentSwitcher}
+                onChange={({ index }) => setContentSwitcherIndex(index)}
+              >
+                <Switch name="urgent" text={t('notUrgent', 'Not Urgent')} />
+                <Switch name="urgent" text={t('urgent', 'Urgent')} />
+                <Switch name="emergency" text={t('emergency', 'Emergency')} />
+              </ContentSwitcher>
+            </section>
             <section>
               <Select
-                labelText={t('selectQueueLocation', 'Select a queue location')}
-                id="location"
+                labelText={t('selectNextQueueRoom', 'Select next queue room ')}
+                id="nextQueueLocation"
+                name="nextQueueLocation"
                 invalidText="Required"
-                value={selectedQueueLocation}
-                onChange={(event) => {
-                  setSelectedQueueLocation(event.target.value);
-                  setEditLocation(true);
-                }}
+                value={selectedNextQueueLocation}
+                onChange={(event) => setSelectedNextQueueLocation(event.target.value)}
               >
-                {!selectedQueueLocation ? <SelectItem text={t('selectOption', 'Select an option')} value="" /> : null}
-                {queueLocations?.length > 0 &&
-                  queueLocations.map((location) => (
-                    <SelectItem key={location.id} text={location.name} value={location.id}>
-                      {location.name}
-                    </SelectItem>
-                  ))}
-              </Select>
-            </section>
-
-            <section className={styles.section}>
-              <div className={styles.sectionTitle}>{t('queueService', 'Queue service')}</div>
-              <Select
-                labelText={t('selectService', 'Select a service')}
-                id="service"
-                invalidText="Required"
-                value={newQueueUuid}
-                onChange={(event) => setNewQueueUuid(event.target.value)}
-              >
-                {!newQueueUuid && editLocation === true ? (
-                  <SelectItem text={t('selectService', 'Select a service')} value="" />
+                {!selectedNextQueueLocation ? (
+                  <SelectItem text={t('selectNextQueueRoom', 'Select next queue room ')} value="" />
                 ) : null}
-                {!queueEntry.queueUuid ? <SelectItem text={t('selectService', 'Select a service')} value="" /> : null}
-                {services?.length > 0 &&
-                  services.map((service) => (
-                    <SelectItem key={service.uuid} text={service.display} value={service.uuid}>
-                      {service.display}
+                {!isEmpty(defaultFacility) ? (
+                  <SelectItem key={defaultFacility?.uuid} text={defaultFacility?.display} value={defaultFacility?.uuid}>
+                    {defaultFacility?.display}
+                  </SelectItem>
+                ) : queueRoomLocations?.length > 0 ? (
+                  queueRoomLocations.map((location) => (
+                    <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
+                      {location.display}
                     </SelectItem>
-                  ))}
+                  ))
+                ) : null}
               </Select>
             </section>
 
-            <section className={styles.section}>
-              <div className={styles.sectionTitle}>{t('queueStatus', 'Queue status')}</div>
-              {!statuses?.length ? (
-                <InlineNotification
-                  className={styles.inlineNotification}
-                  kind={'error'}
-                  lowContrast
-                  subtitle={t('configureStatus', 'Please configure status to continue.')}
-                  title={t('noStatusConfigured', 'No status configured')}
-                />
-              ) : (
-                <RadioButtonGroup
-                  className={styles.radioButtonWrapper}
-                  name="status"
-                  defaultSelected={queueStatus}
-                  onChange={(uuid) => {
-                    setQueueStatus(uuid);
-                  }}
-                >
-                  {statuses?.length > 0 &&
-                    statuses.map(({ uuid, display }) => <RadioButton key={uuid} labelText={display} value={uuid} />)}
-                </RadioButtonGroup>
-              )}
-            </section>
-
-            <section className={styles.section}>
-              <div className={styles.sectionTitle}>{t('queuePriority', 'Queue priority')}</div>
-              <ContentSwitcher
-                size="sm"
-                selectedIndex={1}
-                onChange={(event) => {
-                  setPriority(event.name as any);
-                }}
-              >
-                {priorities?.length > 0 ? (
-                  priorities.map(({ uuid, display }) => {
-                    return <Switch name={uuid} text={display} key={uuid} value={uuid} />;
-                  })
-                ) : (
-                  <Switch
-                    name={t('noPriorityFound', 'No priority found')}
-                    text={t('noPriorityFound', 'No priority found')}
-                    value={null}
-                  />
-                )}
-              </ContentSwitcher>
+            <section>
+              <TextArea
+                labelText={t('notes', 'Enter notes ')}
+                id="nextNotes"
+                name="nextNotes"
+                invalidText="Required"
+                helperText="Please enter notes"
+                maxCount={500}
+                enableCounter
+              />
             </section>
           </ModalBody>
           <ModalFooter>
             <Button kind="secondary" onClick={closeModal}>
               {t('cancel', 'Cancel')}
             </Button>
-            <Button type="submit">{t('moveToNextService', 'Move to next service')}</Button>
+            <Button type="submit">{t('moveToNextQueue', 'Move to next QueueRoom')}</Button>
           </ModalFooter>
         </Form>
       </div>

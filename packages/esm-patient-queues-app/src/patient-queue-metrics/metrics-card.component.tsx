@@ -1,8 +1,8 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Layer, Tile } from '@carbon/react';
 import { ArrowRight } from '@carbon/react/icons';
 import { ConfigurableLink } from '@openmrs/esm-framework';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './metrics-card.scss';
 
 interface MetricsCardProps {
@@ -36,17 +36,14 @@ const MetricsCard: React.FC<MetricsCardProps> = ({
           </div>
           {service == 'scheduled' ? (
             <div className={styles.link}>
-              <ConfigurableLink className={styles.link} to={`\${openmrsSpaBase}/home`}>
+              <ConfigurableLink className={styles.link} to="">
                 {t('patientList', 'Patient list')}
               </ConfigurableLink>
               <ArrowRight size={16} />
             </div>
           ) : service == 'waitTime' ? null : (
             <div className={styles.link}>
-              <ConfigurableLink
-                className={styles.link}
-                to={`\${openmrsSpaBase}/queue-list/${service}/${serviceUuid}/${locationUuid}/`}
-              >
+              <ConfigurableLink className={styles.link} to="">
                 {t('patientList', 'Patient list')}
               </ConfigurableLink>
               <ArrowRight size={16} />

@@ -24,3 +24,4 @@ yarn start --port 5090
 Once it is running, a browser window
 should open with the OpenMRS 3 application. Log in and then navigate to
 `/openmrs/spa`.
+
