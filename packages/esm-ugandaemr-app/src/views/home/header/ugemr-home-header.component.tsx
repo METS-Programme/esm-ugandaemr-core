@@ -20,7 +20,7 @@ const PatientHomeHeader: React.FC<{ title?: string }> = ({ title }) => {
   const userLocation = userSession?.sessionLocation?.display;
   const { queueLocations } = useQueueLocations();
   const currentQueueLocationName = useSelectedQueueLocationName();
-  const currentFacilityName  = useSelectedFacilityName();
+  const currentFacilityName = useSelectedFacilityName();
 
   const handleQueueLocationChange = ({ selectedItem }) => {
     updateSelectedQueueLocationUuid(selectedItem.id);

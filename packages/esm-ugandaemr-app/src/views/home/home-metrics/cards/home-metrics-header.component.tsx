@@ -8,7 +8,6 @@ import { spaBasePath } from '../../../../constants';
 import { SearchTypes } from '../../../../types';
 import PatientSearch from '../../../../../../esm-patient-queues-app/src/patient-search/patient-search.component';
 
-
 const HomeMetricsHeader = () => {
   const { t } = useTranslation();
   const metricsTitle = t('clinicMetrics', 'Clinic metrics');

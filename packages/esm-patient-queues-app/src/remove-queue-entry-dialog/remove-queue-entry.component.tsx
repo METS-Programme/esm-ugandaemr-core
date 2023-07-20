@@ -1,11 +1,5 @@
 import { Button, ModalBody, ModalFooter, ModalHeader } from '@carbon/react';
-import {
-  parseDate,
-  showNotification,
-  showToast,
-  toDateObjectStrict,
-  toOmrsIsoString,
-} from '@openmrs/esm-framework';
+import { parseDate, showNotification, showToast, toDateObjectStrict, toOmrsIsoString } from '@openmrs/esm-framework';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useVisitQueueEntries } from '../active-visits/active-visits-table.resource';
@@ -23,7 +17,6 @@ const RemoveQueueEntryDialog: React.FC<RemoveQueueEntryDialogProps> = ({ queueEn
   const { currentVisit } = useVisit(queueEntry.patientUuid);
   const { mutate } = useVisitQueueEntries('', '');
 
-
   const removeQueueEntry = () => {
     const endCurrentVisitPayload = {
       location: currentVisit?.location?.uuid,
@@ -34,11 +27,7 @@ const RemoveQueueEntryDialog: React.FC<RemoveQueueEntryDialogProps> = ({ queueEn
 
     const endedAt = toDateObjectStrict(toOmrsIsoString(new Date()));
 
-    voidQueueEntry(
-      endedAt,
-      endCurrentVisitPayload,
-      queueEntry.id,
-    ).then((response) => {
+    voidQueueEntry(endedAt, endCurrentVisitPayload, queueEntry.id).then((response) => {
       closeModal();
       mutate();
       showToast({

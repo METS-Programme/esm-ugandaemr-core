@@ -45,7 +45,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
 
   const [selectedQueueLocation, setSelectedQueueLocation] = useState(queueEntry?.queueLocation);
-  
+
   const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
 
   const sessionUser = useSession();
@@ -53,7 +53,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
   const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
-
 
   useEffect(() => {
     if (locations?.length && sessionUser) {
@@ -68,11 +67,21 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
       event.preventDefault();
       const endDate = toDateObjectStrict(toOmrsIsoString(new Date()));
       // const locationTo = event?.target['nextQueueLocation']?.value;
-      const status = "pending"
-      const priorityComment = "Moving to next Queue";
+      const status = 'pending';
+      const priorityComment = 'Moving to next Queue';
       const comment = event?.target['nextNotes']?.value;
 
-      updateQueueEntry(selectedLocation, selectedNextQueueLocation, queueEntry?.id, queueEntry?.patientUuid, queueEntry?.priority, status, priorityComment, comment, endDate).then(
+      updateQueueEntry(
+        selectedLocation,
+        selectedNextQueueLocation,
+        queueEntry?.id,
+        queueEntry?.patientUuid,
+        queueEntry?.priority,
+        status,
+        priorityComment,
+        comment,
+        endDate,
+      ).then(
         ({ status }) => {
           if (status === 201) {
             showToast({

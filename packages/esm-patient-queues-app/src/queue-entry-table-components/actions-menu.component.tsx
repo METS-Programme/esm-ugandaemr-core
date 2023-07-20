@@ -1,6 +1,4 @@
-import {
-  Button
-} from '@carbon/react';
+import { Button } from '@carbon/react';
 import { ArrowRight } from '@carbon/react/icons';
 
 import { showModal } from '@openmrs/esm-framework';
@@ -28,7 +26,7 @@ const ActionsMenu: React.FC<ActionsMenuProps> = ({ queueEntry }) => {
       closeModal: () => dispose(),
       queueEntry,
     });
-  },[queueEntry]);
+  }, [queueEntry]);
 
   return (
     <Button

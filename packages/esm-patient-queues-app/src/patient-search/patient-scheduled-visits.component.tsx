@@ -37,7 +37,7 @@ import {
   usePriority,
   useServices,
   useStatus,
-  useVisitQueueEntries
+  useVisitQueueEntries,
 } from '../active-visits/active-visits-table.resource';
 import { amPm, convertTime12to24 } from '../helpers/time-helpers';
 import { Appointment, SearchTypes } from '../types';

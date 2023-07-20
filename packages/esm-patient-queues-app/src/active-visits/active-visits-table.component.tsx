@@ -91,7 +91,6 @@ const PatientNameLink: React.FC<NameLinkProps> = ({ from, to, children }) => {
   );
 };
 
-
 function ActiveVisitsTable() {
   const { t } = useTranslation();
   const session = useSession();
@@ -208,12 +207,12 @@ function ActiveVisitsTable() {
         ),
       },
       waitTime: {
-        content:(
+        content: (
           <Tag>
-          <span className={styles.statusContainer} style={{ color: `${getTagColor(entry.waitTime)}` }}>
-          {formatWaitTime(entry.waitTime, t)}
-        </span>
-        </Tag>
+            <span className={styles.statusContainer} style={{ color: `${getTagColor(entry.waitTime)}` }}>
+              {formatWaitTime(entry.waitTime, t)}
+            </span>
+          </Tag>
         ),
       },
     }));
@@ -255,7 +254,7 @@ function ActiveVisitsTable() {
             <div className={styles.headerBtnContainer}></div>
             <div className={styles.headerContainer}>
               <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
-              <h4>{`Currently in ${currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display} queue`}</h4>
+                <h4>{`Currently in ${currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display} queue`}</h4>
               </div>
               <div className={styles.headerButtons}>
                 <ExtensionSlot

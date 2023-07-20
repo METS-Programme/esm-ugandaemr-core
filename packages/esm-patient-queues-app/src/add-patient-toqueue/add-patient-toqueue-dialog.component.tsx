@@ -6,16 +6,12 @@ import {
   ModalFooter,
   ModalHeader,
   Select,
-  SelectItem
+  SelectItem,
 } from '@carbon/react';
 import { ConfigObject, showNotification, showToast, useConfig } from '@openmrs/esm-framework';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  addQueueEntry,
-  useServices,
-  useVisitQueueEntries
-} from '../active-visits/active-visits-table.resource';
+import { addQueueEntry, useServices, useVisitQueueEntries } from '../active-visits/active-visits-table.resource';
 import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
 import { ActiveVisit } from '../visits-missing-inqueue/visits-missing-inqueue.resource';
 import styles from './add-patient-toqueue-dialog.scss';
@@ -41,7 +37,6 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
   const [isMissingService, setIsMissingService] = useState(false);
   const config = useConfig() as ConfigObject;
   const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
-  
 
   const addVisitToQueue = useCallback(() => {
     if (!queueUuid) {
@@ -50,12 +45,11 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
     }
     setIsMissingService(false);
 
-
     const status = config.concepts.defaultStatusConceptUuid;
-    const priorityComment = "Emergency";
+    const priorityComment = 'Emergency';
     const comment = '';
     const priority = 1;
-    // generate 
+    // generate
 
     addQueueEntry(
       visitUuid,
@@ -88,15 +82,7 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
         });
       },
     );
-  }, [
-    queueUuid,
-    visitUuid,
-    patientUuid,
-    selectedQueueLocation,
-    t,
-    closeModal,
-    mutate,
-  ]);
+  }, [queueUuid, visitUuid, patientUuid, selectedQueueLocation, t, closeModal, mutate]);
 
   return (
     <div>

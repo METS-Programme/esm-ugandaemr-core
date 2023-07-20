@@ -17,13 +17,8 @@ interface VisitReturnType {
   isLoading: boolean;
 }
 
-export async function voidQueueEntry(
-  endedAt: Date,
-  endCurrentVisitPayload: EndVisitPayload,
-  visitUuid: string,
-) {
+export async function voidQueueEntry(endedAt: Date, endCurrentVisitPayload: EndVisitPayload, visitUuid: string) {
   const abortController = new AbortController();
-
 }
 
 export function useCheckedInAppointments(patientUuid: string, startDate: string) {
@@ -69,7 +64,6 @@ export async function changeAppointmentStatus(toStatus: string, appointmentUuid:
   });
 }
 
-
 export function useVisit(patientUuid: string): VisitReturnType {
   const { data, error, mutate, isValidating } = useSWR<{
     data: { results: Array<Visit> };
@@ -77,13 +71,12 @@ export function useVisit(patientUuid: string): VisitReturnType {
     patientUuid
       ? `/ws/rest/v1/visit?patient=${patientUuid}&v=${defaultVisitCustomRepresentation}&includeInactive=false&v=full`
       : null,
-    openmrsFetch
+    openmrsFetch,
   );
 
   const currentVisit = useMemo(
-    () =>
-      data?.data.results.find((visit) => visit.stopDatetime === null) ?? null,
-    [data?.data.results]
+    () => data?.data.results.find((visit) => visit.stopDatetime === null) ?? null,
+    [data?.data.results],
   );
 
   return {
