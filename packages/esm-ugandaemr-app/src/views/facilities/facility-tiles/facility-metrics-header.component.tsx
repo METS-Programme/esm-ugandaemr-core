@@ -1,12 +1,12 @@
+import { Button } from '@carbon/react';
+import { ArrowRight, MessageQueue } from '@carbon/react/icons';
+import { UserHasAccess, navigate } from '@openmrs/esm-framework';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MessageQueue, ArrowRight } from '@carbon/react/icons';
-import { Button } from '@carbon/react';
+import PatientSearch from '../../../../../esm-patient-queues-app/src/patient-search/patient-search.component';
+import { spaBasePath } from '../../../constants';
+import { SearchTypes } from '../../../types';
 import styles from './metrics-header.scss';
-import { navigate, UserHasAccess } from '@openmrs/esm-framework';
-import { spaBasePath } from '../constants';
-import { SearchTypes } from '../types';
-import PatientSearch from '../patient-search/patient-search.component';
 
 const MetricsHeader = () => {
   const { t } = useTranslation();

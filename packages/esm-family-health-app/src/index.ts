@@ -1,18 +1,18 @@
-import { getAsyncLifecycle, defineConfigSchema, provide, getSyncLifecycle } from '@openmrs/esm-framework';
-import { configSchema } from './config-schema';
-import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
-import ugandaEmrConfig from './ugandaemr-config';
-import formsRegistry from './forms/forms-registry';
-import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
+import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
 import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-common-lib';
-import {
-  mchDashboardMeta,
-  familyHealthDashboardMeta,
-  childHealthDashboardMeta,
-  hivExposedInfantMeta,
-  familyPlanningDashboardMeta,
-} from './dashboard.meta';
+import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
+import { configSchema } from './config-schema';
 import { moduleName } from './constants';
+import {
+  childHealthDashboardMeta,
+  familyHealthDashboardMeta,
+  familyPlanningDashboardMeta,
+  hivExposedInfantMeta,
+  mchDashboardMeta,
+} from './dashboard.meta';
+import formsRegistry from './forms/forms-registry';
+import ugandaEmrConfig from './ugandaemr-config';
+import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 
 const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 

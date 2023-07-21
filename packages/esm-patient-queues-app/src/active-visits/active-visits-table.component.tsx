@@ -42,7 +42,7 @@ import {
 } from '@openmrs/esm-framework';
 import React, { AnchorHTMLAttributes, MouseEvent, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { buildStatusString, formatWaitTime, getTagType, trimVisitNumber, getTagColor } from '../helpers/functions';
+import { buildStatusString, formatWaitTime, getTagColor, getTagType, trimVisitNumber } from '../helpers/functions';
 import {
   updateSelectedQueueRoomLocationName,
   updateSelectedQueueRoomLocationUuid,
@@ -90,7 +90,6 @@ const PatientNameLink: React.FC<NameLinkProps> = ({ from, to, children }) => {
     </a>
   );
 };
-
 
 function ActiveVisitsTable() {
   const { t } = useTranslation();
@@ -209,11 +208,11 @@ function ActiveVisitsTable() {
       },
       waitTime: {
         content: (
-        <Tag>
-          <span className={styles.statusContainer} style={{ color: `${getTagColor(entry.waitTime)}` }}>
-          {formatWaitTime(entry.waitTime, t)}
-        </span>
-        </Tag>
+          <Tag>
+            <span className={styles.statusContainer} style={{ color: `${getTagColor(entry.waitTime)}` }}>
+              {formatWaitTime(entry.waitTime, t)}
+            </span>
+          </Tag>
         ),
       },
     }));
@@ -255,7 +254,7 @@ function ActiveVisitsTable() {
             <div className={styles.headerBtnContainer}></div>
             <div className={styles.headerContainer}>
               <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
-              <h4>{`Currently in ${currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display} queue`}</h4>
+                <h4>{`Currently in ${currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display} queue`}</h4>
               </div>
               <div className={styles.headerButtons}>
                 <ExtensionSlot

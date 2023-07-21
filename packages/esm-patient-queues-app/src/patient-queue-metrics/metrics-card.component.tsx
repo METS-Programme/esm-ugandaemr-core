@@ -36,17 +36,14 @@ const MetricsCard: React.FC<MetricsCardProps> = ({
           </div>
           {service == 'scheduled' ? (
             <div className={styles.link}>
-              <ConfigurableLink className={styles.link} to=''>
+              <ConfigurableLink className={styles.link} to="">
                 {t('patientList', 'Patient list')}
               </ConfigurableLink>
               <ArrowRight size={16} />
             </div>
           ) : service == 'waitTime' ? null : (
             <div className={styles.link}>
-              <ConfigurableLink
-                className={styles.link}
-                to=''
-              >
+              <ConfigurableLink className={styles.link} to="">
                 {t('patientList', 'Patient list')}
               </ConfigurableLink>
               <ArrowRight size={16} />

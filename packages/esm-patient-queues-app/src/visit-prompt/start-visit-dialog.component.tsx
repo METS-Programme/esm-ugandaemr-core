@@ -15,11 +15,7 @@ interface StartVisitDialogProps {
   launchPatientChart?: boolean;
 }
 
-const StartVisitDialog: React.FC<StartVisitDialogProps> = ({
-  queueEntry,
-  closeModal,
-  launchPatientChart,
-}) => {
+const StartVisitDialog: React.FC<StartVisitDialogProps> = ({ queueEntry, closeModal, launchPatientChart }) => {
   const { defaultFacility, isLoading: loadingDefaultFacility } = useDefaultLoginLocation();
   const isTablet = useLayoutType() === 'tablet';
   const locations = useLocations();
@@ -33,8 +29,7 @@ const StartVisitDialog: React.FC<StartVisitDialogProps> = ({
     <div>
       <ModalHeader closeModal={closeModal}>Patient : {queueEntry?.name}</ModalHeader>
       <ModalBody>
-
-<section></section>
+        <section></section>
 
         <section className={styles.section}>
           <div className={styles.sectionTitle}>{t('nextServicePoint', 'Next Service Point')}</div>

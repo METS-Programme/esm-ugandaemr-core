@@ -294,7 +294,7 @@ export async function updateQueueEntry(
       status: status ? status : 'pending',
       encounter: null,
       priority: priority ? priority : 1,
-      priorityComment: priorityComment ? priorityComment : 'This is urgent',
+      priorityComment: priorityComment === 'Urgent' ? 'Priority' : priorityComment,
       comment: comment ? comment : 'This is urgent',
       endedAt: endedAt,
       queueId: queueEntryUuid !== undefined ? queueEntryUuid : 'Not Set',
@@ -351,9 +351,11 @@ export async function addQueueEntry(
   visitUuid: string,
   queueUuid: string,
   patientUuid: string,
-  priority: string,
+  priority: number,
   status: string,
   locationUuid: string,
+  priorityComment: string,
+  comment: string,
 ) {
   const abortController = new AbortController();
 
@@ -371,8 +373,8 @@ export async function addQueueEntry(
       status: status ? status : 'pending',
       encounter: null,
       priority: priority ? priority : 1,
-      priorityComment: 'Urgent',
-      comment: 'Na',
+      priorityComment: priorityComment === 'Urgent' ? 'Priority' : priorityComment,
+      comment: comment ? comment : 'This is pending',
       queueRoom: queueUuid !== undefined ? queueUuid : 'Not Set',
     },
   });

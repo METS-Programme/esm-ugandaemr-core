@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import {
   updateSelectedQueueRoomLocationName,
   updateSelectedQueueRoomLocationUuid,
-  useSelectedQueueRoomLocationName
+  useSelectedQueueRoomLocationName,
 } from '../helpers/helpers';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import styles from './patient-queue-header.scss';
@@ -24,7 +24,6 @@ const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
   const handleQueueLocationChange = ({ selectedItem }) => {
     updateSelectedQueueRoomLocationUuid(selectedItem.uuid);
     updateSelectedQueueRoomLocationName(selectedItem.name);
-
   };
 
   return (
@@ -54,7 +53,7 @@ const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
               items={[...queueRoomLocations]}
               itemToString={(item) => (item ? item.display : '')}
               onChange={handleQueueLocationChange}
-              />
+            />
           </div>
         </div>
       </div>

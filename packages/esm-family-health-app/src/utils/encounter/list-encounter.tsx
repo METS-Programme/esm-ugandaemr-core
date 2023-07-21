@@ -1,5 +1,5 @@
-import React from 'react';
 import { EncounterList, EncounterListColumn, getObsFromEncounter } from '@ohri/openmrs-esm-ohri-commons-lib';
+import React from 'react';
 import { moduleName } from '../../constants';
 
 export const ListEncounter = ({ patientUuid, encounterUuid, form, columns, description, headerTitle, displayText }) => {

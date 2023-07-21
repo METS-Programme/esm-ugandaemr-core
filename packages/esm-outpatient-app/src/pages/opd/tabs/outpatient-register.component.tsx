@@ -1,5 +1,5 @@
-import React from 'react';
 import { EncounterList, EncounterListColumn, getObsFromEncounter } from '@ohri/openmrs-esm-ohri-commons-lib';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { OUTPATIENT_DEPARTMENT_ENCOUNTER_TYPE } from '../../../constants';
 

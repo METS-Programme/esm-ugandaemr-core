@@ -16,10 +16,11 @@ import {
   showToast,
   toDateObjectStrict,
   toOmrsIsoString,
+  useLocations,
   useSession,
 } from '@openmrs/esm-framework';
 import isEmpty from 'lodash-es/isEmpty';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDefaultLoginLocation } from '../patient-search/hooks/useDefaultLocation';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
@@ -35,12 +36,16 @@ interface ChangeStatusDialogProps {
 
 const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModal }) => {
   const { t } = useTranslation();
+  const locations = useLocations();
+
+  const [selectedLocation, setSelectedLocation] = useState('');
 
   const { defaultFacility, isLoading: loadingDefaultFacility } = useDefaultLoginLocation();
 
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
 
   const [selectedQueueLocation, setSelectedQueueLocation] = useState(queueEntry?.queueLocation);
+
   const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
 
   const sessionUser = useSession();
@@ -49,11 +54,34 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
 
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
 
+  useEffect(() => {
+    if (locations?.length && sessionUser) {
+      setSelectedLocation(sessionUser?.sessionLocation?.uuid);
+    } else if (!loadingDefaultFacility && defaultFacility) {
+      setSelectedLocation(defaultFacility?.uuid);
+    }
+  }, [locations, sessionUser, loadingDefaultFacility]);
+
   const changeQueueStatus = useCallback(
     (event) => {
       event.preventDefault();
       const endDate = toDateObjectStrict(toOmrsIsoString(new Date()));
-      updateQueueEntry('', '', '', '', '', '', '', '', endDate).then(
+      // const locationTo = event?.target['nextQueueLocation']?.value;
+      const status = 'pending';
+      const priorityComment = 'Moving to next Queue';
+      const comment = event?.target['nextNotes']?.value;
+
+      updateQueueEntry(
+        selectedLocation,
+        selectedNextQueueLocation,
+        queueEntry?.id,
+        queueEntry?.patientUuid,
+        queueEntry?.priority,
+        status,
+        priorityComment,
+        comment,
+        endDate,
+      ).then(
         ({ status }) => {
           if (status === 201) {
             showToast({

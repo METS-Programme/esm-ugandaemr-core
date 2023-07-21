@@ -28,11 +28,10 @@
         "remove": [
           "test-results-summary-dashboard",
           "conditions-summary-dashboard",
+          "offline-tools-patient-chart-actions-dashboard-link",
           "programs-summary-dashboard",
           "allergies-summary-dashboard",
-          "attachments-results-summary-dashboard",
-          "offline-tools-patient-chart-actions-dashboard-link"
-
+          "attachments-results-summary-dashboard"
         ]
       },
     "patient-chart-summary-dashboard-slot": {

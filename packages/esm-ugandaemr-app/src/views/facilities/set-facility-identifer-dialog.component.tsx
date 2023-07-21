@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import {
   updateSelectedFacilityIdentifier,
   updateSelectedFacilityName,
-} from '../../../../../esm-patient-queues-app/src/helpers/helpers';
+} from '../../../../esm-patient-queues-app/src/helpers/helpers';
 import styles from './ug-emr-facilities.scss';
 
 interface SetFacilityDialogProps {
