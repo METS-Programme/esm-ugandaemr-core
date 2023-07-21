@@ -107,10 +107,13 @@ function setupOpenMRS() {
       },
       {
         id: 'set-facility-identifier',
-        load: getAsyncLifecycle(() => import('./views/facilities/facility-list/set-identifer-dialog.component'), {
-          featureName: 'set facility identifier dialog',
-          moduleName,
-        }),
+        load: getAsyncLifecycle(
+          () => import('./views/facilities/facility-tabs/tabs/HIE/set-identifer-dialog.component'),
+          {
+            featureName: 'set facility identifier dialog',
+            moduleName,
+          },
+        ),
       },
     ],
   };

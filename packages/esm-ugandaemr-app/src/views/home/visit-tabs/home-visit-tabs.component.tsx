@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 // import ActiveVisitsList from './active-visits/home-active-visits.component';
-import FacilitiesList from '../../facilities/facility-list/ug-emr-facilities.component';
+import FacilitiesList from '../../facilities/facility-tabs/tabs/HIE/facilities-list-component';
 import styles from '../visit-tabs/active-visits/home-active-visits.scss';
 
 function HomeVisitTabs() {
