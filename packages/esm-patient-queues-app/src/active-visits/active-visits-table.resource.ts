@@ -95,6 +95,67 @@ export interface MappedVisitQueueEntry {
   identifiers: Array<Identifer>;
 }
 
+// provider
+export interface ProviderResponse {
+  results: Result[];
+}
+
+export interface Result {
+  uuid: string;
+  display: string;
+  person: Person;
+  identifier: string;
+  attributes: any[];
+  retired: boolean;
+  auditInfo: AuditInfo;
+  links: Link[];
+  resourceVersion: string;
+}
+
+export interface Person {
+  uuid: string;
+  display: string;
+  gender: string;
+  age: any;
+  birthdate: any;
+  birthdateEstimated: boolean;
+  dead: boolean;
+  deathDate: any;
+  causeOfDeath: any;
+  preferredName: PreferredName;
+  preferredAddress: any;
+  attributes: any[];
+  voided: boolean;
+  birthtime: any;
+  deathdateEstimated: boolean;
+  links: Link[];
+  resourceVersion: string;
+}
+
+export interface PreferredName {
+  uuid: string;
+  display: string;
+  links: Link[];
+}
+
+export interface Link {
+  rel: string;
+  uri: string;
+  resourceAlias: string;
+}
+
+export interface AuditInfo {
+  creator: Creator;
+  dateCreated: string;
+  changedBy: any;
+  dateChanged: any;
+}
+
+export interface Creator {
+  uuid: string;
+  display: string;
+  links: Link[];
+}
 interface UseVisitQueueEntries {
   visitQueueEntries: Array<MappedVisitQueueEntry> | null;
   visitQueueEntriesCount: number;
@@ -268,37 +329,27 @@ export const getOriginFromPathName = (pathname = '') => {
 };
 
 export async function updateQueueEntry(
-  locationFrom: string,
-  locationTo: string,
-  queueEntryUuid: string,
-  patientUuid: string,
-  priority: string,
+  providerUuid: string,
+  queueUuid: string,
   status: string,
   priorityComment: string,
   comment: string,
-  endedAt: Date,
 ) {
   const abortController = new AbortController();
 
-  return openmrsFetch(`/ws/rest/v1/patientqueue`, {
+  return openmrsFetch(`/ws/rest/v1/patientqueue/${queueUuid}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     signal: abortController.signal,
     body: {
-      patient: patientUuid,
-      provider: '',
-      locationFrom: locationFrom,
-      locationTo: locationTo !== undefined ? locationTo : 'Not Set',
-      status: status ? status : 'pending',
-      encounter: null,
-      priority: priority ? priority : 1,
+      provider: {
+        uuid: providerUuid,
+      },
+      status: 'Picked',
       priorityComment: priorityComment === 'Urgent' ? 'Priority' : priorityComment,
-      comment: comment ? comment : 'This is urgent',
-      endedAt: endedAt,
-      queueId: queueEntryUuid !== undefined ? queueEntryUuid : 'Not Set',
-      queueRoom: locationFrom !== undefined ? locationFrom : 'Not Set',
+      comment: comment,
     },
   });
 }
@@ -372,7 +423,7 @@ export async function addQueueEntry(
       locationTo: queueUuid !== undefined ? queueUuid : 'Not Set',
       status: status ? status : 'pending',
       encounter: null,
-      priority: priority ? priority : 1,
+      priority: priority ? priority : 0,
       priorityComment: priorityComment === 'Urgent' ? 'Priority' : priorityComment,
       comment: comment ? comment : 'This is pending',
       queueRoom: queueUuid !== undefined ? queueUuid : 'Not Set',
@@ -416,5 +467,17 @@ export function serveQueueEntry(servicePointName: string, ticketNumber: string, 
       ticketNumber,
       status,
     },
+  });
+}
+
+export function getCareProvider() {
+  const abortController = new AbortController();
+
+  return openmrsFetch(`/ws/rest/v1/provider?q=admin&v=full`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    signal: abortController.signal,
   });
 }

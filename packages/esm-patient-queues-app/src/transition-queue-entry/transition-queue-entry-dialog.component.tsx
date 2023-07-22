@@ -51,19 +51,17 @@ const TransitionQueueEntryModal: React.FC<TransitionQueueEntryModalProps> = ({ q
   const obsToDisplay =
     !loading && visits ? findObsByConceptUUID(visits?.encounters, config.concepts.historicalObsConceptUuid) : [];
   const { mutate } = useVisitQueueEntries('', '');
+  const provider = '';
 
   const launchEditPriorityModal = useCallback(() => {
     const endedAt = toDateObjectStrict(toOmrsIsoString(new Date()));
     updateQueueEntry(
+      provider,
       queueEntry?.visitUuid,
       queueEntry?.queueUuid,
       queueEntry?.queueUuid,
       queueEntry?.queueEntryUuid,
-      queueEntry?.patientUuid,
-      queueEntry?.priorityUuid,
-      defaultTransitionStatus,
-      '',
-      endedAt,
+      queueEntry?.sortWeight,
     ).then(
       ({ status }) => {
         if (status === 201) {
@@ -91,7 +89,17 @@ const TransitionQueueEntryModal: React.FC<TransitionQueueEntryModalProps> = ({ q
         });
       },
     );
-  }, [queueEntry]);
+  }, [
+    closeModal,
+    mutate,
+    queueEntry?.patientUuid,
+    queueEntry?.queueEntryUuid,
+    queueEntry?.queueUuid,
+    queueEntry?.service,
+    queueEntry?.visitQueueNumber,
+    queueEntry?.visitUuid,
+    t,
+  ]);
 
   const handleRequeuePatient = useCallback(() => {
     requeueQueueEntry(priorityComment.REQUEUED, queueEntry?.queueUuid, queueEntry?.queueEntryUuid).then(

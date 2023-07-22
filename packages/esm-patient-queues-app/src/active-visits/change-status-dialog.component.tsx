@@ -10,8 +10,8 @@ import {
   Switch,
   TextArea,
 } from '@carbon/react';
+
 import {
-  navigate,
   showNotification,
   showToast,
   toDateObjectStrict,
@@ -20,13 +20,15 @@ import {
   useSession,
 } from '@openmrs/esm-framework';
 import isEmpty from 'lodash-es/isEmpty';
-import React, { useCallback, useEffect, useState } from 'react';
+
+import { getCareProvider, updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
+
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDefaultLoginLocation } from '../patient-search/hooks/useDefaultLocation';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 
-import { updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
 import styles from './change-status-dialog.scss';
 
 interface ChangeStatusDialogProps {
@@ -36,6 +38,7 @@ interface ChangeStatusDialogProps {
 
 const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModal }) => {
   const { t } = useTranslation();
+
   const locations = useLocations();
 
   const [selectedLocation, setSelectedLocation] = useState('');
@@ -44,9 +47,15 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
 
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
 
+  const [statusSwitcherIndex, setStatusSwitcherIndex] = useState(1);
+
+  const [status, setStatus] = useState('');
+
   const [selectedQueueLocation, setSelectedQueueLocation] = useState(queueEntry?.queueLocation);
 
   const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
+
+  const [queueStatus, setQueueStatus] = useState(queueEntry?.statusUuid);
 
   const sessionUser = useSession();
 
@@ -54,46 +63,94 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
 
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
 
+  const [provider, setProvider] = useState('');
+  const [priorityComment, setPriorityComment] = useState('');
+
+  useEffect(() => {
+    getCareProvider().then(
+      (response) => {
+        showToast({
+          critical: true,
+          title: t('gotProvider', `Got Provider`),
+          kind: 'success',
+          description: t('getProvider', `Got Provider ${response?.data?.results[0].uuid}`),
+        });
+        setProvider(response?.data?.results[0].uuid);
+        mutate();
+      },
+      (error) => {
+        showNotification({
+          title: t(`errorGettingProvider', 'Couldn't get provider`),
+          kind: 'error',
+          critical: true,
+          description: error?.message,
+        });
+      },
+    );
+  });
+
   useEffect(() => {
     if (locations?.length && sessionUser) {
       setSelectedLocation(sessionUser?.sessionLocation?.uuid);
     } else if (!loadingDefaultFacility && defaultFacility) {
       setSelectedLocation(defaultFacility?.uuid);
     }
-  }, [locations, sessionUser, loadingDefaultFacility]);
+  }, [locations, sessionUser, loadingDefaultFacility, defaultFacility]);
+
+  useMemo(() => {
+    switch (statusSwitcherIndex) {
+      case 0: {
+        setStatus('Pending');
+        break;
+      }
+      case 1: {
+        setStatus('Picked');
+        break;
+      }
+      case 2: {
+        setStatus('Finished');
+        break;
+      }
+    }
+  }, [statusSwitcherIndex]);
+
+  useMemo(() => {
+    switch (contentSwitcherIndex) {
+      case 0: {
+        setPriorityComment('Not Urgent');
+        break;
+      }
+      case 1: {
+        setPriorityComment('Urgent');
+        break;
+      }
+      case 2: {
+        setPriorityComment('Emergency');
+        break;
+      }
+    }
+  }, [contentSwitcherIndex]);
 
   const changeQueueStatus = useCallback(
     (event) => {
       event.preventDefault();
+
       const endDate = toDateObjectStrict(toOmrsIsoString(new Date()));
       // const locationTo = event?.target['nextQueueLocation']?.value;
       const status = 'pending';
       const priorityComment = 'Moving to next Queue';
       const comment = event?.target['nextNotes']?.value;
 
-      updateQueueEntry(
-        selectedLocation,
-        selectedNextQueueLocation,
-        queueEntry?.id,
-        queueEntry?.patientUuid,
-        queueEntry?.priority,
-        status,
-        priorityComment,
-        comment,
-        endDate,
-      ).then(
-        ({ status }) => {
-          if (status === 201) {
-            showToast({
-              critical: true,
-              title: t('updateEntry', 'Update entry'),
-              kind: 'success',
-              description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
-            });
-            closeModal();
-            mutate();
-            navigate({ to: `${window.spaBase}/home/patient-queues` });
-          }
+      updateQueueEntry(provider, queueEntry?.id, status, priorityComment, comment).then(
+        () => {
+          showToast({
+            critical: true,
+            title: t('updateEntry', 'Update entry'),
+            kind: 'success',
+            description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
+          });
+          closeModal();
+          mutate();
         },
         (error) => {
           showNotification({
@@ -105,15 +162,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
         },
       );
     },
-    [
-      queueEntry?.visitUuid,
-      queueEntry?.queueUuid,
-      queueEntry?.queueEntryUuid,
-      queueEntry?.patientUuid,
-      t,
-      closeModal,
-      mutate,
-    ],
+    [provider, queueEntry?.id, t, closeModal, mutate],
   );
 
   if (Object.keys(queueEntry)?.length === 0) {
@@ -135,7 +184,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
                 {t('years', 'Years')}
               </h5>
             </div>
-
             <section className={styles.section}>
               <div className={styles.sectionTitle}>{t('priority', 'Priority')}</div>
               <ContentSwitcher
@@ -144,6 +192,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
                 onChange={({ index }) => setContentSwitcherIndex(index)}
               >
                 <Switch name="urgent" text={t('notUrgent', 'Not Urgent')} />
+                <Switch name="notUrgent" text={t('notUrgent', 'Not Urgent')} />
                 <Switch name="urgent" text={t('urgent', 'Urgent')} />
                 <Switch name="emergency" text={t('emergency', 'Emergency')} />
               </ContentSwitcher>
@@ -185,6 +234,18 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
                 enableCounter
               />
             </section>
+            {/* <section className={styles.section}>
+              <div className={styles.sectionTitle}>{t('status', 'Status')}</div>
+              <ContentSwitcher
+                selectedIndex={statusSwitcherIndex}
+                className={styles.contentSwitcher}
+                onChange={({ index }) => setStatusSwitcherIndex(index)}
+              >
+                <Switch name="pending" text={t('pending', 'Pending')} />
+                <Switch name="picked" text={t('picked', 'Picked')} />
+                <Switch name="finished" text={t('finished', 'Finished')} />
+              </ContentSwitcher>
+            </section> */}
           </ModalBody>
           <ModalFooter>
             <Button kind="secondary" onClick={closeModal}>
