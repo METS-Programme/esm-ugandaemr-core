@@ -11,14 +11,7 @@ import {
   TextArea,
 } from '@carbon/react';
 
-import {
-  showNotification,
-  showToast,
-  toDateObjectStrict,
-  toOmrsIsoString,
-  useLocations,
-  useSession,
-} from '@openmrs/esm-framework';
+import { showNotification, showToast, useLocations, useSession } from '@openmrs/esm-framework';
 import isEmpty from 'lodash-es/isEmpty';
 
 import { getCareProvider, updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
@@ -134,14 +127,8 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
   const changeQueueStatus = useCallback(
     (event) => {
       event.preventDefault();
-
-      const endDate = toDateObjectStrict(toOmrsIsoString(new Date()));
-      // const locationTo = event?.target['nextQueueLocation']?.value;
-      const status = 'pending';
-      const priorityComment = 'Moving to next Queue';
       const comment = event?.target['nextNotes']?.value;
-
-      updateQueueEntry(provider, queueEntry?.id, status, priorityComment, comment).then(
+      updateQueueEntry(provider, queueEntry?.id, priorityComment, comment).then(
         () => {
           showToast({
             critical: true,
@@ -191,7 +178,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
                 className={styles.contentSwitcher}
                 onChange={({ index }) => setContentSwitcherIndex(index)}
               >
-                <Switch name="urgent" text={t('notUrgent', 'Not Urgent')} />
                 <Switch name="notUrgent" text={t('notUrgent', 'Not Urgent')} />
                 <Switch name="urgent" text={t('urgent', 'Urgent')} />
                 <Switch name="emergency" text={t('emergency', 'Emergency')} />

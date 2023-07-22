@@ -7,8 +7,6 @@ import {
   parseDate,
   showNotification,
   showToast,
-  toDateObjectStrict,
-  toOmrsIsoString,
   useConfig,
 } from '@openmrs/esm-framework';
 import dayjs from 'dayjs';
@@ -54,15 +52,7 @@ const TransitionQueueEntryModal: React.FC<TransitionQueueEntryModalProps> = ({ q
   const provider = '';
 
   const launchEditPriorityModal = useCallback(() => {
-    const endedAt = toDateObjectStrict(toOmrsIsoString(new Date()));
-    updateQueueEntry(
-      provider,
-      queueEntry?.visitUuid,
-      queueEntry?.queueUuid,
-      queueEntry?.queueUuid,
-      queueEntry?.queueEntryUuid,
-      queueEntry?.sortWeight,
-    ).then(
+    updateQueueEntry(provider, queueEntry?.visitUuid, queueEntry?.queueUuid, queueEntry?.queueUuid).then(
       ({ status }) => {
         if (status === 201) {
           serveQueueEntry(queueEntry?.service, queueEntry?.visitQueueNumber, 'serving').then(({ status }) => {
@@ -93,7 +83,6 @@ const TransitionQueueEntryModal: React.FC<TransitionQueueEntryModalProps> = ({ q
     closeModal,
     mutate,
     queueEntry?.patientUuid,
-    queueEntry?.queueEntryUuid,
     queueEntry?.queueUuid,
     queueEntry?.service,
     queueEntry?.visitQueueNumber,

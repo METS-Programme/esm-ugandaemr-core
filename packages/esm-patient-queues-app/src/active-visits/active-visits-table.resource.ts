@@ -331,7 +331,6 @@ export const getOriginFromPathName = (pathname = '') => {
 export async function updateQueueEntry(
   providerUuid: string,
   queueUuid: string,
-  status: string,
   priorityComment: string,
   comment: string,
 ) {
