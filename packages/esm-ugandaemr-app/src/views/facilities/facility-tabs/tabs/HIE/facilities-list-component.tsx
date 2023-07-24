@@ -89,7 +89,7 @@ const FacilitiesList: React.FC = () => {
     { id: 5, key: 'historicalIdentifier', header: t('uniqueIdentifier', 'Historical Identifier'), isSortable: true },
     { id: 6, key: 'action', header: t('actionHeader', 'Action') },
   ];
-  const headerTitle = 'Facilities';
+  // const headerTitle = 'Facilities';
 
   // memoized
   useEffect(() => {
@@ -146,7 +146,7 @@ const FacilitiesList: React.FC = () => {
       >
         {({ rows, headers, getHeaderProps, getTableProps, onInputChange }) => (
           <div>
-            <TableContainer title={headerTitle}>
+            <TableContainer>
               <TableToolbar
                 style={{ position: 'static', height: '3rem', overflow: 'visible', backgroundColor: 'color' }}
               >
