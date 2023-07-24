@@ -81,6 +81,7 @@ function ClinicMetrics() {
           headerLabel={t('averageWaitTime', 'Average wait time today')}
           service="waitTime"
         />
+        <MetricsCard label={t('workloads', 'Workloads')} value={'--'} headerLabel={t('workLoad', 'Workload')} />
       </div>
     </>
   );
