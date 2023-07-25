@@ -11,19 +11,10 @@ interface MetricsCardProps {
   headerLabel: string;
   children?: React.ReactNode;
   service?: string;
-  serviceUuid?: string;
   locationUuid?: string;
 }
 
-const MetricsCard: React.FC<MetricsCardProps> = ({
-  label,
-  value,
-  headerLabel,
-  children,
-  service,
-  serviceUuid,
-  locationUuid,
-}) => {
+const MetricsCard: React.FC<MetricsCardProps> = ({ label, value, headerLabel, children, service, locationUuid }) => {
   const { t } = useTranslation();
 
   return (
@@ -41,14 +32,14 @@ const MetricsCard: React.FC<MetricsCardProps> = ({
               </ConfigurableLink>
               <ArrowRight size={16} />
             </div>
-          ) : service == 'waitTime' ? null : (
+          ) : service == 'workloads' ? (
             <div className={styles.link}>
-              <ConfigurableLink className={styles.link} to="">
-                {t('patientList', 'Patient list')}
+              <ConfigurableLink className={styles.link} to={`\${openmrsSpaBase}/patient-queues/${service}`}>
+                {t('finishedList', 'Completed Patient list')}
               </ConfigurableLink>
               <ArrowRight size={16} />
             </div>
-          )}
+          ) : null}
         </div>
         <div>
           <label className={styles.totalsLabel}>{label}</label>

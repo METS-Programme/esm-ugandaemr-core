@@ -10,7 +10,7 @@ import {
   useSelectedQueueRoomLocationUuid,
 } from '../helpers/helpers';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
-import { useActiveVisits, useAverageWaitTime } from './clinic-metrics.resource';
+import { useActiveVisits, useAverageWaitTime, useFinishedPatients } from './clinic-metrics.resource';
 import styles from './clinic-metrics.scss';
 import MetricsCard from './metrics-card.component';
 
@@ -40,6 +40,8 @@ function ClinicMetrics() {
   const { visitQueueEntriesCount } = useVisitQueueEntries(currentQueueRoomLocationName, currentQueueRoomLocationUuid);
   const { activeVisitsCount, isLoading: loading } = useActiveVisits();
   const { waitTime } = useAverageWaitTime(currentQueueRoomLocationUuid, '');
+
+  const { patientFinishedQueueCount } = useFinishedPatients();
 
   const handleQueueLocationChange = ({ selectedItem }) => {
     updateSelectedQueueRoomLocationUuid(selectedItem.uuid);
@@ -81,7 +83,12 @@ function ClinicMetrics() {
           headerLabel={t('averageWaitTime', 'Average wait time today')}
           service="waitTime"
         />
-        <MetricsCard label={t('workloads', 'Workloads')} value={'--'} headerLabel={t('workLoad', 'Workload')} />
+        <MetricsCard
+          label={t('workloads', 'Completed Patients list')}
+          value={patientFinishedQueueCount ? patientFinishedQueueCount : 0}
+          headerLabel={t('workLoad', 'Workload')}
+          service="workloads"
+        />
       </div>
     </>
   );

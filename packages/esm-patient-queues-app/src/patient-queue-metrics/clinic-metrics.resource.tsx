@@ -1,7 +1,8 @@
-import { useSession, Visit, openmrsFetch } from '@openmrs/esm-framework';
+import { Visit, openmrsFetch, useSession } from '@openmrs/esm-framework';
 import dayjs from 'dayjs';
 import useSWR from 'swr';
 import { WaitTime } from '../types';
+import { PatientQueue } from '../types/patient-queues';
 
 export function useActiveVisits() {
   const currentUserSession = useSession();
@@ -43,6 +44,21 @@ export function useAverageWaitTime(serviceUuid: string, statusUuid: string) {
 
   return {
     waitTime: data ? data?.data : null,
+    isLoading,
+    isError: error,
+    isValidating,
+    mutate,
+  };
+}
+
+export function useFinishedPatients() {
+  const apiUrl = `/ws/rest/v1/patientqueue?v=full&status=pending`;
+  const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
+    apiUrl,
+    openmrsFetch,
+  );
+  return {
+    patientFinishedQueueCount: data?.data?.results ? data?.data?.results.length : 0,
     isLoading,
     isError: error,
     isValidating,

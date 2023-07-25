@@ -19,7 +19,6 @@ const FacilityMetricsCard: React.FC<FacilityMetricsCardProps> = ({
   headerLabel,
   children,
   service,
-  serviceUuid,
   locationUuid,
 }) => {
   const { t } = useTranslation();
