@@ -8,7 +8,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableExpandHeader,
   TableHead,
   TableHeader,
   TableRow,
@@ -159,11 +158,9 @@ function PatientsInNextQueueRoomTable() {
               <Table {...getTableProps()}>
                 <TableHead>
                   <TableRow>
-                    <TableExpandHeader />
                     {headers.map((header) => (
                       <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
                     ))}
-                    <TableExpandHeader />
                   </TableRow>
                 </TableHead>
                 <TableBody>
