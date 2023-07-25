@@ -20,7 +20,8 @@
 }
 
 .heading {
-  @include type.type-style('heading-03');
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .filterContainer {
