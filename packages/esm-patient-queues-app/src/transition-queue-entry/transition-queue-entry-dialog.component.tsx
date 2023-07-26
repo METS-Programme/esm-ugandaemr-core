@@ -7,8 +7,6 @@ import {
   parseDate,
   showNotification,
   showToast,
-  toDateObjectStrict,
-  toOmrsIsoString,
   useConfig,
 } from '@openmrs/esm-framework';
 import dayjs from 'dayjs';
@@ -51,20 +49,10 @@ const TransitionQueueEntryModal: React.FC<TransitionQueueEntryModalProps> = ({ q
   const obsToDisplay =
     !loading && visits ? findObsByConceptUUID(visits?.encounters, config.concepts.historicalObsConceptUuid) : [];
   const { mutate } = useVisitQueueEntries('', '');
+  const provider = '';
 
   const launchEditPriorityModal = useCallback(() => {
-    const endedAt = toDateObjectStrict(toOmrsIsoString(new Date()));
-    updateQueueEntry(
-      queueEntry?.visitUuid,
-      queueEntry?.queueUuid,
-      queueEntry?.queueUuid,
-      queueEntry?.queueEntryUuid,
-      queueEntry?.patientUuid,
-      queueEntry?.priorityUuid,
-      defaultTransitionStatus,
-      '',
-      endedAt,
-    ).then(
+    updateQueueEntry(provider, queueEntry?.visitUuid, queueEntry?.queueUuid, queueEntry?.queueUuid).then(
       ({ status }) => {
         if (status === 201) {
           serveQueueEntry(queueEntry?.service, queueEntry?.visitQueueNumber, 'serving').then(({ status }) => {
@@ -91,7 +79,16 @@ const TransitionQueueEntryModal: React.FC<TransitionQueueEntryModalProps> = ({ q
         });
       },
     );
-  }, [queueEntry]);
+  }, [
+    closeModal,
+    mutate,
+    queueEntry?.patientUuid,
+    queueEntry?.queueUuid,
+    queueEntry?.service,
+    queueEntry?.visitQueueNumber,
+    queueEntry?.visitUuid,
+    t,
+  ]);
 
   const handleRequeuePatient = useCallback(() => {
     requeueQueueEntry(priorityComment.REQUEUED, queueEntry?.queueUuid, queueEntry?.queueEntryUuid).then(

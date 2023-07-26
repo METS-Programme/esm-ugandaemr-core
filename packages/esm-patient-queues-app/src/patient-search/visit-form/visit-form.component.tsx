@@ -72,7 +72,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
       setSelectedLocation(defaultFacility?.uuid);
       setVisitType(allVisitTypes?.length > 0 ? allVisitTypes[0].uuid : null);
     }
-  }, [locations, sessionUser, loadingDefaultFacility]);
+  }, [locations, sessionUser, loadingDefaultFacility, defaultFacility, allVisitTypes]);
 
   useMemo(() => {
     switch (contentSwitcherIndex) {
@@ -177,13 +177,14 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
     },
     [
       closePanel,
+      contentSwitcherIndex,
       mutate,
       patientUuid,
+      priorityComment,
       selectedLocation,
       t,
       timeFormat,
       visitDate,
-      visitQueueNumberAttributeUuid,
       visitTime,
       visitType,
     ],
