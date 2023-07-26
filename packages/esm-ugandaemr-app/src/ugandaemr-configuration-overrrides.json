@@ -1,39 +1,37 @@
 {
-    "@openmrs/esm-patient-chart-app": {
-      "extensionSlots": {
-        "action-menu-chart-items-slot":{
-          "remove":[
-              "order-basket-action-menu",
-              "visit-note-nav-button",
-              "clinical-form-action-menu"
-          ]
-        },
-        "action-menu-non-chart-items-slot":{
-          "remove":[
-            "patient-list-action-menu"
-          ]
-        },
-        "program-management-summary-slot": {
-          "remove": [
-            "program-management-summary-ext",
-            "test-results-summary-dashboard",
-            "conditions-summary-dashboard",
-            "results-summary-dashboard",
-            "allergies-summary-dashboard",
-            "attachments-results-summary-dashboard",
-            "drug-orders-summary-dashboard"
-          ]
-        },
-        "patient-chart-dashboard-slot": {
-          "remove": [
-            "test-results-summary-dashboard",
-            "conditions-summary-dashboard",
-            "programs-summary-dashboard",
-            "allergies-summary-dashboard",
-            "attachments-results-summary-dashboard",
-            "offline-tools-patient-chart-actions-dashboard-link"
-          ]
-        },
+  "@openmrs/esm-patient-chart-app": {
+    "extensionSlots": {
+      "action-menu-chart-items-slot":{
+        "remove":[
+          "visit-note-nav-button"
+        ]
+      },
+      "action-menu-non-chart-items-slot":{
+        "remove":[
+          "patient-list-action-menu"
+        ]
+      },
+      "program-management-summary-slot": {
+        "remove": [
+          "program-management-summary-ext",
+          "test-results-summary-dashboard",
+          "conditions-summary-dashboard",
+          "results-summary-dashboard",
+          "allergies-summary-dashboard",
+          "attachments-results-summary-dashboard",
+          "drug-orders-summary-dashboard"
+        ]
+      },
+      "patient-chart-dashboard-slot": {
+        "remove": [
+          "test-results-summary-dashboard",
+          "conditions-summary-dashboard",
+          "programs-summary-dashboard",
+          "allergies-summary-dashboard",
+          "attachments-results-summary-dashboard",
+          "offline-tools-patient-chart-actions-dashboard-link"
+        ]
+      },
       "patient-chart-summary-dashboard-slot": {
         "remove": [
           "conditions-overview-widget",
@@ -43,49 +41,49 @@
           "patient-clinical-view-overview"
         ]
       },
-        "cacx-visits-slot": {
-          "remove": [
-            "cacx-visits-ext"
-          ]
-        }
-      }
-    },
-    "@openmrs/esm-styleguide": {
-        "Brand color #1": "#02210b",
-        "Brand color #2": "#074519",
-        "Brand color #3": "#125726"
-    },
-    "@openmrs/esm-patient-registration-app": {
-      "fieldConfigurations": {
-        "gender": [
-          {
-            "id": "male",
-            "value": "Male",
-            "label": "Male"
-          },
-          {
-            "id": "female",
-            "value": "Female",
-            "label": "Female"
-          }
+      "cacx-visits-slot": {
+        "remove": [
+          "cacx-visits-ext"
         ]
       }
-    },
-    "@openmrs/esm-home-app":{
-      "extensionSlots":{
-        "homepage-dashboard-slot":{
-          "remove": [
-            "patient-lists-dashboard-link",
-            "service-queues-dashboard-link",
-            "home-widget-db-link"
-          ]
+    }
+  },
+  "@openmrs/esm-styleguide": {
+    "Brand color #1": "#02210B",
+    "Brand color #2": "#074519",
+    "Brand color #3": "#125726"
+  },
+  "@openmrs/esm-patient-registration-app": {
+    "fieldConfigurations": {
+      "gender": [
+        {
+          "id": "male",
+          "value": "Male",
+          "label": "Male"
         },
-       "homepage-widgets-slot": {
+        {
+          "id": "female",
+          "value": "Female",
+          "label": "Female"
+        }
+      ]
+    }
+  },
+  "@openmrs/esm-home-app":{
+    "extensionSlots":{
+      "homepage-dashboard-slot":{
+        "remove": [
+          "patient-lists-dashboard-link",
+          "service-queues-dashboard-link",
+          "home-widget-db-link"
+        ]
+      },
+      "homepage-widgets-slot": {
         "remove":[
           "active-visits-widget",
           "home-appointments"
         ]
-        }
       }
     }
   }
+}

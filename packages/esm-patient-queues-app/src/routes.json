@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json.openmrs.org/routes.schema.json",
+  "backendDependencies": {
+    "webservices.rest": "^2.2.0"
+  },
+  "pages": [
+    {
+      "route": "/^appointments-list/",
+      "component": "appointmentsList",
+      "online": true,
+      "offline": true
+    },
+    {
+      "route": "/^patient-queues/",
+      "component": "patientQueues",
+      "online": true,
+      "offline": true
+    }
+  ],
+  "extensions": [
+    {
+      "name": "outpatient-side-nav-ex",
+      "slot": "outpatient-sidebar-slot",
+      "component": "outpatientSideNavExt",
+      "online": true,
+      "offline": true
+    },
+    {
+      "name": "patient-queues-dashboard-link",
+      "slot": "homepage-dashboard-slot",
+      "component": "patientQueuesDashboardLink",
+      "meta":
+      {
+        "name": "patient-queues",
+        "slot": "patient-queues-dashboard-slot",
+        "title": "Patient queues"
+
+      },
+      "online": true,
+      "offline": true
+    },
+    {
+      "name": "home-dashboard",
+      "slot": "patient-queues-dashboard-slot",
+      "component": "homeDashboard",
+      "online": true,
+      "offline": true
+    },
+    {
+      "name": "edit-queue-entry-status-modal",
+      "component": "editQueueEntryStatusModal"
+    },
+    {
+      "name": "patient-info-banner-slot",
+      "component": "patientInfoBannerSlot"
+    },
+    {
+      "name": "add-patient-to-queue",
+      "slot": "add-patient-to-queue-slot",
+      "component": "addPatientToQueue"
+    },
+    {
+      "name": "remove-queue-entry",
+      "component": "removeQueueEntry"
+    },
+    {
+      "name": "clear-all-queue-entries",
+      "component": "clearAllQueueEntries"
+    },
+    {
+      "name": "add-visit-to-queue-modal",
+      "component": "addVisitToQueueModal"
+    },
+    {
+      "name": "transition-queue-entry-status-modal",
+      "component": "transitionQueueEntryStatusModal"
+    },
+    {
+      "name": "previous-visit-summary-widget",
+      "slot": "previous-visit-summary-slot",
+      "component": "previousVisitSummaryWidget"
+    },
+    {
+      "name": "add-provider-to-room-modal",
+      "component": "addProviderToRoomModal"
+    },
+    {
+      "name": "add-queue-entry-widget",
+      "slot": "add-queue-entry-slot",
+      "component": "addQueueEntryWidget"
+    }
+  ]
+}
