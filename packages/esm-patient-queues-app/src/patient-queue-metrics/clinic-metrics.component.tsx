@@ -1,8 +1,9 @@
 import { Dropdown } from '@carbon/react';
-import { useSession } from '@openmrs/esm-framework';
+import { useSession, userHasAccess } from '@openmrs/esm-framework';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useVisitQueueEntries } from '../active-visits/active-visits-table.resource';
+import { RECEPTION_METRIC, TRIAGE_METRIC } from '../constants';
 import {
   updateSelectedQueueRoomLocationName,
   updateSelectedQueueRoomLocationUuid,
@@ -51,9 +52,39 @@ function ClinicMetrics() {
     }
   };
 
+  // receptionist ui
+
   return (
     <>
       <div className={styles.cardContainer}>
+        {userHasAccess(RECEPTION_METRIC, userSession.user) && (
+          <MetricsCard
+            label={t('expectedAppointments', 'Expected Appointments')}
+            value={0}
+            headerLabel={t('noOfExpectedAppointments', 'No. Of Expected Appointments')}
+          />
+        )}
+        {userHasAccess(RECEPTION_METRIC, userSession.user) && (
+          <MetricsCard
+            label={t('serving', 'Serving')}
+            value={0}
+            headerLabel={t('currentlyServing', 'No. of Currently being Served')}
+          />
+        )}
+        {userHasAccess(TRIAGE_METRIC, userSession.user) && (
+          <MetricsCard
+            label={t('served', 'Patients Served')}
+            value={0}
+            headerLabel={t('noOfPatientsServed', 'No. Of Patients Served')}
+          />
+        )}
+        {userHasAccess(TRIAGE_METRIC, userSession.user) && (
+          <MetricsCard
+            label={t('pendingServing', 'Patients waiting to be Served')}
+            value={0}
+            headerLabel={t('pendingTriageServing', 'Patients waiting to be Served')}
+          />
+        )}
         <MetricsCard
           label={t('patients', 'Patients')}
           value={loading ? '--' : activeVisitsCount}
