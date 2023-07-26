@@ -1,5 +1,21 @@
 @use '@carbon/styles/scss/spacing';
-@import '~@openmrs/esm-styleguide/src/vars';
+@import '../../../root.scss';
+.createIcon {
+    // display: flex;
+    // justify-content: right;
+    // align-content: center;
+    padding: 1.0rem;
+    margin-right: 60px;
+}
+
+.span {
+    display: block;
+    width: 45px;
+    height: 40px;
+    background: lightgrey;
+    cursor: pointer;
+}
+
 .searchField {
     width: 100%;
     border: 0px !important;
@@ -7,18 +23,22 @@
 
 .searchBox {
     padding: 1.0rem;
-    width: 60%;
+    width: 70%;
     display: flex;
     justify-content: left;
+    margin-left: 30px;
 }
 
-.createIcon {
-    size: 10px;
-    color: black;
+.tooltip :global(.cds--tooltip__trigger.cds--tooltip__trigger--definition) {
+    border-bottom: none;
+}
+
+.tag {
+    margin: 0.25rem 0;
 }
 
 .cardContainer {
-    background-color: $ui-02;
+    background-color: $ui-background;
     display: flex;
     justify-content: space-between;
     padding: 0 spacing.$spacing-05 spacing.$spacing-07 spacing.$spacing-03;

@@ -1,4 +1,4 @@
-import { Layer, Tile } from '@carbon/react';
+import { Tile, Layer } from '@carbon/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './facility-dashboard-search-card.scss';

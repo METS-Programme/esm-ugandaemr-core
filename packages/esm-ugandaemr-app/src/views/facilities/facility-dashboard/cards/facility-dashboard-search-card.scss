@@ -20,6 +20,10 @@
     height: 7.875rem;
     padding: spacing.$spacing-05;
     margin: spacing.$spacing-03 spacing.$spacing-03;
+    background-color: #f7f7f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .tileHeader {
