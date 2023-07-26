@@ -60,7 +60,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
     } else if (!loadingDefaultFacility && defaultFacility) {
       setSelectedLocation(defaultFacility?.uuid);
     }
-  }, [locations, sessionUser, loadingDefaultFacility]);
+  }, [locations, sessionUser, loadingDefaultFacility, defaultFacility]);
 
   const changeQueueStatus = useCallback(
     (event) => {
@@ -106,10 +106,11 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
       );
     },
     [
-      queueEntry?.visitUuid,
-      queueEntry?.queueUuid,
-      queueEntry?.queueEntryUuid,
+      selectedLocation,
+      selectedNextQueueLocation,
+      queueEntry?.id,
       queueEntry?.patientUuid,
+      queueEntry?.priority,
       t,
       closeModal,
       mutate,
