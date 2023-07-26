@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ActiveVisitsTable from '../../../esm-patient-queues-app/src/active-visits/active-visits-table.component';
+import PatientsInNextQueueRoomTable from '../../../esm-patient-queues-app/src/patients-in-next-room/patients-in-next-room-table.component';
 import styles from './queue-patients-wsp.scss';
 export default function QueuePatientsWorkSpace() {
   return (
@@ -12,8 +13,8 @@ export default function QueuePatientsWorkSpace() {
         </section>
 
         <section className={styles.section}>
-          <div className={styles.title}>Workloads</div>
-          <ActiveVisitsTable />
+          <div className={styles.title}>Patients in Next Queue Room</div>
+          <PatientsInNextQueueRoomTable />
         </section>
       </div>
     </>
