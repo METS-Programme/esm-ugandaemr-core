@@ -45,8 +45,6 @@ import { useTranslation } from 'react-i18next';
 import { PRIVILEGE_CHECKIN } from '../constants';
 import { buildStatusString, formatWaitTime, getTagColor, getTagType, trimVisitNumber } from '../helpers/functions';
 import {
-  updateSelectedQueueRoomLocationName,
-  updateSelectedQueueRoomLocationUuid,
   useSelectedQueueLocationUuid,
   useSelectedQueueRoomLocationName,
   useSelectedQueueRoomLocationUuid,
@@ -59,6 +57,7 @@ import StatusIcon from '../queue-entry-table-components/status-icon.component';
 import { SearchTypes } from '../types';
 import { getOriginFromPathName } from './active-visits-table.resource';
 import styles from './active-visits-table.scss';
+import EditActionsMenu from './edit-action-menu.components';
 import { usePatientQueuesList } from './patient-queues.resource';
 
 type FilterProps = {
@@ -168,12 +167,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
     ],
     [t],
   );
-
-  const handleQueueRoomLocationChange = ({ selectedItem }) => {
-    updateSelectedQueueRoomLocationUuid(selectedItem.uuid);
-    updateSelectedQueueRoomLocationName(selectedItem.display);
-  };
-
   const tableRows = useMemo(() => {
     return paginatedQueueEntries?.map((entry) => ({
       ...entry,
@@ -226,6 +219,14 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
               {formatWaitTime(entry.waitTime, t)}
             </span>
           </Tag>
+        ),
+      },
+      actions: {
+        content: (
+          <>
+            <ActionsMenu queueEntry={entry} closeModal={() => true} />
+            <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
+          </>
         ),
       },
     }));
