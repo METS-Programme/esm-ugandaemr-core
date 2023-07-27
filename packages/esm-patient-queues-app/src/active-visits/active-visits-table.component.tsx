@@ -278,18 +278,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                 style={{ position: 'static', height: '3rem', overflow: 'visible', backgroundColor: 'color' }}
               >
                 <TableToolbarContent className={styles.toolbarContent}>
-                  {/* <div className={styles.filterContainer}>
-                    <Dropdown
-                      id="queuelocationFilter"
-                      titleText={t('showPatientsWaitingFor', 'Show patients waiting for') + ':'}
-                      label={currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display}
-                      type="inline"
-                      items={[...queueRoomLocations]}
-                      itemToString={(item) => (item ? item.display : 'Not Set')}
-                      onChange={handleQueueRoomLocationChange}
-                      size="sm"
-                    />
-                  </div> */}
                   <Layer>
                     <TableToolbarSearch
                       className={styles.search}
