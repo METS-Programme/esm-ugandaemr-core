@@ -27,7 +27,7 @@ import {
   Tag,
   Tile,
 } from '@carbon/react';
-import { Add, Dashboard } from '@carbon/react/icons';
+import { Add } from '@carbon/react/icons';
 import {
   ConfigObject,
   ExtensionSlot,
@@ -84,15 +84,9 @@ const PatientNameLink: React.FC<NameLinkProps> = ({ from, to, children }) => {
     localStorage.setItem('fromPage', from);
   };
   return (
-    <Button
-      kind="ghost"
-      size="sm"
-      onClick={(e) => handleNameClick(e, to)}
-      href={interpolateUrl(to)}
-      renderIcon={(props) => <Dashboard size={16} {...props} />}
-    >
+    <a onClick={(e) => handleNameClick(e, to)} href={interpolateUrl(to)}>
       {children}
-    </Button>
+    </a>
   );
 };
 
@@ -157,6 +151,7 @@ function ActiveVisitsTable() {
       {
         id: 5,
         header: t('actions', 'Actions'),
+        key: 'actions',
       },
     ],
     [t],
@@ -220,6 +215,9 @@ function ActiveVisitsTable() {
             </span>
           </Tag>
         ),
+      },
+      actions: {
+        content: <ActionsMenu queueEntry={entry} closeModal={() => true} />,
       },
     }));
   }, [paginatedQueueEntries, t, fromPage]);
@@ -304,9 +302,6 @@ function ActiveVisitsTable() {
                           {row.cells.map((cell) => (
                             <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
                           ))}
-                          <TableCell>
-                            <ActionsMenu queueEntry={patientQueueEntries?.[index]} closeModal={() => true} />
-                          </TableCell>
                         </TableExpandRow>
                         {row.isExpanded ? (
                           <TableExpandedRow className={styles.expandedActiveVisitRow} colSpan={headers.length + 2}>
