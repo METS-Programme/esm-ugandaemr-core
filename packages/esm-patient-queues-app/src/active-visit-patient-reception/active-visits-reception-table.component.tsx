@@ -21,7 +21,7 @@ import {
 } from '@carbon/react';
 import { Add } from '@carbon/react/icons';
 
-import { isDesktop, useLayoutType, usePagination, useSession } from '@openmrs/esm-framework';
+import { ExtensionSlot, isDesktop, useLayoutType, usePagination, useSession } from '@openmrs/esm-framework';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { buildStatusString, formatWaitTime, getTagColor, getTagType, trimVisitNumber } from '../helpers/functions';
@@ -32,6 +32,7 @@ import {
 } from '../helpers/helpers';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import StatusIcon from '../queue-entry-table-components/status-icon.component';
+import { SearchTypes } from '../types';
 import { usePatientQueuesList } from './active-visits-reception.resource';
 import styles from './active-visits-reception.scss';
 
@@ -184,6 +185,33 @@ function ActiveVisitsReceptionTable() {
   if (patientQueueEntries?.length) {
     return (
       <div className={styles.container}>
+        <div className={styles.headerBtnContainer}></div>
+        <div className={styles.headerContainer}>
+          <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
+            <span className={styles.heading}>{`Patients in ${userLocation} queue`}</span>
+          </div>
+          <div className={styles.headerButtons}>
+            <ExtensionSlot
+              extensionSlotName="patient-search-button-slot"
+              state={{
+                buttonText: t('checkIn', 'CheckIn'),
+                overlayHeader: t('checkIn', 'CheckIn'),
+                buttonProps: {
+                  kind: 'secondary',
+                  renderIcon: (props) => <Add size={16} {...props} />,
+                  size: 'sm',
+                },
+                selectPatientAction: (selectedPatientUuid) => {
+                  setShowOverlay(true);
+                  setView(SearchTypes.VISIT_FORM);
+                  setViewState({ selectedPatientUuid });
+                  setOverlayTitle(t('checkIn', 'Check In'));
+                },
+              }}
+            />
+          </div>
+        </div>
+
         <DataTable
           data-floating-menu-container
           filterRows={handleFilter}
