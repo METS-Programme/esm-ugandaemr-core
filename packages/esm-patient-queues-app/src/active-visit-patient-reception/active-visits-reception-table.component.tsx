@@ -19,7 +19,7 @@ import {
   Tag,
   Tile,
 } from '@carbon/react';
-import { Add } from '@carbon/react/icons';
+import { Add, Edit } from '@carbon/react/icons';
 
 import { isDesktop, useLayoutType, usePagination, useSession } from '@openmrs/esm-framework';
 import React, { useMemo, useState } from 'react';
@@ -65,6 +65,21 @@ function ActiveVisitsReceptionTable() {
   const layout = useLayoutType();
   const { goTo, results: paginatedQueueEntries, currentPage } = usePagination(patientQueueEntries, currentPageSize);
 
+  const receptionActions = (
+    <>
+      <Button
+        kind="ghost"
+        iconDescription={t('editPatientDetails', 'Edit Patient ')}
+        renderIcon={(props) => <Edit size={16} {...props} />}
+      ></Button>
+      {/* <Button
+        kind="ghost"
+        iconDescription={t('viewDetails', 'View details ')}
+        renderIcon={(props) => <Dashboard size={16} {...props} />}
+      ></Button> */}
+    </>
+  );
+
   const tableHeaders = useMemo(
     () => [
       {
@@ -84,17 +99,28 @@ function ActiveVisitsReceptionTable() {
       },
       {
         id: 3,
+        header: t('currentlocation', 'Current Location'),
+        key: 'location',
+      },
+      {
+        id: 4,
         header: t('status', 'Status'),
         key: 'status',
       },
       {
-        id: 4,
+        id: 5,
+        header: t('provider', 'Provider'),
+        key: 'provider',
+      },
+      {
+        id: 6,
         header: t('waitTime', 'Wait time'),
         key: 'waitTime',
       },
       {
-        id: 5,
+        id: 7,
         header: t('actions', 'Actions'),
+        key: 'actions',
       },
     ],
     [t],
@@ -133,13 +159,19 @@ function ActiveVisitsReceptionTable() {
           </>
         ),
       },
+      location: {
+        content: <span> {entry.queueRoom} </span>,
+      },
       status: {
         content: (
           <span className={styles.statusContainer}>
             <StatusIcon status={entry.status.toLowerCase()} />
-            <span>{buildStatusString(entry.status.toLowerCase(), entry.queueRoom)}</span>
+            <span>{buildStatusString(entry.status.toLowerCase())}</span>
           </span>
         ),
+      },
+      provider: {
+        content: <span>Provider Name</span>,
       },
       waitTime: {
         content: (
@@ -150,8 +182,11 @@ function ActiveVisitsReceptionTable() {
           </Tag>
         ),
       },
+      actions: {
+        content: receptionActions,
+      },
     }));
-  }, [paginatedQueueEntries, t]);
+  }, [paginatedQueueEntries, receptionActions, t]);
 
   const handleFilter = ({ rowIds, headers, cellsById, inputValue, getCellId }: FilterProps): Array<string> => {
     return rowIds.filter((rowId) =>
@@ -189,6 +224,7 @@ function ActiveVisitsReceptionTable() {
           filterRows={handleFilter}
           headers={tableHeaders}
           rows={tableRows}
+          isSortable
           overflowMenuOnHover={isDesktop(layout) ? true : false}
         >
           {({ rows, headers, getHeaderProps, getTableProps, getRowProps, onInputChange }) => (
