@@ -21,7 +21,7 @@ export interface MappedPatientQueueEntry {
 }
 
 export function usePatientQueuesList(currentQueueRoomLocationUuid: string, currentQueueLocationUuid: string) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&room=${currentQueueRoomLocationUuid}`; // https://ugandaemr-backend.mets.or.ug/openmrs/ws/rest/v1/patientqueue?v=full&status=pending&location=86863db4-6101-4ecf-9a86-5e716d6504e4&room=d2bf14fd-109a-4ca6-b61d-5d8cee9f94f1
+  const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&room=${currentQueueRoomLocationUuid}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,
