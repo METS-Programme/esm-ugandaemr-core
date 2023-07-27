@@ -45,7 +45,6 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
     }
     setIsMissingService(false);
 
-    const status = config.concepts.defaultStatusConceptUuid;
     const priorityComment = 'Emergency';
     const comment = '';
     const priority = 1;
@@ -56,7 +55,7 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
       queueUuid,
       patientUuid,
       priority,
-      status,
+      'pending',
       selectedQueueLocation,
       priorityComment,
       comment,

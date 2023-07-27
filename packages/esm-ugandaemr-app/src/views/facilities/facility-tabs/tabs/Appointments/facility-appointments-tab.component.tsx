@@ -11,6 +11,6 @@ const FacilityAppointmentsTab: React.FC = () => {
       <span> Coming Soon!!(Under Devlopment)</span>
     </div>
   );
-}
+};
 
 export default FacilityAppointmentsTab;
