@@ -93,6 +93,7 @@ const PatientNameLink: React.FC<NameLinkProps> = ({ from, to, children }) => {
 function ActiveVisitsTable() {
   const { t } = useTranslation();
   const session = useSession();
+  const userLocation = session?.sessionLocation?.display;
   const { queueRoomLocations } = useQueueRoomLocations(session?.sessionLocation?.uuid);
   const currentQueueLocationUuid = useSelectedQueueLocationUuid();
 
@@ -253,9 +254,7 @@ function ActiveVisitsTable() {
             <div className={styles.headerBtnContainer}></div>
             <div className={styles.headerContainer}>
               <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
-                <span className={styles.heading}>{`Patients in ${
-                  currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display
-                } queue`}</span>
+                <span className={styles.heading}>{`Patients in ${userLocation} queue`}</span>
               </div>
               <div className={styles.headerButtons}>
                 <ExtensionSlot
@@ -422,9 +421,7 @@ function ActiveVisitsTable() {
         <>
           <div className={styles.headerContainer}>
             <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
-              <span className={styles.heading}>{`Patients in ${
-                currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display
-              } queue`}</span>{' '}
+              <span className={styles.heading}>{`Patients in ${userLocation} queue`}</span>
             </div>
             <div className={styles.headerButtons}>
               <ExtensionSlot
