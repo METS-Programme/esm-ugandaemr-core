@@ -46,6 +46,8 @@ import { useTranslation } from 'react-i18next';
 import { PRIVILEGE_CHECKIN } from '../constants';
 import { buildStatusString, formatWaitTime, getTagColor, getTagType, trimVisitNumber } from '../helpers/functions';
 import {
+  updateSelectedQueueRoomLocationName,
+  updateSelectedQueueRoomLocationUuid,
   useSelectedQueueLocationUuid,
   useSelectedQueueRoomLocationName,
   useSelectedQueueRoomLocationUuid,
@@ -157,11 +159,16 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       {
         id: 5,
         header: t('actions', 'Actions'),
-        key: 'actions',
       },
     ],
     [t],
   );
+
+  const handleQueueRoomLocationChange = ({ selectedItem }) => {
+    updateSelectedQueueRoomLocationUuid(selectedItem.uuid);
+    updateSelectedQueueRoomLocationName(selectedItem.display);
+  };
+
   const tableRows = useMemo(() => {
     return paginatedQueueEntries?.map((entry) => ({
       ...entry,
@@ -203,7 +210,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         content: (
           <span className={styles.statusContainer}>
             <StatusIcon status={entry.status.toLowerCase()} />
-            <span>{buildStatusString(entry.status.toLowerCase())}</span>
+            <span>{buildStatusString(entry.status.toLowerCase(), entry.queueRoom)}</span>
           </span>
         ),
       },
@@ -216,14 +223,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
           </Tag>
         ),
       },
-      actions: {
-        content: (
-          <>
-            <ActionsMenu queueEntry={entry} closeModal={() => true} />
-            {/* <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} /> */}
-          </>
-        ),
-      },
     }));
   }, [paginatedQueueEntries, t, fromPage]);
 
@@ -234,18 +233,18 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         const filterableValue = cellsById[cellId].value;
         const filterTerm = inputValue.toLowerCase();
 
-        // if (typeof filterableValue === 'boolean') {
-        //   return false;
-        // }
-        // if (filterableValue.hasOwnProperty('content')) {
-        //   if (Array.isArray(filterableValue.content.props.children)) {
-        //     return ('' + filterableValue.content.props.children[1].props.children).toLowerCase().includes(filterTerm);
-        //   }
-        //   if (typeof filterableValue.content.props.children === 'object') {
-        //     return ('' + filterableValue.content.props.children.props.children).toLowerCase().includes(filterTerm);
-        //   }
-        //   return ('' + filterableValue.content.props.children).toLowerCase().includes(filterTerm);
-        // }
+        if (typeof filterableValue === 'boolean') {
+          return false;
+        }
+        if (filterableValue.hasOwnProperty('content')) {
+          if (Array.isArray(filterableValue.content.props.children)) {
+            return ('' + filterableValue.content.props.children[1].props.children).toLowerCase().includes(filterTerm);
+          }
+          if (typeof filterableValue.content.props.children === 'object') {
+            return ('' + filterableValue.content.props.children.props.children).toLowerCase().includes(filterTerm);
+          }
+          return ('' + filterableValue.content.props.children).toLowerCase().includes(filterTerm);
+        }
         return ('' + filterableValue).toLowerCase().includes(filterTerm);
       }),
     );
@@ -270,7 +269,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
           headers={tableHeaders}
           overflowMenuOnHover={isDesktop(layout) ? true : false}
           rows={tableRows}
-          isSortable
           size="xs"
           useZebraStyles
         >
@@ -280,6 +278,18 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                 style={{ position: 'static', height: '3rem', overflow: 'visible', backgroundColor: 'color' }}
               >
                 <TableToolbarContent className={styles.toolbarContent}>
+                  {/* <div className={styles.filterContainer}>
+                    <Dropdown
+                      id="queuelocationFilter"
+                      titleText={t('showPatientsWaitingFor', 'Show patients waiting for') + ':'}
+                      label={currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display}
+                      type="inline"
+                      items={[...queueRoomLocations]}
+                      itemToString={(item) => (item ? item.display : 'Not Set')}
+                      onChange={handleQueueRoomLocationChange}
+                      size="sm"
+                    />
+                  </div> */}
                   <Layer>
                     <TableToolbarSearch
                       className={styles.search}
@@ -307,6 +317,9 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                           {row.cells.map((cell) => (
                             <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
                           ))}
+                          <TableCell>
+                            <ActionsMenu queueEntry={patientQueueEntries?.[index]} closeModal={() => true} />
+                          </TableCell>
                         </TableExpandRow>
                         {row.isExpanded ? (
                           <TableExpandedRow className={styles.expandedActiveVisitRow} colSpan={headers.length + 2}>
