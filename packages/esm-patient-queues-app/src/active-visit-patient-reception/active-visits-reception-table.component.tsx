@@ -24,6 +24,8 @@ import { Add, Edit } from '@carbon/react/icons';
 import { isDesktop, useLayoutType, usePagination, useSession } from '@openmrs/esm-framework';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getOriginFromPathName } from '../active-visits/active-visits-table.resource';
+import EditActionsMenu from '../active-visits/edit-action-menu.components';
 import { buildStatusString, formatWaitTime, getTagColor, getTagType, trimVisitNumber } from '../helpers/functions';
 import {
   useSelectedQueueLocationUuid,
@@ -58,27 +60,15 @@ function ActiveVisitsReceptionTable() {
   const currentQueueRoomLocationName = useSelectedQueueRoomLocationName();
 
   const { patientQueueEntries, isLoading } = usePatientQueuesList(currentQueueRoomLocationUuid);
+  const currentPathName: string = window.location.pathname;
+
+  const fromPage: string = getOriginFromPathName(currentPathName);
 
   const pageSizes = [10, 20, 30, 40, 50];
   const [currentPageSize, setPageSize] = useState(10);
   const [overlayHeader, setOverlayTitle] = useState('');
   const layout = useLayoutType();
   const { goTo, results: paginatedQueueEntries, currentPage } = usePagination(patientQueueEntries, currentPageSize);
-
-  const receptionActions = (
-    <>
-      <Button
-        kind="ghost"
-        iconDescription={t('editPatientDetails', 'Edit Patient ')}
-        renderIcon={(props) => <Edit size={16} {...props} />}
-      ></Button>
-      {/* <Button
-        kind="ghost"
-        iconDescription={t('viewDetails', 'View details ')}
-        renderIcon={(props) => <Dashboard size={16} {...props} />}
-      ></Button> */}
-    </>
-  );
 
   const tableHeaders = useMemo(
     () => [
@@ -183,10 +173,10 @@ function ActiveVisitsReceptionTable() {
         ),
       },
       actions: {
-        content: receptionActions,
+        content: <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />,
       },
     }));
-  }, [paginatedQueueEntries, receptionActions, t]);
+  }, [fromPage, paginatedQueueEntries, t]);
 
   const handleFilter = ({ rowIds, headers, cellsById, inputValue, getCellId }: FilterProps): Array<string> => {
     return rowIds.filter((rowId) =>
