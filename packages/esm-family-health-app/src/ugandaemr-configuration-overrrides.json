@@ -1,9 +1,6 @@
 {
   "@openmrs/esm-patient-chart-app": {
     "extensionSlots": {
-      "patient-actions-slot":{
-
-      },
       "action-menu-chart-items-slot":{
   
       },
