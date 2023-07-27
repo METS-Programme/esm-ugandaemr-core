@@ -29,7 +29,7 @@ const ActionsMenu: React.FC<ActionsMenuProps> = ({ queueEntry }) => {
   }, [queueEntry]);
 
   return (
-    <Tooltip align="bottom" label="Send to Next Room">
+    <Tooltip label="Send to Next Room">
       <Button
         kind="ghost"
         onClick={launchNextQueueModal}
