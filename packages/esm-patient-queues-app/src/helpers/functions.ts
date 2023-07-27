@@ -12,16 +12,16 @@ export const getTagType = (priority: string) => {
   }
 };
 
-export const buildStatusString = (status: string, location: string) => {
-  if (!status || !location) {
+export const buildStatusString = (status: string) => {
+  if (!status) {
     return '';
   }
   if (status === 'pending') {
-    return `${status} for ${location}`;
+    return `${status}`;
   } else if (status === 'picked') {
-    return `Attending ${location}`;
+    return `Attending`;
   } else if (status === 'completed') {
-    return `Finished ${location}`;
+    return `Finished`;
   }
 };
 

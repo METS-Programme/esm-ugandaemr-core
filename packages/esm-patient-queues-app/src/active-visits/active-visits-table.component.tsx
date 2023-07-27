@@ -27,7 +27,7 @@ import {
   Tag,
   Tile,
 } from '@carbon/react';
-import { Add } from '@carbon/react/icons';
+import { Add, Dashboard } from '@carbon/react/icons';
 import {
   ConfigObject,
   ExtensionSlot,
@@ -84,9 +84,15 @@ const PatientNameLink: React.FC<NameLinkProps> = ({ from, to, children }) => {
     localStorage.setItem('fromPage', from);
   };
   return (
-    <a onClick={(e) => handleNameClick(e, to)} href={interpolateUrl(to)}>
+    <Button
+      kind="ghost"
+      size="sm"
+      onClick={(e) => handleNameClick(e, to)}
+      href={interpolateUrl(to)}
+      renderIcon={(props) => <Dashboard size={16} {...props} />}
+    >
       {children}
-    </a>
+    </Button>
   );
 };
 
@@ -202,7 +208,7 @@ function ActiveVisitsTable() {
         content: (
           <span className={styles.statusContainer}>
             <StatusIcon status={entry.status.toLowerCase()} />
-            <span>{buildStatusString(entry.status.toLowerCase(), entry.queueRoom)}</span>
+            <span>{buildStatusString(entry.status.toLowerCase())}</span>
           </span>
         ),
       },
