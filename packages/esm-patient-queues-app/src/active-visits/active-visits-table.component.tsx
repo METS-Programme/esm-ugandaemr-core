@@ -249,36 +249,12 @@ function ActiveVisitsTable() {
   if (patientQueueEntries?.length) {
     return (
       <div className={styles.container}>
-        {useQueueTableTabs === false ? (
-          <>
-            <div className={styles.headerBtnContainer}></div>
-            <div className={styles.headerContainer}>
-              <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
-                <span className={styles.heading}>{`Patients in ${userLocation} queue`}</span>
-              </div>
-              <div className={styles.headerButtons}>
-                <ExtensionSlot
-                  extensionSlotName="patient-search-button-slot"
-                  state={{
-                    buttonText: t('checkIn', 'CheckIn'),
-                    overlayHeader: t('checkIn', 'CheckIn'),
-                    buttonProps: {
-                      kind: 'secondary',
-                      renderIcon: (props) => <Add size={16} {...props} />,
-                      size: 'sm',
-                    },
-                    selectPatientAction: (selectedPatientUuid) => {
-                      setShowOverlay(true);
-                      setView(SearchTypes.VISIT_FORM);
-                      setViewState({ selectedPatientUuid });
-                      setOverlayTitle(t('checkIn', 'Check In'));
-                    },
-                  }}
-                />
-              </div>
-            </div>
-          </>
-        ) : null}
+        <div className={styles.headerBtnContainer}></div>
+        <div className={styles.headerContainer}>
+          <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
+            <span className={styles.heading}>{`Patients in ${userLocation} queue`}</span>
+          </div>
+        </div>
         <DataTable
           data-floating-menu-container
           filterRows={handleFilter}
