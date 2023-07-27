@@ -12,14 +12,8 @@ import { usePatientsBeingServed, usePatientsServed } from './clinic-metrics.reso
 import styles from './clinic-metrics.scss';
 import MetricsCard from './metrics-card.component';
 
-export interface Service {
-  uuid: string;
-  display: string;
-}
-
 function ClinicMetrics() {
   const { t } = useTranslation();
-  const userSession = useSession();
 
   const session = useSession();
   const userLocation = session?.sessionLocation?.display;
@@ -38,7 +32,6 @@ function ClinicMetrics() {
   const { servedCount } = usePatientsServed(currentQueueRoomLocationUuid, currentQueueLocationUuid, 'completed');
 
   // receptionist ui
-
   return (
     <>
       <div className={styles.cardContainer}>
@@ -53,22 +46,19 @@ function ClinicMetrics() {
             value={0}
             headerLabel={t('noOfExpectedAppointments', 'No. Of Expected Appointments')}
           />
-        )}
-        {userHasAccess(RECEPTION_METRIC, userSession.user) && (
           <MetricsCard
             label={t('serving', 'Serving')}
             value={patientQueueCount ?? 0}
             headerLabel={t('currentlyServing', 'No. of Currently being Served')}
           />
-        )}
-        {userHasAccess(TRIAGE_METRIC, userSession.user) && (
+        </UserHasAccess>
+
+        <UserHasAccess privilege={PRIVILIGE_TRIAGE_METRIC}>
           <MetricsCard
             label={t('served', 'Patients Served')}
             value={servedCount ?? 0}
             headerLabel={t('noOfPatientsServed', 'No. Of Patients Served')}
           />
-        )}
-        {userHasAccess(TRIAGE_METRIC, userSession.user) && (
           <MetricsCard
             label={t('pendingServing', 'Patients waiting to be Served')}
             value={0}
