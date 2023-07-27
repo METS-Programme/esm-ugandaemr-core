@@ -1,4 +1,3 @@
-import { Dropdown } from '@carbon/react';
 import { Calendar, Location } from '@carbon/react/icons';
 import { formatDate, useSession } from '@openmrs/esm-framework';
 import React from 'react';
@@ -43,17 +42,6 @@ const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
             <span className={styles.middot}>&middot;</span>
             <Calendar size={16} />
             <span className={styles.value}>{formatDate(new Date(), { mode: 'standard' })}</span>
-          </div>
-          <div className={styles.dropdown}>
-            <label className={styles.view}>{t('view', 'View')}:</label>
-            <Dropdown
-              id="queueRooms"
-              label={currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display}
-              type="inline"
-              items={[...queueRoomLocations]}
-              itemToString={(item) => (item ? item.display : '')}
-              onChange={handleQueueLocationChange}
-            />
           </div>
         </div>
       </div>

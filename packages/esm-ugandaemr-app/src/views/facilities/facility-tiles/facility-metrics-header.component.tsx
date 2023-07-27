@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import PatientSearch from '../../../../../esm-patient-queues-app/src/patient-search/patient-search.component';
 import { spaBasePath } from '../../../constants';
 import { SearchTypes } from '../../../types';
-import styles from './metrics-header.scss';
+import styles from './facility-metrics-header.scss';
 
 const MetricsHeader = () => {
   const { t } = useTranslation();
