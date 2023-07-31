@@ -5660,7 +5660,7 @@ __metadata:
   resolution: "@ugandaemr/esm-ugandaemr-core@workspace:."
   dependencies:
     "@carbon/icons-react": ^11.23.0
-    "@carbon/react": ^1.34.0
+    "@carbon/react": ^1.14.0
     "@ohri/openmrs-esm-ohri-commons-lib": next
     "@openmrs/esm-framework": next
     "@openmrs/esm-patient-common-lib": next

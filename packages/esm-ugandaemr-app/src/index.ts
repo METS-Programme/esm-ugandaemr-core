@@ -105,16 +105,14 @@ function setupOpenMRS() {
           moduleName,
         }),
       },
-      // {
-      //   id: 'set-facility-identifier',
-      //   load: getAsyncLifecycle(
-      //     () => import('./views/facilities/facility-dashboard/tabs/HIE/set-identifer-dialog.component'),
-      //     {
-      //       featureName: 'set facility identifier dialog',
-      //       moduleName,
-      //     },
-      //   ),
-      // },
+
+      {
+        id: 'create-new-dashboard-ext',
+        load: getAsyncLifecycle(
+          () => import('./views/facilities/facility-dashboard/create-dashboard-status.component'),
+          options,
+        ),
+      },
     ],
   };
 }

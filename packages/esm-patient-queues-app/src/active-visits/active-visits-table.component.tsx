@@ -224,9 +224,9 @@ function ActiveVisitsTable() {
         const filterableValue = cellsById[cellId].value;
         const filterTerm = inputValue.toLowerCase();
 
-        if (typeof filterableValue === 'boolean') {
-          return false;
-        }
+        // if (typeof filterableValue === 'boolean') {
+        //   return false;
+        // }
         // if (filterableValue.hasOwnProperty('content')) {
         //   if (Array.isArray(filterableValue.content.props.children)) {
         //     return ('' + filterableValue.content.props.children[1].props.children).toLowerCase().includes(filterTerm);
