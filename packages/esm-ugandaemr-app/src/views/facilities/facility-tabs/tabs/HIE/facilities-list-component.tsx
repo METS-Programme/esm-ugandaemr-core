@@ -77,16 +77,16 @@ const FacilitiesList: React.FC = () => {
   const { regions } = useFacilityRegions();
 
   const pageSizes = [10, 20, 30, 40, 50];
-  const [currentPageSize, setPageSize] = useState(50);
-  const { goTo, results: paginatedFacilityEntries, currentPage } = usePagination(facilities ?? [], 100);
+  const [currentPageSize, setPageSize] = useState(10);
+  const { goTo, results: paginatedFacilityEntries, currentPage } = usePagination(facilities, currentPageSize);
 
   const tableHeaders = [
-    { id: 0, key: 'name', header: t('facilityName', 'Facility Name'), isSortable: true },
+    { id: 0, key: 'name', header: t('facilityName', 'Facility Name') },
     { id: 1, key: 'status', header: t('status', 'Status') },
     { id: 2, key: 'subCounty', header: t('subCounty', 'Subcounty') },
     { id: 3, key: 'address', header: t('address', 'Address') },
-    { id: 4, key: 'uniqueIdentifier', header: t('uniqueIdentifier', 'Unique Identifier'), isSortable: true },
-    { id: 5, key: 'historicalIdentifier', header: t('uniqueIdentifier', 'Historical Identifier'), isSortable: true },
+    { id: 4, key: 'uniqueIdentifier', header: t('uniqueIdentifier', 'Unique Identifier') },
+    { id: 5, key: 'historicalIdentifier', header: t('uniqueIdentifier', 'Historical Identifier') },
     { id: 6, key: 'action', header: t('actionHeader', 'Action') },
   ];
   // const headerTitle = 'Facilities';
@@ -211,7 +211,7 @@ const FacilitiesList: React.FC = () => {
                 page={currentPage}
                 pageSize={currentPageSize}
                 pageSizes={pageSizes}
-                totalItems={allRows?.length}
+                totalItems={facilities?.length}
                 className={styles.pagination}
                 onChange={({ pageSize, page }) => {
                   if (pageSize !== currentPageSize) {
