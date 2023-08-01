@@ -120,7 +120,7 @@ function PatientsInNextQueueRoomTable() {
         content: (
           <span className={styles.statusContainer}>
             <StatusIcon status={entry.status.toLowerCase()} />
-            <span>{buildStatusString(entry.status.toLowerCase(), entry.queueRoom)}</span>
+            <span>{buildStatusString(entry.status.toLowerCase())}</span>
           </span>
         ),
       },
