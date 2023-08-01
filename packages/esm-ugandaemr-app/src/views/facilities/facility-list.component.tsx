@@ -77,8 +77,8 @@ const FacilityList: React.FC = () => {
   const { regions } = useFacilityRegions();
 
   const pageSizes = [10, 20, 30, 40, 50];
-  const [currentPageSize, setPageSize] = useState(50);
-  const { goTo, results: paginatedFacilityEntries, currentPage } = usePagination(facilities ?? [], 100);
+  const [currentPageSize, setPageSize] = useState(10);
+  const { goTo, results: paginatedFacilityEntries, currentPage } = usePagination(facilities, currentPageSize);
 
   const tableHeaders = [
     { id: 0, key: 'name', header: t('facilityName', 'Facility Name'), isSortable: true },
@@ -211,7 +211,7 @@ const FacilityList: React.FC = () => {
                 page={currentPage}
                 pageSize={currentPageSize}
                 pageSizes={pageSizes}
-                totalItems={allRows?.length}
+                totalItems={20}
                 className={styles.pagination}
                 onChange={({ pageSize, page }) => {
                   if (pageSize !== currentPageSize) {

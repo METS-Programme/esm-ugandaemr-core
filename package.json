@@ -25,6 +25,7 @@
     "base-64": "^1.0.0",
     "buffer": "^6.0.3",
     "dayjs": "^1.11.6",
+    "react-to-print": "^2.14.13",
     "swr": "^2.1.1"
   },
   "peerDependencies": {
