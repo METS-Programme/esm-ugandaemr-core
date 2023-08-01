@@ -19,13 +19,14 @@ import {
   Tag,
   Tile,
 } from '@carbon/react';
-import { Add, Edit } from '@carbon/react/icons';
+import { Add } from '@carbon/react/icons';
 
 import { isDesktop, useLayoutType, usePagination, useSession } from '@openmrs/esm-framework';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getOriginFromPathName } from '../active-visits/active-visits-table.resource';
 import EditActionsMenu from '../active-visits/edit-action-menu.components';
+import PrintActionsMenu from '../active-visits/print-action-menu.components';
 import { buildStatusString, formatWaitTime, getTagColor, getTagType, trimVisitNumber } from '../helpers/functions';
 import {
   useSelectedQueueLocationUuid,
@@ -33,6 +34,7 @@ import {
   useSelectedQueueRoomLocationUuid,
 } from '../helpers/helpers';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
+import PatientSearch from '../patient-search/patient-search.component';
 import StatusIcon from '../queue-entry-table-components/status-icon.component';
 import { usePatientQueuesList } from './active-visits-reception.resource';
 import styles from './active-visits-reception.scss';
@@ -173,7 +175,12 @@ function ActiveVisitsReceptionTable() {
         ),
       },
       actions: {
-        content: <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />,
+        content: (
+          <>
+            <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
+            <PrintActionsMenu patient={entry} />
+          </>
+        ),
       },
     }));
   }, [fromPage, paginatedQueueEntries, t]);
@@ -215,6 +222,7 @@ function ActiveVisitsReceptionTable() {
           headers={tableHeaders}
           rows={tableRows}
           isSortable
+          useZebraStyles
           overflowMenuOnHover={isDesktop(layout) ? true : false}
         >
           {({ rows, headers, getHeaderProps, getTableProps, getRowProps, onInputChange }) => (
@@ -294,6 +302,16 @@ function ActiveVisitsReceptionTable() {
             </TableContainer>
           )}
         </DataTable>
+        {showOverlay && (
+          <PatientSearch
+            view={view}
+            closePanel={() => setShowOverlay(false)}
+            viewState={{
+              selectedPatientUuid: viewState.selectedPatientUuid,
+            }}
+            headerTitle={overlayHeader}
+          />
+        )}
       </div>
     );
   }
