@@ -7611,6 +7611,7 @@ __metadata:
     react-plotly.js: ^2.6.0
     react-resizable: ^3.0.5
     react-router-dom: ^6.3.0
+    react-to-print: ^2.14.13
     rxjs: ^6.6.3
     sass: ^1.54.3
     swc-loader: ^0.2.3
@@ -20604,6 +20605,9 @@ __metadata:
     react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
     react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
   checksum: b233eda519f34ee030529e41c1421bdfb40c454562439f5c3af8a8052cb4a285c30066aebf0cb34b9733be7d7afc250927fa27cb7c52e2fc5ff9f2eddee47e88
+  languageName: node
+  linkType: hard
+
 "react-transition-group@npm:2.9.0":
   version: 2.9.0
   resolution: "react-transition-group@npm:2.9.0"
