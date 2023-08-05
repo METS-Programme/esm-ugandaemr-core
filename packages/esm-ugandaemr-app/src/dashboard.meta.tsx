@@ -6,7 +6,7 @@
 // };
 
 export const facilityListMeta = {
-  name: 'facility-lists',
+  name: 'facility-dashboard',
   slot: 'facility-home-dashboard-slot',
   title: 'Facility Dashboard',
 };

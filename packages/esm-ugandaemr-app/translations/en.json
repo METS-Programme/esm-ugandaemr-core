@@ -13,5 +13,8 @@
     "dashboardDescription": "Dashboard Description",
     "searchItemDashboard": "Search for item to add on the dashboard",
     "addItemToDashboard": "Add new item to",
-    "chooseDashboardLayout": "Choose Dashboard Layout"
+    "chooseDashboardLayout": "Choose Dashboard Layout",
+    "dashboardUpdateSuccessfully": "Dashboard Updated Successfully",
+    "updateDashboardDetails": "Update Dashboard Details",
+    "chooseLayout": "Choose layout"
 }
