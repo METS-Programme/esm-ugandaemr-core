@@ -54,6 +54,7 @@ export const addPatientToQueue = getAsyncLifecycle(() => import('./patient-searc
   moduleName,
 });
 
+
 export const removeQueueEntry = getAsyncLifecycle(
   () => import('./remove-queue-entry-dialog/remove-queue-entry.component'),
   {
