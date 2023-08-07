@@ -21,7 +21,9 @@
       "component": "mchDashboard",
       "meta": {
         "slot": "mch-dashboard-slot",
-        "title": "Maternal Child Health"
+        "title": "Maternal Child Health",
+        "path": "maternal-child-health",
+        "columns": 1
       }
     },
     {
@@ -38,11 +40,9 @@
       "component": "childHealthDashboard",
       "meta": {
         "slot": "child-health-dashboard-slot",
-        "config": {
-          "columns": 1,
-          "type": "grid"
-        },
-        "title": "Child Health"
+        "columns": 1,
+        "title": "Child Health",
+        "path": "child-health"
       }
     },
     {
@@ -59,11 +59,9 @@
       "component": "hivExposedInfantDashboard",
       "meta": {
         "slot": "hiv-exposed-infant-slot",
-        "config": {
-          "columns": 1,
-          "type": "grid"
-        },
-        "title": "HIV Exposed Infant"
+        "columns": 1,
+        "title": "HIV Exposed Infant",
+        "path": "hiv-exposed-infant"
       }
     },
     {
@@ -80,11 +78,9 @@
       "component": "familyPlanningDashboard",
       "meta": {
         "slot": "family-planning-dashboard-slot",
-        "config": {
-          "columns": 1,
-          "type": "grid"
-        },
-        "title": "Family Planning"
+        "columns": 1,
+        "title": "Family Planning",
+        "path": "family-planning"
       }
     },
     {

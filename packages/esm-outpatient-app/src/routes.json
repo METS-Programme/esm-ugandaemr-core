@@ -11,7 +11,8 @@
             "slot": "patient-chart-dashboard-slot",
             "meta": {
                 "title": "Outpatient Department",
-                "slot": "opd-dashboard-slot"
+                "slotName": "opd-dashboard-slot",
+                "path": "opd-dashboard"
             },
             "component": "opdDashboard"
         },
@@ -22,6 +23,7 @@
             "meta": {
                 "columnSpan": 4
             }
+            
         }
     ]
 }

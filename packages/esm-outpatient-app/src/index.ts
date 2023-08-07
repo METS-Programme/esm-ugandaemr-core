@@ -24,7 +24,7 @@ export function startupApp() {
 // pages
 
 // extensions
-export const opdDashboard = getSyncLifecycle(createDashboardLink(opdDashboardMeta), options);
+export const opdDashboard = getSyncLifecycle(createDashboardLink({...opdDashboardMeta, moduleName}), options);
 export const opdDashboardExt = getAsyncLifecycle(() => import('./pages/opd/outpatient.component'), {
   featureName: 'opd-dashboard-summary',
   moduleName,
