@@ -1,12 +1,11 @@
 {
   "@openmrs/esm-patient-chart-app": {
     "extensionSlots": {
+      "patient-actions-slot":{
+
+      },
       "action-menu-chart-items-slot":{
-        "remove":[
-            "order-basket-action-menu",
-            "visit-note-nav-button",
-            "clinical-form-action-menu"
-        ]
+  
       },
       "action-menu-non-chart-items-slot":{
         "remove":[
@@ -14,35 +13,13 @@
         ]
       },
       "program-management-summary-slot": {
-        "remove": [
-          "program-management-summary-ext",
-          "test-results-summary-dashboard",
-          "conditions-summary-dashboard",
-          "results-summary-dashboard",
-          "allergies-summary-dashboard",
-          "attachments-results-summary-dashboard",
-          "drug-orders-summary-dashboard"
-        ]
+  
       },
       "patient-chart-dashboard-slot": {
-        "remove": [
-          "test-results-summary-dashboard",
-          "conditions-summary-dashboard",
-          "offline-tools-patient-chart-actions-dashboard-link",
-          "programs-summary-dashboard",
-          "allergies-summary-dashboard",
-          "attachments-results-summary-dashboard"
-        ]
+  
       },
     "patient-chart-summary-dashboard-slot": {
-      "remove": [
-        "test-component-ext",
-        "conditions-overview-widget",
-        "immunization-overview-widget",
-        "notes-overview-widget",
-        "offline-tools-patient-chart-actions-widget",
-        "patient-clinical-view-overview"
-      ]
+ 
     },
       "cacx-visits-slot": {
         "remove": [
@@ -75,9 +52,11 @@
   "@openmrs/esm-home-app":{
     "extensionSlots":{
       "homepage-dashboard-slot":{
+        "add":[
+          "clinical-appointments-dashboard-link"
+        ],
         "remove": [
           "patient-lists-dashboard-link",
-          "service-queues-dashboard-link",
           "home-widget-db-link"
         ]
       },

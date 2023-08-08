@@ -1,31 +1,10 @@
+import { formatDate, openmrsFetch, parseDate } from '@openmrs/esm-framework';
 import dayjs from 'dayjs';
 import useSWR from 'swr';
+import { PatientQueue } from '../types/patient-queues';
 
-import { formatDate, openmrsFetch, parseDate } from '@openmrs/esm-framework';
-import { PatientQueue, UuidDisplay } from '../types/patient-queues';
-
-export interface MappedPatientQueueEntry {
-  id: string;
-  name: string;
-  patientAge: number;
-  patientSex: string;
-  patientDob: string;
-  patientUuid: string;
-  priority: string;
-  priorityComment: string;
-  status: string;
-  waitTime: string;
-  locationFrom?: string;
-  visitNumber: string;
-  identifiers: Array<UuidDisplay>;
-}
-
-export function usePatientQueuesList(
-  currentQueueRoomLocationUuid: string,
-  currentQueueLocationUuid: string,
-  status: string,
-) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&room=${currentQueueRoomLocationUuid}&status=${status}`;
+export function usePatientQueuesList(currentQueueRoomLocationUuid: string) {
+  const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueRoomLocationUuid}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,

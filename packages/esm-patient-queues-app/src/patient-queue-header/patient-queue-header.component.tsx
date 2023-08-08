@@ -1,4 +1,3 @@
-import { Dropdown } from '@carbon/react';
 import { Calendar, Location } from '@carbon/react/icons';
 import { formatDate, useSession } from '@openmrs/esm-framework';
 import React from 'react';
@@ -32,8 +31,8 @@ const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
         <div className={styles['left-justified-items']}>
           <PatientQueueIllustration />
           <div className={styles['page-labels']}>
-            <p>{t('home', 'Home ')}</p>
-            <p className={styles['page-name']}>{title ?? t('home', 'Home')}</p>
+            <p>{t('queues', 'Patient Queues ')}</p>
+            <p className={styles['page-name']}>{title ?? t('serviceQueues', 'Service Queues')}</p>
           </div>
         </div>
         <div className={styles['right-justified-items']}>
@@ -43,17 +42,6 @@ const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
             <span className={styles.middot}>&middot;</span>
             <Calendar size={16} />
             <span className={styles.value}>{formatDate(new Date(), { mode: 'standard' })}</span>
-          </div>
-          <div className={styles.dropdown}>
-            <label className={styles.view}>{t('view', 'View')}:</label>
-            <Dropdown
-              id="queueRooms"
-              label={currentQueueRoomLocationName ?? queueRoomLocations?.[0]?.display}
-              type="inline"
-              items={[...queueRoomLocations]}
-              itemToString={(item) => (item ? item.display : '')}
-              onChange={handleQueueLocationChange}
-            />
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
-import { Button } from '@carbon/react';
-import { ArrowRight } from '@carbon/react/icons';
+import { Button, Tooltip } from '@carbon/react';
+import { Logout } from '@carbon/react/icons';
 
 import { showModal } from '@openmrs/esm-framework';
 import React, { useCallback } from 'react';
@@ -29,14 +29,14 @@ const ActionsMenu: React.FC<ActionsMenuProps> = ({ queueEntry }) => {
   }, [queueEntry]);
 
   return (
-    <Button
-      kind="ghost"
-      onClick={launchNextQueueModal}
-      iconDescription={t('moveToNextQueueRoom', 'Move to Next Queue Room ')}
-      renderIcon={(props) => <ArrowRight size={16} {...props} />}
-    >
-      {t('sendToNextRoom', 'Send To Next Room')}
-    </Button>
+    <Tooltip align="bottom" label="Send to Next Room">
+      <Button
+        kind="ghost"
+        onClick={launchNextQueueModal}
+        iconDescription={t('moveToNextQueueRoom', 'Move to Next Queue Room ')}
+        renderIcon={(props) => <Logout size={16} {...props} />}
+      ></Button>
+    </Tooltip>
   );
 };
 
