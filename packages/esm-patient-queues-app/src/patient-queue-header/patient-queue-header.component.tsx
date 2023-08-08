@@ -31,8 +31,8 @@ const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
         <div className={styles['left-justified-items']}>
           <PatientQueueIllustration />
           <div className={styles['page-labels']}>
-            <p>{t('home', 'Home ')}</p>
-            <p className={styles['page-name']}>{title ?? t('home', 'Home')}</p>
+            <p>{t('queues', 'Patient Queues ')}</p>
+            <p className={styles['page-name']}>{title ?? t('serviceQueues', 'Service Queues')}</p>
           </div>
         </div>
         <div className={styles['right-justified-items']}>

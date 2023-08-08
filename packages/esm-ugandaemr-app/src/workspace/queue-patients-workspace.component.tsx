@@ -8,8 +8,8 @@ export default function QueuePatientsWorkSpace() {
     <>
       <div>
         <section className={styles.section}>
-          <div className={styles.title}>InQueue</div>
-          <ActiveVisitsTable />
+          <div className={styles.title}>Incoming</div>
+          <ActiveVisitsTable status={'pending'} />
         </section>
 
         <section className={styles.section}>

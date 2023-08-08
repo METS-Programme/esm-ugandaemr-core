@@ -20,8 +20,12 @@ export interface MappedPatientQueueEntry {
   identifiers: Array<UuidDisplay>;
 }
 
-export function usePatientQueuesList(currentQueueRoomLocationUuid: string, currentQueueLocationUuid: string) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&room=${currentQueueRoomLocationUuid}`;
+export function usePatientQueuesList(
+  currentQueueRoomLocationUuid: string,
+  currentQueueLocationUuid: string,
+  status: string,
+) {
+  const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&room=${currentQueueRoomLocationUuid}&status=${status}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,

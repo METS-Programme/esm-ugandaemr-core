@@ -1,15 +1,36 @@
-import { UserHasAccess } from '@openmrs/esm-framework';
+import { UserHasAccess, useSession } from '@openmrs/esm-framework';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { PRIVILEGE_RECEPTION_METRIC, PRIVILIGE_TRIAGE_METRIC } from '../constants';
-import { useActiveVisits } from './clinic-metrics.resource';
+import {
+  useSelectedQueueLocationUuid,
+  useSelectedQueueRoomLocationName,
+  useSelectedQueueRoomLocationUuid,
+} from '../helpers/helpers';
+import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
+import { usePatientsBeingServed, usePatientsServed } from './clinic-metrics.resource';
 import styles from './clinic-metrics.scss';
 import MetricsCard from './metrics-card.component';
 
 function ClinicMetrics() {
   const { t } = useTranslation();
 
-  const { activeVisitsCount, isLoading: loading } = useActiveVisits();
+  const session = useSession();
+  const userLocation = session?.sessionLocation?.display;
+  const { queueRoomLocations } = useQueueRoomLocations(session?.sessionLocation?.uuid);
+  const currentQueueLocationUuid = useSelectedQueueLocationUuid();
+
+  const currentQueueRoomLocationUuid = useSelectedQueueRoomLocationUuid();
+  const currentQueueRoomLocationName = useSelectedQueueRoomLocationName();
+
+  const { patientQueueCount, isLoading } = usePatientsBeingServed(
+    currentQueueRoomLocationUuid,
+    currentQueueLocationUuid,
+    'picked',
+  );
+
+  const { servedCount } = usePatientsServed(currentQueueRoomLocationUuid, currentQueueLocationUuid, 'completed');
+
   // receptionist ui
   return (
     <>
@@ -17,9 +38,8 @@ function ClinicMetrics() {
         <UserHasAccess privilege={PRIVILEGE_RECEPTION_METRIC}>
           <MetricsCard
             label={t('patients', 'Patients')}
-            value={loading ? '--' : activeVisitsCount}
+            value={0}
             headerLabel={t('checkedInPatients', 'Checked in patients')}
-            service="scheduled"
           />
           <MetricsCard
             label={t('expectedAppointments', 'Expected Appointments')}
@@ -28,7 +48,7 @@ function ClinicMetrics() {
           />
           <MetricsCard
             label={t('serving', 'Serving')}
-            value={0}
+            value={patientQueueCount ?? 0}
             headerLabel={t('currentlyServing', 'No. of Currently being Served')}
           />
         </UserHasAccess>
@@ -36,7 +56,7 @@ function ClinicMetrics() {
         <UserHasAccess privilege={PRIVILIGE_TRIAGE_METRIC}>
           <MetricsCard
             label={t('served', 'Patients Served')}
-            value={0}
+            value={servedCount ?? 0}
             headerLabel={t('noOfPatientsServed', 'No. Of Patients Served')}
           />
           <MetricsCard
@@ -44,7 +64,7 @@ function ClinicMetrics() {
             value={0}
             headerLabel={t('pendingTriageServing', 'Patients waiting to be Served')}
           />
-          <MetricsCard label={t('workloads', 'Workloads')} value={'--'} headerLabel={t('workLoad', 'Workload')} />
+          {/* <MetricsCard label={t('workloads', 'Workloads')} value={'--'} headerLabel={t('workLoad', 'Workload')} /> */}
         </UserHasAccess>
       </div>
     </>
