@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 // import ActiveVisitsList from './active-visits/home-active-visits.component';
-import FacilitiesList from '../../facilities/facility-tabs/tabs/HIE/facilities-list-component';
-import styles from '../visit-tabs/active-visits/home-active-visits.scss';
 
 function HomeVisitTabs() {
   const { t } = useTranslation();
@@ -11,11 +9,7 @@ function HomeVisitTabs() {
   const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
   const [overlayHeader, setOverlayTitle] = useState('');
 
-  return (
-    <div className={styles.container}>
-      <FacilitiesList />
-    </div>
-  );
+  return <div></div>;
 }
 
 export default HomeVisitTabs;

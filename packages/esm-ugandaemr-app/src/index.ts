@@ -105,14 +105,12 @@ function setupOpenMRS() {
           moduleName,
         }),
       },
+
       {
-        id: 'set-facility-identifier',
+        id: 'create-new-dashboard-ext',
         load: getAsyncLifecycle(
-          () => import('./views/facilities/facility-tabs/tabs/HIE/set-identifer-dialog.component'),
-          {
-            featureName: 'set facility identifier dialog',
-            moduleName,
-          },
+          () => import('./views/facilities/facility-dashboard/create-dashboard-status.component'),
+          options,
         ),
       },
     ],
