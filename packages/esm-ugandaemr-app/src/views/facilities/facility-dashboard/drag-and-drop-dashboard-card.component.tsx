@@ -1,21 +1,21 @@
-import React from 'react';
 import { IconButton } from '@carbon/react';
 import { TrashCan } from '@carbon/react/icons';
-import styles from './drag-and-drop-dashboard-card.scss';
+import React from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import {
-  BarChart,
   Bar,
+  BarChart,
   CartesianGrid,
   Cell,
   Legend,
-  PieChart,
   Pie,
+  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
+import styles from './drag-and-drop-dashboard-card.scss';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 const cellSpacing: number[] = [5, 5];

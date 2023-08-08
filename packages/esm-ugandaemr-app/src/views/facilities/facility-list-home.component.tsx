@@ -10,7 +10,6 @@ const FacilityListHome: React.FC<FacilityHomeProps> = (props) => {
   return (
     <div>
       <FacilityHomeHeader />
-      <FacilityTabs />
     </div>
   );
 };
