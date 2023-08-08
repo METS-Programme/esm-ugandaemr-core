@@ -27,7 +27,7 @@ import {
   Tag,
   Tile,
 } from '@carbon/react';
-import { Add } from '@carbon/react/icons';
+import { Add, Dashboard } from '@carbon/react/icons';
 
 import {
   ConfigObject,
