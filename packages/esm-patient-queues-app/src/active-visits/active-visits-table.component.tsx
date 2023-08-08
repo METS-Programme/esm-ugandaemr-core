@@ -28,9 +28,11 @@ import {
   Tile,
 } from '@carbon/react';
 import { Add } from '@carbon/react/icons';
+
 import {
   ConfigObject,
   ExtensionSlot,
+  UserHasAccess,
   interpolateUrl,
   isDesktop,
   navigate,
@@ -41,6 +43,7 @@ import {
 } from '@openmrs/esm-framework';
 import React, { AnchorHTMLAttributes, MouseEvent, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { PRIVILEGE_CHECKIN } from '../constants';
 import { buildStatusString, formatWaitTime, getTagColor, getTagType, trimVisitNumber } from '../helpers/functions';
 import {
   useSelectedQueueLocationUuid,
@@ -65,6 +68,10 @@ type FilterProps = {
   getCellId: (row, key) => string;
 };
 
+interface ActiveVisitsTableProps {
+  status: string;
+}
+
 interface NameLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   to: string;
   from: string;
@@ -88,7 +95,7 @@ const PatientNameLink: React.FC<NameLinkProps> = ({ from, to, children }) => {
   );
 };
 
-function ActiveVisitsTable() {
+const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const { t } = useTranslation();
   const session = useSession();
   const userLocation = session?.sessionLocation?.display;
@@ -101,6 +108,7 @@ function ActiveVisitsTable() {
   const { patientQueueEntries, isLoading } = usePatientQueuesList(
     currentQueueRoomLocationUuid,
     currentQueueLocationUuid,
+    status,
   );
 
   const [showOverlay, setShowOverlay] = useState(false);
@@ -251,11 +259,11 @@ function ActiveVisitsTable() {
     return (
       <div className={styles.container}>
         <div className={styles.headerBtnContainer}></div>
-        <div className={styles.headerContainer}>
+        {/* <div className={styles.headerContainer}>
           <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
             <span className={styles.heading}>{`Patients in ${userLocation} queue`}</span>
           </div>
-        </div>
+        </div> */}
         <DataTable
           data-floating-menu-container
           filterRows={handleFilter}
@@ -289,7 +297,6 @@ function ActiveVisitsTable() {
                     {headers.map((header) => (
                       <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
                     ))}
-                    <TableExpandHeader />
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -383,53 +390,57 @@ function ActiveVisitsTable() {
       {useQueueTableTabs === false ? (
         <>
           <div className={styles.headerContainer}>
-            <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
+            {/* <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
               <span className={styles.heading}>{`Patients in ${userLocation} queue`}</span>
-            </div>
-            <div className={styles.headerButtons}>
-              <ExtensionSlot
-                extensionSlotName="patient-search-button-slot"
-                state={{
-                  buttonText: t('checkIn', 'Check In'),
-                  overlayHeader: t('checkIn', 'Check In'),
-                  buttonProps: {
-                    kind: 'secondary',
-                    renderIcon: (props) => <Add size={16} {...props} />,
-                    size: 'sm',
-                  },
-                  selectPatientAction: (selectedPatientUuid) => {
-                    setShowOverlay(true);
-                    setView(SearchTypes.SCHEDULED_VISITS);
-                    setViewState({ selectedPatientUuid });
-                    setOverlayTitle(t('checkIn', 'Check In'));
-                  },
-                }}
-              />
-            </div>
+            </div> */}
+            <UserHasAccess privilege={PRIVILEGE_CHECKIN}>
+              <div className={styles.headerButtons}>
+                <ExtensionSlot
+                  extensionSlotName="patient-search-button-slot"
+                  state={{
+                    buttonText: t('checkIn', 'Check In'),
+                    overlayHeader: t('checkIn', 'Check In'),
+                    buttonProps: {
+                      kind: 'secondary',
+                      renderIcon: (props) => <Add size={16} {...props} />,
+                      size: 'sm',
+                    },
+                    selectPatientAction: (selectedPatientUuid) => {
+                      setShowOverlay(true);
+                      setView(SearchTypes.SCHEDULED_VISITS);
+                      setViewState({ selectedPatientUuid });
+                      setOverlayTitle(t('checkIn', 'Check In'));
+                    },
+                  }}
+                />
+              </div>
+            </UserHasAccess>
           </div>
         </>
       ) : null}
       <div className={styles.tileContainer}>
         <Tile className={styles.tile}>
           <p className={styles.content}>{t('noPatientsToDisplay', 'No patients to display')}</p>
-          <ExtensionSlot
-            extensionSlotName="patient-search-button-slot"
-            state={{
-              buttonText: t('checkIn', 'Check In'),
-              overlayHeader: t('checkIn', 'Check In'),
-              buttonProps: {
-                kind: 'ghost',
-                renderIcon: (props) => <Add size={16} {...props} />,
-                size: 'sm',
-              },
-              selectPatientAction: (selectedPatientUuid) => {
-                setShowOverlay(true);
-                setView(SearchTypes.SCHEDULED_VISITS);
-                setViewState({ selectedPatientUuid });
-                setOverlayTitle(t('checkIn', 'Check In'));
-              },
-            }}
-          />
+          <UserHasAccess privilege={PRIVILEGE_CHECKIN}>
+            <ExtensionSlot
+              extensionSlotName="patient-search-button-slot"
+              state={{
+                buttonText: t('checkIn', 'Check In'),
+                overlayHeader: t('checkIn', 'Check In'),
+                buttonProps: {
+                  kind: 'ghost',
+                  renderIcon: (props) => <Add size={16} {...props} />,
+                  size: 'sm',
+                },
+                selectPatientAction: (selectedPatientUuid) => {
+                  setShowOverlay(true);
+                  setView(SearchTypes.SCHEDULED_VISITS);
+                  setViewState({ selectedPatientUuid });
+                  setOverlayTitle(t('checkIn', 'Check In'));
+                },
+              }}
+            />
+          </UserHasAccess>
         </Tile>
       </div>
       {showOverlay && (
@@ -442,6 +453,5 @@ function ActiveVisitsTable() {
       )}
     </div>
   );
-}
-
+};
 export default ActiveVisitsTable;

@@ -1,13 +1,9 @@
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@carbon/react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Tab, Tabs, TabPanels, TabPanel, TabList } from '@carbon/react';
-import { Add } from '@carbon/react/icons';
-import { ExtensionSlot } from '@openmrs/esm-framework';
 import PatientSearch from '../patient-search/patient-search.component';
-import styles from './active-visits-table.scss';
-import { SearchTypes } from '../types';
-import MissingQueueEntries from '../visits-missing-inqueue/visits-missing-inqueue.component';
 import ActiveVisitsTable from './active-visits-table.component';
+import styles from './active-visits-table.scss';
 
 function ActiveVisitsTabs() {
   const { t } = useTranslation();
@@ -19,7 +15,7 @@ function ActiveVisitsTabs() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.headerBtnContainer}>
+      {/* <div className={styles.headerBtnContainer}>
         <ExtensionSlot
           extensionSlotName="patient-search-button-slot"
           state={{
@@ -38,22 +34,26 @@ function ActiveVisitsTabs() {
             },
           }}
         />
-      </div>
+      </div> */}
       <Tabs
         selectedIndex={selectedTab}
         onChange={({ selectedIndex }) => setSelectedTab(selectedIndex)}
         className={styles.tabs}
       >
         <TabList style={{ paddingLeft: '1rem' }} aria-label="Outpatient tabs" contained>
-          <Tab>{t('InQueue', 'In Queue')}</Tab>
-          <Tab>{t('NotInQueue', 'Not In Queue')}</Tab>
+          <Tab>{t('incoming', 'Incoming')}</Tab>
+          <Tab>{t('serving', 'Serving')}</Tab>
+          <Tab>{t('outGooing', 'OutGoing')}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel style={{ padding: 0 }}>
-            <ActiveVisitsTable />
+            <ActiveVisitsTable status={'pending'} />
           </TabPanel>
           <TabPanel style={{ padding: 0 }}>
-            <MissingQueueEntries />
+            <ActiveVisitsTable status={'picked'} />
+          </TabPanel>
+          <TabPanel style={{ padding: 0 }}>
+            <ActiveVisitsTable status={'completed'} />
           </TabPanel>
         </TabPanels>
       </Tabs>

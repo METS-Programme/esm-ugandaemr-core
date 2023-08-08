@@ -222,6 +222,7 @@ function ActiveVisitsReceptionTable() {
           <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
             <span className={styles.heading}>{`Checked In Patients`}</span>
           </div>
+          {/* <UserHasAccess privilege={PRIVILEGE_CHECKIN}> */}
           <div className={styles.headerButtons}>
             <ExtensionSlot
               extensionSlotName="patient-search-button-slot"
@@ -242,6 +243,7 @@ function ActiveVisitsReceptionTable() {
               }}
             />
           </div>
+          {/* </UserHasAccess> */}
         </div>
 
         <DataTable
