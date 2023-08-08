@@ -1,20 +1,3 @@
-import {
-  AccumulationChartComponent,
-  AccumulationSeriesCollectionDirective,
-  AccumulationSeriesDirective,
-  AccumulationTooltip,
-  Category,
-  ChartComponent,
-  ColumnSeries,
-  DataLabel,
-  Inject,
-  Legend,
-  LineSeries,
-  SeriesCollectionDirective,
-  SeriesDirective,
-  Tooltip,
-} from '@syncfusion/ej2-react-charts';
-import { DashboardLayoutComponent, PanelDirective, PanelsDirective } from '@syncfusion/ej2-react-layouts';
 import React from 'react';
 
 function App() {
@@ -31,16 +14,7 @@ function App() {
       { x: 2018, y: 35 },
     ];
 
-    return (
-      <div className="template">
-        <ChartComponent style={{ height: '162px' }}>
-          <Inject services={[LineSeries]} />
-          <SeriesCollectionDirective>
-            <SeriesDirective dataSource={lineData} xName="x" yName="y" type="Line" />
-          </SeriesCollectionDirective>
-        </ChartComponent>
-      </div>
-    );
+    return <div className="template"></div>;
   }
 
   // Template for Pie Chart
@@ -53,16 +27,7 @@ function App() {
       { x: 'Vue', y: 10, text: 'Vue 10%' },
       { x: 'Angular', y: 40, text: 'Angular 40%' },
     ];
-    return (
-      <div className="template">
-        <AccumulationChartComponent style={{ height: '162px' }} tooltip={{ enable: true }}>
-          <Inject services={[AccumulationTooltip]} />
-          <AccumulationSeriesCollectionDirective>
-            <AccumulationSeriesDirective dataSource={pieData} xName="x" yName="y" innerRadius="40%" />
-          </AccumulationSeriesCollectionDirective>
-        </AccumulationChartComponent>
-      </div>
-    );
+    return <div className="template"></div>;
   }
 
   // Template for Pie Chart 1
@@ -77,28 +42,7 @@ function App() {
     ];
     const dataLabel: object = { visible: true, position: 'Inside', name: 'text', font: { fontWeight: '600' } };
     const enableAnimation: boolean = false;
-    return (
-      <div className="template">
-        <AccumulationChartComponent
-          style={{ height: '162px' }}
-          enableAnimation={enableAnimation}
-          legendSettings={{ visible: false }}
-          tooltip={{ enable: true, format: '${point.x} : <b>${point.y}%</b>' }}
-        >
-          <Inject services={[AccumulationTooltip]} />
-          <AccumulationSeriesCollectionDirective>
-            <AccumulationSeriesDirective
-              dataSource={pieData}
-              dataLabel={dataLabel}
-              xName="x"
-              yName="y"
-              radius="70%"
-              name="Browser"
-            />
-          </AccumulationSeriesCollectionDirective>
-        </AccumulationChartComponent>
-      </div>
-    );
+    return <div className="template"></div>;
   }
 
   function columnTemplate(): JSX.Element {
@@ -116,62 +60,8 @@ function App() {
       { month: 'Nov', sales: 25 },
       { month: 'Dec', sales: 32 },
     ];
-    return (
-      <div className="template">
-        <ChartComponent style={{ height: '162px' }} primaryXAxis={{ valueType: 'Category' }}>
-          <Inject services={[ColumnSeries, Legend, Tooltip, Category, DataLabel]} />
-          <SeriesCollectionDirective>
-            <SeriesDirective dataSource={chartData} xName="month" yName="sales" type="Column" />
-          </SeriesCollectionDirective>
-        </ChartComponent>
-      </div>
-    );
+    return <div className="template"></div>;
   }
-  return (
-    <div id="container">
-      <DashboardLayoutComponent
-        id="dashboard_default"
-        draggableHandle=".e-panel-header"
-        columns={6}
-        cellSpacing={cellSpacing}
-        allowResizing={true}
-      >
-        <PanelsDirective>
-          <PanelDirective
-            sizeX={3}
-            sizeY={2}
-            row={0}
-            col={0}
-            content={pieTemplate as any}
-            header="<div class='header'>Product usage ratio</div><span class='handler e-icons burg-icon'></span>"
-          />
-          <PanelDirective
-            sizeX={3}
-            sizeY={2}
-            row={0}
-            col={3}
-            content={columnTemplate as any}
-            header="<div class='header'>Last year Sales Comparison</div><span class='handler e-icons burg-icon'></span>"
-          />
-          <PanelDirective
-            sizeX={3}
-            sizeY={2}
-            row={0}
-            col={3}
-            content={pieTemplate1 as any}
-            header="<div class='header'>Mobile browsers usage</div><span class='handler e-icons burg-icon'></span>"
-          />
-          <PanelDirective
-            sizeX={3}
-            sizeY={2}
-            row={1}
-            col={0}
-            content={lineTemplate as any}
-            header="<div class='header'>Sales increase percentage</div><span class='handler e-icons burg-icon'></span>"
-          />
-        </PanelsDirective>
-      </DashboardLayoutComponent>
-    </div>
-  );
+  return <div id="container"></div>;
 }
 export default App;
