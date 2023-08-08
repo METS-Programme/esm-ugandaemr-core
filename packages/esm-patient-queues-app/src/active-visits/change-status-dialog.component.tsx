@@ -74,13 +74,8 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
       updateQueueEntry(
         selectedLocation,
         selectedNextQueueLocation,
-        queueEntry?.id,
-        queueEntry?.patientUuid,
-        queueEntry?.priority,
         status,
         priorityComment,
-        comment,
-        endDate,
       ).then(
         ({ status }) => {
           if (status === 201) {
