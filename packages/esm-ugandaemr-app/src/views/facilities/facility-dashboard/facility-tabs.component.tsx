@@ -21,12 +21,15 @@ const FacilityTabs: React.FC = () => {
         <>
           <DashboardSearchWidgetCard>
             <div className={styles.searchBox}>
-              <Search
-                className={styles.searchField}
-                labelText="Search"
-                placeholder="Search for a dashboard"
-                size="lg"
-              />
+              <section className={styles.section}>
+                <div className={styles.sectionTitle}>
+                  {t('searchItemDashboard', 'Search for item to add on the dashboard')}
+                </div>
+                <Search
+                  placeholder="Search for visualizations (tables, graphs, reports and more)"
+                  style={{ backgroundColor: 'white' }}
+                />
+              </section>
             </div>
             <div className={styles.createIcon}>
               <Tooltip align="bottom" label="Create New Dashboard">

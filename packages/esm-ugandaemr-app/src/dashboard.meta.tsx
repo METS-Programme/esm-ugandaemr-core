@@ -8,5 +8,5 @@
 export const facilityListMeta = {
   name: 'facility-dashboard',
   slot: 'facility-home-dashboard-slot',
-  title: 'Facility Dashboard',
+  title: 'Dashboard',
 };

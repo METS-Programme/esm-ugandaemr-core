@@ -1,15 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import {
-  Button,
-  Dropdown,
-  Form,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  Search,
-  TextArea,
-  TextInput,
-} from '@carbon/react';
+import { Button, Form, ModalBody, ModalFooter, ModalHeader, Search, TextArea, TextInput } from '@carbon/react';
 import styles from './create-dashboard-status.scss';
 import { useTranslation } from 'react-i18next';
 import { showToast } from '@openmrs/esm-framework';
@@ -77,12 +67,6 @@ const CreateDashboardStatus: React.FC<CreateDashboardStatusProps> = ({ closeModa
                 placeholder="Enter dashboard description"
                 style={{ backgroundColor: 'white' }}
               />
-            </section>
-            <section className={styles.section}>
-              <div className={styles.sectionTitle}>
-                {t('searchItemDashboard', 'Search for item to add on the dashboard')}
-              </div>
-              <Search placeholder="Search for tables, graphs, reports" style={{ backgroundColor: 'white' }} />
             </section>
           </div>
         </ModalBody>

@@ -1,4 +1,5 @@
 @use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/type';
 @import '../../../root.scss';
 .createIcon {
     padding: 1.0rem;
@@ -23,7 +24,7 @@
 
 .searchBox {
     padding: 1.0rem;
-    width: 70%;
+    width: 100%;
     display: flex;
     justify-content: left;
     margin-left: 30px;
@@ -35,4 +36,15 @@
     justify-content: space-between;
     padding: 0 spacing.$spacing-05 spacing.$spacing-07 spacing.$spacing-03;
     margin-top: -(spacing.$spacing-03);
+}
+
+section {
+    margin: spacing.$spacing-03;
+    width: 80%;
+}
+
+.sectionTitle {
+    @include type.type-style('heading-compact-02');
+    color: $text-02;
+    margin-bottom: spacing.$spacing-04;
 }
