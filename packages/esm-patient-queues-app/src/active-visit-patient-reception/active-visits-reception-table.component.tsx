@@ -6,59 +6,39 @@ import {
   DefinitionTooltip,
   Layer,
   Pagination,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
   Table,
   TableBody,
   TableCell,
   TableContainer,
-  TableExpandHeader,
-  TableExpandRow,
-  TableExpandedRow,
   TableHead,
   TableHeader,
   TableRow,
   TableToolbar,
   TableToolbarContent,
   TableToolbarSearch,
-  Tabs,
   Tag,
   Tile,
 } from '@carbon/react';
-import { Add, Dashboard } from '@carbon/react/icons';
+import { Add } from '@carbon/react/icons';
 
-import {
-  ConfigObject,
-  ExtensionSlot,
-  UserHasAccess,
-  interpolateUrl,
-  isDesktop,
-  navigate,
-  useConfig,
-  useLayoutType,
-  usePagination,
-  useSession,
-} from '@openmrs/esm-framework';
-import React, { AnchorHTMLAttributes, MouseEvent, useMemo, useState } from 'react';
+import { ExtensionSlot, isDesktop, useLayoutType, usePagination, useSession } from '@openmrs/esm-framework';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PRIVILEGE_CHECKIN } from '../constants';
+import { getOriginFromPathName } from '../active-visits/active-visits-table.resource';
+import EditActionsMenu from '../active-visits/edit-action-menu.components';
+import PrintActionsMenu from '../active-visits/print-action-menu.components';
 import { buildStatusString, formatWaitTime, getTagColor, getTagType, trimVisitNumber } from '../helpers/functions';
 import {
   useSelectedQueueLocationUuid,
   useSelectedQueueRoomLocationName,
   useSelectedQueueRoomLocationUuid,
 } from '../helpers/helpers';
-import PastVisit from '../past-visit/past-visit.component';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import PatientSearch from '../patient-search/patient-search.component';
-import ActionsMenu from '../queue-entry-table-components/actions-menu.component';
 import StatusIcon from '../queue-entry-table-components/status-icon.component';
 import { SearchTypes } from '../types';
-import { getOriginFromPathName } from './active-visits-table.resource';
-import styles from './active-visits-table.scss';
-import { usePatientQueuesList } from './patient-queues.resource';
+import { usePatientQueuesList } from './active-visits-reception.resource';
+import styles from './active-visits-reception.scss';
 
 type FilterProps = {
   rowIds: Array<string>;
@@ -68,69 +48,29 @@ type FilterProps = {
   getCellId: (row, key) => string;
 };
 
-interface ActiveVisitsTableProps {
-  status: string;
-}
-
-interface NameLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
-  to: string;
-  from: string;
-}
-
-export interface PatientQueueInfoProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
-  patientUuid: string;
-  patientName: string;
-}
-
-const PatientNameLink: React.FC<NameLinkProps> = ({ from, to, children }) => {
-  const handleNameClick = (event: MouseEvent, to: string) => {
-    event.preventDefault();
-    navigate({ to });
-    localStorage.setItem('fromPage', from);
-  };
-  return (
-    <Button
-      kind="ghost"
-      size="sm"
-      onClick={(e) => handleNameClick(e, to)}
-      href={interpolateUrl(to)}
-      renderIcon={(props) => <Dashboard size={16} {...props} />}
-    >
-      {children}
-    </Button>
-  );
-};
-
-const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
+function ActiveVisitsReceptionTable() {
   const { t } = useTranslation();
   const session = useSession();
   const userLocation = session?.sessionLocation?.display;
   const { queueRoomLocations } = useQueueRoomLocations(session?.sessionLocation?.uuid);
   const currentQueueLocationUuid = useSelectedQueueLocationUuid();
 
-  const currentQueueRoomLocationUuid = useSelectedQueueRoomLocationUuid();
-  const currentQueueRoomLocationName = useSelectedQueueRoomLocationName();
-
-  const { patientQueueEntries, isLoading } = usePatientQueuesList(
-    currentQueueRoomLocationUuid,
-    currentQueueLocationUuid,
-    status,
-  );
-
   const [showOverlay, setShowOverlay] = useState(false);
   const [view, setView] = useState('');
   const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
-  const layout = useLayoutType();
-  const config = useConfig() as ConfigObject;
-  const useQueueTableTabs = config.showQueueTableTab;
 
+  const currentQueueRoomLocationUuid = useSelectedQueueRoomLocationUuid();
+  const currentQueueRoomLocationName = useSelectedQueueRoomLocationName();
+
+  const { patientQueueEntries, isLoading } = usePatientQueuesList(currentQueueRoomLocationUuid);
   const currentPathName: string = window.location.pathname;
+
   const fromPage: string = getOriginFromPathName(currentPathName);
 
   const pageSizes = [10, 20, 30, 40, 50];
   const [currentPageSize, setPageSize] = useState(10);
   const [overlayHeader, setOverlayTitle] = useState('');
-
+  const layout = useLayoutType();
   const { goTo, results: paginatedQueueEntries, currentPage } = usePagination(patientQueueEntries, currentPageSize);
 
   const tableHeaders = useMemo(
@@ -152,21 +92,33 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       },
       {
         id: 3,
+        header: t('currentlocation', 'Current Location'),
+        key: 'location',
+      },
+      {
+        id: 4,
         header: t('status', 'Status'),
         key: 'status',
       },
       {
-        id: 4,
+        id: 5,
+        header: t('provider', 'Provider'),
+        key: 'provider',
+      },
+      {
+        id: 6,
         header: t('waitTime', 'Wait time'),
         key: 'waitTime',
       },
       {
-        id: 5,
+        id: 7,
         header: t('actions', 'Actions'),
+        key: 'actions',
       },
     ],
     [t],
   );
+
   const tableRows = useMemo(() => {
     return paginatedQueueEntries?.map((entry) => ({
       ...entry,
@@ -174,11 +126,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         content: <span>{trimVisitNumber(entry.visitNumber)}</span>,
       },
       name: {
-        content: (
-          <PatientNameLink to={`\${openmrsSpaBase}/patient/${entry.patientUuid}/chart`} from={fromPage}>
-            {entry.name}
-          </PatientNameLink>
-        ),
+        content: <span>{entry.name}</span>,
       },
       priority: {
         content: (
@@ -204,6 +152,9 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
           </>
         ),
       },
+      location: {
+        content: <span> {entry.queueRoom} </span>,
+      },
       status: {
         content: (
           <span className={styles.statusContainer}>
@@ -211,6 +162,9 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
             <span>{buildStatusString(entry.status.toLowerCase())}</span>
           </span>
         ),
+      },
+      provider: {
+        content: <span>Provider Name</span>,
       },
       waitTime: {
         content: (
@@ -224,13 +178,13 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       actions: {
         content: (
           <>
-            <ActionsMenu queueEntry={entry} closeModal={() => true} />
-            {/* <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} /> */}
+            <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
+            <PrintActionsMenu patient={entry} />
           </>
         ),
       },
     }));
-  }, [paginatedQueueEntries, t, fromPage]);
+  }, [fromPage, paginatedQueueEntries, t]);
 
   const handleFilter = ({ rowIds, headers, cellsById, inputValue, getCellId }: FilterProps): Array<string> => {
     return rowIds.filter((rowId) =>
@@ -264,20 +218,42 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
     return (
       <div className={styles.container}>
         <div className={styles.headerBtnContainer}></div>
-        {/* <div className={styles.headerContainer}>
+        <div className={styles.headerContainer}>
           <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
-            <span className={styles.heading}>{`Patients in ${userLocation} queue`}</span>
+            <span className={styles.heading}>{`Checked In Patients`}</span>
           </div>
-        </div> */}
+          {/* <UserHasAccess privilege={PRIVILEGE_CHECKIN}> */}
+          <div className={styles.headerButtons}>
+            <ExtensionSlot
+              extensionSlotName="patient-search-button-slot"
+              state={{
+                buttonText: t('checkIn', 'CheckIn'),
+                overlayHeader: t('checkIn', 'CheckIn'),
+                buttonProps: {
+                  kind: 'secondary',
+                  renderIcon: (props) => <Add size={16} {...props} />,
+                  size: 'sm',
+                },
+                selectPatientAction: (selectedPatientUuid) => {
+                  setShowOverlay(true);
+                  setView(SearchTypes.VISIT_FORM);
+                  setViewState({ selectedPatientUuid });
+                  setOverlayTitle(t('checkIn', 'Check In'));
+                },
+              }}
+            />
+          </div>
+          {/* </UserHasAccess> */}
+        </div>
+
         <DataTable
           data-floating-menu-container
           filterRows={handleFilter}
           headers={tableHeaders}
-          overflowMenuOnHover={isDesktop(layout) ? true : false}
           rows={tableRows}
           isSortable
-          size="xs"
           useZebraStyles
+          overflowMenuOnHover={isDesktop(layout) ? true : false}
         >
           {({ rows, headers, getHeaderProps, getTableProps, getRowProps, onInputChange }) => (
             <TableContainer className={styles.tableContainer}>
@@ -298,7 +274,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
               <Table {...getTableProps()} className={styles.activeVisitsTable}>
                 <TableHead>
                   <TableRow>
-                    <TableExpandHeader />
                     {headers.map((header) => (
                       <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
                     ))}
@@ -308,33 +283,11 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                   {rows.map((row, index) => {
                     return (
                       <React.Fragment key={row.id}>
-                        <TableExpandRow {...getRowProps({ row })}>
+                        <TableRow {...getRowProps({ row })}>
                           {row.cells.map((cell) => (
                             <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
                           ))}
-                          <TableCell>
-                            <ActionsMenu queueEntry={patientQueueEntries?.[index]} closeModal={() => true} />
-                          </TableCell>
-                        </TableExpandRow>
-                        {row.isExpanded ? (
-                          <TableExpandedRow className={styles.expandedActiveVisitRow} colSpan={headers.length + 2}>
-                            <>
-                              <Tabs>
-                                <TabList>
-                                  <Tab>{t('currentVisit', 'Current visit')}</Tab>
-                                  <Tab>{t('previousVisit', 'Previous visit')} </Tab>
-                                </TabList>
-                                <TabPanels>
-                                  <TabPanel>
-                                    <PastVisit patientUuid={tableRows?.[index]?.patientUuid} />
-                                  </TabPanel>
-                                </TabPanels>
-                              </Tabs>
-                            </>
-                          </TableExpandedRow>
-                        ) : (
-                          <TableExpandedRow className={styles.hiddenRow} colSpan={headers.length + 2} />
-                        )}
+                        </TableRow>
                       </React.Fragment>
                     );
                   })}
@@ -392,74 +345,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       </div>
     );
   }
+}
 
-  return (
-    <div className={styles.container}>
-      {useQueueTableTabs === false ? (
-        <>
-          <div className={styles.headerContainer}>
-            {/* <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
-              <span className={styles.heading}>{`Patients in ${userLocation} queue`}</span>
-            </div> */}
-            <UserHasAccess privilege={PRIVILEGE_CHECKIN}>
-              <div className={styles.headerButtons}>
-                <ExtensionSlot
-                  extensionSlotName="patient-search-button-slot"
-                  state={{
-                    buttonText: t('checkIn', 'Check In'),
-                    overlayHeader: t('checkIn', 'Check In'),
-                    buttonProps: {
-                      kind: 'secondary',
-                      renderIcon: (props) => <Add size={16} {...props} />,
-                      size: 'sm',
-                    },
-                    selectPatientAction: (selectedPatientUuid) => {
-                      setShowOverlay(true);
-                      setView(SearchTypes.SCHEDULED_VISITS);
-                      setViewState({ selectedPatientUuid });
-                      setOverlayTitle(t('checkIn', 'Check In'));
-                    },
-                  }}
-                />
-              </div>
-            </UserHasAccess>
-          </div>
-        </>
-      ) : null}
-      <div className={styles.tileContainer}>
-        <Tile className={styles.tile}>
-          <p className={styles.content}>{t('noPatientsToDisplay', 'No patients to display')}</p>
-          <UserHasAccess privilege={PRIVILEGE_CHECKIN}>
-            <ExtensionSlot
-              extensionSlotName="patient-search-button-slot"
-              state={{
-                buttonText: t('checkIn', 'Check In'),
-                overlayHeader: t('checkIn', 'Check In'),
-                buttonProps: {
-                  kind: 'ghost',
-                  renderIcon: (props) => <Add size={16} {...props} />,
-                  size: 'sm',
-                },
-                selectPatientAction: (selectedPatientUuid) => {
-                  setShowOverlay(true);
-                  setView(SearchTypes.SCHEDULED_VISITS);
-                  setViewState({ selectedPatientUuid });
-                  setOverlayTitle(t('checkIn', 'Check In'));
-                },
-              }}
-            />
-          </UserHasAccess>
-        </Tile>
-      </div>
-      {showOverlay && (
-        <PatientSearch
-          view={view}
-          closePanel={() => setShowOverlay(false)}
-          viewState={viewState}
-          headerTitle={overlayHeader}
-        />
-      )}
-    </div>
-  );
-};
-export default ActiveVisitsTable;
+export default ActiveVisitsReceptionTable;

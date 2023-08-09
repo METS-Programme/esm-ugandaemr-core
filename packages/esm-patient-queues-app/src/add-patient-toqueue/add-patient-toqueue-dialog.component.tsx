@@ -81,7 +81,16 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
         });
       },
     );
-  }, [queueUuid, visitUuid, patientUuid, selectedQueueLocation, t, closeModal, mutate]);
+  }, [
+    queueUuid,
+    config.concepts.defaultStatusConceptUuid,
+    visitUuid,
+    patientUuid,
+    selectedQueueLocation,
+    t,
+    closeModal,
+    mutate,
+  ]);
 
   return (
     <div>
@@ -141,31 +150,6 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
               />
             </section>
           )}
-
-          {/* <section className={styles.section}>
-            <div className={styles.sectionTitle}>{t('queueStatus', 'Queue status')}</div>
-            {!priorities?.length ? (
-              <InlineNotification
-                className={styles.inlineNotification}
-                kind={'error'}
-                lowContrast
-                subtitle={t('configurePriorities', 'Please configure priorities to continue.')}
-                title={t('noPriorityFound', 'No priority found')}
-              />
-            ) : (
-              <RadioButtonGroup
-                className={styles.radioButtonWrapper}
-                name="priority"
-                defaultSelected={priority}
-                onChange={(uuid) => {
-                  setPriority(uuid);
-                }}
-              >
-                {priorities?.length > 0 &&
-                  priorities.map(({ uuid, display }) => <RadioButton key={uuid} labelText={display} value={uuid} />)}
-              </RadioButtonGroup>
-            )}
-          </section> */}
           {isMissingPriority && (
             <section>
               <InlineNotification
