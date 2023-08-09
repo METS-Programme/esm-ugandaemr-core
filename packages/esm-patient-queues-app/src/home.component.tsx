@@ -19,7 +19,7 @@ const Home: React.FC<HomeProps> = (props) => {
       <PatientQueueHeader />
       <ClinicMetrics />
       <UserHasAccess privilege={PRIVILEGE_RECEPTION_QUEUE_LIST}>
-        <ActiveVisitsReceptionTable/>
+        <ActiveVisitsReceptionTable />
         {/* <ActiveVisitsTable status={'pending'} /> */}
         {/* add  */}
       </UserHasAccess>

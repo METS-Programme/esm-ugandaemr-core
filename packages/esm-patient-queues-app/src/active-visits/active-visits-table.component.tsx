@@ -164,7 +164,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       {
         id: 5,
         header: t('actions', 'Actions'),
-        key:'actions'
+        key: 'actions',
       },
     ],
     [t],
@@ -176,11 +176,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         content: <span>{trimVisitNumber(entry.visitNumber)}</span>,
       },
       name: {
-        content: (
-          
-            <span>{entry.name}</span>
-       
-        ),
+        content: <span>{entry.name}</span>,
       },
       priority: {
         content: (
@@ -314,7 +310,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                           {row.cells.map((cell) => (
                             <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
                           ))}
-                      
                         </TableExpandRow>
                         {row.isExpanded ? (
                           <TableExpandedRow className={styles.expandedActiveVisitRow} colSpan={headers.length + 2}>
