@@ -345,6 +345,39 @@ function ActiveVisitsReceptionTable() {
       </div>
     );
   }
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.headerBtnContainer}></div>
+      <div className={styles.headerContainer}>
+        <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
+          <span className={styles.heading}>{`Checked In Patients`}</span>
+        </div>
+        {/* <UserHasAccess privilege={PRIVILEGE_CHECKIN}> */}
+        <div className={styles.headerButtons}>
+          <ExtensionSlot
+            extensionSlotName="patient-search-button-slot"
+            state={{
+              buttonText: t('checkIn', 'CheckIn'),
+              overlayHeader: t('checkIn', 'CheckIn'),
+              buttonProps: {
+                kind: 'secondary',
+                renderIcon: (props) => <Add size={16} {...props} />,
+                size: 'sm',
+              },
+              selectPatientAction: (selectedPatientUuid) => {
+                setShowOverlay(true);
+                setView(SearchTypes.VISIT_FORM);
+                setViewState({ selectedPatientUuid });
+                setOverlayTitle(t('checkIn', 'Check In'));
+              },
+            }}
+          />
+        </div>
+        {/* </UserHasAccess> */}
+      </div>
+    </div>
+  );
 }
 
 export default ActiveVisitsReceptionTable;
