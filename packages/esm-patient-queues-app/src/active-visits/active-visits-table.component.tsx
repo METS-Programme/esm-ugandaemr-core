@@ -58,6 +58,7 @@ import StatusIcon from '../queue-entry-table-components/status-icon.component';
 import { SearchTypes } from '../types';
 import { getOriginFromPathName } from './active-visits-table.resource';
 import styles from './active-visits-table.scss';
+import EditActionsMenu from './edit-action-menu.components';
 import { usePatientQueuesList } from './patient-queues.resource';
 
 type FilterProps = {
@@ -163,6 +164,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       {
         id: 5,
         header: t('actions', 'Actions'),
+        key:'actions'
       },
     ],
     [t],
@@ -175,9 +177,9 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       },
       name: {
         content: (
-          <PatientNameLink to={`\${openmrsSpaBase}/patient/${entry.patientUuid}/chart`} from={fromPage}>
-            {entry.name}
-          </PatientNameLink>
+          
+            <span>{entry.name}</span>
+       
         ),
       },
       priority: {
@@ -225,7 +227,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         content: (
           <>
             <ActionsMenu queueEntry={entry} closeModal={() => true} />
-            {/* <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} /> */}
+            <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
           </>
         ),
       },
@@ -312,9 +314,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                           {row.cells.map((cell) => (
                             <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
                           ))}
-                          <TableCell>
-                            <ActionsMenu queueEntry={patientQueueEntries?.[index]} closeModal={() => true} />
-                          </TableCell>
+                      
                         </TableExpandRow>
                         {row.isExpanded ? (
                           <TableExpandedRow className={styles.expandedActiveVisitRow} colSpan={headers.length + 2}>

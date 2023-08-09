@@ -43,6 +43,7 @@ function setupOpenMRS() {
         meta: facilityListMeta,
         online: true,
         offline: true,
+        order: 1,
       },
       {
         id: 'facility-list-dashboard-ext',
