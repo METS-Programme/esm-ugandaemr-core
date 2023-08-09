@@ -5,9 +5,9 @@
 //   title: "Test",
 // };
 
-export const facilityListMeta = {
+export const facilityMeta = {
   name: 'facility-dashboard',
-  slot: 'facility-home-dashboard-slot',
+  slot: 'facility-dashboard-slot',
   title: 'Facility Dashboard',
 };
 
