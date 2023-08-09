@@ -5,7 +5,7 @@
 
         },
         "action-menu-chart-items-slot":{
-    
+
         },
         "action-menu-non-chart-items-slot":{
           "remove":[
@@ -13,13 +13,13 @@
           ]
         },
         "program-management-summary-slot": {
-    
+
         },
         "patient-chart-dashboard-slot": {
-    
+
         },
       "patient-chart-summary-dashboard-slot": {
-   
+
       },
         "cacx-visits-slot": {
           "remove": [
@@ -29,9 +29,9 @@
       }
     },
     "@openmrs/esm-styleguide": {
-        "Brand color #1": "#02210b",
-        "Brand color #2": "#074519",
-        "Brand color #3": "#125726"
+        "Brand color #1": "#1B7C04",
+        "Brand color #2": "#1B7C04",
+        "Brand color #3": "#1B7C04"
     },
     "@openmrs/esm-patient-registration-app": {
       "fieldConfigurations": {

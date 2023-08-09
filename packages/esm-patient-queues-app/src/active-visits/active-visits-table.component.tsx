@@ -31,6 +31,7 @@ import { Add, Dashboard } from '@carbon/react/icons';
 
 import {
   ConfigObject,
+  ConfigurableLink,
   ExtensionSlot,
   UserHasAccess,
   interpolateUrl,
@@ -176,7 +177,9 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         content: <span>{trimVisitNumber(entry.visitNumber)}</span>,
       },
       name: {
-        content: <span>{entry.name}</span>,
+        content: (
+          <ConfigurableLink to={`\${openmrsSpaBase}/patient/${entry.patientUuid}/chart`}>{entry.name}</ConfigurableLink>
+        ),
       },
       priority: {
         content: (
