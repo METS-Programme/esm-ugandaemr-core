@@ -12,6 +12,12 @@
             "component":"cervicalCancerSummaryExtension",
             "online":true,
             "offline": true
-        }
+        },
+        {
+            "name": "clinical-views-divider",
+            "slot": "patient-chart-dashboard-slot",
+            "component": "ohriClinicalViewsDivider",
+            "order": 20
+          }
     ]
 }

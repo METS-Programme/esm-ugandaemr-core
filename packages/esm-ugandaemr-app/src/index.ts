@@ -1,9 +1,13 @@
+import {
+  createOHRIPatientChartSideNavLink,
+  patientChartDivider_dashboardMeta,
+} from '@ohri/openmrs-esm-ohri-commons-lib';
 import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 import { createDashboardLink } from './createDashboardLink';
-import { facilityListMeta } from './dashboard.meta';
+import { HieDashboardMeta, MedicationsMeta, facilityListMeta } from './dashboard.meta';
 import formsRegistry from './forms/forms-registry';
 import ugandaEmrConfig from './ugandaemr-config';
 import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
@@ -43,7 +47,7 @@ function setupOpenMRS() {
         meta: facilityListMeta,
         online: true,
         offline: true,
-        order: 1,
+        order: 2,
       },
       {
         id: 'facility-list-dashboard-ext',
@@ -70,15 +74,6 @@ function setupOpenMRS() {
           moduleName,
         }),
       },
-      {
-        id: 'facility-tabs-ext',
-        slot: 'facility-landing-page-home-tabs-slot',
-        load: getAsyncLifecycle(() => import('./views/home/visit-tabs/home-visit-tabs.component'), {
-          featureName: 'tabs',
-          moduleName,
-        }),
-      },
-
       {
         id: 'active-queue-patient-workspace',
         slot: 'action-menu-non-chart-items-slot',
@@ -113,6 +108,41 @@ function setupOpenMRS() {
           () => import('./views/facilities/facility-dashboard/create-dashboard-status.component'),
           options,
         ),
+      },
+      {
+        id: 'medications-dashboard-link',
+        slot: 'homepage-dashboard-slot',
+        load: getSyncLifecycle(createDashboardLink(MedicationsMeta), options),
+        meta: MedicationsMeta,
+        online: true,
+        offline: true,
+        order: 4,
+      },
+      {
+        id: 'medications-dashboard-ext',
+        slot: 'medications-dashboard-slot',
+        load: getAsyncLifecycle(() => import('./views/medications/medications-home.component'), options),
+      },
+
+      {
+        id: 'hie-dashboard-link',
+        slot: 'homepage-dashboard-slot',
+        load: getSyncLifecycle(createDashboardLink(HieDashboardMeta), options),
+        meta: HieDashboardMeta,
+        online: true,
+        offline: true,
+        order: 5,
+      },
+      {
+        id: 'hie-dashboard-ext',
+        slot: 'hie-dashboard-slot',
+        load: getAsyncLifecycle(() => import('./views/hie/hie-home.component'), options),
+      },
+      {
+        id: 'clinical-views-divider',
+        slot: 'patient-chart-dashboard-slot',
+        order: 20,
+        load: getSyncLifecycle(createOHRIPatientChartSideNavLink(patientChartDivider_dashboardMeta), options),
       },
     ],
   };
