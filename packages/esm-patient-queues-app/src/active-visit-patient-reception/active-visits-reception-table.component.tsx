@@ -367,13 +367,21 @@ function ActiveVisitsReceptionTable() {
               },
               selectPatientAction: (selectedPatientUuid) => {
                 setShowOverlay(true);
-                setView(SearchTypes.VISIT_FORM);
+                setView(SearchTypes.SCHEDULED_VISITS);
                 setViewState({ selectedPatientUuid });
                 setOverlayTitle(t('checkIn', 'Check In'));
               },
             }}
           />
         </div>
+        {showOverlay && (
+          <PatientSearch
+            view={view}
+            closePanel={() => setShowOverlay(false)}
+            viewState={viewState}
+            headerTitle={overlayHeader}
+          />
+        )}
         {/* </UserHasAccess> */}
       </div>
     </div>

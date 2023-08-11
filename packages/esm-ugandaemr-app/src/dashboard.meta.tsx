@@ -22,3 +22,10 @@ export const MedicationsMeta = {
   slot: 'medications-dashboard-slot',
   title: 'Medications',
 };
+
+export const patientChartSupportServicesDivider_dashboardMeta = {
+  name: 'support-views-divider',
+  slot: 'patient-chart-support-sidenav-divider-slot',
+  config: { columns: 1, type: 'grid' },
+  title: 'Support Services',
+};

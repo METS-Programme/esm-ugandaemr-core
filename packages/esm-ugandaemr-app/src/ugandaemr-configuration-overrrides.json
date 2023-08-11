@@ -1,5 +1,10 @@
 {
     "@openmrs/esm-patient-chart-app": {
+      "displayConditions":{
+        "privileges":[
+          "App: ugandaemrpoc.triage"
+        ]
+      },
       "extensionSlots": {
         "patient-actions-slot":{
 
