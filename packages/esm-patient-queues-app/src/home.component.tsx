@@ -1,5 +1,6 @@
 import { UserHasAccess } from '@openmrs/esm-framework';
 import React from 'react';
+import ActiveVisitsReceptionTable from './active-visit-patient-reception/active-visits-reception-table.component';
 import ActiveVisitsTabs from './active-visits/active-visits-tab.component';
 import ActiveVisitsTable from './active-visits/active-visits-table.component';
 import {
@@ -18,13 +19,16 @@ const Home: React.FC<HomeProps> = (props) => {
       <PatientQueueHeader />
       <ClinicMetrics />
       <UserHasAccess privilege={PRIVILEGE_RECEPTION_QUEUE_LIST}>
-        <ActiveVisitsTable status={''} />
+        <ActiveVisitsReceptionTable />
+        {/* <ActiveVisitsTable status={'pending'} /> */}
+        {/* add  */}
       </UserHasAccess>
       <UserHasAccess privilege={PRIVILEGE_TRIAGE_QUEUE_LIST}>
-        <ActiveVisitsTabs />
+        {/* <ActiveVisitsTabs /> */}
+        <ActiveVisitsTable status={'pending'} />
       </UserHasAccess>
       <UserHasAccess privilege={PRIVILEGE_CLINICIAN_QUEUE_LIST}>
-        <ActiveVisitsTable status={'pending'} />
+        <ActiveVisitsTabs />
       </UserHasAccess>
     </div>
   );

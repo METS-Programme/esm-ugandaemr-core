@@ -5,8 +5,20 @@
 //   title: "Test",
 // };
 
-export const facilityListMeta = {
+export const facilityMeta = {
   name: 'facility-dashboard',
-  slot: 'facility-home-dashboard-slot',
-  title: 'Dashboard',
+  slot: 'facility-dashboard-slot',
+  title: 'Facility Dashboard',
+};
+
+export const HieDashboardMeta = {
+  name: 'hie-dashboard',
+  slot: 'hie-dashboard-slot',
+  title: 'HIE Dashboard',
+};
+
+export const MedicationsMeta = {
+  name: 'medication-dashboard',
+  slot: 'medications-dashboard-slot',
+  title: 'Medications',
 };

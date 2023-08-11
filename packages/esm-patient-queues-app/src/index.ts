@@ -49,6 +49,7 @@ function setupOpenMRS() {
         slot: 'homepage-dashboard-slot',
         load: getSyncLifecycle(createDashboardLink(dashboardMeta), options),
         meta: dashboardMeta,
+        order: 1,
         online: true,
         offline: true,
       },
