@@ -7,7 +7,12 @@ import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 import { createDashboardLink } from './createDashboardLink';
-import { HieDashboardMeta, MedicationsMeta, facilityMeta } from './dashboard.meta';
+import {
+  HieDashboardMeta,
+  MedicationsMeta,
+  facilityMeta,
+  patientChartSupportServicesDivider_dashboardMeta,
+} from './dashboard.meta';
 import formsRegistry from './forms/forms-registry';
 import ugandaEmrConfig from './ugandaemr-config';
 import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
@@ -89,8 +94,17 @@ function setupOpenMRS() {
       {
         id: 'clinical-views-divider',
         slot: 'patient-chart-dashboard-slot',
-        order: 15,
+        order: 12,
         load: getSyncLifecycle(createOHRIPatientChartSideNavLink(patientChartDivider_dashboardMeta), options),
+      },
+      {
+        id: 'support-views-divider',
+        slot: 'patient-chart-dashboard-slot',
+        order: 25,
+        load: getSyncLifecycle(
+          createOHRIPatientChartSideNavLink(patientChartSupportServicesDivider_dashboardMeta),
+          options,
+        ),
       },
       {
         id: 'active-queue-patient-workspace',
