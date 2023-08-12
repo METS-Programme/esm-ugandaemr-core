@@ -1,0 +1,99 @@
+{
+    "$schema": "https://json.openmrs.org/routes.schema.json",
+    "backendDependencies": {
+        "fhir2": "^1.2.0",
+        "webservices.rest": "^2.24.0"
+    },
+    "pages": [],
+    "extensions": [
+        {
+            "component": "cervicalCancerSummaryExt",
+            "name": "cervical-cancer-summary-ext",
+            "slot": "cacx-visits-slot",
+            "online": true,
+            "offline": true,
+            "meta": {
+                "columnSpan": 4
+            }
+        },
+        {
+            "component": "facilityDashboardLink",
+            "name": "facility-dashboard-link",
+            "slot": "homepage-dashboard-slot",
+            "online": true,
+            "offline": true,
+            "order": 2
+        },
+        {
+            "component": "facilityDashboardExt",
+            "name": "facility-dashboard-ext",
+            "slot": "facility-dashboard-slot",
+            "online": true,
+            "offline": true,
+            "meta": {
+                "columnSpan": 4
+            }
+        },
+        {
+            "component": "medicationsDashboardLink",
+            "name": "medications-dashboard-link",
+            "slot": "homepage-dashboard-slot",
+            "online": true,
+            "offline": true,
+            "order": 4
+        },
+        {
+            "component": "medicationsDashboardExt",
+            "name": "medications-dashboard-ext",
+            "slot": "medications-dashboard-slot",
+            "online": true,
+            "offline": true,
+            "meta": {
+                "columnSpan": 4
+            }
+        },
+        {
+            "component": "hieDashboardLink",
+            "name": "hie-dashboard-link",
+            "slot": "homepage-dashboard-slot",
+            "online": true,
+            "offline": true,
+            "order": 5
+        },
+        {
+            "component": "hieDashboardExt",
+            "name": "hie-dashboard-ext",
+            "slot": "hie-dashboard-slot",
+            "online": true,
+            "offline": true,
+            "meta": {
+                "columnSpan": 4
+            }
+        },
+        {
+            "name": "clinical-views-divider",
+            "component": "clinicalViewsDivider",
+            "slot": "patient-chart-dashboard-slot",
+            "order": 12
+        },
+        {
+            "name": "support-views-divider",
+            "component": "supportViewsDivider",
+            "slot": "patient-chart-dashboard-slot",
+            "order": 25
+        },
+        {
+            "name": "active-queue-patient-workspace",
+            "component": "activeQueuePatientWorkspace",
+            "slot": "action-menu-non-chart-items-slot"
+        },
+        {
+            "name": "active-queue-patients",
+            "component": "activeQueuePatients"
+        },
+        {
+            "name": "queue-patients-workspace",
+            "component": "queuePatientsWorkspace"
+        }
+    ]
+}

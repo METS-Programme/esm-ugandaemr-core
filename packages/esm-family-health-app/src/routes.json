@@ -1,0 +1,85 @@
+{
+    "$schema": "https://json.openmrs.org/routes.schema.json",
+    "backendDependencies": {
+        "fhir2": "^1.2.0",
+        "webservices.rest": "^2.24.0"
+    },
+    "pages": [],
+    "extensions": [
+        {
+            "slot": "patient-chart-dashboard-slot",
+            "name": "family-health-clinic-dashboard",
+            "component": "familyHealthClinicDashboard",
+            "online": true,
+            "offline": true
+        },
+        {
+            "component": "mchDashboardLink",
+            "name": "mch-dashboard",
+            "slot": "family-health-dashboard-slot",
+            "online": true,
+            "offline": true
+        },
+        {
+            "component": "mchDashboardSummaryExt",
+            "name": "mch-dashboard-summary-ext",
+            "slot": "mch-dashboard-slot",
+            "online": true,
+            "offline": true,
+            "meta": {
+                "columnSpan": 4
+            }
+        },
+        {
+            "component": "childHealthDashboardLink",
+            "name": "child-health-dashboard",
+            "slot": "family-health-dashboard-slot",
+            "online": true,
+            "offline": true
+        },
+        {
+            "component": "childHealthSummaryExt",
+            "name": "child-health-summary-ext",
+            "slot": "child-health-dashboard-slot",
+            "online": true,
+            "offline": true,
+            "meta": {
+                "columnSpan": 4
+            }
+        },
+        {
+            "component": "hivExposedInfantDashboardLink",
+            "name": "hiv-exposed-infant-dashboard",
+            "slot": "family-health-dashboard-slot",
+            "online": true,
+            "offline": true
+        },
+        {
+            "component": "hivExposedInfantExt",
+            "name": "hiv-exposed-infant-ext",
+            "slot": "hiv-exposed-infant-slot",
+            "online": true,
+            "offline": true,
+            "meta": {
+                "columnSpan": 4
+            }
+        },
+        {
+            "component": "familyPlanningDashboardLink",
+            "name": "family-planning-dashboard",
+            "slot": "family-health-dashboard-slot",
+            "online": true,
+            "offline": true
+        },
+        {
+            "component": "familyPlanningDashboardExt",
+            "name": "family-planning-dashboard-ext",
+            "slot": "family-planning-dashboard-slot",
+            "online": true,
+            "offline": true,
+            "meta": {
+                "columnSpan": 4
+            }
+        }
+    ]
+}

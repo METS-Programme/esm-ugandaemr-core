@@ -1,44 +1,73 @@
-import React from 'react';
-import styles from './cacx.scss';
-import { CaCx_SCREENING_LOG_ENCOUNTER_TYPE } from '../../../constants';
+import { EncounterList, EncounterListColumn, getObsFromEncounter } from '@ohri/openmrs-esm-ohri-commons-lib';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getObervationFromEncounter, ListEncounter } from '../../../utils/encounter/list-encounter';
+import { CaCx_SCREENING_LOG_ENCOUNTER_TYPE, moduleName } from '../../../constants';
 
-const columns = [
-  {
-    key: 'date',
-    header: 'Encounter Date',
-    getValue: (encounter) => {
-      return getObervationFromEncounter(encounter, '');
-    },
-  },
-  {
-    key: 'entryPoint',
-    header: 'Entry Point',
-    getValue: (encounter) => {
-      return getObervationFromEncounter(encounter, '');
-    },
-  },
-  {
-    key: 'actions',
-    header: 'Actions',
-    getValue: () => {},
-  },
-];
+interface CaCxScreeningProps {
+  patientUuid: string;
+}
 
-const CaCxScreening: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
+const CaCxScreening: React.FC<CaCxScreeningProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
+  const columnsLab: EncounterListColumn[] = useMemo(
+    () => [
+      {
+        key: 'date',
+        header: t('date', 'Date'),
+        getValue: (encounter) => {
+          return getObsFromEncounter(encounter, '');
+        },
+      },
+      {
+        key: 'testResult',
+        header: t('testResult', 'Test Result'),
+        getValue: (encounter) => {
+          return getObsFromEncounter(encounter, '');
+        },
+      },
+
+      {
+        key: 'actions',
+        header: t('actions', 'Actions'),
+        getValue: (encounter) => {
+          const baseActions = [
+            {
+              form: { name: 'cacx_registration', package: 'uganda_emr_cacx' },
+              encounterUuid: encounter.uuid,
+              intent: '*',
+              label: 'View Details',
+              mode: 'view',
+            },
+            {
+              form: { name: 'cacx_registration', package: 'uganda_emr_cacx' },
+              encounterUuid: encounter.uuid,
+              intent: '*',
+              label: 'Edit Form',
+              mode: 'edit',
+            },
+          ];
+          return baseActions;
+        },
+      },
+    ],
+    [],
+  );
+
   const headerTitle = t('cacxScreening', 'Cacx Screening and Treatment');
+
   return (
-    <ListEncounter
+    <EncounterList
       patientUuid={patientUuid}
-      encounterUuid={CaCx_SCREENING_LOG_ENCOUNTER_TYPE}
-      form={{ package: 'uganda_emr_cacx', name: 'cacx_registration' }}
-      columns={columns}
+      encounterType={CaCx_SCREENING_LOG_ENCOUNTER_TYPE}
+      formList={[{ name: 'cacx_registration' }]}
+      columns={columnsLab}
       description={headerTitle}
       headerTitle={headerTitle}
-      displayText="Add"
+      launchOptions={{
+        displayText: 'Add',
+        moduleName: moduleName,
+      }}
     />
   );
 };

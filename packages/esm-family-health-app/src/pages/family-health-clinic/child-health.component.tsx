@@ -1,60 +1,73 @@
-import React from 'react';
+import { EncounterList, EncounterListColumn, getObsFromEncounter } from '@ohri/openmrs-esm-ohri-commons-lib';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CHILD_REGISTER_ENCOUNTER_TYPE } from '../../constants';
-import { getObervationFromEncounter, ListEncounter } from '../../utils/encounter/list-encounter';
+import { CHILD_REGISTER_ENCOUNTER_TYPE, moduleName } from '../../constants';
 
-const columns = [
-  {
-    key: 'date',
-    header: 'Date Chart Opened',
-    getValue: (encounter) => {
-      return getObervationFromEncounter(encounter, '');
-    },
-  },
-  {
-    key: 'testResult',
-    header: 'Entry Point',
-    getValue: (encounter) => {
-      return getObervationFromEncounter(encounter, '');
-    },
-  },
-  {
-    key: 'testResult',
-    header: 'Date of NVP',
-    getValue: (encounter) => {
-      return getObervationFromEncounter(encounter, '');
-    },
-  },
-  {
-    key: 'testResult',
-    header: 'Date of CTX',
-    getValue: (encounter) => {
-      return getObervationFromEncounter(encounter, '');
-    },
-  },
-  {
-    key: 'actions',
-    header: 'Actions',
-    getValue: () => {},
-  },
-];
+interface ChildHealthRegisterProps {
+  patientUuid: string;
+}
 
 const ChildHealthRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
   const { t } = useTranslation();
+
+  const columnsLab: EncounterListColumn[] = useMemo(
+    () => [
+      {
+        key: 'encounterDate',
+        header: t('encounterDate', 'Encounter Date'),
+        getValue: (encounter) => {
+          return getObsFromEncounter(encounter, '');
+        },
+      },
+      {
+        key: 'deliveryType',
+        header: t('deliveryType', 'Delivery Type'),
+        getValue: (encounter) => {
+          return getObsFromEncounter(encounter, '');
+        },
+      },
+
+      {
+        key: 'actions',
+        header: t('actions', 'Actions'),
+        getValue: (encounter) => {
+          const baseActions = [
+            {
+              form: { name: 'child_health_register', package: 'uganda_emr_mch' },
+              encounterUuid: encounter.uuid,
+              intent: '*',
+              label: 'View Details',
+              mode: 'view',
+            },
+            {
+              form: { name: 'child_health_register', package: 'uganda_emr_mch' },
+              encounterUuid: encounter.uuid,
+              intent: '*',
+              label: 'Edit Form',
+              mode: 'edit',
+            },
+          ];
+          return baseActions;
+        },
+      },
+    ],
+    [],
+  );
+
   const headerTitle = t('childHealthRegister', 'Child Health Register');
 
   return (
-    <ListEncounter
+    <EncounterList
       patientUuid={patientUuid}
-      encounterUuid={CHILD_REGISTER_ENCOUNTER_TYPE}
-      form={{
-        package: 'uganda_emr_family_health',
-        name: 'child_health_register',
-      }}
-      columns={columns}
+      encounterType={CHILD_REGISTER_ENCOUNTER_TYPE}
+      formList={[{ name: 'child_health_register' }]}
+      columns={columnsLab}
       description={headerTitle}
       headerTitle={headerTitle}
-      displayText="Add"
+      launchOptions={{
+        displayText: 'Add',
+        moduleName: moduleName,
+      }}
     />
   );
 };

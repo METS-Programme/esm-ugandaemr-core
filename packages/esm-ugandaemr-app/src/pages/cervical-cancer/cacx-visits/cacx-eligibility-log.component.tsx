@@ -1,43 +1,73 @@
-import React from 'react';
-import { CaCx_TREATMENT_ENCOUNTER_TYPE } from '../../../constants';
+import { EncounterList, EncounterListColumn, getObsFromEncounter } from '@ohri/openmrs-esm-ohri-commons-lib';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getObervationFromEncounter, ListEncounter } from '../../../utils/encounter/list-encounter';
+import { CaCx_TREATMENT_ENCOUNTER_TYPE, moduleName } from '../../../constants';
 
-const columns = [
-  {
-    key: 'date',
-    header: 'Date',
-    getValue: (encounter) => {
-      return getObervationFromEncounter(encounter, '');
-    },
-  },
-  {
-    key: 'testResult',
-    header: 'Test Result',
-    getValue: (encounter) => {
-      return getObervationFromEncounter(encounter, '');
-    },
-  },
-  {
-    key: 'actions',
-    header: 'Actions',
-    getValue: () => {},
-  },
-];
+interface CaCxEligibilityLogProps {
+  patientUuid: string;
+}
 
-const CaCxEligibilityLog: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
+const CaCxEligibilityLog: React.FC<CaCxEligibilityLogProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
+
+  const columnsLab: EncounterListColumn[] = useMemo(
+    () => [
+      {
+        key: 'date',
+        header: t('date', 'Date'),
+        getValue: (encounter) => {
+          return getObsFromEncounter(encounter, '');
+        },
+      },
+      {
+        key: 'testResult',
+        header: t('testResult', 'Test Result'),
+        getValue: (encounter) => {
+          return getObsFromEncounter(encounter, '');
+        },
+      },
+
+      {
+        key: 'actions',
+        header: t('actions', 'Actions'),
+        getValue: (encounter) => {
+          const baseActions = [
+            {
+              form: { name: 'cacx_screening_log', package: 'uganda_emr_cacx' },
+              encounterUuid: encounter.uuid,
+              intent: '*',
+              label: 'View Details',
+              mode: 'view',
+            },
+            {
+              form: { name: 'cacx_screening_log', package: 'uganda_emr_cacx' },
+              encounterUuid: encounter.uuid,
+              intent: '*',
+              label: 'Edit Form',
+              mode: 'edit',
+            },
+          ];
+          return baseActions;
+        },
+      },
+    ],
+    [],
+  );
+
   const headerTitle = t('CaCx Eligibility Log', 'CaCx Eligibility Log');
 
   return (
-    <ListEncounter
+    <EncounterList
       patientUuid={patientUuid}
-      encounterUuid={CaCx_TREATMENT_ENCOUNTER_TYPE}
-      form={{ package: 'uganda_emr_cacx', name: 'cacx_screening_log' }}
-      columns={columns}
+      encounterType={CaCx_TREATMENT_ENCOUNTER_TYPE}
+      formList={[{ name: 'cacx_screening_log' }]}
+      columns={columnsLab}
       description={headerTitle}
       headerTitle={headerTitle}
-      displayText="Add"
+      launchOptions={{
+        displayText: 'Add',
+        moduleName: moduleName,
+      }}
     />
   );
 };
