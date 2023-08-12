@@ -51,7 +51,7 @@ const ANCRegister: React.FC<ANCRegisterProps> = ({ patientUuid }) => {
         },
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('integratedAntenatalRegister', 'Integrated Antenatal Register');

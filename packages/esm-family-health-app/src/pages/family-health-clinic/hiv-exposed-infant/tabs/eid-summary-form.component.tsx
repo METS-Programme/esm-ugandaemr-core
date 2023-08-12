@@ -58,7 +58,7 @@ const EIDSummaryForm: React.FC<EIDSummaryFormProps> = ({ patientUuid }) => {
         },
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('eidRegister', 'EID Register Summary Section');

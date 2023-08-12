@@ -51,7 +51,7 @@ const ChildHealthRegister: React.FC<{ patientUuid: string }> = ({ patientUuid })
         },
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('childHealthRegister', 'Child Health Register');

@@ -58,7 +58,7 @@ const PncRegister: React.FC<PncRegisterProps> = ({ patientUuid }) => {
         },
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('integratedPostnatalRegister', 'Integrated Postnatal Register');

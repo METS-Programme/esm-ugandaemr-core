@@ -51,7 +51,7 @@ const CaCxScreening: React.FC<CaCxScreeningProps> = ({ patientUuid }) => {
         },
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('cacxScreening', 'Cacx Screening and Treatment');

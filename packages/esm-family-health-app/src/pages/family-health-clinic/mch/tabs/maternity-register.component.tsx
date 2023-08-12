@@ -51,7 +51,7 @@ const MaternityRegister: React.FC<MaternityRegisterProps> = ({ patientUuid }) =>
         },
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('integratedMaternityRegister', 'Integrated Maternity Register');

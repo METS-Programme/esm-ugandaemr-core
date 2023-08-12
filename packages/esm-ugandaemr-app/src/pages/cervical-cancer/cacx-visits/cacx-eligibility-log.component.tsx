@@ -51,7 +51,7 @@ const CaCxEligibilityLog: React.FC<CaCxEligibilityLogProps> = ({ patientUuid }) 
         },
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('CaCx Eligibility Log', 'CaCx Eligibility Log');

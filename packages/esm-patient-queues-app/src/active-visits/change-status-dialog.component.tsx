@@ -149,7 +149,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
         },
       );
     },
-    [provider, queueEntry?.id, t, closeModal, mutate],
+    [provider, queueEntry?.id, priorityComment, t, closeModal, mutate],
   );
 
   if (Object.keys(queueEntry)?.length === 0) {
