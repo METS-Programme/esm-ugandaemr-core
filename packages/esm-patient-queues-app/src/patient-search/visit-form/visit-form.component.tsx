@@ -1,4 +1,16 @@
-import { Button, ButtonSet, ContentSwitcher, Form, Layer, Row, Select, SelectItem, Stack, Switch } from '@carbon/react';
+import {
+  Button,
+  ButtonSet,
+  ContentSwitcher,
+  Dropdown,
+  Form,
+  Layer,
+  Row,
+  Select,
+  SelectItem,
+  Stack,
+  Switch,
+} from '@carbon/react';
 import {
   ConfigObject,
   ExtensionSlot,
@@ -59,6 +71,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const [selectedLocation, setSelectedLocation] = useState('');
   const [visitType, setVisitType] = useState('');
   const [priorityComment, setPriorityComment] = useState('');
+  const [priorityLevel, setPriorityLevel] = useState([1, 2, 3]);
 
   const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
@@ -364,6 +377,15 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
               <Switch name="urgent" text={t('urgent', 'Urgent')} />
               <Switch name="emergency" text={t('emergency', 'Emergency')} />
             </ContentSwitcher>
+          </section>
+          <section className={styles.section}>
+            <Dropdown
+              id="priority-levels"
+              titleText="Choose Priority Level"
+              label="selec a priority Level"
+              items={priorityLevel}
+              temToString={(priorityLevel) => (priorityLevel ? priorityLevel : 0)}
+            />
           </section>
 
           <section className={styles.section}>
