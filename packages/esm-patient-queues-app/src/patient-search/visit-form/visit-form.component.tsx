@@ -62,7 +62,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
 
   const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
-  const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
+  const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(locations[0]?.name);
 
   useEffect(() => {
     if (locations?.length && sessionUser) {
@@ -384,8 +384,8 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
                   <SelectItem key={defaultFacility?.uuid} text={defaultFacility?.display} value={defaultFacility?.uuid}>
                     {defaultFacility?.display}
                   </SelectItem>
-                ) : queueRoomLocations?.length > 0 ? (
-                  queueRoomLocations.map((location) => (
+                ) : locations?.length > 0 ? (
+                  locations.map((location) => (
                     <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
                       {location.display}
                     </SelectItem>
