@@ -41,13 +41,13 @@ const PrintActionsMenu: React.FC<PrintActionsMenuProps> = ({ patient }) => {
     <div>
       <div ref={contentToPrintRef}>
         <VisitCardToPrint queueEntry={patient} />
-        <Button
-          kind="ghost"
-          onClick={handlePrint}
-          iconDescription={t('printVisit', 'Print Visit')}
-          renderIcon={(props) => <Printer size={16} {...props} />}
-        />
       </div>
+      <Button
+        kind="ghost"
+        onClick={handlePrint}
+        iconDescription={t('printVisit', 'Print Visit')}
+        renderIcon={(props) => <Printer size={16} {...props} />}
+      />
     </div>
   );
 };
