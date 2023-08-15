@@ -18,6 +18,10 @@ export interface MappedPatientQueueEntry {
   locationFrom?: string;
   visitNumber: string;
   identifiers: Array<UuidDisplay>;
+  dateCreated: string;
+  creatorUuid: string;
+  creatorUsername: string;
+  creatorDisplay: string;
 }
 
 export function usePatientQueuesList(
@@ -52,6 +56,10 @@ export function usePatientQueuesList(
       locationTo: queue.locationTo?.uuid,
       queueRoom: queue.locationTo?.display,
       visitNumber: queue.visitNumber,
+      dateCreated: queue.dateCreated ? formatDate(parseDate(queue.dateCreated), { time: false }) : '--',
+      creatorUuid: queue.creator?.uuid,
+      creatorUsername: queue.creator?.username,
+      creatorDisplay: queue.creator?.display,
     };
   });
 
