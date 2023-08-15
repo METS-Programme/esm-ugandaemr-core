@@ -149,7 +149,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
         },
       );
     },
-    [provider, queueEntry?.id, t, closeModal, mutate],
+    [provider, queueEntry?.id, priorityComment, t, closeModal, mutate],
   );
 
   if (Object.keys(queueEntry)?.length === 0) {
@@ -199,8 +199,8 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
                   <SelectItem key={defaultFacility?.uuid} text={defaultFacility?.display} value={defaultFacility?.uuid}>
                     {defaultFacility?.display}
                   </SelectItem>
-                ) : queueRoomLocations?.length > 0 ? (
-                  queueRoomLocations.map((location) => (
+                ) : locations?.length > 0 ? (
+                  locations.map((location) => (
                     <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
                       {location.display}
                     </SelectItem>
