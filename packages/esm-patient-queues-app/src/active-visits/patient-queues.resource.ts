@@ -39,6 +39,7 @@ export function usePatientQueuesList(
       patientUuid: queue.patient?.uuid,
       priorityComment: queue.priorityComment,
       priority: queue.priorityComment === 'Urgent' ? 'Priority' : queue.priorityComment,
+      priorityLevel: queue.priority,
       waitTime: queue.dateCreated ? `${dayjs().diff(dayjs(queue.dateCreated), 'minutes')}` : '--',
       status: queue.status,
       patientAge: queue.patient?.person?.age,

@@ -154,16 +154,21 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       },
       {
         id: 3,
+        header: t('priorityLevel', 'Priority Level'),
+        key: 'priorityLevel',
+      },
+      {
+        id: 4,
         header: t('status', 'Status'),
         key: 'status',
       },
       {
-        id: 4,
+        id: 5,
         header: t('waitTime', 'Wait time'),
         key: 'waitTime',
       },
       {
-        id: 5,
+        id: 6,
         header: t('actions', 'Actions'),
         key: 'actions',
       },
@@ -204,6 +209,9 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
             )}
           </>
         ),
+      },
+      priorityLevel: {
+        content: <span>{entry.priorityLevel}</span>,
       },
       status: {
         content: (
