@@ -3,7 +3,6 @@ import { MappedPatientQueueEntry } from '../active-visits/patient-queues.resourc
 import styles from './active-visits-print.scss';
 import { QRCodeSVG } from 'qrcode.react';
 
-// @ts-ignore
 import logo from '../images/ugandaemr_login_logo_green.png';
 import PatientQueueDetailsTable from './patient-queue-details-table.component';
 
