@@ -1,0 +1,29 @@
+{
+    "$schema": "https://json.openmrs.org/routes.schema.json",
+    "backendDependencies": {
+        "fhir2": "^1.2.0",
+        "webservices.rest": "^2.24.0"
+    },
+    "pages": [],
+    "extensions": [
+
+        {
+            "component": "opdDashboardLink",
+            "name": "opd-dashboard",
+            "slot": "patient-chart-dashboard-slot",
+            "online": true,
+            "offline": true
+        },
+
+        {
+            "component": "opdDashboardExt",
+            "name": "opd-dashboard-ext",
+            "slot": "opd-dashboard-slot",
+            "online": true,
+            "offline": true,
+            "meta": {
+                "columnSpan": 4
+            }
+        }
+    ]
+}

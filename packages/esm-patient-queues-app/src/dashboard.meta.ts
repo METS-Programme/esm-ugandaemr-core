@@ -1,5 +1,6 @@
 export const dashboardMeta = {
   name: 'patient-queues',
   slot: 'patient-queues-dashboard-slot',
-  title: 'Service Queues',
+  title: 'Patient Queues',
+  path: 'Patient Queues',
 };

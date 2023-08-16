@@ -1,51 +1,73 @@
+import { EncounterList, EncounterListColumn, getObsFromEncounter } from '@ohri/openmrs-esm-ohri-commons-lib';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { EncounterListColumn } from '@ohri/openmrs-esm-ohri-commons-lib';
-import { ANTENATAL_ENCOUNTER_TYPE } from '../../../../constants';
-import { getObervationFromEncounter, ListEncounter } from '../../../../utils/encounter/list-encounter';
+import { ANTENATAL_ENCOUNTER_TYPE, moduleName } from '../../../../constants';
 
-const ANCRegister: React.FC<{ patientUuid: string }> = ({ patientUuid }) => {
+interface ANCRegisterProps {
+  patientUuid: string;
+}
+
+const ANCRegister: React.FC<ANCRegisterProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
-  const headerTitle = t('integratedAntenatalRegister', 'Integrated Antenatal Register');
-
-  const columns: EncounterListColumn[] = useMemo(
+  const columnsLab: EncounterListColumn[] = useMemo(
     () => [
       {
-        key: 'date',
-        header: 'Encounter Date',
+        key: 'encounterDate',
+        header: t('encounterDate', 'Encounter Date'),
         getValue: (encounter) => {
-          return getObervationFromEncounter(encounter, '');
+          return getObsFromEncounter(encounter, '');
         },
       },
       {
         key: 'entryPoint',
-        header: 'Entry Point',
+        header: t('entryPoint', 'Entry Point'),
         getValue: (encounter) => {
-          return getObervationFromEncounter(encounter, '');
+          return getObsFromEncounter(encounter, '');
         },
       },
+
       {
         key: 'actions',
-        header: 'Actions',
-        getValue: () => {},
+        header: t('actions', 'Actions'),
+        getValue: (encounter) => {
+          const baseActions = [
+            {
+              form: { name: 'integratedAntenatalRegister', package: 'uganda_emr_mch' },
+              encounterUuid: encounter.uuid,
+              intent: '*',
+              label: 'View Details',
+              mode: 'view',
+            },
+            {
+              form: { name: 'integratedAntenatalRegister', package: 'uganda_emr_mch' },
+              encounterUuid: encounter.uuid,
+              intent: '*',
+              label: 'Edit Form',
+              mode: 'edit',
+            },
+          ];
+          return baseActions;
+        },
       },
     ],
-    [],
+    [t],
   );
 
+  const headerTitle = t('integratedAntenatalRegister', 'Integrated Antenatal Register');
+
   return (
-    <ListEncounter
+    <EncounterList
       patientUuid={patientUuid}
-      encounterUuid={ANTENATAL_ENCOUNTER_TYPE}
-      form={{
-        package: 'uganda_emr_mch',
-        name: 'integrated_antenatal_register',
-      }}
-      columns={columns}
+      encounterType={ANTENATAL_ENCOUNTER_TYPE}
+      formList={[{ name: 'integrated_antenatal_register' }]}
+      columns={columnsLab}
       description={headerTitle}
       headerTitle={headerTitle}
-      displayText="Add"
+      launchOptions={{
+        displayText: 'Add',
+        moduleName: moduleName,
+      }}
     />
   );
 };

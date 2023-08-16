@@ -33,7 +33,7 @@ const StartVisitQueueFields: React.FC = () => {
     if (priority === emergencyPriorityConceptUuid) {
       setSortWeight(1);
     }
-  }, [priority]);
+  }, [emergencyPriorityConceptUuid, priority]);
 
   useEffect(() => {
     if (queueRoomLocations?.length > 0) {

@@ -81,16 +81,7 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
         });
       },
     );
-  }, [
-    queueUuid,
-    config.concepts.defaultStatusConceptUuid,
-    visitUuid,
-    patientUuid,
-    selectedQueueLocation,
-    t,
-    closeModal,
-    mutate,
-  ]);
+  }, [queueUuid, visitUuid, patientUuid, selectedQueueLocation, t, closeModal, mutate]);
 
   return (
     <div>
