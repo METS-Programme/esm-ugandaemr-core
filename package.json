@@ -6,7 +6,8 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "openmrs develop --sources 'packages/esm-*-app'",
+    "start": "openmrs develop --backend https://ugandaemr-backend.mets.or.ug --sources 'packages/esm-*-app'",
+    "start2": "openmrs develop --backend https://ohri-dev.globalhealthapp.net --sources 'packages/esm-*-app'",
     "ci:publish": "lerna publish from-package --yes",
     "ci:prepublish": "lerna publish from-package --no-git-reset --yes --dist-tag next",
     "release": "lerna version --no-git-tag-version",
@@ -50,9 +51,10 @@
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "@types/testing-library__jest-dom": "^5.14.1",
-    "@types/webpack-env": "^1.16.0",
+    "@types/webpack-env": "^1.16.4",
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "@typescript-eslint/parser": "^5.40.0",
+    "clean-webpack-plugin": "^3.0.0",
     "concurrently": "^7.4.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.4",
@@ -84,7 +86,12 @@
     "turbo": "^1.6.2",
     "typescript": "^5.0.2",
     "webpack": "^5.83.1",
-    "webpack-cli": "^4.10.0"
+    "webpack-bundle-analyzer": "^4.4.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.8.1"
+  },
+  "resolutions": {
+    "@carbon/react": "1.13.0"
   },
   "packageManager": "yarn@3.2.4"
 }
