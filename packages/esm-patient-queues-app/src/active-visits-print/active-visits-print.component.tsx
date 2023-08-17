@@ -1,33 +1,30 @@
-import { useSession } from '@openmrs/esm-framework';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { MappedPatientQueueEntry } from '../active-visits/patient-queues.resource';
-import { trimVisitNumber } from '../helpers/functions';
 import styles from './active-visits-print.scss';
+import { QRCodeSVG } from 'qrcode.react';
+
+import logo from '../images/ugandaemr_login_logo_green.png';
+import PatientQueueDetailsTable from './patient-queue-details-table.component';
 
 interface VisitCardToPrintProps {
   queueEntry: MappedPatientQueueEntry;
 }
 
 export function VisitCardToPrint({ queueEntry }: VisitCardToPrintProps) {
-  const session = useSession();
-  const { t } = useTranslation();
-
   return (
-    <>
-      <div className={styles.printPage}>
-        <div className={styles.container}>
-          <div>Visit No.</div>
-          <div>{trimVisitNumber(queueEntry.visitNumber)}</div>
-          <div>
-            <span> Qr Code goes here </span>
-          </div>
-          <div>
-            <span> !!!Thank you for visiting us Today !!!</span>
-          </div>
+    <div className={styles.printPage}>
+      <div className={styles.container}>
+        <img src={logo} alt="logo" height={150} />
+        <h3 style={{ paddingBottom: '8px' }}>Visit Registration Receipt</h3>
+        <PatientQueueDetailsTable queueEntry={queueEntry} />
+        <div style={{ margin: '25px' }} className={styles.name}>
+          {queueEntry.identifiers.length > 0 ? <QRCodeSVG value={queueEntry.identifiers[0].uuid} /> : <></>}
+        </div>
+        <div>
+          <span className={styles.name}> !!!Thank you !!!</span>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

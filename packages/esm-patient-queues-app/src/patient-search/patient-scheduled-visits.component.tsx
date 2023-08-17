@@ -198,7 +198,6 @@ const ScheduledVisits: React.FC<{
       priority,
       appointment,
       selectedQueueLocation,
-      visitQueueNumberAttributeUuid,
       closePanel,
       mutate,
     ],

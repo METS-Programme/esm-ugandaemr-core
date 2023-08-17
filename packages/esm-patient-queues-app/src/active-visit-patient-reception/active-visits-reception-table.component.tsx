@@ -177,10 +177,10 @@ function ActiveVisitsReceptionTable() {
       },
       actions: {
         content: (
-          <>
+          <div style={{ display: 'flex' }}>
             <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
             <PrintActionsMenu patient={entry} />
-          </>
+          </div>
         ),
       },
     }));
@@ -253,7 +253,7 @@ function ActiveVisitsReceptionTable() {
           rows={tableRows}
           isSortable
           useZebraStyles
-          overflowMenuOnHover={isDesktop(layout) ? true : false}
+          overflowMenuOnHover={isDesktop(layout)}
         >
           {({ rows, headers, getHeaderProps, getTableProps, getRowProps, onInputChange }) => (
             <TableContainer className={styles.tableContainer}>
@@ -367,13 +367,21 @@ function ActiveVisitsReceptionTable() {
               },
               selectPatientAction: (selectedPatientUuid) => {
                 setShowOverlay(true);
-                setView(SearchTypes.VISIT_FORM);
+                setView(SearchTypes.SCHEDULED_VISITS);
                 setViewState({ selectedPatientUuid });
                 setOverlayTitle(t('checkIn', 'Check In'));
               },
             }}
           />
         </div>
+        {showOverlay && (
+          <PatientSearch
+            view={view}
+            closePanel={() => setShowOverlay(false)}
+            viewState={viewState}
+            headerTitle={overlayHeader}
+          />
+        )}
         {/* </UserHasAccess> */}
       </div>
     </div>

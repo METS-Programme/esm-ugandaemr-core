@@ -12,17 +12,5 @@ config.overrides.resolve = {
     '@ohri/openmrs-esm-ohri-commons-lib': '@ohri/openmrs-esm-ohri-commons-lib/src/index',
   },
 };
-config.module = {
-  rules: [
-    {
-      test: /\.(png|jpe?g|gif)$/i,
-      use: [
-        {
-          loader: 'file-loader',
-        },
-      ],
-    },
-  ],
-};
 
 module.exports = config;

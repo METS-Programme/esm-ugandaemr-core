@@ -113,7 +113,7 @@ const TransitionQueueEntryModal: React.FC<TransitionQueueEntryModalProps> = ({ q
         });
       },
     );
-  }, []);
+  }, [closeModal, mutate, queueEntry?.queueEntryUuid, queueEntry?.queueUuid, t]);
 
   return (
     <div>

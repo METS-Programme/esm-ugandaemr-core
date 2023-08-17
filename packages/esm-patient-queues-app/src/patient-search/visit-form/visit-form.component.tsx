@@ -1,4 +1,16 @@
-import { Button, ButtonSet, ContentSwitcher, Form, Layer, Row, Select, SelectItem, Stack, Switch } from '@carbon/react';
+import {
+  Button,
+  ButtonSet,
+  ContentSwitcher,
+  Dropdown,
+  Form,
+  Layer,
+  Row,
+  Select,
+  SelectItem,
+  Stack,
+  Switch,
+} from '@carbon/react';
 import {
   ConfigObject,
   ExtensionSlot,
@@ -59,10 +71,11 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const [selectedLocation, setSelectedLocation] = useState('');
   const [visitType, setVisitType] = useState('');
   const [priorityComment, setPriorityComment] = useState('');
+  const [priorityLevel, setPriorityLevel] = useState([1, 2, 3]);
 
   const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
-  const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
+  const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(locations[0]?.name);
 
   useEffect(() => {
     if (locations?.length && sessionUser) {
@@ -365,6 +378,15 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
               <Switch name="emergency" text={t('emergency', 'Emergency')} />
             </ContentSwitcher>
           </section>
+          <section className={styles.section}>
+            <Dropdown
+              id="priority-levels"
+              titleText="Choose Priority Level"
+              label="selec a priority Level"
+              items={priorityLevel}
+              temToString={(priorityLevel) => (priorityLevel ? priorityLevel : 0)}
+            />
+          </section>
 
           <section className={styles.section}>
             <div className={styles.sectionTitle}>{t('nextServicePoint', 'Next Service Point')}</div>
@@ -384,8 +406,8 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
                   <SelectItem key={defaultFacility?.uuid} text={defaultFacility?.display} value={defaultFacility?.uuid}>
                     {defaultFacility?.display}
                   </SelectItem>
-                ) : queueRoomLocations?.length > 0 ? (
-                  queueRoomLocations.map((location) => (
+                ) : locations?.length > 0 ? (
+                  locations.map((location) => (
                     <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
                       {location.display}
                     </SelectItem>

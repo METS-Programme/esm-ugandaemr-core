@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
-import { Notification } from '@carbon/react/icons';
-import { MappedVisitQueueEntry, serveQueueEntry } from '../active-visits/active-visits-table.resource';
-import { useTranslation } from 'react-i18next';
-import { showModal, showNotification } from '@openmrs/esm-framework';
 import { Button } from '@carbon/react';
-import styles from './transition-entry.scss';
+import { Notification } from '@carbon/react/icons';
+import { showModal, showNotification } from '@openmrs/esm-framework';
+import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { mutate } from 'swr';
+import { MappedVisitQueueEntry, serveQueueEntry } from '../active-visits/active-visits-table.resource';
+import styles from './transition-entry.scss';
 interface TransitionMenuProps {
   queueEntry: MappedVisitQueueEntry;
   closeModal: () => void;
@@ -33,7 +33,7 @@ const TransitionMenu: React.FC<TransitionMenuProps> = ({ queueEntry, closeModal 
       closeModal: () => dispose(),
       queueEntry,
     });
-  }, [queueEntry]);
+  }, [queueEntry, t]);
 
   return (
     <Button

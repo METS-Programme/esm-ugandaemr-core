@@ -14,109 +14,90 @@ import formsRegistry from './forms/forms-registry';
 import ugandaEmrConfig from './ugandaemr-config';
 import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 
-const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
+export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
-const backendDependencies = {
-  fhir2: '^1.2.0',
-  'webservices.rest': '^2.2.0',
+const options = {
+  featureName: '@ugandaemr/esm-family-health-app',
+  moduleName,
 };
 
-function setupOpenMRS() {
-  const options = {
-    featureName: '@ugandaemr/esm-family-health-app',
-    moduleName,
-  };
-
+export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
   provide(ugandaEmrOverrides);
   provide(ugandaEmrConfig);
   addToBaseFormsRegistry(formsRegistry);
-  return {
-    pages: [],
-    extensions: [
-      {
-        id: 'family-health-clinic-dashboard',
-        slot: 'patient-chart-dashboard-slot',
-        load: getSyncLifecycle(createDashboardGroup(familyHealthDashboardMeta), options),
-        meta: familyHealthDashboardMeta,
-      },
-      // SUB MENU
-      {
-        id: 'mch-dashboard',
-        slot: 'family-health-dashboard-slot',
-        load: getSyncLifecycle(createDashboardLink(mchDashboardMeta), options),
-        meta: mchDashboardMeta,
-      },
-      {
-        id: 'mch-dashboard-summary-ext',
-        slot: 'mch-dashboard-slot',
-        load: getAsyncLifecycle(() => import('./pages/family-health-clinic/mch/mch-summary.component'), {
-          featureName: 'mch-dashboard-summary',
-          moduleName,
-        }),
-        meta: {
-          columnSpan: 4,
-        },
-      },
-      {
-        id: 'child-health-dashboard',
-        slot: 'family-health-dashboard-slot',
-        load: getSyncLifecycle(createDashboardLink(childHealthDashboardMeta), options),
-        meta: childHealthDashboardMeta,
-      },
-      {
-        id: 'child-health-summary-ext',
-        slot: 'child-health-dashboard-slot',
-        load: getAsyncLifecycle(() => import('./pages/family-health-clinic/child-health.component'), {
-          featureName: 'child-health-extension',
-          moduleName,
-        }),
-        meta: {
-          columnSpan: 4,
-        },
-      },
-      {
-        id: 'hiv-exposed-infant-dashboard',
-        slot: 'family-health-dashboard-slot',
-        load: getSyncLifecycle(createDashboardLink(hivExposedInfantMeta), options),
-        meta: hivExposedInfantMeta,
-      },
-      {
-        id: 'hiv-exposed-infant-ext',
-        slot: 'hiv-exposed-infant-slot',
-        load: getAsyncLifecycle(
-          () => import('./pages/family-health-clinic/hiv-exposed-infant/hiv-exposed-infant.component'),
-          {
-            featureName: 'hiv-exposed-infant',
-            moduleName,
-          },
-        ),
-        meta: {
-          columnSpan: 4,
-        },
-      },
-      {
-        id: 'family-planning-dashboard',
-        slot: 'family-health-dashboard-slot',
-        load: getSyncLifecycle(createDashboardLink(familyPlanningDashboardMeta), options),
-        meta: familyPlanningDashboardMeta,
-      },
-      {
-        id: 'family-planning-dashboard-ext',
-        slot: 'family-planning-dashboard-slot',
-        load: getAsyncLifecycle(
-          () => import('./pages/family-health-clinic/family-planning/family-planning.component'),
-          {
-            featureName: 'family-planning',
-            moduleName,
-          },
-        ),
-        meta: {
-          columnSpan: 4,
-        },
-      },
-    ],
-  };
 }
 
-export { backendDependencies, importTranslation, setupOpenMRS };
+// group
+export const familyHealthClinicDashboardGroup = getSyncLifecycle(
+  createDashboardGroup(familyHealthDashboardMeta),
+  options,
+);
+
+// mch dashboard
+export const mchDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    ...mchDashboardMeta,
+    moduleName,
+  }),
+  options,
+);
+
+export const mchDashboardSummaryExt = getAsyncLifecycle(
+  () => import('./pages/family-health-clinic/mch/mch-summary.component'),
+  {
+    featureName: 'mch-dashboard-summary',
+    moduleName,
+  },
+);
+
+// childHealthDashboard
+export const childHealthDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    ...childHealthDashboardMeta,
+    moduleName,
+  }),
+  options,
+);
+
+export const childHealthSummaryExt = getAsyncLifecycle(
+  () => import('./pages/family-health-clinic/child-health.component'),
+  {
+    featureName: 'child-health-extension',
+    moduleName,
+  },
+);
+
+// hivExposedInfantDashboard
+export const hivExposedInfantDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    ...hivExposedInfantMeta,
+    moduleName,
+  }),
+  options,
+);
+
+export const hivExposedInfantExt = getAsyncLifecycle(
+  () => import('./pages/family-health-clinic/hiv-exposed-infant/hiv-exposed-infant.component'),
+  {
+    featureName: 'hiv-exposed-infant',
+    moduleName,
+  },
+);
+
+// familyPlanningDashboard
+export const familyPlanningDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    ...familyPlanningDashboardMeta,
+    moduleName,
+  }),
+  options,
+);
+
+export const familyPlanningDashboardExt = getAsyncLifecycle(
+  () => import('./pages/family-health-clinic/family-planning/family-planning.component'),
+  {
+    featureName: 'family-planning',
+    moduleName,
+  },
+);

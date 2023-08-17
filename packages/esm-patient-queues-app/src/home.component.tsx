@@ -23,11 +23,11 @@ const Home: React.FC<HomeProps> = (props) => {
         {/* <ActiveVisitsTable status={'pending'} /> */}
         {/* add  */}
       </UserHasAccess>
-      <UserHasAccess privilege={PRIVILEGE_TRIAGE_QUEUE_LIST}>
+      <UserHasAccess privilege={PRIVILEGE_CLINICIAN_QUEUE_LIST}>
         {/* <ActiveVisitsTabs /> */}
         <ActiveVisitsTable status={'pending'} />
       </UserHasAccess>
-      <UserHasAccess privilege={PRIVILEGE_CLINICIAN_QUEUE_LIST}>
+      <UserHasAccess privilege={PRIVILEGE_TRIAGE_QUEUE_LIST}>
         <ActiveVisitsTabs />
       </UserHasAccess>
     </div>

@@ -1,5 +1,10 @@
 {
     "@openmrs/esm-patient-chart-app": {
+      "displayConditions":{
+        "privileges":[
+          "App: ugandaemrpoc.triage"
+        ]
+      },
       "extensionSlots": {
         "patient-actions-slot":{
 
@@ -29,9 +34,9 @@
       }
     },
     "@openmrs/esm-styleguide": {
-        "Brand color #1": "#1B7C04",
-        "Brand color #2": "#1B7C04",
-        "Brand color #3": "#1B7C04"
+        "Brand color #1": " #009384",
+        "Brand color #2": " #009384",
+        "Brand color #3": " #009384"
     },
     "@openmrs/esm-patient-registration-app": {
       "fieldConfigurations": {
@@ -52,12 +57,10 @@
     "@openmrs/esm-home-app":{
       "extensionSlots":{
         "homepage-dashboard-slot":{
-          "add":[
-            "clinical-appointments-dashboard-link"
-          ],
           "remove": [
             "patient-lists-dashboard-link",
-            "home-widget-db-link"
+            "home-widget-db-link",
+            "service-queues-dashboard-link"
           ]
         },
        "homepage-widgets-slot": {

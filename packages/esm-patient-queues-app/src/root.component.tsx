@@ -1,9 +1,9 @@
 import React from 'react';
-import { SWRConfig } from 'swr';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { SWRConfig } from 'swr';
 import { spaBasePath } from './constants';
-import AppointmentsTable from './queue-patient-linelists/scheduled-appointments-table.component';
 import ServicesTable from './queue-patient-linelists/queue-services-table.component';
+import AppointmentsTable from './queue-patient-linelists/scheduled-appointments-table.component';
 
 const swrConfiguration = {
   // Maximum number of retries when the backend returns an error

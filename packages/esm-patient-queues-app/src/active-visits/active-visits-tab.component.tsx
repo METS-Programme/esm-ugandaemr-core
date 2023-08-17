@@ -43,7 +43,7 @@ function ActiveVisitsTabs() {
         <TabList style={{ paddingLeft: '1rem' }} aria-label="Outpatient tabs" contained>
           <Tab>{t('incoming', 'Incoming')}</Tab>
           <Tab>{t('serving', 'Serving')}</Tab>
-          <Tab>{t('outGooing', 'OutGoing')}</Tab>
+          {/* <Tab>{t('outGooing', 'OutGoing')}</Tab> */}
         </TabList>
         <TabPanels>
           <TabPanel style={{ padding: 0 }}>
@@ -52,9 +52,9 @@ function ActiveVisitsTabs() {
           <TabPanel style={{ padding: 0 }}>
             <ActiveVisitsTable status={'picked'} />
           </TabPanel>
-          <TabPanel style={{ padding: 0 }}>
+          {/* <TabPanel style={{ padding: 0 }}>
             <ActiveVisitsTable status={'completed'} />
-          </TabPanel>
+          </TabPanel> */}
         </TabPanels>
       </Tabs>
       {showOverlay && (
