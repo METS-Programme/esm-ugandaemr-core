@@ -18,28 +18,8 @@
             "offline": true
         }
     ],
-    "extensions": [
-        {
-            "name": "outpatient-side-nav-ext",
-            "slot": "outpatient-sidebar-slot",
-            "component": "outpatientSideNavExt",
-            "online": true,
-            "offline": true
-        },
-        {
-            "name": "patient-queues-dashboard-link",
-            "slot": "homepage-dashboard-slot",
-            "component": "patientQueuesDashboardLink",
-            "online": true,
-            "offline": true
-        },
-        {
-            "name": "home-dashboard",
-            "slot": "patient-queues-dashboard-slot",
-            "component": "homeDashboard",
-            "online": true,
-            "offline": true
-        },
+    "extensions": [ 
+        
         {
             "name": "edit-queue-entry-status-modal",
             "component": "editQueueEntryStatusModal"

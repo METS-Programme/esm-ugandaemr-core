@@ -1,10 +1,10 @@
 import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
-
+import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-common-lib';
 import { moduleName } from './constants';
 // import { createDashboardLink } from './createDashboardLink';
-import { createDashboardLink } from './createDashboardLink';
+//import { createDashboardLink } from './createDashboardLink';
 import { dashboardMeta } from './dashboard.meta';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
@@ -30,9 +30,7 @@ export const patientQueues = getAsyncLifecycle(
 );
 
 // extensions
-export const outpatientSideNavExt = getAsyncLifecycle(() => import('./side-menu/side-menu.component'), options);
-
-export const patientQueuesDashboardLink = getSyncLifecycle(createDashboardLink({ ...dashboardMeta }), options);
+export const patientQueuesDashboardLink = getSyncLifecycle(createDashboardLink({ ...dashboardMeta, moduleName }), options);
 
 export const homeDashboard = getAsyncLifecycle(() => import('./home.component'), options);
 

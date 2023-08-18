@@ -1,31 +1,11 @@
 {
-  "@openmrs/esm-patient-chart-app": {
-    "displayConditions":{
-      "privileges":[
-        "App: ugandaemrpoc.triage"
-      ]
-    },
-    "extensionSlots": {
-      "patient-actions-slot":{
-
-      },
-      "action-menu-chart-items-slot":{
-
-      },
+  "@openmrs/esm-patient-chart-app": { 
+    "extensionSlots": { 
       "action-menu-non-chart-items-slot":{
         "remove":[
           "patient-list-action-menu"
         ]
       },
-      "program-management-summary-slot": {
-
-      },
-      "patient-chart-dashboard-slot": {
-
-      },
-    "patient-chart-summary-dashboard-slot": {
-
-    },
       "cacx-visits-slot": {
         "remove": [
           "cacx-visits-ext"
@@ -57,7 +37,6 @@
   "@openmrs/esm-home-app":{
     "extensionSlots":{
       "homepage-dashboard-slot":{
-    
         "remove": [
           "patient-lists-dashboard-link",
           "home-widget-db-link",

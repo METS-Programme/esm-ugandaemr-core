@@ -11,19 +11,20 @@
             "component": "opdDashboardLink",
             "name": "opd-dashboard",
             "slot": "patient-chart-dashboard-slot",
-            "online": true,
-            "offline": true
+            "meta": {
+                "title": "Outpatient Department",
+                "slotName": "opd-dashboard-slot",
+                "path": "opd-dashboard"
+            }
         },
-
         {
-            "component": "opdDashboardExt",
             "name": "opd-dashboard-ext",
             "slot": "opd-dashboard-slot",
-            "online": true,
-            "offline": true,
+            "component": "opdDashboardExt",
             "meta": {
                 "columnSpan": 4
             }
+            
         }
     ]
 }

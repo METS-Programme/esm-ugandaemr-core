@@ -2,12 +2,13 @@ import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
-import { createDashboardLink } from './createDashboardLink';
-// import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
-import { facilityDashboardMeta, hieDashboardMeta, medicationsDashboardMeta } from './dashboard.meta';
+//import { createDashboardLink } from './createDashboardLink';
+import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
+import { facilityDashboardMeta, hieDashboardMeta, medicationsDashboardMeta, patientChartSupportServicesDivider_dashboardMeta } from './dashboard.meta';
 import formsRegistry from './forms/forms-registry';
 import ugandaEmrConfig from './ugandaemr-config';
 import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
+import { createOHRIPatientChartSideNavLink, patientChartDivider_dashboardMeta } from '@ohri/openmrs-esm-ohri-commons-lib';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -36,30 +37,30 @@ export const cervicalCancerSummaryExt = getAsyncLifecycle(
 );
 
 // facility dashboard
-export const facilityDashboardLink = getSyncLifecycle(createDashboardLink({ ...facilityDashboardMeta }), options);
+export const facilityDashboardLink = getSyncLifecycle(createDashboardLink({ ...facilityDashboardMeta, moduleName }), options);
 export const facilityDashboardExt = getAsyncLifecycle(() => import('./views/facility/facility-home.component'), {
-  featureName: 'facility dashboard',
+  featureName: 'facility-dashboard',
   moduleName,
 });
 
 // medications
-export const medicationsDashboardLink = getSyncLifecycle(createDashboardLink({ ...medicationsDashboardMeta }), options);
+export const medicationsDashboardLink = getSyncLifecycle(createDashboardLink({ ...medicationsDashboardMeta, moduleName }), options);
 export const medicationsDashboardExt = getAsyncLifecycle(
   () => import('./views/medications/medications-home.component'),
   options,
 );
 
 // hie
-export const hieDashboardLink = getSyncLifecycle(createDashboardLink({ ...hieDashboardMeta }), options);
+export const hieDashboardLink = getSyncLifecycle(createDashboardLink({ ...hieDashboardMeta, moduleName }), options);
 export const hieDashboardExt = getAsyncLifecycle(() => import('./views/hie/hie-home.component'), options);
 
 // // clinical views divider
-// export const clinicalViewsDivider = getSyncLifecycle(
-//   createOHRIPatientChartSideNavLink(patientChartDivider_dashboardMeta),
-//   options,
-// );
+export const clinicalViewsDivider = getSyncLifecycle(
+  createOHRIPatientChartSideNavLink(patientChartDivider_dashboardMeta),
+  options,
+);
 
-// // support views divider
+// support views divider
 // export const supportViewsDivider = getSyncLifecycle(
 //   createOHRIPatientChartSideNavLink(patientChartSupportServicesDivider_dashboardMeta),
 //   options,
