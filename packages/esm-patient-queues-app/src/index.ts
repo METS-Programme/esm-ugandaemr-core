@@ -1,9 +1,7 @@
 import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
-
 import { moduleName } from './constants';
-// import { createDashboardLink } from './createDashboardLink';
 import { createDashboardLink } from './createDashboardLink';
 import { dashboardMeta } from './dashboard.meta';
 
