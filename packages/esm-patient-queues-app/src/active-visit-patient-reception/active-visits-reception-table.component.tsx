@@ -225,7 +225,7 @@ function ActiveVisitsReceptionTable() {
           {/* <UserHasAccess privilege={PRIVILEGE_CHECKIN}> */}
           <div className={styles.headerButtons}>
             <ExtensionSlot
-              extensionSlotName="patient-search-button-slot"
+              name="patient-search-button-slot"
               state={{
                 buttonText: t('checkIn', 'CheckIn'),
                 overlayHeader: t('checkIn', 'CheckIn'),
@@ -356,7 +356,7 @@ function ActiveVisitsReceptionTable() {
         {/* <UserHasAccess privilege={PRIVILEGE_CHECKIN}> */}
         <div className={styles.headerButtons}>
           <ExtensionSlot
-            extensionSlotName="patient-search-button-slot"
+            name="patient-search-button-slot"
             state={{
               buttonText: t('checkIn', 'CheckIn'),
               overlayHeader: t('checkIn', 'CheckIn'),

@@ -410,7 +410,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
             <UserHasAccess privilege={PRIVILEGE_CHECKIN}>
               <div className={styles.headerButtons}>
                 <ExtensionSlot
-                  extensionSlotName="patient-search-button-slot"
+                  name="patient-search-button-slot"
                   state={{
                     buttonText: t('checkIn', 'Check In'),
                     overlayHeader: t('checkIn', 'Check In'),
@@ -437,7 +437,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
           <p className={styles.content}>{t('noPatientsToDisplay', 'No patients to display')}</p>
           <UserHasAccess privilege={PRIVILEGE_CHECKIN}>
             <ExtensionSlot
-              extensionSlotName="patient-search-button-slot"
+              name="patient-search-button-slot"
               state={{
                 buttonText: t('checkIn', 'Check In'),
                 overlayHeader: t('checkIn', 'Check In'),
