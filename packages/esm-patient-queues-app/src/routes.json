@@ -12,8 +12,8 @@
       "offline": true
     },
     {
-      "route": "/^service-queues/",
-      "component": "serviceQueues",
+      "route": "/^patient-queues/",
+      "component": "patientQueues",
       "online": true,
       "offline": true
     }
