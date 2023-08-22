@@ -27,7 +27,7 @@ export const opdDashboardLink = getSyncLifecycle(
     moduleName,
   }),
   options,
-); 
+);
 
 export const opdDashboardExt = getAsyncLifecycle(() => import('./pages/opd/outpatient.component'), {
   featureName: 'opd-dashboard-ext',

@@ -6,28 +6,28 @@ export const familyHealthDashboardMeta = {
 export const mchDashboardMeta = {
   slot: 'mch-dashboard-slot',
   title: 'Maternal Child Health',
-  path: 'maternal-child-health'
+  path: 'maternal-child-health',
 };
 
 export const hivExposedInfantMeta = {
   slot: 'hiv-exposed-infant-slot',
   config: { columns: 1, type: 'grid' },
   title: 'HIV Exposed Infant',
-  path: 'hiv-exposed-infant'
+  path: 'hiv-exposed-infant',
 };
 
 export const childHealthDashboardMeta = {
   slot: 'child-health-dashboard-slot',
   config: { columns: 1, type: 'grid' },
   title: 'Child Health',
-  path: 'child-health'
+  path: 'child-health',
 };
 
 export const familyPlanningDashboardMeta = {
   slot: 'family-planning-dashboard-slot',
   config: { columns: 1, type: 'grid' },
   title: 'Family Planning',
-  path: 'family-planning'
+  path: 'family-planning',
 };
 
 // MCH tabs

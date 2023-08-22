@@ -4,11 +4,19 @@ import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 //import { createDashboardLink } from './createDashboardLink';
 import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
-import { facilityDashboardMeta, hieDashboardMeta, medicationsDashboardMeta, patientChartSupportServicesDivider_dashboardMeta } from './dashboard.meta';
+import {
+  facilityDashboardMeta,
+  hieDashboardMeta,
+  medicationsDashboardMeta,
+  patientChartSupportServicesDivider_dashboardMeta,
+} from './dashboard.meta';
 import formsRegistry from './forms/forms-registry';
 import ugandaEmrConfig from './ugandaemr-config';
 import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
-import { createOHRIPatientChartSideNavLink, patientChartDivider_dashboardMeta } from '@ohri/openmrs-esm-ohri-commons-lib';
+import {
+  createOHRIPatientChartSideNavLink,
+  patientChartDivider_dashboardMeta,
+} from '@ohri/openmrs-esm-ohri-commons-lib';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -37,14 +45,20 @@ export const cervicalCancerSummaryExt = getAsyncLifecycle(
 );
 
 // facility dashboard
-export const facilityDashboardLink = getSyncLifecycle(createDashboardLink({ ...facilityDashboardMeta, moduleName }), options);
+export const facilityDashboardLink = getSyncLifecycle(
+  createDashboardLink({ ...facilityDashboardMeta, moduleName }),
+  options,
+);
 export const facilityDashboardExt = getAsyncLifecycle(() => import('./views/facility/facility-home.component'), {
   featureName: 'facility-dashboard',
   moduleName,
 });
 
 // medications
-export const medicationsDashboardLink = getSyncLifecycle(createDashboardLink({ ...medicationsDashboardMeta, moduleName }), options);
+export const medicationsDashboardLink = getSyncLifecycle(
+  createDashboardLink({ ...medicationsDashboardMeta, moduleName }),
+  options,
+);
 export const medicationsDashboardExt = getAsyncLifecycle(
   () => import('./views/medications/medications-home.component'),
   options,

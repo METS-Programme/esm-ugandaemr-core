@@ -44,7 +44,10 @@ export const mchDashboardSummaryExt = getAsyncLifecycle(
   },
 );
 
-export const childHealthDashboard = getSyncLifecycle(createDashboardLink({...childHealthDashboardMeta, moduleName}), options);
+export const childHealthDashboard = getSyncLifecycle(
+  createDashboardLink({ ...childHealthDashboardMeta, moduleName }),
+  options,
+);
 
 export const childHealthSummaryExt = getAsyncLifecycle(
   () => import('./pages/family-health-clinic/child-health.component'),
@@ -54,7 +57,10 @@ export const childHealthSummaryExt = getAsyncLifecycle(
   },
 );
 
-export const hivExposedInfantDashboard = getSyncLifecycle(createDashboardLink({...hivExposedInfantMeta, moduleName}), options);
+export const hivExposedInfantDashboard = getSyncLifecycle(
+  createDashboardLink({ ...hivExposedInfantMeta, moduleName }),
+  options,
+);
 
 export const hivExposedInfantExt = getAsyncLifecycle(
   () => import('./pages/family-health-clinic/hiv-exposed-infant/hiv-exposed-infant.component'),
@@ -64,7 +70,10 @@ export const hivExposedInfantExt = getAsyncLifecycle(
   },
 );
 
-export const familyPlanningDashboard = getSyncLifecycle(createDashboardLink({...familyPlanningDashboardMeta, moduleName}), options);
+export const familyPlanningDashboard = getSyncLifecycle(
+  createDashboardLink({ ...familyPlanningDashboardMeta, moduleName }),
+  options,
+);
 
 export const familyPlanningDashboardExt = getAsyncLifecycle(
   () => import('./pages/family-health-clinic/family-planning/family-planning.component'),
