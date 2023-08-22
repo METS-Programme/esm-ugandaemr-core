@@ -6626,12 +6626,16 @@ __metadata:
   resolution: "@ugandaemr/esm-hiv-app@workspace:packages/esm-hiv-app"
   dependencies:
     "@carbon/react": ^1.14.0
-    lodash-es: ^4.17.15
-    webpack: ^5.83.1
+    lodash-es: ^4.17.21
+    react-image-annotate: ^1.8.0
+    webpack: ^5.88.1
   peerDependencies:
-    "@openmrs/esm-framework": 4.x
+    "@openmrs/esm-framework": "*"
+    dayjs: 1.x
     react: 18.x
     react-i18next: 11.x
+    react-router-dom: 6.x
+    rxjs: 6.x
   languageName: unknown
   linkType: soft
 
