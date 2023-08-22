@@ -6621,6 +6621,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@ugandaemr/esm-hiv-app@workspace:packages/esm-hiv-app":
+  version: 0.0.0-use.local
+  resolution: "@ugandaemr/esm-hiv-app@workspace:packages/esm-hiv-app"
+  dependencies:
+    "@carbon/react": ^1.14.0
+    lodash-es: ^4.17.15
+    webpack: ^5.83.1
+  peerDependencies:
+    "@openmrs/esm-framework": 4.x
+    react: 18.x
+    react-i18next: 11.x
+  languageName: unknown
+  linkType: soft
+
 "@ugandaemr/esm-laboratory-app@workspace:packages/esm-laboratory-app":
   version: 0.0.0-use.local
   resolution: "@ugandaemr/esm-laboratory-app@workspace:packages/esm-laboratory-app"
