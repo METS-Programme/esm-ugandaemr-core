@@ -5,7 +5,7 @@ import { PatientChartProps } from '../../../../types';
 
 const HIVSummary: React.FC<PatientChartProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
-  const headerTitle = t('dsdModel', 'DSD Model');
+  const headerTitle = t('hivsummary', 'HIV Summary');
 
   return <EmptyStateComingSoon headerTitle={headerTitle} displayText={headerTitle} />;
 };

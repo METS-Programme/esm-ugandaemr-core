@@ -1,12 +1,17 @@
 import { getAsyncLifecycle, defineConfigSchema, provide, getSyncLifecycle } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
-import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 import formsRegistry from './forms/forms-registry';
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-common-lib';
-import {hivDashboardMeta, preventionDashboardtMeta, screeningDashboardMeta, treatmentCareDashboardtMeta} from './dashboard.meta';
-import { moduleName } from './constants'; 
+import {
+  hivDashboardMeta,
+  preventionDashboardtMeta,
+  screeningDashboardMeta,
+  treatmentCareDashboardtMeta,
+} from './dashboard.meta';
+import { moduleName } from './constants';
 import ugandaEmrConfig from './ugandaemr-config';
+import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 
 const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -21,11 +26,8 @@ export function startupApp() {
   provide(ugandaEmrConfig);
   addToBaseFormsRegistry(formsRegistry);
 }
- 
-export const hivDashboardGroup = getSyncLifecycle(
-  createDashboardGroup(hivDashboardMeta),
-  options,
-);
+
+export const hivDashboardGroup = getSyncLifecycle(createDashboardGroup(hivDashboardMeta), options);
 
 //  screening dashboard
 export const screeningDashboardLink = getSyncLifecycle(
@@ -51,12 +53,3 @@ export const treatmentCareDashboardLink = getSyncLifecycle(
   }),
   options,
 );
-
-
-// export const screeningDashboardSummaryExt = getAsyncLifecycle(
-//   () => import('./pages/hiv/hiv-screening.component'),
-//   {
-//     featureName: 'hiv-screening-dashboard-summary',
-//     moduleName,
-//   },
-// );
