@@ -10,8 +10,8 @@ import {
   treatmentCareDashboardtMeta,
 } from './dashboard.meta';
 import { moduleName } from './constants';
-import ugandaEmrConfig from './ugandaemr-config';
-import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
+import ugandaEmrConfig from '../../esm-ugandaemr-app/src/ugandaemr-config';
+import ugandaEmrOverrides from '../../esm-ugandaemr-app/src//ugandaemr-configuration-overrrides.json';
 
 const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
