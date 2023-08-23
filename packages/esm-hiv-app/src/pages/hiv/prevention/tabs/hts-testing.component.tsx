@@ -3,8 +3,8 @@ import { EmptyStateComingSoon } from '@ohri/openmrs-esm-ohri-commons-lib/src/ind
 import { useTranslation } from 'react-i18next';
 
 export interface hivTestingProps {
-    patientUuid: string;
-  }
+  patientUuid: string;
+}
 
 const HTSTesting: React.FC<hivTestingProps> = ({ patientUuid }) => {
   const { t } = useTranslation();

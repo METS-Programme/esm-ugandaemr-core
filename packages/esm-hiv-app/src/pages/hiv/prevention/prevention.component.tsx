@@ -1,9 +1,9 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next'; 
+import { useTranslation } from 'react-i18next';
 import styles from '../common.scss';
 import { Tabs, Tab, TabList, TabPanels, TabPanel } from '@carbon/react';
-import HivScreening from '../care-treatment/tabs/hiv-screening.component';
-import HTSTesting from '../care-treatment/tabs/hts-testing.component';
+import HTSTesting from './tabs/hts-testing.component';
+import HIVScreening from './tabs/hiv-screening.component';
 
 export interface PatientChartProps {
   patientUuid: string;
@@ -22,7 +22,7 @@ const HIVPrevention: React.FC<PatientChartProps> = ({ patientUuid }) => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <HivScreening patientUuid={patientUuid} />
+            <HIVScreening patientUuid={patientUuid} />
           </TabPanel>
           <TabPanel>
             <HTSTesting patientUuid={patientUuid} />

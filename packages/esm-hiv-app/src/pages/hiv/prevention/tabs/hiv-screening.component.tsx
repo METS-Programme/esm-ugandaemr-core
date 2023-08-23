@@ -2,15 +2,14 @@ import React from 'react';
 import { EmptyStateComingSoon } from '@ohri/openmrs-esm-ohri-commons-lib/src/index';
 import { useTranslation } from 'react-i18next';
 
-export interface hivScreeningProps {
-    patientUuid: string;
-  }
+export interface HivScreeningProps {
+  patientUuid: string;
+}
 
-const hivScreening: React.FC<hivScreeningProps> = ({ patientUuid }) => {
-  const { t } = useTranslation();
-  const headerTitle = t('familyPlanning', 'Family Planning');
+const HIVScreening: React.FC<HivScreeningProps> = ({ patientUuid }) => {
+  const headerTitle = 'HIV Screening';
 
   return <EmptyStateComingSoon headerTitle={headerTitle} displayText={headerTitle} />;
 };
 
-export default hivScreening;
+export default HIVScreening;
