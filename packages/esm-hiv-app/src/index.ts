@@ -9,9 +9,7 @@ import {
   screeningDashboardMeta,
   treatmentCareDashboardtMeta,
 } from './dashboard.meta';
-import { moduleName } from './constants';
-import ugandaEmrConfig from '../../esm-ugandaemr-app/src/ugandaemr-config';
-import ugandaEmrOverrides from '../../esm-ugandaemr-app/src//ugandaemr-configuration-overrrides.json';
+import { moduleName } from './constants'; 
 
 const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -21,9 +19,7 @@ const options = {
 };
 
 export function startupApp() {
-  defineConfigSchema(moduleName, configSchema);
-  provide(ugandaEmrOverrides);
-  provide(ugandaEmrConfig);
+  defineConfigSchema(moduleName, configSchema); 
   addToBaseFormsRegistry(formsRegistry);
 }
 
