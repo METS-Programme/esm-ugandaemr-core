@@ -1,8 +1,8 @@
 import React from 'react';
-import {getObsFromEncounter } from '@ohri/openmrs-esm-ohri-commons-lib';
+import {EncounterList, getObsFromEncounter} from '@ohri/openmrs-esm-ohri-commons-lib';
 import { useTranslation } from 'react-i18next';
-import { CLINICAL_ASSESSMENT_ENCOUNTER_TYPE, ENROLLMENT_DATE, ENTRY_POINT } from '../../../constants';
-import { ListEncounter, getObervationFromEncounter } from '../../../utils/encounter/list-encounter';
+import { CLINICAL_ASSESSMENT_ENCOUNTER_TYPE, ENROLLMENT_DATE, ENTRY_POINT } from '../../../../constants';
+import {OUTPATIENT_DEPARTMENT_ENCOUNTER_TYPE} from "@ugandaemr/esm-outpatient-app/src/constants";
 
 const columns = [
   {
@@ -32,18 +32,19 @@ const ClinicalAssessment: React.FC<{ patientUuid: string }> = ({ patientUuid }) 
   const displayText = t('clinicalAssessment', 'Clinical Assessment');
 
   return (
-    <ListEncounter
-      patientUuid={patientUuid}
-      encounterUuid={CLINICAL_ASSESSMENT_ENCOUNTER_TYPE}
-      form={{
-        package: 'uganda_emr_hiv',
-        name: 'hiv_clinical_assessment',
-      }}
-      columns={columns}
-      description={headerTitle}
-      headerTitle={headerTitle}
-      displayText="Add"
-    />
+  <EncounterList
+    patientUuid={patientUuid}
+    encounterType={CLINICAL_ASSESSMENT_ENCOUNTER_TYPE}
+    formList={[{ name: 'hiv_clinical_assessment' }]}
+    columns={columns}
+    description={displayText}
+    headerTitle={headerTitle}
+    launchOptions={{
+      hideFormLauncher: false,
+      moduleName: '',
+      displayText: 'Add',
+    }}
+  />
   );
 };
 

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json.openmrs.org/routes.schema.json",
+  "backendDependencies": {
+    "fhir2": "^1.2.0",
+    "webservices.rest": "^2.24.0"
+  },
+  "pages": [
+    {
+      "component": "root",
+      "route": "hiv"
+    }
+  ],
+  "extensions": [
+    {
+      "component": "hivDashboardGroup",
+      "name": "hiv-dashboard",
+      "slot": "patient-chart-dashboard-slot",
+      "online": true,
+      "offline": true
+    },
+    {
+      "component": "preventionDashboardLink",
+      "name": "hiv-prevention",
+      "slot": "hiv-dashboard-slot",
+      "online": true,
+      "offline": true
+    },
+    
+    {
+      "component": "treatmentCareDashboardLink",
+      "name": "treatment-care",
+      "slot": "hiv-dashboard-slot",
+      "online": true,
+      "offline": true
+    },
+    {
+      "component": "screeningDashboardSummaryExt",
+      "name": "hiv-dashboard-ext",
+      "slot": "hiv-screening-dashboard-slot",
+      "online": true,
+      "offline": true,
+      "meta": {
+        "columnSpan": 4
+      }
+    },
+
+    {
+      "component": "screeningDashboardLink",
+      "name": "hiv-screening-dashboard",
+      "slot": "hiv-prevention-slot",
+      "online": true,
+      "offline": true
+    },
+    {
+      "component": "screeningDashboardSummaryExt",
+      "name": "hiv-dashboard-ext",
+      "slot": "hiv-screening-dashboard-slot",
+      "online": true,
+      "offline": true,
+      "meta": {
+        "columnSpan": 4
+      }
+    }
+  ]
+}

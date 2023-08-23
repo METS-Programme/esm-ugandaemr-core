@@ -3,49 +3,60 @@ import { configSchema } from './config-schema';
 import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 import formsRegistry from './forms/forms-registry';
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
-import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
-import {hivDashboardMeta} from './dashboard.meta';
-import { moduleName } from './constants';
+import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-common-lib';
+import {hivDashboardMeta, preventionDashboardtMeta, screeningDashboardMeta, treatmentCareDashboardtMeta} from './dashboard.meta';
+import { moduleName } from './constants'; 
+import ugandaEmrConfig from './ugandaemr-config';
 
 const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
-const backendDependencies = {
-  fhir2: '^1.2.0',
-  'webservices.rest': '^2.2.0',
+const options = {
+  featureName: '@ugandaemr/esm-hiv-app',
+  moduleName,
 };
 
-function setupOpenMRS() {
-  const options = {
-    featureName: '@ugandaemr/esm-hiv-app',
-    moduleName,
-  };
-
+export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
   provide(ugandaEmrOverrides);
+  provide(ugandaEmrConfig);
   addToBaseFormsRegistry(formsRegistry);
-  return {
-    pages: [],
-    extensions: [
-      {
-        id: 'hiv-dashboard',
-        slot: 'patient-chart-dashboard-slot',
-        load: getSyncLifecycle(createDashboardLink(hivDashboardMeta), options),
-        meta: hivDashboardMeta,
-      },
-      {
-        id: 'clinical-assessment-dashboard-ext',
-        slot: 'hiv-dashboard-slot',
-        load: getAsyncLifecycle(() => import('./pages/hiv/hiv.component'), {
-          featureName: 'clinical-assessment-dashboard-summary',
-          moduleName,
-        }),
-        meta: {
-          columnSpan: 4,
-        },
-      },
-
-    ],
-  };
 }
+ 
+export const hivDashboardGroup = getSyncLifecycle(
+  createDashboardGroup(hivDashboardMeta),
+  options,
+);
 
-export { backendDependencies, importTranslation, setupOpenMRS };
+//  screening dashboard
+export const screeningDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    ...screeningDashboardMeta,
+    moduleName,
+  }),
+  options,
+);
+
+export const preventionDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    ...preventionDashboardtMeta,
+    moduleName,
+  }),
+  options,
+);
+
+export const treatmentCareDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    ...treatmentCareDashboardtMeta,
+    moduleName,
+  }),
+  options,
+);
+
+
+// export const screeningDashboardSummaryExt = getAsyncLifecycle(
+//   () => import('./pages/hiv/hiv-screening.component'),
+//   {
+//     featureName: 'hiv-screening-dashboard-summary',
+//     moduleName,
+//   },
+// );
