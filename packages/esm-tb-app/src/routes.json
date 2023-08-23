@@ -7,18 +7,20 @@
   "pages": [],
   "extensions": [
     {
-      "component": "opdDashboardLink",
-      "name": "opd-dashboard",
+      "component": "tbDashboardLink",
+      "name": "tb-dashboard",
       "slot": "patient-chart-dashboard-slot",
-      "online": true,
-      "offline": true
+      "meta": {
+        "slot": "patient-tb-programs-dashboard-slot",
+        "columns": 1,
+        "path": "TB Programs"
+      },
+      "order": 10
     },
     {
-      "component": "opdDashboardExt",
-      "name": "opd-dashboard-ext",
-      "slot": "opd-dashboard-slot",
-      "online": true,
-      "offline": true,
+      "component": "tbOverviewDashboard",
+      "name": "tb-overview-dashboard",
+      "slot": "patient-chart-summary-dashboard-slot",
       "meta": {
         "columnSpan": 4
       }

@@ -1,6 +1,8 @@
-import { defineConfigSchema, getAsyncLifecycle } from '@openmrs/esm-framework';
+import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
+import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
+import { dashboardMeta } from './dashboard.meta';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -13,8 +15,14 @@ export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 }
 
+export const tbDashboardLink =
+  // t('Programs', 'Programs')
+  getSyncLifecycle(
+    createDashboardLink({
+      ...dashboardMeta,
+      moduleName,
+    }),
+    options,
+  );
 
-export const root = getAsyncLifecycle(
-  () => import("./pages/td/tb.component"),
-  options
-);
+export const tbOverviewDashboard = getAsyncLifecycle(() => import('./pages/tb/tb.component'), options);
