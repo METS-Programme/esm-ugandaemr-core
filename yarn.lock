@@ -4800,7 +4800,6 @@ __metadata:
   linkType: hard
 
 "@ohri/openmrs-esm-ohri-commons-lib@npm:next":
-
   resolution: "@ohri/openmrs-esm-ohri-commons-lib@npm:2.0.2-pre.2917"
   dependencies:
     "@carbon/react": ^1.13.0
