@@ -8,6 +8,10 @@ import { facilityDashboardMeta, hieDashboardMeta, medicationsDashboardMeta } fro
 import formsRegistry from './forms/forms-registry';
 import ugandaEmrConfig from './ugandaemr-config';
 import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
+import {
+  createOHRIPatientChartSideNavLink,
+  patientChartDivider_dashboardMeta,
+} from '@ohri/openmrs-esm-ohri-commons-lib';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -53,11 +57,11 @@ export const medicationsDashboardExt = getAsyncLifecycle(
 export const hieDashboardLink = getSyncLifecycle(createDashboardLink({ ...hieDashboardMeta }), options);
 export const hieDashboardExt = getAsyncLifecycle(() => import('./views/hie/hie-home.component'), options);
 
-// // clinical views divider
-// export const clinicalViewsDivider = getSyncLifecycle(
-//   createOHRIPatientChartSideNavLink(patientChartDivider_dashboardMeta),
-//   options,
-// );
+// clinical views divider
+export const clinicalViewsDivider = getSyncLifecycle(
+  createOHRIPatientChartSideNavLink(patientChartDivider_dashboardMeta),
+  options,
+);
 
 // // support views divider
 // export const supportViewsDivider = getSyncLifecycle(
