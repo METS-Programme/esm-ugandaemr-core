@@ -151,7 +151,7 @@ const TransitionQueueEntryModal: React.FC<TransitionQueueEntryModalProps> = ({ q
           </section>
           <ExtensionSlot
             className={styles.visitSummaryContainer}
-            extensionSlotName="previous-visit-summary-slot"
+            name="previous-visit-summary-slot"
             state={{
               patientUuid: queueEntry?.patientUuid,
             }}

@@ -68,7 +68,7 @@ export const medicationsDashboardExt = getAsyncLifecycle(
 export const hieDashboardLink = getSyncLifecycle(createDashboardLink({ ...hieDashboardMeta, moduleName }), options);
 export const hieDashboardExt = getAsyncLifecycle(() => import('./views/hie/hie-home.component'), options);
 
-// // clinical views divider
+// clinical views divider
 export const clinicalViewsDivider = getSyncLifecycle(
   createOHRIPatientChartSideNavLink(patientChartDivider_dashboardMeta),
   options,

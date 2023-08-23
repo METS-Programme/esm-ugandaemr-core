@@ -15,13 +15,13 @@
             "meta": {
                 "columnSpan": 4
             }
-        }, 
+        },
         {
             "name": "facility-dashboard-link",
             "slot": "homepage-dashboard-slot",
             "component": "facilityDashboardLink",
             "meta": {
-            "slot": "facility-dashboard-slot", 
+            "slot": "facility-dashboard-slot",
             "path": "facility-dashboard",
             "columns": 1
             }
@@ -33,13 +33,13 @@
             "meta": {
             "columnSpan": 4
             }
-        },  
+        },
         {
             "name": "medications-dashboard-link",
             "slot": "homepage-dashboard-slot",
             "component": "medicationsDashboardLink",
             "meta": {
-            "slot": "medications-dashboard-slot", 
+            "slot": "medications-dashboard-slot",
             "path": "medications-dashboard",
             "columns": 1
             }
@@ -51,13 +51,13 @@
             "meta": {
             "columnSpan": 4
             }
-        }, 
+        },
         {
             "name": "hie-dashboard-link",
             "slot": "homepage-dashboard-slot",
             "component": "hieDashboardLink",
             "meta": {
-            "slot": "hie-dashboard-slot", 
+            "slot": "hie-dashboard-slot",
             "path": "hie-dashboard",
             "columns": 1
             }
@@ -97,3 +97,4 @@
         }
     ]
 }
+

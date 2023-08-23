@@ -1,10 +1,8 @@
 import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
-import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-common-lib';
 import { moduleName } from './constants';
-// import { createDashboardLink } from './createDashboardLink';
-//import { createDashboardLink } from './createDashboardLink';
+import { createDashboardLink } from './createDashboardLink';
 import { dashboardMeta } from './dashboard.meta';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');

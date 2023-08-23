@@ -18,8 +18,8 @@
             "offline": true
         }
     ],
-    "extensions": [ 
-        
+    "extensions": [
+
         {
             "name": "edit-queue-entry-status-modal",
             "component": "editQueueEntryStatusModal"
