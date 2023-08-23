@@ -66,26 +66,26 @@ export const hieDashboardExt = getAsyncLifecycle(() => import('./views/hie/hie-h
 // );
 
 // workspace
-// export const activeQueuePatientWorkspace = getAsyncLifecycle(
-//   () => import('./workspace/queue-patients-action-button.component'),
-//   {
-//     featureName: 'active patients workspace',
-//     moduleName,
-//   },
-// );
+export const activeQueuePatientWorkspace = getAsyncLifecycle(
+  () => import('./workspace/queue-patients-action-button.component'),
+  {
+    featureName: 'active patients workspace',
+    moduleName,
+  },
+);
 
-// export const activeQueuePatients = getAsyncLifecycle(
-//   () => import('../../esm-patient-queues-app/src/active-visits/active-visits-table.component'),
-//   {
-//     featureName: 'active patients workspace',
-//     moduleName,
-//   },
-// );
+export const activeQueuePatients = getAsyncLifecycle(
+  () => import('../../esm-patient-queues-app/src/active-visits/active-visits-table.component'),
+  {
+    featureName: 'active patients workspace',
+    moduleName,
+  },
+);
 
-// export const queuePatientsWorkspace = getAsyncLifecycle(
-//   () => import('./workspace/queue-patients-workspace.component'),
-//   {
-//     featureName: 'active patients workspace',
-//     moduleName,
-//   },
-// );
+export const queuePatientsWorkspace = getAsyncLifecycle(
+  () => import('./workspace/queue-patients-workspace.component'),
+  {
+    featureName: 'active patients workspace',
+    moduleName,
+  },
+);
