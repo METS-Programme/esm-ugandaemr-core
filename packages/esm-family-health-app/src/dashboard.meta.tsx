@@ -1,6 +1,7 @@
 export const familyHealthDashboardMeta = {
   title: 'Family Health Clinic',
   slotName: 'family-health-dashboard-slot',
+  isExpanded: false,
 };
 
 export const mchDashboardMeta = {

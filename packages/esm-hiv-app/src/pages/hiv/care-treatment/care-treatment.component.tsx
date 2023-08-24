@@ -1,31 +1,49 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import styles from '../common.scss';
 import { Tabs, Tab, TabList, TabPanels, TabPanel } from '@carbon/react';
-import HIVSummary from './tabs/hvi-summary.component';
-import ClinicalAssessment from './tabs/clinical-assessment.component';
+import styles from '../../common.scss';
+import HIVEnrolmentTabList from './tabs/hiv-enrolment-tab.component';
+import ServiceDeliveryTabList from './tabs/service-delivery-tab.component';
+import ArtTherapyTabList from './tabs/art-therapy-tab.component';
+import DeathTabList from './tabs/death-tab.component';
+import TransferOutTabList from './tabs/transfer-out-tab.component';
+import PatientTracingList from '../partner-notification-services/tabs/patient-tracing.component';
+import { useTranslation } from 'react-i18next';
 
-export interface PatientChartProps {
+interface OverviewListProps {
   patientUuid: string;
 }
 
-const CareAndTreatment: React.FC<PatientChartProps> = ({ patientUuid }) => {
+const CareAndTreatment: React.FC<OverviewListProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
-  const pageTitle = t('careTreatment', 'Care and Treatment');
-
   return (
     <div className={styles.tabContainer}>
       <Tabs>
         <TabList contained>
-          <Tab>{t('hivsummary', 'HIV Summary')}</Tab>
-          <Tab>{t('clinicalAssessment', 'Clinical Assessment')}</Tab>
+          <Tab>{t('hivEnrolment', 'HIV Enrolment')}</Tab>
+          <Tab>{t('artTherapy', 'ART Therapy')}</Tab>
+          <Tab>{t('serviceDeliveryModel', 'Service Delivery Model')}</Tab>
+          <Tab>{t('transferOut', 'Transfer - Out')}</Tab>
+          <Tab>{t('patientTracing', 'Patient Tracing')}</Tab>
+          <Tab>{t('death', 'Death')}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
-            <HIVSummary patientUuid={patientUuid} />
+            <HIVEnrolmentTabList patientUuid={patientUuid} />
           </TabPanel>
           <TabPanel>
-            <ClinicalAssessment patientUuid={patientUuid} />
+            <ArtTherapyTabList patientUuid={patientUuid} />
+          </TabPanel>
+          <TabPanel>
+            <ServiceDeliveryTabList patientUuid={patientUuid} />
+          </TabPanel>
+          <TabPanel>
+            <TransferOutTabList patientUuid={patientUuid} />
+          </TabPanel>
+          <TabPanel>
+            <PatientTracingList patientUuid={patientUuid} />
+          </TabPanel>
+          <TabPanel>
+            <DeathTabList patientUuid={patientUuid} />
           </TabPanel>
         </TabPanels>
       </Tabs>

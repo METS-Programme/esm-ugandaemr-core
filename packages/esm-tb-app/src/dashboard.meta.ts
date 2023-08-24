@@ -1,6 +1,18 @@
-export const dashboardMeta = {
-  slot: 'patient-tb-programs-dashboard-slot',
-  columns: 1,
-  path: 'TB Programs',
-  title: 'TB Programs',
+export const TBDashboardMeta = {
+  title: 'TB Clinic',
+  slotName: 'tb-clinic-dashboard-slot',
+  isExpanded: false,
+};
+
+export const tbScreeningDashboardtMeta = {
+  slot: 'tb-screening-slot',
+  config: { columns: 1, type: 'grid' },
+  title: 'Screening',
+  path: 'tb-screening',
+};
+export const tbTreatmentDashboardtMeta = {
+  slot: 'tb-treatment-slot',
+  config: { columns: 1, type: 'grid' },
+  title: 'Treatment & Followup',
+  path: 'tb-treatment',
 };

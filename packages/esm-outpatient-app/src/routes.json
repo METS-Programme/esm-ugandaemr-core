@@ -8,23 +8,35 @@
     "extensions": [
 
         {
-            "component": "opdDashboardLink",
+            "component": "opdDashboardGroup",
             "name": "opd-dashboard",
             "slot": "patient-chart-dashboard-slot",
             "meta": {
-                "title": "Outpatient Department",
-                "slotName": "opd-dashboard-slot",
-                "path": "opd-dashboard"
+                "title": "General",
+                "slotName": "opd-dashboard-slot"
             }
         },
         {
-            "name": "opd-dashboard-ext",
+            "component": "opdTestingDashboardLink",
+            "name": "opd-testing",
+            "slot": "opd-dashboard-slot", 
+              "meta": {
+                "slot": "opd_testing-dashboard-slot",
+                "title": "Testing",
+                "path": "opd-testing",
+                "columns": 1
+              }
+        }, 
+        {
+            "component": "opdTreatmentDashboardLink",
+            "name": "opd-treatment",
             "slot": "opd-dashboard-slot",
-            "component": "opdDashboardExt",
             "meta": {
-                "columnSpan": 4
+              "slot": "opd-treatment-dashboard-slot",
+              "title": "Clinical Form",
+              "path": "opd-treatment",
+              "columns": 2
             }
-
         }
     ]
 }

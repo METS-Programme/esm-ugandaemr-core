@@ -4,62 +4,125 @@
     "fhir2": "^1.2.0",
     "webservices.rest": "^2.24.0"
   },
-  "pages": [
-    {
-      "component": "root",
-      "route": "hiv"
-    }
-  ],
+  "pages": [],
   "extensions": [
     {
       "component": "hivDashboardGroup",
       "name": "hiv-dashboard",
       "slot": "patient-chart-dashboard-slot",
-      "online": true,
-      "offline": true
+      "meta": {
+        "title": "HIV Clinic",
+        "slotName": "hiv-dashboard-slot"
+      }
     },
     {
       "component": "preventionDashboardLink",
       "name": "hiv-prevention",
-      "slot": "hiv-dashboard-slot",
-      "online": true,
-      "offline": true
-    },
-    
-    {
-      "component": "treatmentCareDashboardLink",
-      "name": "treatment-care",
-      "slot": "hiv-dashboard-slot",
-      "online": true,
-      "offline": true
+      "slot": "hiv-dashboard-slot", 
+        "meta": {
+          "slot": "prevention-dashboard-slot",
+          "title": "HIV Screening",
+          "path": "hiv-prevention",
+          "columns": 1
+        }
     },
     {
-      "component": "screeningDashboardSummaryExt",
-      "name": "hiv-dashboard-ext",
-      "slot": "hiv-screening-dashboard-slot",
-      "online": true,
-      "offline": true,
+      "name": "hiv-prevention-ext",
+      "slot": "prevention-dashboard-slot",
+      "component": "hivPreventionDashboardExt",
       "meta": {
         "columnSpan": 4
       }
-    },
-
+    }, 
     {
-      "component": "screeningDashboardLink",
-      "name": "hiv-screening-dashboard",
-      "slot": "hiv-prevention-slot",
-      "online": true,
-      "offline": true
-    },
-    {
-      "component": "screeningDashboardSummaryExt",
-      "name": "hiv-dashboard-ext",
-      "slot": "hiv-screening-dashboard-slot",
-      "online": true,
-      "offline": true,
+      "name": "hts-service-summary-dashboard",
+      "slot": "hiv-dashboard-slot",
+      "component": "hivPatientSummaryDashboardLink",
       "meta": {
-        "columnSpan": 4
+        "slot": "hiv-patient-summary-dashboard-slot",
+        "columns": 1,
+        "path": "hiv-patient-summary"
       }
-    }
+    },
+    {
+      "name": "hts-service-summary-list-ext",
+      "slot": "hiv-patient-summary-dashboard-slot",
+      "component": "htsServiceSummaryList"
+    },  
+    {
+      "name": "program-management-summary",
+      "slot": "hiv-dashboard-slot",
+      "component": "programManagementDashboardLink",
+      "meta": {
+        "slot": "program-management-summary-slot",
+        "columns": 1,
+        "path": "program-management"
+      }
+    },
+    {
+      "name": "program-management-summary-ext",
+      "slot": "program-management-summary-slot",
+      "component": "programManagementDashboard"
+    },
+    {
+      "name": "visits-summary",
+      "slot": "hiv-dashboard-slot",
+      "component": "clinicalVisitsDashboardLink",
+      "meta": {
+        "slot": "clinical-visits-summary-slot",
+        "columns": 1,
+        "path": "clinical-visits"
+      }
+    },
+    {
+      "name": "visits-summary-ext",
+      "slot": "clinical-visits-summary-slot",
+      "component": "clinicalVisitsDashboard"
+    },
+    {
+      "name": "general-counselling-summary",
+      "slot": "hiv-dashboard-slot",
+      "component": "generalCounsellingDashboardLink",
+      "meta": {
+        "slot": "general-counselling-summary-slot",
+        "columns": 1,
+        "path": "general-counselling"
+      }
+    },
+    {
+      "name": "general-counselling-summary-ext",
+      "slot": "general-counselling-summary-slot",
+      "component": "generalCounsellingDashboard"
+    },
+    {
+      "name": "adherence-counselling-summary",
+      "slot": "hiv-dashboard-slot",
+      "component": "adherenceCounsellingDashboardLink",
+      "meta": {
+        "slot": "adherence-counselling-summary-slot",
+        "columns": 1,
+        "path": "adherence-counselling"
+      }
+    },
+    {
+      "name": "adherence-counselling-summary-ext",
+      "slot": "adherence-counselling-summary-slot",
+      "component": "adherenceCounsellingDashboard"
+    },
+    {
+      "name": "partner-notification-services",
+      "slot": "hiv-dashboard-slot",
+      "component": "partnerNotificationServicesDashboardLink",
+      "meta": {
+        "slot": "partner-notification-services-slot",
+        "columns": 1,
+        "path": "partner-notification-services"
+      }
+    },
+    {
+      "name": "partner-notification-services-ext",
+      "slot": "partner-notification-services-slot",
+      "component": "partnerNotificationServicesDashboard"
+    } 
   ]
 }

@@ -28,10 +28,7 @@ export const patientQueues = getAsyncLifecycle(
 );
 
 // extensions
-export const patientQueuesDashboardLink = getSyncLifecycle(
-  createDashboardLink({ ...dashboardMeta, moduleName }),
-  options,
-);
+export const patientQueuesDashboardLink = getSyncLifecycle(createDashboardLink({ ...dashboardMeta }), options);
 
 export const homeDashboard = getAsyncLifecycle(() => import('./home.component'), options);
 

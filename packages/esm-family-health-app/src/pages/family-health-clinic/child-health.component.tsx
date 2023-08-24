@@ -60,7 +60,7 @@ const ChildHealthRegister: React.FC<{ patientUuid: string }> = ({ patientUuid })
     <EncounterList
       patientUuid={patientUuid}
       encounterType={CHILD_REGISTER_ENCOUNTER_TYPE}
-      formList={[{ name: 'child_health_register' }]}
+      formList={[{ name: 'POC HMIS EPI 007: Child Register' }]}
       columns={columnsLab}
       description={headerTitle}
       headerTitle={headerTitle}
