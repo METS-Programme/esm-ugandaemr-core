@@ -64,6 +64,11 @@
       "meta": {
         "columnSpan": 4
       }
+    },
+    {
+      "name": "system-info-link",
+      "slot": "app-menu-slot",
+      "component": "systemInfoMenuLink"
     }
   ]
 }

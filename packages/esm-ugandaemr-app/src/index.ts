@@ -47,3 +47,9 @@ export const clinicalViewsDivider = getSyncLifecycle(
   createOHRIPatientChartSideNavLink(patientChartDivider_dashboardMeta),
   options,
 );
+
+// system info lin
+export const systemInfoMenuLink = getAsyncLifecycle(() => import('./pages/system-info/system-info-link.component'), {
+  featureName: 'system info link',
+  moduleName,
+});
