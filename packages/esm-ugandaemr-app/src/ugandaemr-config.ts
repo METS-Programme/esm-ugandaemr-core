@@ -2,7 +2,7 @@ import ugandaEmrBannerLogo from './images/ugandaemr_+_logo_white.svg';
 import ugandaEmrLogo from './images/ugandaemr_+_logo_wide.svg';
 
 export default {
-  '@openmrs/esm-login-app': {
+  '@ugandaemr/esm-login-app': {
     logo: {
       src: ugandaEmrLogo,
     },
