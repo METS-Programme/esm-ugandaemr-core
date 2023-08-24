@@ -12,6 +12,10 @@
     {
       "component": "hieDashboard",
       "route": "hie-dashboard"
+    },
+    {
+      "component": "systemInfoPage",
+      "route": "about"
     }
   ],
   "extensions": [

@@ -4,5 +4,5 @@ import { ConfigurableLink } from '@openmrs/esm-framework';
 
 export default function SystemInfoMenuLink() {
   const { t } = useTranslation();
-  return <ConfigurableLink to="${openmrsSpaBase}/about">{t('systeminfo', 'System Info')}</ConfigurableLink>;
-};
+  return <ConfigurableLink to="${openmrsSpaBase}/about">{t('systemInfo', 'System Info')}</ConfigurableLink>;
+}
