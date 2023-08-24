@@ -1,6 +1,6 @@
 {
   "name": "@ugandaemr/esm-tb-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MPL-2.0",
   "description": "tb microfrontend for UgandaEMR",
   "browser": "dist/esm-tb-app.js",
