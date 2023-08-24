@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "openmrs develop --backend http://localhost:8080 --sources 'packages/esm-*-app'",
+    "start": "openmrs develop --backend https://ugandaemr-backend.mets.or.ug --sources 'packages/esm-*-app'",
     "ci:publish": "lerna publish from-package --yes",
     "ci:prepublish": "lerna publish from-package --no-git-reset --yes --dist-tag next",
     "release": "lerna version --no-git-tag-version",
@@ -18,12 +18,23 @@
     "prepare": "husky install",
     "extract-translations": "lerna run extract-translations -- --config ../../tools/i18next-parser.config.js"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged && yarn verify"
-    }
+  "dependencies": {
+    "@openmrs/openmrs-form-engine-lib": "next",
+    "@types/base-64": "^1.0.0",
+    "axios": "^1.4.0",
+    "base-64": "^1.0.0",
+    "buffer": "^6.0.3",
+    "dayjs": "^1.11.6",
+    "react-grid-layout": "^1.3.4",
+    "react-to-print": "^2.14.13",
+    "recharts": "^2.7.2",
+    "swr": "^2.1.1"
+  },
+  "peerDependencies": {
+    "@openmrs/openmrs-form-engine-lib": "5.x"
   },
   "devDependencies": {
+    "@carbon/react": "^1.14.0",
     "@ohri/openmrs-esm-ohri-commons-lib": "next",
     "@openmrs/esm-framework": "next",
     "@openmrs/esm-patient-common-lib": "next",
@@ -77,7 +88,8 @@
     "typescript": "^5.0.2",
     "webpack": "^5.83.1",
     "webpack-bundle-analyzer": "^4.4.0",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.8.1"
   },
   "resolutions": {
     "@carbon/react": "1.13.0"

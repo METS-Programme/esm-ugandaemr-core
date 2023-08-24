@@ -7,16 +7,53 @@
   "pages": [],
   "extensions": [
     {
-      "component": "tbDashboardLink",
-      "name": "tb-dashboard",
+      "component": "tbDashboardGroup",
+      "name": "tb-clinic-dashboard",
       "slot": "patient-chart-dashboard-slot",
       "meta": {
-        "slot": "patient-tb-programs-dashboard-slot",
-        "columns": 1,
-        "path": "TB Programs"
-      },
-      "order": 10
+        "slotName": "tb-clinic-dashboard-slot", 
+        "title": "TB & Leprosy Clinic"
+      }
+    }, 
+    {
+      "component": "tbScreeningDashboardLink",
+      "name": "tb-screening",
+      "slot": "tb-clinic-dashboard-slot", 
+        "meta": {
+          "slot": "tb-screening-dashboard-slot",
+          "title": "Screening",
+          "path": "tb-screening",
+          "columns": 1
+        }
     },
+    {
+      "name": "tb-screening-dashboard-ext",
+      "slot": "tb-screening-dashboard-slot",
+      "component": "tbScreeningDashboardExt",
+      "meta": {
+        "columnSpan": 4
+      }
+    },
+    {
+      "component": "tbTreatmentDashboardLink",
+      "name": "tb-treatment",
+      "slot": "tb-clinic-dashboard-slot",
+      "meta": {
+        "slot": "tb-Treatment-dashboard-slot",
+        "title": "Treatment & Followup",
+        "path": "tb-treatment",
+        "columns": 1
+      }
+    },
+    {
+      "name": "tb-treatment-dashboard-ext",
+      "slot": "tb-treatment-dashboard-slot",
+      "component": "tbTreatmentDashboardExt",
+      "meta": {
+        "columnSpan": 4
+      }
+    },
+
     {
       "component": "tbOverviewDashboard",
       "name": "tb-overview-dashboard",

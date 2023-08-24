@@ -28,8 +28,6 @@ export const patientQueues = getAsyncLifecycle(
 );
 
 // extensions
-export const outpatientSideNavExt = getAsyncLifecycle(() => import('./side-menu/side-menu.component'), options);
-
 export const patientQueuesDashboardLink = getSyncLifecycle(createDashboardLink({ ...dashboardMeta }), options);
 
 export const homeDashboard = getAsyncLifecycle(() => import('./home.component'), options);
