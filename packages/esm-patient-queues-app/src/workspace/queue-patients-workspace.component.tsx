@@ -1,7 +1,7 @@
 import React from 'react';
 
-import ActiveVisitsTable from '../../../esm-patient-queues-app/src/active-visits/active-visits-table.component';
-import PatientsInNextQueueRoomTable from '../../../esm-patient-queues-app/src/patients-in-next-room/patients-in-next-room-table.component';
+import ActiveVisitsTable from '../active-visits/active-visits-table.component';
+import PatientsInNextQueueRoomTable from '../patients-in-next-room/patients-in-next-room-table.component';
 import styles from './queue-patients-wsp.scss';
 export default function QueuePatientsWorkSpace() {
   return (

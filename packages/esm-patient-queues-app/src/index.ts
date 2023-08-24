@@ -1,6 +1,5 @@
-import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
+import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
-import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 import { moduleName } from './constants';
 import { createDashboardLink } from './createDashboardLink';
 import { dashboardMeta } from './dashboard.meta';
@@ -13,24 +12,22 @@ const options = {
 };
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
-  provide(ugandaEmrOverrides);
 }
 
 // pages
-export const appointmentsList = getAsyncLifecycle(
-  () => import('./queue-patient-linelists/scheduled-appointments-table.component'),
-  options,
-);
+export const root = getAsyncLifecycle(() => import('./root.component'), options);
+
+// extensions
+export const outpatientSideNavExt = getAsyncLifecycle(() => import('./side-menu/side-menu.component'), options);
+
+export const patientQueuesDashboardLink = getSyncLifecycle(createDashboardLink(dashboardMeta), options);
+
+export const homeDashboard = getAsyncLifecycle(() => import('./home.component'), options);
 
 export const patientQueues = getAsyncLifecycle(
   () => import('./queue-patient-linelists/queue-services-table.component'),
   options,
 );
-
-// extensions
-export const patientQueuesDashboardLink = getSyncLifecycle(createDashboardLink({ ...dashboardMeta }), options);
-
-export const homeDashboard = getAsyncLifecycle(() => import('./home.component'), options);
 
 export const editQueueEntryStatusModal = getAsyncLifecycle(
   () => import('./active-visits/change-status-dialog.component'),
@@ -95,4 +92,25 @@ export const addProviderToRoomModal = getAsyncLifecycle(
 export const addQueueEntryWidget = getAsyncLifecycle(
   () => import('./patient-search/visit-form-queue-fields/visit-form-queue-fields.component'),
   options,
+);
+
+export const activeQueuePatientWorkspace = getAsyncLifecycle(
+  () => import('./workspace/queue-patients-action-button.component'),
+  {
+    featureName: 'active patients workspace',
+    moduleName,
+  },
+);
+
+export const activeQueuePatients = getAsyncLifecycle(() => import('./active-visits/active-visits-table.component'), {
+  featureName: 'active patients workspace',
+  moduleName,
+});
+
+export const queuePatientsWorkspace = getAsyncLifecycle(
+  () => import('./workspace/queue-patients-workspace.component'),
+  {
+    featureName: 'active patients workspace',
+    moduleName,
+  },
 );

@@ -1,6 +1,5 @@
-import { getAsyncLifecycle, defineConfigSchema, provide, getSyncLifecycle } from '@openmrs/esm-framework';
+import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
-import formsRegistry from './forms/forms-registry';
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-common-lib';
 import {
@@ -15,7 +14,7 @@ import {
 } from './dashboard.meta';
 import { moduleName } from './constants';
 
-const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
+export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
 const options = {
   featureName: '@ugandaemr/esm-hiv-app',
@@ -24,7 +23,6 @@ const options = {
 
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
-  addToBaseFormsRegistry(formsRegistry);
 }
 
 export const hivDashboardGroup = getSyncLifecycle(createDashboardGroup(hivDashboardMeta), options);
