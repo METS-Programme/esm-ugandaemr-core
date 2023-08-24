@@ -51,7 +51,7 @@ const DisclosureList: React.FC<DisclosureListProps> = ({ patientUuid }) => {
         },
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('disclosure', 'Disclosure');

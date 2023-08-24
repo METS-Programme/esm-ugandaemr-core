@@ -80,7 +80,7 @@ const TransferOutTabList: React.FC<TransferOutTabListProps> = ({ patientUuid }) 
         },
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('transferOut', 'Transfer Out');

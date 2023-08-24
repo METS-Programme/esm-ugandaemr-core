@@ -77,7 +77,7 @@ const ExpressVisitList: React.FC<ExpressVisitListProps> = ({ patientUuid }) => {
         },
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('expressVisit', 'Express Visit');

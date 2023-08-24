@@ -107,7 +107,7 @@ const ServiceSummaryOverviewList: React.FC<OverviewListProps> = ({ patientUuid }
         },
       },
     ],
-    [],
+    [t],
   );
 
   const columnsHIVMonitoring: EncounterTileColumn[] = useMemo(
@@ -155,7 +155,7 @@ const ServiceSummaryOverviewList: React.FC<OverviewListProps> = ({ patientUuid }
         },
       },
     ],
-    [],
+    [t],
   );
 
   const columnsLastVisitDetails: EncounterTileColumn[] = useMemo(
@@ -207,7 +207,7 @@ const ServiceSummaryOverviewList: React.FC<OverviewListProps> = ({ patientUuid }
         },
       },
     ],
-    [],
+    [t],
   );
 
   const calculateDateDifferenceInDate = (givenDate: string): string => {

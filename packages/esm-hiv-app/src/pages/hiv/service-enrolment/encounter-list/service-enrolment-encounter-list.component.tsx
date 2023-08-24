@@ -70,7 +70,7 @@ const ServiceEnrolmentWidget: React.FC<ServiceEnrolmentProps> = ({ patientUuid }
         getValue: () => {},
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('serviceEnrolment', 'Service Enrolment');

@@ -11,7 +11,7 @@ import {
   htsSummaryDashboardMeta,
   partnerNotificationServicesDashboardMeta,
   preventionDashboardtMeta,
-  programManagementDashboardMeta, 
+  programManagementDashboardMeta,
 } from './dashboard.meta';
 import { moduleName } from './constants';
 
@@ -44,7 +44,6 @@ export const hivPreventionDashboardExt = getAsyncLifecycle(
     moduleName,
   },
 );
- 
 
 export const hivTreatmentDashboardExt = getAsyncLifecycle(
   () => import('./pages/hiv/care-treatment/care-treatment.component'),

@@ -63,7 +63,7 @@ const DeathTabList: React.FC<DeathTabListProps> = ({ patientUuid }) => {
         },
       },
     ],
-    [],
+    [t],
   );
   const headerTitle = t('death', 'Death');
 

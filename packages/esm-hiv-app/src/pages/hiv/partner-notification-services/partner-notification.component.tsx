@@ -88,7 +88,7 @@ const PartnerNotificationList: React.FC<PartnerNotificationListProps> = ({ patie
         },
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('partnerNotification', 'Partner Notification');

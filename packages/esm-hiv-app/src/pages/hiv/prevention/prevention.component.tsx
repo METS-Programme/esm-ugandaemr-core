@@ -74,7 +74,7 @@ const HtsOverviewList: React.FC<HtsOverviewListProps> = ({ patientUuid }) => {
         },
       },
     ],
-    [],
+    [t],
   );
 
   return (

@@ -76,7 +76,7 @@ const MentalHealthAssessmentList: React.FC<MentalHealthAssessmentListProps> = ({
         ],
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('mentalHealthAssessmentTitle', 'Mental Health Assessment');

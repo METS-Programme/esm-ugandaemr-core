@@ -69,7 +69,7 @@ const ClinicalVisitWidget: React.FC<ClinicalVisitWidgetProps> = ({ patientUuid }
         },
       },
     ],
-    [],
+    [t],
   );
   return (
     <EncounterList

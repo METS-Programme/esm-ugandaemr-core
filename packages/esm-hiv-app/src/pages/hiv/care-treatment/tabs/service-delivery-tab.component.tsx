@@ -64,7 +64,7 @@ const ServiceDeliveryTabList: React.FC<ServiceDeliveryTabListProps> = ({ patient
         },
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('serviceDeliveryModel', 'Service Delivery Model');

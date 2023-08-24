@@ -64,7 +64,7 @@ const ContactTracingList: React.FC<ContactTracingListProps> = ({ patientUuid }) 
         },
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('contactTracing', 'Contact Tracing');

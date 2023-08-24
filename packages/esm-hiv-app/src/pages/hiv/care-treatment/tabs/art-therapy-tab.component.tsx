@@ -110,7 +110,7 @@ const ArtTherapyTabList: React.FC<ArtTherapyTabListProps> = ({ patientUuid }) =>
         ['1260AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', t('artStop', 'Stop ART')],
         ['3e69cb60-2943-410f-83d4-b359ae83fefd', t('artRestart', 'Restart ART therapy')],
       ]),
-    [],
+    [t],
   );
 
   const columns: EncounterListColumn[] = useMemo(
@@ -191,7 +191,7 @@ const ArtTherapyTabList: React.FC<ArtTherapyTabListProps> = ({ patientUuid }) =>
         ],
       },
     ],
-    [],
+    [t, artConcepts],
   );
 
   const headerTitle = t('artTherapy', 'ART Therapy');

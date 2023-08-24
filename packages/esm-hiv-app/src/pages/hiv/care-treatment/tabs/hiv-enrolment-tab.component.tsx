@@ -93,7 +93,7 @@ const HIVEnrolmentTabList: React.FC<HIVEnrolmentTabListProps> = ({ patientUuid }
         ],
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('hivEnrolment', 'HIV Enrolment');

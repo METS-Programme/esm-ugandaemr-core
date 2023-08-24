@@ -87,7 +87,7 @@ const ClinicalVisitList: React.FC<ClinicalVisitListProps> = ({ patientUuid }) =>
         },
       },
     ],
-    [],
+    [t],
   );
 
   return (

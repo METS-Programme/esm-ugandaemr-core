@@ -64,7 +64,7 @@ const PatientTracingList: React.FC<PatientTracingListProps> = ({ patientUuid }) 
         },
       },
     ],
-    [],
+    [t],
   );
 
   const headerTitle = t('patientTracing', 'Patient Tracing');

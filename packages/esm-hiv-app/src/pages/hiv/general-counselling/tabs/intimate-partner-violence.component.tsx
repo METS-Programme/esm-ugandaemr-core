@@ -68,7 +68,7 @@ const IntimatePartnerViolenceList: React.FC<IntimatePartnerViolenceListProps> = 
         ],
       },
     ],
-    [],
+    [t],
   );
   const headerTitle = t('intimatePartnerViolenceTitle', 'Intimate Partner Violence');
   const displayText = t('intimatePartnerViolenceDisplay', 'Intimate Partner Violence');

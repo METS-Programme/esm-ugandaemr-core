@@ -31,7 +31,7 @@ const ServiceExitOverviewList: React.FC<OverviewListProps> = ({ patientUuid }) =
       tableRows.push({});
       setIsLoading(false);
     }, 1000);
-  }, []);
+  }, [tableRows]);
 
   return (
     <>
