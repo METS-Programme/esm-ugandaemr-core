@@ -1,5 +1,7 @@
 {
   "opd": "OutPatient Department",
   "opdRegister": "OutPatient Register",
-  "referralNote": "Referral Note"
+  "referralNote": "Referral Note",
+  "admission": "Admission",
+  "clincalAssessment": "Clincal Assessment"
 }

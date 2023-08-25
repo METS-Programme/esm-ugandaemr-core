@@ -1,5 +1,5 @@
 export const familyHealthDashboardMeta = {
-  title: 'Family Health Clinic',
+  title: 'Family Health',
   slotName: 'family-health-dashboard-slot',
   isExpanded: false,
 };
@@ -48,4 +48,11 @@ export const maternityMeta = {
   slot: 'maternity-dashboard-slot',
   config: { columns: 1, type: 'grid' },
   title: 'Maternity',
+};
+
+export const nutritionDashboardMeta = {
+  slot: 'nutrition-dashboard-slot',
+  config: { columns: 1, type: 'grid' },
+  title: 'Nutrition',
+  path: 'nutrition',
 };

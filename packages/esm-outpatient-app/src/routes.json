@@ -21,22 +21,38 @@
             "name": "opd-testing",
             "slot": "opd-dashboard-slot", 
               "meta": {
-                "slot": "opd_testing-dashboard-slot",
-                "title": "Testing",
+                "slot": "testing-dashboard-slot",
+                "title": "Clinical Assessment",
                 "path": "opd-testing",
                 "columns": 1
               }
         }, 
         {
+            "name": "testing-summary-ext",
+            "slot": "testing-dashboard-slot",
+            "component": "opdTestDashboardLinkExt",
+            "meta": {
+              "columnSpan": 4
+            }
+          },
+        {
             "component": "opdTreatmentDashboardLink",
             "name": "opd-treatment",
             "slot": "opd-dashboard-slot",
             "meta": {
-              "slot": "opd-treatment-dashboard-slot",
-              "title": "Clinical Form",
+              "slot": "opd-treatment-slot",
+              "title": "Admission",
               "path": "opd-treatment",
-              "columns": 2
+              "columns": 1
             }
-        }
+        },
+        {
+            "name": "opd-summary-ext",
+            "slot": "opd-treatment-slot",
+            "component": "opdTestingDashboardLinkExt",
+            "meta": {
+              "columnSpan": 4
+            }
+          }
     ]
 }

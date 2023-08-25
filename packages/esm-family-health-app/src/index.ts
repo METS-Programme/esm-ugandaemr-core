@@ -8,6 +8,7 @@ import {
   familyPlanningDashboardMeta,
   hivExposedInfantMeta,
   mchDashboardMeta,
+  nutritionDashboardMeta,
 } from './dashboard.meta';
 import formsRegistry from './forms/forms-registry';
 import ugandaEmrConfig from './ugandaemr-config';
@@ -79,6 +80,19 @@ export const familyPlanningDashboardExt = getAsyncLifecycle(
   () => import('./pages/family-health-clinic/family-planning/family-planning.component'),
   {
     featureName: 'family-planning',
+    moduleName,
+  },
+);
+
+export const nutritionDashboard = getSyncLifecycle(
+  createDashboardLink({ ...nutritionDashboardMeta, moduleName }),
+  options,
+);
+
+export const nutritionDashboardExt = getAsyncLifecycle(
+  () => import('./pages/family-health-clinic/Nutrition/nutrition.component'),
+  {
+    featureName: 'nutrition',
     moduleName,
   },
 );

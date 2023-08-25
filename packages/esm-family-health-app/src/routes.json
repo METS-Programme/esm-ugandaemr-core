@@ -11,7 +11,7 @@
         "slot": "patient-chart-dashboard-slot",
         "component": "familyHealthClinicDashboard",
         "meta": {
-          "title": "Family Health Clinic",
+          "title": "Family Health",
           "slotName": "family-health-dashboard-slot"
         }
       },
@@ -49,6 +49,25 @@
         "name": "child-health-summary-ext",
         "slot": "child-health-dashboard-slot",
         "component": "childHealthSummaryExt",
+        "meta": {
+          "columnSpan": 4
+        }
+      },
+      {
+        "name": "nutrition-dashboard",
+        "slot": "family-health-dashboard-slot",
+        "component": "nutritionDashboard",
+        "meta": {
+          "slot": "nutrition-dashboard-slot",
+          "columns": 1,
+          "title": "Nutrition",
+          "path": "nutrition"
+        }
+      },
+      {
+        "name": "nutrition-summary-ext",
+        "slot": "nutrition-dashboard-slot",
+        "component": "nutritionDashboardExt",
         "meta": {
           "columnSpan": 4
         }
