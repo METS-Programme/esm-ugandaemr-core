@@ -5,19 +5,9 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
-    "test": {
-      "dependsOn": ["build"],
-      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
-    },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "typescript": {
-      "dependsOn": ["^typescript"]
-    },
-    "extract-translations": {},
-    "deploy": {
-      "dependsOn": ["build", "test", "lint"]
-    }
+    "test": {},
+    "lint": {},
+    "typescript": {},
+    "extract-translations": {}
   }
 }

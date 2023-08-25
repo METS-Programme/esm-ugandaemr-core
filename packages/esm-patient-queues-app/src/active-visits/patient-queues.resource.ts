@@ -24,12 +24,8 @@ export interface MappedPatientQueueEntry {
   creatorDisplay: string;
 }
 
-export function usePatientQueuesList(
-  currentQueueRoomLocationUuid: string,
-  currentQueueLocationUuid: string,
-  status: string,
-) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&room=${currentQueueRoomLocationUuid}&status=${status}`;
+export function usePatientQueuesList(currentQueueLocationUuid: string, status: string) {
+  const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&status=${status}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,
