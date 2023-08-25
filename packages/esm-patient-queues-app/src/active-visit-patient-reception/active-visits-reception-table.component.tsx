@@ -51,18 +51,12 @@ type FilterProps = {
 function ActiveVisitsReceptionTable() {
   const { t } = useTranslation();
   const session = useSession();
-  const userLocation = session?.sessionLocation?.display;
-  const { queueRoomLocations } = useQueueRoomLocations(session?.sessionLocation?.uuid);
-  const currentQueueLocationUuid = useSelectedQueueLocationUuid();
 
   const [showOverlay, setShowOverlay] = useState(false);
   const [view, setView] = useState('');
   const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
 
-  const currentQueueRoomLocationUuid = useSelectedQueueRoomLocationUuid();
-  const currentQueueRoomLocationName = useSelectedQueueRoomLocationName();
-
-  const { patientQueueEntries, isLoading } = usePatientQueuesList(currentQueueRoomLocationUuid);
+  const { patientQueueEntries, isLoading } = usePatientQueuesList(session?.sessionLocation?.uuid);
   const currentPathName: string = window.location.pathname;
 
   const fromPage: string = getOriginFromPathName(currentPathName);

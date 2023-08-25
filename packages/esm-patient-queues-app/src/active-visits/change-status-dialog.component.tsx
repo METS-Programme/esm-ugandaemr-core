@@ -36,8 +36,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
 
   const [selectedLocation, setSelectedLocation] = useState('');
 
-  const { defaultFacility, isLoading: loadingDefaultFacility } = useDefaultLoginLocation();
-
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
 
   const [statusSwitcherIndex, setStatusSwitcherIndex] = useState(1);
@@ -47,8 +45,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
   const [selectedQueueLocation, setSelectedQueueLocation] = useState(queueEntry?.queueLocation);
 
   const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
-
-  const [queueStatus, setQueueStatus] = useState(queueEntry?.statusUuid);
 
   const sessionUser = useSession();
 
@@ -85,10 +81,8 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
   useEffect(() => {
     if (locations?.length && sessionUser) {
       setSelectedLocation(sessionUser?.sessionLocation?.uuid);
-    } else if (!loadingDefaultFacility && defaultFacility) {
-      setSelectedLocation(defaultFacility?.uuid);
     }
-  }, [locations, sessionUser, loadingDefaultFacility, defaultFacility]);
+  }, [locations, sessionUser]);
 
   useMemo(() => {
     switch (statusSwitcherIndex) {
@@ -195,17 +189,12 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
                 {!selectedNextQueueLocation ? (
                   <SelectItem text={t('selectNextQueueRoom', 'Select next queue room ')} value="" />
                 ) : null}
-                {!isEmpty(defaultFacility) ? (
-                  <SelectItem key={defaultFacility?.uuid} text={defaultFacility?.display} value={defaultFacility?.uuid}>
-                    {defaultFacility?.display}
+
+                {locations.map((location) => (
+                  <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
+                    {location.display}
                   </SelectItem>
-                ) : locations?.length > 0 ? (
-                  locations.map((location) => (
-                    <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
-                      {location.display}
-                    </SelectItem>
-                  ))
-                ) : null}
+                ))}
               </Select>
             </section>
 
