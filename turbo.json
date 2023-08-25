@@ -7,26 +7,17 @@
     },
     "test": {
       "dependsOn": ["build"],
-      "outputs": [],
       "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
     },
     "lint": {
-      "dependsOn": ["^lint"],
-      "outputs": []
+      "dependsOn": ["^lint"]
     },
     "typescript": {
-      "dependsOn": ["^typescript"],
-      "outputs": []
+      "dependsOn": ["^typescript"]
     },
-    "extract-translations": {
-      "outputs": []
-    },
-    "dev": {
-      "cache": false
-    },
+    "extract-translations": {},
     "deploy": {
-      "dependsOn": ["build", "test", "lint"],
-      "outputs": []
+      "dependsOn": ["build", "test", "lint"]
     }
   }
 }

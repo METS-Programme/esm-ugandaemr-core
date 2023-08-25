@@ -18,7 +18,7 @@
     {
       "component": "preventionDashboardLink",
       "name": "hiv-prevention",
-      "slot": "hiv-dashboard-slot", 
+      "slot": "hiv-dashboard-slot",
         "meta": {
           "slot": "prevention-dashboard-slot",
           "title": "HIV Screening",
@@ -33,7 +33,7 @@
       "meta": {
         "columnSpan": 4
       }
-    }, 
+    },
     {
       "name": "hts-service-summary-dashboard",
       "slot": "hiv-dashboard-slot",
@@ -48,7 +48,7 @@
       "name": "hts-service-summary-list-ext",
       "slot": "hiv-patient-summary-dashboard-slot",
       "component": "htsServiceSummaryList"
-    },  
+    },
     {
       "name": "program-management-summary",
       "slot": "hiv-dashboard-slot",
@@ -123,6 +123,6 @@
       "name": "partner-notification-services-ext",
       "slot": "partner-notification-services-slot",
       "component": "partnerNotificationServicesDashboard"
-    } 
+    }
   ]
 }
