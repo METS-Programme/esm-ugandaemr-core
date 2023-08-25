@@ -1,5 +1,5 @@
 export const TBDashboardMeta = {
-  title: 'TB Clinic',
+  title: 'TB',
   slotName: 'tb-clinic-dashboard-slot',
   isExpanded: false,
 };

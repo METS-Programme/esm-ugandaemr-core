@@ -31,6 +31,11 @@ export const opdTestingDashboardLink = getSyncLifecycle(
   options,
 );
 
+export const opdTestDashboardLinkExt = getAsyncLifecycle(() => import('./pages/opd/clinical-assessment.component'), {
+  featureName: 'opd-dashboard-ext',
+  moduleName,
+});
+
 //  treatment dashboard
 export const opdTreatmentDashboardLink = getSyncLifecycle(
   createDashboardLink({
@@ -40,7 +45,7 @@ export const opdTreatmentDashboardLink = getSyncLifecycle(
   options,
 );
 
-export const opdTestingDashboardLinkExt = getAsyncLifecycle(() => import('./pages/opd/outpatient.component'), {
+export const opdTestingDashboardLinkExt = getAsyncLifecycle(() => import('./pages/opd/admission.component'), {
   featureName: 'opd-dashboard-ext',
   moduleName,
 });

@@ -1,5 +1,5 @@
 export const opdDashboardMeta = {
-  title: 'General Clinic',
+  title: 'OPD',
   slotName: 'opd-dashboard-slot',
   path: 'opd-dashboard',
   isExpanded: false,
@@ -8,13 +8,13 @@ export const opdDashboardMeta = {
 export const testingDashboardtMeta = {
   slot: 'opd-testing-slot',
   config: { columns: 1, type: 'grid' },
-  title: 'Testing',
+  title: 'Clincal Assessment Form',
   path: 'opd-testing',
 };
 export const treatmentDashboardtMeta = {
   slot: 'opd-treatment-slot',
   config: { columns: 1, type: 'grid' },
-  title: 'Treatment',
+  title: 'Admission',
   path: 'opd-treatment',
 };
 

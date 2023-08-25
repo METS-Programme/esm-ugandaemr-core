@@ -1,5 +1,5 @@
 export const hivDashboardMeta = {
-  title: 'HIV Clinic',
+  title: 'HIV',
   slotName: 'hiv-dashboard-slot',
   path: 'hiv-dashboard',
   isExpanded: false,
