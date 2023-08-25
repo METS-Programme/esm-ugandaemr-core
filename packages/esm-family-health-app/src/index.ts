@@ -10,8 +10,6 @@ import {
   mchDashboardMeta,
 } from './dashboard.meta';
 import formsRegistry from './forms/forms-registry';
-import ugandaEmrConfig from './ugandaemr-config';
-import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 import { moduleName } from './constants';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
@@ -24,8 +22,7 @@ const options = {
 // startapp
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
-  provide(ugandaEmrOverrides);
-  provide(ugandaEmrConfig);
+  // TODO - These forms need to be deleted and moved to the backend
   addToBaseFormsRegistry(formsRegistry);
 }
 

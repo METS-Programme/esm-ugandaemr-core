@@ -5,7 +5,6 @@ import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 import { opdDashboardMeta, testingDashboardtMeta, treatmentDashboardtMeta } from './dashboard.meta';
 import formsRegistry from './forms/forms-registry';
-import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -16,7 +15,7 @@ const options = {
 
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
-  provide(ugandaEmrOverrides);
+  // TODO: these forms need to be deleted and moved to the backend
   addToBaseFormsRegistry(formsRegistry);
 }
 
