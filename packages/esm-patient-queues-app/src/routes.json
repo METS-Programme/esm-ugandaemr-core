@@ -21,15 +21,15 @@
       "component": "patientQueuesDashboardLink",
       "slot": "homepage-dashboard-slot",
       "meta": {
-        "name": "patient-queues-dashboard-link",
+        "name": "patient-queues",
         "slot": "patient-queues-dashboard-slot",
-        "title": "Patient Queues"
+        "title": "Patient queues"
       }
     },
     {
-      "name": "queue-home-dashboard",
+      "name": "patient-queues",
       "slot": "patient-queues-dashboard-slot",
-      "component": "homeDashboard"
+      "component": "root"
     },
     {
       "name": "edit-queue-entry-status-modal",
