@@ -28,10 +28,13 @@ export const ipdTestingDashboardLink = getSyncLifecycle(
   options,
 );
 
-export const ipdTestDashboardLinkExt = getAsyncLifecycle(() => import('./pages/ipd/clinical/clinical-assessment.component'), {
-  featureName: 'ipd-dashboard-ext',
-  moduleName,
-});
+export const ipdTestDashboardLinkExt = getAsyncLifecycle(
+  () => import('./pages/ipd/clinical/clinical-assessment.component'),
+  {
+    featureName: 'ipd-dashboard-ext',
+    moduleName,
+  },
+);
 
 //  treatment dashboard
 export const ipdTreatmentDashboardLink = getSyncLifecycle(
@@ -42,7 +45,10 @@ export const ipdTreatmentDashboardLink = getSyncLifecycle(
   options,
 );
 
-export const ipdTestingDashboardLinkExt = getAsyncLifecycle(() => import('./pages/ipd/admissions/admission.component'), {
-  featureName: 'ipd-dashboard-ext',
-  moduleName,
-});
+export const ipdTestingDashboardLinkExt = getAsyncLifecycle(
+  () => import('./pages/ipd/admissions/admission.component'),
+  {
+    featureName: 'ipd-dashboard-ext',
+    moduleName,
+  },
+);

@@ -17,5 +17,3 @@ export const treatmentDashboardtMeta = {
   title: 'Admission',
   path: 'ipd-treatment',
 };
-
-

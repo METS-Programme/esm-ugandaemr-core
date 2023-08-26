@@ -13,7 +13,6 @@ const options = {
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 }
- 
 
 // pages
 export const root = getAsyncLifecycle(() => import('./root.component'), options);
@@ -27,7 +26,7 @@ export const homeDashboard = getAsyncLifecycle(() => import('./home.component'),
 
 export const patientQueues = getAsyncLifecycle(
   () => import('./queue-patient-linelists/queue-services-table.component'),
-  options
+  options,
 );
 
 export const editQueueEntryStatusModal = getAsyncLifecycle(
