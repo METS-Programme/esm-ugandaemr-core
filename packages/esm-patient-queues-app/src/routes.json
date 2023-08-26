@@ -20,6 +20,9 @@
       "name": "patient-queues-dashboard-link",
       "component": "patientQueuesDashboardLink",
       "slot": "homepage-dashboard-slot",
+      "privilege":[
+        "Queue Patients"
+      ],
       "meta": {
         "name": "patient-queues",
         "slot": "patient-queues-dashboard-slot",

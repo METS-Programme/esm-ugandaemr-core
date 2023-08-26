@@ -1,0 +1,130 @@
+{
+  "@openmrs/esm-appointments-app": {
+    "Display conditions": {
+      "privileges": [
+        ""
+      ]
+    }
+  },
+  "@openmrs/esm-patient-chart-app": {
+    "Display conditions": {
+      "privileges": [
+        ""
+      ]
+    },
+    "extensionSlots": {
+      "action-menu-non-chart-items-slot": {
+        "remove": [
+          "patient-list-action-menu"
+        ]
+      },
+      "cacx-visits-slot": {
+        "remove": [
+          "cacx-visits-ext"
+        ]
+      }
+    }
+  },
+  "@openmrs/esm-styleguide": {
+    "Brand color #1": " #009384",
+    "Brand color #2": " #009384",
+    "Brand color #3": " #009384"
+  },
+  "@openmrs/esm-patient-registration-app": {
+    "Display conditions": {
+      "privileges": []
+    },
+    "fieldConfigurations": {
+      "gender": [
+        {
+          "id": "male",
+          "value": "Male",
+          "label": "Male"
+        },
+        {
+          "id": "female",
+          "value": "Female",
+          "label": "Female"
+        }
+      ]
+    }
+  },
+  "@openmrs/esm-home-app": {
+    "extensionSlots": {
+      "homepage-dashboard-slot": {
+        "remove": [
+          "patient-lists-dashboard-link",
+          "home-widget-db-link",
+          "service-queues-dashboard-link"
+        ]
+      },
+      "homepage-widgets-slot": {
+        "remove": [
+          "active-visits-widget",
+          "home-appointments"
+        ]
+      }
+    }
+  },
+  "@openmrs/esm-primary-navigation-app": {
+    "extensionSlots": {
+      "top-nav-actions-slot": {
+        "configure": {
+          "patient-search-icon": {
+            "Display conditions": {
+              "privileges": [
+                "View Patients"
+              ]
+            }
+          },
+          "add-patient-action": {
+            "Display conditions": {
+              "privileges": [
+                "View Patients"
+              ]
+            }
+          }
+        }
+      },
+      "app-menu-slot": {
+        "configure": {
+          "laboratory-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Laboratory"
+              ]
+            }
+          },
+          "theatre-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Theatre"
+              ]
+            }
+          },
+          "radiology-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Radiology"
+              ]
+            }
+          },
+          "dispensing-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Dispensing"
+              ]
+            }
+          },
+          "stock-management-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Stock Management"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
