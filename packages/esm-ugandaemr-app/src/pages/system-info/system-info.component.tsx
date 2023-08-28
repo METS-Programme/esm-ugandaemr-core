@@ -16,17 +16,19 @@ import {
 import { ErrorState } from '@openmrs/esm-framework';
 import { useGetModulesInformation } from './system-info.resource';
 import styles from './system-info.scss';
+import coatOfArms from '../../images/coat_of_arms.png';
 
 const OverallSystemInfo = () => {
+  const { t } = useTranslation();
   return (
     <Grid className={styles['overall-info-card']}>
       <Column className={styles['info-title']}>
         <Column>
-          <p>Government of Uganda</p>
-          <p>Ministry of Health</p>
+          <p>{t('governmentOfUganda', 'Government of Uganda')}</p>
+          <p>{t('ministryOfHealth', 'Ministry of Health')}</p>
         </Column>
         <Column>
-          <img alt="Govt of Uganda Coat of Arms" />
+          <img src={coatOfArms} alt="Govt of Uganda Coat of Arms" height={50} />
         </Column>
       </Column>
       <Column className={styles['info-body']}>
@@ -44,6 +46,7 @@ const OverallSystemInfo = () => {
 };
 
 function SystemInfoTable(): React.JSX.Element {
+  const { t } = useTranslation();
   const [moduleInfo, setModuleInfo] = useState({});
   const { modules, isError, isLoading } = useGetModulesInformation();
 

@@ -6,7 +6,7 @@
     justify-content: center;
     align-items: center;
     border: 0.5px solid #c6c6c6;
-    max-width: 35%;
+    max-width: 28%;
     padding: 1rem;
     .info-title{
       display: flex;
@@ -21,6 +21,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       column-gap: 0.25rem;
+      font-size: 90%;
     }
 }
 
@@ -30,3 +31,5 @@
   margin-top: 1.5rem;
   border: 0.5px solid #c6c6c6;
 }
+
+// add css for different screen sizes
