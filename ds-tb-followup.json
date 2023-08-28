@@ -88,7 +88,7 @@
                 "rendering": "radio",
                 "concept": "e2559620-900b-4f66-ae41-0b9c4adfb654",
                 "conceptMappings": [],
-                 "answers": [
+                "answers": [
                   {
                     "concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                     "label": "Yes"
@@ -110,7 +110,7 @@
                 "rendering": "radio",
                 "concept": "e2559620-900b-4f66-ae41-0b9c4adfb654",
                 "conceptMappings": [],
-                 "answers": [
+                "answers": [
                   {
                     "concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                     "label": "Yes"
@@ -149,16 +149,16 @@
                     "rendering": "radio",
                     "concept": "21eced40-aa0d-47a7-bb9a-a5a3fc51a184",
                     "conceptMappings": [],
-                     "answers": [
-                  {
-                    "concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "Yes"
-                  },
-                  {
-                    "concept": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                    "label": "No"
-                  }
-                ]
+                    "answers": [
+                      {
+                        "concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                        "label": "Yes"
+                      },
+                      {
+                        "concept": "1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                        "label": "No"
+                      }
+                    ]
                   },
                   "validators": []
                 },
@@ -370,7 +370,7 @@
                 "rendering": "radio",
                 "concept": "e2559620-900b-4f66-ae41-0b9c4adfb654",
                 "conceptMappings": [],
-                 "answers": [
+                "answers": [
                   {
                     "concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                     "label": "Yes"
@@ -532,7 +532,7 @@
                 "rendering": "radio",
                 "concept": "475efb37-20f6-44d3-91a0-7002ac8cc532",
                 "conceptMappings": [],
-                 "answers": [
+                "answers": [
                   {
                     "concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                     "label": "Yes"
@@ -776,7 +776,7 @@
                 "rendering": "radio",
                 "concept": "e2559620-900b-4f66-ae41-0b9c4adfb654",
                 "conceptMappings": [],
-                 "answers": [
+                "answers": [
                   {
                     "concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                     "label": "Yes"
@@ -798,7 +798,7 @@
                 "rendering": "radio",
                 "concept": "e2559620-900b-4f66-ae41-0b9c4adfb654",
                 "conceptMappings": [],
-                 "answers": [
+                "answers": [
                   {
                     "concept": "1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
                     "label": "Yes"
@@ -867,8 +867,9 @@
     }
   ],
   "processor": "EncounterFormProcessor",
-  "encounterType": "",
+  "encounterType": "455bad1f-5e97-4ee9-9558-ff1df8808732",
   "referencedForms": [],
-  "uuid": "",
-  "description": "This is a followup form for a DS-TB patient"
+  "uuid": "fc2591eb-161d-4ac6-9a9b-7ff33bcfa5bf",
+  "description": "This is a followup form for a DS-TB patient",
+  "version": "1.0"
 }
