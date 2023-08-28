@@ -496,8 +496,9 @@
     }
   ],
   "processor": "EncounterFormProcessor",
-  "encounterType": "",
+  "encounterType": "334bf97e-28e2-4a27-8727-a5ce31c7cd66",
   "referencedForms": [],
-  "uuid": "",
-  "description": "This is the enrollment form for a DS TB patient"
+  "uuid": "1f860e57-8ccc-4d62-acb9-1de1eaecc86d",
+  "description": "This is the enrollment form for a DS TB patient",
+  "version": "1.0"
 }
