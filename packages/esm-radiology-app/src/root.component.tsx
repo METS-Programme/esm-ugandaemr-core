@@ -1,14 +1,14 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import styles from './root.scss';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Radiology from './radiology.component';
 
 const Root: React.FC = () => {
-  const { t } = useTranslation();
-
   return (
-    <div className={styles.container}>
-      <h3 className={styles.welcome}>{t('welcomeText', 'Welcome to Radiology')}</h3>
-    </div>
+    <BrowserRouter basename={`${window.spaBase}/home/radiology`}>
+      <Routes>
+        <Route path="/" element={<Radiology />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
