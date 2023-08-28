@@ -12,13 +12,11 @@ import {
 } from '@carbon/react';
 
 import { showNotification, showToast, useLocations, useSession } from '@openmrs/esm-framework';
-import isEmpty from 'lodash-es/isEmpty';
 
 import { getCareProvider, updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDefaultLoginLocation } from '../patient-search/hooks/useDefaultLocation';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 
@@ -118,10 +116,12 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
     }
   }, [contentSwitcherIndex]);
 
+  const filteredlocations = queueRoomLocations?.filter((location) => location.uuid != selectedLocation);
+
   const changeQueueStatus = useCallback(
     (event) => {
       event.preventDefault();
-      const comment = event?.target['nextNotes']?.value;
+      const comment = event?.target['nextNotes']?.value ?? 'Not Set';
       updateQueueEntry(provider, queueEntry?.id, priorityComment, comment).then(
         () => {
           showToast({
@@ -187,10 +187,9 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
                 onChange={(event) => setSelectedNextQueueLocation(event.target.value)}
               >
                 {!selectedNextQueueLocation ? (
-                  <SelectItem text={t('selectNextQueueRoom', 'Select next queue room ')} value="" />
+                  <SelectItem text={t('selectNextServicePoint', 'Select next service point')} value="" />
                 ) : null}
-
-                {locations.map((location) => (
+                {filteredlocations.map((location) => (
                   <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
                     {location.display}
                   </SelectItem>
@@ -209,18 +208,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
                 enableCounter
               />
             </section>
-            {/* <section className={styles.section}>
-              <div className={styles.sectionTitle}>{t('status', 'Status')}</div>
-              <ContentSwitcher
-                selectedIndex={statusSwitcherIndex}
-                className={styles.contentSwitcher}
-                onChange={({ index }) => setStatusSwitcherIndex(index)}
-              >
-                <Switch name="pending" text={t('pending', 'Pending')} />
-                <Switch name="picked" text={t('picked', 'Picked')} />
-                <Switch name="finished" text={t('finished', 'Finished')} />
-              </ContentSwitcher>
-            </section> */}
           </ModalBody>
           <ModalFooter>
             <Button kind="secondary" onClick={closeModal}>

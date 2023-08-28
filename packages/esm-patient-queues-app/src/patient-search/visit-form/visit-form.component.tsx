@@ -10,6 +10,7 @@ import {
   SelectItem,
   Stack,
   Switch,
+  TextArea,
 } from '@carbon/react';
 import {
   ConfigObject,
@@ -50,9 +51,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const isTablet = useLayoutType() === 'tablet';
   const locations = useLocations();
   const sessionUser = useSession();
-  const { queueLocations } = useQueueLocations();
-
-  const { defaultFacility, isLoading: loadingDefaultFacility } = useDefaultLoginLocation();
 
   const config = useConfig() as ConfigObject;
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(0);
@@ -67,25 +65,22 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const { activePatientEnrollment, isLoading } = useActivePatientEnrollment(patientUuid);
   const [enrollment, setEnrollment] = useState<PatientProgram>(activePatientEnrollment[0]);
   const { mutate } = useVisitQueueEntries('', '');
-  const visitQueueNumberAttributeUuid = config.concepts.visitQueueNumberAttributeUuid;
   const [selectedLocation, setSelectedLocation] = useState('');
   const [visitType, setVisitType] = useState('');
   const [priorityComment, setPriorityComment] = useState('');
-  const [priorityLevel, setPriorityLevel] = useState([1, 2, 3]);
+  const priorityLevels = [1, 2, 3];
+  const [priorityLevel, setPriorityLevel] = useState();
 
   const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
-  const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(locations[0]?.name);
+  const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState('');
 
   useEffect(() => {
-    if (locations?.length && sessionUser) {
-      setSelectedLocation(sessionUser?.sessionLocation?.uuid);
-      setVisitType(allVisitTypes?.length > 0 ? allVisitTypes[0].uuid : null);
-    } else if (!loadingDefaultFacility && defaultFacility) {
-      setSelectedLocation(defaultFacility?.uuid);
+    if (queueRoomLocations?.length && sessionUser) {
+      setSelectedLocation(sessionUser?.sessionLocation?.display);
       setVisitType(allVisitTypes?.length > 0 ? allVisitTypes[0].uuid : null);
     }
-  }, [locations, sessionUser, loadingDefaultFacility, defaultFacility, allVisitTypes]);
+  }, [sessionUser, queueRoomLocations?.length, queueRoomLocations, allVisitTypes]);
 
   useMemo(() => {
     switch (contentSwitcherIndex) {
@@ -104,6 +99,8 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
     }
   }, [contentSwitcherIndex]);
 
+  const filteredlocations = queueRoomLocations?.filter((location) => location.display != selectedLocation);
+
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
@@ -111,7 +108,8 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
       // retrieve values from queue extension
       const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
       const status = 'pending';
-      const comment = '';
+      const level = event?.target['priority-levels']?.value;
+      const comment = event?.target['nextNotes']?.value;
 
       if (!visitType) {
         setIsMissingVisitType(true);
@@ -130,7 +128,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
           ),
         ),
         visitType: visitType,
-        location: selectedLocation,
+        location: selectedNextQueueLocation,
         attributes: [],
       };
 
@@ -195,6 +193,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
       patientUuid,
       priorityComment,
       selectedLocation,
+      selectedNextQueueLocation,
       t,
       timeFormat,
       visitDate,
@@ -215,157 +214,8 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
             <ExtensionSlot name="visit-form-header-slot" className={styles.dataGridRow} state={state} />
           </Row>
         )}
-        {/* <div className={styles.backButton}>
-          {mode === true ? null : (
-            <Button
-              kind="ghost"
-              renderIcon={(props) => <ArrowLeft size={24} {...props} />}
-              iconDescription={t('backToScheduledVisits', 'Back to scheduled visits')}
-              size="sm"
-              onClick={() => toggleSearchType(SearchTypes.VISIT_FORM, patientUuid)}
-            >
-              <span>{t('backToScheduledVisits', 'Back to scheduled visits')}</span>
-            </Button>
-          )}
-        </div> */}
+
         <Stack gap={8} className={styles.container}>
-          {/* <section className={styles.section}>
-            <div className={styles.sectionTitle}>{t('dateAndTimeOfVisit', 'Date and time of visit')}</div>
-            <div className={styles.dateTimeSection}>
-              <DatePicker
-                dateFormat="d/m/Y"
-                datePickerType="single"
-                id="visitDate"
-                style={{ paddingBottom: '1rem' }}
-                maxDate={new Date().toISOString()}
-                onChange={([date]) => setVisitDate(date)}
-                value={visitDate}
-              >
-                <DatePickerInput
-                  id="visitStartDateInput"
-                  labelText={t('date', 'Date')}
-                  placeholder="dd/mm/yyyy"
-                  style={{ width: '100%' }}
-                />
-              </DatePicker>
-              <ResponsiveWrapper isTablet={isTablet}>
-                <TimePicker
-                  id="visitStartTime"
-                  labelText={t('time', 'Time')}
-                  onChange={(event) => setVisitTime(event.target.value as amPm)}
-                  pattern="^(1[0-2]|0?[1-9]):([0-5]?[0-9])$"
-                  style={{ marginLeft: '0.125rem', flex: 'none' }}
-                  value={visitTime}
-                >
-                  <TimePickerSelect
-                    id="visitStartTimeSelect"
-                    onChange={(event) => setTimeFormat(event.target.value as amPm)}
-                    value={timeFormat}
-                    labelText={t('time', 'Time')}
-                    aria-label={t('time', 'Time')}
-                  >
-                    <SelectItem value="AM" text="AM" />
-                    <SelectItem value="PM" text="PM" />
-                  </TimePickerSelect>
-                </TimePicker>
-              </ResponsiveWrapper>
-            </div>
-          </section> */}
-
-          {/* <section className={styles.section}>
-            <div className={styles.sectionTitle}>{t('clinic', 'Clinic')}</div>
-            <Select
-              labelText={t('selectClinic', 'Select a clinic')}
-              id="location"
-              invalidText="Required"
-              value={selectedLocation}
-              defaultSelected={selectedLocation}
-              onChange={(event) => setSelectedLocation(event.target.value)}
-            >
-              {!selectedLocation ? <SelectItem text={t('selectOption', 'Select an option')} value="" /> : null}
-              {!isEmpty(defaultFacility) ? (
-                <SelectItem key={defaultFacility?.uuid} text={defaultFacility?.display} value={defaultFacility?.uuid}>
-                  {defaultFacility?.display}
-                </SelectItem>
-              ) : locations?.length > 0 ? (
-                locations.map((location) => (
-                  <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
-                    {location.display}
-                  </SelectItem>
-                ))
-              ) : null}
-            </Select>
-          </section> */}
-
-          {/* {config.showRecommendedVisitTypeTab && (
-            <section>
-              <div className={styles.sectionTitle}>{t('program', 'Program')}</div>
-              <FormGroup legendText={t('selectProgramType', 'Select program type')}>
-                <RadioButtonGroup
-                  defaultSelected={enrollment?.program?.uuid}
-                  orientation="vertical"
-                  onChange={(uuid) =>
-                    setEnrollment(activePatientEnrollment.find(({ program }) => program.uuid === uuid))
-                  }
-                  name="program-type-radio-group"
-                  valueSelected="default-selected"
-                >
-                  {activePatientEnrollment.map(({ uuid, display, program }) => (
-                    <RadioButton
-                      key={uuid}
-                      className={styles.radioButton}
-                      id={uuid}
-                      labelText={display}
-                      value={program.uuid}
-                    />
-                  ))}
-                </RadioButtonGroup>
-              </FormGroup>
-            </section>
-          )}
-          <section>
-            <div className={styles.sectionTitle}>{t('visitType', 'Visit Type')}</div>
-            <ContentSwitcher
-              selectedIndex={contentSwitcherIndex}
-              className={styles.contentSwitcher}
-              onChange={({ index }) => setContentSwitcherIndex(index)}
-            >
-              <Switch name="recommended" text={t('recommended', 'Recommended')} />
-              <Switch name="all" text={t('all', 'All')} />
-            </ContentSwitcher>
-            {contentSwitcherIndex === 0 && !isLoading && (
-              <MemoizedRecommendedVisitType
-                onChange={(visitType) => {
-                  setVisitType(visitType);
-                  setIsMissingVisitType(false);
-                }}
-                patientUuid={patientUuid}
-                patientProgramEnrollment={enrollment}
-                locationUuid={selectedLocation}
-              />
-            )}
-            {contentSwitcherIndex === 1 && (
-              <BaseVisitType
-                onChange={(visitType) => {
-                  setVisitType(visitType);
-                  setIsMissingVisitType(false);
-                }}
-                visitTypes={allVisitTypes}
-                patientUuid={patientUuid}
-              />
-            )}
-          </section>
-          {isMissingVisitType && (
-            <section>
-              <InlineNotification
-                style={{ margin: '0', minWidth: '100%' }}
-                kind="error"
-                lowContrast={true}
-                title={t('missingVisitType', 'Missing visit type')}
-                subtitle={t('selectVisitType', 'Please select a Visit Type')}
-              />
-            </section>
-          )} */}
           <section className={styles.section}>
             <div className={styles.sectionTitle}>{t('priority', 'Priority')}</div>
             <ContentSwitcher
@@ -382,9 +232,21 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
             <Dropdown
               id="priority-levels"
               titleText="Choose Priority Level"
-              label="selec a priority Level"
-              items={priorityLevel}
-              temToString={(priorityLevel) => (priorityLevel ? priorityLevel : 0)}
+              label="select a priority Level"
+              items={priorityLevels}
+              itemToString={(priorityLevels) => (priorityLevels ? priorityLevels : 0)}
+            />
+          </section>
+
+          <section className={styles.section}>
+            <TextArea
+              labelText={t('notes', 'Enter notes ')}
+              id="nextNotes"
+              name="nextNotes"
+              invalidText="Required"
+              helperText="Please enter notes"
+              maxCount={500}
+              enableCounter
             />
           </section>
 
@@ -402,22 +264,15 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
                 {!selectedNextQueueLocation ? (
                   <SelectItem text={t('selectNextServicePoint', 'Select next service point')} value="" />
                 ) : null}
-                {!isEmpty(defaultFacility) ? (
-                  <SelectItem key={defaultFacility?.uuid} text={defaultFacility?.display} value={defaultFacility?.uuid}>
-                    {defaultFacility?.display}
+                {filteredlocations.map((location) => (
+                  <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
+                    {location.display}
                   </SelectItem>
-                ) : locations?.length > 0 ? (
-                  locations.map((location) => (
-                    <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
-                      {location.display}
-                    </SelectItem>
-                  ))
-                ) : null}
+                ))}
               </Select>
             </ResponsiveWrapper>
           </section>
         </Stack>
-        {/* <ExtensionSlot name="add-queue-entry-slot" /> */}
       </div>
       <ButtonSet className={isTablet ? styles.tablet : styles.desktop}>
         <Button className={styles.button} kind="secondary" onClick={closePanel}>

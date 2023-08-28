@@ -16,20 +16,11 @@ function ClinicMetrics() {
   const { t } = useTranslation();
 
   const session = useSession();
-  const userLocation = session?.sessionLocation?.display;
-  const { queueRoomLocations } = useQueueRoomLocations(session?.sessionLocation?.uuid);
-  const currentQueueLocationUuid = useSelectedQueueLocationUuid();
+  const userLocation = session?.sessionLocation?.uuid;
 
-  const currentQueueRoomLocationUuid = useSelectedQueueRoomLocationUuid();
-  const currentQueueRoomLocationName = useSelectedQueueRoomLocationName();
+  const { patientQueueCount, isLoading } = usePatientsBeingServed(userLocation, 'pending');
 
-  const { patientQueueCount, isLoading } = usePatientsBeingServed(
-    currentQueueRoomLocationUuid,
-    currentQueueLocationUuid,
-    'picked',
-  );
-
-  const { servedCount } = usePatientsServed(currentQueueRoomLocationUuid, currentQueueLocationUuid, 'completed');
+  const { servedCount } = usePatientsServed(userLocation, 'picked');
 
   // receptionist ui
   return (
@@ -55,16 +46,15 @@ function ClinicMetrics() {
 
         <UserHasAccess privilege={PRIVILIGE_TRIAGE_METRIC}>
           <MetricsCard
+            label={t('pendingServing', 'Patients waiting to be Served')}
+            value={patientQueueCount ?? 0}
+            headerLabel={t('pendingTriageServing', 'Patients waiting to be Served')}
+          />
+          <MetricsCard
             label={t('served', 'Patients Served')}
             value={servedCount ?? 0}
             headerLabel={t('noOfPatientsServed', 'No. Of Patients Served')}
           />
-          <MetricsCard
-            label={t('pendingServing', 'Patients waiting to be Served')}
-            value={0}
-            headerLabel={t('pendingTriageServing', 'Patients waiting to be Served')}
-          />
-          {/* <MetricsCard label={t('workloads', 'Workloads')} value={'--'} headerLabel={t('workLoad', 'Workload')} /> */}
         </UserHasAccess>
       </div>
     </>

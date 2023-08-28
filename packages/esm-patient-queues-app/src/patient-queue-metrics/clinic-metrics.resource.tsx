@@ -52,12 +52,8 @@ export function useAverageWaitTime(serviceUuid: string, statusUuid: string) {
   };
 }
 
-export function usePatientsServed(
-  currentQueueRoomLocationUuid: string,
-  currentQueueLocationUuid: string,
-  status: string,
-) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&room=${currentQueueRoomLocationUuid}&status=${status}`;
+export function usePatientsServed(currentQueueLocationUuid: string, status: string) {
+  const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&status=${status}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,
@@ -96,12 +92,8 @@ export function usePatientsServed(
   };
 }
 
-export function usePatientsBeingServed(
-  currentQueueRoomLocationUuid: string,
-  currentQueueLocationUuid: string,
-  status: string,
-) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&room=${currentQueueRoomLocationUuid}&status=${status}`;
+export function usePatientsBeingServed(currentQueueLocationUuid: string, status: string) {
+  const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&status=${status}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,
