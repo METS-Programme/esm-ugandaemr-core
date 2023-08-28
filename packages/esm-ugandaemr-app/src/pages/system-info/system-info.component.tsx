@@ -14,12 +14,21 @@ import {
   Tile,
 } from '@carbon/react';
 import { ErrorState } from '@openmrs/esm-framework';
-import { useGetModulesInformation } from './system-info.resource';
+import { useGetSystemInformation } from './system-info.resource';
 import styles from './system-info.scss';
 import coatOfArms from '../../images/coat_of_arms.png';
+import UpdateFacilityCode from './updateFacilityCodeButton.component';
 
-const OverallSystemInfo = () => {
+const OverallSystemInfo = ({ buildInfo, emrVersion }) => {
   const { t } = useTranslation();
+  const [facilityCode, setFacilityCode] = useState('-');
+  const buildDateTime =
+    Object.keys(buildInfo).length > 0
+      ? `${buildInfo['SystemInfo.OpenMRSInstallation.systemDate']}, ${buildInfo['SystemInfo.OpenMRSInstallation.systemTime']}`
+      : '-';
+
+  // persist facility code to db if n.e else fetch
+
   return (
     <Grid className={styles['overall-info-card']}>
       <Column className={styles['info-title']}>
@@ -33,28 +42,23 @@ const OverallSystemInfo = () => {
       </Column>
       <Column className={styles['info-body']}>
         <span>Uganda EMR+ Version</span>
-        <span>v4.0.0</span>
+        <span>{emrVersion}</span>
         <span>SPA Version</span>
         <span>v5.1.0</span>
         <span>Build date time</span>
-        <span>25-Aug-2023, 13:35 PM (EAT)</span>
+        <span>{buildDateTime}</span>
         <span>Facility code</span>
-        <span>111111</span>
+        <span>{facilityCode}</span>
+      </Column>
+      <Column>
+        <UpdateFacilityCode setFacilityCode={setFacilityCode} facilityCode={facilityCode} />
       </Column>
     </Grid>
   );
 };
 
-function SystemInfoTable(): React.JSX.Element {
+function SystemInfoTable({ moduleInfo, error, loading }): React.JSX.Element {
   const { t } = useTranslation();
-  const [moduleInfo, setModuleInfo] = useState({});
-  const { modules, isError, isLoading } = useGetModulesInformation();
-
-  useEffect(() => {
-    if (modules) {
-      setModuleInfo(modules['systemInfo']['SystemInfo.title.moduleInformation']);
-    }
-  }, [modules]);
 
   const defineTableRows = (obj: {}) => {
     let arr = [];
@@ -80,18 +84,15 @@ function SystemInfoTable(): React.JSX.Element {
     },
   ];
 
-  if (isLoading) {
+  if (loading) {
     return <DataTableSkeleton role="progressbar" />;
   }
-  if (isError) {
+  if (error) {
     return (
-      <ErrorState
-        headerTitle={t('errorFetchingSytemInformation', 'Error fetching system information')}
-        error={isError}
-      />
+      <ErrorState headerTitle={t('errorFetchingSytemInformation', 'Error fetching system information')} error={error} />
     );
   }
-  if (modules) {
+  if (moduleInfo) {
     return (
       <DataTable rows={tableRows} headers={tableHeaders}>
         {({ rows, headers, getTableProps, getHeaderProps, getRowProps }) => (
@@ -122,10 +123,29 @@ function SystemInfoTable(): React.JSX.Element {
 }
 
 const SystemInfoPage = () => {
+  const [moduleInfo, setModuleInfo] = useState({});
+  const [buildInfo, setBuildInfo] = useState({});
+  const [emrVersion, setEMRVersion] = useState('4.0');
+  const { systemInfo, isError, isLoading } = useGetSystemInformation();
+
+  useEffect(() => {
+    if (systemInfo) {
+      delete systemInfo['systemInfo']['SystemInfo.title.moduleInformation']['SystemInfo.Module.repositoryPath'];
+      setModuleInfo(systemInfo['systemInfo']['SystemInfo.title.moduleInformation']);
+      setBuildInfo(systemInfo['systemInfo']['SystemInfo.title.openmrsInformation']);
+    }
+  }, [systemInfo]);
+
+  useEffect(() => {
+    if (moduleInfo) {
+      setEMRVersion(moduleInfo['UgandaEMR']);
+    }
+  }, [moduleInfo]);
+
   return (
     <Tile>
-      <OverallSystemInfo />
-      <SystemInfoTable />
+      <OverallSystemInfo buildInfo={buildInfo} emrVersion={emrVersion} />
+      <SystemInfoTable moduleInfo={moduleInfo} error={isError} loading={isLoading} />
     </Tile>
   );
 };

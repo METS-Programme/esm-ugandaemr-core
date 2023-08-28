@@ -58,3 +58,11 @@ export const systemInfoPage = getAsyncLifecycle(() => import('./pages/system-inf
   featureName: 'system info page',
   moduleName,
 });
+
+export const retrieveFacilityCodeModal = getAsyncLifecycle(
+  () => import('./pages/system-info/facility-modal.component'),
+  {
+    featureName: 'retrieve facility code modal',
+    moduleName,
+  },
+);
