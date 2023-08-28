@@ -1,0 +1,58 @@
+{
+    "$schema": "https://json.openmrs.org/routes.schema.json",
+    "backendDependencies": {
+        "fhir2": "^1.2.0",
+        "webservices.rest": "^2.24.0"
+    },
+    "pages": [],
+    "extensions": [
+
+        {
+            "component": "ipdDashboardGroup",
+            "name": "ipd-dashboard",
+            "slot": "patient-chart-dashboard-slot",
+            "meta": {
+                "title": "IPD",
+                "slotName": "ipd-dashboard-slot"
+            }
+        },
+        {
+            "component": "ipdTestingDashboardLink",
+            "name": "ipd-testing",
+            "slot": "ipd-dashboard-slot", 
+              "meta": {
+                "slot": "testing-dashboard-slot",
+                "title": "Clinical Assessment",
+                "path": "ipd-testing",
+                "columns": 1
+              }
+        }, 
+        {
+            "name": "testing-summary-ext",
+            "slot": "testing-dashboard-slot",
+            "component": "ipdTestDashboardLinkExt",
+            "meta": {
+              "columnSpan": 4
+            }
+          },
+        {
+            "component": "ipdTreatmentDashboardLink",
+            "name": "ipd-treatment",
+            "slot": "ipd-dashboard-slot",
+            "meta": {
+              "slot": "ipd-treatment-slot",
+              "title": "Admission",
+              "path": "ipd-treatment",
+              "columns": 1
+            }
+        },
+        {
+            "name": "ipd-summary-ext",
+            "slot": "ipd-treatment-slot",
+            "component": "ipdTestingDashboardLinkExt",
+            "meta": {
+              "columnSpan": 4
+            }
+          }
+    ]
+}
