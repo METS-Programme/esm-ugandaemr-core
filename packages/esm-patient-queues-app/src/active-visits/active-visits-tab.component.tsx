@@ -15,35 +15,16 @@ function ActiveVisitsTabs() {
 
   return (
     <div className={styles.container}>
-      {/* <div className={styles.headerBtnContainer}>
-        <ExtensionSlot
-          name="patient-search-button-slot"
-          state={{
-            buttonText: t('addPatientToQueue', 'Add patient to queue'),
-            overlayHeader: t('addPatientToQueue', 'Add patient to queue'),
-            buttonProps: {
-              kind: 'secondary',
-              renderIcon: (props) => <Add size={16} {...props} />,
-              size: 'sm',
-            },
-            selectPatientAction: (selectedPatientUuid) => {
-              setShowOverlay(true);
-              setView(SearchTypes.SCHEDULED_VISITS);
-              setViewState({ selectedPatientUuid });
-              setOverlayTitle(t('addPatientWithAppointmentToQueue', 'Add patient with appointment to queue'));
-            },
-          }}
-        />
-      </div> */}
       <Tabs
         selectedIndex={selectedTab}
         onChange={({ selectedIndex }) => setSelectedTab(selectedIndex)}
         className={styles.tabs}
       >
         <TabList style={{ paddingLeft: '1rem' }} aria-label="Outpatient tabs" contained>
-          <Tab>{t('incoming', 'Incoming')}</Tab>
+          <Tab>{t('pending', 'Pending')}</Tab>
           <Tab>{t('serving', 'Serving')}</Tab>
-          {/* <Tab>{t('outGooing', 'OutGoing')}</Tab> */}
+          <Tab>{t('inService', 'In Service')}</Tab>
+          <Tab>{t('completed', 'Completed')}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel style={{ padding: 0 }}>
@@ -52,9 +33,12 @@ function ActiveVisitsTabs() {
           <TabPanel style={{ padding: 0 }}>
             <ActiveVisitsTable status={'picked'} />
           </TabPanel>
-          {/* <TabPanel style={{ padding: 0 }}>
+          <TabPanel style={{ padding: 0 }}>
             <ActiveVisitsTable status={'completed'} />
-          </TabPanel> */}
+          </TabPanel>
+          <TabPanel style={{ padding: 0 }}>
+            <ActiveVisitsTable status={'completed'} />
+          </TabPanel>
         </TabPanels>
       </Tabs>
       {showOverlay && (

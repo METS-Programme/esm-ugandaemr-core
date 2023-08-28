@@ -469,10 +469,10 @@ export function serveQueueEntry(servicePointName: string, ticketNumber: string, 
   });
 }
 
-export function getCareProvider() {
+export function getCareProvider(provider: string) {
   const abortController = new AbortController();
 
-  return openmrsFetch(`/ws/rest/v1/provider?q=admin&v=full`, {
+  return openmrsFetch(`/ws/rest/v1/provider?q=${provider}&v=full`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

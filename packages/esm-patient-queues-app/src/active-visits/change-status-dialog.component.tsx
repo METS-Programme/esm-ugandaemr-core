@@ -56,7 +56,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
   const [priorityComment, setPriorityComment] = useState('');
 
   useEffect(() => {
-    getCareProvider().then(
+    getCareProvider(sessionUser?.user?.username).then(
       (response) => {
         showToast({
           critical: true,

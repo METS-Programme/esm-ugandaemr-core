@@ -19,6 +19,9 @@
       "name": "facility-home-dashboard-link",
       "component": "facilityHomeDashboardLink",
       "slot": "homepage-dashboard-slot",
+      "privilege":[
+        ""
+      ],
       "meta": {
         "name": "facility-home-dashboard",
         "slot": "facility-home-dashboard-slot",
@@ -34,6 +37,9 @@
       "name": "hie-home-dashboard-link",
       "component": "hieHomeDashboardLink",
       "slot": "homepage-dashboard-slot",
+      "privilege":[
+        "View:hiedashboardui.home"
+      ],
       "meta": {
         "name": "hie-home-dashboard",
         "slot": "hie-home-dashboard-slot",
