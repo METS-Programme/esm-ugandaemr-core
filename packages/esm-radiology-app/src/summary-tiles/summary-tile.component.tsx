@@ -2,16 +2,16 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tile, Button } from '@carbon/react';
 import { ArrowRight } from '@carbon/react/icons';
-import styles from './dispensing-tile.scss';
+import styles from './summary-tile.scss';
 
-interface DispensingTileProps {
+interface SummaryTileProps {
   label: string;
   value: number;
   headerLabel: string;
   children?: React.ReactNode;
 }
 
-const DispensingTile: React.FC<DispensingTileProps> = ({ label, value, headerLabel, children }) => {
+const SummaryTile: React.FC<SummaryTileProps> = ({ label, value, headerLabel, children }) => {
   const { t } = useTranslation();
 
   return (
@@ -37,4 +37,4 @@ const DispensingTile: React.FC<DispensingTileProps> = ({ label, value, headerLab
   );
 };
 
-export default DispensingTile;
+export default SummaryTile;

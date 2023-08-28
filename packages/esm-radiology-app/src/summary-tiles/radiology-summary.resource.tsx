@@ -5,7 +5,7 @@ import { FetchResponse, openmrsFetch } from '@openmrs/esm-framework';
 export function useMetrics() {
   const metrics = {
     orders: 43,
-    orders_for_home_delivery: 4,
+    completed_orders: 4,
     missed_collections: 12,
   };
   const { data, error } = useSWR<{ data: { results: {} } }, Error>(`/ws/rest/v1/queue?`, openmrsFetch);

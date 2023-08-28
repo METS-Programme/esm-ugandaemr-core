@@ -1,11 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DataTableSkeleton } from '@carbon/react';
-import { useMetrics } from './dispensing-tiles.resource';
-import DispensingTile from './dispensing-tile.component';
-import styles from './dispensing-tiles.scss';
+import { useMetrics } from './radiology-summary.resource';
+import SummaryTile from './summary-tile.component';
+import styles from './radiology-summary-tiles.scss';
 
-const DispensingTiles: React.FC = () => {
+const RadiologySummaryTiles: React.FC = () => {
   const { t } = useTranslation();
   const { metrics, isError, isLoading } = useMetrics();
 
@@ -16,24 +16,24 @@ const DispensingTiles: React.FC = () => {
   return (
     <>
       <div className={styles.cardContainer}>
-        <DispensingTile
+        <SummaryTile
           label={t('orders', 'Orders')}
           value={metrics.orders}
-          headerLabel={t('prescriptionsToFillToday', 'Prescriptions to fill today')}
+          headerLabel={t('radiologyOrders', 'Radiology Orders')}
         />
-        <DispensingTile
+        <SummaryTile
           label={t('today', 'Today')}
-          value={metrics.orders_for_home_delivery}
-          headerLabel={t('ordersForHomeDelivery', 'Orders for home delivery')}
+          value={metrics.completed_orders}
+          headerLabel={t('completedOrders', 'Orders completed today')}
         />
-        <DispensingTile
+        <SummaryTile
           label={t('last14Days', 'Last 14 days')}
           value={metrics.missed_collections}
-          headerLabel={t('missedCollections', 'Missed collections')}
+          headerLabel={t('missedOrders', 'Orders missed')}
         />
       </div>
     </>
   );
 };
 
-export default DispensingTiles;
+export default RadiologySummaryTiles;

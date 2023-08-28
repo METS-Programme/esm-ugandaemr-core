@@ -25,6 +25,23 @@
         "slot": "radiology-dashboard-slot",
         "title": "Radiology"
       }
+    },
+    {
+      "name": "radiology-patient-chart-link",
+      "slot": "patient-chart-dashboard-slot",
+      "component": "radiologyOrderDashboardLink",
+      "meta": {
+        "path": "radiology-orders",
+        "slot": "radiology-orders-dashboard-slot",
+        "title": "Radiology",
+        "columns": 1,
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "radiology-orders-summary",
+      "slot": "radiology-orders-dashboard-slot",
+      "component": "radiologyOrderComponent"
     }
   ]
 }

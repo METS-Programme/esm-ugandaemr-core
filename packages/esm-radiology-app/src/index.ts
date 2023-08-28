@@ -1,6 +1,7 @@
 import { getAsyncLifecycle, defineConfigSchema, getSyncLifecycle } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
-import { createDashboardLink } from './components/create-dashboard-link.component';
+import { createHomeDashboardLink } from './components/create-dashboard-link.component';
+import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
 
 const moduleName = '@ugandaemr/esm-radiology-app';
 
@@ -14,7 +15,7 @@ export const importTranslation = require.context('../translations', false, /.jso
 export const root = getAsyncLifecycle(() => import('./root.component'), options);
 
 export const radiologyDashboardLink = getSyncLifecycle(
-  createDashboardLink({
+  createHomeDashboardLink({
     name: 'radiology',
     slot: 'radiology-dashboard-slot',
     title: 'Radiology',
@@ -23,6 +24,20 @@ export const radiologyDashboardLink = getSyncLifecycle(
 );
 
 export const radiologyComponent = getAsyncLifecycle(() => import('./radiology.component'), options);
+
+// Patient chart
+export const radiologyOrderDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    path: 'radiology-orders',
+    title: 'Radiology',
+    moduleName,
+  }),
+  options,
+);
+export const radiologyOrderComponent = getAsyncLifecycle(
+  () => import('./patient-chart/radiology-order.component'),
+  options,
+);
 
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
