@@ -3,7 +3,6 @@ import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 import { ipdDashboardMeta, testingDashboardtMeta, treatmentDashboardtMeta } from './dashboard.meta';
-import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -14,7 +13,6 @@ const options = {
 
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
-  provide(ugandaEmrOverrides);
 }
 
 export const ipdDashboardGroup = getSyncLifecycle(createDashboardGroup(ipdDashboardMeta), options);
