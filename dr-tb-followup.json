@@ -624,8 +624,9 @@
     }
   ],
   "processor": "EncounterFormProcessor",
-  "encounterType": "",
+  "encounterType": "455bad1f-5e97-4ee9-9558-ff1df8808732",
   "referencedForms": [],
-  "uuid": "",
-  "description": "This form captures return visits/followup data of the DR TB Treatment program"
+  "uuid": "cf6bb1c1-6fcd-4cb6-b0c9-28a5d334c562",
+  "description": "This form captures return visits/followup data of the DR TB Treatment program",
+  "version": "1.0"
 }
