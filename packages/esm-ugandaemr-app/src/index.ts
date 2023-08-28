@@ -3,8 +3,6 @@ import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 import { createDashboardLink } from './createDashboardLink';
 import { facilityHomeDashboardMeta, hieHomeDashboardMeta } from './dashboard.meta';
-import ugandaEmrConfig from './ugandaemr-config';
-import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 import {
   createOHRIPatientChartSideNavLink,
   patientChartDivider_dashboardMeta,
@@ -19,8 +17,6 @@ const options = {
 
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
-  provide(ugandaEmrOverrides);
-  provide(ugandaEmrConfig);
 }
 
 // pages
