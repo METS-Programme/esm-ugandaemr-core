@@ -38,6 +38,7 @@
     "@ohri/openmrs-esm-ohri-commons-lib": "next",
     "@openmrs/esm-framework": "next",
     "@openmrs/esm-patient-common-lib": "next",
+    "@openmrs/esm-styleguide": "^5.1.0",
     "@swc/cli": "^0.1.57",
     "@swc/core": "^1.3.6",
     "@swc/jest": "^0.2.23",

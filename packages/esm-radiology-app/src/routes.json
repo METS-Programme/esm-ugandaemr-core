@@ -30,6 +30,7 @@
       "name": "radiology-patient-chart-link",
       "slot": "patient-chart-dashboard-slot",
       "component": "radiologyOrderDashboardLink",
+      "order": 13,
       "meta": {
         "path": "radiology-orders",
         "slot": "radiology-orders-dashboard-slot",

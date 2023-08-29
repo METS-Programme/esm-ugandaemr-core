@@ -12,9 +12,37 @@
   ],
   "extensions": [
     {
-      "name": "laboratory-link",
-      "slot": "app-menu-slot",
-      "component": "laboratoryAppMenuLink"
+      "name": "laboratory-dashboard",
+      "slot": "laboratory-dashboard-slot",
+      "component": "root"
+    },
+    {
+      "name": "laboratory-dashboard-link",
+      "slot": "homepage-dashboard-slot",
+      "component": "laboratoryDashboardLink",
+      "meta": {
+        "name": "laboratory",
+        "slot": "laboratory-dashboard-slot",
+        "title": "Laboratory"
+      }
+    },
+    {
+      "name": "laboratory-patient-chart-link",
+      "slot": "patient-chart-dashboard-slot",
+      "component": "laboratoryOrderDashboardLink",
+      "order": 13,
+      "meta": {
+        "path": "laboratory-orders",
+        "slot": "laboratory-orders-dashboard-slot",
+        "title": "Laboratory",
+        "columns": 1,
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "laboratory-orders-summary",
+      "slot": "laboratory-orders-dashboard-slot",
+      "component": "laboratoryOrderComponent"
     }
   ]
 }

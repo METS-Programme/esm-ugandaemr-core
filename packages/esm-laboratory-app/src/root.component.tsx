@@ -1,14 +1,14 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import styles from './root.scss';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Laboratory from './laboratory.component';
 
 const Root: React.FC = () => {
-  const { t } = useTranslation();
-
   return (
-    <div className={styles.container}>
-      <h3 className={styles.welcome}>{t('welcomeText', 'Welcome to Laboratory')}</h3>
-    </div>
+    <BrowserRouter basename={`${window.spaBase}/home/laboratory`}>
+      <Routes>
+        <Route path="/" element={<Laboratory />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 

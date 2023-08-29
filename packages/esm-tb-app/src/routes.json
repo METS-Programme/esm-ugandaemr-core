@@ -10,15 +10,16 @@
       "component": "tbDashboardGroup",
       "name": "tb-clinic-dashboard",
       "slot": "patient-chart-dashboard-slot",
+      "order": 18,
       "meta": {
-        "slotName": "tb-clinic-dashboard-slot", 
+        "slotName": "tb-clinic-dashboard-slot",
         "title": "TB & Leprosy Clinic"
       }
-    }, 
+    },
     {
       "component": "tbScreeningDashboardLink",
       "name": "tb-screening",
-      "slot": "tb-clinic-dashboard-slot", 
+      "slot": "tb-clinic-dashboard-slot",
         "meta": {
           "slot": "tb-screening-dashboard-slot",
           "title": "Screening",
