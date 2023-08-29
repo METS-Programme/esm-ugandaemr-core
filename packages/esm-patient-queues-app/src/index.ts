@@ -94,6 +94,11 @@ export const addQueueEntryWidget = getAsyncLifecycle(
   options,
 );
 
+export const pickPatientEntryQueue = getAsyncLifecycle(() => import('./active-visits/pick-patient-dialog.component'), {
+  featureName: 'pick patient dialog',
+  moduleName,
+});
+
 export const activeQueuePatientWorkspace = getAsyncLifecycle(
   () => import('./workspace/queue-patients-action-button.component'),
   {

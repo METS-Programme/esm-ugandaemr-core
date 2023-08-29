@@ -56,6 +56,10 @@
       "component": "clearAllQueueEntries"
     },
     {
+      "name": "pick-patient-queue-entry",
+      "component": "pickPatientEntryQueue"
+    },
+    {
       "name": "add-visit-to-queue-modal",
       "component": "addVisitToQueueModal"
     },

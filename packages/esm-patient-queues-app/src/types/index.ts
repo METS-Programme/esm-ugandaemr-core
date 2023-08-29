@@ -344,6 +344,8 @@ export interface MappedQueueEntry {
   queueEntryUuid: string;
   queueLocation: string;
   sortWeight: string;
+  visitNumber: string;
+  dateCreated: string;
 }
 
 export interface EndVisitPayload {

@@ -51,44 +51,44 @@ const TransitionQueueEntryModal: React.FC<TransitionQueueEntryModalProps> = ({ q
   const { mutate } = useVisitQueueEntries('', '');
   const provider = '';
 
-  const launchEditPriorityModal = useCallback(() => {
-    updateQueueEntry(provider, queueEntry?.visitUuid, queueEntry?.queueUuid, queueEntry?.queueUuid).then(
-      ({ status }) => {
-        if (status === 201) {
-          serveQueueEntry(queueEntry?.service, queueEntry?.visitQueueNumber, 'serving').then(({ status }) => {
-            if (status === 200) {
-              showToast({
-                critical: true,
-                title: t('success', 'Success'),
-                kind: 'success',
-                description: t('patientAttendingService', 'Patient attending service'),
-              });
-              closeModal();
-              mutate();
-              navigate({ to: `\${openmrsSpaBase}/patient/${queueEntry?.patientUuid}/chart` });
-            }
-          });
-        }
-      },
-      (error) => {
-        showNotification({
-          title: t('queueEntryUpdateFailed', 'Error updating queue entry'),
-          kind: 'error',
-          critical: true,
-          description: error?.message,
-        });
-      },
-    );
-  }, [
-    closeModal,
-    mutate,
-    queueEntry?.patientUuid,
-    queueEntry?.queueUuid,
-    queueEntry?.service,
-    queueEntry?.visitQueueNumber,
-    queueEntry?.visitUuid,
-    t,
-  ]);
+  // const launchEditPriorityModal = useCallback(() => {
+  //   updateQueueEntry(provider, queueEntry?.visitUuid, queueEntry?.queueUuid, queueEntry?.queueUuid).then(
+  //     ({ status }) => {
+  //       if (status === 201) {
+  //         serveQueueEntry(queueEntry?.service, queueEntry?.visitQueueNumber, 'serving').then(({ status }) => {
+  //           if (status === 200) {
+  //             showToast({
+  //               critical: true,
+  //               title: t('success', 'Success'),
+  //               kind: 'success',
+  //               description: t('patientAttendingService', 'Patient attending service'),
+  //             });
+  //             closeModal();
+  //             mutate();
+  //             navigate({ to: `\${openmrsSpaBase}/patient/${queueEntry?.patientUuid}/chart` });
+  //           }
+  //         });
+  //       }
+  //     },
+  //     (error) => {
+  //       showNotification({
+  //         title: t('queueEntryUpdateFailed', 'Error updating queue entry'),
+  //         kind: 'error',
+  //         critical: true,
+  //         description: error?.message,
+  //       });
+  //     },
+  //   );
+  // }, [
+  //   closeModal,
+  //   mutate,
+  //   queueEntry?.patientUuid,
+  //   queueEntry?.queueUuid,
+  //   queueEntry?.service,
+  //   queueEntry?.visitQueueNumber,
+  //   queueEntry?.visitUuid,
+  //   t,
+  // ]);
 
   const handleRequeuePatient = useCallback(() => {
     requeueQueueEntry(priorityComment.REQUEUED, queueEntry?.queueUuid, queueEntry?.queueEntryUuid).then(
@@ -162,7 +162,7 @@ const TransitionQueueEntryModal: React.FC<TransitionQueueEntryModalProps> = ({ q
         <Button kind="secondary" onClick={() => handleRequeuePatient()}>
           {t('requeue', 'Requeue')}
         </Button>
-        <Button onClick={() => launchEditPriorityModal()}>{t('serve', 'Serve')}</Button>
+        <Button>{t('serve', 'Serve')}</Button>
       </ModalFooter>
     </div>
   );

@@ -7,68 +7,134 @@ export interface QueueRoomsResponse {
   display: string;
   name: string;
   description: string;
-  address1: any;
-  address2: any;
-  cityVillage: any;
-  stateProvince: any;
+  address1: string;
+  address2: string;
+  cityvillage: string;
+  stateprovince: string;
   country: string;
-  postalCode: any;
-  latitude: any;
-  longitude: any;
-  countyDistrict: any;
-  address3: any;
-  address4: any;
-  address5: any;
-  address6: any;
-  tags: Tag[];
+  postalcode: string;
+  latitude: string;
+  longitude: string;
+  countydistrict: string;
+  address3: string;
+  address4: string;
+  address5: string;
+  address6: string;
+  tags: Tags[];
   parentLocation: ParentLocation;
-  childLocations: ChildLocation[];
+  childLocations: String[];
   retired: boolean;
-  attributes: any[];
-  address7: any;
-  address8: any;
-  address9: any;
-  address10: any;
-  address11: any;
-  address12: any;
-  address13: any;
-  address14: any;
-  address15: any;
-  links: Link[];
+  auditinfo: Auditinfo;
+  attributes: String[];
+  address7: string;
+  address8: string;
+  address9: string;
+  address10: string;
+  address11: string;
+  address12: string;
+  address13: string;
+  address14: string;
+  address15: string;
+  links: Links[];
   resourceVersion: string;
 }
 
-export interface Tag {
-  uuid: string;
-  display: string;
-  links: Link[];
+export interface Auditinfo {
+  creator: Creator;
+  dateCreated: string;
+  changedby: Changedby;
+  dateChanged: string;
 }
 
-export interface Link {
-  rel: string;
-  uri: string;
-  resourceAlias: string;
+export interface Changedby {
+  uuid: string;
+  display: string;
+  links: Links[];
+}
+
+export interface Creator {
+  uuid: string;
+  display: string;
+  links: Links[];
 }
 
 export interface ParentLocation {
   uuid: string;
   display: string;
-  links: Link[];
+  name: string;
+  description: string;
+  address1: string;
+  address2: string;
+  cityVillage: string;
+  stateProvince: string;
+  country: string;
+  postalcode: string;
+  latitude: string;
+  longitude: string;
+  countydistrict: string;
+  address3: string;
+  address4: string;
+  address5: string;
+  address6: string;
+  tags: Tags[];
+  parentLocation: ParentLocation;
+  childLocations: ChildLocations[];
+  retired: boolean;
+  attributes: String[];
+  address7: string;
+  address8: string;
+  address9: string;
+  address10: string;
+  address11: string;
+  address12: string;
+  address13: string;
+  address14: string;
+  address15: string;
+  links: Links[];
+  resourceversion: string;
 }
 
-export interface ChildLocation {
+export interface ChildLocations {
   uuid: string;
   display: string;
-  links: Link[];
+  links: Links[];
+}
+
+export interface ParentLocation {
+  uuid: string;
+  display: string;
+  links: Links[];
+}
+
+export interface Tags {
+  uuid: string;
+  display: string;
+  links: Links[];
+}
+
+export interface Tags {
+  uuid: string;
+  display: string;
+  name: string;
+  description: string;
+  retired: boolean;
+  links: Links[];
+  resourceversion: string;
+}
+
+export interface Links {
+  rel: string;
+  uri: string;
+  resourcealias: string;
 }
 
 export function useQueueRoomLocations(currentQueueLocation: string) {
-  const apiUrl = `/ws/rest/v1/location/${currentQueueLocation}?full-v`;
+  const apiUrl = `/ws/rest/v1/location/${currentQueueLocation}?v=full`;
   const { data, error, isLoading } = useSWR<{ data: QueueRoomsResponse }>(apiUrl, openmrsFetch);
 
   const queueRoomLocations = useMemo(
-    () => data?.data?.childLocations?.map((response) => response) ?? [],
-    [data?.data?.childLocations],
+    () => data?.data?.parentLocation?.childLocations?.map((response) => response) ?? [],
+    [data?.data?.parentLocation?.childLocations],
   );
   return { queueRoomLocations: queueRoomLocations ? queueRoomLocations : [], isLoading, error };
 }

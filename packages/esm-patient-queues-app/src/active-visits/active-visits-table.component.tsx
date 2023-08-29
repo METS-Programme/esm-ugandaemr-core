@@ -61,6 +61,7 @@ import { getOriginFromPathName } from './active-visits-table.resource';
 import styles from './active-visits-table.scss';
 import EditActionsMenu from './edit-action-menu.components';
 import { usePatientQueuesList } from './patient-queues.resource';
+import PickPatientActionMenu from '../queue-entry-table-components/pick-patient-queue-entry-menu.component';
 
 type FilterProps = {
   rowIds: Array<string>;
@@ -172,9 +173,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         content: <span>{trimVisitNumber(entry.visitNumber)}</span>,
       },
       name: {
-        content: (
-          <ConfigurableLink to={`\${openmrsSpaBase}/patient/${entry.patientUuid}/chart`}>{entry.name}</ConfigurableLink>
-        ),
+        content: entry.name,
       },
       priority: {
         content: (
@@ -223,7 +222,8 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       actions: {
         content: (
           <>
-            <ActionsMenu queueEntry={entry} closeModal={() => true} />
+            {/* <ActionsMenu queueEntry={entry} closeModal={() => true} /> */}
+            <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />
             <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
           </>
         ),
