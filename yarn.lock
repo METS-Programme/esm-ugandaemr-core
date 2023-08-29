@@ -6747,24 +6747,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ugandaemr/esm-laboratory-app@workspace:packages/esm-laboratory-app":
-  version: 0.0.0-use.local
-  resolution: "@ugandaemr/esm-laboratory-app@workspace:packages/esm-laboratory-app"
-  dependencies:
-    "@carbon/react": ^1.14.0
-    lodash-es: ^4.17.21
-    react-image-annotate: ^1.8.0
-    webpack: ^5.88.1
-  peerDependencies:
-    "@openmrs/esm-framework": "*"
-    dayjs: 1.x
-    react: 18.x
-    react-i18next: 11.x
-    react-router-dom: 6.x
-    rxjs: 6.x
-  languageName: unknown
-  linkType: soft
-
 "@ugandaemr/esm-outpatient-app@workspace:packages/esm-outpatient-app":
   version: 0.0.0-use.local
   resolution: "@ugandaemr/esm-outpatient-app@workspace:packages/esm-outpatient-app"
