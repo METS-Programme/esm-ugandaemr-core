@@ -17,6 +17,12 @@ export const treatmentDashboardtMeta = {
   title: 'Admission',
   path: 'opd-treatment',
 };
+export const PalliativeDashboardtMeta = {
+  slot: 'opd-palliatve-slot',
+  config: { columns: 1, type: 'grid' },
+  title: 'Palliative Care',
+  path: 'opd-palliative',
+};
 
 // export const outpatientDashboardMeta = {
 //   title: 'Outpatient Register',

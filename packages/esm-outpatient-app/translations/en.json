@@ -3,5 +3,6 @@
   "opdRegister": "OutPatient Register",
   "referralNote": "Referral Note",
   "admission": "Admission",
-  "clincalAssessment": "Clincal Assessment"
+  "clincalAssessment": "Clincal Assessment",
+  "palliative": "Palliative Care"
 }

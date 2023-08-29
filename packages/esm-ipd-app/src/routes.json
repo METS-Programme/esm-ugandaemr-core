@@ -49,6 +49,23 @@
             "name": "ipd-summary-ext",
             "slot": "ipd-treatment-slot",
             "component": "ipdTestingDashboardLinkExt"
+          },
+          {
+            "component": "ipdPalliativeDashboardLink",
+            "name": "ipd-palliative",
+            "slot": "ipd-dashboard-slot",
+            "meta": {
+              "slot": "ipd-palliatve-slot",
+              "title": "Palliative Care",
+              "path": "ipd-palliative",
+              "columns": 1,
+              "layoutMode": "anchored"
+            }
+        },
+        {
+            "name": "ipd-palliatve-summary-ext",
+            "slot": "ipd-palliatve-slot",
+            "component": "ipdPalliativeDashboardLinkExt"
           }
     ]
 }
