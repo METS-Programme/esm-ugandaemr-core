@@ -5,10 +5,10 @@ export const opdDashboardMeta = {
   isExpanded: false,
 };
 
-export const testingDashboardtMeta = {
+export const opdTestingDashboardMeta = {
   slot: 'opd-testing-slot',
   config: { columns: 1, type: 'grid' },
-  title: 'Clincal Assessment Form',
+  title: 'Clincal Assessment',
   path: 'opd-testing',
 };
 export const treatmentDashboardtMeta = {

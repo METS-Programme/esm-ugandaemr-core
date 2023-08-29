@@ -10,8 +10,8 @@ export const tbScreeningDashboardtMeta = {
   title: 'Screening',
   path: 'tb-screening',
 };
-export const tbTreatmentDashboardtMeta = {
-  slot: 'tb-treatment-slot',
+export const tbTreatmentDashboardMeta = {
+  slot: 'tb-treatment-dashboard-slot',
   config: { columns: 1, type: 'grid' },
   title: 'Treatment & Followup',
   path: 'tb-treatment',

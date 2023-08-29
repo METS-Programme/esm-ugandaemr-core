@@ -23,16 +23,14 @@
           "slot": "prevention-dashboard-slot",
           "title": "HIV Screening",
           "path": "hiv-prevention",
-          "columns": 1
+          "columns": 1,
+          "layoutMode": "anchored"
         }
     },
     {
       "name": "hiv-prevention-ext",
       "slot": "prevention-dashboard-slot",
-      "component": "hivPreventionDashboardExt",
-      "meta": {
-        "columnSpan": 4
-      }
+      "component": "hivPreventionDashboardExt"
     },
     {
       "name": "hts-service-summary-dashboard",
@@ -41,7 +39,8 @@
       "meta": {
         "slot": "hiv-patient-summary-dashboard-slot",
         "columns": 1,
-        "path": "hiv-patient-summary"
+        "path": "hiv-patient-summary",
+        "layoutMode": "anchored"
       }
     },
     {
@@ -56,7 +55,8 @@
       "meta": {
         "slot": "program-management-summary-slot",
         "columns": 1,
-        "path": "program-management"
+        "path": "program-management",
+        "layoutMode": "anchored"
       }
     },
     {
@@ -71,7 +71,8 @@
       "meta": {
         "slot": "clinical-visits-summary-slot",
         "columns": 1,
-        "path": "clinical-visits"
+        "path": "clinical-visits",
+        "layoutMode": "anchored"
       }
     },
     {
@@ -86,7 +87,8 @@
       "meta": {
         "slot": "general-counselling-summary-slot",
         "columns": 1,
-        "path": "general-counselling"
+        "path": "general-counselling",
+        "layoutMode": "anchored"
       }
     },
     {
@@ -101,7 +103,8 @@
       "meta": {
         "slot": "adherence-counselling-summary-slot",
         "columns": 1,
-        "path": "adherence-counselling"
+        "path": "adherence-counselling",
+        "layoutMode": "anchored"
       }
     },
     {
@@ -116,7 +119,8 @@
       "meta": {
         "slot": "partner-notification-services-slot",
         "columns": 1,
-        "path": "partner-notification-services"
+        "path": "partner-notification-services",
+        "layoutMode": "anchored"
       }
     },
     {

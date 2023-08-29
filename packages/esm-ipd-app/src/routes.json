@@ -24,16 +24,14 @@
                 "slot": "testing-dashboard-slot",
                 "title": "Clinical Assessment",
                 "path": "ipd-testing",
-                "columns": 1
+                "columns": 1,
+                "layoutMode": "anchored"
               }
         }, 
         {
             "name": "testing-summary-ext",
             "slot": "testing-dashboard-slot",
-            "component": "ipdTestDashboardLinkExt",
-            "meta": {
-              "columnSpan": 4
-            }
+            "component": "ipdTestDashboardLinkExt"
           },
         {
             "component": "ipdTreatmentDashboardLink",
@@ -43,16 +41,14 @@
               "slot": "ipd-treatment-slot",
               "title": "Admission",
               "path": "ipd-treatment",
-              "columns": 1
+              "columns": 1,
+              "layoutMode": "anchored"
             }
         },
         {
             "name": "ipd-summary-ext",
             "slot": "ipd-treatment-slot",
-            "component": "ipdTestingDashboardLinkExt",
-            "meta": {
-              "columnSpan": 4
-            }
+            "component": "ipdTestingDashboardLinkExt"
           }
     ]
 }

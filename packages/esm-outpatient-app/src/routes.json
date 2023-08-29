@@ -17,23 +17,21 @@
             }
         },
         {
-            "component": "opdTestingDashboardLink",
+            "component": "opdAssessmentDashboardLink",
             "name": "opd-testing",
             "slot": "opd-dashboard-slot", 
               "meta": {
-                "slot": "testing-dashboard-slot",
+                "slot": "opd-testing-slot",
                 "title": "Clinical Assessment",
                 "path": "opd-testing",
-                "columns": 1
+                "columns": 1,
+                "layoutMode": "anchored"
               }
         }, 
         {
             "name": "testing-summary-ext",
-            "slot": "testing-dashboard-slot",
-            "component": "opdTestDashboardLinkExt",
-            "meta": {
-              "columnSpan": 4
-            }
+            "slot": "opd-testing-slot",
+            "component": "opdAssessDashboardLinkExt"
           },
         {
             "component": "opdTreatmentDashboardLink",
@@ -43,16 +41,14 @@
               "slot": "opd-treatment-slot",
               "title": "Admission",
               "path": "opd-treatment",
-              "columns": 1
+              "columns": 1,
+              "layoutMode": "anchored"
             }
         },
         {
             "name": "opd-summary-ext",
             "slot": "opd-treatment-slot",
-            "component": "opdTestingDashboardLinkExt",
-            "meta": {
-              "columnSpan": 4
-            }
+            "component": "opdTestingDashboardLinkExt"
           }
     ]
 }
