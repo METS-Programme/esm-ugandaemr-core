@@ -329,6 +329,7 @@ export const getOriginFromPathName = (pathname = '') => {
 };
 
 export async function updateQueueEntry(
+  status: string,
   providerUuid: string,
   queueUuid: string,
   priorityComment: string,
@@ -346,7 +347,7 @@ export async function updateQueueEntry(
       provider: {
         uuid: providerUuid,
       },
-      status: 'Picked',
+      status: status,
       priorityComment: priorityComment === 'Urgent' ? 'Priority' : priorityComment,
       comment: comment,
     },

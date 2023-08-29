@@ -88,7 +88,8 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
     (event) => {
       event.preventDefault();
 
-      updateQueueEntry(provider, queueEntry?.id, priorityComment, 'comment').then(
+      const status = 'Picked';
+      updateQueueEntry(status, provider, queueEntry?.id, priorityComment, 'comment').then(
         () => {
           showToast({
             critical: true,
@@ -112,14 +113,14 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
         },
       );
     },
-    [provider, queueEntry?.id, queueEntry.patientUuid, priorityComment, t, closeModal, mutate],
+    [provider, queueEntry?.id, queueEntry?.patientUuid, priorityComment, t, closeModal, mutate],
   );
 
-  if (Object.keys(queueEntry)?.length === 0) {
+  if (queueEntry && Object.keys(queueEntry)?.length === 0) {
     return <ModalHeader closeModal={closeModal} title={t('patientNotInQueue', 'The patient is not in the queue')} />;
   }
 
-  if (Object.keys(queueEntry)?.length > 0) {
+  if (queueEntry && Object.keys(queueEntry)?.length > 0) {
     return (
       <div>
         <Form onSubmit={pickPatientQueueStatus}>

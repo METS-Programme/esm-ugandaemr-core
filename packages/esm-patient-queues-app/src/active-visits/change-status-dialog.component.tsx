@@ -23,7 +23,7 @@ import { MappedQueueEntry } from '../types';
 import styles from './change-status-dialog.scss';
 
 interface ChangeStatusDialogProps {
-  queueEntry: MappedQueueEntry;
+  queueEntry?: MappedQueueEntry;
   closeModal: () => void;
 }
 
@@ -118,11 +118,43 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
 
   const filteredlocations = queueRoomLocations?.filter((location) => location.uuid != selectedLocation);
 
-  const changeQueueStatus = useCallback(
+  // endVisit
+  const endVisitStatus = useCallback(
     (event) => {
       event.preventDefault();
       const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-      updateQueueEntry(provider, queueEntry?.id, priorityComment, comment).then(
+      const status = 'Completed';
+      updateQueueEntry(status, provider, queueEntry?.id, priorityComment, comment).then(
+        () => {
+          showToast({
+            critical: true,
+            title: t('endVisit', 'End Vist'),
+            kind: 'success',
+            description: t('endVisitSuccessfully', 'You have successfully ended patient visit'),
+          });
+          closeModal();
+          mutate();
+        },
+        (error) => {
+          showNotification({
+            title: t('queueEntryUpdateFailed', 'Error ending visit'),
+            kind: 'error',
+            critical: true,
+            description: error?.message,
+          });
+        },
+      );
+    },
+    [closeModal, mutate, priorityComment, provider, queueEntry?.id, t],
+  );
+
+  // change to picked
+  const changeQueueStatus = useCallback(
+    (event: { preventDefault: () => void; target: { [x: string]: { value: string } } }) => {
+      event.preventDefault();
+      const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+      const status = 'Picked';
+      updateQueueEntry(status, provider, queueEntry?.id, priorityComment, comment).then(
         () => {
           showToast({
             critical: true,
@@ -146,17 +178,20 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
     [provider, queueEntry?.id, priorityComment, t, closeModal, mutate],
   );
 
-  if (Object.keys(queueEntry)?.length === 0) {
+  if (queueEntry && Object.keys(queueEntry)?.length === 0) {
     return <ModalHeader closeModal={closeModal} title={t('patientNotInQueue', 'The patient is not in the queue')} />;
   }
 
-  if (Object.keys(queueEntry)?.length > 0) {
+  if (queueEntry && Object.keys(queueEntry)?.length > 0) {
     return (
       <div>
         <Form onSubmit={changeQueueStatus}>
           <ModalHeader
             closeModal={closeModal}
-            title={t('movePatientToNextQueueRoom', 'Move patient to the next queue room?')}
+            title={t(
+              'whatWouldyouLiketodo',
+              `You are  currently serving ${queueEntry.name} What would you like to do with this patient?`,
+            )}
           />
           <ModalBody>
             <div className={styles.modalBody}>
@@ -213,7 +248,10 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModa
             <Button kind="secondary" onClick={closeModal}>
               {t('cancel', 'Cancel')}
             </Button>
-            <Button type="submit">{t('moveToNextQueue', 'Move to next QueueRoom')}</Button>
+            <Button kind="danger" onClick={endVisitStatus}>
+              {t('endVisit', 'End Visit')}
+            </Button>
+            <Button type="submit">{t('moveToNextQueue', 'Move to next queue room')}</Button>
           </ModalFooter>
         </Form>
       </div>
