@@ -5,16 +5,17 @@ export const opdDashboardMeta = {
   isExpanded: false,
 };
 
-export const opdTestingDashboardMeta = {
-  slot: 'opd-testing-slot',
+export const assessmentDashboardtMeta = {
+  slot: 'opd-assessment-slot',
   config: { columns: 1, type: 'grid' },
-  title: 'Clincal Assessment',
-  path: 'opd-testing',
+  title: 'Clinical Assessment',
+  path: 'opd-assessment',
 };
+
 export const treatmentDashboardtMeta = {
   slot: 'opd-treatment-slot',
   config: { columns: 1, type: 'grid' },
-  title: 'Admission',
+  title: 'Linkage and Referral',
   path: 'opd-treatment',
 };
 export const PalliativeDashboardtMeta = {

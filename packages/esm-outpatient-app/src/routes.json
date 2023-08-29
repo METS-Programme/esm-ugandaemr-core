@@ -18,20 +18,20 @@
         },
         {
             "component": "opdAssessmentDashboardLink",
-            "name": "opd-testing",
-            "slot": "opd-dashboard-slot", 
-              "meta": {
-                "slot": "opd-testing-slot",
-                "title": "Clinical Assessment",
-                "path": "opd-testing",
-                "columns": 1,
-                "layoutMode": "anchored"
-              }
-        }, 
+            "name": "opd-assessment",
+            "slot": "opd-dashboard-slot",
+            "meta": {
+              "slot": "opd-assessment-slot",
+              "title": "Clinical Assessment",
+              "path": "opd-assessment",
+              "columns": 1,
+              "layoutMode": "anchored"
+            }
+        },
         {
-            "name": "testing-summary-ext",
-            "slot": "opd-testing-slot",
-            "component": "opdAssessDashboardLinkExt"
+            "name": "assessment-summary-ext",
+            "slot": "opd-assessment-slot",
+            "component": "opdAssessmentDashboardLinkExt"
           },
         {
             "component": "opdTreatmentDashboardLink",
@@ -39,7 +39,7 @@
             "slot": "opd-dashboard-slot",
             "meta": {
               "slot": "opd-treatment-slot",
-              "title": "Admission",
+              "title": "Linkage and Referral",
               "path": "opd-treatment",
               "columns": 1,
               "layoutMode": "anchored"
