@@ -15,9 +15,9 @@ import { useTranslation } from 'react-i18next';
 import { PatientChartProps } from '../../types';
 import { moduleName } from '../../constants';
 
-const Admission: React.FC<PatientChartProps> = ({ patientUuid }) => {
+const LinkageAndReferral: React.FC<PatientChartProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
-  const headerTitle = t('admission');
+  const headerTitle = t('linkage');
 
   const columns: EncounterListColumn[] = useMemo(
     () => [
@@ -47,14 +47,14 @@ const Admission: React.FC<PatientChartProps> = ({ patientUuid }) => {
         getValue: (encounter) => {
           const baseActions = [
             {
-              form: { name: 'Admission form' },
+              form: { name: 'Comprehensive Patient Referral and Linakage Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: t('viewDetails', 'View Details'),
               mode: 'view',
             },
             {
-              form: { name: 'Admission form' },
+              form: { name: 'Comprehensive Patient Referral and Linakage Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: t('editForm', 'Edit Form'),
@@ -72,7 +72,7 @@ const Admission: React.FC<PatientChartProps> = ({ patientUuid }) => {
     <EncounterList
       patientUuid={patientUuid}
       encounterType={clinicalVisitEncounterType}
-      formList={[{ name: 'Admission form' }]}
+      formList={[{ name: 'Comprehensive Patient Referral and Linakage Form' }]}
       columns={columns}
       description="clinical visit encounters"
       headerTitle={headerTitle}
@@ -84,4 +84,4 @@ const Admission: React.FC<PatientChartProps> = ({ patientUuid }) => {
   );
 };
 
-export default Admission;
+export default LinkageAndReferral;

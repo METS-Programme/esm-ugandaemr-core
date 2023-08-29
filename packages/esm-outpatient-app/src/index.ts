@@ -5,8 +5,8 @@ import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 import {
   PalliativeDashboardtMeta,
+  assessmentDashboardtMeta,
   opdDashboardMeta,
-  opdTestingDashboardMeta,
   treatmentDashboardtMeta,
 } from './dashboard.meta';
 import formsRegistry from './forms/forms-registry';
@@ -26,19 +26,22 @@ export function startupApp() {
 
 export const opdDashboardGroup = getSyncLifecycle(createDashboardGroup(opdDashboardMeta), options);
 
-//  testing dashboard
+//  Clinical Assessment dashboard
 export const opdAssessmentDashboardLink = getSyncLifecycle(
   createDashboardLink({
-    ...opdTestingDashboardMeta,
+    ...assessmentDashboardtMeta,
     moduleName,
   }),
   options,
 );
 
-export const opdAssessDashboardLinkExt = getAsyncLifecycle(() => import('./pages/opd/clinical-assessment.component'), {
-  featureName: 'opd-assess-ext',
-  moduleName,
-});
+export const opdAssessmentDashboardLinkExt = getAsyncLifecycle(
+  () => import('./pages/opd/clinical-assessment.component'),
+  {
+    featureName: 'assessment-dashboard-ext',
+    moduleName,
+  },
+);
 
 //  treatment dashboard
 export const opdTreatmentDashboardLink = getSyncLifecycle(
@@ -49,10 +52,13 @@ export const opdTreatmentDashboardLink = getSyncLifecycle(
   options,
 );
 
-export const opdTestingDashboardLinkExt = getAsyncLifecycle(() => import('./pages/opd/admission.component'), {
-  featureName: 'opd-dashboard-ext',
-  moduleName,
-});
+export const opdTestingDashboardLinkExt = getAsyncLifecycle(
+  () => import('./pages/opd/linkagae-and-referral.component'),
+  {
+    featureName: 'opd-dashboard-ext',
+    moduleName,
+  },
+);
 
 //  Palliative dashboard
 export const opdPalliativeDashboardLink = getSyncLifecycle(
