@@ -2,7 +2,7 @@ import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle } from '@openmr
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-common-lib';
-import { TBDashboardMeta, tbScreeningDashboardtMeta, tbTreatmentDashboardtMeta } from './dashboard.meta';
+import { TBDashboardMeta, tbScreeningDashboardtMeta, tbTreatmentDashboardMeta } from './dashboard.meta';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -33,12 +33,15 @@ export const tbScreeningDashboardExt = getAsyncLifecycle(() => import('./pages/s
 //treatment and followup
 export const tbTreatmentDashboardLink = getSyncLifecycle(
   createDashboardLink({
-    ...tbTreatmentDashboardtMeta,
+    ...tbTreatmentDashboardMeta,
     moduleName,
   }),
   options,
 );
-export const tbTreatmentDashboardExt = getAsyncLifecycle(() => import('./pages/treatment/treatment.component'), {
-  featureName: 'tb-treatment',
-  moduleName,
-});
+export const tbTreatmentDashboardExt = getAsyncLifecycle(
+  () => import('./pages/treatment/treatment-follow-up.component'),
+  {
+    featureName: 'tb-treatment',
+    moduleName,
+  },
+);

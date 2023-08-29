@@ -23,35 +23,31 @@
           "slot": "tb-screening-dashboard-slot",
           "title": "Screening",
           "path": "tb-screening",
-          "columns": 1
+          "columns": 1,
+          "layoutMode": "anchored"
         }
     },
     {
       "name": "tb-screening-dashboard-ext",
       "slot": "tb-screening-dashboard-slot",
-      "component": "tbScreeningDashboardExt",
-      "meta": {
-        "columnSpan": 4
-      }
+      "component": "tbScreeningDashboardExt"
     },
     {
       "component": "tbTreatmentDashboardLink",
       "name": "tb-treatment",
       "slot": "tb-clinic-dashboard-slot",
       "meta": {
-        "slot": "tb-Treatment-dashboard-slot",
+        "slot": "tb-treatment-dashboard-slot",
         "title": "Treatment & Followup",
         "path": "tb-treatment",
-        "columns": 1
+        "columns": 1,
+        "layoutMode": "anchored"
       }
     },
     {
       "name": "tb-treatment-dashboard-ext",
       "slot": "tb-treatment-dashboard-slot",
-      "component": "tbTreatmentDashboardExt",
-      "meta": {
-        "columnSpan": 4
-      }
+      "component": "tbTreatmentDashboardExt"
     },
 
     {

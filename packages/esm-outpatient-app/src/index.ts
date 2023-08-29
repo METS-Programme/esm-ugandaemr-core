@@ -3,7 +3,7 @@ import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
-import { opdDashboardMeta, testingDashboardtMeta, treatmentDashboardtMeta } from './dashboard.meta';
+import { opdDashboardMeta, opdTestingDashboardMeta, treatmentDashboardtMeta } from './dashboard.meta';
 import formsRegistry from './forms/forms-registry';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
@@ -22,16 +22,16 @@ export function startupApp() {
 export const opdDashboardGroup = getSyncLifecycle(createDashboardGroup(opdDashboardMeta), options);
 
 //  testing dashboard
-export const opdTestingDashboardLink = getSyncLifecycle(
+export const opdAssessmentDashboardLink = getSyncLifecycle(
   createDashboardLink({
-    ...testingDashboardtMeta,
+    ...opdTestingDashboardMeta,
     moduleName,
   }),
   options,
 );
 
-export const opdTestDashboardLinkExt = getAsyncLifecycle(() => import('./pages/opd/clinical-assessment.component'), {
-  featureName: 'opd-dashboard-ext',
+export const opdAssessDashboardLinkExt = getAsyncLifecycle(() => import('./pages/opd/clinical-assessment.component'), {
+  featureName: 'opd-assess-ext',
   moduleName,
 });
 
