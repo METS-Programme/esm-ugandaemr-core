@@ -65,7 +65,23 @@ const ClinicalVisitWidget: React.FC<ClinicalVisitWidgetProps> = ({ patientUuid }
         key: 'actions',
         header: t('actions', 'Actions'),
         getValue: (encounter) => {
-          return encounter.actions;
+          const baseActions = [
+            {
+              form: { name: 'POC Clinical Visit Form' },
+              encounterUuid: encounter.uuid,
+              intent: '*',
+              label: t('viewDetails', 'View Details'),
+              mode: 'view',
+            },
+            {
+              form: { name: 'POC Clinical Visit Form' },
+              encounterUuid: encounter.uuid,
+              intent: '*',
+              label: t('editForm', 'Edit Form'),
+              mode: 'edit',
+            },
+          ];
+          return baseActions;
         },
       },
     ],
@@ -75,7 +91,7 @@ const ClinicalVisitWidget: React.FC<ClinicalVisitWidgetProps> = ({ patientUuid }
     <EncounterList
       patientUuid={patientUuid}
       encounterType={clinicalVisitEncounterType}
-      formList={[{ name: 'POC Clinical Visit Form v2' }]}
+      formList={[{ name: 'POC Clinical Visit Form' }]}
       columns={columns}
       description="clinical visit encounters"
       headerTitle="Clinical Visits"

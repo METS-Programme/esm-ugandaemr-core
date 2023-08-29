@@ -1,7 +1,7 @@
 import { EncounterList, EncounterListColumn, getObsFromEncounter } from '@ohri/openmrs-esm-ohri-commons-lib';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ANTENATAL_ENCOUNTER_TYPE, moduleName } from '../../../../constants';
+import { ANTENATAL_ENCOUNTER_TYPE, POSTNATAL_ENCOUNTER_TYPE, moduleName } from '../../../../constants';
 
 interface ANCRegisterProps {
   patientUuid: string;
@@ -33,14 +33,14 @@ const ANCRegister: React.FC<ANCRegisterProps> = ({ patientUuid }) => {
         getValue: (encounter) => {
           const baseActions = [
             {
-              form: { name: 'integratedAntenatalRegister', package: 'uganda_emr_mch' },
+              form: { name: 'POC IntegratedAntenatalRegister.' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: 'View Details',
               mode: 'view',
             },
             {
-              form: { name: 'integratedAntenatalRegister', package: 'uganda_emr_mch' },
+              form: { name: 'POC IntegratedAntenatalRegister.' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: 'Edit Form',
@@ -60,7 +60,7 @@ const ANCRegister: React.FC<ANCRegisterProps> = ({ patientUuid }) => {
     <EncounterList
       patientUuid={patientUuid}
       encounterType={ANTENATAL_ENCOUNTER_TYPE}
-      formList={[{ name: 'integrated_antenatal_register' }]}
+      formList={[{ name: 'POC IntegratedAntenatalRegister.' }]}
       columns={columnsLab}
       description={headerTitle}
       headerTitle={headerTitle}

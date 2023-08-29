@@ -40,14 +40,14 @@ const PncRegister: React.FC<PncRegisterProps> = ({ patientUuid }) => {
         getValue: (encounter) => {
           const baseActions = [
             {
-              form: { name: 'integrated_postnatal_register', package: 'uganda_emr_mch' },
+              form: { name: 'POC Postnatal Register', package: 'uganda_emr_mch' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: 'View Details',
               mode: 'view',
             },
             {
-              form: { name: 'integrated_postnatal_register', package: 'uganda_emr_mch' },
+              form: { name: 'POC Postnatal Register', package: 'uganda_emr_mch' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: 'Edit Form',
@@ -67,7 +67,7 @@ const PncRegister: React.FC<PncRegisterProps> = ({ patientUuid }) => {
     <EncounterList
       patientUuid={patientUuid}
       encounterType={POSTNATAL_ENCOUNTER_TYPE}
-      formList={[{ name: 'Integrated Postnatal Register' }]}
+      formList={[{ name: 'POC Postnatal Register' }]}
       columns={columnsLab}
       description={headerTitle}
       headerTitle={headerTitle}

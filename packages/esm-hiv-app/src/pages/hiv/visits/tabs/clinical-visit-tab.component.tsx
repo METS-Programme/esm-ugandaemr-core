@@ -69,14 +69,14 @@ const ClinicalVisitList: React.FC<ClinicalVisitListProps> = ({ patientUuid }) =>
         getValue: (encounter) => {
           const baseActions = [
             {
-              form: { name: 'POC Clinical Visit Form v2', package: 'hiv' },
+              form: { name: 'POC Clinical Visit Form', package: 'hiv' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: t('viewDetails', 'View Details'),
               mode: 'view',
             },
             {
-              form: { name: 'POC Clinical Visit Form v2', package: 'hiv' },
+              form: { name: 'POC Clinical Visit Form', package: 'hiv' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: t('editForm', 'Edit Form'),
@@ -94,7 +94,7 @@ const ClinicalVisitList: React.FC<ClinicalVisitListProps> = ({ patientUuid }) =>
     <EncounterList
       patientUuid={patientUuid}
       encounterType={clinicalVisitEncounterType}
-      formList={[{ name: 'POC Clinical Visit Form v2' }]}
+      formList={[{ name: 'POC Clinical Visit Form' }]}
       columns={columns}
       description="clinical visit encounters"
       headerTitle={headerTitle}

@@ -16,7 +16,7 @@ const VisitsSummary: React.FC<OverviewListProps> = ({ patientUuid }) => {
       <Tabs>
         <TabList contained>
           <Tab>{t('clinicalVisit', 'Clinical Visit')}</Tab>
-          <Tab>{t('expressVisit', 'Express Visit')}</Tab>
+          {/* <Tab>{t('expressVisit', 'Express Visit')}</Tab> */}
         </TabList>
         <TabPanels>
           <TabPanel>

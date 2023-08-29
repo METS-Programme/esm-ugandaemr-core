@@ -33,14 +33,14 @@ const MaternityRegister: React.FC<MaternityRegisterProps> = ({ patientUuid }) =>
         getValue: (encounter) => {
           const baseActions = [
             {
-              form: { name: 'integrated_maternity_register', package: 'uganda_emr_mch' },
+              form: { name: 'POC IntegratedMaternityRegister.', package: 'uganda_emr_mch' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: 'View Details',
               mode: 'view',
             },
             {
-              form: { name: 'integrated_maternity_register', package: 'uganda_emr_mch' },
+              form: { name: 'POC IntegratedMaternityRegister.', package: 'uganda_emr_mch' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: 'Edit Form',
@@ -60,7 +60,7 @@ const MaternityRegister: React.FC<MaternityRegisterProps> = ({ patientUuid }) =>
     <EncounterList
       patientUuid={patientUuid}
       encounterType={MATERNITY_ENCOUNTER_TYPE}
-      formList={[{ name: 'integrated_maternity_register' }]}
+      formList={[{ name: 'POC IntegratedMaternityRegister.' }]}
       columns={columnsLab}
       description={headerTitle}
       headerTitle={headerTitle}
