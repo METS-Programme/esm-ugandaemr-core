@@ -17,3 +17,9 @@ export const treatmentDashboardtMeta = {
   title: 'Admission',
   path: 'ipd-treatment',
 };
+export const ipdPalliativeDashboardtMeta = {
+  slot: 'ipd-palliatve-slot',
+  config: { columns: 1, type: 'grid' },
+  title: 'Palliative Care',
+  path: 'ipd-palliative',
+};

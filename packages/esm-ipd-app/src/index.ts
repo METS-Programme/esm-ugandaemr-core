@@ -2,7 +2,12 @@ import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from
 import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-common-lib';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
-import { ipdDashboardMeta, testingDashboardtMeta, treatmentDashboardtMeta } from './dashboard.meta';
+import {
+  ipdDashboardMeta,
+  ipdPalliativeDashboardtMeta,
+  testingDashboardtMeta,
+  treatmentDashboardtMeta,
+} from './dashboard.meta';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -47,6 +52,23 @@ export const ipdTestingDashboardLinkExt = getAsyncLifecycle(
   () => import('./pages/ipd/admissions/admission.component'),
   {
     featureName: 'ipd-dashboard-ext',
+    moduleName,
+  },
+);
+
+//  Palliative dashboard
+export const ipdPalliativeDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    ...ipdPalliativeDashboardtMeta,
+    moduleName,
+  }),
+  options,
+);
+
+export const ipdPalliativeDashboardLinkExt = getAsyncLifecycle(
+  () => import('./pages/ipd/palliative/palliative-care.component'),
+  {
+    featureName: 'ipd--palliative-dashboard-ext',
     moduleName,
   },
 );
