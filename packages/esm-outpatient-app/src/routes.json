@@ -49,6 +49,23 @@
             "name": "opd-summary-ext",
             "slot": "opd-treatment-slot",
             "component": "opdTestingDashboardLinkExt"
+          },
+          {
+            "component": "opdPalliativeDashboardLink",
+            "name": "opd-palliative",
+            "slot": "opd-dashboard-slot",
+            "meta": {
+              "slot": "opd-palliatve-slot",
+              "title": "Palliative Care",
+              "path": "opd-palliative",
+              "columns": 1,
+              "layoutMode": "anchored"
+            }
+        },
+        {
+            "name": "opd-palliatve-ext",
+            "slot": "opd-palliatve-slot",
+            "component": "opdPalliativeDashboardLinkExt"
           }
     ]
 }

@@ -3,7 +3,12 @@ import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
-import { opdDashboardMeta, opdTestingDashboardMeta, treatmentDashboardtMeta } from './dashboard.meta';
+import {
+  PalliativeDashboardtMeta,
+  opdDashboardMeta,
+  opdTestingDashboardMeta,
+  treatmentDashboardtMeta,
+} from './dashboard.meta';
 import formsRegistry from './forms/forms-registry';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
@@ -45,6 +50,20 @@ export const opdTreatmentDashboardLink = getSyncLifecycle(
 );
 
 export const opdTestingDashboardLinkExt = getAsyncLifecycle(() => import('./pages/opd/admission.component'), {
+  featureName: 'opd-dashboard-ext',
+  moduleName,
+});
+
+//  Palliative dashboard
+export const opdPalliativeDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    ...PalliativeDashboardtMeta,
+    moduleName,
+  }),
+  options,
+);
+
+export const opdPalliativeDashboardLinkExt = getAsyncLifecycle(() => import('./pages/opd/palliative-care.component'), {
   featureName: 'opd-dashboard-ext',
   moduleName,
 });
