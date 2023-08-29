@@ -29,6 +29,7 @@ const PickPatientActionMenu: React.FC<PickPatientActionMenuProps> = ({ queueEntr
       const dispose = showModal('edit-queue-entry-status-modal', {
         closeModal: () => dispose(),
         queueEntry: servedQueuePatients,
+        currentEntry: queueEntry,
       });
     } else {
       const dispose = showModal('pick-patient-queue-entry', {
