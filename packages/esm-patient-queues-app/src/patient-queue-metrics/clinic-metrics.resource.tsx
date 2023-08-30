@@ -394,3 +394,39 @@ export function usePatientsBeingServed(currentQueueLocationUuid: string, status:
     mutate,
   };
 }
+
+// overall checked in patients
+export function useQueuePatients(status: string) {
+  const apiUrl = `/ws/rest/v1/patientqueue?v=full&status=${status}`;
+  const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
+    apiUrl,
+    openmrsFetch,
+  );
+
+  return {
+    count: data?.data.results?.length,
+    isLoading,
+    isError: error,
+    isValidating,
+    mutate,
+  };
+}
+
+// overall expected appointments
+
+// overall being served patients
+export function useQueueServingPatients(status: string) {
+  const apiUrl = `/ws/rest/v1/patientqueue?v=full&status=${status}`;
+  const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
+    apiUrl,
+    openmrsFetch,
+  );
+
+  return {
+    patientQueueCount: data?.data.results?.length,
+    isLoading,
+    isError: error,
+    isValidating,
+    mutate,
+  };
+}
