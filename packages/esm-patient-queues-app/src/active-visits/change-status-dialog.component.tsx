@@ -187,8 +187,25 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             //  endvisit
             endVisitStatus;
 
-            // view patient summary
-            navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry.patientUuid}/chart` });
+            // pick and route
+            const status = 'Picked';
+            updateQueueEntry(status, provider, currentEntry?.id, priorityComment, 'comment').then(
+              () => {
+                // view patient summary
+                navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry.patientUuid}/chart` });
+
+                closeModal();
+                mutate();
+              },
+              (error) => {
+                showNotification({
+                  title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+                  kind: 'error',
+                  critical: true,
+                  description: error?.message,
+                });
+              },
+            );
 
             closeModal();
             mutate();
@@ -204,17 +221,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
         );
       }
     },
-    [
-      status,
-      provider,
-      queueEntry?.id,
-      priorityComment,
-      t,
-      closeModal,
-      mutate,
-      endVisitStatus,
-      currentEntry.patientUuid,
-    ],
+    [status, provider, queueEntry?.id, queueEntry.patientUuid, priorityComment, t, closeModal, mutate, endVisitStatus],
   );
 
   if (queueEntry && Object.keys(queueEntry)?.length === 0) {
@@ -234,10 +241,10 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                 &nbsp;
                 {t('years', 'Years')}
               </h5>
-
+              <br></br>
+              <hr />
               <br></br>
               <h4 className={styles.section}> Currently Serving :</h4>
-
               <h5 className={styles.section}>
                 {queueEntry.name} &nbsp; · &nbsp;{queueEntry.patientSex} &nbsp; · &nbsp;{queueEntry.patientAge}&nbsp;
                 {t('years', 'Years')}
