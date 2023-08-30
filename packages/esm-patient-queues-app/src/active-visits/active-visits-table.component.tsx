@@ -62,6 +62,7 @@ import styles from './active-visits-table.scss';
 import EditActionsMenu from './edit-action-menu.components';
 import { usePatientQueuesList } from './patient-queues.resource';
 import PickPatientActionMenu from '../queue-entry-table-components/pick-patient-queue-entry-menu.component';
+import EmptyState from '../utils/empty-state/empty-state.component';
 
 type FilterProps = {
   rowIds: Array<string>;
@@ -385,70 +386,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
     );
   }
 
-  return (
-    <div className={styles.container}>
-      {useQueueTableTabs === false ? (
-        <>
-          <div className={styles.headerContainer}>
-            <UserHasAccess privilege={PRIVILEGE_CHECKIN}>
-              <div className={styles.headerButtons}>
-                <ExtensionSlot
-                  name="patient-search-button-slot"
-                  state={{
-                    buttonText: t('checkIn', 'Check In'),
-                    overlayHeader: t('checkIn', 'Check In'),
-                    buttonProps: {
-                      kind: 'secondary',
-                      renderIcon: (props) => <Add size={16} {...props} />,
-                      size: 'sm',
-                    },
-                    selectPatientAction: (selectedPatientUuid) => {
-                      setShowOverlay(true);
-                      setView(SearchTypes.SCHEDULED_VISITS);
-                      setViewState({ selectedPatientUuid });
-                      setOverlayTitle(t('checkIn', 'Check In'));
-                    },
-                  }}
-                />
-              </div>
-            </UserHasAccess>
-          </div>
-        </>
-      ) : null}
-      <div className={styles.tileContainer}>
-        <Tile className={styles.tile}>
-          <p className={styles.content}>{t('noPatientsToDisplay', 'No patients to display')}</p>
-          <UserHasAccess privilege={PRIVILEGE_CHECKIN}>
-            <ExtensionSlot
-              name="patient-search-button-slot"
-              state={{
-                buttonText: t('checkIn', 'Check In'),
-                overlayHeader: t('checkIn', 'Check In'),
-                buttonProps: {
-                  kind: 'ghost',
-                  renderIcon: (props) => <Add size={16} {...props} />,
-                  size: 'sm',
-                },
-                selectPatientAction: (selectedPatientUuid) => {
-                  setShowOverlay(true);
-                  setView(SearchTypes.SCHEDULED_VISITS);
-                  setViewState({ selectedPatientUuid });
-                  setOverlayTitle(t('checkIn', 'Check In'));
-                },
-              }}
-            />
-          </UserHasAccess>
-        </Tile>
-      </div>
-      {showOverlay && (
-        <PatientSearch
-          view={view}
-          closePanel={() => setShowOverlay(false)}
-          viewState={viewState}
-          headerTitle={overlayHeader}
-        />
-      )}
-    </div>
-  );
+  return <EmptyState msg="No queue items to display" helper="" />;
 };
 export default ActiveVisitsTable;

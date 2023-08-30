@@ -39,6 +39,7 @@ import StatusIcon from '../queue-entry-table-components/status-icon.component';
 import { SearchTypes } from '../types';
 import { usePatientQueuesList } from './active-visits-reception.resource';
 import styles from './active-visits-reception.scss';
+import EmptyState from '../utils/empty-state/empty-state.component';
 
 type FilterProps = {
   rowIds: Array<string>;
@@ -347,7 +348,6 @@ function ActiveVisitsReceptionTable() {
         <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
           <span className={styles.heading}>{`Checked In Patients`}</span>
         </div>
-        {/* <UserHasAccess privilege={PRIVILEGE_CHECKIN}> */}
         <div className={styles.headerButtons}>
           <ExtensionSlot
             name="patient-search-button-slot"
@@ -376,8 +376,8 @@ function ActiveVisitsReceptionTable() {
             headerTitle={overlayHeader}
           />
         )}
-        {/* </UserHasAccess> */}
       </div>
+      <EmptyState msg="No patient queue items to display" helper="" />
     </div>
   );
 }
