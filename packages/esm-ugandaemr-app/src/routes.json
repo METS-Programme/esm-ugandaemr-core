@@ -55,7 +55,7 @@
       "name": "clinical-views-divider",
       "component": "clinicalViewsDivider",
       "slot": "patient-chart-dashboard-slot",
-      "order": 12
+      "order": 15
     },
     {
       "component": "cervicalCancerSummaryExt",

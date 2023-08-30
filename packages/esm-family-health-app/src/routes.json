@@ -1,104 +1,200 @@
 {
-    "$schema": "https://json.openmrs.org/routes.schema.json",
-    "backendDependencies": {
-      "fhir2": "^1.2.0",
-      "webservices.rest": "^2.2.0"
-    },
-    "pages": [],
-    "extensions": [
-      {
-        "name": "family-health-clinic-dashboard",
-        "slot": "patient-chart-dashboard-slot",
-        "component": "familyHealthClinicDashboard",
-        "meta": {
-          "title": "Family Health",
-          "slotName": "family-health-dashboard-slot"
-        }
-      },
-      {
-        "name": "mch-dashboard",
-        "slot": "family-health-dashboard-slot",
-        "component": "mchDashboard",
-        "meta": {
-          "slot": "mch-dashboard-slot",
-          "title": "Maternal Child Health",
-          "path": "maternal-child-health",
-          "columns": 1,
-          "layoutMode": "anchored"
-        }
-      },
-      {
-        "name": "mch-dashboard-summary-ext",
-        "slot": "mch-dashboard-slot",
-        "component": "mchDashboardSummaryExt"
-      },
-      {
-        "name": "child-health-dashboard",
-        "slot": "family-health-dashboard-slot",
-        "component": "childHealthDashboard",
-        "meta": {
-          "slot": "child-health-dashboard-slot",
-          "columns": 1,
-          "title": "Child Health",
-          "path": "child-health",
-          "layoutMode": "anchored"
-        }
-      },
-      {
-        "name": "child-health-summary-ext",
-        "slot": "child-health-dashboard-slot",
-        "component": "childHealthSummaryExt"
-      },
-      {
-        "name": "nutrition-dashboard",
-        "slot": "family-health-dashboard-slot",
-        "component": "nutritionDashboard",
-        "meta": {
-          "slot": "nutrition-dashboard-slot",
-          "columns": 1,
-          "title": "Nutrition",
-          "path": "nutrition",
-          "layoutMode": "anchored"
-        }
-      },
-      {
-        "name": "nutrition-summary-ext",
-        "slot": "nutrition-dashboard-slot",
-        "component": "nutritionDashboardExt"
-      },
-      {
-        "name": "hiv-exposed-infant-dashboard",
-        "slot": "family-health-dashboard-slot",
-        "component": "hivExposedInfantDashboard",
-        "meta": {
-          "slot": "hiv-exposed-infant-slot",
-          "columns": 1,
-          "title": "HIV Exposed Infant",
-          "path": "hiv-exposed-infant",
-          "layoutMode": "anchored"
-        }
-      },
-      {
-        "name": "hiv-exposed-infant-ext",
-        "slot": "hiv-exposed-infant-slot",
-        "component": "hivExposedInfantExt"
-      },
-      {
-        "name": "family-planning-dashboard",
-        "slot": "family-health-dashboard-slot",
-        "component": "familyPlanningDashboard",
-        "meta": {
-          "slot": "family-planning-dashboard-slot",
-          "columns": 1,
-          "title": "Family Planning",
-          "path": "family-planning",
-          "layoutMode": "anchored"
-        }
-      },
-      {
-        "name": "family-planning-dashboard-ext",
-        "slot": "family-planning-dashboard-slot",
-        "component": "familyPlanningDashboardExt"
+  "$schema": "https://json.openmrs.org/routes.schema.json",
+  "backendDependencies": {
+    "fhir2": "^1.2.0",
+    "webservices.rest": "^2.2.0"
+  },
+  "pages": [],
+  "extensions": [
+    {
+      "name": "family-health-clinic-dashboard",
+      "slot": "patient-chart-dashboard-slot",
+      "component": "familyHealthClinicDashboard",
+      "order": 17,
+      "meta": {
+        "title": "Family Health",
+        "slotName": "family-health-dashboard-slot"
       }
-    ]
-  }
+    },
+    {
+      "name": "mch-dashboard",
+      "slot": "family-health-dashboard-slot",
+      "component": "mchDashboard",
+      "meta": {
+        "slot": "mch-dashboard-slot",
+        "title": "Maternal Child Health",
+        "path": "maternal-child-health",
+        "columns": 1,
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "mch-dashboard-summary-ext",
+      "slot": "mch-dashboard-slot",
+      "component": "mchDashboardSummaryExt"
+    },
+    {
+      "name": "child-health-dashboard",
+      "slot": "family-health-dashboard-slot",
+      "component": "childHealthDashboard",
+      "meta": {
+        "slot": "child-health-dashboard-slot",
+        "columns": 1,
+        "title": "Child Health",
+        "path": "child-health",
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "child-health-summary-ext",
+      "slot": "child-health-dashboard-slot",
+      "component": "childHealthSummaryExt"
+    },
+    {
+      "name": "nutrition-dashboard",
+      "slot": "family-health-dashboard-slot",
+      "component": "nutritionDashboard",
+      "meta": {
+        "slot": "nutrition-dashboard-slot",
+        "columns": 1,
+        "title": "Nutrition",
+        "path": "nutrition",
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "nutrition-summary-ext",
+      "slot": "nutrition-dashboard-slot",
+      "component": "nutritionDashboardExt"
+    },
+    {
+      "name": "hiv-exposed-infant-dashboard",
+      "slot": "family-health-dashboard-slot",
+      "component": "hivExposedInfantDashboard",
+      "meta": {
+        "slot": "hiv-exposed-infant-slot",
+        "columns": 1,
+        "title": "HIV Exposed Infant",
+        "path": "hiv-exposed-infant",
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "hiv-exposed-infant-ext",
+      "slot": "hiv-exposed-infant-slot",
+      "component": "hivExposedInfantExt"
+    },
+    {
+      "name": "family-planning-dashboard",
+      "slot": "family-health-dashboard-slot",
+      "component": "familyPlanningDashboard",
+      "meta": {
+        "slot": "family-planning-dashboard-slot",
+        "columns": 1,
+        "title": "Family Planning",
+        "path": "family-planning",
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "family-planning-dashboard-ext",
+      "slot": "family-planning-dashboard-slot",
+      "component": "familyPlanningDashboardExt"
+    },
+    {
+      "name": "mch-dashboard",
+      "slot": "family-health-dashboard-slot",
+      "component": "mchDashboard",
+      "meta": {
+        "slot": "mch-dashboard-slot",
+        "title": "Maternal Child Health",
+        "path": "maternal-child-health",
+        "columns": 1
+      }
+    },
+    {
+      "name": "mch-dashboard-summary-ext",
+      "slot": "mch-dashboard-slot",
+      "component": "mchDashboardSummaryExt",
+      "meta": {
+        "columnSpan": 4
+      }
+    },
+    {
+      "name": "child-health-dashboard",
+      "slot": "family-health-dashboard-slot",
+      "component": "childHealthDashboard",
+      "meta": {
+        "slot": "child-health-dashboard-slot",
+        "columns": 1,
+        "title": "Child Health",
+        "path": "child-health"
+      }
+    },
+    {
+      "name": "child-health-summary-ext",
+      "slot": "child-health-dashboard-slot",
+      "component": "childHealthSummaryExt",
+      "meta": {
+        "columnSpan": 4
+      }
+    },
+    {
+      "name": "nutrition-dashboard",
+      "slot": "family-health-dashboard-slot",
+      "component": "nutritionDashboard",
+      "meta": {
+        "slot": "nutrition-dashboard-slot",
+        "columns": 1,
+        "title": "Nutrition",
+        "path": "nutrition"
+      }
+    },
+    {
+      "name": "nutrition-summary-ext",
+      "slot": "nutrition-dashboard-slot",
+      "component": "nutritionDashboardExt",
+      "meta": {
+        "columnSpan": 4
+      }
+    },
+    {
+      "name": "hiv-exposed-infant-dashboard",
+      "slot": "family-health-dashboard-slot",
+      "component": "hivExposedInfantDashboard",
+      "meta": {
+        "slot": "hiv-exposed-infant-slot",
+        "columns": 1,
+        "title": "HIV Exposed Infant",
+        "path": "hiv-exposed-infant"
+      }
+    },
+    {
+      "name": "hiv-exposed-infant-ext",
+      "slot": "hiv-exposed-infant-slot",
+      "component": "hivExposedInfantExt",
+      "meta": {
+        "columnSpan": 4
+      }
+    },
+    {
+      "name": "family-planning-dashboard",
+      "slot": "family-health-dashboard-slot",
+      "component": "familyPlanningDashboard",
+      "meta": {
+        "slot": "family-planning-dashboard-slot",
+        "columns": 1,
+        "title": "Family Planning",
+        "path": "family-planning"
+      }
+    },
+    {
+      "name": "family-planning-dashboard-ext",
+      "slot": "family-planning-dashboard-slot",
+      "component": "familyPlanningDashboardExt",
+      "meta": {
+        "columnSpan": 4
+      }
+    }
+  ]
+}

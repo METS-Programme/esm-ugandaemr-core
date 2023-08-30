@@ -5,9 +5,15 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
-    "test": {},
-    "lint": {},
-    "typescript": {},
+    "test": {
+      "dependsOn": ["^test"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "typescript": {
+      "dependsOn": ["^typescript"]
+    },
     "extract-translations": {}
   }
 }

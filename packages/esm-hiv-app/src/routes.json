@@ -10,6 +10,7 @@
       "component": "hivDashboardGroup",
       "name": "hiv-dashboard",
       "slot": "patient-chart-dashboard-slot",
+      "order": 16,
       "meta": {
         "title": "HIV Clinic",
         "slotName": "hiv-dashboard-slot"
