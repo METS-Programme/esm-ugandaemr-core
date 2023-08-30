@@ -1,6 +1,6 @@
 {
   "name": "@ugandaemr/esm-inpatient-app",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MPL-2.0",
   "description": "Inpatient department microfrontend for UgandaEMR",
   "browser": "dist/esm-inpatient-app.js",
