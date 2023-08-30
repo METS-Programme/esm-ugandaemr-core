@@ -221,7 +221,18 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
         );
       }
     },
-    [status, provider, queueEntry?.id, queueEntry.patientUuid, priorityComment, t, closeModal, mutate, endVisitStatus],
+    [
+      status,
+      provider,
+      queueEntry?.id,
+      priorityComment,
+      t,
+      closeModal,
+      mutate,
+      endVisitStatus,
+      currentEntry?.id,
+      currentEntry.patientUuid,
+    ],
   );
 
   if (queueEntry && Object.keys(queueEntry)?.length === 0) {
