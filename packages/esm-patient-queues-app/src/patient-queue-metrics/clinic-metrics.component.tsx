@@ -8,9 +8,15 @@ import {
   useSelectedQueueRoomLocationUuid,
 } from '../helpers/helpers';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
-import { usePatientsBeingServed, usePatientsServed } from './clinic-metrics.resource';
+import {
+  useActiveVisits,
+  usePatientsBeingServed,
+  usePatientsServed,
+  useQueuePatients,
+} from './clinic-metrics.resource';
 import styles from './clinic-metrics.scss';
 import MetricsCard from './metrics-card.component';
+import { use } from 'i18next';
 
 function ClinicMetrics() {
   const { t } = useTranslation();
@@ -22,6 +28,15 @@ function ClinicMetrics() {
 
   const { servedCount } = usePatientsServed(userLocation, 'picked');
 
+  // overall checked in patients stats
+
+  // overall expected appointments
+
+  // overall patients being served
+  const { count } = useQueuePatients('picked');
+
+  const { count: pendingCount } = useQueuePatients('pending');
+
   // receptionist ui
   return (
     <>
@@ -29,7 +44,7 @@ function ClinicMetrics() {
         <UserHasAccess privilege={PRIVILEGE_RECEPTION_METRIC}>
           <MetricsCard
             label={t('patients', 'Patients')}
-            value={0}
+            value={pendingCount ?? 0}
             headerLabel={t('checkedInPatients', 'Checked in patients')}
           />
           <MetricsCard
@@ -39,7 +54,7 @@ function ClinicMetrics() {
           />
           <MetricsCard
             label={t('serving', 'Serving')}
-            value={patientQueueCount ?? 0}
+            value={count ?? 0}
             headerLabel={t('currentlyServing', 'No. of Currently being Served')}
           />
         </UserHasAccess>
