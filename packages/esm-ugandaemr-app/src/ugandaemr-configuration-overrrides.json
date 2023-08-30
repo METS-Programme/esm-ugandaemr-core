@@ -2,33 +2,112 @@
   "@openmrs/esm-appointments-app": {
     "Display conditions": {
       "privileges": [
-        ""
+        "Manage Appointments"
       ]
     }
   },
   "@openmrs/esm-patient-chart-app": {
     "Display conditions": {
       "privileges": [
-        ""
+        "View Patient Summary"
       ]
-    },
-    "extensionSlots": {
-      "action-menu-non-chart-items-slot": {
-        "remove": [
-          "patient-list-action-menu"
-        ]
-      },
-      "cacx-visits-slot": {
-        "remove": [
-          "cacx-visits-ext"
-        ]
-      }
     }
   },
   "@openmrs/esm-styleguide": {
     "Brand color #1": " #009384",
     "Brand color #2": " #009384",
     "Brand color #3": " #009384"
+  },
+  "@openmrs/esm-patient-biometrics-app": {
+    "Display conditions": {
+      "privileges": [
+        "Add Vitals and Biometrics"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-appointments-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Appointments"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-immunizations-app": {
+    "Display conditions": {
+      "privileges": [
+        "Add Immunizations"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-allergies-app": {
+    "Display conditions": {
+      "privileges": [
+        "Add Allergies"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-attachments-app": {
+    "Display conditions": {
+      "privileges": [
+        "Add Attachments"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-conditions-app": {
+    "Display conditions": {
+      "privileges": [
+        "Add Conditions"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-forms-app": {
+    "Display conditions": {
+      "privileges": [
+        "Get Forms"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-medications-app": {
+    "Display conditions": {
+      "privileges": [
+        "Add Orders"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-notes-app": {
+    "Display conditions": {
+      "privileges": [
+        "Get Notes"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-programs-app": {
+    "Display conditions": {
+      "privileges": [
+        "Add Patient Programs"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-test-results-app": {
+    "Display conditions": {
+      "privileges": [
+        "View Test Results"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-vitals-app": {
+    "Display conditions": {
+      "privileges": [
+        "Add Vitals and Biometrics"
+      ]
+    }
+  },
+  "@openmrs/esm-offline-tools-app": {
+    "Display conditions": {
+      "privileges": [
+        "Access Offline Tools"
+      ]
+    }
   },
   "@openmrs/esm-patient-registration-app": {
     "Display conditions": {
@@ -52,21 +131,43 @@
   "@openmrs/esm-home-app": {
     "extensionSlots": {
       "homepage-dashboard-slot": {
-        "remove": [
-          "patient-lists-dashboard-link",
-          "home-widget-db-link",
-          "service-queues-dashboard-link"
-        ]
-      },
-      "homepage-widgets-slot": {
-        "remove": [
-          "active-visits-widget",
-          "home-appointments"
-        ]
+        "configure": {
+          "patient-lists-dashboard-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Patient Lists"
+              ]
+            }
+          },
+          "service-queues-dashboard-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Service Queues"
+              ]
+            }
+          },
+          "clinical-appointments-dashboard-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Appointments"
+              ]
+            }
+          }
+        }
       }
     }
   },
+  "@ugandaemr/esm-login-app": {
+    "logo": {
+      "src": "assets/logo.svg",
+      "alt": "logo"
+    }
+  },
   "@openmrs/esm-primary-navigation-app": {
+    "logo": {
+      "src": "assets/logo.svg",
+      "alt": "logo"
+    },
     "extensionSlots": {
       "top-nav-actions-slot": {
         "configure": {
@@ -120,6 +221,62 @@
             "Display conditions": {
               "privileges": [
                 "Manage Stock Management"
+              ]
+            }
+          },
+          "appointments-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Appointments"
+              ]
+            }
+          },
+          "form-builder-app-menu-link": {
+            "Display conditions": {
+              "privileges": [
+                "Build Forms"
+              ]
+            }
+          },
+          "forms-app-link": {
+            "Display conditions": {
+              "privileges": [
+                "Access Fast Data Entry"
+              ]
+            }
+          },
+          "patient-list-linkq": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Patient Lists"
+              ]
+            }
+          },
+          "offline-tools-link": {
+            "Display conditions": {
+              "privileges": [
+                "Access Offline Tools"
+              ]
+            }
+          },
+          "cohort-builder-app-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Cohorts"
+              ]
+            }
+          },
+          "system-administration-link": {
+            "Display conditions": {
+              "privileges": [
+                "View Administration Functions"
+              ]
+            }
+          },
+          "outpatient-link": {
+            "Display conditions": {
+              "privileges": [
+                "Access Outpatient App"
               ]
             }
           }
