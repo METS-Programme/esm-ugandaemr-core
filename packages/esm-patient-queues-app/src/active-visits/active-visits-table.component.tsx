@@ -7,22 +7,22 @@ import {
   Layer,
   Pagination,
   Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
   Table,
   TableBody,
   TableCell,
   TableContainer,
+  TableExpandedRow,
   TableExpandHeader,
   TableExpandRow,
-  TableExpandedRow,
   TableHead,
   TableHeader,
   TableRow,
   TableToolbar,
   TableToolbarContent,
   TableToolbarSearch,
+  TabList,
+  TabPanel,
+  TabPanels,
   Tabs,
   Tag,
   Tile,
@@ -31,30 +31,22 @@ import { Add, Dashboard } from '@carbon/react/icons';
 
 import {
   ConfigObject,
-  ConfigurableLink,
   ExtensionSlot,
-  UserHasAccess,
   interpolateUrl,
   isDesktop,
   navigate,
   useConfig,
   useLayoutType,
   usePagination,
+  UserHasAccess,
   useSession,
 } from '@openmrs/esm-framework';
 import React, { AnchorHTMLAttributes, MouseEvent, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PRIVILEGE_CHECKIN } from '../constants';
 import { buildStatusString, formatWaitTime, getTagColor, getTagType, trimVisitNumber } from '../helpers/functions';
-import {
-  useSelectedQueueLocationUuid,
-  useSelectedQueueRoomLocationName,
-  useSelectedQueueRoomLocationUuid,
-} from '../helpers/helpers';
 import PastVisit from '../past-visit/past-visit.component';
-import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import PatientSearch from '../patient-search/patient-search.component';
-import ActionsMenu from '../queue-entry-table-components/actions-menu.component';
 import StatusIcon from '../queue-entry-table-components/status-icon.component';
 import { SearchTypes } from '../types';
 import { getOriginFromPathName } from './active-visits-table.resource';

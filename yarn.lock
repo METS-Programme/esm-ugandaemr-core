@@ -6903,6 +6903,7 @@ __metadata:
     pretty-quick: ^3.1.3
     react: ^18.2.0
     react-dom: ^18.2.0
+    react-full-screen: ^1.1.1
     react-grid-layout: ^1.3.4
     react-i18next: ^11.18.6
     react-router-dom: ^6.14.1
@@ -21806,6 +21807,17 @@ __metadata:
   peerDependencies:
     react: ^16.8.0
   checksum: 55f21c9c02c865c3d240d319d5c60afb02cec701181edfbd70e4b0bf130bbc86853a08e47ec8411bf0f6507d2710f9166cf65a3cc2db3ce6cb41fa39702b9096
+  languageName: node
+  linkType: hard
+
+"react-full-screen@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "react-full-screen@npm:1.1.1"
+  dependencies:
+    fscreen: ^1.0.2
+  peerDependencies:
+    react: ">= 16.8.0"
+  checksum: 70ad927b9d6c485ac46b5bb4b1639ef9a860da28290b3a1c419c42b9c427d78b80e8dba403eb6451458af56838012c81d5e12ef05097395f154defc32fe06c34
   languageName: node
   linkType: hard
 

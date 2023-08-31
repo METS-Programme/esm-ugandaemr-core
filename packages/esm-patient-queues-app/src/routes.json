@@ -8,6 +8,10 @@
     {
       "component": "root",
       "route": "patient-queues"
+    },
+    {
+      "component": "queueScreen",
+      "route": "patient-queues/screen"
     }
   ],
   "extensions": [
