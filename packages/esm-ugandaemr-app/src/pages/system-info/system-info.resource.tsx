@@ -35,10 +35,6 @@ export function useGetResourceInformation(type) {
         const data = await (
           await fetch(`${url}${param}&_pretty=true`, {
             method: 'GET',
-            // headers: {
-            //   Authorization: `Basic ${btoa(`${username}:${password}`)}`,
-            //   'Content-Type': 'application/json',
-            // },
           })
         ).json();
         setState(data);
@@ -86,7 +82,7 @@ export async function getFacility(params) {
 
 export const handleFacilityResponse = (facilitySearchResponse) => {
   const arr = [];
-  if (facilitySearchResponse.total > 0) {
+  if (facilitySearchResponse.total > 0 || (facilitySearchResponse['entry'] && facilitySearchResponse['entry'].length)) {
     facilitySearchResponse['entry'].forEach((facility) => {
       arr.push({
         id: facility['resource']['id'],
@@ -94,8 +90,7 @@ export const handleFacilityResponse = (facilitySearchResponse) => {
         code: facility['resource']['extension'].filter((ext) => ext['url'] === 'uniqueIdentifier')[0]['valueString'],
       });
     });
-  }
-  if (facilitySearchResponse.total === 0) {
+  } else if (facilitySearchResponse.total === 0) {
     arr.push({
       id: null,
       name: null,

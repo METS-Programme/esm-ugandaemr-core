@@ -15,6 +15,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getFacility, handleFacilityResponse, useGetResourceInformation } from './system-info.resource';
 import { extractResourceInfo } from './facility-modals.utils';
+import styles from './system-info.scss';
 
 interface RetrieveFacilityCodeModalProps {
   closeModal: () => void;
@@ -28,7 +29,6 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({ s
   const [facilities, setFacilities] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  const [facility, setFacility] = useState('');
   const [code, setCode] = useState('');
   const [searchParams, setSearchParams] = useState({
     ownership: null,
@@ -49,28 +49,35 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({ s
   }, [careLevelsData, ownershipData]);
 
   useEffect(() => {
-    if (facility) {
-      const selectedFacility = facilities.filter((f) => f['code'] === facility)[0];
+    if (code) {
+      const selectedFacility = facilities.filter((f) => f['code'] === code)[0];
       setCode(selectedFacility.code);
-      setFacilityCode(selectedFacility.code);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [facilities, facility]);
+  }, [code, facilities]);
 
   const handleAddFacilityCode = () => {
-    setFacilityCode(facility);
+    if (code) {
+      setFacilityCode(code);
+    } else {
+      setFacilityCode('-');
+    }
     closeModal();
   };
+
+  // const validate/
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     // todo: validate form
     setFacilities([]);
-    setFacility('');
+    setCode('');
     setIsLoading(true);
     setShowResults(false);
     const response = await getFacility(searchParams);
-    setFacilities(handleFacilityResponse(response));
+    const facilitiesArray = handleFacilityResponse(response);
+    if (facilitiesArray[0]['id'] !== null) {
+      setFacilities(facilitiesArray);
+    }
     setShowResults(true);
     setIsLoading(false);
   };
@@ -141,12 +148,12 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({ s
         </Form>
         {showResults ? (
           Object.keys(facilities).length > 0 ? (
-            <>
+            <div className={styles['results']}>
               <Select
                 labelText={t('selectFacility', 'Select your facility')}
                 id="facility"
-                value={facility}
-                onChange={(event) => setFacility(event.target.value)}
+                value={code}
+                onChange={(event) => setCode(event.target.value)}
                 light
               >
                 <SelectItem key={'chooseFacility'} text={'Choose your facility'} value={''} />
@@ -158,10 +165,15 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({ s
                   );
                 })}
               </Select>
-              <p>{code}</p>
-            </>
+              <TextInput
+                id="facilityCode"
+                readOnly={true}
+                labelText={t('facilityCode', 'Facility Code')}
+                value={code}
+              />
+            </div>
           ) : (
-            <p>No matching health facility found</p>
+            <p className={styles['no-results']}>No matching health facility found</p>
           )
         ) : (
           ''

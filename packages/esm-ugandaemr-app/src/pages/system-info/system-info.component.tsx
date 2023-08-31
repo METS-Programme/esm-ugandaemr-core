@@ -50,9 +50,11 @@ const OverallSystemInfo = ({ buildInfo, emrVersion }) => {
         <span>Facility code</span>
         <span>{facilityCode}</span>
       </Column>
-      <Column>
-        <UpdateFacilityCode setFacilityCode={setFacilityCode} facilityCode={facilityCode} />
-      </Column>
+      {facilityCode === '-' && (
+        <Column>
+          <UpdateFacilityCode setFacilityCode={setFacilityCode} />
+        </Column>
+      )}
     </Grid>
   );
 };
@@ -85,7 +87,7 @@ function SystemInfoTable({ moduleInfo, error, loading }): React.JSX.Element {
   ];
 
   if (loading) {
-    return <DataTableSkeleton role="progressbar" />;
+    return <DataTableSkeleton className={styles['system-info-table']} role="progressbar" />;
   }
   if (error) {
     return (
