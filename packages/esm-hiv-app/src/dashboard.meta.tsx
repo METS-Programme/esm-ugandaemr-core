@@ -5,11 +5,11 @@ export const hivDashboardMeta = {
   isExpanded: false,
 };
 
-export const preventionDashboardtMeta = {
+export const hivTestingDashboardtMeta = {
   slot: 'hiv-prevention-slot',
   config: { columns: 1, type: 'grid' },
-  title: 'HTS',
-  path: 'hiv-prevention',
+  title: 'HIV Testing Services',
+  path: 'hiv-testing-services',
 };
 
 export const hivPatientSummaryDashboardMeta = {
@@ -30,7 +30,7 @@ export const clinicalVisitsDashboardMeta = {
   slot: 'clinical-visits-summary-slot',
   columns: 1,
   title: 'Clinical Assessment',
-  path: 'clinical-visits',
+  path: 'clinical-assessment',
 };
 
 export const generalCounsellingDashboardMeta = {

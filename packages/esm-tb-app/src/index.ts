@@ -2,7 +2,7 @@ import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle } from '@openmr
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-common-lib';
-import { TBDashboardMeta, tbScreeningDashboardtMeta, tbTreatmentDashboardMeta } from './dashboard.meta';
+import { TBDashboardMeta, contactTracingDashboardtMeta, tbTreatmentDashboardMeta } from './dashboard.meta';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -18,15 +18,15 @@ export function startupApp() {
 export const tbDashboardGroup = getSyncLifecycle(createDashboardGroup(TBDashboardMeta), options);
 
 //  screening dashboard
-export const tbScreeningDashboardLink = getSyncLifecycle(
+export const contactTracingDashboardLink = getSyncLifecycle(
   createDashboardLink({
-    ...tbScreeningDashboardtMeta,
+    ...contactTracingDashboardtMeta,
     moduleName,
   }),
   options,
 );
-export const tbScreeningDashboardExt = getAsyncLifecycle(() => import('./pages/screening/screening.component'), {
-  featureName: 'tb-screening',
+export const contactTracingDashboardExt = getAsyncLifecycle(() => import('./pages/screening/screening.component'), {
+  featureName: 'contact-tracing',
   moduleName,
 });
 

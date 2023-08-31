@@ -7,9 +7,9 @@ import {
   generalCounsellingDashboardMeta,
   hivDashboardMeta,
   hivPatientSummaryDashboardMeta,
+  hivTestingDashboardtMeta,
   htsSummaryDashboardMeta,
   partnerNotificationServicesDashboardMeta,
-  preventionDashboardtMeta,
   programManagementDashboardMeta,
 } from './dashboard.meta';
 import { moduleName } from './constants';
@@ -28,20 +28,17 @@ export function startupApp() {
 export const hivDashboardGroup = getSyncLifecycle(createDashboardGroup(hivDashboardMeta), options);
 
 //  screening dashboard
-export const preventionDashboardLink = getSyncLifecycle(
+export const hivTestingDashboardLink = getSyncLifecycle(
   createDashboardLink({
-    ...preventionDashboardtMeta,
+    ...hivTestingDashboardtMeta,
     moduleName,
   }),
   options,
 );
-export const hivPreventionDashboardExt = getAsyncLifecycle(
-  () => import('./pages/hiv/prevention/prevention.component'),
-  {
-    featureName: 'hiv-prevention',
-    moduleName,
-  },
-);
+export const hivTestingDashboardExt = getAsyncLifecycle(() => import('./pages/hiv/prevention/prevention.component'), {
+  featureName: 'hiv-testing-services',
+  moduleName,
+});
 
 export const hivTreatmentDashboardExt = getAsyncLifecycle(
   () => import('./pages/hiv/care-treatment/care-treatment.component'),

@@ -17,21 +17,21 @@
       }
     },
     {
-      "component": "tbScreeningDashboardLink",
-      "name": "tb-screening",
+      "component": "contactTracingDashboardLink",
+      "name": "contact-tracing",
       "slot": "tb-clinic-dashboard-slot",
         "meta": {
-          "slot": "tb-screening-dashboard-slot",
+          "slot": "contact-tracing-dashboard-slot",
           "title": "Contact Tracing",
-          "path": "tb-screening",
+          "path": "contact-tracing",
           "columns": 1,
           "layoutMode": "anchored"
         }
     },
     {
-      "name": "tb-screening-dashboard-ext",
-      "slot": "tb-screening-dashboard-slot",
-      "component": "tbScreeningDashboardExt"
+      "name": "contact-tracing-dashboard-ext",
+      "slot": "contact-tracing-dashboard-slot",
+      "component": "contactTracingDashboardExt"
     },
     {
       "component": "tbTreatmentDashboardLink",
