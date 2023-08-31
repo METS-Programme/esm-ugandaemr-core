@@ -2,7 +2,7 @@ name: UgandaEMR CI
 
 on:
   push:
-    branches: [main, ci-test]
+    branches: [main]
   pull_request:
     branches: [main]
   release:
@@ -89,7 +89,7 @@ jobs:
       - name: Build
         run: yarn turbo build --color --concurrency=5
 
-      - run: git config user.email "info@openmrs.org" && git config user.name "OpenMRS CI"
+      - run: git config user.email "<>" && git config user.name "UgandaEMR CI"
       - run: git add . && git commit -m "Prerelease version" --no-verify
 
       - name: Pre-release
