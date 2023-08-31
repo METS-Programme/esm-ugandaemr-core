@@ -12,6 +12,10 @@
     {
       "component": "hieDashboard",
       "route": "hie-dashboard"
+    },
+    {
+      "component": "systemInfoPage",
+      "route": "about"
     }
   ],
   "extensions": [
@@ -64,6 +68,15 @@
       "meta": {
         "columnSpan": 4
       }
+    },
+    {
+      "name": "system-info-link",
+      "slot": "app-menu-slot",
+      "component": "systemInfoMenuLink"
+    },
+    {
+      "name": "retrieve-facility-code-modal",
+      "component": "retrieveFacilityCodeModal"
     }
   ]
 }
