@@ -1,5 +1,5 @@
 import { Button, Tooltip } from '@carbon/react';
-import { Logout, Dashboard, ChooseItem } from '@carbon/react/icons';
+import { Logout, Dashboard, ChooseItem, Notification } from '@carbon/react/icons';
 
 import { showModal, useSession } from '@openmrs/esm-framework';
 import React, { ReactNode, useCallback } from 'react';
@@ -45,7 +45,7 @@ const PickPatientActionMenu: React.FC<PickPatientActionMenuProps> = ({ queueEntr
         kind="ghost"
         onClick={launchPickPatientQueueModal}
         iconDescription={t('pickPatient', 'Pick Patient ')}
-        renderIcon={(props) => <ChooseItem size={16} {...props} />}
+        renderIcon={(props) => <Notification size={16} {...props} />}
       ></Button>
     </Tooltip>
   );

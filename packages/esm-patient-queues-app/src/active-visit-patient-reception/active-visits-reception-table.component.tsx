@@ -57,7 +57,7 @@ function ActiveVisitsReceptionTable() {
   const [view, setView] = useState('');
   const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
 
-  const { patientQueueEntries, isLoading } = usePatientQueuesList(session?.sessionLocation?.uuid);
+  const { patientQueueEntries, isLoading, mutate } = usePatientQueuesList(session?.sessionLocation?.uuid);
   const currentPathName: string = window.location.pathname;
 
   const fromPage: string = getOriginFromPathName(currentPathName);
