@@ -1,6 +1,7 @@
 import { getGlobalStore } from '@openmrs/esm-framework';
 import { useEffect, useState } from 'react';
 import { AppointmentSummary } from '../types';
+import { PatientQueue } from '../types/patient-queues';
 
 export const getServiceCountByAppointmentType = (
   appointmentSummary: Array<AppointmentSummary>,
@@ -29,6 +30,7 @@ const initialQueueRoomLocationUuidState = { queueRoomLocationUuid: localStorage.
 export function getSelectedQueueRoomLocationName() {
   return getGlobalStore<{ queueRoomLocationName: string }>('queueRoomLocationName', initialQueueRoomLocationNameState);
 }
+
 export function getSelectedQueueRoomLocationUuid() {
   return getGlobalStore<{ queueRoomLocationUuid: string }>('queueRoomLocationUuid', initialQueueRoomLocationUuidState);
 }
@@ -89,6 +91,10 @@ export function getSelectedQueueLocationName() {
 
 export function getSelectedQueueLocationUuid() {
   return getGlobalStore<{ queueLocationUuid: string }>('queueLocationUuidSelected', initialQueueLocationUuidState);
+}
+
+export function getPatientQueueWaitingList() {
+  return getGlobalStore<{ queue: PatientQueue[] }>('patientQueueWaitingList', { queue: [] });
 }
 
 export function getSelectedQueueRoomTimestamp() {
@@ -222,6 +228,7 @@ const initialFacilityIdentifierState = { facilityIdentifier: localStorage.getIte
 export function getSelectedFacilityName() {
   return getGlobalStore<{ facilityName: string }>('facilityName', initialFacilityNameState);
 }
+
 export function getSelectedFacilityIdentifier() {
   return getGlobalStore<{ facilityIdentifier: string }>('facilityIdentifier', initialFacilityIdentifierState);
 }
@@ -256,4 +263,10 @@ export const useSelectedFacilityIdentifier = () => {
     );
   }, []);
   return currentFacilityIdentifier;
+};
+
+// Patient Queue stores
+export const updatePatientQueueWaitingList = (queue: PatientQueue[]) => {
+  const store = getPatientQueueWaitingList();
+  store.setState({ queue });
 };

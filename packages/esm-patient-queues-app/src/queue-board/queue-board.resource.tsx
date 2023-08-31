@@ -33,24 +33,34 @@ export function usePatientQueuesByParentLocation(status: string) {
     data,
     error: patientQueueErrors,
     isLoading: patientQueueLoading,
-    mutate,
   } = useSWR<{
     data: { results: Array<PatientQueue> };
-  }>(queueApiUrl, openmrsFetch);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      mutate(queueApiUrl).then();
-    }, 30000); // 20 seconds in milliseconds
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [mutate, queueApiUrl]);
+  }>(queueApiUrl, openmrsFetch, { refreshInterval: 20000 });
 
   return {
     isLoading: patientQueueLoading || queueRoomLoading,
     isError: patientQueueErrors || queueRoomError,
     patientQueues: data?.data?.results,
+  };
+}
+
+export function usePatientQueueBoard() {
+  const {
+    patientQueues: pending,
+    isLoading: loadingPending,
+    isError: errorPending,
+  } = usePatientQueuesByParentLocation('pending');
+
+  const {
+    patientQueues: picked,
+    isLoading: loadingPicked,
+    isError: errorPicked,
+  } = usePatientQueuesByParentLocation('picked');
+
+  return {
+    isLoading: loadingPending || loadingPicked,
+    isError: errorPending || errorPicked,
+    pending,
+    picked,
   };
 }
