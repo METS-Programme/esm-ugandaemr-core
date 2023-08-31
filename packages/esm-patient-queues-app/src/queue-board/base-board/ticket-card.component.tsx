@@ -17,7 +17,7 @@ export const TicketCard: React.FC<TicketCardProp> = ({ queue }) => {
         {trimVisitNumber(queue.visitNumber)}
       </p>
       <p className={styles.subHeader}>
-        {t('room', 'Room')} &nbsp; : &nbsp; {queue.locationFrom?.name}
+        {t('room', 'Room')} &nbsp; : &nbsp; {queue.locationTo?.name}
       </p>
     </div>
   );
