@@ -1,6 +1,6 @@
 {
   "name": "@ugandaemr/esm-patient-queues-app",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MPL-2.0",
   "description": "Patient queues microfrontend for UgandaEMR",
   "browser": "dist/esm-patient-queues-app.js",

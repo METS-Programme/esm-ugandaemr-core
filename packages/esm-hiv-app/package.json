@@ -1,6 +1,6 @@
 {
   "name": "@ugandaemr/esm-hiv-app",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MPL-2.0",
   "description": "HIV microfrontend for UgandaEMR",
   "browser": "dist/esm-hiv-app.js",
