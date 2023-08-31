@@ -15,3 +15,7 @@ export const CHILD_REGISTER_ENCOUNTER_TYPE = '';
 //maternity
 export const ADMISSION_DATE = 'cb9b223e-a09c-4f8a-b34d-a0934a2af04a';
 export const DELIVERY_TYPE = 'dcc3ac63-30ab-102d-86b0-7a5022ba4115';
+export const ANC_NUMBER = '38460266-6bcd-47e8-844c-649d34323810';
+export const Timing_For_PNC_Visit = 'c7700c4f-3dc6-4270-ba0d-dd42c0557027';
+export const Referral_IN_OUT = '67ea4375-0f4f-4e67-b8b0-403942753a4d';
+export const Status_of_breast = '07c10f5c-17fd-4a7e-8d72-c2252f589da0';

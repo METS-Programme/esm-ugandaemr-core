@@ -7,7 +7,7 @@ export const TBDashboardMeta = {
 export const tbScreeningDashboardtMeta = {
   slot: 'tb-screening-slot',
   config: { columns: 1, type: 'grid' },
-  title: 'Screening',
+  title: 'Contact Tracing',
   path: 'tb-screening',
 };
 export const tbTreatmentDashboardMeta = {

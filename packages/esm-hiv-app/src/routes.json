@@ -22,7 +22,7 @@
       "slot": "hiv-dashboard-slot",
         "meta": {
           "slot": "prevention-dashboard-slot",
-          "title": "HIV Screening",
+          "title": "HTS",
           "path": "hiv-prevention",
           "columns": 1,
           "layoutMode": "anchored"
@@ -40,6 +40,7 @@
       "meta": {
         "slot": "hiv-patient-summary-dashboard-slot",
         "columns": 1,
+        "title": "Patient Summary",
         "path": "hiv-patient-summary",
         "layoutMode": "anchored"
       }
@@ -56,6 +57,7 @@
       "meta": {
         "slot": "program-management-summary-slot",
         "columns": 1,
+        "title": "Program Management",
         "path": "program-management",
         "layoutMode": "anchored"
       }
@@ -72,6 +74,7 @@
       "meta": {
         "slot": "clinical-visits-summary-slot",
         "columns": 1,
+        "title": "Clinical Assessment",
         "path": "clinical-visits",
         "layoutMode": "anchored"
       }
@@ -88,6 +91,7 @@
       "meta": {
         "slot": "general-counselling-summary-slot",
         "columns": 1,
+        "title": "General Counselling",
         "path": "general-counselling",
         "layoutMode": "anchored"
       }
@@ -104,6 +108,7 @@
       "meta": {
         "slot": "adherence-counselling-summary-slot",
         "columns": 1,
+        "title": "Adherence Counselling",
         "path": "adherence-counselling",
         "layoutMode": "anchored"
       }
@@ -120,6 +125,7 @@
       "meta": {
         "slot": "partner-notification-services-slot",
         "columns": 1,
+        "title": "Partner Notification",
         "path": "partner-notification-services",
         "layoutMode": "anchored"
       }

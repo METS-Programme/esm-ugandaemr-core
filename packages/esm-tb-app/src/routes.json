@@ -22,7 +22,7 @@
       "slot": "tb-clinic-dashboard-slot",
         "meta": {
           "slot": "tb-screening-dashboard-slot",
-          "title": "Screening",
+          "title": "Contact Tracing",
           "path": "tb-screening",
           "columns": 1,
           "layoutMode": "anchored"

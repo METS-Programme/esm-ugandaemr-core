@@ -8,7 +8,7 @@ export const hivDashboardMeta = {
 export const preventionDashboardtMeta = {
   slot: 'hiv-prevention-slot',
   config: { columns: 1, type: 'grid' },
-  title: 'HIV Screening',
+  title: 'HTS',
   path: 'hiv-prevention',
 };
 
@@ -29,7 +29,7 @@ export const programManagementDashboardMeta = {
 export const clinicalVisitsDashboardMeta = {
   slot: 'clinical-visits-summary-slot',
   columns: 1,
-  title: 'Clinical Visits',
+  title: 'Clinical Assessment',
   path: 'clinical-visits',
 };
 

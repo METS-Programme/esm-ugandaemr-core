@@ -17,7 +17,7 @@ interface ClinicalVisitListProps {
 const ClinicalVisitList: React.FC<ClinicalVisitListProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
-  const headerTitle = t('clinicalVisit', 'Clinical Visit');
+  const headerTitle = t('clinicalVisit');
   const displayText = t('clinicalVisit', 'Clinical Visit');
 
   const columns: EncounterListColumn[] = useMemo(
@@ -69,17 +69,17 @@ const ClinicalVisitList: React.FC<ClinicalVisitListProps> = ({ patientUuid }) =>
         getValue: (encounter) => {
           const baseActions = [
             {
-              form: { name: 'POC Clinical Visit Form', package: 'hiv' },
+              form: { name: 'POC Clinical Visit Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
-              label: t('viewDetails', 'View Details'),
+              label: t('viewDetails'),
               mode: 'view',
             },
             {
-              form: { name: 'POC Clinical Visit Form', package: 'hiv' },
+              form: { name: 'POC Clinical Visit Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
-              label: t('editForm', 'Edit Form'),
+              label: t('editDetails'),
               mode: 'edit',
             },
           ];
