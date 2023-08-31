@@ -11,12 +11,11 @@ function readTicketNumber(queue: PatientQueue) {
   window.speechSynthesis.speak(utterance);
 }
 
-async function readTickets(queues: PatientQueue[]) {
-  for (const index in queues) {
-    const queue = queues[index];
+export async function readTickets(queues: PatientQueue[]) {
+  for (const queue of queues) {
     if (queue.locationTo?.name) {
       readTicketNumber(queue);
-      await wait(2000);
+      await wait(5000);
     }
   }
 }

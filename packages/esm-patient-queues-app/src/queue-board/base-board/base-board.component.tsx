@@ -1,37 +1,16 @@
 import React from 'react';
-import { usePatientQueuesByParentLocation } from '../queue-board.resource';
-import { SkeletonPlaceholder, SkeletonText } from '@carbon/react';
 import styles from './base-board.scss';
 import { TicketCard } from './ticket-card.component';
+import { PatientQueue } from '../../types/patient-queues';
 
 interface BaseBoardProps {
   title: string;
-  status: string;
+  data: PatientQueue[];
   hasBorder?: boolean;
   isFullScreen: boolean;
 }
 
-const BaseBoardComponent: React.FC<BaseBoardProps> = ({ title, status, hasBorder, isFullScreen }) => {
-  const { patientQueues, isLoading, isError } = usePatientQueuesByParentLocation(status);
-
-  if (isLoading || isError || !patientQueues)
-    return (
-      <div>
-        <SkeletonText />
-        <div className={styles.gridFlow}>
-          {[...Array(hasBorder ? 5 : 1).keys()].map(() => (
-            <SkeletonPlaceholder
-              style={{
-                width: '30%',
-                margin: '1.5rem',
-                padding: '1.3rem',
-              }}
-            />
-          ))}
-        </div>
-      </div>
-    );
-
+const BaseBoardComponent: React.FC<BaseBoardProps> = ({ title, data, hasBorder, isFullScreen }) => {
   return (
     <div
       style={{
@@ -43,7 +22,7 @@ const BaseBoardComponent: React.FC<BaseBoardProps> = ({ title, status, hasBorder
     >
       <h1 className={styles.heading}>{title}</h1>
       <div className={styles.gridFlow}>
-        {patientQueues
+        {data
           .sort((a, b) => (a.dateCreated < b.dateCreated ? 0 : 1))
           .map((queueEntry) => {
             return <TicketCard queue={queueEntry} />;
