@@ -20,42 +20,6 @@
   ],
   "extensions": [
     {
-      "name": "facility-home-dashboard-link",
-      "component": "facilityHomeDashboardLink",
-      "slot": "homepage-dashboard-slot",
-      "privilege":[
-        ""
-      ],
-      "meta": {
-        "name": "facility-home-dashboard",
-        "slot": "facility-home-dashboard-slot",
-        "title": "Facility Dashboard"
-      }
-    },
-    {
-      "name": "facility-home-dashboard-ext",
-      "component": "facilityHomeDashboardExt",
-      "slot": "facility-home-dashboard-slot"
-    },
-    {
-      "name": "hie-home-dashboard-link",
-      "component": "hieHomeDashboardLink",
-      "slot": "homepage-dashboard-slot",
-      "privilege":[
-        "View:hiedashboardui.home"
-      ],
-      "meta": {
-        "name": "hie-home-dashboard",
-        "slot": "hie-home-dashboard-slot",
-        "title": "HIE Dashboard"
-      }
-    },
-    {
-      "name": "hie-dashboard-ext",
-      "component": "hieHomeDashboardExt",
-      "slot": "hie-home-dashboard-slot"
-    },
-    {
       "name": "clinical-views-divider",
       "component": "clinicalViewsDivider",
       "slot": "patient-chart-dashboard-slot",
