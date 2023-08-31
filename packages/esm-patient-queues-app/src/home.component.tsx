@@ -9,6 +9,7 @@ import {
 } from './constants';
 import PatientQueueHeader from './patient-queue-header/patient-queue-header.component';
 import ClinicMetrics from './patient-queue-metrics/clinic-metrics.component';
+import QueueLauncher from './queue-launcher/queue-launcher.component';
 
 interface HomeProps {}
 
@@ -16,6 +17,9 @@ const Home: React.FC<HomeProps> = (props) => {
   return (
     <div>
       <PatientQueueHeader />
+      <UserHasAccess privilege={PRIVILEGE_RECEPTION_QUEUE_LIST}>
+        <QueueLauncher />
+      </UserHasAccess>
       <ClinicMetrics />
       <UserHasAccess privilege={PRIVILEGE_RECEPTION_QUEUE_LIST}>
         <ActiveVisitsReceptionTable />

@@ -10,6 +10,7 @@ const options = {
   featureName: 'patient queues',
   moduleName,
 };
+
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 }
@@ -119,3 +120,5 @@ export const queuePatientsWorkspace = getAsyncLifecycle(
     moduleName,
   },
 );
+
+export const queueScreen = getAsyncLifecycle(() => import('./queue-board/queue-board.component'), options);
