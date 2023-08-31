@@ -1,16 +1,7 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EncounterListColumn, findObs, getObsFromEncounter, EncounterList } from '@ohri/openmrs-esm-ohri-commons-lib';
-import {
-  dateOfServiceEnrollmentConcept,
-  dateOfHIVDiagnosisConcept,
-  careAndTreatmentEncounterType,
-  entryPointConcept,
-  patientTypeEnrollmentConcept,
-  re_enrolmentDateConcept,
-  otherEntryPoint,
-  populationCategoryConcept,
-} from '../../../../constants';
+import { careAndTreatmentEncounterType, TransferInDateConceptUUID, InSchoolConceptUUID } from '../../../../constants';
 import { moduleName } from '../../../../index';
 
 interface HIVEnrolmentTabListProps {
@@ -23,53 +14,17 @@ const HIVEnrolmentTabList: React.FC<HIVEnrolmentTabListProps> = ({ patientUuid }
   const columns: EncounterListColumn[] = useMemo(
     () => [
       {
-        key: 'date',
-        header: t('enrollmentDate', 'Enrollment/Re-enrollment Date'),
+        key: 'transferInDate',
+        header: t('transferInDate', 'Transfer In Date '),
         getValue: (encounter) => {
-          return getObsFromEncounter(encounter, re_enrolmentDateConcept, true) !== '--'
-            ? getObsFromEncounter(encounter, re_enrolmentDateConcept, true)
-            : getObsFromEncounter(encounter, dateOfServiceEnrollmentConcept, true);
+          return getObsFromEncounter(encounter, TransferInDateConceptUUID, true);
         },
       },
       {
-        key: 'clientDescription',
-        header: t('patientType', 'Patient Type at Enrollment'),
+        key: 'inSchool',
+        header: t('inSchool', 'In School (5 -19 years)'),
         getValue: (encounter) => {
-          return getObsFromEncounter(encounter, patientTypeEnrollmentConcept);
-        },
-      },
-      {
-        key: 'dateConfirmedPositive',
-        header: t('dateConfirmedPositive', 'Date Confirmed HIV+'),
-        getValue: (encounter) => {
-          return getObsFromEncounter(encounter, dateOfHIVDiagnosisConcept, true);
-        },
-      },
-      {
-        key: 'entryPoint',
-        header: t('entryPoint', 'Entry Point'),
-        getValue: (encounter) => {
-          const obs = findObs(encounter, entryPointConcept);
-          if (typeof obs !== undefined && obs) {
-            if (typeof obs.value === 'object') {
-              if (obs !== undefined) {
-                const EntryPoint =
-                  obs.value.names?.find((conceptName) => conceptName.conceptNameType === 'SHORT')?.name ||
-                  obs.value.name.name;
-                if (EntryPoint === 'Other non-coded') {
-                  return getObsFromEncounter(encounter, otherEntryPoint);
-                }
-              }
-            }
-          }
-          return getObsFromEncounter(encounter, entryPointConcept);
-        },
-      },
-      {
-        key: 'populationCategory',
-        header: t('populationCategory', 'Population Category'),
-        getValue: (encounter) => {
-          return getObsFromEncounter(encounter, populationCategoryConcept);
+          return getObsFromEncounter(encounter, InSchoolConceptUUID);
         },
       },
       {
@@ -77,14 +32,14 @@ const HIVEnrolmentTabList: React.FC<HIVEnrolmentTabListProps> = ({ patientUuid }
         header: t('actions', 'Actions'),
         getValue: (encounter) => [
           {
-            form: { name: 'Service Enrolment Form', package: 'hiv' },
+            form: { name: 'ART Enrollment Form' },
             encounterUuid: encounter.uuid,
             intent: '*',
             label: t('viewDetails', 'View Details'),
             mode: 'view',
           },
           {
-            form: { name: 'Service Enrolment Form', package: 'hiv' },
+            form: { name: 'ART Enrollment Form' },
             encounterUuid: encounter.uuid,
             intent: '*',
             label: t('editForm', 'Edit Form'),
@@ -103,7 +58,7 @@ const HIVEnrolmentTabList: React.FC<HIVEnrolmentTabListProps> = ({ patientUuid }
     <EncounterList
       patientUuid={patientUuid}
       encounterType={careAndTreatmentEncounterType}
-      formList={[{ name: 'Service Enrolment Form' }]}
+      formList={[{ name: 'ART Enrollment Form' }]}
       columns={columns}
       description={displayText}
       headerTitle={headerTitle}

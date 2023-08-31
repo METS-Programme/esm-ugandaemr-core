@@ -17,21 +17,21 @@
       }
     },
     {
-      "component": "preventionDashboardLink",
-      "name": "hiv-prevention",
+      "component": "hivTestingDashboardLink",
+      "name": "hiv-testing-services",
       "slot": "hiv-dashboard-slot",
         "meta": {
           "slot": "prevention-dashboard-slot",
-          "title": "HIV Screening",
-          "path": "hiv-prevention",
+          "title": "HIV Testing Services",
+          "path": "hiv-testing-services",
           "columns": 1,
           "layoutMode": "anchored"
         }
     },
     {
-      "name": "hiv-prevention-ext",
+      "name": "hiv-testing-services-ext",
       "slot": "prevention-dashboard-slot",
-      "component": "hivPreventionDashboardExt"
+      "component": "hivTestingDashboardExt"
     },
     {
       "name": "hts-service-summary-dashboard",
@@ -40,6 +40,7 @@
       "meta": {
         "slot": "hiv-patient-summary-dashboard-slot",
         "columns": 1,
+        "title": "HIV Patient Summary",
         "path": "hiv-patient-summary",
         "layoutMode": "anchored"
       }
@@ -56,6 +57,7 @@
       "meta": {
         "slot": "program-management-summary-slot",
         "columns": 1,
+        "title": "Program Management",
         "path": "program-management",
         "layoutMode": "anchored"
       }
@@ -66,13 +68,14 @@
       "component": "programManagementDashboard"
     },
     {
-      "name": "visits-summary",
+      "name": "clinical-assessment",
       "slot": "hiv-dashboard-slot",
       "component": "clinicalVisitsDashboardLink",
       "meta": {
         "slot": "clinical-visits-summary-slot",
         "columns": 1,
-        "path": "clinical-visits",
+        "title": "Clinical Assessment",
+        "path": "clinical-assessment",
         "layoutMode": "anchored"
       }
     },
@@ -88,6 +91,7 @@
       "meta": {
         "slot": "general-counselling-summary-slot",
         "columns": 1,
+        "title": "General Counselling",
         "path": "general-counselling",
         "layoutMode": "anchored"
       }
@@ -104,6 +108,7 @@
       "meta": {
         "slot": "adherence-counselling-summary-slot",
         "columns": 1,
+        "title": "Adherence Counselling",
         "path": "adherence-counselling",
         "layoutMode": "anchored"
       }
@@ -120,6 +125,7 @@
       "meta": {
         "slot": "partner-notification-services-slot",
         "columns": 1,
+        "title": "Partner Notification",
         "path": "partner-notification-services",
         "layoutMode": "anchored"
       }

@@ -1,5 +1,10 @@
 {
   "opd": "OutPatient Department",
   "opdRegister": "OutPatient Register",
-  "referralNote": "Referral Note"
+  "referralNote": "Referral Note",
+  "dsEnrollment": "DS Enrollment",
+  "dsFollowup": "DS Followup",
+  "drEnrollment": "DR Enrollment",
+  "drFollowup": "DR Followup",
+  "contactTracing": "Contact Tracing"
 }

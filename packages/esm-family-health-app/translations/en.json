@@ -5,5 +5,8 @@
   "postnatal": "Postnatal",
   "familyPlanning": "Family Planning",
   "maternity": "Maternity",
-  "nutrition": "Nutrition"
+  "nutrition": "Nutrition",
+  "statusOfBreast": "Status Of Breast",
+  "referral": "Referral IN/OUT",
+  "timingForPNCVisit": "Timing For PNC Visit"
 }

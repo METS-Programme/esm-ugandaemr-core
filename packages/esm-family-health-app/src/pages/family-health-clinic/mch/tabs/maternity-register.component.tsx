@@ -1,7 +1,7 @@
 import { EncounterList, EncounterListColumn, getObsFromEncounter } from '@ohri/openmrs-esm-ohri-commons-lib';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ADMISSION_DATE, DELIVERY_TYPE, MATERNITY_ENCOUNTER_TYPE, moduleName } from '../../../../constants';
+import { ADMISSION_DATE, ANC_NUMBER, DELIVERY_TYPE, MATERNITY_ENCOUNTER_TYPE, moduleName } from '../../../../constants';
 
 interface MaternityRegisterProps {
   patientUuid: string;
@@ -13,10 +13,10 @@ const MaternityRegister: React.FC<MaternityRegisterProps> = ({ patientUuid }) =>
   const columnsLab: EncounterListColumn[] = useMemo(
     () => [
       {
-        key: 'admissionDate',
-        header: t('admissionDate', 'Admission Date'),
+        key: 'anc',
+        header: t('admissionDate', 'ANC Number'),
         getValue: (encounter) => {
-          return getObsFromEncounter(encounter, ADMISSION_DATE);
+          return getObsFromEncounter(encounter, ANC_NUMBER);
         },
       },
       {

@@ -4,11 +4,11 @@ export const TBDashboardMeta = {
   isExpanded: false,
 };
 
-export const tbScreeningDashboardtMeta = {
-  slot: 'tb-screening-slot',
+export const contactTracingDashboardtMeta = {
+  slot: 'contact-tracing-slot',
   config: { columns: 1, type: 'grid' },
-  title: 'Screening',
-  path: 'tb-screening',
+  title: 'Contact Tracing',
+  path: 'contact-tracing',
 };
 export const tbTreatmentDashboardMeta = {
   slot: 'tb-treatment-dashboard-slot',

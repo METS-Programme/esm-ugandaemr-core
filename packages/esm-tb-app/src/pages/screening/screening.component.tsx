@@ -8,7 +8,7 @@ export interface PatientChartProps {
 
 const TBScreening: React.FC<PatientChartProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
-  const headerTitle = t('tbscreening', 'Screening');
+  const headerTitle = t('contactTracing');
 
   return <EmptyStateComingSoon headerTitle={headerTitle} displayText={headerTitle} />;
 };

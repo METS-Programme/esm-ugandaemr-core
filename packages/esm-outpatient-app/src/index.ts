@@ -6,6 +6,7 @@ import { moduleName } from './constants';
 import {
   PalliativeDashboardtMeta,
   assessmentDashboardtMeta,
+  opdAdmissionDashboardtMeta,
   opdDashboardMeta,
   treatmentDashboardtMeta,
 } from './dashboard.meta';
@@ -73,3 +74,20 @@ export const opdPalliativeDashboardLinkExt = getAsyncLifecycle(() => import('./p
   featureName: 'opd-dashboard-ext',
   moduleName,
 });
+
+//  Ope Admission dashboard
+export const opdAdmissionDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    ...opdAdmissionDashboardtMeta,
+    moduleName,
+  }),
+  options,
+);
+
+export const opdAdmissionDashboardLinkExt = getAsyncLifecycle(
+  () => import('./pages/opd/admissions/admission.component'),
+  {
+    featureName: 'opd-dashboard-ext',
+    moduleName,
+  },
+);

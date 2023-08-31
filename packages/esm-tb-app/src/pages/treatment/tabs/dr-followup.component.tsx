@@ -1,23 +1,19 @@
 import React, { useMemo, useState } from 'react';
 
 import moment from 'moment';
-import { EncounterList, EncounterListColumn, findObs, getObsFromEncounter } from '@ohri/openmrs-esm-ohri-commons-lib';
+import {
+  EncounterList,
+  EncounterListColumn,
+  PatientChartProps,
+  findObs,
+  getObsFromEncounter,
+} from '@ohri/openmrs-esm-ohri-commons-lib';
 import { useTranslation } from 'react-i18next';
-import { moduleName } from '../../../index';
+import { DR_TB_Followup_ENCOUNTER_TYPE, moduleName } from '../../../constants';
 
-interface HtsOverviewListProps {
-  patientUuid: string;
-}
-
-const hivTestResultConceptUUID = 'e16b0068-b6a2-46b7-aba9-e3be00a7b4ab'; // HIV Result
-const htsStrategy = 'f0d85da0-c235-4540-a0d1-63640594f98b';
-
-const HtsOverviewList: React.FC<HtsOverviewListProps> = ({ patientUuid }) => {
+const DRFollowupList: React.FC<PatientChartProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
-  const [counter, setCounter] = useState(0);
-  const htsRetrospectiveTypeUUID = '79c1f50f-f77d-42e2-ad2a-d29304dde2fe'; // HTS Retrospective
-  const forceComponentUpdate = () => setCounter(counter + 1);
-  const headerTitle = 'HIV Testing Services';
+  const headerTitle = 'DR Follow Up';
 
   const columns: EncounterListColumn[] = useMemo(
     () => [
@@ -39,7 +35,7 @@ const HtsOverviewList: React.FC<HtsOverviewListProps> = ({ patientUuid }) => {
         key: 'hivTestResult',
         header: t('hivTestResult', 'HIV Test result'),
         getValue: (encounter) => {
-          return getObsFromEncounter(encounter, hivTestResultConceptUUID);
+          return getObsFromEncounter(encounter, '--');
         },
       },
       {
@@ -56,14 +52,14 @@ const HtsOverviewList: React.FC<HtsOverviewListProps> = ({ patientUuid }) => {
         getValue: (encounter) => {
           const baseActions = [
             {
-              form: { name: 'HTS Client Form' },
+              form: { name: 'DR TB Followup Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: t('viewDetails', 'View Details'),
               mode: 'view',
             },
             {
-              form: { name: 'HTS Client Form' },
+              form: { name: 'DR TB Followup Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: t('editForm', 'Edit Form'),
@@ -80,8 +76,8 @@ const HtsOverviewList: React.FC<HtsOverviewListProps> = ({ patientUuid }) => {
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterType={htsRetrospectiveTypeUUID}
-      formList={[{ name: 'HTS Client Form' }]}
+      encounterType={DR_TB_Followup_ENCOUNTER_TYPE}
+      formList={[{ name: 'DR TB Followup Form' }]}
       columns={columns}
       description={headerTitle}
       headerTitle={headerTitle}
@@ -93,4 +89,4 @@ const HtsOverviewList: React.FC<HtsOverviewListProps> = ({ patientUuid }) => {
   );
 };
 
-export default HtsOverviewList;
+export default DRFollowupList;
