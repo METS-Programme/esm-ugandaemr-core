@@ -13,7 +13,7 @@ import {
 
 import { navigate, showNotification, showToast, useLocations, useSession } from '@openmrs/esm-framework';
 
-import { getCareProvider, updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
+import { addQueueEntry, getCareProvider, updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -176,7 +176,39 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
         );
       } else if (status === 'completed') {
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-        updateQueueEntry(status, provider, queueEntry?.id, priorityComment, comment).then(
+        const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
+
+        updateQueueEntry('Completed', provider, queueEntry?.id, priorityComment, comment).then(
+          () => {
+            showToast({
+              critical: true,
+              title: t('endVisit', 'End Vist'),
+              kind: 'success',
+              description: t('endVisitSuccessfully', 'You have successfully ended patient visit'),
+            });
+            closeModal();
+            mutate();
+          },
+          (error) => {
+            showNotification({
+              title: t('queueEntryUpdateFailed', 'Error ending visit'),
+              kind: 'error',
+              critical: true,
+              description: error?.message,
+            });
+          },
+        );
+
+        addQueueEntry(
+          queueEntry?.id,
+          nextQueueLocationUuid,
+          queueEntry?.patientUuid,
+          contentSwitcherIndex,
+          'pending',
+          selectedLocation,
+          priorityComment,
+          comment,
+        ).then(
           () => {
             showToast({
               critical: true,
@@ -184,10 +216,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               kind: 'success',
               description: t('movetonextqueue', 'Move to next queue successfully'),
             });
-            //  endvisit
-            endVisitStatus;
-
-            // pick and route
+            //pick and route
             const status = 'Picked';
             updateQueueEntry(status, provider, currentEntry?.id, priorityComment, 'comment').then(
               () => {
@@ -225,11 +254,13 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
       status,
       provider,
       queueEntry?.id,
+      queueEntry?.patientUuid,
       priorityComment,
       t,
       closeModal,
       mutate,
-      endVisitStatus,
+      contentSwitcherIndex,
+      selectedLocation,
       currentEntry?.id,
       currentEntry.patientUuid,
     ],

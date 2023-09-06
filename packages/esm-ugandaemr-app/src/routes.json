@@ -23,6 +23,9 @@
       "name": "clinical-views-divider",
       "component": "clinicalViewsDivider",
       "slot": "patient-chart-dashboard-slot",
+      "privilege":[
+        "Manage Patients"
+      ],
       "order": 15
     },
     {

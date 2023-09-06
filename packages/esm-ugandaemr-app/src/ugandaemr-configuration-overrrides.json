@@ -1,4 +1,60 @@
 {
+  "@ugandaemr/esm-outpatient-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage OPD"
+      ]
+    }
+  },
+  "@ugandaemr/esm-hiv-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage HIV"
+      ]
+    }
+  },
+  "@ugandaemr/esm-laboratory-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Laboratory"
+      ]
+    }
+  },
+  "@ugandaemr/esm-tb-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage TB"
+      ]
+    }
+  },
+  "@ugandaemr/esm-radiology-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Radiology"
+      ]
+    }
+  },
+  "@ugandaemr/esm-theatre-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Theatre"
+      ]
+    }
+  },
+  "@ugandaemr/esm-ipd-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage IPD"
+      ]
+    }
+  },
+  "@ugandaemr/esm-family-health-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage IPD"
+      ]
+    }
+  },
   "@openmrs/esm-appointments-app": {
     "Display conditions": {
       "privileges": [
@@ -110,8 +166,14 @@
     }
   },
   "@openmrs/esm-patient-registration-app": {
+    "logo": {
+      "src": "assets/logo.svg",
+      "alt": "logo"
+    },
     "Display conditions": {
-      "privileges": []
+      "privileges": [
+        "Manage Patients"
+      ]
     },
     "fieldConfigurations": {
       "gender": [
@@ -132,6 +194,13 @@
     "extensionSlots": {
       "homepage-dashboard-slot": {
         "configure": {
+          "home-widget-db-link":{
+            "Display conditions": {
+              "privileges": [
+                "Manage Patient Lists"
+              ]
+            }
+          },
           "patient-lists-dashboard-link": {
             "Display conditions": {
               "privileges": [
@@ -245,7 +314,7 @@
               ]
             }
           },
-          "patient-list-linkq": {
+          "patient-list-link": {
             "Display conditions": {
               "privileges": [
                 "Manage Patient Lists"
@@ -285,3 +354,9 @@
     }
   }
 }
+
+
+
+
+
+

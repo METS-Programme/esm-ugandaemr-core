@@ -1,4 +1,4 @@
-import { UserHasAccess } from '@openmrs/esm-framework';
+import { UserHasAccess, useSession } from '@openmrs/esm-framework';
 import React from 'react';
 import ActiveVisitsReceptionTable from './active-visit-patient-reception/active-visits-reception-table.component';
 import ActiveVisitsTabs from './active-visits/active-visits-tab.component';
@@ -14,6 +14,8 @@ import QueueLauncher from './queue-launcher/queue-launcher.component';
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = (props) => {
+  const session = useSession();
+
   return (
     <div>
       <PatientQueueHeader />
