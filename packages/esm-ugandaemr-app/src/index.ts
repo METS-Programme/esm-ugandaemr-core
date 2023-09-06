@@ -19,17 +19,21 @@ export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 }
 
-// pages
-export const facilityDashboard = getAsyncLifecycle(() => import('./views/facility/facility-root.component'), options);
+export const facilityDashboard = getAsyncLifecycle(
+  () => import('./dashboards/facility/facility-root.component'),
+  options,
+);
+
+export const facilityDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    name: 'facility-dashboard',
+    slot: 'facility-dashboard-slot',
+    title: 'Facility Dashboard',
+  }),
+  options,
+);
+
 export const hieDashboard = getAsyncLifecycle(() => import('./views/hie/hie-root.component'), options);
-
-// extensions
-export const facilityHomeDashboardLink = getSyncLifecycle(createDashboardLink(facilityHomeDashboardMeta), options);
-export const facilityHomeDashboardExt = getAsyncLifecycle(() => import('./views/facility/facility-home.component'), {
-  featureName: 'facility dashboard',
-  moduleName,
-});
-
 export const hieHomeDashboardLink = getSyncLifecycle(createDashboardLink(hieHomeDashboardMeta), options);
 export const hieHomeDashboardExt = getAsyncLifecycle(() => import('./views/hie/hie-home.component'), options);
 

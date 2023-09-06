@@ -1,0 +1,101 @@
+@use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/type';
+@use '@carbon/styles/scss/colors';
+@import '../../root.scss';
+.createIcon {
+  padding: 1.0rem;
+  margin-right: 60px;
+}
+
+.iconButton {
+  width: 45px;
+  height: 40px;
+  background: lightgrey;
+  font-size: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 30px;
+}
+
+.searchField {
+  width: 100%;
+  border: 0px !important;
+}
+
+.searchBox {
+  padding: 1.0rem;
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  margin-left: 30px;
+}
+
+.cardContainer {
+  background-color: $ui-background;
+  display: flex;
+  justify-content: space-between;
+  padding: spacing.$spacing-05;
+}
+
+.sectionTitle {
+  @include type.type-style('heading-compact-02');
+  color: $text-02;
+  margin-bottom: spacing.$spacing-04;
+}
+
+.dashboardModal {
+  :global(.cds--modal-container) {
+    min-width: 80%;
+    min-height: 80%;
+  }
+
+  :global(.pvtAxisContainer), :global(.pvtRenderers), :global(.pvtVals) {
+    display: none;
+  }
+}
+
+.modalInput {
+  margin-bottom: spacing.$spacing-06;
+}
+
+.dashboardSection {
+  width: 80%;
+}
+.dashboardTabs {
+  margin: 1.5rem;
+  //border: 1px solid #8080804d;
+  //border-radius: 5px;
+}
+
+.layer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: spacing.$spacing-05;
+  margin: 2rem 1rem;
+  text-align: center;
+  border: 1px solid colors.$gray-20;
+}
+
+.tile {
+  margin: auto;
+}
+
+.content {
+  @include type.type-style("heading-compact-02");
+  color: colors.$gray-70;
+  margin-top: spacing.$spacing-05;
+  margin-bottom: spacing.$spacing-03;
+}
+
+.explainer {
+  @include type.type-style('body-compact-01');
+  color: colors.$gray-70;
+}
+
+.dropdownContainer {
+  margin-right: 0 !important;
+  margin: 2rem;
+  margin-left: 0;
+}

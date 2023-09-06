@@ -49,6 +49,21 @@
       "name": "update-facility-code-alert",
       "slot": "homepage-widgets-slot",
       "component": "updateFacilityCodeAlert"
+    },
+    {
+      "name": "facility-dashboard-link",
+      "component": "facilityDashboardLink",
+      "slot": "homepage-dashboard-slot",
+      "meta": {
+        "name": "facility-dashboard",
+        "slot": "facility-dashboard-slot",
+        "title": "Facility Dashboard"
+      }
+    },
+    {
+      "component": "facilityDashboard",
+      "name": "facility-dashboard",
+      "slot": "facility-dashboard-slot"
     }
   ]
 }

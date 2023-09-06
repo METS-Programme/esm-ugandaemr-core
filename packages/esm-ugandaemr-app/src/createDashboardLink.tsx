@@ -5,6 +5,7 @@ import { BrowserRouter, useLocation } from 'react-router-dom';
 export interface DashboardLinkConfig {
   name: string;
   title: string;
+  slot?: string;
 }
 
 function DashboardExtension({ dashboardLinkConfig }: { dashboardLinkConfig: DashboardLinkConfig }) {

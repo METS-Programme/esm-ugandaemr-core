@@ -39,14 +39,21 @@
   "dependencies": {
     "@carbon/react": "^1.14.0",
     "@openmrs/openmrs-form-engine-lib": "next",
-    "lodash-es": "^4.17.15"
+    "lodash-es": "^4.17.15",
+    "react-pivottable": "^0.11.0",
+    "react-plotly.js": "^2.6.0"
   },
   "peerDependencies": {
     "@openmrs/esm-framework": "5.x",
+    "plotly.js": "2.x",
     "react": "18.x",
     "react-i18next": "11.x"
   },
   "devDependencies": {
+    "plotly.js": "^2.24.3",
+    "raw-loader": "^4.0.2",
+    "react-pivottable": "^0.11.0",
+    "react-plotly.js": "^2.6.0",
     "webpack": "^5.83.1"
   }
 }
