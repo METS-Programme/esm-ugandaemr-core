@@ -4,26 +4,27 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Add } from '@carbon/react/icons';
 
-const UpdateFacilityCode = ({ setFacilityCode }) => {
+const UpdateFacilityCodeButton = ({ facilityCodeDetails, setFacilityCodeDetails }) => {
   const { t } = useTranslation();
   const launchRetrieveFacilityCodeModal = useCallback(() => {
     const dispose = showModal('retrieve-facility-code-modal', {
       closeModal: () => dispose(),
-      setFacilityCode,
+      facilityCodeDetails,
+      setFacilityCodeDetails,
     });
-  }, [setFacilityCode]);
+  }, [facilityCodeDetails, setFacilityCodeDetails]);
 
   return (
     <Button
       kind="ghost"
       size="sm"
       onClick={launchRetrieveFacilityCodeModal}
-      iconDescription={t('updateFacilityCode', 'Update Facility Code')}
+      iconDescription={t('updateFacilityCodeButton', 'Update Facility Code Button')}
       renderIcon={(props) => <Add size={16} {...props} />}
     >
-      {t('updateFacilityCode', 'Update Facility Code')}
+      {facilityCodeDetails.value === null ? 'Update Facility Code' : 'Edit Facility Code'}
     </Button>
   );
 };
 
-export default UpdateFacilityCode;
+export default UpdateFacilityCodeButton;
