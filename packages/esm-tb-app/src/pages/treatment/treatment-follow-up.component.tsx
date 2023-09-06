@@ -21,16 +21,16 @@ const TBTreatmentFollowUp: React.FC<PatientChartProps> = ({ patientUuid }) => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <DREnrollmentList patientUuid={patientUuid} />
-          </TabPanel>
-          <TabPanel>
-            <DRFollowupList patientUuid={patientUuid} />
-          </TabPanel>
-          <TabPanel>
             <DSEnrollmentList patientUuid={patientUuid} />
           </TabPanel>
           <TabPanel>
             <DSFollowupList patientUuid={patientUuid} />
+          </TabPanel>
+          <TabPanel>
+            <DREnrollmentList patientUuid={patientUuid} />
+          </TabPanel>
+          <TabPanel>
+            <DRFollowupList patientUuid={patientUuid} />
           </TabPanel>
         </TabPanels>
       </Tabs>
