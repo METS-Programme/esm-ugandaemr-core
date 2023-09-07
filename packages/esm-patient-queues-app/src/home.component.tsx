@@ -1,4 +1,4 @@
-import { UserHasAccess } from '@openmrs/esm-framework';
+import { UserHasAccess, useSession, userHasAccess } from '@openmrs/esm-framework';
 import React from 'react';
 import ActiveVisitsReceptionTable from './active-visit-patient-reception/active-visits-reception-table.component';
 import ActiveVisitsTabs from './active-visits/active-visits-tab.component';
@@ -14,6 +14,8 @@ import QueueLauncher from './queue-launcher/queue-launcher.component';
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = (props) => {
+  const session = useSession();
+
   return (
     <div>
       <PatientQueueHeader />
@@ -21,15 +23,9 @@ const Home: React.FC<HomeProps> = (props) => {
         <QueueLauncher />
       </UserHasAccess>
       <ClinicMetrics />
-      <UserHasAccess privilege={PRIVILEGE_RECEPTION_QUEUE_LIST}>
-        <ActiveVisitsReceptionTable />
-      </UserHasAccess>
-      <UserHasAccess privilege={PRIVILEGE_CLINICIAN_QUEUE_LIST}>
-        <ActiveVisitsTabs />
-      </UserHasAccess>
-      <UserHasAccess privilege={PRIVILEGE_TRIAGE_QUEUE_LIST}>
-        <ActiveVisitsTabs />
-      </UserHasAccess>
+      {session?.user && userHasAccess(PRIVILEGE_RECEPTION_QUEUE_LIST, session.user) && <ActiveVisitsReceptionTable />}
+      {session?.user && userHasAccess(PRIVILEGE_TRIAGE_QUEUE_LIST, session.user) && <ActiveVisitsTabs />}
+      {session?.user && userHasAccess(PRIVILEGE_CLINICIAN_QUEUE_LIST, session.user) && <ActiveVisitsTabs />}
     </div>
   );
 };

@@ -1,4 +1,60 @@
 {
+  "@ugandaemr/esm-outpatient-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage OPD"
+      ]
+    }
+  },
+  "@ugandaemr/esm-hiv-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage HIV"
+      ]
+    }
+  },
+  "@ugandaemr/esm-laboratory-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Laboratory"
+      ]
+    }
+  },
+  "@ugandaemr/esm-tb-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage TB"
+      ]
+    }
+  },
+  "@ugandaemr/esm-radiology-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Radiology"
+      ]
+    }
+  },
+  "@ugandaemr/esm-theatre-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Theatre"
+      ]
+    }
+  },
+  "@ugandaemr/esm-ipd-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage IPD"
+      ]
+    }
+  },
+  "@ugandaemr/esm-family-health-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Family"
+      ]
+    }
+  },
   "@openmrs/esm-appointments-app": {
     "Display conditions": {
       "privileges": [
@@ -28,7 +84,7 @@
   "@openmrs/esm-patient-appointments-app": {
     "Display conditions": {
       "privileges": [
-        "Manage Appointments"
+        "Manage Patient Appointments"
       ]
     }
   },
@@ -95,13 +151,6 @@
       ]
     }
   },
-  "@openmrs/esm-patient-vitals-app": {
-    "Display conditions": {
-      "privileges": [
-        "Add Vitals and Biometrics"
-      ]
-    }
-  },
   "@openmrs/esm-offline-tools-app": {
     "Display conditions": {
       "privileges": [
@@ -110,8 +159,14 @@
     }
   },
   "@openmrs/esm-patient-registration-app": {
+    "logo": {
+      "src": "assets/logo.svg",
+      "alt": "logo"
+    },
     "Display conditions": {
-      "privileges": []
+      "privileges": [
+        "Manage Patients"
+      ]
     },
     "fieldConfigurations": {
       "gender": [
@@ -132,7 +187,7 @@
     "extensionSlots": {
       "homepage-dashboard-slot": {
         "configure": {
-          "patient-lists-dashboard-link": {
+          "home-widget-db-link":{
             "Display conditions": {
               "privileges": [
                 "Manage Patient Lists"
@@ -149,7 +204,7 @@
           "clinical-appointments-dashboard-link": {
             "Display conditions": {
               "privileges": [
-                "Manage Appointments"
+                "Manage Patient Appointments"
               ]
             }
           }
@@ -167,121 +222,12 @@
     "logo": {
       "src": "assets/logo.svg",
       "alt": "logo"
-    },
-    "extensionSlots": {
-      "top-nav-actions-slot": {
-        "configure": {
-          "patient-search-icon": {
-            "Display conditions": {
-              "privileges": [
-                "View Patients"
-              ]
-            }
-          },
-          "add-patient-action": {
-            "Display conditions": {
-              "privileges": [
-                "View Patients"
-              ]
-            }
-          }
-        }
-      },
-      "app-menu-slot": {
-        "configure": {
-          "laboratory-link": {
-            "Display conditions": {
-              "privileges": [
-                "Manage Laboratory"
-              ]
-            }
-          },
-          "theatre-link": {
-            "Display conditions": {
-              "privileges": [
-                "Manage Theatre"
-              ]
-            }
-          },
-          "radiology-link": {
-            "Display conditions": {
-              "privileges": [
-                "Manage Radiology"
-              ]
-            }
-          },
-          "dispensing-link": {
-            "Display conditions": {
-              "privileges": [
-                "Manage Dispensing"
-              ]
-            }
-          },
-          "stock-management-link": {
-            "Display conditions": {
-              "privileges": [
-                "Manage Stock Management"
-              ]
-            }
-          },
-          "appointments-link": {
-            "Display conditions": {
-              "privileges": [
-                "Manage Appointments"
-              ]
-            }
-          },
-          "form-builder-app-menu-link": {
-            "Display conditions": {
-              "privileges": [
-                "Build Forms"
-              ]
-            }
-          },
-          "forms-app-link": {
-            "Display conditions": {
-              "privileges": [
-                "Access Fast Data Entry"
-              ]
-            }
-          },
-          "patient-list-linkq": {
-            "Display conditions": {
-              "privileges": [
-                "Manage Patient Lists"
-              ]
-            }
-          },
-          "offline-tools-link": {
-            "Display conditions": {
-              "privileges": [
-                "Access Offline Tools"
-              ]
-            }
-          },
-          "cohort-builder-app-link": {
-            "Display conditions": {
-              "privileges": [
-                "Manage Cohorts"
-              ]
-            }
-          },
-          "system-administration-link": {
-            "Display conditions": {
-              "privileges": [
-                "View Administration Functions"
-              ]
-            }
-          },
-          "outpatient-link": {
-            "Display conditions": {
-              "privileges": [
-                "Access Outpatient App"
-              ]
-            }
-          }
-        }
-      }
     }
   }
 }
+
+
+
+
+
+

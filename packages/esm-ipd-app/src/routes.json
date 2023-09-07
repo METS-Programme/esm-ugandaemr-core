@@ -10,6 +10,9 @@
       "component": "ipdDashboardGroup",
       "name": "ipd-dashboard",
       "slot": "patient-chart-dashboard-slot",
+      "privilege": [
+        "Manage IPD"
+      ],
       "order": 19,
       "meta": {
         "title": "IPD",
