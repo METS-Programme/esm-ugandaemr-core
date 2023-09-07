@@ -46,14 +46,14 @@ const Admission: React.FC<PatientChartProps> = ({ patientUuid }) => {
         getValue: (encounter) => {
           const baseActions = [
             {
-              form: { name: 'Contact Tracing Form' },
+              form: { name: 'Admission form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: t('viewDetails', 'View Details'),
               mode: 'view',
             },
             {
-              form: { name: 'Contact Tracing Form' },
+              form: { name: 'Admission form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: t('editForm', 'Edit Form'),
@@ -71,7 +71,7 @@ const Admission: React.FC<PatientChartProps> = ({ patientUuid }) => {
     <EncounterList
       patientUuid={patientUuid}
       encounterType={ADMISSION_ENCOUNTER_TYPE}
-      formList={[{ name: 'Contact Tracing Form' }]}
+      formList={[{ name: 'Admission form' }]}
       columns={columns}
       description={headerTitle}
       headerTitle={headerTitle}
