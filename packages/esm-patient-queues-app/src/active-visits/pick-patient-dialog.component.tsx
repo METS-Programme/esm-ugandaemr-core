@@ -56,7 +56,7 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
   const [priorityComment, setPriorityComment] = useState('');
 
   useEffect(() => {
-    getCareProvider(sessionUser?.user?.username).then(
+    getCareProvider(sessionUser?.user?.systemId).then(
       (response) => {
         showToast({
           critical: true,

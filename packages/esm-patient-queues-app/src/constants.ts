@@ -12,9 +12,9 @@ export const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 // privileges
 export const PRIVILEGE_CHECKIN = 'App: ugandaemrpoc.findPatient';
-export const PRIVILEGE_RECEPTION_METRIC = 'App: ugandaemrpoc.findPatient';
-export const PRIVILIGE_TRIAGE_METRIC = 'App: ugandaemrpoc.triage';
-export const PRIVILEGE_CLINICIAN_METRIC = 'App: patientqueueing.providerDashboard';
-export const PRIVILEGE_RECEPTION_QUEUE_LIST = 'App: ugandaemrpoc.findPatient';
-export const PRIVILEGE_TRIAGE_QUEUE_LIST = 'App: ugandaemrpoc.triage';
-export const PRIVILEGE_CLINICIAN_QUEUE_LIST = 'App: patientqueueing.providerDashboard';
+export const PRIVILEGE_RECEPTION_METRIC = 'View Reception Metrics';
+export const PRIVILIGE_TRIAGE_METRIC = 'View Triage Metrics';
+export const PRIVILEGE_CLINICIAN_METRIC = 'View Clinician Metrics';
+export const PRIVILEGE_RECEPTION_QUEUE_LIST = 'View Reception Queuelist';
+export const PRIVILEGE_TRIAGE_QUEUE_LIST = 'View Triage Queuelist';
+export const PRIVILEGE_CLINICIAN_QUEUE_LIST = 'View Clinician Queuelist';

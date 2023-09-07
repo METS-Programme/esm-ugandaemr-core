@@ -10,6 +10,9 @@
       "component": "tbDashboardGroup",
       "name": "tb-clinic-dashboard",
       "slot": "patient-chart-dashboard-slot",
+      "privilege": [
+        "Manage TB"
+      ],
       "order": 18,
       "meta": {
         "slotName": "tb-clinic-dashboard-slot",
