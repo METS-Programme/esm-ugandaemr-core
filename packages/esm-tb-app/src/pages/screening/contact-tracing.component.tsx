@@ -1,17 +1,16 @@
 import React, { useMemo } from 'react';
-import {
-  EncounterList,
-  EncounterListColumn,
-  PatientChartProps,
-  getObsFromEncounter,
-} from '@ohri/openmrs-esm-ohri-commons-lib/src/index';
+import { EncounterList, EncounterListColumn, getObsFromEncounter } from '@ohri/openmrs-esm-ohri-commons-lib/src/index';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
-import { moduleName, sms_enrollement_EncounterType } from '../../../../constants';
+import { DS_TB_Followup_ENCOUNTER_TYPE, moduleName } from '../../constants';
 
-const SMSReminderEnrollment: React.FC<PatientChartProps> = ({ patientUuid }) => {
+export interface PatientChartProps {
+  patientUuid: string;
+}
+
+const ContactTracingList: React.FC<PatientChartProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
-  const headerTitle = 'SMS Reminder Enrollment';
+  const headerTitle = t('contactTracing');
 
   const columns: EncounterListColumn[] = useMemo(
     () => [
@@ -50,14 +49,14 @@ const SMSReminderEnrollment: React.FC<PatientChartProps> = ({ patientUuid }) => 
         getValue: (encounter) => {
           const baseActions = [
             {
-              form: { name: 'SMS enrollement' },
+              form: { name: 'Contact Tracing Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: t('viewDetails', 'View Details'),
               mode: 'view',
             },
             {
-              form: { name: 'SMS enrollement' },
+              form: { name: 'Contact Tracing Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: t('editForm', 'Edit Form'),
@@ -74,8 +73,8 @@ const SMSReminderEnrollment: React.FC<PatientChartProps> = ({ patientUuid }) => 
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterType={sms_enrollement_EncounterType}
-      formList={[{ name: 'SMS enrollement' }]}
+      encounterType={DS_TB_Followup_ENCOUNTER_TYPE}
+      formList={[{ name: 'Contact Tracing Form' }]}
       columns={columns}
       description={headerTitle}
       headerTitle={headerTitle}
@@ -87,4 +86,4 @@ const SMSReminderEnrollment: React.FC<PatientChartProps> = ({ patientUuid }) => 
   );
 };
 
-export default SMSReminderEnrollment;
+export default ContactTracingList;

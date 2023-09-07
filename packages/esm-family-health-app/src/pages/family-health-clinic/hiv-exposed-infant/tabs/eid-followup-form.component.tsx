@@ -40,14 +40,14 @@ const EIDSummaryForm: React.FC<EIDSummaryFormProps> = ({ patientUuid }) => {
         getValue: (encounter) => {
           const baseActions = [
             {
-              form: { name: 'eid_summary', package: 'uganda_emr_mch' },
+              form: { name: 'POC- EID Follow up Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: 'View Details',
               mode: 'view',
             },
             {
-              form: { name: 'eid_summary', package: 'uganda_emr_mch' },
+              form: { name: 'POC- EID Follow up Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: 'Edit Form',
@@ -67,7 +67,7 @@ const EIDSummaryForm: React.FC<EIDSummaryFormProps> = ({ patientUuid }) => {
     <EncounterList
       patientUuid={patientUuid}
       encounterType={EID_SUMMARY_ENCOUNTER_TYPE}
-      formList={[{ name: 'eid_summary' }]}
+      formList={[{ name: 'POC- EID Follow up Form' }]}
       columns={columnsLab}
       description={headerTitle}
       headerTitle={headerTitle}
