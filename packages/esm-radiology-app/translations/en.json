@@ -1,0 +1,17 @@
+{
+  "activeOrders": "Active Orders",
+  "allOrders": "All Orders",
+  "completed": "Completed",
+  "completedOrders": "Orders completed today",
+  "created": "Created",
+  "patientName": "Patient name",
+  "formalGreeting": "hello",
+  "getPatient": "Get a patient named",
+  "loading": "Loading",
+  "location": "Location",
+  "orderType": "Order type",
+  "missedOrders": "Orders missed",
+  "radiology": "Radiology",
+  "radiologyOrders": "Radiology Orders",
+  "welcomeText": "Welcome to Radiology"
+}

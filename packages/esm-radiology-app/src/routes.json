@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json.openmrs.org/routes.schema.json",
+  "backendDependencies": {
+    "fhir2": "^1.2.0",
+    "webservices.rest": "^2.24.0"
+  },
+  "pages": [
+    {
+      "component": "root",
+      "route": "radiology"
+    }
+  ],
+  "extensions": [
+    {
+      "name": "radiology-dashboard",
+      "slot": "radiology-dashboard-slot",
+      "component": "root"
+    },
+    {
+      "name": "radiology-dashboard-link",
+      "slot": "homepage-dashboard-slot",
+      "component": "radiologyDashboardLink",
+      "meta": {
+        "name": "radiology",
+        "slot": "radiology-dashboard-slot",
+        "title": "Radiology"
+      }
+    },
+    {
+      "name": "radiology-patient-chart-link",
+      "slot": "patient-chart-dashboard-slot",
+      "component": "radiologyOrderDashboardLink",
+      "order": 13,
+      "meta": {
+        "path": "radiology-orders",
+        "slot": "radiology-orders-dashboard-slot",
+        "title": "Radiology",
+        "columns": 1,
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "radiology-orders-summary",
+      "slot": "radiology-orders-dashboard-slot",
+      "component": "radiologyOrderComponent"
+    }
+  ]
+}

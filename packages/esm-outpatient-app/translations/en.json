@@ -1,5 +1,10 @@
 {
   "opd": "OutPatient Department",
   "opdRegister": "OutPatient Register",
-  "referralNote": "Referral Note"
+  "referralNote": "Referral Note",
+  "admission": "Admission",
+  "clincalAssessment": "Clincal Assessment",
+  "palliative": "Palliative Care",
+  "linkage": "Linkage and referral",
+  "emergency": "Emergency"
 }

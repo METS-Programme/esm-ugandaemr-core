@@ -1,11 +1,16 @@
 import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
-import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
+import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-common-lib';
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
-import { opdDashboardMeta } from './dashboard.meta';
+import {
+  PalliativeDashboardtMeta,
+  assessmentDashboardtMeta,
+  opdAdmissionDashboardtMeta,
+  opdDashboardMeta,
+  treatmentDashboardtMeta,
+} from './dashboard.meta';
 import formsRegistry from './forms/forms-registry';
-import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -16,20 +21,73 @@ const options = {
 
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
-  provide(ugandaEmrOverrides);
+  // TODO: these forms need to be deleted and moved to the backend
   addToBaseFormsRegistry(formsRegistry);
 }
 
-// opd dashboard
-export const opdDashboardLink = getSyncLifecycle(
+export const opdDashboardGroup = getSyncLifecycle(createDashboardGroup(opdDashboardMeta), options);
+
+//  Clinical Assessment dashboard
+export const opdAssessmentDashboardLink = getSyncLifecycle(
   createDashboardLink({
-    ...opdDashboardMeta,
+    ...assessmentDashboardtMeta,
     moduleName,
   }),
   options,
 );
 
-export const opdDashboardExt = getAsyncLifecycle(() => import('./pages/opd/outpatient.component'), {
-  featureName: 'opd-dashboard-summary',
+export const opdAssessmentDashboardLinkExt = getAsyncLifecycle(
+  () => import('./pages/opd/clinical-assessment.component'),
+  {
+    featureName: 'assessment-dashboard-ext',
+    moduleName,
+  },
+);
+
+//  treatment dashboard
+export const opdTreatmentDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    ...treatmentDashboardtMeta,
+    moduleName,
+  }),
+  options,
+);
+
+export const opdTestingDashboardLinkExt = getAsyncLifecycle(
+  () => import('./pages/opd/linkagae-and-referral.component'),
+  {
+    featureName: 'opd-dashboard-ext',
+    moduleName,
+  },
+);
+
+//  Palliative dashboard
+export const opdPalliativeDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    ...PalliativeDashboardtMeta,
+    moduleName,
+  }),
+  options,
+);
+
+export const opdPalliativeDashboardLinkExt = getAsyncLifecycle(() => import('./pages/opd/palliative-care.component'), {
+  featureName: 'opd-dashboard-ext',
   moduleName,
 });
+
+//  Ope Admission dashboard
+export const opdAdmissionDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    ...opdAdmissionDashboardtMeta,
+    moduleName,
+  }),
+  options,
+);
+
+export const opdAdmissionDashboardLinkExt = getAsyncLifecycle(
+  () => import('./pages/opd/admissions/admission.component'),
+  {
+    featureName: 'opd-dashboard-ext',
+    moduleName,
+  },
+);

@@ -1,0 +1,34 @@
+@use '@carbon/styles/scss/colors';
+@use "@carbon/styles/scss/spacing";
+@import '~@openmrs/esm-styleguide/src/vars';
+
+.tile-text {
+  font-size: 3rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $brand-primary-50;
+}
+
+.heading {
+  padding-bottom: spacing.$spacing-08;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: spacing.$spacing-03;
+  padding: 1.5rem;
+}
+
+.gridFlow {
+  display: flex;
+  flex-direction: row;
+  padding: 2rem;
+  flex-wrap: wrap;
+}

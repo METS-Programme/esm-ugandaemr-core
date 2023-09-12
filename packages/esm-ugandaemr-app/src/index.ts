@@ -1,13 +1,12 @@
 import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
-import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 import { createDashboardLink } from './createDashboardLink';
-// import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
-import { facilityDashboardMeta, hieDashboardMeta, medicationsDashboardMeta } from './dashboard.meta';
-import formsRegistry from './forms/forms-registry';
-import ugandaEmrConfig from './ugandaemr-config';
-import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
+import { facilityHomeDashboardMeta, hieHomeDashboardMeta } from './dashboard.meta';
+import {
+  createOHRIPatientChartSideNavLink,
+  patientChartDivider_dashboardMeta,
+} from '@ohri/openmrs-esm-ohri-commons-lib';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -18,74 +17,52 @@ const options = {
 
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
-  provide(ugandaEmrOverrides);
-  provide(ugandaEmrConfig);
-  addToBaseFormsRegistry(formsRegistry);
 }
 
 // pages
+export const facilityDashboard = getAsyncLifecycle(() => import('./views/facility/facility-root.component'), options);
+export const hieDashboard = getAsyncLifecycle(() => import('./views/hie/hie-root.component'), options);
 
 // extensions
+export const facilityHomeDashboardLink = getSyncLifecycle(createDashboardLink(facilityHomeDashboardMeta), options);
+export const facilityHomeDashboardExt = getAsyncLifecycle(() => import('./views/facility/facility-home.component'), {
+  featureName: 'facility dashboard',
+  moduleName,
+});
+
+export const hieHomeDashboardLink = getSyncLifecycle(createDashboardLink(hieHomeDashboardMeta), options);
+export const hieHomeDashboardExt = getAsyncLifecycle(() => import('./views/hie/hie-home.component'), options);
+
 // cervical cancer
 export const cervicalCancerSummaryExt = getAsyncLifecycle(
-  () => import('./pages/cervical-cancer/cacx-visits/cacx-visits.component'),
+  () => import('./views/cervical-cancer/cacx-visits/cacx-visits.component'),
   {
     featureName: 'cervical-cancer-summary-extension',
     moduleName,
   },
 );
 
-// facility dashboard
-export const facilityDashboardLink = getSyncLifecycle(createDashboardLink({ ...facilityDashboardMeta }), options);
-export const facilityDashboardExt = getAsyncLifecycle(() => import('./views/facility/facility-home.component'), {
-  featureName: 'facility dashboard',
-  moduleName,
-});
-
-// medications
-export const medicationsDashboardLink = getSyncLifecycle(createDashboardLink({ ...medicationsDashboardMeta }), options);
-export const medicationsDashboardExt = getAsyncLifecycle(
-  () => import('./views/medications/medications-home.component'),
+// clinical views divider
+export const clinicalViewsDivider = getSyncLifecycle(
+  createOHRIPatientChartSideNavLink(patientChartDivider_dashboardMeta),
   options,
 );
 
-// hie
-export const hieDashboardLink = getSyncLifecycle(createDashboardLink({ ...hieDashboardMeta }), options);
-export const hieDashboardExt = getAsyncLifecycle(() => import('./views/hie/hie-home.component'), options);
+// system info lin
+export const systemInfoMenuLink = getAsyncLifecycle(() => import('./pages/system-info/system-info-link.component'), {
+  featureName: 'system info link',
+  moduleName,
+});
 
-// // clinical views divider
-// export const clinicalViewsDivider = getSyncLifecycle(
-//   createOHRIPatientChartSideNavLink(patientChartDivider_dashboardMeta),
-//   options,
-// );
+export const systemInfoPage = getAsyncLifecycle(() => import('./pages/system-info/system-info.component'), {
+  featureName: 'system info page',
+  moduleName,
+});
 
-// // support views divider
-// export const supportViewsDivider = getSyncLifecycle(
-//   createOHRIPatientChartSideNavLink(patientChartSupportServicesDivider_dashboardMeta),
-//   options,
-// );
-
-// workspace
-export const activeQueuePatientWorkspace = getAsyncLifecycle(
-  () => import('./workspace/queue-patients-action-button.component'),
+export const retrieveFacilityCodeModal = getAsyncLifecycle(
+  () => import('./pages/system-info/facility-modal.component'),
   {
-    featureName: 'active patients workspace',
-    moduleName,
-  },
-);
-
-export const activeQueuePatients = getAsyncLifecycle(
-  () => import('../../esm-patient-queues-app/src/active-visits/active-visits-table.component'),
-  {
-    featureName: 'active patients workspace',
-    moduleName,
-  },
-);
-
-export const queuePatientsWorkspace = getAsyncLifecycle(
-  () => import('./workspace/queue-patients-workspace.component'),
-  {
-    featureName: 'active patients workspace',
+    featureName: 'retrieve facility code modal',
     moduleName,
   },
 );

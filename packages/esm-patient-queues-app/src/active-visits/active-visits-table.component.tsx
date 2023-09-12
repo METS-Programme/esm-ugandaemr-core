@@ -7,22 +7,22 @@ import {
   Layer,
   Pagination,
   Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
   Table,
   TableBody,
   TableCell,
   TableContainer,
+  TableExpandedRow,
   TableExpandHeader,
   TableExpandRow,
-  TableExpandedRow,
   TableHead,
   TableHeader,
   TableRow,
   TableToolbar,
   TableToolbarContent,
   TableToolbarSearch,
+  TabList,
+  TabPanel,
+  TabPanels,
   Tabs,
   Tag,
   Tile,
@@ -31,36 +31,30 @@ import { Add, Dashboard } from '@carbon/react/icons';
 
 import {
   ConfigObject,
-  ConfigurableLink,
   ExtensionSlot,
-  UserHasAccess,
   interpolateUrl,
   isDesktop,
   navigate,
   useConfig,
   useLayoutType,
   usePagination,
+  UserHasAccess,
   useSession,
 } from '@openmrs/esm-framework';
 import React, { AnchorHTMLAttributes, MouseEvent, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PRIVILEGE_CHECKIN } from '../constants';
 import { buildStatusString, formatWaitTime, getTagColor, getTagType, trimVisitNumber } from '../helpers/functions';
-import {
-  useSelectedQueueLocationUuid,
-  useSelectedQueueRoomLocationName,
-  useSelectedQueueRoomLocationUuid,
-} from '../helpers/helpers';
 import PastVisit from '../past-visit/past-visit.component';
-import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import PatientSearch from '../patient-search/patient-search.component';
-import ActionsMenu from '../queue-entry-table-components/actions-menu.component';
 import StatusIcon from '../queue-entry-table-components/status-icon.component';
 import { SearchTypes } from '../types';
 import { getOriginFromPathName } from './active-visits-table.resource';
 import styles from './active-visits-table.scss';
 import EditActionsMenu from './edit-action-menu.components';
 import { usePatientQueuesList } from './patient-queues.resource';
+import PickPatientActionMenu from '../queue-entry-table-components/pick-patient-queue-entry-menu.component';
+import EmptyState from '../utils/empty-state/empty-state.component';
 
 type FilterProps = {
   rowIds: Array<string>;
@@ -106,18 +100,8 @@ const PatientNameLink: React.FC<NameLinkProps> = ({ from, to, children }) => {
 const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const { t } = useTranslation();
   const session = useSession();
-  const userLocation = session?.sessionLocation?.display;
-  const { queueRoomLocations } = useQueueRoomLocations(session?.sessionLocation?.uuid);
-  const currentQueueLocationUuid = useSelectedQueueLocationUuid();
 
-  const currentQueueRoomLocationUuid = useSelectedQueueRoomLocationUuid();
-  const currentQueueRoomLocationName = useSelectedQueueRoomLocationName();
-
-  const { patientQueueEntries, isLoading } = usePatientQueuesList(
-    currentQueueRoomLocationUuid,
-    currentQueueLocationUuid,
-    status,
-  );
+  const { patientQueueEntries, isLoading } = usePatientQueuesList(session?.sessionLocation?.uuid, status);
 
   const [showOverlay, setShowOverlay] = useState(false);
   const [view, setView] = useState('');
@@ -182,9 +166,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         content: <span>{trimVisitNumber(entry.visitNumber)}</span>,
       },
       name: {
-        content: (
-          <ConfigurableLink to={`\${openmrsSpaBase}/patient/${entry.patientUuid}/chart`}>{entry.name}</ConfigurableLink>
-        ),
+        content: entry.name,
       },
       priority: {
         content: (
@@ -233,7 +215,8 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       actions: {
         content: (
           <>
-            <ActionsMenu queueEntry={entry} closeModal={() => true} />
+            {/* <ActionsMenu queueEntry={entry} closeModal={() => true} /> */}
+            <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />
             <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
           </>
         ),
@@ -273,11 +256,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
     return (
       <div className={styles.container}>
         <div className={styles.headerBtnContainer}></div>
-        {/* <div className={styles.headerContainer}>
-          <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
-            <span className={styles.heading}>{`Patients in ${userLocation} queue`}</span>
-          </div>
-        </div> */}
+
         <DataTable
           data-floating-menu-container
           filterRows={handleFilter}
@@ -399,73 +378,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
     );
   }
 
-  return (
-    <div className={styles.container}>
-      {useQueueTableTabs === false ? (
-        <>
-          <div className={styles.headerContainer}>
-            {/* <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
-              <span className={styles.heading}>{`Patients in ${userLocation} queue`}</span>
-            </div> */}
-            <UserHasAccess privilege={PRIVILEGE_CHECKIN}>
-              <div className={styles.headerButtons}>
-                <ExtensionSlot
-                  extensionSlotName="patient-search-button-slot"
-                  state={{
-                    buttonText: t('checkIn', 'Check In'),
-                    overlayHeader: t('checkIn', 'Check In'),
-                    buttonProps: {
-                      kind: 'secondary',
-                      renderIcon: (props) => <Add size={16} {...props} />,
-                      size: 'sm',
-                    },
-                    selectPatientAction: (selectedPatientUuid) => {
-                      setShowOverlay(true);
-                      setView(SearchTypes.SCHEDULED_VISITS);
-                      setViewState({ selectedPatientUuid });
-                      setOverlayTitle(t('checkIn', 'Check In'));
-                    },
-                  }}
-                />
-              </div>
-            </UserHasAccess>
-          </div>
-        </>
-      ) : null}
-      <div className={styles.tileContainer}>
-        <Tile className={styles.tile}>
-          <p className={styles.content}>{t('noPatientsToDisplay', 'No patients to display')}</p>
-          <UserHasAccess privilege={PRIVILEGE_CHECKIN}>
-            <ExtensionSlot
-              extensionSlotName="patient-search-button-slot"
-              state={{
-                buttonText: t('checkIn', 'Check In'),
-                overlayHeader: t('checkIn', 'Check In'),
-                buttonProps: {
-                  kind: 'ghost',
-                  renderIcon: (props) => <Add size={16} {...props} />,
-                  size: 'sm',
-                },
-                selectPatientAction: (selectedPatientUuid) => {
-                  setShowOverlay(true);
-                  setView(SearchTypes.SCHEDULED_VISITS);
-                  setViewState({ selectedPatientUuid });
-                  setOverlayTitle(t('checkIn', 'Check In'));
-                },
-              }}
-            />
-          </UserHasAccess>
-        </Tile>
-      </div>
-      {showOverlay && (
-        <PatientSearch
-          view={view}
-          closePanel={() => setShowOverlay(false)}
-          viewState={viewState}
-          headerTitle={overlayHeader}
-        />
-      )}
-    </div>
-  );
+  return <EmptyState msg="No queue items to display" helper="" />;
 };
 export default ActiveVisitsTable;

@@ -329,6 +329,7 @@ export const getOriginFromPathName = (pathname = '') => {
 };
 
 export async function updateQueueEntry(
+  status: string,
   providerUuid: string,
   queueUuid: string,
   priorityComment: string,
@@ -346,7 +347,7 @@ export async function updateQueueEntry(
       provider: {
         uuid: providerUuid,
       },
-      status: 'Picked',
+      status: status,
       priorityComment: priorityComment === 'Urgent' ? 'Priority' : priorityComment,
       comment: comment,
     },
@@ -469,10 +470,10 @@ export function serveQueueEntry(servicePointName: string, ticketNumber: string, 
   });
 }
 
-export function getCareProvider() {
+export function getCareProvider(provider: string) {
   const abortController = new AbortController();
 
-  return openmrsFetch(`/ws/rest/v1/provider?q=admin&v=full`, {
+  return openmrsFetch(`/ws/rest/v1/provider?q=${provider}&v=full`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

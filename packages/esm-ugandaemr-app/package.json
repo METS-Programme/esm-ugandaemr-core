@@ -1,6 +1,6 @@
 {
   "name": "@ugandaemr/esm-ugandaemr-app",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MPL-2.0",
   "description": "UgandaEMR microfrontend built on top of OpenMRS 3.x and OHRI",
   "browser": "dist/esm-ugandaemr-app.js",
@@ -38,10 +38,11 @@
   },
   "dependencies": {
     "@carbon/react": "^1.14.0",
+    "@openmrs/openmrs-form-engine-lib": "next",
     "lodash-es": "^4.17.15"
   },
   "peerDependencies": {
-    "@openmrs/esm-framework": "4.x",
+    "@openmrs/esm-framework": "5.x",
     "react": "18.x",
     "react-i18next": "11.x"
   },

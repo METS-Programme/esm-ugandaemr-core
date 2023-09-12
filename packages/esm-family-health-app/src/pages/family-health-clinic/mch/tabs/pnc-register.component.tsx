@@ -1,7 +1,13 @@
 import { EncounterList, EncounterListColumn, getObsFromEncounter } from '@ohri/openmrs-esm-ohri-commons-lib';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { POSTNATAL_ENCOUNTER_TYPE, moduleName } from '../../../../constants';
+import {
+  POSTNATAL_ENCOUNTER_TYPE,
+  Referral_IN_OUT,
+  Status_of_breast,
+  Timing_For_PNC_Visit,
+  moduleName,
+} from '../../../../constants';
 
 interface PncRegisterProps {
   patientUuid: string;
@@ -13,24 +19,24 @@ const PncRegister: React.FC<PncRegisterProps> = ({ patientUuid }) => {
   const columnsLab: EncounterListColumn[] = useMemo(
     () => [
       {
-        key: 'dateChartOpened',
-        header: t('dateChartOpened', 'Date Chart Opened'),
+        key: 'timingForPNCVisit',
+        header: t('timingForPNCVisit'),
         getValue: (encounter) => {
-          return getObsFromEncounter(encounter, '', true);
+          return getObsFromEncounter(encounter, Timing_For_PNC_Visit);
         },
       },
       {
-        key: 'entryPoint',
-        header: t('entryPoint', 'Entry Point'),
+        key: 'referral',
+        header: t('referral'),
         getValue: (encounter) => {
-          return getObsFromEncounter(encounter, '');
+          return getObsFromEncounter(encounter, Referral_IN_OUT);
         },
       },
       {
-        key: 'dateNVP',
-        header: t('dateNVP', 'Date of NVP'),
+        key: 'statusOfBreast',
+        header: t('statusOfBreast'),
         getValue: (encounter) => {
-          return getObsFromEncounter(encounter, '');
+          return getObsFromEncounter(encounter, Status_of_breast);
         },
       },
 
@@ -40,14 +46,14 @@ const PncRegister: React.FC<PncRegisterProps> = ({ patientUuid }) => {
         getValue: (encounter) => {
           const baseActions = [
             {
-              form: { name: 'integrated_postnatal_register', package: 'uganda_emr_mch' },
+              form: { name: 'POC Postnatal Register' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: 'View Details',
               mode: 'view',
             },
             {
-              form: { name: 'integrated_postnatal_register', package: 'uganda_emr_mch' },
+              form: { name: 'POC Postnatal Register' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: 'Edit Form',
@@ -67,7 +73,7 @@ const PncRegister: React.FC<PncRegisterProps> = ({ patientUuid }) => {
     <EncounterList
       patientUuid={patientUuid}
       encounterType={POSTNATAL_ENCOUNTER_TYPE}
-      formList={[{ name: 'Integrated Postnatal Register' }]}
+      formList={[{ name: 'POC Postnatal Register' }]}
       columns={columnsLab}
       description={headerTitle}
       headerTitle={headerTitle}

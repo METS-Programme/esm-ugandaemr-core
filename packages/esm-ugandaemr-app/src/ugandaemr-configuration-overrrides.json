@@ -1,74 +1,233 @@
 {
-    "@openmrs/esm-patient-chart-app": {
-      "displayConditions":{
-        "privileges":[
-          "App: ugandaemrpoc.triage"
-        ]
-      },
-      "extensionSlots": {
-        "patient-actions-slot":{
-
+  "@ugandaemr/esm-outpatient-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage OPD"
+      ]
+    }
+  },
+  "@ugandaemr/esm-hiv-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage HIV"
+      ]
+    }
+  },
+  "@ugandaemr/esm-laboratory-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Laboratory"
+      ]
+    }
+  },
+  "@ugandaemr/esm-tb-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage TB"
+      ]
+    }
+  },
+  "@ugandaemr/esm-radiology-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Radiology"
+      ]
+    }
+  },
+  "@ugandaemr/esm-theatre-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Theatre"
+      ]
+    }
+  },
+  "@ugandaemr/esm-ipd-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage IPD"
+      ]
+    }
+  },
+  "@ugandaemr/esm-family-health-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Family"
+      ]
+    }
+  },
+  "@openmrs/esm-appointments-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Appointments"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-chart-app": {
+    "Display conditions": {
+      "privileges": [
+        "View Patient Summary"
+      ]
+    }
+  },
+  "@openmrs/esm-styleguide": {
+    "Brand color #1": " #009384",
+    "Brand color #2": " #009384",
+    "Brand color #3": " #009384"
+  },
+  "@openmrs/esm-patient-biometrics-app": {
+    "Display conditions": {
+      "privileges": [
+        "Add Vitals and Biometrics"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-appointments-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Patient Appointments"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-immunizations-app": {
+    "Display conditions": {
+      "privileges": [
+        "Add Immunizations"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-allergies-app": {
+    "Display conditions": {
+      "privileges": [
+        "Add Allergies"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-attachments-app": {
+    "Display conditions": {
+      "privileges": [
+        "Add Attachments"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-conditions-app": {
+    "Display conditions": {
+      "privileges": [
+        "Add Conditions"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-forms-app": {
+    "Display conditions": {
+      "privileges": [
+        "Get Forms"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-medications-app": {
+    "Display conditions": {
+      "privileges": [
+        "Add Orders"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-notes-app": {
+    "Display conditions": {
+      "privileges": [
+        "Get Notes"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-programs-app": {
+    "Display conditions": {
+      "privileges": [
+        "Add Patient Programs"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-test-results-app": {
+    "Display conditions": {
+      "privileges": [
+        "View Test Results"
+      ]
+    }
+  },
+  "@openmrs/esm-offline-tools-app": {
+    "Display conditions": {
+      "privileges": [
+        "Access Offline Tools"
+      ]
+    }
+  },
+  "@openmrs/esm-patient-registration-app": {
+    "logo": {
+      "src": "assets/logo.svg",
+      "alt": "logo"
+    },
+    "Display conditions": {
+      "privileges": [
+        "Manage Patients"
+      ]
+    },
+    "fieldConfigurations": {
+      "gender": [
+        {
+          "id": "male",
+          "value": "Male",
+          "label": "Male"
         },
-        "action-menu-chart-items-slot":{
-
-        },
-        "action-menu-non-chart-items-slot":{
-          "remove":[
-            "patient-list-action-menu"
-          ]
-        },
-        "program-management-summary-slot": {
-
-        },
-        "patient-chart-dashboard-slot": {
-
-        },
-      "patient-chart-summary-dashboard-slot": {
-
-      },
-        "cacx-visits-slot": {
-          "remove": [
-            "cacx-visits-ext"
-          ]
+        {
+          "id": "female",
+          "value": "Female",
+          "label": "Female"
         }
-      }
-    },
-    "@openmrs/esm-styleguide": {
-        "Brand color #1": " #009384",
-        "Brand color #2": " #009384",
-        "Brand color #3": " #009384"
-    },
-    "@openmrs/esm-patient-registration-app": {
-      "fieldConfigurations": {
-        "gender": [
-          {
-            "id": "male",
-            "value": "Male",
-            "label": "Male"
+      ]
+    }
+  },
+  "@openmrs/esm-home-app": {
+    "extensionSlots": {
+      "homepage-dashboard-slot": {
+        "configure": {
+          "home-widget-db-link":{
+            "Display conditions": {
+              "privileges": [
+                "Manage Patient Lists"
+              ]
+            }
           },
-          {
-            "id": "female",
-            "value": "Female",
-            "label": "Female"
+          "service-queues-dashboard-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Service Queues"
+              ]
+            }
+          },
+          "clinical-appointments-dashboard-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Patient Appointments"
+              ]
+            }
           }
-        ]
-      }
-    },
-    "@openmrs/esm-home-app":{
-      "extensionSlots":{
-        "homepage-dashboard-slot":{
-          "remove": [
-            "patient-lists-dashboard-link",
-            "home-widget-db-link",
-            "service-queues-dashboard-link"
-          ]
-        },
-       "homepage-widgets-slot": {
-        "remove":[
-          "active-visits-widget",
-          "home-appointments"
-        ]
         }
       }
     }
+  },
+  "@ugandaemr/esm-login-app": {
+    "logo": {
+      "src": "assets/logo.svg",
+      "alt": "logo"
+    }
+  },
+  "@openmrs/esm-primary-navigation-app": {
+    "logo": {
+      "src": "assets/logo.svg",
+      "alt": "logo"
+    }
   }
+}
+
+
+
+
+
+

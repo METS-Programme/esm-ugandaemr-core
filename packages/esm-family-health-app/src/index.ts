@@ -2,17 +2,16 @@ import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from
 import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-common-lib';
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { configSchema } from './config-schema';
-import { moduleName } from './constants';
 import {
   childHealthDashboardMeta,
   familyHealthDashboardMeta,
   familyPlanningDashboardMeta,
   hivExposedInfantMeta,
   mchDashboardMeta,
+  nutritionDashboardMeta,
 } from './dashboard.meta';
 import formsRegistry from './forms/forms-registry';
-import ugandaEmrConfig from './ugandaemr-config';
-import ugandaEmrOverrides from './ugandaemr-configuration-overrrides.json';
+import { moduleName } from './constants';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -21,27 +20,19 @@ const options = {
   moduleName,
 };
 
+// startapp
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
-  provide(ugandaEmrOverrides);
-  provide(ugandaEmrConfig);
+  // TODO - These forms need to be deleted and moved to the backend
   addToBaseFormsRegistry(formsRegistry);
 }
 
-// group
-export const familyHealthClinicDashboardGroup = getSyncLifecycle(
-  createDashboardGroup(familyHealthDashboardMeta),
-  options,
-);
+// pages
 
-// mch dashboard
-export const mchDashboardLink = getSyncLifecycle(
-  createDashboardLink({
-    ...mchDashboardMeta,
-    moduleName,
-  }),
-  options,
-);
+// extensions
+export const familyHealthClinicDashboard = getSyncLifecycle(createDashboardGroup(familyHealthDashboardMeta), options);
+
+export const mchDashboard = getSyncLifecycle(createDashboardLink({ ...mchDashboardMeta, moduleName }), options);
 
 export const mchDashboardSummaryExt = getAsyncLifecycle(
   () => import('./pages/family-health-clinic/mch/mch-summary.component'),
@@ -51,12 +42,8 @@ export const mchDashboardSummaryExt = getAsyncLifecycle(
   },
 );
 
-// childHealthDashboard
-export const childHealthDashboardLink = getSyncLifecycle(
-  createDashboardLink({
-    ...childHealthDashboardMeta,
-    moduleName,
-  }),
+export const childHealthDashboard = getSyncLifecycle(
+  createDashboardLink({ ...childHealthDashboardMeta, moduleName }),
   options,
 );
 
@@ -68,12 +55,8 @@ export const childHealthSummaryExt = getAsyncLifecycle(
   },
 );
 
-// hivExposedInfantDashboard
-export const hivExposedInfantDashboardLink = getSyncLifecycle(
-  createDashboardLink({
-    ...hivExposedInfantMeta,
-    moduleName,
-  }),
+export const hivExposedInfantDashboard = getSyncLifecycle(
+  createDashboardLink({ ...hivExposedInfantMeta, moduleName }),
   options,
 );
 
@@ -85,12 +68,8 @@ export const hivExposedInfantExt = getAsyncLifecycle(
   },
 );
 
-// familyPlanningDashboard
-export const familyPlanningDashboardLink = getSyncLifecycle(
-  createDashboardLink({
-    ...familyPlanningDashboardMeta,
-    moduleName,
-  }),
+export const familyPlanningDashboard = getSyncLifecycle(
+  createDashboardLink({ ...familyPlanningDashboardMeta, moduleName }),
   options,
 );
 
@@ -98,6 +77,19 @@ export const familyPlanningDashboardExt = getAsyncLifecycle(
   () => import('./pages/family-health-clinic/family-planning/family-planning.component'),
   {
     featureName: 'family-planning',
+    moduleName,
+  },
+);
+
+export const nutritionDashboard = getSyncLifecycle(
+  createDashboardLink({ ...nutritionDashboardMeta, moduleName }),
+  options,
+);
+
+export const nutritionDashboardExt = getAsyncLifecycle(
+  () => import('./pages/family-health-clinic/Nutrition/nutrition.component'),
+  {
+    featureName: 'nutrition',
     moduleName,
   },
 );

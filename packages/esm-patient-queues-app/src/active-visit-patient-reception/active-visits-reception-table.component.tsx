@@ -39,6 +39,7 @@ import StatusIcon from '../queue-entry-table-components/status-icon.component';
 import { SearchTypes } from '../types';
 import { usePatientQueuesList } from './active-visits-reception.resource';
 import styles from './active-visits-reception.scss';
+import EmptyState from '../utils/empty-state/empty-state.component';
 
 type FilterProps = {
   rowIds: Array<string>;
@@ -51,18 +52,12 @@ type FilterProps = {
 function ActiveVisitsReceptionTable() {
   const { t } = useTranslation();
   const session = useSession();
-  const userLocation = session?.sessionLocation?.display;
-  const { queueRoomLocations } = useQueueRoomLocations(session?.sessionLocation?.uuid);
-  const currentQueueLocationUuid = useSelectedQueueLocationUuid();
 
   const [showOverlay, setShowOverlay] = useState(false);
   const [view, setView] = useState('');
   const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
 
-  const currentQueueRoomLocationUuid = useSelectedQueueRoomLocationUuid();
-  const currentQueueRoomLocationName = useSelectedQueueRoomLocationName();
-
-  const { patientQueueEntries, isLoading } = usePatientQueuesList(currentQueueRoomLocationUuid);
+  const { patientQueueEntries, isLoading, mutate } = usePatientQueuesList(session?.sessionLocation?.uuid);
   const currentPathName: string = window.location.pathname;
 
   const fromPage: string = getOriginFromPathName(currentPathName);
@@ -225,7 +220,7 @@ function ActiveVisitsReceptionTable() {
           {/* <UserHasAccess privilege={PRIVILEGE_CHECKIN}> */}
           <div className={styles.headerButtons}>
             <ExtensionSlot
-              extensionSlotName="patient-search-button-slot"
+              name="patient-search-button-slot"
               state={{
                 buttonText: t('checkIn', 'CheckIn'),
                 overlayHeader: t('checkIn', 'CheckIn'),
@@ -353,10 +348,9 @@ function ActiveVisitsReceptionTable() {
         <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
           <span className={styles.heading}>{`Checked In Patients`}</span>
         </div>
-        {/* <UserHasAccess privilege={PRIVILEGE_CHECKIN}> */}
         <div className={styles.headerButtons}>
           <ExtensionSlot
-            extensionSlotName="patient-search-button-slot"
+            name="patient-search-button-slot"
             state={{
               buttonText: t('checkIn', 'CheckIn'),
               overlayHeader: t('checkIn', 'CheckIn'),
@@ -382,8 +376,8 @@ function ActiveVisitsReceptionTable() {
             headerTitle={overlayHeader}
           />
         )}
-        {/* </UserHasAccess> */}
       </div>
+      <EmptyState msg="No patient queue items to display" helper="" />
     </div>
   );
 }

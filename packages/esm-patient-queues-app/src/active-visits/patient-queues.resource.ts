@@ -16,6 +16,7 @@ export interface MappedPatientQueueEntry {
   status: string;
   waitTime: string;
   locationFrom?: string;
+  locationToName?: string;
   visitNumber: string;
   identifiers: Array<UuidDisplay>;
   dateCreated: string;
@@ -24,15 +25,16 @@ export interface MappedPatientQueueEntry {
   creatorDisplay: string;
 }
 
-export function usePatientQueuesList(
-  currentQueueRoomLocationUuid: string,
-  currentQueueLocationUuid: string,
-  status: string,
-) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&room=${currentQueueRoomLocationUuid}&status=${status}`;
+export function usePatientQueuesList(currentQueueRoomLocationUuid: string, status: string) {
+  const apiUrl = `/ws/rest/v1/patientqueue?v=full&room=${currentQueueRoomLocationUuid}&status=${status}`;
+  return usePatientQueueRequest(apiUrl);
+}
+
+export function usePatientQueueRequest(apiUrl: string) {
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,
+    { refreshInterval: 3000 },
   );
 
   const mapppedQueues = data?.data?.results.map((queue: PatientQueue) => {
@@ -54,6 +56,7 @@ export function usePatientQueuesList(
       identifiers: queue.patient?.identifiers,
       locationFrom: queue.locationFrom?.uuid,
       locationTo: queue.locationTo?.uuid,
+      locationToName: queue.locationTo?.name,
       queueRoom: queue.locationTo?.display,
       visitNumber: queue.visitNumber,
       dateCreated: queue.dateCreated ? formatDate(parseDate(queue.dateCreated), { time: false }) : '--',

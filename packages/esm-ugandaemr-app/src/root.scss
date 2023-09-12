@@ -118,3 +118,9 @@ nav :global(.bx--accordion__content) > a {
   border-left-color: var(--brand-01)  !important;
   font: bolder;
 }
+
+nav :global(.cds--accordion__content) > div {
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+
+}

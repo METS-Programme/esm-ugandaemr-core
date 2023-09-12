@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json.openmrs.org/routes.schema.json",
+  "backendDependencies": {
+    "fhir2": "^1.2.0",
+    "webservices.rest": "^2.24.0"
+  },
+  "pages": [],
+  "extensions": [
+    {
+      "component": "tbDashboardGroup",
+      "name": "tb-clinic-dashboard",
+      "slot": "patient-chart-dashboard-slot",
+      "privilege": [
+        "Manage TB"
+      ],
+      "order": 18,
+      "meta": {
+        "slotName": "tb-clinic-dashboard-slot",
+        "title": "TB & Leprosy Clinic"
+      }
+    },
+    {
+      "component": "contactTracingDashboardLink",
+      "name": "contact-tracing",
+      "slot": "tb-clinic-dashboard-slot",
+        "meta": {
+          "slot": "contact-tracing-dashboard-slot",
+          "title": "Contact Tracing",
+          "path": "contact-tracing",
+          "columns": 1,
+          "layoutMode": "anchored"
+        }
+    },
+    {
+      "name": "contact-tracing-dashboard-ext",
+      "slot": "contact-tracing-dashboard-slot",
+      "component": "contactTracingDashboardExt"
+    },
+    {
+      "component": "tbTreatmentDashboardLink",
+      "name": "tb-treatment",
+      "slot": "tb-clinic-dashboard-slot",
+      "meta": {
+        "slot": "tb-treatment-dashboard-slot",
+        "title": "Treatment & Followup",
+        "path": "tb-treatment",
+        "columns": 1,
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "tb-treatment-dashboard-ext",
+      "slot": "tb-treatment-dashboard-slot",
+      "component": "tbTreatmentDashboardExt"
+    },
+
+    {
+      "component": "tbOverviewDashboard",
+      "name": "tb-overview-dashboard",
+      "slot": "patient-chart-summary-dashboard-slot",
+      "meta": {
+        "columnSpan": 4
+      }
+    }
+  ]
+}
