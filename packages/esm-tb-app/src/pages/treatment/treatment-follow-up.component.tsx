@@ -3,10 +3,10 @@ import styles from '../common.scss';
 import { useTranslation } from 'react-i18next';
 import { Tabs, Tab, TabList, TabPanels, TabPanel } from '@carbon/react';
 import { PatientChartProps } from '@ohri/openmrs-esm-ohri-commons-lib';
-import DREnrollmentList from './tabs/dr-enrollment.component';
-import DRFollowupList from './tabs/dr-followup.component';
-import DSEnrollmentList from './tabs/ds-enrollment.component';
-import DSFollowupList from './tabs/ds-followup.component';
+import DRTBEnrollmentList from './tabs/dr-enrollment.component';
+import DRTBFollowupList from './tabs/dr-followup.component';
+import DSTBEnrollmentList from './tabs/ds-enrollment.component';
+import DSTBFollowupList from './tabs/ds-followup.component';
 
 const TBTreatmentFollowUp: React.FC<PatientChartProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
@@ -21,16 +21,16 @@ const TBTreatmentFollowUp: React.FC<PatientChartProps> = ({ patientUuid }) => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <DSEnrollmentList patientUuid={patientUuid} />
+            <DSTBEnrollmentList patientUuid={patientUuid} />
           </TabPanel>
           <TabPanel>
-            <DSFollowupList patientUuid={patientUuid} />
+            <DSTBFollowupList patientUuid={patientUuid} />
           </TabPanel>
           <TabPanel>
-            <DREnrollmentList patientUuid={patientUuid} />
+            <DRTBEnrollmentList patientUuid={patientUuid} />
           </TabPanel>
           <TabPanel>
-            <DRFollowupList patientUuid={patientUuid} />
+            <DRTBFollowupList patientUuid={patientUuid} />
           </TabPanel>
         </TabPanels>
       </Tabs>

@@ -10,7 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { DR_TB_Enrollment_ENCOUNTER_TYPE, moduleName } from '../../../constants';
 
-const DREnrollmentList: React.FC<PatientChartProps> = ({ patientUuid }) => {
+const DRTBEnrollmentList: React.FC<PatientChartProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
   const headerTitle = 'DR Enrollment';
 
@@ -88,4 +88,4 @@ const DREnrollmentList: React.FC<PatientChartProps> = ({ patientUuid }) => {
   );
 };
 
-export default DREnrollmentList;
+export default DRTBEnrollmentList;
