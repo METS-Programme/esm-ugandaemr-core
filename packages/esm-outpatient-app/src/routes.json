@@ -66,6 +66,40 @@
       "name": "opd-palliatve-ext",
       "slot": "opd-palliatve-slot",
       "component": "opdPalliativeDashboardLinkExt"
+    },
+    {
+      "component": "opdEmergencyDashboardLink",
+      "name": "opd-emergency",
+      "slot": "opd-dashboard-slot",
+      "meta": {
+        "slot": "opd-emergency-slot",
+        "title": "Emergency Unit",
+        "path": "opd-emergency",
+        "columns": 1,
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "opd-emergency-ext",
+      "slot": "opd-emergency-slot",
+      "component": "opdEmergencyDashboardLinkExt"
+    },
+    {
+      "name": "opd-cacx-screening",
+      "slot": "opd-dashboard-slot",
+      "component": "opdCacxDashboardMetaLink",
+      "meta": {
+        "slot": "opd-cacx-screening-slot",
+        "columns": 1,
+        "title": "cervical cancer Screening",
+        "path": "hiv-cacx-screening",
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "opd-cacx-screening-ext",
+      "slot": "opd-cacx-screening-slot",
+      "component": "opdCacxDashboardMetaExt"
     }
   ]
 }

@@ -31,6 +31,12 @@ export const opdAdmissionDashboardtMeta = {
   path: 'opd-admission',
 };
 
+export const opdCacxDashboardMeta = {
+  slot: 'opd-cacx-screening-slot',
+  columns: 1,
+  title: 'Cervical Cancer Screening',
+  path: 'opd-cacx-screening',
+};
 // export const outpatientDashboardMeta = {
 //   title: 'Outpatient Register',
 //   slot: 'outpatient-dashboard-slot',

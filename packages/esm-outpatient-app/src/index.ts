@@ -7,6 +7,7 @@ import {
   PalliativeDashboardtMeta,
   assessmentDashboardtMeta,
   opdAdmissionDashboardtMeta,
+  opdCacxDashboardMeta,
   opdDashboardMeta,
   treatmentDashboardtMeta,
 } from './dashboard.meta';
@@ -88,6 +89,18 @@ export const opdAdmissionDashboardLinkExt = getAsyncLifecycle(
   () => import('./pages/opd/admissions/admission.component'),
   {
     featureName: 'opd-dashboard-ext',
+    moduleName,
+  },
+);
+
+export const opdCacxDashboardMetaLink = getSyncLifecycle(
+  createDashboardLink({ ...opdCacxDashboardMeta, moduleName }),
+  options,
+);
+export const opdCacxDashboardMetaExt = getAsyncLifecycle(
+  () => import('./pages/opd/cervical-cancer/cacx-screening-treatment.component'),
+  {
+    featureName: 'opd-cacx-screening',
     moduleName,
   },
 );

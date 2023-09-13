@@ -134,6 +134,23 @@
       "name": "partner-notification-services-ext",
       "slot": "partner-notification-services-slot",
       "component": "partnerNotificationServicesDashboard"
+    },
+    {
+      "name": "hiv-cacx-screening",
+      "slot": "hiv-dashboard-slot",
+      "component": "hivCacxDashboardMetaLink",
+      "meta": {
+        "slot": "hiv-cacx-screening-slot",
+        "columns": 1,
+        "title": "cervical cancer Screening",
+        "path": "hiv-cacx-screening",
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "hiv-cacx-screening-ext",
+      "slot": "hiv-cacx-screening-slot",
+      "component": "hivCacxDashboardMetaExt"
     }
   ]
 }

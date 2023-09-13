@@ -5,6 +5,7 @@ import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-
 import {
   clinicalVisitsDashboardMeta,
   generalCounsellingDashboardMeta,
+  hivCacxDashboardMeta,
   hivDashboardMeta,
   hivPatientSummaryDashboardMeta,
   hivTestingDashboardtMeta,
@@ -103,6 +104,18 @@ export const partnerNotificationServicesDashboard = getAsyncLifecycle(
   () => import('./pages/hiv/partner-notification-services/partner-notification-services.component'),
   {
     featureName: 'partner-notification-services',
+    moduleName,
+  },
+);
+
+export const hivCacxDashboardMetaLink = getSyncLifecycle(
+  createDashboardLink({ ...hivCacxDashboardMeta, moduleName }),
+  options,
+);
+export const hivCacxDashboardMetaExt = getAsyncLifecycle(
+  () => import('./pages/hiv/cervical-cancer/cacx-screening-treatment.component'),
+  {
+    featureName: 'hiv-cacx-screening',
     moduleName,
   },
 );
