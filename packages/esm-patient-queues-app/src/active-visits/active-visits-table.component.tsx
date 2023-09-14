@@ -55,6 +55,7 @@ import EditActionsMenu from './edit-action-menu.components';
 import { usePatientQueuesList } from './patient-queues.resource';
 import PickPatientActionMenu from '../queue-entry-table-components/pick-patient-queue-entry-menu.component';
 import EmptyState from '../utils/empty-state/empty-state.component';
+import ViewActionsMenu from './view-action-menu.components';
 
 type FilterProps = {
   rowIds: Array<string>;
@@ -215,9 +216,9 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       actions: {
         content: (
           <>
-            {/* <ActionsMenu queueEntry={entry} closeModal={() => true} /> */}
             <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />
             <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
+            <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
           </>
         ),
       },
