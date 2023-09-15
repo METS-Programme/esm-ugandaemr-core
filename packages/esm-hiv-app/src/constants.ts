@@ -182,3 +182,6 @@ export const PreTestEncounterTypeConceptUUID = '79c1f50f-f77d-42e2-ad2a-d29304dd
 export const TransferInDateConceptUUID = '34c5cbad-681a-4aca-bcc3-c7ddd2a88db8';
 export const InSchoolConceptUUID = 'dcc3a7e9-30ab-102d-86b0-7a5022ba4115';
 export const PhsycosocialEncounterType = '6d88e370-f2ba-476b-bf1b-d8eaf3b1b67e';
+
+//SMS Enrollemnt
+export const sms_enrollement_EncounterType = '05fa932f-4203-43c9-8985-60f2bea8a773';

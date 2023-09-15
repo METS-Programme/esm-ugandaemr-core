@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { PatientChartProps } from '../../../types';
 import { PALLIATIVE_ENCOUNTER_TYPE, moduleName } from '../../../constants';
 
-const Emergency: React.FC<PatientChartProps> = ({ patientUuid }) => {
+const OPDAdmission: React.FC<PatientChartProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
   const headerTitle = t('emergency');
 
@@ -79,4 +79,4 @@ const Emergency: React.FC<PatientChartProps> = ({ patientUuid }) => {
   );
 };
 
-export default Emergency;
+export default OPDAdmission;
