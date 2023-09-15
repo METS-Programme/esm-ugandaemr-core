@@ -17,8 +17,7 @@ interface ClinicalVisitListProps {
 const ClinicalVisitList: React.FC<ClinicalVisitListProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
-  const headerTitle = t('clinicalVisit');
-  const displayText = t('clinicalVisit', 'Clinical Visit');
+  const headerTitle = t('clinicalAssessment');
 
   const columns: EncounterListColumn[] = useMemo(
     () => [

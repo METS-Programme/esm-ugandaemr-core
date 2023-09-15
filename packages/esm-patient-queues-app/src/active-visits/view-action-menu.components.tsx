@@ -1,32 +1,33 @@
 import { Button, Tooltip } from '@carbon/react';
-import { Edit } from '@carbon/react/icons';
-import { interpolateUrl, navigate } from '@openmrs/esm-framework';
-
+import { Dashboard } from '@carbon/react/icons';
 import React, { AnchorHTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
+import { interpolateUrl, navigate } from '@openmrs/esm-framework';
 
 interface NameLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   to: string;
   from: string;
 }
 
-const EditActionsMenu: React.FC<NameLinkProps> = ({ from, to, children }) => {
+const ViewActionsMenu: React.FC<NameLinkProps> = ({ from, to, children }) => {
   const { t } = useTranslation();
+
   const handleNameClick = (event: MouseEvent, to: string) => {
     event.preventDefault();
     navigate({ to });
     localStorage.setItem('fromPage', from);
   };
+
   return (
-    <Tooltip align="bottom" label="Edit Patient">
+    <Tooltip align="bottom" label="View Patient">
       <Button
         kind="ghost"
         onClick={(e) => handleNameClick(e, to)}
         href={interpolateUrl(to)}
-        iconDescription={t('editPatient', 'Edit Patient')}
-        renderIcon={(props) => <Edit size={16} {...props} />}
-      ></Button>
+        iconDescription={t('viewPatient', 'View Patient')}
+        renderIcon={(props) => <Dashboard size={16} {...props} />}
+      />
     </Tooltip>
   );
 };
-export default EditActionsMenu;
+export default ViewActionsMenu;

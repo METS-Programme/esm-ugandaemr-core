@@ -11,7 +11,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { DR_TB_Followup_ENCOUNTER_TYPE, moduleName } from '../../../constants';
 
-const DRFollowupList: React.FC<PatientChartProps> = ({ patientUuid }) => {
+const DRTBFollowupList: React.FC<PatientChartProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
   const headerTitle = 'DR Follow Up';
 
@@ -89,4 +89,4 @@ const DRFollowupList: React.FC<PatientChartProps> = ({ patientUuid }) => {
   );
 };
 
-export default DRFollowupList;
+export default DRTBFollowupList;

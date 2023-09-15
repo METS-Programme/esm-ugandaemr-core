@@ -1,18 +1,16 @@
-import React, { useMemo, useState } from 'react';
-
-import moment from 'moment';
-import {
-  EncounterList,
-  EncounterListColumn,
-  PatientChartProps,
-  getObsFromEncounter,
-} from '@ohri/openmrs-esm-ohri-commons-lib';
+import React, { useMemo } from 'react';
+import { EncounterList, EncounterListColumn, getObsFromEncounter } from '@ohri/openmrs-esm-ohri-commons-lib/src/index';
 import { useTranslation } from 'react-i18next';
-import { DR_TB_Enrollment_ENCOUNTER_TYPE, moduleName } from '../../../constants';
+import moment from 'moment';
+import { DS_TB_Followup_ENCOUNTER_TYPE, moduleName } from '../../constants';
 
-const DRTBEnrollmentList: React.FC<PatientChartProps> = ({ patientUuid }) => {
+export interface PatientChartProps {
+  patientUuid: string;
+}
+
+const ContactTracingList: React.FC<PatientChartProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
-  const headerTitle = 'DR Enrollment';
+  const headerTitle = t('contactTracing');
 
   const columns: EncounterListColumn[] = useMemo(
     () => [
@@ -51,14 +49,14 @@ const DRTBEnrollmentList: React.FC<PatientChartProps> = ({ patientUuid }) => {
         getValue: (encounter) => {
           const baseActions = [
             {
-              form: { name: 'DR TB Enrollment Form' },
+              form: { name: 'Contact Tracing Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: t('viewDetails', 'View Details'),
               mode: 'view',
             },
             {
-              form: { name: 'DR TB Enrollment Form' },
+              form: { name: 'Contact Tracing Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: t('editForm', 'Edit Form'),
@@ -75,8 +73,8 @@ const DRTBEnrollmentList: React.FC<PatientChartProps> = ({ patientUuid }) => {
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterType={DR_TB_Enrollment_ENCOUNTER_TYPE}
-      formList={[{ name: 'DR TB Enrollment Form' }]}
+      encounterType={DS_TB_Followup_ENCOUNTER_TYPE}
+      formList={[{ name: 'Contact Tracing Form' }]}
       columns={columns}
       description={headerTitle}
       headerTitle={headerTitle}
@@ -88,4 +86,4 @@ const DRTBEnrollmentList: React.FC<PatientChartProps> = ({ patientUuid }) => {
   );
 };
 
-export default DRTBEnrollmentList;
+export default ContactTracingList;

@@ -13,21 +13,24 @@ import {
   TableCell,
   Tile,
 } from '@carbon/react';
-import { ErrorState } from '@openmrs/esm-framework';
-import { useGetSystemInformation } from './system-info.resource';
+import { ErrorState, UserHasAccess, showToast, showNotification } from '@openmrs/esm-framework';
+import { useGetSystemInformation, updatePropertyValue, useRetrieveFacilityCode } from './system-info.resources';
 import styles from './system-info.scss';
 import coatOfArms from '../../images/coat_of_arms.png';
-import UpdateFacilityCode from './updateFacilityCodeButton.component';
+import UpdateFacilityCode from './update-facility-code-button.component';
+import { PRIVILEGE_UPDATE_FACILITY_CODE } from '../../constants';
 
-const OverallSystemInfo = ({ buildInfo, emrVersion }) => {
+interface FacilityCodeDetails {
+  value?: string;
+  uuid?: string;
+}
+
+const OverallSystemInfo = ({ buildInfo, emrVersion, facilityCodeDetails, setFacilityCodeDetails }) => {
   const { t } = useTranslation();
-  const [facilityCode, setFacilityCode] = useState('-');
   const buildDateTime =
     Object.keys(buildInfo).length > 0
       ? `${buildInfo['SystemInfo.OpenMRSInstallation.systemDate']}, ${buildInfo['SystemInfo.OpenMRSInstallation.systemTime']}`
       : '-';
-
-  // persist facility code to db if n.e else fetch
 
   return (
     <Grid className={styles['overall-info-card']}>
@@ -48,13 +51,16 @@ const OverallSystemInfo = ({ buildInfo, emrVersion }) => {
         <span>Build date time</span>
         <span>{buildDateTime}</span>
         <span>Facility code</span>
-        <span>{facilityCode}</span>
+        <span>{facilityCodeDetails.value === null ? '-' : facilityCodeDetails.value}</span>
       </Column>
-      {facilityCode === '-' && (
+      <UserHasAccess privilege={PRIVILEGE_UPDATE_FACILITY_CODE}>
         <Column>
-          <UpdateFacilityCode setFacilityCode={setFacilityCode} />
+          <UpdateFacilityCode
+            facilityCodeDetails={facilityCodeDetails}
+            setFacilityCodeDetails={setFacilityCodeDetails}
+          />
         </Column>
-      )}
+      </UserHasAccess>
     </Grid>
   );
 };
@@ -125,10 +131,47 @@ function SystemInfoTable({ moduleInfo, error, loading }): React.JSX.Element {
 }
 
 const SystemInfoPage = () => {
+  const { t } = useTranslation();
   const [moduleInfo, setModuleInfo] = useState({});
   const [buildInfo, setBuildInfo] = useState({});
   const [emrVersion, setEMRVersion] = useState('4.0');
   const { systemInfo, isError, isLoading } = useGetSystemInformation();
+  const [facilityCodeDetails, setFacilityCodeDetails] = useState<FacilityCodeDetails>({ value: null, uuid: null });
+
+  const { facilityIds } = useRetrieveFacilityCode();
+
+  useEffect(() => {
+    if (facilityIds && facilityIds.length) {
+      setFacilityCodeDetails({
+        ...facilityCodeDetails,
+        value: facilityIds[0]['value'],
+        uuid: facilityIds[0]['uuid'],
+      });
+    }
+  }, [facilityCodeDetails, facilityIds]);
+
+  useEffect(() => {
+    if (facilityCodeDetails.uuid.length && facilityCodeDetails.value !== null) {
+      updatePropertyValue(facilityCodeDetails.uuid, facilityCodeDetails.value).then(
+        (response) => {
+          showToast({
+            critical: true,
+            title: t('Updating Facility Code', `Updating Facility Code`),
+            kind: 'success',
+            description: t('UpdatingFacilityCode', `Updated Facility Code ${response?.data['value']}`),
+          });
+        },
+        (error) => {
+          showNotification({
+            title: t(`errorUpdatingFacilityCode', 'Could not update facility code`),
+            kind: 'error',
+            critical: true,
+            description: error?.message,
+          });
+        },
+      );
+    }
+  });
 
   useEffect(() => {
     if (systemInfo) {
@@ -146,7 +189,12 @@ const SystemInfoPage = () => {
 
   return (
     <Tile>
-      <OverallSystemInfo buildInfo={buildInfo} emrVersion={emrVersion} />
+      <OverallSystemInfo
+        buildInfo={buildInfo}
+        emrVersion={emrVersion}
+        facilityCodeDetails={facilityCodeDetails}
+        setFacilityCodeDetails={setFacilityCodeDetails}
+      />
       <SystemInfoTable moduleInfo={moduleInfo} error={isError} loading={isLoading} />
     </Tile>
   );

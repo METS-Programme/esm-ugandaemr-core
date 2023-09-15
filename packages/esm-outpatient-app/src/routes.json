@@ -66,6 +66,23 @@
       "name": "opd-palliatve-ext",
       "slot": "opd-palliatve-slot",
       "component": "opdPalliativeDashboardLinkExt"
+    },
+    {
+      "component": "opdEmergencyDashboardLink",
+      "name": "opd-emergency",
+      "slot": "opd-dashboard-slot",
+      "meta": {
+        "slot": "opd-emergency-slot",
+        "title": "Emergency Unit",
+        "path": "opd-emergency",
+        "columns": 1,
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "opd-emergency-ext",
+      "slot": "opd-emergency-slot",
+      "component": "opdEmergencyDashboardLinkExt"
     }
   ]
 }
