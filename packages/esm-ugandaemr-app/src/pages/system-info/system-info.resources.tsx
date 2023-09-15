@@ -112,7 +112,6 @@ export function useRetrieveFacilityCode() {
   };
 }
 
-
 export async function updatePropertyValue(propertyUuid: string, value: string) {
   const abortController = new AbortController();
 
