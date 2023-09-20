@@ -182,3 +182,7 @@ export const PreTestEncounterTypeConceptUUID = '79c1f50f-f77d-42e2-ad2a-d29304dd
 export const TransferInDateConceptUUID = '34c5cbad-681a-4aca-bcc3-c7ddd2a88db8';
 export const InSchoolConceptUUID = 'dcc3a7e9-30ab-102d-86b0-7a5022ba4115';
 export const PhsycosocialEncounterType = '6d88e370-f2ba-476b-bf1b-d8eaf3b1b67e';
+
+//Cacx Screening and Treatment
+export const CACX_Treatment_Screening_ENCOUNTER_TYPE = '91725548-2d90-4b28-be6d-0509ba37bb0f';
+export const Cervical_cancer_histology_results = 'f63642da-5da9-4c22-8676-50d2a877d25d';

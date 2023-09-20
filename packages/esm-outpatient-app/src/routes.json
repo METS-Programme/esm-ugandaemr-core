@@ -92,7 +92,7 @@
         "slot": "opd-cacx-screening-slot",
         "columns": 1,
         "title": "cervical cancer Screening",
-        "path": "hiv-cacx-screening",
+        "path": "opd-cacx-screening",
         "layoutMode": "anchored"
       }
     },

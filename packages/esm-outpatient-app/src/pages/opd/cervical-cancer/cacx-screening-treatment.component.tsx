@@ -7,11 +7,15 @@ import {
 } from '@ohri/openmrs-esm-ohri-commons-lib/src/index';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
-import { PALLIATIVE_ENCOUNTER_TYPE, moduleName } from '../../../constants';
+import {
+  CACX_Treatment_Screening_ENCOUNTER_TYPE,
+  Cervical_cancer_histology_results,
+  moduleName,
+} from '../../../constants';
 
 const SMSReminderEnrollment: React.FC<PatientChartProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
-  const headerTitle = 'Cervical cancer Screening';
+  const headerTitle = t('cacx_screening_treatment', 'Cervical Cancer Screening And Treatment');
 
   const columns: EncounterListColumn[] = useMemo(
     () => [
@@ -30,10 +34,10 @@ const SMSReminderEnrollment: React.FC<PatientChartProps> = ({ patientUuid }) => 
         },
       },
       {
-        key: 'hivTestResult',
-        header: t('hivTestResult', 'HIV Test result'),
+        key: 'cacxHistology',
+        header: t('cacxHistology', 'Cervical cancer histology results'),
         getValue: (encounter) => {
-          return getObsFromEncounter(encounter, '--');
+          return getObsFromEncounter(encounter, Cervical_cancer_histology_results);
         },
       },
       {
@@ -50,14 +54,14 @@ const SMSReminderEnrollment: React.FC<PatientChartProps> = ({ patientUuid }) => 
         getValue: (encounter) => {
           const baseActions = [
             {
-              form: { name: 'SMS enrollement' },
+              form: { name: 'Screening and Cancer Treatment Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: t('viewDetails', 'View Details'),
               mode: 'view',
             },
             {
-              form: { name: 'SMS enrollement' },
+              form: { name: 'Screening and Cancer Treatment Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: t('editForm', 'Edit Form'),
@@ -74,8 +78,8 @@ const SMSReminderEnrollment: React.FC<PatientChartProps> = ({ patientUuid }) => 
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterType={PALLIATIVE_ENCOUNTER_TYPE}
-      formList={[{ name: 'SMS enrollement' }]}
+      encounterType={CACX_Treatment_Screening_ENCOUNTER_TYPE}
+      formList={[{ name: 'Screening and Cancer Treatment Form' }]}
       columns={columns}
       description={headerTitle}
       headerTitle={headerTitle}

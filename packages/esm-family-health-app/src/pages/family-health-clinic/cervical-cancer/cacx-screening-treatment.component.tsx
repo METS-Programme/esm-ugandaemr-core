@@ -1,7 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EncounterList, EncounterListColumn, getObsFromEncounter } from '@ohri/openmrs-esm-ohri-commons-lib';
-import { EID_SUMMARY_ENCOUNTER_TYPE, moduleName } from '../../../constants';
+import {
+  CACX_Treatment_Screening_ENCOUNTER_TYPE,
+  Cervical_cancer_histology_results,
+  moduleName,
+} from '../../../constants';
+import moment from 'moment';
 
 interface EIDSummaryFormProps {
   patientUuid: string;
@@ -13,41 +18,47 @@ const EIDSummaryForm: React.FC<EIDSummaryFormProps> = ({ patientUuid }) => {
   const columnsLab: EncounterListColumn[] = useMemo(
     () => [
       {
-        key: 'dateChartOpened',
-        header: t('dateChartOpened', 'Date Chart Opened'),
+        key: 'date',
+        header: t('hivTestDate', 'Date of HIV Test'),
         getValue: (encounter) => {
-          return getObsFromEncounter(encounter, '', true);
+          return moment(encounter.encounterDatetime).format('DD-MMM-YYYY');
         },
       },
       {
-        key: 'entryPoint',
-        header: t('entryPoint', 'Entry Point'),
+        key: 'location',
+        header: t('location', 'Location'),
         getValue: (encounter) => {
-          return getObsFromEncounter(encounter, '');
+          return encounter.location.name;
         },
       },
       {
-        key: 'dateNVP',
-        header: t('dateNVP', 'Date of NVP'),
+        key: 'cacxHistology',
+        header: t('cacxHistology', 'Cervical cancer histology results'),
         getValue: (encounter) => {
-          return getObsFromEncounter(encounter, '');
+          return getObsFromEncounter(encounter, Cervical_cancer_histology_results);
         },
       },
-
+      {
+        key: 'provider',
+        header: t('htsProvider', 'HTS Provider'),
+        getValue: (encounter) => {
+          return encounter.encounterProviders.map((p) => p.provider.name).join(' | ');
+        },
+      },
       {
         key: 'actions',
         header: t('actions', 'Actions'),
         getValue: (encounter) => {
           const baseActions = [
             {
-              form: { name: 'POC-EID Summary Form' },
+              form: { name: 'Screening and Cancer Treatment Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: 'View Details',
               mode: 'view',
             },
             {
-              form: { name: 'POC-EID Summary Form' },
+              form: { name: 'Screening and Cancer Treatment Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: 'Edit Form',
@@ -61,13 +72,13 @@ const EIDSummaryForm: React.FC<EIDSummaryFormProps> = ({ patientUuid }) => {
     [t],
   );
 
-  const headerTitle = t('eidRegister', 'EID Register Summary Section');
+  const headerTitle = t('cacx_screening_treatment', 'Cervical Cancer Screening And Treatment');
 
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterType={EID_SUMMARY_ENCOUNTER_TYPE}
-      formList={[{ name: 'POC-EID Summary Form' }]}
+      encounterType={CACX_Treatment_Screening_ENCOUNTER_TYPE}
+      formList={[{ name: 'Screening and Cancer Treatment Form' }]}
       columns={columnsLab}
       description={headerTitle}
       headerTitle={headerTitle}
