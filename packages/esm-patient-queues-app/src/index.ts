@@ -16,9 +16,25 @@ export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 
   // register post form submission
+  // ipd
   registerPostSubmissionAction({
     id: 'IpdAdmissionSubmissionAction',
-    load: () => import('./post-submission-actions/ipd-admission-action'),
+    load: () => import('./post-submission-actions/ipd-admission-submission-action'),
+  });
+  // lab
+  registerPostSubmissionAction({
+    id: 'LabSubmissionAction',
+    load: () => import('./post-submission-actions/lab-admission-submission-action'),
+  });
+  // medications
+  registerPostSubmissionAction({
+    id: 'MedicationsSubmissionAction',
+    load: () => import('./post-submission-actions/medications-admission-submission-action'),
+  });
+  // radiology
+  registerPostSubmissionAction({
+    id: 'RadiologySubmissionAction',
+    load: () => import('./post-submission-actions/radiology-admission-submission-action'),
   });
 
   // console.log('info');
