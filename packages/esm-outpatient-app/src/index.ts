@@ -6,7 +6,6 @@ import { moduleName } from './constants';
 import {
   PalliativeDashboardtMeta,
   assessmentDashboardtMeta,
-  opdAdmissionDashboardtMeta,
   opdCacxDashboardMeta,
   opdDashboardMeta,
   opdEmergencyDashboardMeta,
