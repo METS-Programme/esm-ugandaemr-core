@@ -30,10 +30,13 @@ export const contactTracingDashboardLink = getSyncLifecycle(
   }),
   options,
 );
-export const contactTracingDashboardExt = getAsyncLifecycle(() => import('./pages/screening/screening.component'), {
-  featureName: 'contact-tracing',
-  moduleName,
-});
+export const contactTracingDashboardExt = getAsyncLifecycle(
+  () => import('./pages/screening/contact-tracing.component'),
+  {
+    featureName: 'contact-tracing',
+    moduleName,
+  },
+);
 
 //treatment and followup
 export const tbTreatmentDashboardLink = getSyncLifecycle(

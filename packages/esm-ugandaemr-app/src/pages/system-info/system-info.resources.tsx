@@ -99,3 +99,30 @@ export const handleFacilityResponse = (facilitySearchResponse) => {
   }
   return arr;
 };
+
+export function useRetrieveFacilityCode() {
+  const apiURL = '/ws/rest/v1/systemsetting?q=ugandaemrsync.national.health.facility.registry.identifier&v=full';
+
+  const { data, error, isLoading } = useSWR<{ data: [] }, Error>(apiURL, openmrsFetch);
+
+  return {
+    facilityIds: data?.data['results'],
+    isLoading,
+    isError: error,
+  };
+}
+
+export async function updatePropertyValue(propertyUuid: string, value: string) {
+  const abortController = new AbortController();
+
+  return openmrsFetch(`/ws/rest/v1/systemsetting/${propertyUuid}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    signal: abortController.signal,
+    body: {
+      value: value,
+    },
+  });
+}

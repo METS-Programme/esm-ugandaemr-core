@@ -9,6 +9,7 @@ import {
   opdAdmissionDashboardtMeta,
   opdCacxDashboardMeta,
   opdDashboardMeta,
+  opdEmergencyDashboardMeta,
   treatmentDashboardtMeta,
 } from './dashboard.meta';
 import formsRegistry from './forms/forms-registry';
@@ -76,17 +77,17 @@ export const opdPalliativeDashboardLinkExt = getAsyncLifecycle(() => import('./p
   moduleName,
 });
 
-//  Ope Admission dashboard
-export const opdAdmissionDashboardLink = getSyncLifecycle(
+//  OPD Emergency dashboard
+export const opdEmergencyDashboardLink = getSyncLifecycle(
   createDashboardLink({
-    ...opdAdmissionDashboardtMeta,
+    ...opdEmergencyDashboardMeta,
     moduleName,
   }),
   options,
 );
 
-export const opdAdmissionDashboardLinkExt = getAsyncLifecycle(
-  () => import('./pages/opd/admissions/admission.component'),
+export const opdEmergencyDashboardLinkExt = getAsyncLifecycle(
+  () => import('./pages/opd/Emergency/emergency-unit-form.component'),
   {
     featureName: 'opd-dashboard-ext',
     moduleName,

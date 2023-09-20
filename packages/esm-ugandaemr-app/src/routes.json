@@ -44,6 +44,11 @@
     {
       "name": "retrieve-facility-code-modal",
       "component": "retrieveFacilityCodeModal"
+    },
+    {
+      "name": "update-facility-code-alert",
+      "slot": "homepage-widgets-slot",
+      "component": "updateFacilityCodeAlert"
     }
   ]
 }

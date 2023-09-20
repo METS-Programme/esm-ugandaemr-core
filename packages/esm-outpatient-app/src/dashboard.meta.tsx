@@ -24,11 +24,11 @@ export const PalliativeDashboardtMeta = {
   title: 'Palliative Care',
   path: 'opd-palliative',
 };
-export const opdAdmissionDashboardtMeta = {
-  slot: 'opd-admission-slot',
+export const opdEmergencyDashboardMeta = {
+  slot: 'opd-emergency-slot',
   config: { columns: 1, type: 'grid' },
   title: 'Emergency',
-  path: 'opd-admission',
+  path: 'opd-emergency',
 };
 
 export const opdCacxDashboardMeta = {

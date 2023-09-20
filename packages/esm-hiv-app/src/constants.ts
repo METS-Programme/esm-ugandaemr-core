@@ -186,3 +186,6 @@ export const PhsycosocialEncounterType = '6d88e370-f2ba-476b-bf1b-d8eaf3b1b67e';
 //Cacx Screening and Treatment
 export const CACX_Treatment_Screening_ENCOUNTER_TYPE = '91725548-2d90-4b28-be6d-0509ba37bb0f';
 export const Cervical_cancer_histology_results = 'f63642da-5da9-4c22-8676-50d2a877d25d';
+
+//SMS Enrollemnt
+export const sms_enrollement_EncounterType = '05fa932f-4203-43c9-8985-60f2bea8a773';

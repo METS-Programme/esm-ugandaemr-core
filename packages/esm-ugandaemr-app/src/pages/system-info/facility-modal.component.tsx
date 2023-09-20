@@ -13,16 +13,21 @@ import {
 } from '@carbon/react';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getFacility, handleFacilityResponse, useGetResourceInformation } from './system-info.resource';
-import { extractResourceInfo } from './facility-modals.utils';
+import { getFacility, handleFacilityResponse, useGetResourceInformation } from './system-info.resources';
+import { extractResourceInfo } from './system-info.utils';
 import styles from './system-info.scss';
 
 interface RetrieveFacilityCodeModalProps {
   closeModal: () => void;
-  setFacilityCode: (message: string) => void;
+  facilityCodeDetails: { value: string; uuid: string };
+  setFacilityCodeDetails: (obj: {}) => void;
 }
 
-const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({ setFacilityCode, closeModal }) => {
+const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({
+  closeModal,
+  setFacilityCodeDetails,
+  facilityCodeDetails,
+}) => {
   const { t } = useTranslation();
   const [careLevels, setCareLevels] = useState([]);
   const [ownership, setOwnership] = useState([]);
@@ -57,14 +62,13 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({ s
 
   const handleAddFacilityCode = () => {
     if (code) {
-      setFacilityCode(code);
-    } else {
-      setFacilityCode('-');
+      setFacilityCodeDetails({
+        ...facilityCodeDetails,
+        value: code,
+      });
     }
     closeModal();
   };
-
-  // const validate/
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -97,7 +101,7 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({ s
                 onChange={(event) => setSearchParams({ ...searchParams, careLevel: event.target.value })}
                 light
               >
-                <SelectItem key={'LoC'} text={'Choose Facility Level'} value={''} />
+                <SelectItem key={'LevelOfCare'} text={'Choose Facility Level'} value={''} />
                 {careLevels.map((level) => {
                   return (
                     <SelectItem key={level.code} text={level.display} value={level.code}>
@@ -119,7 +123,7 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({ s
                 onChange={(event) => setSearchParams({ ...searchParams, ownership: event.target.value })}
                 light
               >
-                <SelectItem key={'OT'} text={'Choose ownership type'} value={''} />
+                <SelectItem key={'OwnershipType'} text={'Choose ownership type'} value={''} />
                 {ownership.map((type) => {
                   return (
                     <SelectItem key={type.code} text={type.display} value={type.code}>
@@ -142,7 +146,7 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({ s
             {isLoading ? (
               <InlineLoading description={t('loading', 'Loading...')} role="progressbar" />
             ) : (
-              <Button type="submit">search for facility</Button>
+              <Button type="submit">{t('searchForFacility', 'Search')}</Button>
             )}
           </Stack>
         </Form>
@@ -156,7 +160,7 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({ s
                 onChange={(event) => setCode(event.target.value)}
                 light
               >
-                <SelectItem key={'chooseFacility'} text={'Choose your facility'} value={''} />
+                <SelectItem key={'chooseFacility'} text={'Facility Name'} value={''} />
                 {facilities.map((facility) => {
                   return (
                     <SelectItem key={facility.id} text={facility.name} value={facility.code}>
@@ -173,7 +177,7 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({ s
               />
             </div>
           ) : (
-            <p className={styles['no-results']}>No matching health facility found</p>
+            <p className={styles['no-results']}>{t('noMatch', 'No matching health facility found')}!</p>
           )
         ) : (
           ''

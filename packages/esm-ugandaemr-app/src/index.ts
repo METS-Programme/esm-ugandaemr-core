@@ -66,3 +66,11 @@ export const retrieveFacilityCodeModal = getAsyncLifecycle(
     moduleName,
   },
 );
+
+export const updateFacilityCodeAlert = getAsyncLifecycle(
+  () => import('./pages/system-info/update-facility-code-alert'),
+  {
+    featureName: 'update facility code alert',
+    moduleName,
+  },
+);
