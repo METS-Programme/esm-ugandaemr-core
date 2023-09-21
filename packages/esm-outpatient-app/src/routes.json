@@ -83,6 +83,23 @@
       "name": "opd-emergency-ext",
       "slot": "opd-emergency-slot",
       "component": "opdEmergencyDashboardLinkExt"
+    },
+    {
+      "name": "opd-cacx-screening",
+      "slot": "opd-dashboard-slot",
+      "component": "opdCacxDashboardMetaLink",
+      "meta": {
+        "slot": "opd-cacx-screening-slot",
+        "columns": 1,
+        "title": "cervical cancer Screening",
+        "path": "opd-cacx-screening",
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "opd-cacx-screening-ext",
+      "slot": "opd-cacx-screening-slot",
+      "component": "opdCacxDashboardMetaExt"
     }
   ]
 }

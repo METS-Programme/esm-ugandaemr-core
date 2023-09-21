@@ -16,3 +16,10 @@ export const tbTreatmentDashboardMeta = {
   title: 'Treatment & Followup',
   path: 'tb-treatment',
 };
+
+export const tbCacxDashboardMeta = {
+  slot: 'tb-cacx-screening-slot',
+  columns: 1,
+  title: 'Cervical Cancer Screening',
+  path: 'tb-cacx-screening',
+};

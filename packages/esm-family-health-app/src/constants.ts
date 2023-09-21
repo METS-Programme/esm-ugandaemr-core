@@ -19,3 +19,7 @@ export const ANC_NUMBER = '38460266-6bcd-47e8-844c-649d34323810';
 export const Timing_For_PNC_Visit = 'c7700c4f-3dc6-4270-ba0d-dd42c0557027';
 export const Referral_IN_OUT = '67ea4375-0f4f-4e67-b8b0-403942753a4d';
 export const Status_of_breast = '07c10f5c-17fd-4a7e-8d72-c2252f589da0';
+
+//Cacx Treatment && Screening
+export const CACX_Treatment_Screening_ENCOUNTER_TYPE = '91725548-2d90-4b28-be6d-0509ba37bb0f';
+export const Cervical_cancer_histology_results = 'f63642da-5da9-4c22-8676-50d2a877d25d';

@@ -6,6 +6,7 @@ import { moduleName } from './constants';
 import {
   PalliativeDashboardtMeta,
   assessmentDashboardtMeta,
+  opdCacxDashboardMeta,
   opdDashboardMeta,
   opdEmergencyDashboardMeta,
   treatmentDashboardtMeta,
@@ -88,6 +89,18 @@ export const opdEmergencyDashboardLinkExt = getAsyncLifecycle(
   () => import('./pages/opd/Emergency/emergency-unit-form.component'),
   {
     featureName: 'opd-dashboard-ext',
+    moduleName,
+  },
+);
+
+export const opdCacxDashboardMetaLink = getSyncLifecycle(
+  createDashboardLink({ ...opdCacxDashboardMeta, moduleName }),
+  options,
+);
+export const opdCacxDashboardMetaExt = getAsyncLifecycle(
+  () => import('./pages/opd/cervical-cancer/cacx-screening-treatment.component'),
+  {
+    featureName: 'opd-cacx-screening',
     moduleName,
   },
 );

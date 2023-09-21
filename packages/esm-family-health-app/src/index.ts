@@ -3,6 +3,7 @@ import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-
 import { addToBaseFormsRegistry } from '@openmrs/openmrs-form-engine-lib';
 import { configSchema } from './config-schema';
 import {
+  cacxDashboardMeta,
   childHealthDashboardMeta,
   familyHealthDashboardMeta,
   familyPlanningDashboardMeta,
@@ -89,7 +90,17 @@ export const nutritionDashboard = getSyncLifecycle(
 export const nutritionDashboardExt = getAsyncLifecycle(
   () => import('./pages/family-health-clinic/Nutrition/nutrition.component'),
   {
-    featureName: 'nutrition',
+    featureName: 'cervical-cancer',
+    moduleName,
+  },
+);
+
+export const cacxDashboard = getSyncLifecycle(createDashboardLink({ ...cacxDashboardMeta, moduleName }), options);
+
+export const cacxDashboardExt = getAsyncLifecycle(
+  () => import('./pages/family-health-clinic/cervical-cancer/cacx-screening-treatment.component'),
+  {
+    featureName: 'cervical-cancer',
     moduleName,
   },
 );

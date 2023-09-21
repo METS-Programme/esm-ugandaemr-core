@@ -61,6 +61,23 @@
       "meta": {
         "columnSpan": 4
       }
+    },
+    {
+      "name": "tb-cacx-screening",
+      "slot": "tb-clinic-dashboard-slot",
+      "component": "tbCacxDashboardMetaLink",
+      "meta": {
+        "slot": "tb-cacx-screening-slot",
+        "columns": 1,
+        "title": "cervical cancer Screening",
+        "path": "tb-cacx-screening",
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "tb-cacx-screening-ext",
+      "slot": "tb-cacx-screening-slot",
+      "component": "tbCacxDashboardMetaExt"
     }
   ]
 }

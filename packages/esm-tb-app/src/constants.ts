@@ -9,3 +9,7 @@ export const DR_TB_Enrollment_ENCOUNTER_TYPE = '0271ee3d-f274-49d1-b376-c842f075
 export const DR_TB_Followup_ENCOUNTER_TYPE = '41f8609d-e13b-4dff-8379-47ac5876512e';
 export const DS_TB_Enrollment_ENCOUNTER_TYPE = '334bf97e-28e2-4a27-8727-a5ce31c7cd66';
 export const DS_TB_Followup_ENCOUNTER_TYPE = '455bad1f-5e97-4ee9-9558-ff1df8808732';
+
+//Cacx Screening and Treatment
+export const CACX_Treatment_Screening_ENCOUNTER_TYPE = '91725548-2d90-4b28-be6d-0509ba37bb0f';
+export const Cervical_cancer_histology_results = 'f63642da-5da9-4c22-8676-50d2a877d25d';

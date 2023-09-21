@@ -8,5 +8,6 @@
   "nutrition": "Nutrition",
   "statusOfBreast": "Status Of Breast",
   "referral": "Referral IN/OUT",
-  "timingForPNCVisit": "Timing For PNC Visit"
+  "timingForPNCVisit": "Timing For PNC Visit",
+  "cacxHistology": "Cervical cancer histology results"
 }
