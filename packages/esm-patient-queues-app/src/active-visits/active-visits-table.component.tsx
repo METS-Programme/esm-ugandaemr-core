@@ -56,6 +56,7 @@ import { usePatientQueuesList } from './patient-queues.resource';
 import PickPatientActionMenu from '../queue-entry-table-components/pick-patient-queue-entry-menu.component';
 import EmptyState from '../utils/empty-state/empty-state.component';
 import ViewActionsMenu from './view-action-menu.components';
+import CurrentVisit from '../current-visit/current-visit-summary.component';
 
 type FilterProps = {
   rowIds: Array<string>;
@@ -311,6 +312,12 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                                   <Tab>{t('previousVisit', 'Previous visit')} </Tab>
                                 </TabList>
                                 <TabPanels>
+                                  <TabPanel>
+                                    <CurrentVisit
+                                      patientUuid={tableRows?.[index]?.patientUuid}
+                                      visitUuid={tableRows?.[index]?.uuid}
+                                    />
+                                  </TabPanel>
                                   <TabPanel>
                                     <PastVisit patientUuid={tableRows?.[index]?.patientUuid} />
                                   </TabPanel>
