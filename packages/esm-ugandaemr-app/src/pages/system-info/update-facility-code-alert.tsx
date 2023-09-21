@@ -11,7 +11,6 @@ const UpdateFacilityCodeAlert = () => {
 
   useEffect(() => {
     if (facilityIds && facilityIds.length) {
-      console.info(facilityIds[0]);
       if (facilityIds[0]['value'] === null) {
         setShowAlert(true);
       } else {

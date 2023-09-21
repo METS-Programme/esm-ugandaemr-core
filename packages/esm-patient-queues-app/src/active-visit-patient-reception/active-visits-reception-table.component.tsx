@@ -95,18 +95,14 @@ function ActiveVisitsReceptionTable() {
         header: t('status', 'Status'),
         key: 'status',
       },
+
       {
         id: 5,
-        header: t('provider', 'Provider'),
-        key: 'provider',
-      },
-      {
-        id: 6,
         header: t('waitTime', 'Wait time'),
         key: 'waitTime',
       },
       {
-        id: 7,
+        id: 6,
         header: t('actions', 'Actions'),
         key: 'actions',
       },
@@ -157,9 +153,6 @@ function ActiveVisitsReceptionTable() {
             <span>{buildStatusString(entry.status.toLowerCase())}</span>
           </span>
         ),
-      },
-      provider: {
-        content: <span>Provider Name</span>,
       },
       waitTime: {
         content: (

@@ -13,6 +13,10 @@
       "component": "queueScreen",
       "route": "patient-queues/screen"
     }
+    ,{
+      "component": "testScreen",
+      "route":"form-render-test"
+    }
   ],
   "extensions": [
     {
