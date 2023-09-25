@@ -52,7 +52,7 @@ import { SearchTypes } from '../types';
 import { getOriginFromPathName } from './active-visits-table.resource';
 import styles from './active-visits-table.scss';
 import EditActionsMenu from './edit-action-menu.components';
-import { usePatientQueuesList } from './patient-queues.resource';
+import { usePatientQueuesList, useParentLocation } from './patient-queues.resource';
 import PickPatientActionMenu from '../queue-entry-table-components/pick-patient-queue-entry-menu.component';
 import EmptyState from '../utils/empty-state/empty-state.component';
 import ViewActionsMenu from './view-action-menu.components';
