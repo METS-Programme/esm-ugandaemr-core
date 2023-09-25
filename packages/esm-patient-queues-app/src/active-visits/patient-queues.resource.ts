@@ -25,8 +25,74 @@ export interface MappedPatientQueueEntry {
   creatorDisplay: string;
 }
 
-export function usePatientQueuesList(currentQueueRoomLocationUuid: string, status: string) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&room=${currentQueueRoomLocationUuid}&status=${status}`;
+export interface LocationResponse {
+  uuid: string;
+  display: string;
+  name: string;
+  description: any;
+  address1: any;
+  address2: any;
+  cityVillage: any;
+  stateProvince: any;
+  country: any;
+  postalCode: any;
+  latitude: any;
+  longitude: any;
+  countyDistrict: any;
+  address3: any;
+  address4: any;
+  address5: any;
+  address6: any;
+  tags: Tag[];
+  parentLocation: ParentLocation;
+  childLocations: any[];
+  retired: boolean;
+  attributes: any[];
+  address7: any;
+  address8: any;
+  address9: any;
+  address10: any;
+  address11: any;
+  address12: any;
+  address13: any;
+  address14: any;
+  address15: any;
+  links: Link3[];
+  resourceVersion: string;
+}
+
+export interface Tag {
+  uuid: string;
+  display: string;
+  links: Link[];
+}
+
+export interface Link {
+  rel: string;
+  uri: string;
+  resourceAlias: string;
+}
+
+export interface ParentLocation {
+  uuid: string;
+  display: string;
+  links: Link2[];
+}
+
+export interface Link2 {
+  rel: string;
+  uri: string;
+  resourceAlias: string;
+}
+
+export interface Link3 {
+  rel: string;
+  uri: string;
+  resourceAlias: string;
+}
+
+export function usePatientQueuesList(currentQueueLocationUuid: string, status: string) {
+  const apiUrl = `/ws/rest/v1/patientqueue?v=full&status=${status}&room=${currentQueueLocationUuid}`;
   return usePatientQueueRequest(apiUrl);
 }
 
@@ -69,6 +135,23 @@ export function usePatientQueueRequest(apiUrl: string) {
   return {
     patientQueueEntries: mapppedQueues || [],
     patientQueueCount: mapppedQueues?.length,
+    isLoading,
+    isError: error,
+    isValidating,
+    mutate,
+  };
+}
+
+// get parentlocation
+export function useParentLocation(currentQueueLocationUuid: string) {
+  const apiUrl = `/ws/rest/v1/location/${currentQueueLocationUuid}`;
+  const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: LocationResponse }, Error>(
+    apiUrl,
+    openmrsFetch,
+  );
+
+  return {
+    location: data?.data,
     isLoading,
     isError: error,
     isValidating,

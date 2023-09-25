@@ -40,6 +40,7 @@ import { SearchTypes } from '../types';
 import { usePatientQueuesList } from './active-visits-reception.resource';
 import styles from './active-visits-reception.scss';
 import EmptyState from '../utils/empty-state/empty-state.component';
+import { useParentLocation } from '../active-visits/patient-queues.resource';
 
 type FilterProps = {
   rowIds: Array<string>;
@@ -57,7 +58,10 @@ function ActiveVisitsReceptionTable() {
   const [view, setView] = useState('');
   const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
 
-  const { patientQueueEntries, isLoading, mutate } = usePatientQueuesList(session?.sessionLocation?.uuid);
+  const { location, isLoading: loading } = useParentLocation(session?.sessionLocation?.uuid);
+
+  const { patientQueueEntries, isLoading } = usePatientQueuesList(location?.parentLocation?.uuid);
+
   const currentPathName: string = window.location.pathname;
 
   const fromPage: string = getOriginFromPathName(currentPathName);
