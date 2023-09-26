@@ -2,28 +2,18 @@ import { Calendar, Location } from '@carbon/react/icons';
 import { formatDate, useSession } from '@openmrs/esm-framework';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  updateSelectedQueueRoomLocationName,
-  updateSelectedQueueRoomLocationUuid,
-  useSelectedQueueRoomLocationName,
-} from '../helpers/helpers';
-import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
+
 import styles from './patient-queue-header.scss';
 import PatientQueueIllustration from './patient-queue-illustration.component';
+import { useParentLocation } from '../active-visits/patient-queues.resource';
 
 const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
   const { t } = useTranslation();
   const userSession = useSession();
+
   const userLocation = userSession?.sessionLocation?.display;
 
-  // queue rooms
-  const { queueRoomLocations } = useQueueRoomLocations(userSession?.sessionLocation?.uuid);
-  const currentQueueRoomLocationName = useSelectedQueueRoomLocationName();
-
-  const handleQueueLocationChange = ({ selectedItem }) => {
-    updateSelectedQueueRoomLocationUuid(selectedItem.uuid);
-    updateSelectedQueueRoomLocationName(selectedItem.name);
-  };
+  const { location, isLoading: loading } = useParentLocation(userSession?.sessionLocation?.uuid);
 
   return (
     <>
@@ -42,6 +32,9 @@ const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
             <span className={styles.middot}>&middot;</span>
             <Calendar size={16} />
             <span className={styles.value}>{formatDate(new Date(), { mode: 'standard' })}</span>
+          </div>
+          <div className={styles['clinic']}>
+            <span>{location?.parentLocation?.display}</span>
           </div>
         </div>
       </div>
