@@ -24,7 +24,7 @@ const MetricsCard: React.FC<MetricsCardProps> = ({ values, headerLabel }) => {
             <label className={styles.headerLabel}>{headerLabel}</label>
           </div>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
           {values.map((value) => {
             return (
               <div style={{ margin: '5px' }}>
