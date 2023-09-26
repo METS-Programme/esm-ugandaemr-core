@@ -60,7 +60,16 @@ function ClinicMetrics() {
             values={[{ label: 'Expected Appointments', value: 0 }]}
             headerLabel={t('noOfExpectedAppointments', 'No. Of Expected Appointments')}
           />
-          <MetricsCard values={rooms} headerLabel={t('currentlyServing', 'No. of Currently being Served')} />
+          <MetricsCard
+            values={[
+              { label: 'Triage', value: 0 },
+              { label: 'Clinical Room', value: 0 },
+              { label: 'Laboratory', value: 0 },
+              { label: 'Radiology', value: 0 },
+              { label: 'Pharmacy', value: 0 },
+            ]}
+            headerLabel={t('currentlyServing', 'No. of Currently being Served')}
+          />
         </UserHasAccess>
 
         <UserHasAccess privilege={PRIVILIGE_TRIAGE_METRIC}>
