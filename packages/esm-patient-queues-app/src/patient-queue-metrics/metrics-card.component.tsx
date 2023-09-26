@@ -3,39 +3,36 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './metrics-card.scss';
 
-interface MetricsCardProps {
+interface Value {
   label: string;
-  value: number | string;
-  headerLabel: string;
-  children?: React.ReactNode;
-  service?: string;
-  serviceUuid?: string;
-  locationUuid?: string;
+  value: number;
 }
 
-const MetricsCard: React.FC<MetricsCardProps> = ({
-  label,
-  value,
-  headerLabel,
-  children,
-  service,
-  serviceUuid,
-  locationUuid,
-}) => {
+interface MetricsCardProps {
+  values: Array<Value>;
+  headerLabel: string;
+}
+
+const MetricsCard: React.FC<MetricsCardProps> = ({ values, headerLabel }) => {
   const { t } = useTranslation();
 
   return (
-    <Layer className={`${children && styles.cardWithChildren} ${styles.container}`}>
+    <Layer className={`${styles.cardWithChildren} ${styles.container}`}>
       <Tile className={styles.tileContainer}>
         <div className={styles.tileHeader}>
           <div className={styles.headerLabelContainer}>
             <label className={styles.headerLabel}>{headerLabel}</label>
-            {children}
           </div>
         </div>
-        <div>
-          <label className={styles.totalsLabel}>{label}</label>
-          <p className={styles.totalsValue}>{value}</p>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          {values.map((value) => {
+            return (
+              <div style={{ margin: '5px' }}>
+                <label className={styles.totalsLabel}>{value.label}</label>
+                <p className={styles.totalsValue}>{value.value}</p>
+              </div>
+            );
+          })}
         </div>
       </Tile>
     </Layer>

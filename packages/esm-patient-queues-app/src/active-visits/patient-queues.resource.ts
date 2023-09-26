@@ -45,7 +45,7 @@ export interface LocationResponse {
   address6: any;
   tags: Tag[];
   parentLocation: ParentLocation;
-  childLocations: any[];
+  childLocations: ChildLocation[];
   retired: boolean;
   attributes: any[];
   address7: any;
@@ -57,7 +57,7 @@ export interface LocationResponse {
   address13: any;
   address14: any;
   address15: any;
-  links: Link3[];
+  links: Link[];
   resourceVersion: string;
 }
 
@@ -76,19 +76,13 @@ export interface Link {
 export interface ParentLocation {
   uuid: string;
   display: string;
-  links: Link2[];
+  links: Link[];
 }
 
-export interface Link2 {
-  rel: string;
-  uri: string;
-  resourceAlias: string;
-}
-
-export interface Link3 {
-  rel: string;
-  uri: string;
-  resourceAlias: string;
+export interface ChildLocation {
+  uuid: string;
+  display: string;
+  links: Link[];
 }
 
 export function usePatientQueuesList(currentQueueLocationUuid: string, status: string) {
@@ -145,6 +139,22 @@ export function usePatientQueueRequest(apiUrl: string) {
 // get parentlocation
 export function useParentLocation(currentQueueLocationUuid: string) {
   const apiUrl = `/ws/rest/v1/location/${currentQueueLocationUuid}`;
+  const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: LocationResponse }, Error>(
+    apiUrl,
+    openmrsFetch,
+  );
+
+  return {
+    location: data?.data,
+    isLoading,
+    isError: error,
+    isValidating,
+    mutate,
+  };
+}
+
+export function useChildLocations(parentUuid: string) {
+  const apiUrl = `/ws/rest/v1/location/${parentUuid}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: LocationResponse }, Error>(
     apiUrl,
     openmrsFetch,

@@ -1,5 +1,5 @@
 import { UserHasAccess, useSession } from '@openmrs/esm-framework';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PRIVILEGE_RECEPTION_METRIC, PRIVILIGE_TRIAGE_METRIC } from '../constants';
 import {
@@ -16,26 +16,36 @@ import {
 } from './clinic-metrics.resource';
 import styles from './clinic-metrics.scss';
 import MetricsCard from './metrics-card.component';
-import { use } from 'i18next';
+import { useParentLocation } from '../active-visits/patient-queues.resource';
 
 function ClinicMetrics() {
   const { t } = useTranslation();
 
   const session = useSession();
-  const userLocation = session?.sessionLocation?.uuid;
 
-  const { patientQueueCount, isLoading } = usePatientsBeingServed(userLocation, 'pending');
+  const { location: locations, isLoading: loading } = useParentLocation(session?.sessionLocation?.uuid);
 
-  const { servedCount } = usePatientsServed(userLocation, 'picked');
+  const { patientQueueCount, isLoading } = usePatientsBeingServed(session?.sessionLocation?.uuid, 'pending');
 
-  // overall checked in patients stats
+  const { servedCount } = usePatientsServed(session?.sessionLocation?.uuid, 'picked');
 
-  // overall expected appointments
-
-  // overall patients being served
   const { count } = useQueuePatients('picked');
 
   const { count: pendingCount } = useQueuePatients('pending');
+
+  const { location: childLocations, isLoading: loadingChildLocations } = useParentLocation(
+    locations?.parentLocation?.uuid,
+  );
+
+  let rooms = [];
+  childLocations?.childLocations.map((location) => {
+    return rooms.push({
+      label: location?.display,
+      value: 0,
+    });
+  });
+
+  console.info(JSON.stringify(childLocations, null, 2));
 
   // receptionist ui
   return (
@@ -43,31 +53,23 @@ function ClinicMetrics() {
       <div className={styles.cardContainer}>
         <UserHasAccess privilege={PRIVILEGE_RECEPTION_METRIC}>
           <MetricsCard
-            label={t('patients', 'Patients')}
-            value={pendingCount ?? 0}
+            values={[{ label: 'Patients', value: pendingCount }]}
             headerLabel={t('checkedInPatients', 'Checked in patients')}
           />
           <MetricsCard
-            label={t('expectedAppointments', 'Expected Appointments')}
-            value={0}
+            values={[{ label: 'Expected Appointments', value: 0 }]}
             headerLabel={t('noOfExpectedAppointments', 'No. Of Expected Appointments')}
           />
-          <MetricsCard
-            label={t('serving', 'Serving')}
-            value={count ?? 0}
-            headerLabel={t('currentlyServing', 'No. of Currently being Served')}
-          />
+          <MetricsCard values={rooms} headerLabel={t('currentlyServing', 'No. of Currently being Served')} />
         </UserHasAccess>
 
         <UserHasAccess privilege={PRIVILIGE_TRIAGE_METRIC}>
           <MetricsCard
-            label={t('pendingServing', 'Patients waiting to be Served')}
-            value={patientQueueCount ?? 0}
+            values={[{ label: 'Patients waiting to be Served', value: patientQueueCount }]}
             headerLabel={t('pendingTriageServing', 'Patients waiting to be Served')}
           />
           <MetricsCard
-            label={t('served', 'Patients Served')}
-            value={servedCount ?? 0}
+            values={[{ label: 'Patients Served', value: servedCount }]}
             headerLabel={t('noOfPatientsServed', 'No. Of Patients Served')}
           />
         </UserHasAccess>
