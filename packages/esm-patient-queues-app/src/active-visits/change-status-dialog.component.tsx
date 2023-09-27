@@ -282,7 +282,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <h4 className={styles.section}> Currently Picked :</h4>
                 <div style={{ margin: '10px' }}>
-                  <ArrowUp size={16} />
+                  <ArrowDown size={16} />
                 </div>
               </div>
               <h5 className={styles.section}>
@@ -296,7 +296,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <h4 className={styles.section}> Currently Serving :</h4>
                 <div style={{ margin: '10px' }}>
-                  <ArrowDown size={16} />
+                  <ArrowUp size={16} />
                 </div>
               </div>
               <h5 className={styles.section}>
