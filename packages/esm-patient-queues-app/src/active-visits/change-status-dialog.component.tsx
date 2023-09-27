@@ -19,6 +19,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
+import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 
 import styles from './change-status-dialog.scss';
 
@@ -278,7 +279,12 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
           <ModalHeader closeModal={closeModal} />
           <ModalBody>
             <div className={styles.modalBody}>
-              <h4 className={styles.section}> Currently Picked :</h4>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <h4 className={styles.section}> Currently Picked :</h4>
+                <div style={{ margin: '10px' }}>
+                  <ArrowDown size={16} />
+                </div>
+              </div>
               <h5 className={styles.section}>
                 {currentEntry.name} &nbsp; · &nbsp;{currentEntry.patientSex} &nbsp; · &nbsp;{currentEntry.patientAge}
                 &nbsp;
@@ -287,7 +293,12 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               <br></br>
               <hr />
               <br></br>
-              <h4 className={styles.section}> Currently Serving :</h4>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <h4 className={styles.section}> Currently Serving :</h4>
+                <div style={{ margin: '10px' }}>
+                  <ArrowUp size={16} />
+                </div>
+              </div>
               <h5 className={styles.section}>
                 {queueEntry.name} &nbsp; · &nbsp;{queueEntry.patientSex} &nbsp; · &nbsp;{queueEntry.patientAge}&nbsp;
                 {t('years', 'Years')}
