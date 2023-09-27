@@ -11,7 +11,7 @@
     },
     {
       "component": "hieDashboard",
-      "route": "hie-dashboard"
+      "route": "hie-home-dashboard"
     },
     {
       "component": "systemInfoPage",
@@ -49,6 +49,22 @@
       "name": "update-facility-code-alert",
       "slot": "homepage-widgets-slot",
       "component": "updateFacilityCodeAlert"
+    },
+    {
+      "name": "hie-home-dashboard",
+      "slot": "hie-home-dashboard-slot",
+      "component": "hieDashboard"
+    },
+    {
+      "name": "hie-home-dashboard-link",
+      "slot": "homepage-dashboard-slot",
+      "component": "hieHomeDashboardLink",
+      "order": 8,
+      "meta": {
+        "name": "hie-home-dashboard",
+        "slot": "hie-home-dashboard-slot",
+        "title": "HIE Dashboard"
+      }
     }
   ]
 }

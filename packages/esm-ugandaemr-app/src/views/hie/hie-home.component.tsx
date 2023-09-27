@@ -1,12 +1,14 @@
-import { EmptyStateComingSoon } from '@ohri/openmrs-esm-ohri-commons-lib';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { HIEHeader } from './hie-header.component';
+import HIEDashboard from './hie-dashboard.component';
 
 const HieHome = () => {
-  const { t } = useTranslation();
-  const headerTitle = t('hieHome', 'HIE Home');
-
-  return <EmptyStateComingSoon headerTitle={headerTitle} displayText={headerTitle} />;
+  return (
+    <>
+      <HIEHeader />
+      <HIEDashboard />
+    </>
+  );
 };
 
 export default HieHome;

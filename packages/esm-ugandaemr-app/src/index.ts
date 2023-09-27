@@ -21,7 +21,10 @@ export function startupApp() {
 
 // pages
 export const facilityDashboard = getAsyncLifecycle(() => import('./views/facility/facility-root.component'), options);
-export const hieDashboard = getAsyncLifecycle(() => import('./views/hie/hie-root.component'), options);
+export const hieDashboard = getAsyncLifecycle(() => import('./views/hie/hie-root.component'), {
+  featureName: 'hie home dashboard',
+  moduleName,
+});
 
 // extensions
 export const facilityHomeDashboardLink = getSyncLifecycle(createDashboardLink(facilityHomeDashboardMeta), options);

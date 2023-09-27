@@ -4,7 +4,7 @@ import HieHome from './hie-home.component';
 
 const HieRoot: React.FC = () => {
   return (
-    <BrowserRouter basename={`${window.spaBase}/home/reporting`}>
+    <BrowserRouter basename={`${window.spaBase}/home/hie-home-dashboard`}>
       <Routes>
         <Route path="/" element={<HieHome />} />
       </Routes>
