@@ -19,7 +19,7 @@ const DSTBEnrollmentList: React.FC<PatientChartProps> = ({ patientUuid }) => {
     () => [
       {
         key: 'date',
-        header: t('hivTestDate', 'Date of HIV Test'),
+        header: t('encounterDate', 'Encounter Date'),
         getValue: (encounter) => {
           return moment(encounter.encounterDatetime).format('DD-MMM-YYYY');
         },
@@ -32,15 +32,15 @@ const DSTBEnrollmentList: React.FC<PatientChartProps> = ({ patientUuid }) => {
         },
       },
       {
-        key: 'hivTestResult',
-        header: t('hivTestResult', 'HIV Test result'),
+        key: 'diseaseClasific',
+        header: t('diseaseClasific', 'Disease Classification and Patient Type'),
         getValue: (encounter) => {
           return getObsFromEncounter(encounter, '--');
         },
       },
       {
         key: 'provider',
-        header: t('htsProvider', 'HTS Provider'),
+        header: t('provider', 'Provider'),
         getValue: (encounter) => {
           return encounter.encounterProviders.map((p) => p.provider.name).join(' | ');
         },
