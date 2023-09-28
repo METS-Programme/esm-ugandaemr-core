@@ -36,10 +36,10 @@ const FacilityDashboard: React.FC = () => {
   const launchDashboardModal = () => {
     setShowModal(true);
   };
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setModalDashboard([]);
     setShowModal(false);
-  };
+  }, [modalDashboard, showModal]);
   const { savedReports } = useGetSaveReports();
   const { mutate, dashboardArray } = useGetSavedDashboards();
   const handleSaveDashboard = useCallback(() => {
