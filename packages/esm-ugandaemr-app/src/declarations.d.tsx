@@ -12,3 +12,10 @@ type savedReport = {
   aggregator: string;
   report_request_object: string;
 };
+
+type savedDashboard = {
+  uuid: string;
+  name: string;
+  description: string;
+  items: any;
+};

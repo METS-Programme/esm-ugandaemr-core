@@ -44,13 +44,13 @@
   margin-bottom: spacing.$spacing-04;
 }
 
-.dashboardModal {
+.dashboardModal, .dashboardTabs {
   :global(.cds--modal-container) {
     min-width: 80%;
     min-height: 80%;
   }
 
-  :global(.pvtAxisContainer), :global(.pvtRenderers), :global(.pvtVals) {
+  :global(.pvtAxisContainer), :global(.pvtRenderers), :global(.pvtVals), :global(.modebar-container) {
     display: none;
   }
 }
@@ -64,8 +64,6 @@
 }
 .dashboardTabs {
   margin: 1.5rem;
-  //border: 1px solid #8080804d;
-  //border-radius: 5px;
 }
 
 .layer {
@@ -95,7 +93,13 @@
 }
 
 .dropdownContainer {
-  margin-right: 0 !important;
-  margin: 2rem;
-  margin-left: 0;
+  margin: 2rem 0 2rem 0;
+}
+
+.dashboardChartContainer {
+  width: fit-content;
+  height: auto;
+  border: 1px solid #8080801f;
+  box-shadow: 0 0 3px 0 #999999fc;
+  margin-bottom: spacing.$spacing-06;
 }

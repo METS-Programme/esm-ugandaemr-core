@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useCallback, useEffect, useState } from 'react';
 import FacilityDashboardHeader from './components/facility-header/facility-dashboard-header.component';
 import EmptyStateIllustration from './empty-state-illustration.component';
 import styles from './facility-dasboard.scss';
@@ -7,6 +6,7 @@ import PivotTableUI from 'react-pivottable/PivotTableUI';
 import TableRenderers from 'react-pivottable/TableRenderers';
 import Plot from 'react-plotly.js';
 import createPlotlyRenderers from 'react-pivottable/PlotlyRenderers';
+import { Responsive, WidthProvider } from 'react-grid-layout';
 import {
   Button,
   Modal,
@@ -15,72 +15,79 @@ import {
   Tabs,
   Tab,
   TabList,
-  TabPanel,
   TabPanels,
   Layer,
   Tile,
   Dropdown,
 } from '@carbon/react';
 import { Add, ChartLine, ChartColumn, CrossTab } from '@carbon/react/icons';
-import { useGetSaveReports } from './facility-dashboard.resource';
+import { useGetSavedDashboards, useGetSaveReports, saveDashboard } from './facility-dashboard.resource';
 import pivotTableStyles from '!!raw-loader!react-pivottable/pivottable.css';
+import { showNotification, showToast } from '@openmrs/esm-framework';
 
-interface FacilityHomeProps {}
-type dashbaord = {
-  label: string;
-  description: string;
-};
-
-const FacilityDashboard: React.FC<FacilityHomeProps> = () => {
-  const { t } = useTranslation();
-  const pathName = window.location.pathname;
-  const PlotlyRenderers = createPlotlyRenderers(Plot);
-  let dashboardTitle,
-    dashboardDescription = '';
-  const [category, setCategory] = useState('new');
-  const [dashboard, setDashboard] = useState([]);
-  const [modelstate, setModelState] = useState(false);
+const FacilityDashboard: React.FC = () => {
+  const ResponsiveGridLayout = WidthProvider(Responsive);
+  const cellSpacing: number[] = [5, 5];
+  const [dashboardTitle, setDashboardTitle] = useState<string | null>(null);
+  const [dashboardDescription, setDashboardDescription] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [canSaveDashboard, setCanSaveDashboard] = useState(false);
+  const [modalDashboard, setModalDashboard] = useState<Array<savedReport>>([]);
   const launchDashboardModal = () => {
-    setModelState(true);
+    setShowModal(true);
   };
   const closeModal = () => {
-    setModelState(false);
+    setModalDashboard([]);
+    setShowModal(false);
   };
+  const { savedReports } = useGetSaveReports();
+  const { mutate, dashboardArray } = useGetSavedDashboards();
+  const handleSaveDashboard = useCallback(() => {
+    const getReportsInDashboard = (items) => {
+      let reportArray = [];
+      items?.map((item) => reportArray.push(item.id));
+      return reportArray;
+    };
 
-  const addDashboard = () => {
-    let dashboardArray = dashboard;
-    dashboardArray.push({
-      label: dashboardTitle,
+    saveDashboard({
+      name: dashboardTitle,
       description: dashboardDescription,
-      panel: <TabPanel> {dashboardDescription} </TabPanel>,
-      dashboardItems: [],
-    });
+      items: getReportsInDashboard(modalDashboard),
+    }).then(
+      ({ status }) => {
+        if (status === 201) {
+          showToast({
+            critical: true,
+            title: 'Saving Dashboard',
+            kind: 'success',
+            description: `Dashboard ${dashboardTitle} saved Successfully`,
+          });
+          closeModal();
+          mutate();
+        }
+      },
+      (error) => {
+        showNotification({
+          title: 'Saving Dashboard Failed',
+          kind: 'error',
+          critical: true,
+          description: error?.message,
+        });
+      },
+    );
+  }, [dashboardTitle, dashboardDescription, modalDashboard, closeModal, mutate]);
 
-    setDashboard(dashboardArray);
-    closeModal();
-  };
-  const [renderedTabs, setRenderedTabs] = useState(dashboard);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const handleTabChange = (evt) => {
     setSelectedIndex(evt.selectedIndex);
   };
 
-  const [modalDashboard, setModalDashboard] = useState<Array<savedReport>>([]);
-
-  const handleCloseTabRequest = (tabIndex) => {
-    const selectedTab = renderedTabs[selectedIndex];
-    const filteredTabs = renderedTabs.filter((_, index) => index !== tabIndex);
-    setRenderedTabs(filteredTabs);
-  };
-
   const handleInputChange = (event) => {
-    dashboardTitle = event.target.value;
+    setDashboardTitle(event.target.value);
   };
   const handleTextAreaChange = (event) => {
-    dashboardDescription = event.target.value;
+    setDashboardDescription(event.target.value);
   };
-
-  const { savedReports } = useGetSaveReports();
 
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -91,36 +98,6 @@ const FacilityDashboard: React.FC<FacilityHomeProps> = () => {
     setModalDashboard(newArray);
   };
 
-  const itemsToRender = (report: savedReport) => {
-    let icon: any = null;
-    if (report.type.toLowerCase() === 'line chart') {
-      icon = <ChartLine />;
-    } else if (report.type.toLowerCase() === 'bar chart') {
-      icon = <ChartColumn />;
-    } else {
-      icon = <CrossTab />;
-    }
-
-    return (
-      <span>
-        {icon} {report.label}
-      </span>
-    );
-  };
-
-  const pivotRender = (report: savedReport) => {
-    const pivotData = JSON.parse(report.report_request_object);
-
-    return (
-      <PivotTableUI
-        data={pivotData?.data}
-        renderers={{ ...TableRenderers, ...PlotlyRenderers }}
-        aggregatorName={pivotData?.aggregatorName}
-        rendererName={pivotData?.rendererName}
-        cols={pivotData?.cols}
-      />
-    );
-  };
   useEffect(() => {
     const styleElement = document.createElement('style');
     styleElement.textContent = `${pivotTableStyles}`;
@@ -146,20 +123,15 @@ const FacilityDashboard: React.FC<FacilityHomeProps> = () => {
         </>
       </div>
 
-      {dashboard.length > 0 ? (
+      {dashboardArray.length > 0 ? (
         <div className={styles.dashboardTabs}>
-          <Tabs
-            selectedIndex={selectedIndex}
-            onChange={handleTabChange}
-            dismissable
-            onTabCloseRequest={handleCloseTabRequest}
-          >
+          <Tabs selectedIndex={selectedIndex} onChange={handleTabChange} dismissable>
             <TabList aria-label="List of tabs">
-              {renderedTabs.map((tab, index) => (
+              {dashboardArray?.map((tab, index) => (
                 <Tab key={index}>{tab.label}</Tab>
               ))}
             </TabList>
-            <TabPanels>{renderedTabs.map((tab) => tab.panel)}</TabPanels>
+            <TabPanels>{dashboardArray?.map((tab) => tab.panel)}</TabPanels>
           </Tabs>
         </div>
       ) : (
@@ -171,7 +143,7 @@ const FacilityDashboard: React.FC<FacilityHomeProps> = () => {
           </Tile>
         </Layer>
       )}
-      {modelstate && (
+      {showModal && (
         <Modal
           open
           size="lg"
@@ -181,7 +153,7 @@ const FacilityDashboard: React.FC<FacilityHomeProps> = () => {
           preventCloseOnClickOutside={true}
           hasScrollingContent={true}
           onRequestClose={closeModal}
-          onRequestSubmit={addDashboard}
+          onRequestSubmit={handleSaveDashboard}
           className={styles.dashboardModal}
         >
           <div>
@@ -208,7 +180,7 @@ const FacilityDashboard: React.FC<FacilityHomeProps> = () => {
               id="item-to-element"
               onChange={handleDropdownSelect}
             />
-            {modalDashboard.map((item, index) => pivotRender(item))}
+            {modalDashboard.map((item, index) => pivotRender(item, index))}
           </div>
         </Modal>
       )}
@@ -217,3 +189,37 @@ const FacilityDashboard: React.FC<FacilityHomeProps> = () => {
 };
 
 export default FacilityDashboard;
+
+export const pivotRender = (report: savedReport, index: number) => {
+  const PlotlyRenderers = createPlotlyRenderers(Plot);
+  const pivotData = JSON.parse(report.report_request_object);
+
+  return (
+    <div className={styles.dashboardChartContainer} key={`item-${index++}`}>
+      <PivotTableUI
+        data={pivotData?.data}
+        renderers={{ ...TableRenderers, ...PlotlyRenderers }}
+        aggregatorName={pivotData?.aggregatorName}
+        rendererName={pivotData?.rendererName}
+        cols={pivotData?.cols}
+      />
+    </div>
+  );
+};
+
+export const itemsToRender = (report: savedReport) => {
+  let icon: any = null;
+  if (report.type.toLowerCase() === 'line chart') {
+    icon = <ChartLine />;
+  } else if (report.type.toLowerCase() === 'bar chart' || report.type.toLowerCase() === 'stacked column chart') {
+    icon = <ChartColumn />;
+  } else {
+    icon = <CrossTab />;
+  }
+
+  return (
+    <span>
+      {icon} {report.label}
+    </span>
+  );
+};
