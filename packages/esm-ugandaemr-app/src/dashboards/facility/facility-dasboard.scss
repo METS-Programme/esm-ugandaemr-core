@@ -103,3 +103,22 @@
   box-shadow: 0 0 3px 0 #999999fc;
   margin-bottom: spacing.$spacing-06;
 }
+
+.tabLabelWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.tabOverFlowMenu {
+  margin-left: -20px;
+}
+
+.tabHeaderText {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.dashboardItemTrash {
+  text-align: right;
+  margin: 5px;
+}

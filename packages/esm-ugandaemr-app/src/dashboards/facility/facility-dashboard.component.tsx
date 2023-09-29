@@ -6,7 +6,6 @@ import PivotTableUI from 'react-pivottable/PivotTableUI';
 import TableRenderers from 'react-pivottable/TableRenderers';
 import Plot from 'react-plotly.js';
 import createPlotlyRenderers from 'react-pivottable/PlotlyRenderers';
-import { Responsive, WidthProvider } from 'react-grid-layout';
 import {
   Button,
   Modal,
@@ -19,29 +18,51 @@ import {
   Layer,
   Tile,
   Dropdown,
+  OverflowMenu,
+  OverflowMenuItem,
 } from '@carbon/react';
-import { Add, ChartLine, ChartColumn, CrossTab } from '@carbon/react/icons';
+import { Add, ChartLine, ChartColumn, CrossTab, TrashCan } from '@carbon/react/icons';
 import { useGetSavedDashboards, useGetSaveReports, saveDashboard } from './facility-dashboard.resource';
 import pivotTableStyles from '!!raw-loader!react-pivottable/pivottable.css';
 import { showNotification, showToast } from '@openmrs/esm-framework';
 
 const FacilityDashboard: React.FC = () => {
-  const ResponsiveGridLayout = WidthProvider(Responsive);
-  const cellSpacing: number[] = [5, 5];
   const [dashboardTitle, setDashboardTitle] = useState<string | null>(null);
   const [dashboardDescription, setDashboardDescription] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const [canSaveDashboard, setCanSaveDashboard] = useState(false);
   const [modalDashboard, setModalDashboard] = useState<Array<savedReport>>([]);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const { savedReports } = useGetSaveReports();
+  const { mutate, dashboardArray } = useGetSavedDashboards();
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const handleTabChange = (evt) => {
+    setSelectedIndex(evt.selectedIndex);
+  };
+
+  const handleInputChange = (event) => {
+    setDashboardTitle(event.target.value);
+  };
+
+  const handleTextAreaChange = (event) => {
+    setDashboardDescription(event.target.value);
+  };
+
   const launchDashboardModal = () => {
     setShowModal(true);
   };
+
   const closeModal = useCallback(() => {
     setModalDashboard([]);
     setShowModal(false);
   }, []);
-  const { savedReports } = useGetSaveReports();
-  const { mutate, dashboardArray } = useGetSavedDashboards();
+
+  const handleDropdownSelect = (selectedReport) => {
+    setSelectedOption(selectedReport.selectedItem);
+    let newArray: Array<savedReport> = modalDashboard;
+    newArray.push(selectedReport.selectedItem);
+    setModalDashboard(newArray);
+  };
+
   const handleSaveDashboard = useCallback(() => {
     const getReportsInDashboard = (items) => {
       let reportArray = [];
@@ -77,26 +98,9 @@ const FacilityDashboard: React.FC = () => {
     );
   }, [dashboardTitle, dashboardDescription, modalDashboard, closeModal, mutate]);
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const handleTabChange = (evt) => {
-    setSelectedIndex(evt.selectedIndex);
-  };
-
-  const handleInputChange = (event) => {
-    setDashboardTitle(event.target.value);
-  };
-  const handleTextAreaChange = (event) => {
-    setDashboardDescription(event.target.value);
-  };
-
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const handleDropdownSelect = (selectedReport) => {
-    setSelectedOption(selectedReport.selectedItem);
-    let newArray: Array<savedReport> = modalDashboard;
-    newArray.push(selectedReport.selectedItem);
-    setModalDashboard(newArray);
-  };
+  const handleEditTab = () => {};
+  const handleDeleteTab = () => {};
+  const handleDeleteChart = () => {};
 
   useEffect(() => {
     const styleElement = document.createElement('style');
@@ -125,10 +129,20 @@ const FacilityDashboard: React.FC = () => {
 
       {dashboardArray.length > 0 ? (
         <div className={styles.dashboardTabs}>
-          <Tabs selectedIndex={selectedIndex} onChange={handleTabChange} dismissable>
+          <Tabs selectedIndex={selectedIndex} onChange={handleTabChange}>
             <TabList aria-label="List of tabs">
               {dashboardArray?.map((tab, index) => (
-                <Tab key={index}>{tab.label}</Tab>
+                <Tab key={index}>
+                  <div className={styles.tabLabelWrapper}>
+                    <div>
+                      <OverflowMenu className={styles.tabOverFlowMenu} align="bottom">
+                        <OverflowMenuItem itemText="Edit" onClick={handleEditTab} />
+                        <OverflowMenuItem itemText="Delete" onClick={handleDeleteTab} />
+                      </OverflowMenu>
+                    </div>
+                    <span className={styles.tabHeaderText}> {tab.label} </span>
+                  </div>
+                </Tab>
               ))}
             </TabList>
             <TabPanels>{dashboardArray?.map((tab) => tab.panel)}</TabPanels>
@@ -176,6 +190,7 @@ const FacilityDashboard: React.FC = () => {
               className={styles.dropdownContainer}
               items={[...savedReports]}
               itemToElement={(report) => itemsToRender(report)}
+              selectedItem={selectedOption}
               label="Select a report..."
               id="item-to-element"
               onChange={handleDropdownSelect}
@@ -190,12 +205,22 @@ const FacilityDashboard: React.FC = () => {
 
 export default FacilityDashboard;
 
-export const pivotRender = (report: savedReport, index: number) => {
+export const pivotRender = (report: savedReport, index: number, handleDeleteChart?: () => void) => {
   const PlotlyRenderers = createPlotlyRenderers(Plot);
   const pivotData = JSON.parse(report.report_request_object);
 
   return (
     <div className={styles.dashboardChartContainer} key={`item-${index++}`}>
+      <div className={styles.dashboardItemTrash}>
+        <Button
+          size="md"
+          kind="tertiary"
+          hasIconOnly
+          renderIcon={TrashCan}
+          iconDescription="Delete"
+          onClick={handleDeleteChart}
+        />
+      </div>
       <PivotTableUI
         data={pivotData?.data}
         renderers={{ ...TableRenderers, ...PlotlyRenderers }}
