@@ -3,6 +3,8 @@ import { openmrsFetch } from '@openmrs/esm-framework';
 import { systemInfo } from './system-info.types';
 import { useState, useEffect } from 'react';
 
+const facilityRegistryURL = 'https://nhfr-staging-api.planetsystems.co';
+
 export function useGetSystemInformation() {
   const apiUrl = `/ws/rest/v1/systeminformation?v=full`;
   const { data, error, isLoading } = useSWR<{ data: systemInfo }, Error>(apiUrl, openmrsFetch);
@@ -17,7 +19,7 @@ export function useGetSystemInformation() {
 export function useGetResourceInformation(type) {
   const [state, setState] = useState({});
   const [error, setError] = useState('');
-  const url = 'https://nhfr-staging-api.planetsystems.co/NHFRSearch?';
+  const url = `${facilityRegistryURL}/NHFRSearch?`;
   let param = '';
 
   switch (type) {
@@ -50,7 +52,7 @@ export function useGetResourceInformation(type) {
 }
 
 export async function getFacility(params) {
-  let url = 'https://nhfr-staging-api.planetsystems.co/NHFRSearch?resource=Location&type=healthFacility';
+  let url = `${facilityRegistryURL}/NHFRSearch?resource=Location&type=healthFacility`;
   const queryParams = new URLSearchParams();
 
   Object.keys(params).forEach((key) => {

@@ -24,4 +24,4 @@ export const REGISTRY_URL = 'https://nhfr-staging-api.planetsystems.co/nhfrApi/v
 export const REGISTRY_REGIONS_URL = 'https://nhfr-staging-api.planetsystems.co/nhfrApi/v0.0.1/externalSystem/by/Region';
 
 // privileges
-export const PRIVILEGE_UPDATE_FACILITY_CODE = '';
+export const PRIVILEGE_UPDATE_FACILITY_CODE = 'Update Facility Code';

@@ -151,7 +151,7 @@ const SystemInfoPage = () => {
   }, [facilityCodeDetails, facilityIds]);
 
   useEffect(() => {
-    if (facilityCodeDetails.uuid.length && facilityCodeDetails.value !== null) {
+    if (facilityCodeDetails.uuid !== null && facilityCodeDetails.value !== null) {
       updatePropertyValue(facilityCodeDetails.uuid, facilityCodeDetails.value).then(
         (response) => {
           showToast({
