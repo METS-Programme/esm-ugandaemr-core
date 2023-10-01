@@ -20,16 +20,16 @@ export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 }
 
-export const tbDashboardGroup = getSyncLifecycle(createDashboardGroup(TBDashboardMeta), options);
-
-//  screening dashboard
-export const contactTracingDashboardLink = getSyncLifecycle(
-  createDashboardLink({
-    ...contactTracingDashboardtMeta,
-    moduleName,
-  }),
-  options,
-);
+// export const tbDashboardGroup = getSyncLifecycle(createDashboardGroup(TBDashboardMeta), options);
+//
+// //  screening dashboard
+// export const contactTracingDashboardLink = getSyncLifecycle(
+//   createDashboardLink({
+//     ...contactTracingDashboardtMeta,
+//     moduleName,
+//   }),
+//   options,
+// );
 export const contactTracingDashboardExt = getAsyncLifecycle(
   () => import('./pages/screening/contact-tracing.component'),
   {
