@@ -1,9 +1,8 @@
 import useSWR from 'swr';
-import useSWRImmutable from 'swr/immutable';
 import { openmrsFetch } from '@openmrs/esm-framework';
 import { TabPanel } from '@carbon/react';
 import React from 'react';
-import { pivotRender } from './facility-dashboard.component';
+import { pivotRender } from './user-dashboard.component';
 type saveDashboardRequest = {
   name: string;
   description: string;

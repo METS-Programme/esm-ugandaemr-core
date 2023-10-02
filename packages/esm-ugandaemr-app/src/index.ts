@@ -2,7 +2,7 @@ import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 import { createDashboardLink } from './createDashboardLink';
-import { facilityHomeDashboardMeta, hieHomeDashboardMeta } from './dashboard.meta';
+import { hieHomeDashboardMeta } from './dashboard.meta';
 import {
   createOHRIPatientChartSideNavLink,
   patientChartDivider_dashboardMeta,
@@ -19,16 +19,13 @@ export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 }
 
-export const facilityDashboard = getAsyncLifecycle(
-  () => import('./dashboards/facility/facility-root.component'),
-  options,
-);
+export const userDashboard = getAsyncLifecycle(() => import('./dashboards/user/user-root.component'), options);
 
-export const facilityDashboardLink = getSyncLifecycle(
+export const userDashboardLink = getSyncLifecycle(
   createDashboardLink({
-    name: 'facility-dashboard',
-    slot: 'facility-dashboard-slot',
-    title: 'Facility Dashboard',
+    name: 'user-dashboard',
+    slot: 'user-dashboard-slot',
+    title: 'User Dashboard',
   }),
   options,
 );

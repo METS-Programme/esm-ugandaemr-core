@@ -51,19 +51,19 @@
       "component": "updateFacilityCodeAlert"
     },
     {
-      "name": "facility-dashboard-link",
-      "component": "facilityDashboardLink",
+      "name": "user-dashboard-link",
+      "component": "userDashboardLink",
       "slot": "homepage-dashboard-slot",
       "meta": {
-        "name": "facility-dashboard",
-        "slot": "facility-dashboard-slot",
-        "title": "Facility Dashboard"
+        "name": "user-dashboard",
+        "slot": "user-dashboard-slot",
+        "title": "User Dashboard"
       }
     },
     {
-      "component": "facilityDashboard",
-      "name": "facility-dashboard",
-      "slot": "facility-dashboard-slot"
+      "component": "userDashboard",
+      "name": "user-dashboard",
+      "slot": "user-dashboard-slot"
     }
   ]
 }

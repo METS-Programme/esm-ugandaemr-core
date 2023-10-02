@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import FacilityDashboardHeader from './components/facility-header/facility-dashboard-header.component';
+import UserDashboardHeader from './components/user-dashboard-header/user-dashboard-header.component';
 import EmptyStateIllustration from './empty-state-illustration.component';
-import styles from './facility-dasboard.scss';
+import styles from './user-dasboard.scss';
 import PivotTableUI from 'react-pivottable/PivotTableUI';
 import TableRenderers from 'react-pivottable/TableRenderers';
 import Plot from 'react-plotly.js';
@@ -22,11 +22,11 @@ import {
   OverflowMenuItem,
 } from '@carbon/react';
 import { Add, ChartLine, ChartColumn, CrossTab, TrashCan } from '@carbon/react/icons';
-import { useGetSavedDashboards, useGetSaveReports, saveDashboard } from './facility-dashboard.resource';
+import { useGetSavedDashboards, useGetSaveReports, saveDashboard } from './user-dashboard.resource';
 import pivotTableStyles from '!!raw-loader!react-pivottable/pivottable.css';
 import { showNotification, showToast } from '@openmrs/esm-framework';
 
-const FacilityDashboard: React.FC = () => {
+const UserDashboard: React.FC = () => {
   const [dashboardTitle, setDashboardTitle] = useState<string | null>(null);
   const [dashboardDescription, setDashboardDescription] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -114,7 +114,7 @@ const FacilityDashboard: React.FC = () => {
 
   return (
     <>
-      <FacilityDashboardHeader />
+      <UserDashboardHeader />
 
       <div className={styles.cardContainer}>
         <>
@@ -203,7 +203,7 @@ const FacilityDashboard: React.FC = () => {
   );
 };
 
-export default FacilityDashboard;
+export default UserDashboard;
 
 export const pivotRender = (report: savedReport, index: number, handleDeleteChart?: () => void) => {
   const PlotlyRenderers = createPlotlyRenderers(Plot);
