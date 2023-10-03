@@ -26,7 +26,7 @@ export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 }
 
-export const hivDashboardGroup = getSyncLifecycle(createDashboardGroup(hivDashboardMeta), options);
+/*export const hivDashboardGroup = getSyncLifecycle(createDashboardGroup(hivDashboardMeta), options);
 
 //  screening dashboard
 export const hivTestingDashboardLink = getSyncLifecycle(
@@ -35,7 +35,7 @@ export const hivTestingDashboardLink = getSyncLifecycle(
     moduleName,
   }),
   options,
-);
+);*/
 export const hivTestingDashboardExt = getAsyncLifecycle(() => import('./pages/hiv/prevention/prevention.component'), {
   featureName: 'hiv-testing-services',
   moduleName,

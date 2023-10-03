@@ -31,7 +31,7 @@ export function startupApp() {
 // pages
 
 // extensions
-export const familyHealthClinicDashboard = getSyncLifecycle(createDashboardGroup(familyHealthDashboardMeta), options);
+/*export const familyHealthClinicDashboard = getSyncLifecycle(createDashboardGroup(familyHealthDashboardMeta), options);
 
 export const mchDashboard = getSyncLifecycle(createDashboardLink({ ...mchDashboardMeta, moduleName }), options);
 
@@ -41,7 +41,7 @@ export const mchDashboardSummaryExt = getAsyncLifecycle(
     featureName: 'mch-dashboard-summary',
     moduleName,
   },
-);
+);*/
 
 export const childHealthDashboard = getSyncLifecycle(
   createDashboardLink({ ...childHealthDashboardMeta, moduleName }),

@@ -25,7 +25,7 @@ export function startupApp() {
   // TODO: these forms need to be deleted and moved to the backend
   addToBaseFormsRegistry(formsRegistry);
 }
-
+/*
 export const opdDashboardGroup = getSyncLifecycle(createDashboardGroup(opdDashboardMeta), options);
 
 //  Clinical Assessment dashboard
@@ -35,7 +35,7 @@ export const opdAssessmentDashboardLink = getSyncLifecycle(
     moduleName,
   }),
   options,
-);
+);*/
 
 export const opdAssessmentDashboardLinkExt = getAsyncLifecycle(
   () => import('./pages/opd/clinical-assessment.component'),

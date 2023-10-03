@@ -20,7 +20,7 @@ export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 }
 
-export const ipdDashboardGroup = getSyncLifecycle(createDashboardGroup(ipdDashboardMeta), options);
+/*export const ipdDashboardGroup = getSyncLifecycle(createDashboardGroup(ipdDashboardMeta), options);
 
 //  testing dashboard
 export const ipdTestingDashboardLink = getSyncLifecycle(
@@ -29,7 +29,7 @@ export const ipdTestingDashboardLink = getSyncLifecycle(
     moduleName,
   }),
   options,
-);
+);*/
 
 export const ipdTestDashboardLinkExt = getAsyncLifecycle(
   () => import('./pages/ipd/clinical/clinical-assessment.component'),
