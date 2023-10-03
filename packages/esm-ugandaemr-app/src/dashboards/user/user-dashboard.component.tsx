@@ -33,7 +33,7 @@ const UserDashboard: React.FC = () => {
   const [modalDashboard, setModalDashboard] = useState<Array<savedReport>>([]);
   const [selectedOption, setSelectedOption] = useState(null);
   const { savedReports } = useGetSaveReports();
-  const { mutate, dashboardArray } = useGetSavedDashboards();
+  const { mutate, dashboardItems } = useGetSavedDashboards();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const handleTabChange = (evt) => {
     setSelectedIndex(evt.selectedIndex);
@@ -127,11 +127,11 @@ const UserDashboard: React.FC = () => {
         </>
       </div>
 
-      {dashboardArray.length > 0 ? (
+      {dashboardItems.length > 0 ? (
         <div className={styles.dashboardTabs}>
           <Tabs selectedIndex={selectedIndex} onChange={handleTabChange}>
             <TabList aria-label="List of tabs">
-              {dashboardArray?.map((tab, index) => (
+              {dashboardItems?.map((tab, index) => (
                 <Tab key={index}>
                   <div className={styles.tabLabelWrapper}>
                     <div>
@@ -145,7 +145,7 @@ const UserDashboard: React.FC = () => {
                 </Tab>
               ))}
             </TabList>
-            <TabPanels>{dashboardArray?.map((tab) => tab.panel)}</TabPanels>
+            <TabPanels>{dashboardItems?.map((tab) => tab.panel)}</TabPanels>
           </Tabs>
         </div>
       ) : (
@@ -205,12 +205,17 @@ const UserDashboard: React.FC = () => {
 
 export default UserDashboard;
 
-export const pivotRender = (report: savedReport, index: number, handleDeleteChart?: () => void) => {
+export const pivotRender = (
+  report: savedReport,
+  index: number,
+  keyArray?: string[],
+  handleDeleteChart?: () => void,
+) => {
   const PlotlyRenderers = createPlotlyRenderers(Plot);
   const pivotData = JSON.parse(report.report_request_object);
 
   return (
-    <div className={styles.dashboardChartContainer} key={`item-${index++}`}>
+    <div className={styles.dashboardChartContainer} key={keyArray ? keyArray[index] : `key-${index}`}>
       <div className={styles.dashboardItemTrash}>
         <Button
           size="md"

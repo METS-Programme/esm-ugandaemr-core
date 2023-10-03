@@ -63,7 +63,7 @@
   width: 80%;
 }
 .dashboardTabs {
-  margin: 1.5rem;
+  margin-left: 1.5rem;
 }
 
 .layer {
@@ -102,6 +102,7 @@
   border: 1px solid #8080801f;
   box-shadow: 0 0 3px 0 #999999fc;
   margin-bottom: spacing.$spacing-06;
+  cursor: all-scroll;
 }
 
 .tabLabelWrapper {
