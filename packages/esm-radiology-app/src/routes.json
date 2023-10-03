@@ -20,6 +20,7 @@
       "name": "radiology-dashboard-link",
       "slot": "homepage-dashboard-slot",
       "component": "radiologyDashboardLink",
+      "order": 5,
       "meta": {
         "name": "radiology",
         "slot": "radiology-dashboard-slot",

@@ -1,24 +1,27 @@
-import React, { useMemo, useState } from 'react';
-
-import moment from 'moment';
+import React, { useMemo } from 'react';
 import {
   EncounterList,
   EncounterListColumn,
   PatientChartProps,
   getObsFromEncounter,
-} from '@ohri/openmrs-esm-ohri-commons-lib';
+} from '@ohri/openmrs-esm-ohri-commons-lib/src/index';
 import { useTranslation } from 'react-i18next';
-import { DR_TB_Enrollment_ENCOUNTER_TYPE, moduleName } from '../../../constants';
+import moment from 'moment';
+import {
+  CACX_Treatment_Screening_ENCOUNTER_TYPE,
+  Cervical_cancer_histology_results,
+  moduleName,
+} from '../../../constants';
 
-const DRTBEnrollmentList: React.FC<PatientChartProps> = ({ patientUuid }) => {
+const SMSReminderEnrollment: React.FC<PatientChartProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
-  const headerTitle = 'DR Enrollment';
+  const headerTitle = t('cacx_screening_treatment', 'Cervical Cancer Screening And Treatment');
 
   const columns: EncounterListColumn[] = useMemo(
     () => [
       {
         key: 'date',
-        header: t('encounterDate', 'Encounter Date'),
+        header: t('hivTestDate', 'Date of HIV Test'),
         getValue: (encounter) => {
           return moment(encounter.encounterDatetime).format('DD-MMM-YYYY');
         },
@@ -31,15 +34,15 @@ const DRTBEnrollmentList: React.FC<PatientChartProps> = ({ patientUuid }) => {
         },
       },
       {
-        key: 'hdstbResult',
-        header: t('dstbResult', 'DST Results'),
+        key: 'cacxHistology',
+        header: t('cacxHistology', 'Cervical cancer histology results'),
         getValue: (encounter) => {
-          return getObsFromEncounter(encounter, '--');
+          return getObsFromEncounter(encounter, Cervical_cancer_histology_results);
         },
       },
       {
         key: 'provider',
-        header: t('htsProvider', 'Provider'),
+        header: t('htsProvider', 'HTS Provider'),
         getValue: (encounter) => {
           return encounter.encounterProviders.map((p) => p.provider.name).join(' | ');
         },
@@ -51,14 +54,14 @@ const DRTBEnrollmentList: React.FC<PatientChartProps> = ({ patientUuid }) => {
         getValue: (encounter) => {
           const baseActions = [
             {
-              form: { name: 'DR TB Enrollment Form' },
+              form: { name: 'Screening and Cancer Treatment Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: t('viewDetails', 'View Details'),
               mode: 'view',
             },
             {
-              form: { name: 'DR TB Enrollment Form' },
+              form: { name: 'Screening and Cancer Treatment Form' },
               encounterUuid: encounter.uuid,
               intent: '*',
               label: t('editForm', 'Edit Form'),
@@ -75,8 +78,8 @@ const DRTBEnrollmentList: React.FC<PatientChartProps> = ({ patientUuid }) => {
   return (
     <EncounterList
       patientUuid={patientUuid}
-      encounterType={DR_TB_Enrollment_ENCOUNTER_TYPE}
-      formList={[{ name: 'DR TB Enrollment Form' }]}
+      encounterType={CACX_Treatment_Screening_ENCOUNTER_TYPE}
+      formList={[{ name: 'Screening and Cancer Treatment Form' }]}
       columns={columns}
       description={headerTitle}
       headerTitle={headerTitle}
@@ -88,4 +91,4 @@ const DRTBEnrollmentList: React.FC<PatientChartProps> = ({ patientUuid }) => {
   );
 };
 
-export default DRTBEnrollmentList;
+export default SMSReminderEnrollment;

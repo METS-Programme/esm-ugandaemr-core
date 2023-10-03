@@ -13,6 +13,10 @@
       "component": "queueScreen",
       "route": "patient-queues/screen"
     }
+    ,{
+      "component": "testScreen",
+      "route":"form-render-test"
+    }
   ],
   "extensions": [
     {
@@ -24,6 +28,7 @@
       "name": "patient-queues-dashboard-link",
       "component": "patientQueuesDashboardLink",
       "slot": "homepage-dashboard-slot",
+      "order": 1,
       "privilege":[
         "Queue Patients"
       ],

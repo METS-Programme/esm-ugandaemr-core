@@ -4,7 +4,7 @@ import useSWR from 'swr';
 import { PatientQueue } from '../types/patient-queues';
 
 export function usePatientQueuesList(currentQueueRoomLocationUuid: string) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&status=pending`;
+  const apiUrl = `/ws/rest/v1/patientqueue?v=full&status=pending&parentLocation=${currentQueueRoomLocationUuid}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,

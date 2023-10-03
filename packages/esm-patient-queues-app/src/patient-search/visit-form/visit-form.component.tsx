@@ -145,6 +145,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
                 nextQueueLocationUuid,
                 patientUuid,
                 contentSwitcherIndex,
+                '',
                 status,
                 selectedLocation,
                 priorityComment,

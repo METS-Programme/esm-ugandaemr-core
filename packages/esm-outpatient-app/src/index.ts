@@ -6,6 +6,7 @@ import { moduleName } from './constants';
 import {
   PalliativeDashboardtMeta,
   assessmentDashboardtMeta,
+  opdCacxDashboardMeta,
   opdDashboardMeta,
   opdEmergencyDashboardMeta,
   treatmentDashboardtMeta,
@@ -24,7 +25,7 @@ export function startupApp() {
   // TODO: these forms need to be deleted and moved to the backend
   addToBaseFormsRegistry(formsRegistry);
 }
-
+/*
 export const opdDashboardGroup = getSyncLifecycle(createDashboardGroup(opdDashboardMeta), options);
 
 //  Clinical Assessment dashboard
@@ -34,7 +35,7 @@ export const opdAssessmentDashboardLink = getSyncLifecycle(
     moduleName,
   }),
   options,
-);
+);*/
 
 export const opdAssessmentDashboardLinkExt = getAsyncLifecycle(
   () => import('./pages/opd/clinical-assessment.component'),
@@ -88,6 +89,18 @@ export const opdEmergencyDashboardLinkExt = getAsyncLifecycle(
   () => import('./pages/opd/Emergency/emergency-unit-form.component'),
   {
     featureName: 'opd-dashboard-ext',
+    moduleName,
+  },
+);
+
+export const opdCacxDashboardMetaLink = getSyncLifecycle(
+  createDashboardLink({ ...opdCacxDashboardMeta, moduleName }),
+  options,
+);
+export const opdCacxDashboardMetaExt = getAsyncLifecycle(
+  () => import('./pages/opd/cervical-cancer/cacx-screening-treatment.component'),
+  {
+    featureName: 'opd-cacx-screening',
     moduleName,
   },
 );

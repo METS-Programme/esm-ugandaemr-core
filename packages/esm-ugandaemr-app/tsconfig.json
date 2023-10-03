@@ -1,5 +1,5 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "../esm-patient-queues-app/src/post-submission-actions"],
   "exclude": ["src/**/*.test.tsx", "src/**/*.outdated.tsx"]
 }

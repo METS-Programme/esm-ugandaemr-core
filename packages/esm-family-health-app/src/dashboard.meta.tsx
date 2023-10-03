@@ -56,3 +56,11 @@ export const nutritionDashboardMeta = {
   title: 'Nutrition',
   path: 'nutrition',
 };
+
+// Cervical Cancer Screening
+export const cacxDashboardMeta = {
+  slot: 'cacx-dashboard-slot',
+  config: { columns: 1, type: 'grid' },
+  title: 'Cervical Cancer Screening',
+  path: 'cervical-cancer-screening',
+};

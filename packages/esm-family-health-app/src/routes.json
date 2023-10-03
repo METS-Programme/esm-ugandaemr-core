@@ -100,6 +100,22 @@
       "name": "family-planning-dashboard-ext",
       "slot": "family-planning-dashboard-slot",
       "component": "familyPlanningDashboardExt"
+    },    {
+      "name": "cervical-cancer-dashboard",
+      "slot": "family-health-dashboard-slot",
+      "component": "cacxDashboard",
+      "meta": {
+        "slot": "cacx-dashboard-slot",
+        "columns": 1,
+        "title": "Cervical Cancer",
+        "path": "cervical-cancer-screening",
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "cacx-summary-ext",
+      "slot": "cacx-dashboard-slot",
+      "component": "cacxDashboardExt"
     }
   ]
 }

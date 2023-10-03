@@ -54,3 +54,10 @@ export const htsSummaryDashboardMeta = {
   title: 'HIV Testing Services',
   path: 'hiv-testing-services',
 };
+
+export const hivCacxDashboardMeta = {
+  slot: 'hiv-cacx-screening-slot',
+  columns: 1,
+  title: 'Cervical Cancer Screening',
+  path: 'hiv-cacx-screening',
+};

@@ -5,6 +5,7 @@ import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-
 import {
   clinicalVisitsDashboardMeta,
   generalCounsellingDashboardMeta,
+  hivCacxDashboardMeta,
   hivDashboardMeta,
   hivPatientSummaryDashboardMeta,
   hivTestingDashboardtMeta,
@@ -25,7 +26,7 @@ export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 }
 
-export const hivDashboardGroup = getSyncLifecycle(createDashboardGroup(hivDashboardMeta), options);
+/*export const hivDashboardGroup = getSyncLifecycle(createDashboardGroup(hivDashboardMeta), options);
 
 //  screening dashboard
 export const hivTestingDashboardLink = getSyncLifecycle(
@@ -34,7 +35,7 @@ export const hivTestingDashboardLink = getSyncLifecycle(
     moduleName,
   }),
   options,
-);
+);*/
 export const hivTestingDashboardExt = getAsyncLifecycle(() => import('./pages/hiv/prevention/prevention.component'), {
   featureName: 'hiv-testing-services',
   moduleName,
@@ -103,6 +104,18 @@ export const partnerNotificationServicesDashboard = getAsyncLifecycle(
   () => import('./pages/hiv/partner-notification-services/partner-notification-services.component'),
   {
     featureName: 'partner-notification-services',
+    moduleName,
+  },
+);
+
+export const hivCacxDashboardMetaLink = getSyncLifecycle(
+  createDashboardLink({ ...hivCacxDashboardMeta, moduleName }),
+  options,
+);
+export const hivCacxDashboardMetaExt = getAsyncLifecycle(
+  () => import('./pages/hiv/cervical-cancer/cacx-screening-treatment.component'),
+  {
+    featureName: 'hiv-cacx-screening',
     moduleName,
   },
 );
