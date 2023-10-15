@@ -7,18 +7,21 @@ import {
   PRIVILEGE_RECEPTION_QUEUE_LIST,
   PRIVILEGE_TRIAGE_QUEUE_LIST,
 } from './constants';
-import PatientQueueHeader from './patient-queue-header/patient-queue-header.component';
 import ClinicMetrics from './patient-queue-metrics/clinic-metrics.component';
 import QueueLauncher from './queue-launcher/queue-launcher.component';
+import { useTranslation } from 'react-i18next';
+import { HomeHeader } from '@ugandaemr/esm-ugandaemr-commons-lib/src/index';
+import { Events } from '@carbon/react/icons';
 
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = (props) => {
   const session = useSession();
+  const { t } = useTranslation();
 
   return (
     <div>
-      <PatientQueueHeader />
+      <HomeHeader headerTitle={t('patientqueues', 'Patient queue')} icon={<Events size={16} />} />
       <UserHasAccess privilege={PRIVILEGE_RECEPTION_QUEUE_LIST}>
         <QueueLauncher />
       </UserHasAccess>

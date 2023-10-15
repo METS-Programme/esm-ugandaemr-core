@@ -2,8 +2,9 @@ import React from 'react';
 import { DataTableSkeleton } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import { useActiveTickets } from './useActiveTickets';
-import PatientQueueHeader from '../patient-queue-header/patient-queue-header.component';
 import styles from './queue-screen.scss';
+import { HomeHeader } from '@ugandaemr/esm-ugandaemr-commons-lib/src/index';
+import { Events } from '@carbon/react/icons';
 
 interface QueueScreenProps {}
 
@@ -28,13 +29,13 @@ const QueueScreen: React.FC<QueueScreenProps> = () => {
 
   return (
     <div>
-      <PatientQueueHeader />
+      <HomeHeader headerTitle={t('patientqueues', 'Patient queue')} icon={<Events size={16} />} />
       <div className={styles.gridFlow}>
         {rowData.map((row) => (
           <div className={styles.card}>
-            <p className={styles.subHeader}>{t('ticketNumber', 'Ticket number')}</p>
+            <p className={styles.subheader}>{t('ticketNumber', 'Ticket number')}</p>
             <p className={row.status === 'calling' ? styles.headerBlinking : styles.header}>{row.ticketNumber}</p>
-            <p className={styles.subHeader}>
+            <p className={styles.subheader}>
               {t('room', 'Room')} &nbsp; : &nbsp; {row.room}
             </p>
           </div>

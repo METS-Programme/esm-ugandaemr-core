@@ -1,4 +1,4 @@
-import { EmptyStateComingSoon } from '@ohri/openmrs-esm-ohri-commons-lib';
+import { EmptyStateComingSoon } from '@ugandaemr/esm-ugandaemr-commons-lib/src/index';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 

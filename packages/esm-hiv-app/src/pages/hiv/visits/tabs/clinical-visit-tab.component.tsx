@@ -1,6 +1,10 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { EncounterListColumn, getObsFromEncounter, EncounterList } from '@ohri/openmrs-esm-ohri-commons-lib';
+import {
+  EncounterListColumn,
+  getObsFromEncounter,
+  EncounterList,
+} from '@ugandaemr/esm-ugandaemr-commons-lib/src/index';
 import {
   clinicalVisitEncounterType,
   dateOfEncounterConcept,

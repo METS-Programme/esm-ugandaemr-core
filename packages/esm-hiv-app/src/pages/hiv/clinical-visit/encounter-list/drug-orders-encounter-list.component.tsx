@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { EmptyState } from '@ohri/openmrs-esm-ohri-commons-lib';
+import { EmptyState } from '@ugandaemr/esm-ugandaemr-commons-lib/src/index';
 
 interface OverviewListProps {
   patientUuid: string;
