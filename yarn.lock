@@ -6849,8 +6849,8 @@ __metadata:
   linkType: soft
 
 "@ugandaemr/esm-ugandaemr-commons-lib@npm:next":
-  version: 1.0.1-pre.40
-  resolution: "@ugandaemr/esm-ugandaemr-commons-lib@npm:1.0.1-pre.40"
+  version: 1.0.1-pre.42
+  resolution: "@ugandaemr/esm-ugandaemr-commons-lib@npm:1.0.1-pre.42"
   dependencies:
     "@carbon/react": ^1.33.1
     "@openmrs/openmrs-form-engine-lib": next
@@ -6866,7 +6866,7 @@ __metadata:
     dayjs: ^1.8.16
     react: ^18.2.0
     react-i18next: ^11.18.6
-  checksum: 02a6c6d631509332d210217f197cca863c182706acfc7c70fe65e13f58a76818a18f397706ac09739f80e807813bf4099c48afcb2a7402b04b646835bca9b1cc
+  checksum: 53b42fa9fd80bd26ade8be26aae3b20db9e9df3ae410986c335df165be5dedf1d9e85d5b60f4b46ac4f21aed732fb164ffa96f66b8e90afe490b52dd0d858562
   languageName: node
   linkType: hard
 
