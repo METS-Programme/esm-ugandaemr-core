@@ -77,13 +77,13 @@ export const clinicalVisitsDashboardLink = getSyncLifecycle(
   createDashboardLink({ ...clinicalVisitsDashboardMeta, moduleName }),
   options,
 );
-export const clinicalVisitsDashboard = getAsyncLifecycle(
-  () => import('./pages/hiv/visits/tabs/clinical-visit-tab.component'),
-  {
-    featureName: 'visits-summary',
-    moduleName,
-  },
-);
+// export const clinicalVisitsDashboard = getAsyncLifecycle(
+//   () => import('./pages/hiv/visits/tabs/clinical-visit-tab.component'),
+//   {
+//     featureName: 'visits-summary',
+//     moduleName,
+//   },
+// );
 export const generalCounsellingDashboardLink = getSyncLifecycle(
   createDashboardLink({ ...generalCounsellingDashboardMeta, moduleName }),
   options,

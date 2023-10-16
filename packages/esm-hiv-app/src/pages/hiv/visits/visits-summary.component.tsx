@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs, Tab, TabList, TabPanels, TabPanel } from '@carbon/react';
 import styles from '../../common.scss';
-import ClinicalVisitList from './tabs/clinical-visit-tab.component';
+// import ClinicalVisitList from './tabs/clinical-visit-tab.component';
 import ExpressVisitList from './tabs/express-visit-tab.component';
 import { useTranslation } from 'react-i18next';
 
@@ -19,9 +19,9 @@ const VisitsSummary: React.FC<OverviewListProps> = ({ patientUuid }) => {
           {/* <Tab>{t('expressVisit', 'Express Visit')}</Tab> */}
         </TabList>
         <TabPanels>
-          <TabPanel>
-            <ClinicalVisitList patientUuid={patientUuid} />
-          </TabPanel>
+          {/*<TabPanel>*/}
+          {/*  <ClinicalVisitList patientUuid={patientUuid} />*/}
+          {/*</TabPanel>*/}
           <TabPanel>
             <ExpressVisitList patientUuid={patientUuid} />
           </TabPanel>
