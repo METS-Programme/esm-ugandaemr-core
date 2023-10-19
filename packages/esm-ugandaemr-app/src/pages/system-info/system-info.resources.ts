@@ -1,9 +1,8 @@
 import useSWR from 'swr';
-import { openmrsFetch } from '@openmrs/esm-framework';
+import { FetchResponse, openmrsFetch, useConfig } from '@openmrs/esm-framework';
 import { systemInfo } from './system-info.types';
 import { useState, useEffect } from 'react';
-
-const facilityRegistryURL = 'https://nhfr-staging-api.planetsystems.co';
+import { PropertyResponse } from './types';
 
 export function useGetSystemInformation() {
   const apiUrl = `/ws/rest/v1/systeminformation?v=full`;
@@ -16,10 +15,11 @@ export function useGetSystemInformation() {
   };
 }
 
-export function useGetResourceInformation(type) {
+export function useGetResourceInformation(type, facilityUrl: string) {
   const [state, setState] = useState({});
   const [error, setError] = useState('');
-  const url = `${facilityRegistryURL}/NHFRSearch?`;
+
+  const url = `${facilityUrl}/search?`;
   let param = '';
 
   switch (type) {
@@ -51,8 +51,8 @@ export function useGetResourceInformation(type) {
   return { data: state, error: error };
 }
 
-export async function getFacility(params) {
-  let url = `${facilityRegistryURL}/NHFRSearch?resource=Location&type=healthFacility`;
+export async function getFacility(params, facilityUrl: string) {
+  let url = `${facilityUrl}/search?resource=Location&type=healthFacility`;
   const queryParams = new URLSearchParams();
 
   Object.keys(params).forEach((key) => {
@@ -128,3 +128,17 @@ export async function updatePropertyValue(propertyUuid: string, value: string) {
     },
   });
 }
+
+export function getGlobalPropertyValue(property: string) {
+  const abortController = new AbortController();
+
+  return openmrsFetch(`/ws/rest/v1/systemsetting?q=${property}&v=full`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    signal: abortController.signal,
+  });
+}
+
+// global p
