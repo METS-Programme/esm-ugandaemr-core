@@ -1,9 +1,9 @@
 import { Type } from '@openmrs/esm-framework';
 
 export const configSchema = {
-  nhfrUrl: {
+  nhfrGlobalPropertyValueName: {
     _type: Type.String,
-    _default: 'https://nhfr-staging-api.planetsystems.co/NHFRSearch?',
+    _default: 'ugandaemrsync.nhfr.facility.url',
     _description: 'Whether to use a casual greeting (or a formal one).',
   },
   nhcrUrl: {
@@ -14,6 +14,6 @@ export const configSchema = {
 };
 
 export type Config = {
-  nhfrUrl: String;
+  nhfrGlobalPropertyValueName: String;
   nhcrUrl: String;
 };
