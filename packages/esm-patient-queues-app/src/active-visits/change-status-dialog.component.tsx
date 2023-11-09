@@ -213,7 +213,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               description: t('movetonextqueue', 'Move to next queue successfully'),
             });
             //pick and route
-            const status = 'Picked';
+            const status = 'picked';
             updateQueueEntry(status, provider, currentEntry?.id, contentSwitcherIndex, priorityComment, 'comment').then(
               () => {
                 // view patient summary
