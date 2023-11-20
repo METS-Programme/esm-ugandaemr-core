@@ -24,8 +24,8 @@ import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 import styles from './change-status-dialog.scss';
 
 interface ChangeStatusDialogProps {
-  queueEntry?: MappedQueueEntry;
-  currentEntry?: MappedQueueEntry;
+  queueEntry: MappedQueueEntry;
+  currentEntry: MappedQueueEntry;
   closeModal: () => void;
 }
 
@@ -213,7 +213,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               description: t('movetonextqueue', 'Move to next queue successfully'),
             });
             //pick and route
-            const status = 'Picked';
+            const status = 'picked';
             updateQueueEntry(status, provider, currentEntry?.id, contentSwitcherIndex, priorityComment, 'comment').then(
               () => {
                 // view patient summary
@@ -279,9 +279,10 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                   <ArrowDown size={20} />
                 </div>
               </div>
-              {currentEntry ? (
+              {currentEntry?.name ? (
                 <h5 className={styles.section}>
-                  {currentEntry.name} &nbsp; · &nbsp;{currentEntry.patientSex} &nbsp; · &nbsp;{currentEntry.patientAge}
+                  {currentEntry?.name} &nbsp; · &nbsp;{currentEntry?.patientSex} &nbsp; · &nbsp;
+                  {currentEntry?.patientAge}
                   &nbsp;
                   {t('years', 'Years')}
                 </h5>
@@ -298,10 +299,15 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                   <ArrowUp size={20} />
                 </div>
               </div>
-              <h5 className={styles.section}>
-                {queueEntry.name} &nbsp; · &nbsp;{queueEntry.patientSex} &nbsp; · &nbsp;{queueEntry.patientAge}&nbsp;
-                {t('years', 'Years')}
-              </h5>
+              {queueEntry?.name ? (
+                <h5 className={styles.section}>
+                  {queueEntry?.name} &nbsp; · &nbsp;{queueEntry?.patientSex} &nbsp; · &nbsp;{queueEntry?.patientAge}
+                  &nbsp;
+                  {t('years', 'Years')}
+                </h5>
+              ) : (
+                '--'
+              )}
             </div>
             <section className={styles.section}>
               <div className={styles.sectionTitle}>{t('priority', 'Priority')}</div>

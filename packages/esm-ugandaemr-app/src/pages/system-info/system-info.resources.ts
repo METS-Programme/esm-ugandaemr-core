@@ -19,7 +19,7 @@ export function useGetResourceInformation(type, facilityUrl: string) {
   const [state, setState] = useState({});
   const [error, setError] = useState('');
 
-  const url = `${facilityUrl}/search?`;
+  const url = `${facilityUrl}?`;
   let param = '';
 
   switch (type) {
@@ -52,7 +52,7 @@ export function useGetResourceInformation(type, facilityUrl: string) {
 }
 
 export async function getFacility(params, facilityUrl: string) {
-  let url = `${facilityUrl}/search?resource=Location&type=healthFacility`;
+  let url = `${facilityUrl}?resource=Location&type=healthFacility`;
   const queryParams = new URLSearchParams();
 
   Object.keys(params).forEach((key) => {
