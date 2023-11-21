@@ -11,7 +11,7 @@ interface Reason {
 }
 
 export const useRegimenReason = () => {
-  const regimenReasonUrl = `/ws/rest/v1/kenyaemr/regimenReason`;
+  const regimenReasonUrl = `/ws/rest/v1/regimenReason`;
   const { data, mutate, error, isLoading } = useSWR<{ data: { results: Array<RegimenReason> } }>(
     regimenReasonUrl,
     openmrsFetch,

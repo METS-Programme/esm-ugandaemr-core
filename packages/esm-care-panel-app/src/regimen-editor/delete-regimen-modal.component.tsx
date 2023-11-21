@@ -38,10 +38,10 @@ const DeleteRegimenModal: React.FC<DeleteRegimenModalProps> = ({
               description: t('regimenDeletedSuccessfully', 'Regimen successfully'),
               title: t('regimenDeleted', 'Regimen deleted'),
             });
-            mutate(`/ws/rest/v1/kenyaemr/regimenHistory?patientUuid=${patientUuid}&category=${category}`);
-            mutate(`/ws/rest/v1/kenyaemr/currentProgramDetails?patientUuid=${patientUuid}`);
-            mutate(`/ws/rest/v1/kenyaemr/patientSummary?patientUuid=${patientUuid}`);
-            mutate(`/ws/rest/v1/kenyaemr/lastRegimenEncounter?patientUuid=${patientUuid}&category=${category}`);
+            mutate(`/ws/rest/v1/regimenHistory?patientUuid=${patientUuid}&category=${category}`);
+            mutate(`/ws/rest/v1/currentProgramDetails?patientUuid=${patientUuid}`);
+            mutate(`/ws/rest/v1/patientSummary?patientUuid=${patientUuid}`);
+            mutate(`/ws/rest/v1/lastRegimenEncounter?patientUuid=${patientUuid}&category=${category}`);
             closeWorkspace?.();
           }
         })

@@ -7,7 +7,7 @@ interface nonStandardRegimen {
 }
 
 export const useNonStandardRegimen = () => {
-  const nonStandardRegimenUrl = `/ws/rest/v1/kenyaemr/arvDrugs`;
+  const nonStandardRegimenUrl = `/ws/rest/v1/arvDrugs`;
   const { data, mutate, error, isLoading } = useSWR<{ data: { results: Array<nonStandardRegimen> } }>(
     nonStandardRegimenUrl,
     openmrsFetch,
