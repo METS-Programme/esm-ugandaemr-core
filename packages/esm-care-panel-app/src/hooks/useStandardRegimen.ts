@@ -18,7 +18,7 @@ interface Regimen {
 }
 
 export const useStandardRegimen = () => {
-  const standardRegimenUrl = `/ws/rest/v1/kenyaemr/standardRegimen`;
+  const standardRegimenUrl = `/ws/rest/v1/standardRegimen`;
   const { data, mutate, error, isLoading } = useSWR<{ data: { results: Array<StandardRegimen> } }>(
     standardRegimenUrl,
     openmrsFetch,

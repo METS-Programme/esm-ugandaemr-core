@@ -3,7 +3,7 @@ import { configSchema } from './config-schema';
 import { dashboardMeta } from './dashboard.meta';
 import { createDashboardLink, registerWorkspace } from '@openmrs/esm-patient-common-lib';
 
-const moduleName = '@kenyaemr/esm-care-panel-app';
+const moduleName = '@ugandaemr/esm-care-panel-app';
 
 const options = {
   featureName: 'patient-care-panels',
