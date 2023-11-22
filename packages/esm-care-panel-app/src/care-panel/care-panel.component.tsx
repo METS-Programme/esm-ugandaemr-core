@@ -20,7 +20,7 @@ interface CarePanelProps {
 
 type SwitcherItem = {
   index: number;
-  name?: string;
+  display?: string;
   text?: string;
 };
 
@@ -30,8 +30,8 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
   const switcherHeaders = sortBy(Object.keys(enrollments || {}));
   const [switchItem, setSwitcherItem] = useState<SwitcherItem>({ index: 0 });
   const patientEnrollments = useMemo(
-    () => (isLoading ? [] : enrollments[switchItem?.name || first(switcherHeaders)]),
-    [enrollments, isLoading, switchItem?.name, switcherHeaders],
+    () => (isLoading ? [] : enrollments[switchItem?.display || first(switcherHeaders)]),
+    [enrollments, isLoading, switchItem?.display, switcherHeaders],
   );
 
   if (isLoading) {
