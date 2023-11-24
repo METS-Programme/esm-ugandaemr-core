@@ -21,7 +21,7 @@ import {
   ErrorState,
 } from '@openmrs/esm-patient-common-lib';
 import { useTranslation } from 'react-i18next';
-import { PatientCarePrograms, useCarePrograms } from '../hooks/useCarePrograms';
+import { Result, useCarePrograms } from '../hooks/useCarePrograms';
 import { formatDate, useLayoutType, useVisit } from '@openmrs/esm-framework';
 import capitalize from 'lodash/capitalize';
 import { mutate } from 'swr';
@@ -39,7 +39,7 @@ const CarePrograms: React.FC<CareProgramsProps> = ({ patientUuid }) => {
   const isTablet = useLayoutType() === 'tablet';
 
   const handleCareProgramClick = useCallback(
-    (careProgram: PatientCarePrograms) => {
+    (careProgram: Result) => {
       const isEnrolled = careProgram.enrollmentStatus === 'active';
       const formUuid = isEnrolled ? careProgram.discontinuationFormUuid : careProgram.enrollmentFormUuid;
       const workspaceTitle = isEnrolled
