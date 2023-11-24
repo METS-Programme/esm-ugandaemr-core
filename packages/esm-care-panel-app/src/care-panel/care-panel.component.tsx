@@ -85,8 +85,8 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
           </div>
         </CardHeader>
         <div style={{ width: '100%', minHeight: '20rem' }}>
-          <ProgramSummary patientUuid={patientUuid} programName={enrolmentPrograms[switchItem?.display]} />
-          <RegimenHistory patientUuid={patientUuid} category={enrolmentPrograms[switchItem?.display]} />
+          {/* <ProgramSummary patientUuid={patientUuid} programName={enrolmentPrograms[switchItem?.display]} /> */}
+          {/* <RegimenHistory patientUuid={patientUuid} category={enrolmentPrograms[switchItem?.display]} /> */}
           <ProgramEnrollment
             patientUuid={patientUuid}
             programName={enrolmentPrograms[switchItem?.display]}
