@@ -24,8 +24,8 @@ import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 import styles from './change-status-dialog.scss';
 
 interface ChangeStatusDialogProps {
-  queueEntry?: MappedQueueEntry;
-  currentEntry?: MappedQueueEntry;
+  queueEntry: MappedQueueEntry;
+  currentEntry: MappedQueueEntry;
   closeModal: () => void;
 }
 
@@ -58,12 +58,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   useEffect(() => {
     getCareProvider(sessionUser?.user?.systemId).then(
       (response) => {
-        showToast({
-          critical: true,
-          title: t('gotProvider', `Got Provider`),
-          kind: 'success',
-          description: t('getProvider', `Got Provider ${response?.data?.results[0].uuid}`),
-        });
         setProvider(response?.data?.results[0].uuid);
         mutate();
       },
@@ -122,7 +116,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
       event.preventDefault();
       const comment = event?.target['nextNotes']?.value ?? 'Not Set';
       const status = 'Completed';
-      updateQueueEntry(status, provider, queueEntry?.id, priorityComment, comment).then(
+      updateQueueEntry(status, provider, queueEntry?.id, contentSwitcherIndex, priorityComment, comment).then(
         () => {
           showToast({
             critical: true,
@@ -143,7 +137,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
         },
       );
     },
-    [closeModal, mutate, priorityComment, provider, queueEntry?.id, t],
+    [closeModal, contentSwitcherIndex, mutate, priorityComment, provider, queueEntry?.id, t],
   );
 
   // change to picked
@@ -155,7 +149,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
       if (status === 'pending') {
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-        updateQueueEntry(status, provider, queueEntry?.id, priorityComment, comment).then(
+        updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, comment).then(
           () => {
             showToast({
               critical: true,
@@ -179,7 +173,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
         const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
 
-        updateQueueEntry('Completed', provider, queueEntry?.id, priorityComment, comment).then(
+        updateQueueEntry('Completed', provider, queueEntry?.id, contentSwitcherIndex, priorityComment, comment).then(
           () => {
             showToast({
               critical: true,
@@ -219,8 +213,8 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               description: t('movetonextqueue', 'Move to next queue successfully'),
             });
             //pick and route
-            const status = 'Picked';
-            updateQueueEntry(status, provider, currentEntry?.id, priorityComment, 'comment').then(
+            const status = 'picked';
+            updateQueueEntry(status, provider, currentEntry?.id, contentSwitcherIndex, priorityComment, 'comment').then(
               () => {
                 // view patient summary
                 navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry.patientUuid}/chart` });
@@ -285,11 +279,17 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                   <ArrowDown size={20} />
                 </div>
               </div>
-              <h5 className={styles.section}>
-                {currentEntry.name} &nbsp; · &nbsp;{currentEntry.patientSex} &nbsp; · &nbsp;{currentEntry.patientAge}
-                &nbsp;
-                {t('years', 'Years')}
-              </h5>
+              {currentEntry?.name ? (
+                <h5 className={styles.section}>
+                  {currentEntry?.name} &nbsp; · &nbsp;{currentEntry?.patientSex} &nbsp; · &nbsp;
+                  {currentEntry?.patientAge}
+                  &nbsp;
+                  {t('years', 'Years')}
+                </h5>
+              ) : (
+                '--'
+              )}
+
               <br></br>
               <hr />
               <br></br>
@@ -299,10 +299,15 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                   <ArrowUp size={20} />
                 </div>
               </div>
-              <h5 className={styles.section}>
-                {queueEntry.name} &nbsp; · &nbsp;{queueEntry.patientSex} &nbsp; · &nbsp;{queueEntry.patientAge}&nbsp;
-                {t('years', 'Years')}
-              </h5>
+              {queueEntry?.name ? (
+                <h5 className={styles.section}>
+                  {queueEntry?.name} &nbsp; · &nbsp;{queueEntry?.patientSex} &nbsp; · &nbsp;{queueEntry?.patientAge}
+                  &nbsp;
+                  {t('years', 'Years')}
+                </h5>
+              ) : (
+                '--'
+              )}
             </div>
             <section className={styles.section}>
               <div className={styles.sectionTitle}>{t('priority', 'Priority')}</div>

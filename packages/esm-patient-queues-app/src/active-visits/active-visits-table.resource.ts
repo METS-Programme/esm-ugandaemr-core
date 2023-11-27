@@ -332,6 +332,7 @@ export async function updateQueueEntry(
   status: string,
   providerUuid: string,
   queueUuid: string,
+  priority: number,
   priorityComment: string,
   comment: string,
 ) {
@@ -348,6 +349,7 @@ export async function updateQueueEntry(
         uuid: providerUuid,
       },
       status: status,
+      priority: priority ? priority : 0,
       priorityComment: priorityComment === 'Urgent' ? 'Priority' : priorityComment,
       comment: comment,
     },
