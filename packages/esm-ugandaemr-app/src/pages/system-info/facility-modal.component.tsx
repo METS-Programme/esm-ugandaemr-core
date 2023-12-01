@@ -13,9 +13,15 @@ import {
 } from '@carbon/react';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getFacility, handleFacilityResponse, useGetResourceInformation } from './system-info.resources';
+import {
+  getFacility,
+  getGlobalPropertyValue,
+  handleFacilityResponse,
+  useGetResourceInformation,
+} from './system-info.resources';
 import { extractResourceInfo } from './system-info.utils';
 import styles from './system-info.scss';
+import { useConfig } from '@openmrs/esm-framework';
 
 interface RetrieveFacilityCodeModalProps {
   closeModal: () => void;
@@ -29,6 +35,9 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({
   facilityCodeDetails,
 }) => {
   const { t } = useTranslation();
+  const config = useConfig();
+  const { nhfrGlobalPropertyValueName } = config;
+
   const [careLevels, setCareLevels] = useState([]);
   const [ownership, setOwnership] = useState([]);
   const [facilities, setFacilities] = useState([]);
@@ -41,8 +50,18 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({
     facilityName: null,
   });
 
-  const { data: ownershipData } = useGetResourceInformation('ownership');
-  const { data: careLevelsData } = useGetResourceInformation('careLevel');
+  const [facilityUrl, setFacilityUrl] = useState('');
+
+  getGlobalPropertyValue(nhfrGlobalPropertyValueName)
+    .then((resp) => {
+      setFacilityUrl(resp?.data?.results[0].value);
+    })
+    .catch((error) => {
+      console.info(error);
+    });
+
+  const { data: ownershipData } = useGetResourceInformation('ownership', facilityUrl);
+  const { data: careLevelsData } = useGetResourceInformation('careLevel', facilityUrl);
 
   useEffect(() => {
     if (Object.keys(careLevelsData).length) {
@@ -77,7 +96,7 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({
     setCode('');
     setIsLoading(true);
     setShowResults(false);
-    const response = await getFacility(searchParams);
+    const response = await getFacility(searchParams, facilityUrl);
     const facilitiesArray = handleFacilityResponse(response);
     if (facilitiesArray[0]['id'] !== null) {
       setFacilities(facilitiesArray);
