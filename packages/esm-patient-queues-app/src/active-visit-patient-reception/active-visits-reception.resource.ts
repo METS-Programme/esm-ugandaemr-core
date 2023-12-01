@@ -31,7 +31,7 @@ export function usePatientQueuesList(currentQueueRoomLocationUuid: string) {
       locationTo: queue.locationTo?.uuid,
       queueRoom: queue.locationTo?.display,
       visitNumber: queue.visitNumber,
-      dateCreated: queue.dateCreated ? formatDate(parseDate(queue.dateCreated), { time: false }) : '--',
+      dateCreated: queue.dateCreated,
       creatorUuid: queue.creator?.uuid,
       creatorUsername: queue.creator?.username,
       creatorDisplay: queue.creator?.display,

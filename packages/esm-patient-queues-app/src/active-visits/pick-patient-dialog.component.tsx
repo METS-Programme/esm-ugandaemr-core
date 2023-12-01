@@ -11,7 +11,15 @@ import {
   TextArea,
 } from '@carbon/react';
 
-import { navigate, showNotification, showToast, useLocations, useSession } from '@openmrs/esm-framework';
+import {
+  formatDate,
+  navigate,
+  parseDate,
+  showNotification,
+  showToast,
+  useLocations,
+  useSession,
+} from '@openmrs/esm-framework';
 import isEmpty from 'lodash-es/isEmpty';
 
 import { getCareProvider, updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
@@ -58,12 +66,6 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
   useEffect(() => {
     getCareProvider(sessionUser?.user?.systemId).then(
       (response) => {
-        showToast({
-          critical: true,
-          title: t('gotProvider', `Got Provider`),
-          kind: 'success',
-          description: t('getProvider', `Got Provider ${response?.data?.results[0].uuid}`),
-        });
         setProvider(response?.data?.results[0].uuid);
         mutate();
       },
@@ -89,7 +91,7 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
       event.preventDefault();
 
       const status = 'Picked';
-      updateQueueEntry(status, provider, queueEntry?.id, priorityComment, 'comment').then(
+      updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, 'comment').then(
         () => {
           showToast({
             critical: true,
@@ -128,7 +130,12 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
           <ModalBody>
             <h5>{queueEntry.name}</h5>
             <h5>VisitNo : {trimVisitNumber(queueEntry.visitNumber)}</h5>
-            <h5>Date Created : {queueEntry.dateCreated}</h5>
+            <h5>
+              Date Created :
+              {formatDate(parseDate(queueEntry.dateCreated), {
+                time: true,
+              })}
+            </h5>
           </ModalBody>
           <ModalFooter>
             <Button kind="secondary" onClick={closeModal}>
