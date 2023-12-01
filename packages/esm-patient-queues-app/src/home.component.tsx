@@ -21,7 +21,7 @@ const Home: React.FC<HomeProps> = (props) => {
 
   return (
     <div>
-      <HomeHeader headerTitle={t('patientqueues', 'Patient queue')} icon={<Events size={16} />} />
+      <HomeHeader headerTitle={t('patientqueues', 'Patient queue')} icon={<Events />} />
       <UserHasAccess privilege={PRIVILEGE_RECEPTION_QUEUE_LIST}>
         <QueueLauncher />
       </UserHasAccess>
