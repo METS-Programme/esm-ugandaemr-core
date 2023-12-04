@@ -125,27 +125,6 @@ export const pickPatientEntryQueue = getAsyncLifecycle(() => import('./active-vi
   moduleName,
 });
 
-export const activeQueuePatientWorkspace = getAsyncLifecycle(
-  () => import('./workspace/queue-patients-action-button.component'),
-  {
-    featureName: 'active patients workspace',
-    moduleName,
-  },
-);
-
-export const activeQueuePatients = getAsyncLifecycle(() => import('./active-visits/active-visits-table.component'), {
-  featureName: 'active patients workspace',
-  moduleName,
-});
-
-export const queuePatientsWorkspace = getAsyncLifecycle(
-  () => import('./workspace/queue-patients-workspace.component'),
-  {
-    featureName: 'active patients workspace',
-    moduleName,
-  },
-);
-
 export const queueScreen = getAsyncLifecycle(() => import('./queue-board/queue-board.component'), options);
 
 export const testScreen = getAsyncLifecycle(() => import('./test.component'), options);
