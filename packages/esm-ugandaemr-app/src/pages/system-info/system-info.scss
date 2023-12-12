@@ -1,6 +1,5 @@
 @import '~@openmrs/esm-styleguide/src/vars';
-
-.overall-info-card{
+.overall-info-card {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -8,39 +7,42 @@
     border: 0.5px solid #c6c6c6;
     max-width: 28%;
     padding: 1rem;
-    .info-title{
-      display: flex;
-      align-items: center;
-      padding-bottom: 0.25rem;
-      margin-bottom: 0.25rem;
-      border-bottom: 0.5px solid #c6c6c6;
-      width: 100%;
-      justify-content: center;
+    .info-title {
+        display: flex;
+        align-items: center;
+        padding-bottom: 0.25rem;
+        margin-bottom: 0.25rem;
+        border-bottom: 0.5px solid #c6c6c6;
+        width: 100%;
+        justify-content: center;
     }
-    .info-body{
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: 0.25rem;
-      font-size: 90%;
+    .info-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 0.25rem;
+        font-size: 90%;
+    }
+    .divUpdateContent {
+        display: flex;
     }
 }
 
-.system-info-table{
-  width: 90%;
-  margin: 0 auto;
-  margin-top: 1.5rem;
-  border: 0.5px solid #c6c6c6;
+.system-info-table {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 1.5rem;
+    border: 0.5px solid #c6c6c6;
 }
 
-.results{
-  margin-top: 2rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 0.8rem;
+.results {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 0.8rem;
 }
 
-.no-results{
-  margin-top: 2rem;
+.no-results {
+    margin-top: 2rem;
 }
 
 // add css for different screen sizes
