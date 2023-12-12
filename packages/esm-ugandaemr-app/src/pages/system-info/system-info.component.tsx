@@ -19,6 +19,7 @@ import styles from './system-info.scss';
 import coatOfArms from '../../images/coat_of_arms.png';
 import UpdateFacilityCode from './update-facility-code-button.component';
 import { PRIVILEGE_UPDATE_FACILITY_CODE } from '../../constants';
+import UpdateInternetPowerButton from '../internet-power/internet-power-button.component';
 
 interface FacilityCodeDetails {
   value?: string;
@@ -53,14 +54,19 @@ const OverallSystemInfo = ({ buildInfo, emrVersion, facilityCodeDetails, setFaci
         <span>Facility code</span>
         <span>{facilityCodeDetails.value === null ? '-' : facilityCodeDetails.value}</span>
       </Column>
-      <UserHasAccess privilege={PRIVILEGE_UPDATE_FACILITY_CODE}>
+      <div className={styles.divUpdateContent}>
+        <UserHasAccess privilege={PRIVILEGE_UPDATE_FACILITY_CODE}>
+          <Column>
+            <UpdateFacilityCode
+              facilityCodeDetails={facilityCodeDetails}
+              setFacilityCodeDetails={setFacilityCodeDetails}
+            />
+          </Column>
+        </UserHasAccess>
         <Column>
-          <UpdateFacilityCode
-            facilityCodeDetails={facilityCodeDetails}
-            setFacilityCodeDetails={setFacilityCodeDetails}
-          />
+          <UpdateInternetPowerButton />
         </Column>
-      </UserHasAccess>
+      </div>
     </Grid>
   );
 };
