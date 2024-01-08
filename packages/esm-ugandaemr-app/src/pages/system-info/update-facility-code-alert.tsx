@@ -20,6 +20,10 @@ const UpdateFacilityCodeAlert = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [facilityIds]);
 
+  const handleClose = () => {
+    setShowAlert(false);
+  };
+
   if (showAlert) {
     return (
       <UserHasAccess privilege={PRIVILEGE_UPDATE_FACILITY_CODE}>
@@ -27,7 +31,7 @@ const UpdateFacilityCodeAlert = () => {
           actionButtonLabel="Go to System Page"
           aria-label="closes notification"
           onActionButtonClick={() => navigate({ to: '${openmrsSpaBase}/about' })}
-          onClose={function noRefCheck() {}}
+          onClose={handleClose}
           // onCloseButtonClick={function noRefCheck() {}}
           inline={true}
           statusIconDescription="notification"
