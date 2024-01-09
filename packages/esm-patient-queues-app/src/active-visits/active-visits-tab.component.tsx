@@ -22,15 +22,11 @@ function ActiveVisitsTabs() {
       >
         <TabList style={{ paddingLeft: '1rem' }} aria-label="Outpatient tabs" contained>
           <Tab>{t('pending', 'Pending')}</Tab>
-          <Tab>{t('serving', 'Serving')}</Tab>
           <Tab>{t('completed', 'Completed')}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel style={{ padding: 0 }}>
             <ActiveVisitsTable status={'pending'} />
-          </TabPanel>
-          <TabPanel style={{ padding: 0 }}>
-            <ActiveVisitsTable status={'picked'} />
           </TabPanel>
           <TabPanel style={{ padding: 0 }}>
             <ActiveVisitsTable status={'completed'} />
