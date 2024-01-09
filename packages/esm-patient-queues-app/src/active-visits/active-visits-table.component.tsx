@@ -3,7 +3,6 @@ import {
   DataTable,
   DataTableHeader,
   DataTableSkeleton,
-  DefinitionTooltip,
   Layer,
   Pagination,
   Tab,
@@ -100,7 +99,11 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const { t } = useTranslation();
   const session = useSession();
 
-  const { patientQueueEntries, isLoading } = usePatientQueuesList(session?.sessionLocation?.uuid, status);
+  const { patientQueueEntries, isLoading } = usePatientQueuesList(
+    session?.sessionLocation?.uuid,
+    status,
+    session.user.systemId,
+  );
 
   const [showOverlay, setShowOverlay] = useState(false);
   const [view, setView] = useState('');
