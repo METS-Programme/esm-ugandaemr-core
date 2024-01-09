@@ -135,26 +135,16 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       },
       {
         id: 2,
-        header: t('priority', 'Priority'),
-        key: 'priority',
-      },
-      {
-        id: 3,
-        header: t('priorityLevel', 'Priority Level'),
-        key: 'priorityLevel',
-      },
-      {
-        id: 4,
         header: t('status', 'Status'),
         key: 'status',
       },
       {
-        id: 5,
+        id: 2,
         header: t('waitTime', 'Wait time'),
         key: 'waitTime',
       },
       {
-        id: 6,
+        id: 4,
         header: t('actions', 'Actions'),
         key: 'actions',
       },
@@ -169,33 +159,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       },
       name: {
         content: entry.name,
-      },
-      priority: {
-        content: (
-          <>
-            {entry?.priorityComment ? (
-              <DefinitionTooltip className={styles.tooltip} align="bottom-left" definition={entry.priorityComment}>
-                <Tag
-                  role="tooltip"
-                  className={entry.priority === 'Priority' ? styles.priorityTag : styles.tag}
-                  type={getTagType(entry.priority as string)}
-                >
-                  {entry.priority}
-                </Tag>
-              </DefinitionTooltip>
-            ) : (
-              <Tag
-                className={entry.priority === 'Priority' ? styles.priorityTag : styles.tag}
-                type={getTagType(entry.priority as string)}
-              >
-                {entry.priority}
-              </Tag>
-            )}
-          </>
-        ),
-      },
-      priorityLevel: {
-        content: <span>{entry.priorityLevel}</span>,
       },
       status: {
         content: (
