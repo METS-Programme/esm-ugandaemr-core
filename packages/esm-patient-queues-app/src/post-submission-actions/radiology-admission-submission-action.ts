@@ -16,6 +16,7 @@ export const RadiologySubmissionAction: PostSubmissionAction = {
       encounter.uuid,
       encounterLocation,
       patient?.id,
+      '',
       2,
       encounter.uuid,
       'pending',

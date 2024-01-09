@@ -102,7 +102,7 @@ export function usePatientQueueRequest(apiUrl: string) {
       ...queue,
       id: queue.uuid,
       name: queue.patient?.person.display,
-      provider: 'test',
+      provider: queue.provider?.person.display,
       patientUuid: queue.patient?.uuid,
       priorityComment: queue.priorityComment,
       priority: queue.priorityComment === 'Urgent' ? 'Priority' : queue.priorityComment,
