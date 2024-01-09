@@ -21,7 +21,7 @@ import {
   ErrorState,
 } from '@openmrs/esm-patient-common-lib';
 import { useTranslation } from 'react-i18next';
-import { Result, useCarePrograms } from '../hooks/useCarePrograms';
+import { useCarePrograms } from '../hooks/useCarePrograms';
 import { formatDate, useLayoutType, useVisit } from '@openmrs/esm-framework';
 import capitalize from 'lodash/capitalize';
 import { mutate } from 'swr';
@@ -34,69 +34,63 @@ type CareProgramsProps = {
 
 const CarePrograms: React.FC<CareProgramsProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
-  const { currentVisit } = useVisit(patientUuid);
   const { carePrograms, isLoading, isValidating, error } = useCarePrograms(patientUuid);
   const isTablet = useLayoutType() === 'tablet';
 
-  const handleCareProgramClick = useCallback(
-    (careProgram: Result) => {
-      const isEnrolled = careProgram.enrollmentStatus === 'active';
-      const formUuid = isEnrolled ? careProgram.discontinuationFormUuid : careProgram.enrollmentFormUuid;
-      const workspaceTitle = isEnrolled
-        ? `${careProgram.display} Discontinuation form`
-        : `${careProgram.display} Enrollment form`;
+  // const handleCareProgramClick = useCallback(
+  //   (careProgram: PatientCarePrograms) => {
+  //     const isEnrolled = careProgram.enrollmentStatus === 'active';
+  //     const formUuid = isEnrolled ? careProgram.discontinuationFormUuid : careProgram.enrollmentFormUuid;
+  //     const workspaceTitle = isEnrolled
+  //       ? `${careProgram.display} Discontinuation form`
+  //       : `${careProgram.display} Enrollment form`;
 
-      currentVisit
-        ? launchPatientWorkspace('patient-form-entry-workspace', {
-            workspaceTitle: workspaceTitle,
-            mutateForm: () => {
-              mutate((key) => true, undefined, {
-                revalidate: true,
-              });
-            },
-            formInfo: {
-              encounterUuid: '',
-              formUuid,
-              additionalProps: { enrollmenrDetails: careProgram.enrollmentDetails } ?? {},
-            },
-          })
-        : launchStartVisitPrompt();
-    },
-    [currentVisit],
-  );
-
+  //     currentVisit
+  //       ? launchPatientWorkspace('patient-form-entry-workspace', {
+  //           workspaceTitle: workspaceTitle,
+  //           mutateForm: () => {
+  //             mutate((key) => true, undefined, {
+  //               revalidate: true,
+  //             });
+  //           },
+  //           formInfo: {
+  //             encounterUuid: '',
+  //             formUuid,
+  //             additionalProps: { enrollmenrDetails: careProgram.enrollmentDetails } ?? {},
+  //           },
+  //         })
+  //       : launchStartVisitPrompt();
+  //   },
+  //   [currentVisit],
+  // ); 
   const rows = useMemo(
     () =>
       carePrograms.map((careProgram) => {
         return {
           id: `${careProgram.uuid}`,
-          programName: careProgram.display,
+          programName: careProgram.name,
           status: (
             <div className={styles.careProgramButtonContainer}>
               <span>
                 {capitalize(
-                  `${careProgram.enrollmentStatus} ${
-                    careProgram.enrollmentDetails?.dateEnrolled && careProgram.enrollmentStatus === 'active'
-                      ? `Since (${formatDate(new Date(careProgram.enrollmentDetails.dateEnrolled))})`
-                      : ''
-                  }`,
+                  `  
+                  ${careProgram.name}`,
                 )}
               </span>
               <Button
                 size="sm"
                 className="cds--btn--sm cds--layout--size-sm"
-                kind={careProgram.enrollmentStatus == 'active' ? 'danger--ghost' : 'ghost'}
+                kind={'danger--ghost'}
                 iconDescription="Dismiss"
-                onClick={() => handleCareProgramClick(careProgram)}
-                renderIcon={careProgram.enrollmentStatus == 'active' ? Close : DocumentAdd}
+                renderIcon={DocumentAdd}
               >
-                {careProgram.enrollmentStatus == 'active' ? 'Discontinue' : 'Enroll'}
+                {'Enroll'}
               </Button>
             </div>
           ),
         };
       }),
-    [carePrograms, handleCareProgramClick],
+    [carePrograms],
   );
 
   const headers = [

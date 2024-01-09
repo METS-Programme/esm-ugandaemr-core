@@ -11,7 +11,6 @@ import first from 'lodash/first';
 import sortBy from 'lodash/sortBy';
 import { ErrorState } from '@openmrs/esm-framework';
 import CarePrograms from '../care-programs/care-programs.component';
-import { Result } from '../hooks/useCarePrograms';
 
 interface CarePanelProps {
   patientUuid: string;
@@ -38,7 +37,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
     return program;
   });
 
-  console.info('info--->', enrolmentPrograms);
+  console.info('info here--->', enrolmentPrograms);
 
   // const switcherHeaders = sortBy(Object.keys(enrolmentPrograms || {}));
   const [switchItem, setSwitcherItem] = useState<SwitcherItem>({ index: 0 });
@@ -95,7 +94,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
             launchPatientWorkspace={launchPatientWorkspace}
           />
 
-          {/* <CarePrograms patientUuid={patientUuid} /> */}
+          <CarePrograms patientUuid={patientUuid} />
         </div>
       </div>
     </>
