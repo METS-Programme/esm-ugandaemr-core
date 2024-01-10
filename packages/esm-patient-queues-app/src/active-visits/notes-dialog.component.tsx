@@ -16,7 +16,11 @@ const NotesDialog: React.FC<NotesDialogProps> = ({ queueEntry, closeModal }) => 
   return (
     <div>
       <Form>
-        <ModalHeader closeModal={closeModal} />
+        <ModalHeader closeModal={closeModal}>
+          <section className={styles.section}>
+            <p>Clinical Notes</p>
+          </section>
+        </ModalHeader>
         <ModalBody>
           <div className={styles.modalBody}>
             <section className={styles.section}>
@@ -28,7 +32,9 @@ const NotesDialog: React.FC<NotesDialogProps> = ({ queueEntry, closeModal }) => 
           <Button kind="secondary" onClick={closeModal}>
             {t('cancel', 'Cancel')}
           </Button>
-          <Button type="submit"> {t('submit', 'Submit')}</Button>
+          <Button type="submit" onClick={closeModal}>
+            {t('submit', 'Submit')}
+          </Button>
         </ModalFooter>
       </Form>
     </div>
