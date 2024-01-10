@@ -31,32 +31,29 @@ import { Add, Dashboard } from '@carbon/react/icons';
 
 import {
   ConfigObject,
-  ExtensionSlot,
   interpolateUrl,
   isDesktop,
   navigate,
   useConfig,
   useLayoutType,
   usePagination,
-  UserHasAccess,
   useSession,
 } from '@openmrs/esm-framework';
 import React, { AnchorHTMLAttributes, MouseEvent, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PRIVILEGE_CHECKIN } from '../constants';
-import { buildStatusString, formatWaitTime, getTagColor, getTagType, trimVisitNumber } from '../helpers/functions';
+import { buildStatusString, formatWaitTime, getTagColor, trimVisitNumber } from '../helpers/functions';
 import PastVisit from '../past-visit/past-visit.component';
 import PatientSearch from '../patient-search/patient-search.component';
 import StatusIcon from '../queue-entry-table-components/status-icon.component';
-import { SearchTypes } from '../types';
 import { getOriginFromPathName } from './active-visits-table.resource';
 import styles from './active-visits-table.scss';
 import EditActionsMenu from './edit-action-menu.components';
-import { usePatientQueuesList, useParentLocation } from './patient-queues.resource';
+import { usePatientQueuesList } from './patient-queues.resource';
 import PickPatientActionMenu from '../queue-entry-table-components/pick-patient-queue-entry-menu.component';
 import EmptyState from '../utils/empty-state/empty-state.component';
 import ViewActionsMenu from './view-action-menu.components';
 import CurrentVisit from '../current-visit/current-visit-summary.component';
+import NotesActionsMenu from './notes-action-menu.components';
 
 type FilterProps = {
   rowIds: Array<string>;
@@ -110,7 +107,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
   const layout = useLayoutType();
   const config = useConfig() as ConfigObject;
-  const useQueueTableTabs = config.showQueueTableTab;
 
   const currentPathName: string = window.location.pathname;
   const fromPage: string = getOriginFromPathName(currentPathName);
@@ -191,6 +187,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
             <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />
             <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
             <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
+            <NotesActionsMenu note={entry} />
           </>
         ),
       },
