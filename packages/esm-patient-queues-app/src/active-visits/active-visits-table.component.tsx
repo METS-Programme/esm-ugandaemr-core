@@ -135,16 +135,21 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       },
       {
         id: 2,
+        header: t('provider', 'Provider'),
+        key: 'provider',
+      },
+      {
+        id: 3,
         header: t('status', 'Status'),
         key: 'status',
       },
       {
-        id: 2,
+        id: 4,
         header: t('waitTime', 'Wait time'),
         key: 'waitTime',
       },
       {
-        id: 4,
+        id: 5,
         header: t('actions', 'Actions'),
         key: 'actions',
       },
@@ -159,6 +164,9 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       },
       name: {
         content: entry.name,
+      },
+      provider: {
+        content: entry.provider,
       },
       status: {
         content: (
