@@ -1,55 +1,52 @@
 {
-  "$schema": "https://json.openmrs.org/routes.schema.json",
-  "backendDependencies": {
-      "fhir2": "^1.2.0",
-      "webservices.rest": "^2.24.0"
-  },
-  "pages": [
-    {
-      "component": "facilityDashboard",
-      "route": "facility-dashboard"
+    "$schema": "https://json.openmrs.org/routes.schema.json",
+    "backendDependencies": {
+        "fhir2": "^1.2.0",
+        "webservices.rest": "^2.24.0"
     },
-    {
-      "component": "hieDashboard",
-      "route": "hie-dashboard"
-    },
-    {
-      "component": "systemInfoPage",
-      "route": "about"
-    }
-  ],
-  "extensions": [
-    {
-      "name": "clinical-views-divider",
-      "component": "clinicalViewsDivider",
-      "slot": "patient-chart-dashboard-slot",
-      "privilege":[
-        "Manage Patients"
-      ],
-      "order": 15
-    },
-    {
-      "component": "cervicalCancerSummaryExt",
-      "name": "cervical-cancer-summary-ext",
-      "slot": "cacx-visits-slot",
-      "meta": {
-        "columnSpan": 4
-      }
-    },
-    {
-      "name": "system-info-link",
-      "slot": "app-menu-slot",
-      "component": "systemInfoMenuLink"
-    },
-    {
-      "name": "retrieve-facility-code-modal",
-      "component": "retrieveFacilityCodeModal"
-    },
-    {
-      "name": "update-facility-code-alert",
-      "slot": "homepage-widgets-slot",
-      "component": "updateFacilityCodeAlert"
-    }
-  ]
+    "pages": [{
+            "component": "facilityDashboard",
+            "route": "facility-dashboard"
+        },
+        {
+            "component": "hieDashboard",
+            "route": "hie-dashboard"
+        },
+        {
+            "component": "systemInfoPage",
+            "route": "about"
+        }
+    ],
+    "extensions": [{
+            "name": "clinical-views-divider",
+            "component": "clinicalViewsDivider",
+            "slot": "patient-chart-dashboard-slot",
+            "privilege": [
+                "Manage Patients"
+            ],
+            "order": 15
+        },
+        {
+            "component": "cervicalCancerSummaryExt",
+            "name": "cervical-cancer-summary-ext",
+            "slot": "cacx-visits-slot",
+            "meta": {
+                "columnSpan": 4
+            }
+        },
+        {
+            "name": "system-info-link",
+            "slot": "app-menu-slot",
+            "component": "systemInfoMenuLink"
+        },
+        {
+            "name": "retrieve-facility-code-modal",
+            "component": "retrieveFacilityCodeModal"
+        },
+        {
+            "name": "update-facility-code-alert",
+            "slot": "homepage-widgets-slot",
+            "component": "updateFacilityCodeAlert"
+        }
+    ]
 }
-
