@@ -22,7 +22,7 @@ import {
 } from '@openmrs/esm-patient-common-lib';
 import { useTranslation } from 'react-i18next';
 import { Result, useCarePrograms } from '../hooks/useCarePrograms';
-import { formatDate, useLayoutType, useVisit } from '@openmrs/esm-framework';
+import { useLayoutType, useVisit } from '@openmrs/esm-framework';
 import capitalize from 'lodash/capitalize';
 import { mutate } from 'swr';
 
