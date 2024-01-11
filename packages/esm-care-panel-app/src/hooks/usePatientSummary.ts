@@ -2,21 +2,17 @@ import { openmrsFetch } from '@openmrs/esm-framework';
 import useSWR from 'swr';
 import { PatientSummary } from '../types/index';
 
-
 export interface Result {
-  uuid: string
-  name: string 
-  links: Link[]
+  uuid: string;
+  name: string;
+  links: Link[];
 }
- 
 
 export interface Link {
-  rel: string
-  uri: string
-  resourceAlias: string
+  rel: string;
+  uri: string;
+  resourceAlias: string;
 }
-
- 
 
 export const usePatientSummary = (patientUuid: string) => {
   const programSummaryUrl = `/ws/rest/v1/program`;
