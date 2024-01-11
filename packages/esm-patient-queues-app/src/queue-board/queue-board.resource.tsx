@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 export function usePatientQueuesListByStatus(status: string) {
   const apiUrl = `/ws/rest/v1/patientqueue?v=full&status=${status}`;
-  return usePatientQueueRequest(apiUrl);
+  return usePatientQueueRequest(apiUrl, '');
 }
 
 export function usePatientQueuesByParentLocation(status: string) {
