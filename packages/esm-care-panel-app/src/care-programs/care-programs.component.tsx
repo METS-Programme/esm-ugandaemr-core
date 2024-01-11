@@ -37,9 +37,9 @@ const CarePrograms: React.FC<CareProgramsProps> = ({ patientUuid }) => {
   const { carePrograms, isLoading, isValidating, error } = useCarePrograms(patientUuid);
   const isTablet = useLayoutType() === 'tablet';
   const { currentVisit } = useVisit(patientUuid);
- // function handleCareProgramClick(careProgram: Result) {
- //   throw new Error('Function not implemented.');
- // }
+  // function handleCareProgramClick(careProgram: Result) {
+  //   throw new Error('Function not implemented.');
+  // }
   const handleCareProgramClick = useCallback(
     (careProgram: Result) => {
       const isEnrolled = careProgram.name === 'active';
@@ -86,7 +86,8 @@ const CarePrograms: React.FC<CareProgramsProps> = ({ patientUuid }) => {
                 kind={careProgram.name == 'active' ? 'danger--ghost' : 'ghost'}
                 iconDescription="Dismiss"
                 onClick={() => handleCareProgramClick(careProgram)}
-                renderIcon={careProgram.name == 'active' ? Close : DocumentAdd}>
+                renderIcon={careProgram.name == 'active' ? Close : DocumentAdd}
+              >
                 {careProgram.name == 'active' ? 'Discontinue' : 'Enroll'}
               </Button>
             </div>

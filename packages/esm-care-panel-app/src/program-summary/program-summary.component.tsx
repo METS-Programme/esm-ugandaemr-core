@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './program-summary.scss';
 import { useProgramSummary } from '../hooks/useProgramSummary';
 import { useTranslation } from 'react-i18next';
-import { formatDate, useLayoutType } from "@openmrs/esm-framework";
+import { formatDate, useLayoutType } from '@openmrs/esm-framework';
 import { StructuredListSkeleton, Tile } from '@carbon/react';
 import { ProgramType, RegimenType } from '../types';
 import RegimenButton from '../regimen-editor/regimen-button.component';
@@ -17,15 +17,13 @@ const ProgramSummary: React.FC<ProgramSummaryProps> = ({ patientUuid, programNam
   const { t } = useTranslation();
   const { regimenEncounter } = useRegimenEncounter(RegimenType[programName], patientUuid);
 
-  const { artStartDateData,
+  const {
+    artStartDateData,
     isError: error,
-    isLoading: isLoadingArtDate } = useGetARTStartDate(
-      patientUuid,
-      "ab505422-26d9-41f1-a079-c3d222000440"
-    );
+    isLoading: isLoadingArtDate,
+  } = useGetARTStartDate(patientUuid, 'ab505422-26d9-41f1-a079-c3d222000440');
 
-
-  console.info(artStartDateData)
+  console.info(artStartDateData);
 
   const isTablet = useLayoutType() == 'tablet';
   if (isLoading) {
@@ -181,7 +179,6 @@ const ProgramSummary: React.FC<ProgramSummaryProps> = ({ patientUuid, programNam
             //   </div>
             // </Tile>
             <span>test</span>
-
           ) : key == ProgramType.MCHMOTHER && programName == ProgramType.MCHMOTHER ? (
             // <Tile>
             //   <div className={styles.card}>
@@ -217,7 +214,6 @@ const ProgramSummary: React.FC<ProgramSummaryProps> = ({ patientUuid, programNam
             //   </div>
             // </Tile>
             <span>test</span>
-
           ) : key == ProgramType.MCHCHILD && programName == ProgramType.MCHCHILD ? (
             // <Tile>
             //   <div className={styles.card}>
@@ -294,7 +290,6 @@ const ProgramSummary: React.FC<ProgramSummaryProps> = ({ patientUuid, programNam
             //   </div>
             // </Tile>
             <span>test</span>
-
           ) : null,
         )}
       </>
@@ -302,5 +297,3 @@ const ProgramSummary: React.FC<ProgramSummaryProps> = ({ patientUuid, programNam
   }
 };
 export default ProgramSummary;
-
-
