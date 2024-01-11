@@ -21,7 +21,7 @@ import {
   ErrorState,
 } from '@openmrs/esm-patient-common-lib';
 import { useTranslation } from 'react-i18next';
-import { useCarePrograms } from '../hooks/useCarePrograms';
+import { Result, useCarePrograms } from '../hooks/useCarePrograms';
 import { formatDate, useLayoutType, useVisit } from '@openmrs/esm-framework';
 import capitalize from 'lodash/capitalize';
 import { mutate } from 'swr';
@@ -36,36 +36,39 @@ const CarePrograms: React.FC<CareProgramsProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
   const { carePrograms, isLoading, isValidating, error } = useCarePrograms(patientUuid);
   const isTablet = useLayoutType() === 'tablet';
+  const { currentVisit } = useVisit(patientUuid);
+ // function handleCareProgramClick(careProgram: Result) {
+ //   throw new Error('Function not implemented.');
+ // }
+  const handleCareProgramClick = useCallback(
+    (careProgram: Result) => {
+      const isEnrolled = careProgram.name === 'active';
+      const formUuid = isEnrolled ? careProgram.name : careProgram.name;
+      const workspaceTitle = isEnrolled
+        ? `${careProgram.name} Discontinuation form`
+        : `${careProgram.name} Enrollment form`;
 
-  // const handleCareProgramClick = useCallback(
-  //   (careProgram: PatientCarePrograms) => {
-  //     const isEnrolled = careProgram.enrollmentStatus === 'active';
-  //     const formUuid = isEnrolled ? careProgram.discontinuationFormUuid : careProgram.enrollmentFormUuid;
-  //     const workspaceTitle = isEnrolled
-  //       ? `${careProgram.display} Discontinuation form`
-  //       : `${careProgram.display} Enrollment form`;
-
-  //     currentVisit
-  //       ? launchPatientWorkspace('patient-form-entry-workspace', {
-  //           workspaceTitle: workspaceTitle,
-  //           mutateForm: () => {
-  //             mutate((key) => true, undefined, {
-  //               revalidate: true,
-  //             });
-  //           },
-  //           formInfo: {
-  //             encounterUuid: '',
-  //             formUuid,
-  //             additionalProps: { enrollmenrDetails: careProgram.enrollmentDetails } ?? {},
-  //           },
-  //         })
-  //       : launchStartVisitPrompt();
-  //   },
-  //   [currentVisit],
-  // ); 
+      currentVisit
+        ? launchPatientWorkspace('patient-form-entry-workspace', {
+            workspaceTitle: workspaceTitle,
+            mutateForm: () => {
+              mutate((key) => true, undefined, {
+                revalidate: true,
+              });
+            },
+            formInfo: {
+              encounterUuid: '',
+              formUuid,
+              additionalProps: { enrollmenrDetails: careProgram.name } ?? {},
+            },
+          })
+        : launchStartVisitPrompt();
+    },
+    [currentVisit],
+  );
   const rows = useMemo(
     () =>
-      carePrograms.map((careProgram) => {
+      carePrograms.map((careProgram) => {  
         return {
           id: `${careProgram.uuid}`,
           programName: careProgram.name,
@@ -73,18 +76,18 @@ const CarePrograms: React.FC<CareProgramsProps> = ({ patientUuid }) => {
             <div className={styles.careProgramButtonContainer}>
               <span>
                 {capitalize(
-                  `  
+                  `
                   ${careProgram.name}`,
                 )}
               </span>
               <Button
                 size="sm"
                 className="cds--btn--sm cds--layout--size-sm"
-                kind={'danger--ghost'}
+                kind={careProgram.name == 'active' ? 'danger--ghost' : 'ghost'}
                 iconDescription="Dismiss"
-                renderIcon={DocumentAdd}
-              >
-                {'Enroll'}
+                onClick={() => handleCareProgramClick(careProgram)}
+                renderIcon={careProgram.name == 'active' ? Close : DocumentAdd}>
+                {careProgram.name == 'active' ? 'Discontinue' : 'Enroll'}
               </Button>
             </div>
           ),
@@ -100,7 +103,7 @@ const CarePrograms: React.FC<CareProgramsProps> = ({ patientUuid }) => {
     },
     {
       key: 'status',
-      header: 'Status',
+      header: 'Detail',
     },
   ];
 
