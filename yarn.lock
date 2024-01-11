@@ -8046,7 +8046,7 @@ __metadata:
     rxjs: ^6.6.7
     sass: ^1.54.3
     swc-loader: ^0.2.3
-    swr: ^2.1.1
+    swr: ^2.2.4
     systemjs-webpack-interop: ^2.3.7
     turbo: ^1.10.13
     typescript: ^5.0.2
@@ -9301,6 +9301,37 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0
   checksum: 8248a4a5ca4242cc06ad13b10b9183ad2664da8fb0da060c352223dcf286f0ce9c708fa17901dc44ecabec25e6d309e5e5b9830a61dd777c3925f187a345a47d
+  languageName: node
+  linkType: hard
+
+"babel-preset-minify@npm:^0.5.1":
+  version: 0.5.2
+  resolution: "babel-preset-minify@npm:0.5.2"
+  dependencies:
+    babel-plugin-minify-builtins: ^0.5.0
+    babel-plugin-minify-constant-folding: ^0.5.0
+    babel-plugin-minify-dead-code-elimination: ^0.5.2
+    babel-plugin-minify-flip-comparisons: ^0.4.3
+    babel-plugin-minify-guarded-expressions: ^0.4.4
+    babel-plugin-minify-infinity: ^0.4.3
+    babel-plugin-minify-mangle-names: ^0.5.1
+    babel-plugin-minify-numeric-literals: ^0.4.3
+    babel-plugin-minify-replace: ^0.5.0
+    babel-plugin-minify-simplify: ^0.5.1
+    babel-plugin-minify-type-constructors: ^0.4.3
+    babel-plugin-transform-inline-consecutive-adds: ^0.4.3
+    babel-plugin-transform-member-expression-literals: ^6.9.4
+    babel-plugin-transform-merge-sibling-variables: ^6.9.5
+    babel-plugin-transform-minify-booleans: ^6.9.4
+    babel-plugin-transform-property-literals: ^6.9.4
+    babel-plugin-transform-regexp-constructors: ^0.4.3
+    babel-plugin-transform-remove-console: ^6.9.4
+    babel-plugin-transform-remove-debugger: ^6.9.4
+    babel-plugin-transform-remove-undefined: ^0.5.0
+    babel-plugin-transform-simplify-comparison-operators: ^6.9.4
+    babel-plugin-transform-undefined-to-void: ^6.9.4
+    lodash: ^4.17.11
+  checksum: 36484ad5d4cf89948240ad99ee3eb8bc54c85aed9c5d47b188924dfea058157a7e66a6980624f34c8ec45fc2906161f7ae0cbd3017f983a71689b29f79bebc90
   languageName: node
   linkType: hard
 
