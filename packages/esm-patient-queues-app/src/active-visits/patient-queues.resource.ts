@@ -13,6 +13,7 @@ export interface MappedPatientQueueEntry {
   patientUuid: string;
   priority: string;
   priorityComment: string;
+  comment: string;
   status: string;
   waitTime: string;
   locationFrom?: string;
