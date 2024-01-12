@@ -115,6 +115,8 @@ export const addProviderToRoomModal = getAsyncLifecycle(
   },
 );
 
+export const notesModal = getAsyncLifecycle(() => import('./active-visits/notes-dialog.component'), options);
+
 export const addQueueEntryWidget = getAsyncLifecycle(
   () => import('./patient-search/visit-form-queue-fields/visit-form-queue-fields.component'),
   options,

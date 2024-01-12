@@ -22,6 +22,7 @@ import { MappedQueueEntry } from '../types';
 import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 
 import styles from './change-status-dialog.scss';
+import { useProviders } from '../queue-patient-linelists/queue-linelist.resource';
 
 interface ChangeStatusDialogProps {
   queueEntry: MappedQueueEntry;
@@ -33,6 +34,8 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   const { t } = useTranslation();
 
   const locations = useLocations();
+
+  const { providers } = useProviders();
 
   const [selectedLocation, setSelectedLocation] = useState('');
 
@@ -53,7 +56,10 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
 
   const [provider, setProvider] = useState('');
+
   const [priorityComment, setPriorityComment] = useState('');
+
+  const [selectedProvider, setSelectedProvider] = useState('');
 
   useEffect(() => {
     getCareProvider(sessionUser?.user?.systemId).then(
@@ -109,6 +115,8 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   }, [contentSwitcherIndex]);
 
   const filteredlocations = queueRoomLocations?.filter((location) => location.uuid != selectedLocation);
+
+  const filteredProviders = providers?.filter((provider) => provider !== null);
 
   // endVisit
   const endVisitStatus = useCallback(
@@ -198,6 +206,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
           queueEntry?.id,
           nextQueueLocationUuid,
           queueEntry?.patientUuid,
+          selectedProvider,
           contentSwitcherIndex,
           '',
           'pending',
@@ -256,6 +265,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
       closeModal,
       mutate,
       contentSwitcherIndex,
+      selectedProvider,
       selectedLocation,
       currentEntry?.id,
       currentEntry.patientUuid,
@@ -332,6 +342,24 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                 <Switch name="pending" text={t('pending', 'Move to Pending')} />
                 <Switch name="completed" text={t('completed', 'Move to completed')} />
               </ContentSwitcher>
+            </section>
+
+            <section className={styles.section}>
+              <Select
+                labelText={t('selectProvider', 'Select a provider')}
+                id="providers-list"
+                name="providers-list"
+                invalidText="Required"
+                value={selectedProvider}
+                onChange={(event) => setSelectedProvider(event.target.value)}
+              >
+                {!selectedProvider ? <SelectItem text={t('selectProvider', 'Select a provider')} value="" /> : null}
+                {filteredProviders.map((provider) => (
+                  <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
+                    {provider.display}
+                  </SelectItem>
+                ))}
+              </Select>
             </section>
 
             {status === 'completed' && (

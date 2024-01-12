@@ -23,6 +23,10 @@ const UpdateFacilityCodeAlert = () => {
     setShowAlert(false);
   };
 
+  const handleClose = () => {
+    setShowAlert(false);
+  };
+
   if (showAlert) {
     return (
       <UserHasAccess privilege={PRIVILEGE_UPDATE_FACILITY_CODE}>

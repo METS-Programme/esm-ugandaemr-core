@@ -404,6 +404,7 @@ export async function addQueueEntry(
   visitUuid: string,
   queueUuid: string,
   patientUuid: string,
+  provider: string,
   priority: number,
   encounter: string,
   status: string,
@@ -421,7 +422,7 @@ export async function addQueueEntry(
     signal: abortController.signal,
     body: {
       patient: patientUuid,
-      provider: '',
+      provider: provider,
       locationFrom: locationUuid,
       locationTo: queueUuid !== undefined ? queueUuid : 'Not Set',
       status: status ? status : 'pending',

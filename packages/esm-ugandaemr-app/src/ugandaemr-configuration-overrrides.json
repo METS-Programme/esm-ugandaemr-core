@@ -13,10 +13,24 @@
       ]
     }
   },
-  "@ugandaemr/esm-laboratory-app": {
+  "@openmrs/esm-laboratory-app": {
     "Display conditions": {
       "privileges": [
         "Manage Laboratory"
+      ]
+    }
+  },
+  "@ugandaemr/esm-data-visualizer-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Data Visualizer"
+      ]
+    }
+  },
+  "@ugandaemr/esm-bed-management-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Inpatient"
       ]
     }
   },
@@ -41,7 +55,7 @@
       ]
     }
   },
-  "@ugandaemr/esm-ipd-app": {
+  "@ugandaemr/esm-inpatient-app": {
     "Display conditions": {
       "privileges": [
         "Manage IPD"
@@ -67,6 +81,51 @@
       "privileges": [
         "View Patient Summary"
       ]
+    },
+    "logo": {
+      "src": "/openmrs/spa/logo.svg",
+      "alt": "UgandaEMR+ logo"
+    },
+    "extensionSlots": {
+      "patient-chart-dashboard-slot": {
+        "configure": {
+          "charts-summary-dashboard":{
+            "Display conditions": {
+              "privileges": [
+                "Manage Patient Summary"
+              ]
+            }
+          },
+          "medications-summary-dashboard": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Patient Medication"
+              ]
+            }
+          },
+          "laboratory-patient-chart-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Patient Investigation"
+              ]
+            }
+          },
+          "results-summary-dashboard": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Patient Vital"
+              ]
+            }
+          },
+          "programs-summary-dashboard": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Patient Program"
+              ]
+            }
+          }
+        }
+      }
     }
   },
   "@openmrs/esm-styleguide": {
@@ -145,6 +204,7 @@
     }
   },
   "@openmrs/esm-patient-test-results-app": {
+    "concepts":[],
     "Display conditions": {
       "privileges": [
         "View Test Results"
@@ -160,8 +220,8 @@
   },
   "@openmrs/esm-patient-registration-app": {
     "logo": {
-      "src": "assets/logo.svg",
-      "alt": "logo"
+      "src": "/openmrs/spa/logo.svg",
+      "alt": "UgandaEMR+ logo"
     },
     "Display conditions": {
       "privileges": [
@@ -187,7 +247,7 @@
     "extensionSlots": {
       "homepage-dashboard-slot": {
         "configure": {
-          "home-widget-db-link":{
+          "patient-lists-dashboard-link":{
             "Display conditions": {
               "privileges": [
                 "Manage Patient Lists"
@@ -207,6 +267,34 @@
                 "Manage Patient Appointments"
               ]
             }
+          },
+          "bed-admission-dashboard-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Inpatient"
+              ]
+            }
+          },
+          "data-visualizer-dashboard-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Data Visualizer"
+              ]
+            }
+          },
+          "laboratory-dashboard-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Laboratory"
+              ]
+            }
+          },
+          "home-widget-db-link": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Home Link"
+              ]
+            }
           }
         }
       }
@@ -214,20 +302,39 @@
   },
   "@ugandaemr/esm-login-app": {
     "logo": {
-      "src": "assets/logo.svg",
-      "alt": "logo"
+      "src": "/openmrs/spa/logo.svg",
+      "alt": "UgandaEMR+ logo"
     }
   },
   "@openmrs/esm-primary-navigation-app": {
+    "Display conditions": {
+      "privileges": [
+        "View Menu App"
+      ]
+    },
+    "extensionSlots": {
+      "top-nav-actions-slot":{
+        "configure": {
+          "patient-search-icon":{
+            "Display conditions": {
+              "privileges": [
+                "Search Patient"
+              ]
+            }
+          },
+          "add-patient-action":{
+            "Display conditions": {
+              "privileges": [
+                "Add Patient Button"
+              ]
+            }
+          }
+        }
+      }
+    },
     "logo": {
-      "src": "assets/logo.svg",
-      "alt": "logo"
+      "src": "/openmrs/spa/logo.svg",
+      "alt": "UgandaEMR+ logo"
     }
   }
 }
-
-
-
-
-
-
