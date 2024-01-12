@@ -17,7 +17,6 @@ const UpdateFacilityCodeAlert = () => {
         setShowAlert(false);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [facilityIds]);
 
   const handleClose = () => {
@@ -32,7 +31,6 @@ const UpdateFacilityCodeAlert = () => {
           aria-label="closes notification"
           onActionButtonClick={() => navigate({ to: '${openmrsSpaBase}/about' })}
           onClose={handleClose}
-          // onCloseButtonClick={function noRefCheck() {}}
           inline={true}
           statusIconDescription="notification"
           role="alert"
