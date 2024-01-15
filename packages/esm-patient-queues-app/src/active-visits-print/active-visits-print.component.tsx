@@ -11,8 +11,6 @@ interface VisitCardToPrintProps {
 }
 
 export function VisitCardToPrint({ queueEntry }: VisitCardToPrintProps) {
-  const regex: RegExp = /U-\d+-\d+-\d+-\w+/;
-
   return (
     <div className={styles.printPage}>
       <div className={styles.container}>
@@ -26,11 +24,11 @@ export function VisitCardToPrint({ queueEntry }: VisitCardToPrintProps) {
               value={
                 queueEntry.identifiers
                   .find((item) => item.uuid === '95c8401e-49b3-4fbb-8efe-e0ed488659b6')
-                  ?.display.match(regex)?.[0]
+                  ?.display.split('=')[1]
               }
             />
           ) : (
-            <></>
+            <> An Error occured</>
           )}
         </div>
         <div>
