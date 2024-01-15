@@ -11,6 +11,8 @@ interface VisitCardToPrintProps {
 }
 
 export function VisitCardToPrint({ queueEntry }: VisitCardToPrintProps) {
+  const regex: RegExp = /U-\d+-\d+-\d+-\w+/;
+
   return (
     <div className={styles.printPage}>
       <div className={styles.container}>
@@ -18,7 +20,18 @@ export function VisitCardToPrint({ queueEntry }: VisitCardToPrintProps) {
         <h3 style={{ paddingBottom: '8px' }}>Visit Registration Receipt</h3>
         <PatientQueueDetailsTable queueEntry={queueEntry} />
         <div style={{ margin: '25px' }} className={styles.name}>
-          {queueEntry.identifiers.length > 0 ? <QRCodeSVG value={queueEntry.identifiers[0].uuid} /> : <></>}
+          {queueEntry.identifiers.length > 0 &&
+          queueEntry.identifiers.find((item) => item.uuid === '95c8401e-49b3-4fbb-8efe-e0ed488659b6') ? (
+            <QRCodeSVG
+              value={
+                queueEntry.identifiers
+                  .find((item) => item.uuid === '95c8401e-49b3-4fbb-8efe-e0ed488659b6')
+                  ?.display.match(regex)?.[0]
+              }
+            />
+          ) : (
+            <></>
+          )}
         </div>
         <div>
           <span className={styles.name}> !!!Thank you !!!</span>
