@@ -187,8 +187,12 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       actions: {
         content: (
           <>
-            <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />
-            <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
+            {entry.status === 'COMPLETED' && (
+              <>
+                <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />
+                <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
+              </>
+            )}
             <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
             <NotesActionsMenu note={entry} />
           </>
