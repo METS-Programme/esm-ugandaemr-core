@@ -2,13 +2,15 @@ import React from 'react';
 import { MappedPatientQueueEntry } from '../active-visits/patient-queues.resource';
 import styles from './active-visits-print.scss';
 import { trimVisitNumber } from '../helpers/functions';
-import { formatDate, parseDate } from '@openmrs/esm-framework';
+import { formatDate, parseDate, useSession } from '@openmrs/esm-framework';
 
 interface PrintTableProps {
   queueEntry: MappedPatientQueueEntry;
 }
 
 const PatientQueueDetailsTable: React.FC<PrintTableProps> = ({ queueEntry }) => {
+  const currentUserSession = useSession();
+
   return (
     <table>
       <tbody>
@@ -18,16 +20,16 @@ const PatientQueueDetailsTable: React.FC<PrintTableProps> = ({ queueEntry }) => 
         </tr>
         <tr className={styles.name}>
           <td align="right">Date Created:</td>
-          <td>{formatDate(parseDate(queueEntry.dateCreated), { time: true })}</td>
+          <td>{formatDate(parseDate(queueEntry.dateCreated), { time: true, mode: 'standard', noToday: true })}</td>
         </tr>
         <tr className={styles.name}>
           <td align="right">Entry Point:</td>
-          <td>{queueEntry.creatorDisplay}</td>
+          <td>{currentUserSession?.sessionLocation?.display}</td>
         </tr>
 
         <tr className={styles.name}>
           <td align="right">Attendant:</td>
-          <td>{queueEntry.creatorUsername}</td>
+          <td>{currentUserSession.user?.person?.display}</td>
         </tr>
       </tbody>
     </table>
