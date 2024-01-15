@@ -36,6 +36,7 @@ import {
   useConfig,
   useLayoutType,
   usePagination,
+  userHasAccess,
   useSession,
 } from '@openmrs/esm-framework';
 import React, { AnchorHTMLAttributes, MouseEvent, useMemo, useState } from 'react';
@@ -53,6 +54,7 @@ import EmptyState from '../utils/empty-state/empty-state.component';
 import ViewActionsMenu from './view-action-menu.components';
 import CurrentVisit from '../current-visit/current-visit-summary.component';
 import NotesActionsMenu from './notes-action-menu.components';
+import { PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS } from '../constants';
 
 type FilterProps = {
   rowIds: Array<string>;
@@ -190,7 +192,9 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
             {entry.status === 'COMPLETED' && (
               <>
                 <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />
-                <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
+                {session?.user && userHasAccess(PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS, session.user) && (
+                  <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
+                )}
               </>
             )}
             <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
@@ -199,7 +203,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         ),
       },
     }));
-  }, [paginatedQueueEntries, t, fromPage]);
+  }, [paginatedQueueEntries, t, session.user, fromPage]);
 
   const handleFilter = ({ rowIds, headers, cellsById, inputValue, getCellId }: FilterProps): Array<string> => {
     return rowIds.filter((rowId) =>
