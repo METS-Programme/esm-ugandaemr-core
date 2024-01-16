@@ -44,9 +44,6 @@ function ClinicMetrics() {
       value: 0,
     });
   });
-
-  console.info(JSON.stringify(childLocations, null, 2));
-
   // receptionist ui
   return (
     <>

@@ -1,107 +1,95 @@
 {
-  "$schema": "https://json.openmrs.org/routes.schema.json",
-  "backendDependencies": {
-    "fhir2": "^1.2.0",
-    "webservices.rest": "^2.24.0"
-  },
-  "pages": [
-    {
-      "component": "root",
-      "route": "patient-queues"
+    "$schema": "https://json.openmrs.org/routes.schema.json",
+    "backendDependencies": {
+        "fhir2": "^1.2.0",
+        "webservices.rest": "^2.24.0"
     },
-    {
-      "component": "queueScreen",
-      "route": "patient-queues/screen"
-    }
-    ,{
-      "component": "testScreen",
-      "route":"form-render-test"
-    }
-  ],
-  "extensions": [
-    {
-      "name": "outpatient-side-nav-ext",
-      "slot": "outpatient-sidebar-slot",
-      "component": "outpatientSideNavExt"
-    },
-    {
-      "name": "patient-queues-dashboard-link",
-      "component": "patientQueuesDashboardLink",
-      "slot": "homepage-dashboard-slot",
-      "order": 1,
-      "privilege":[
-        "Queue Patients"
-      ],
-      "meta": {
-        "name": "patient-queues",
-        "slot": "patient-queues-dashboard-slot",
-        "title": "Patient queues"
-      }
-    },
-    {
-      "name": "patient-queues",
-      "slot": "patient-queues-dashboard-slot",
-      "component": "root"
-    },
-    {
-      "name": "edit-queue-entry-status-modal",
-      "component": "editQueueEntryStatusModal"
-    },
-    {
-      "name": "patient-info-banner-slot",
-      "component": "patientInfoBannerSlot"
-    },
-    {
-      "name": "add-patient-to-queue",
-      "slot": "add-patient-to-queue-slot",
-      "component": "addPatientToQueue"
-    },
-    {
-      "name": "remove-queue-entry",
-      "component": "removeQueueEntry"
-    },
-    {
-      "name": "clear-all-queue-entries",
-      "component": "clearAllQueueEntries"
-    },
-    {
-      "name": "pick-patient-queue-entry",
-      "component": "pickPatientEntryQueue"
-    },
-    {
-      "name": "add-visit-to-queue-modal",
-      "component": "addVisitToQueueModal"
-    },
-    {
-      "name": "transition-queue-entry-status-modal",
-      "component": "transitionQueueEntryStatusModal"
-    },
-    {
-      "name": "previous-visit-summary-widget",
-      "slot": "previous-visit-summary-slot",
-      "component": "previousVisitSummaryWidget"
-    },
-    {
-      "name": "add-provider-to-room-modal",
-      "component": "addProviderToRoomModal"
-    },
-    {
-      "name": "add-queue-entry-widget",
-      "slot": "add-queue-entry-slot",
-      "component": "addQueueEntryWidget"
-    },
-    {
-      "name": "active-queue-patient-workspace",
-      "component": "activeQueuePatientWorkspace",
-      "slot": "action-menu-non-chart-items-slot"
-    },
-    {
-      "name": "active-queue-patients",
-      "component": "activeQueuePatients"
-    },
-    {
-      "name": "queue-patients-workspace",
-      "component": "queuePatientsWorkspace"
-    }
-  ]
+    "pages": [{
+            "component": "root",
+            "route": "patient-queues"
+        },
+        {
+            "component": "queueScreen",
+            "route": "patient-queues/screen"
+        }, {
+            "component": "testScreen",
+            "route": "form-render-test"
+        }
+    ],
+    "extensions": [{
+            "name": "outpatient-side-nav-ext",
+            "slot": "outpatient-sidebar-slot",
+            "component": "outpatientSideNavExt"
+        },
+        {
+            "name": "patient-queues-dashboard-link",
+            "component": "patientQueuesDashboardLink",
+            "slot": "homepage-dashboard-slot",
+            "order": 1,
+            "privilege": [
+                "Queue Patients"
+            ],
+            "meta": {
+                "name": "patient-queues",
+                "slot": "patient-queues-dashboard-slot",
+                "title": "Patient queues"
+            }
+        },
+        {
+            "name": "patient-queues",
+            "slot": "patient-queues-dashboard-slot",
+            "component": "root"
+        },
+        {
+            "name": "edit-queue-entry-status-modal",
+            "component": "editQueueEntryStatusModal"
+        },
+        {
+            "name": "patient-info-banner-slot",
+            "component": "patientInfoBannerSlot"
+        },
+        {
+            "name": "add-patient-to-queue",
+            "slot": "add-patient-to-queue-slot",
+            "component": "addPatientToQueue"
+        },
+        {
+            "name": "remove-queue-entry",
+            "component": "removeQueueEntry"
+        },
+        {
+            "name": "clear-all-queue-entries",
+            "component": "clearAllQueueEntries"
+        },
+        {
+            "name": "pick-patient-queue-entry",
+            "component": "pickPatientEntryQueue"
+        },
+        {
+            "name": "add-visit-to-queue-modal",
+            "component": "addVisitToQueueModal"
+        },
+        {
+            "name": "transition-queue-entry-status-modal",
+            "component": "transitionQueueEntryStatusModal"
+        },
+        {
+            "name": "previous-visit-summary-widget",
+            "slot": "previous-visit-summary-slot",
+            "component": "previousVisitSummaryWidget"
+        },
+        {
+            "name": "add-provider-to-room-modal",
+            "component": "addProviderToRoomModal"
+        },
+        {
+            "name": "add-queue-entry-widget",
+            "slot": "add-queue-entry-slot",
+            "component": "addQueueEntryWidget"
+        },
+        {
+            "name" :"notes-dialog-modal",
+            "component": "notesModal"
+        }
+    ]
 }

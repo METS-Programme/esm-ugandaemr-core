@@ -115,6 +115,8 @@ export const addProviderToRoomModal = getAsyncLifecycle(
   },
 );
 
+export const notesModal = getAsyncLifecycle(() => import('./active-visits/notes-dialog.component'), options);
+
 export const addQueueEntryWidget = getAsyncLifecycle(
   () => import('./patient-search/visit-form-queue-fields/visit-form-queue-fields.component'),
   options,
@@ -124,27 +126,6 @@ export const pickPatientEntryQueue = getAsyncLifecycle(() => import('./active-vi
   featureName: 'pick patient dialog',
   moduleName,
 });
-
-export const activeQueuePatientWorkspace = getAsyncLifecycle(
-  () => import('./workspace/queue-patients-action-button.component'),
-  {
-    featureName: 'active patients workspace',
-    moduleName,
-  },
-);
-
-export const activeQueuePatients = getAsyncLifecycle(() => import('./active-visits/active-visits-table.component'), {
-  featureName: 'active patients workspace',
-  moduleName,
-});
-
-export const queuePatientsWorkspace = getAsyncLifecycle(
-  () => import('./workspace/queue-patients-workspace.component'),
-  {
-    featureName: 'active patients workspace',
-    moduleName,
-  },
-);
 
 export const queueScreen = getAsyncLifecycle(() => import('./queue-board/queue-board.component'), options);
 

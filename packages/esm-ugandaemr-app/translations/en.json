@@ -16,5 +16,6 @@
     "chooseDashboardLayout": "Choose Dashboard Layout",
     "dashboardUpdateSuccessfully": "Dashboard Updated Successfully",
     "updateDashboardDetails": "Update Dashboard Details",
-    "chooseLayout": "Choose layout"
+    "chooseLayout": "Choose layout",
+    "updateInternetDetails": "Update Internet & Power Details"
 }

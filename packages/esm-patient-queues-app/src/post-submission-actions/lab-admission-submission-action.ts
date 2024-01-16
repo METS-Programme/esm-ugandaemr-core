@@ -18,6 +18,7 @@ export const LabSubmissionAction: PostSubmissionAction = {
       encounter.uuid,
       encounterLocation,
       patient?.id,
+      '',
       2,
       encounter.uuid,
       'pending',

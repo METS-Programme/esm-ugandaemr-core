@@ -54,6 +54,7 @@ const AddVisitToQueue: React.FC<AddVisitToQueueDialogProps> = ({ visitDetails, c
       visitUuid,
       queueUuid,
       patientUuid,
+      '',
       priority,
       '',
       'pending',
