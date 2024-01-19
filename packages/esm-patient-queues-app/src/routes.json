@@ -86,6 +86,10 @@
             "name": "add-queue-entry-widget",
             "slot": "add-queue-entry-slot",
             "component": "addQueueEntryWidget"
+        },
+        {
+            "name" :"notes-dialog-modal",
+            "component": "notesModal"
         }
     ]
 }

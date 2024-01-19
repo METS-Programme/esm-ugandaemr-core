@@ -86,27 +86,22 @@ function ActiveVisitsReceptionTable() {
       },
       {
         id: 2,
-        header: t('priority', 'Priority'),
-        key: 'priority',
-      },
-      {
-        id: 3,
         header: t('currentlocation', 'Current Location'),
         key: 'location',
       },
       {
-        id: 4,
+        id: 3,
         header: t('status', 'Status'),
         key: 'status',
       },
 
       {
-        id: 5,
+        id: 4,
         header: t('waitTime', 'Wait time'),
         key: 'waitTime',
       },
       {
-        id: 6,
+        id: 5,
         header: t('actions', 'Actions'),
         key: 'actions',
       },
@@ -122,30 +117,6 @@ function ActiveVisitsReceptionTable() {
       },
       name: {
         content: <span>{entry.name}</span>,
-      },
-      priority: {
-        content: (
-          <>
-            {entry?.priorityComment ? (
-              <DefinitionTooltip className={styles.tooltip} align="bottom-left" definition={entry.priorityComment}>
-                <Tag
-                  role="tooltip"
-                  className={entry.priority === 'Priority' ? styles.priorityTag : styles.tag}
-                  type={getTagType(entry.priority as string)}
-                >
-                  {entry.priority}
-                </Tag>
-              </DefinitionTooltip>
-            ) : (
-              <Tag
-                className={entry.priority === 'Priority' ? styles.priorityTag : styles.tag}
-                type={getTagType(entry.priority as string)}
-              >
-                {entry.priority}
-              </Tag>
-            )}
-          </>
-        ),
       },
       location: {
         content: <span> {entry.queueRoom} </span>,

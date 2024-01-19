@@ -11,6 +11,7 @@ import {
   Stack,
   Switch,
   TextArea,
+  InlineLoading,
 } from '@carbon/react';
 import {
   ConfigObject,
@@ -23,22 +24,20 @@ import {
   useConfig,
   useLayoutType,
   useLocations,
+  usePatient,
   useSession,
   useVisitTypes,
 } from '@openmrs/esm-framework';
 import dayjs from 'dayjs';
-import isEmpty from 'lodash-es/isEmpty';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { first } from 'rxjs/operators';
 import { addQueueEntry, useVisitQueueEntries } from '../../active-visits/active-visits-table.resource';
 import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
-import { useQueueLocations } from '../../patient-search/hooks/useQueueLocations';
 import { NewVisitPayload, PatientProgram, SearchTypes } from '../../types';
-import { useActivePatientEnrollment } from '../hooks/useActivePatientEnrollment';
-import { useDefaultLoginLocation } from '../hooks/useDefaultLocation';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './visit-form.scss';
+import { useProviders } from '../../queue-patient-linelists/queue-linelist.resource';
 interface VisitFormProps {
   toggleSearchType: (searchMode: SearchTypes, patientUuid) => void;
   patientUuid: string;
@@ -49,9 +48,7 @@ interface VisitFormProps {
 const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchType, closePanel, mode }) => {
   const { t } = useTranslation();
   const isTablet = useLayoutType() === 'tablet';
-  const locations = useLocations();
   const sessionUser = useSession();
-
   const config = useConfig() as ConfigObject;
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(0);
   const [isMissingVisitType, setIsMissingVisitType] = useState(false);
@@ -62,18 +59,16 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const state = useMemo(() => ({ patientUuid }), [patientUuid]);
   const allVisitTypes = useVisitTypes();
   const [ignoreChanges, setIgnoreChanges] = useState(true);
-  const { activePatientEnrollment, isLoading } = useActivePatientEnrollment(patientUuid);
-  const [enrollment, setEnrollment] = useState<PatientProgram>(activePatientEnrollment[0]);
   const { mutate } = useVisitQueueEntries('', '');
   const [selectedLocation, setSelectedLocation] = useState('');
   const [visitType, setVisitType] = useState('');
   const [priorityComment, setPriorityComment] = useState('');
   const priorityLevels = [1, 2, 3];
-  const [priorityLevel, setPriorityLevel] = useState();
-
+  const { providers } = useProviders();
   const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
-
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState('');
+  const [selectedProvider, setSelectedProvider] = useState('');
+  const { patient, isLoading } = usePatient(patientUuid);
 
   useEffect(() => {
     if (queueRoomLocations?.length && sessionUser) {
@@ -101,6 +96,8 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
 
   const filteredlocations = queueRoomLocations?.filter((location) => location.display != selectedLocation);
 
+  const filteredProviders = providers?.filter((provider) => provider !== null);
+
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
@@ -108,7 +105,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
       // retrieve values from queue extension
       const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
       const status = 'pending';
-      const level = event?.target['priority-levels']?.value;
       const comment = event?.target['nextNotes']?.value;
 
       if (!visitType) {
@@ -144,6 +140,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
                 response.data.uuid,
                 nextQueueLocationUuid,
                 patientUuid,
+                selectedProvider,
                 contentSwitcherIndex,
                 '',
                 status,
@@ -195,6 +192,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
       priorityComment,
       selectedLocation,
       selectedNextQueueLocation,
+      selectedProvider,
       t,
       timeFormat,
       visitDate,
@@ -207,6 +205,16 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
     setIgnoreChanges((prevState) => !prevState);
   };
 
+  const bannerState = useMemo(() => {
+    if (patient) {
+      return {
+        patient,
+        patientUuid,
+        hideActionsOverflow: true,
+      };
+    }
+  }, [patient, patientUuid]);
+
   return (
     <Form className={styles.form} onChange={handleOnChange} onSubmit={handleSubmit}>
       <div>
@@ -215,6 +223,16 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
             <ExtensionSlot name="visit-form-header-slot" className={styles.dataGridRow} state={state} />
           </Row>
         )}
+
+        {isLoading && (
+          <InlineLoading
+            className={styles.bannerLoading}
+            iconDescription="Loading"
+            description="Loading banner"
+            status="active"
+          />
+        )}
+        {patient && <ExtensionSlot name="patient-header-slot" state={bannerState} />}
 
         <Stack gap={8} className={styles.container}>
           <section className={styles.section}>
@@ -237,6 +255,24 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
               items={priorityLevels}
               itemToString={(priorityLevels) => (priorityLevels ? priorityLevels : 0)}
             />
+          </section>
+
+          <section className={styles.section}>
+            <Select
+              labelText={t('selectProvider', 'Select a provider')}
+              id="providers-list"
+              name="providers-list"
+              invalidText="Required"
+              value={selectedProvider}
+              onChange={(event) => setSelectedProvider(event.target.value)}
+            >
+              {!selectedProvider ? <SelectItem text={t('selectProvider', 'Select a provider')} value="" /> : null}
+              {filteredProviders.map((provider) => (
+                <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
+                  {provider.display}
+                </SelectItem>
+              ))}
+            </Select>
           </section>
 
           <section className={styles.section}>
