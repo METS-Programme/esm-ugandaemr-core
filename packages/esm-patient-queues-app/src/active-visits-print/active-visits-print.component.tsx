@@ -11,6 +11,8 @@ interface VisitCardToPrintProps {
 }
 
 export function VisitCardToPrint({ queueEntry }: VisitCardToPrintProps) {
+  const patientUIC = queueEntry.identifiers.find((item) => item.display.includes('Patient Unique  ID Code'));
+
   return (
     <div className={styles.printPage}>
       <div className={styles.container}>
@@ -18,7 +20,11 @@ export function VisitCardToPrint({ queueEntry }: VisitCardToPrintProps) {
         <h3 style={{ paddingBottom: '8px' }}>Visit Registration Receipt</h3>
         <PatientQueueDetailsTable queueEntry={queueEntry} />
         <div style={{ margin: '25px' }} className={styles.name}>
-          {queueEntry.identifiers.length > 0 ? <QRCodeSVG value={queueEntry.identifiers[0].uuid} /> : <></>}
+          {queueEntry.identifiers.length > 0 && patientUIC ? (
+            <QRCodeSVG value={patientUIC?.display.split('=')[1]} />
+          ) : (
+            <> An Error occured</>
+          )}
         </div>
         <div>
           <span className={styles.name}> !!!Thank you !!!</span>
