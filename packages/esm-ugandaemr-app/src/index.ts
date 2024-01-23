@@ -7,6 +7,7 @@ import {
   createOHRIPatientChartSideNavLink,
   patientChartDivider_dashboardMeta,
 } from '@ohri/openmrs-esm-ohri-commons-lib';
+import appMenu from './pages/system-info-menu-app/system-info-menu-item.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -14,6 +15,10 @@ const options = {
   featureName: 'esm-ugandaemr-app',
   moduleName,
 };
+
+export const systemInfoAppMenuItem = getSyncLifecycle(appMenu, options);
+
+export const legacyAdminAppMenuItem = getSyncLifecycle(appMenu, options);
 
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);

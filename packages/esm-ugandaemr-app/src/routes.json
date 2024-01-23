@@ -47,6 +47,22 @@
             "name": "update-facility-code-alert",
             "slot": "homepage-widgets-slot",
             "component": "updateFacilityCodeAlert"
+        },
+        {
+            "name": "system-info-app-menu-item",
+            "component": "systemInfoAppMenuItem",
+            "slot": "app-menu-item-slot",
+            "meta": {
+                "name": "System Info"
+            }
+        },
+        {
+            "name": "legacy-admin-app-menu-item",
+            "component": "legacyAdminAppMenuItem",
+            "slot": "app-menu-item-slot",
+            "meta": {
+                "name": "Legacy Admin"
+            }
         }
     ]
 }
