@@ -13,6 +13,8 @@ function ActiveVisitsTabs() {
   const [selectedTab, setSelectedTab] = useState(0);
   const [overlayHeader, setOverlayTitle] = useState('');
 
+  const status = 'completed' || 'serving' || 'pending';
+
   return (
     <div className={styles.container}>
       <Tabs
@@ -21,12 +23,12 @@ function ActiveVisitsTabs() {
         className={styles.tabs}
       >
         <TabList style={{ paddingLeft: '1rem' }} aria-label="Outpatient tabs" contained>
-          <Tab>{t('pending', 'Pending')}</Tab>
+          <Tab>{t('pending', 'In Queue')}</Tab>
           <Tab>{t('completed', 'Completed')}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel style={{ padding: 0 }}>
-            <ActiveVisitsTable status={'pending'} />
+            <ActiveVisitsTable status={''} />
           </TabPanel>
           <TabPanel style={{ padding: 0 }}>
             <ActiveVisitsTable status={'completed'} />

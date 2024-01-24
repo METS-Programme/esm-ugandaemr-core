@@ -18,3 +18,4 @@ export const PRIVILEGE_CLINICIAN_METRIC = 'View Clinician Metrics';
 export const PRIVILEGE_RECEPTION_QUEUE_LIST = 'View Reception Queuelist';
 export const PRIVILEGE_TRIAGE_QUEUE_LIST = 'View Triage Queuelist';
 export const PRIVILEGE_CLINICIAN_QUEUE_LIST = 'View Clinician Queuelist';
+export const PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS = 'Edit Patient Demographics';
