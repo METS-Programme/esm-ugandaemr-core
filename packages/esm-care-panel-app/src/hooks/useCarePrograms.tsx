@@ -1,57 +1,23 @@
 import useSWR from 'swr';
 import { openmrsFetch } from '@openmrs/esm-framework';
 
-export interface Result {
+export type PatientCarePrograms = {
   uuid: string;
   name: string;
-  allWorkflows: AllWorkflow[];
-  links: Link[];
-}
-
-export interface AllWorkflow {
-  uuid: string;
-  concept: Concept;
-  retired: boolean;
-  states: State[];
-  links: Link[];
-}
-
-export interface Concept {
-  uuid: string;
-  display: string;
-  links: Link[];
-}
-
-export interface Link {
-  rel: string;
-  uri: string;
-  resourceAlias: string;
-}
-
-export interface State {
-  uuid: string;
-  retired: boolean;
-  concept: Concept2;
-  links: Link[];
-}
-
-export interface Concept2 {
-  uuid: string;
-  display: string;
-  links: Link[];
-}
+  enrollmentFormUuid: string;
+  description: string;
+  discontinuationFormUuid: string;
+  enrollmentDetails?: { uuid: string; dateCompleted: string; location: string; dateEnrolled: string };
+};
 
 export const useCarePrograms = (patientUuid: string) => {
-  const url = `/ws/rest/v1/program`;
-  const { data, error, isLoading, isValidating } = useSWR<{ data: { results: Array<Result> } }, Error>(
-    url,
-    openmrsFetch,
-  );
+    const url = `ws/rest/v1/ugandaemr/patientCohorts?patientUuid=${patientUuid}`;
+    const { data, error, isLoading, isValidating } = useSWR<{ data: Array<PatientCarePrograms> }>(url, openmrsFetch);
 
-  return {
-    carePrograms: data?.data.results ?? [],
-    error,
-    isLoading,
-    isValidating,
-  };
+    return {
+      carePrograms: data?.data?.filter((careProgram) => careProgram.description !== 'active') ?? [],
+      error,
+      isLoading,
+      isValidating,
+    };
 };
