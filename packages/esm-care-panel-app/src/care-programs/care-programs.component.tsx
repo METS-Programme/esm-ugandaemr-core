@@ -48,18 +48,18 @@ const CarePrograms: React.FC<CareProgramsProps> = ({ patientUuid }) => {
 
       currentVisit
         ? launchPatientWorkspace('patient-form-entry-workspace', {
-          workspaceTitle: workspaceTitle,
-          mutateForm: () => {
-            mutate((key) => true, undefined, {
-              revalidate: true,
-            });
-          },
-          formInfo: {
-            encounterUuid: '',
-            formUuid,
-            additionalProps: { enrollmenrDetails: careProgram.enrollmentDetails } ?? {},
-          },
-        })
+            workspaceTitle: workspaceTitle,
+            mutateForm: () => {
+              mutate((key) => true, undefined, {
+                revalidate: true,
+              });
+            },
+            formInfo: {
+              encounterUuid: '',
+              formUuid,
+              additionalProps: { enrollmenrDetails: careProgram.enrollmentDetails } ?? {},
+            },
+          })
         : launchStartVisitPrompt();
     },
     [currentVisit],
@@ -88,7 +88,8 @@ const CarePrograms: React.FC<CareProgramsProps> = ({ patientUuid }) => {
                 kind={careProgram.description == 'active' ? 'danger--ghost' : 'ghost'}
                 iconDescription="Dismiss"
                 onClick={() => handleCareProgramClick(careProgram)}
-                renderIcon={careProgram.description == 'active' ? Close : DocumentAdd}>
+                renderIcon={careProgram.description == 'active' ? Close : DocumentAdd}
+              >
                 {careProgram.description == 'active' ? 'Discontinue' : 'Enroll'}
               </Button>
             </div>
