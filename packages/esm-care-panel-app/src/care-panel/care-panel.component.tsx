@@ -20,33 +20,19 @@ interface CarePanelProps {
 
 type SwitcherItem = {
   index: number;
-  display?: string;
+  name?: string;
   text?: string;
 };
 
 const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launchPatientWorkspace }) => {
   const { t } = useTranslation();
   const { isLoading, error, enrollments } = useEnrollmentHistory(patientUuid);
-
-  const enrolmentPrograms = enrollments.map((item, index) => {
-    const program: SwitcherItem = {
-      index: index,
-      display: item.display,
-      text: item.display,
-    };
-    return program;
-  });
-
-  console.info('info here--->', enrolmentPrograms);
-
-  // const switcherHeaders = sortBy(Object.keys(enrolmentPrograms || {}));
+  const switcherHeaders = sortBy(Object.keys(enrollments || {}));
   const [switchItem, setSwitcherItem] = useState<SwitcherItem>({ index: 0 });
-  // const patientEnrollments = useMemo(
-  //   () => (isLoading ? [] : enrolmentPrograms[switchItem?.display]),
-  //   [enrolmentPrograms, isLoading, switchItem?.display],
-  // );
-
-  // console.info('eerr-->', patientEnrollments);
+  const patientEnrollments = useMemo(
+    () => (isLoading ? [] : enrollments[switchItem?.name || first(switcherHeaders)]),
+    [enrollments, isLoading, switchItem?.name, switcherHeaders],
+  );
 
   if (isLoading) {
     return (
@@ -60,7 +46,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
     return <ErrorState error={error} headerTitle={t('carePanelError', 'Care panel')} />;
   }
 
-  if (enrolmentPrograms.length === 0) {
+  if (Object.keys(enrollments).length === 0) {
     return (
       <>
         <EmptyState displayText={t('carePanel', 'care panel')} headerTitle={t('carePanel', 'Care panel')} />
@@ -77,19 +63,19 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
         <CardHeader title={t('carePanel', 'Care Panel')}>
           <div className={styles.contextSwitcherContainer}>
             <ContentSwitcher selectedIndex={switchItem?.index} onChange={setSwitcherItem}>
-              {enrolmentPrograms?.map((enrollment) => (
-                <Switch key={enrollment.index} name={enrollment.display} text={enrollment.text} />
+              {switcherHeaders?.map((enrollment) => (
+                <Switch key={enrollment} name={enrollment} text={enrollment} />
               ))}
             </ContentSwitcher>
           </div>
         </CardHeader>
         <div style={{ width: '100%', minHeight: '20rem' }}>
-          {/* <ProgramSummary patientUuid={patientUuid} programName={enrolmentPrograms[switchItem?.display]} /> */}
-          {/* <RegimenHistory patientUuid={patientUuid} category={enrolmentPrograms[switchItem?.display]} /> */}
+          <ProgramSummary patientUuid={patientUuid} programName={switcherHeaders[switchItem?.index]} />
+          <RegimenHistory patientUuid={patientUuid} category={switcherHeaders[switchItem?.index]} />
           <ProgramEnrollment
             patientUuid={patientUuid}
-            programName={enrolmentPrograms[switchItem?.display]}
-            enrollments={enrollments}
+            programName={switcherHeaders[switchItem?.index]}
+            enrollments={patientEnrollments}
             formEntrySub={formEntrySub}
             launchPatientWorkspace={launchPatientWorkspace}
           />
