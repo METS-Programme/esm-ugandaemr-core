@@ -8,12 +8,14 @@ export const CareProgramSubmissionAction: PostSubmissionAction = {
     const encounterLocation = encounter.location['uuid'];
     const patientUuid = encounter.patient['identifier'][0]['uuid'];
 
+    const programUuid = '';
+
     // only do this the first time the form is entered
     if (sessionMode !== 'enter') {
       return;
     }
 
-    const payload = CreateProgramEnrollmentPayload(patientUuid, encounterLocation, '', '', null);
+    const payload = CreateProgramEnrollmentPayload(programUuid, encounterLocation, patientUuid, null, null);
 
     // enroll into a program
     createProgramEnrollment(payload)

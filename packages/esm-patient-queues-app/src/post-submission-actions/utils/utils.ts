@@ -9,7 +9,7 @@ export function CreateProgramEnrollmentPayload(
   programUuid: string,
   locationUuid: string,
   patientUuid: string,
-  dateEnrolled: Date | string,
+  dateEnrolled: Date | null,
   dateCompleted: Date | null,
 ): ProgramEnrollmentPayload {
   return {
