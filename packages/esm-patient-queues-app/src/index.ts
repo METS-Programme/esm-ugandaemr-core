@@ -39,8 +39,8 @@ export function startupApp() {
   // care-programs
   registerPostSubmissionAction({
     id: 'CareProgramSubmissionAction',
-    load: () => import("./post-submission-actions/care-programs-submission-action"),
-  })
+    load: () => import('./post-submission-actions/care-programs-submission-action'),
+  });
 
   // console.log('info');
 }
