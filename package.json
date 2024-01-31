@@ -86,7 +86,7 @@
         "sass": "^1.54.3",
         "swc-loader": "^0.2.3",
         "systemjs-webpack-interop": "^2.3.7",
-        "turbo": "^1.10.13",
+        "turbo": "latest",
         "typescript": "^5.0.2",
         "webpack": "^5.83.1",
         "webpack-bundle-analyzer": "^4.4.0",

@@ -31,65 +31,94 @@ export interface ProgramEnrollmentProps {
 const shareObjProperty = { dateEnrolled: 'Enrolled on', dateCompleted: 'Date Completed' };
 const programDetailsMap = {
   HIV: {
-    dateEnrolled: 'Enrolled on',
     whoStage: 'WHO Stage',
     entryPoint: 'Entry Point',
     regimenShortDisplay: 'Regimen',
     changeReasons: 'Reason for regimen change',
+    dateEnrolled: 'Enrolled on', // Include "Enrolled on" only once
   },
   TB: {
-    ...shareObjProperty,
     startDate: 'Date started regimen',
     regimenShortName: 'Regimen',
+    dateEnrolled: 'Enrolled on', // Include "Enrolled on" only once
   },
   TPT: {
-    ...shareObjProperty,
     tptDrugName: 'Regimen',
     tptDrugStartDate: 'Date started regimen',
     tptIndication: 'Indication for TPT',
+    dateEnrolled: 'Enrolled on', // Include "Enrolled on" only once
   },
   'MCH - Mother Services': {
-    ...shareObjProperty,
     lmp: 'LMP',
     eddLmp: 'EDD',
     gravida: 'Gravida',
     parity: 'Parity',
     gestationInWeeks: 'Gestation in weeks',
+    dateEnrolled: 'Enrolled on', // Include "Enrolled on" only once
   },
-  'MCH - Child Services': { ...shareObjProperty, entryPoint: 'Entry Point' },
+  'MCH - Child Services': {
+    entryPoint: 'Entry Point',
+    dateEnrolled: 'Enrolled on', // Include "Enrolled on" only once
+  },
   mchMother: {},
   mchChild: {},
   VMMC: {
-    ...shareObjProperty,
+    dateEnrolled: 'Enrolled on', // Include "Enrolled on" only once
   },
 };
 
+
 const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [], programName }) => {
   const { t } = useTranslation();
+
   const orderedEnrollments = orderBy(enrollments, 'dateEnrolled', 'desc');
-  const headers = useMemo(
-    () =>
-      Object.entries(programDetailsMap[programName] ?? { ...shareObjProperty }).map(([key, value]) => ({
-        key,
-        header: value,
-      })),
-    [programName],
-  );
-  const rows = useMemo(
-    () =>
-      orderedEnrollments?.map((enrollment) => {
-        const firstEncounter = enrollment?.firstEncounter ?? {};
-        const enrollmentEncounterUuid = enrollment?.enrollmentEncounterUuid;
-        return {
-          id: `${enrollment.enrollmentUuid}`,
-          ...enrollment,
-          ...firstEncounter,
-          changeReasons: enrollment?.firstEncounter?.changeReasons?.join(', '),
-          enrollmentEncounterUuid: enrollmentEncounterUuid,
-        };
-      }),
-    [orderedEnrollments],
-  );
+
+  const headers = useMemo(() => {
+    const programDetails = programDetailsMap[programName];
+    const fallbackHeaders = { ...shareObjProperty };
+  
+    if (!programDetails) {
+      console.warn(`Program details not found for ${programName}. Falling back to default headers.`);
+      return Object.entries(fallbackHeaders).map(([key, value]) => ({ key, header: value }));
+    }
+  
+    const uniqueHeaders = new Map();
+  
+    Object.entries(programDetails).forEach(([key, value]) => {
+      uniqueHeaders.set(key, value);
+    });
+  
+    return Array.from(uniqueHeaders.entries()).map(([key, value]) => ({ key, header: value }));
+  }, [programDetailsMap, programName]);
+  
+  
+  
+  const rows = useMemo(() =>
+  orderedEnrollments?.map((enrollment) => {
+    console.info('enrollment object:', enrollment); // Log the enrollment object
+    const firstEncounter = enrollment?.firstEncounter ?? {};
+    const enrollmentEncounterUuid = enrollment?.enrollmentEncounterUuid;
+
+    const formattedDateEnrolled = dayjs(enrollment?.dateEnrolled).isValid()
+      ? formatDate(dayjs(enrollment?.dateEnrolled).toDate())
+      : '--';
+
+    console.info('Formatted Date Enrolled:', formattedDateEnrolled); // Log the formatted date
+
+    return {
+      id: `${enrollment?.uuid}`,
+      ...enrollment,
+      ...firstEncounter,
+      changeReasons: enrollment?.firstEncounter?.changeReasons?.join(', '),
+      enrollmentEncounterUuid: enrollmentEncounterUuid,
+      dateEnrolled: formattedDateEnrolled,
+    };
+  }),
+  [orderedEnrollments]
+);
+
+   
+
 
   const handleDiscontinue = (enrollment) => {
     launchPatientWorkspace('patient-form-entry-workspace', {
@@ -166,8 +195,8 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
                           {isEmpty(cell.value)
                             ? '--'
                             : dayjs(cell.value).isValid()
-                            ? formatDate(new Date(cell.value))
-                            : cell.value}
+                              ? formatDate(new Date(cell.value))
+                              : cell.value}
                         </TableCell>
                       ))}
                       <TableCell className="cds--table-column-menu">

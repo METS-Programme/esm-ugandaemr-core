@@ -36,6 +36,11 @@ export function startupApp() {
     id: 'RadiologySubmissionAction',
     load: () => import('./post-submission-actions/radiology-admission-submission-action'),
   });
+  // care-programs
+  registerPostSubmissionAction({
+    id: 'CareProgramSubmissionAction',
+    load: () => import("./post-submission-actions/care-programs-submission-action"),
+  })
 
   // console.log('info');
 }
