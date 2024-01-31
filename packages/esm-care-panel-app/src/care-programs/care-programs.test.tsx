@@ -19,10 +19,10 @@ const testProps = {
 const mockAPIResponse: Array<PatientCarePrograms> = [
   {
     uuid: 'dfdc6d40-2f2f-463d-ba90-cc97350441a8',
-    display: 'HIV',
+    name: 'HIV',
     enrollmentFormUuid: 'e4b506c1-7379-42b6-a374-284469cba8da',
     discontinuationFormUuid: 'e3237ede-fa70-451f-9e6c-0908bc39f8b9',
-    enrollmentStatus: 'active',
+    description: 'active',
     enrollmentDetails: {
       uuid: '561f0766-6496-4f59-abc2-a4030788b3cc',
       dateEnrolled: '2023-10-25 03:27:15.0',
@@ -32,10 +32,10 @@ const mockAPIResponse: Array<PatientCarePrograms> = [
   },
   {
     uuid: '9f144a34-3a4a-44a9-8486-6b7af6cc64f6',
-    display: 'TB',
+    name: 'TB',
     enrollmentFormUuid: '89994550-9939-40f3-afa6-173bce445c79',
     discontinuationFormUuid: '4b296dd0-f6be-4007-9eb8-d0fd4e94fb3a',
-    enrollmentStatus: 'eligible',
+    description: 'eligible',
   },
 ];
 
