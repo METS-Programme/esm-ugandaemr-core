@@ -3,8 +3,6 @@ import { ProgramEnrollmentPayload } from './utils';
 
 export async function createProgramEnrollment(payload: ProgramEnrollmentPayload) {
   const abortController = new AbortController();
-
-  console.info('payload---->', payload);
   return openmrsFetch(`/ws/rest/v1/programenrollment`, {
     method: 'POST',
     headers: {

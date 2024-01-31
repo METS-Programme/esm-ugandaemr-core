@@ -6,8 +6,6 @@ export const LabSubmissionAction: PostSubmissionAction = {
     const encounter = encounters[0];
     const encounterLocation = encounter.location['uuid'];
 
-    console.info(JSON.stringify(encounter));
-
     // only do this the first time the form is entered
     if (sessionMode !== 'enter') {
       return;

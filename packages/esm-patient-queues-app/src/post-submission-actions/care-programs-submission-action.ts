@@ -8,8 +8,6 @@ export const CareProgramSubmissionAction: PostSubmissionAction = {
     const encounterLocation = encounter.location['uuid'];
     const patientUuid = encounter.patient['identifier'][0]['uuid'];
 
-    console.info('CarePrograms-------->', JSON.stringify(encounter, null, 2));
-
     // only do this the first time the form is entered
     if (sessionMode !== 'enter') {
       return;
