@@ -25,14 +25,12 @@ type SwitcherItem = {
 };
 
 const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launchPatientWorkspace }) => {
-
   const { t } = useTranslation();
   // Destructure the result of useEnrollmentHistory directly
   const { isLoading, error, enrollments } = useEnrollmentHistory(patientUuid);
 
   // Use Object.keys(enrollments || {}) to get an array of keys and sort them
   const switcherHeaders = sortBy(Object.keys(enrollments || {}));
- 
 
   const [switchItem, setSwitcherItem] = useState<SwitcherItem>({ index: 0 });
 
@@ -41,7 +39,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
 
   const patientEnrollments = useMemo(
     () => (isLoading ? [] : enrollments[selectedHeader]),
-    [enrollments, isLoading, selectedHeader]
+    [enrollments, isLoading, selectedHeader],
   );
   if (isLoading) {
     return (
@@ -64,7 +62,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
         </div>
       </>
     );
-  } 
+  }
   return (
     <>
       <div className={styles.widgetCard}>
@@ -72,7 +70,11 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
           <div className={styles.contextSwitcherContainer}>
             <ContentSwitcher selectedIndex={switchItem?.index} onChange={setSwitcherItem}>
               {switcherHeaders?.map((enrollmentKey, index) => (
-                <Switch key={enrollmentKey} name={enrollmentKey} text={enrollments[enrollmentKey]?.display || enrollmentKey} />
+                <Switch
+                  key={enrollmentKey}
+                  name={enrollmentKey}
+                  text={enrollments[enrollmentKey]?.display || enrollmentKey}
+                />
               ))}
             </ContentSwitcher>
           </div>
@@ -96,4 +98,3 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
 };
 
 export default CarePanel;
-
