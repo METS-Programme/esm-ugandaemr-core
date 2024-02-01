@@ -434,3 +434,17 @@ export interface WaitTime {
   metric: string;
   averageWaitTime: string;
 }
+
+export interface Identifier {
+  identifier: string;
+  identifierName?: string;
+}
+
+export interface Provider {
+  uuid: string;
+  display: string;
+  comments: string;
+  response?: string;
+  person: OpenmrsResource;
+  name?: string;
+}

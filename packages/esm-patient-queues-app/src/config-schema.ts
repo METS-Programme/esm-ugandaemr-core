@@ -138,6 +138,11 @@ export const configSchema = {
     _default: '',
     _description: 'Custom label for patient chart button',
   },
+  patientIdentifierType: {
+    _type: Type.String,
+    _description: 'The name of the patient identifier type to be used for the patient identifier field',
+    _default: 'OpenMRS ID',
+  },
   showUpcomingAppointments: {
     _type: Type.Boolean,
     _description: 'Whether start visit form should display upcoming appointments',
