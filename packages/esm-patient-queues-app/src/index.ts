@@ -18,27 +18,27 @@ export function startupApp() {
   // register post form submission
   // ipd
   registerPostSubmissionAction({
-    id: 'IpdAdmissionSubmissionAction',
+    name: 'IpdAdmissionSubmissionAction',
     load: () => import('./post-submission-actions/ipd-admission-submission-action'),
   });
   // lab
   registerPostSubmissionAction({
-    id: 'LabSubmissionAction',
+    name: 'LabSubmissionAction',
     load: () => import('./post-submission-actions/lab-admission-submission-action'),
   });
   // medications
   registerPostSubmissionAction({
-    id: 'MedicationsSubmissionAction',
+    name: 'MedicationsSubmissionAction',
     load: () => import('./post-submission-actions/medications-admission-submission-action'),
   });
   // radiology
   registerPostSubmissionAction({
-    id: 'RadiologySubmissionAction',
+    name: 'RadiologySubmissionAction',
     load: () => import('./post-submission-actions/radiology-admission-submission-action'),
   });
   // care-programs
   registerPostSubmissionAction({
-    id: 'CareProgramSubmissionAction',
+    name: 'CareProgramSubmissionAction',
     load: () => import('./post-submission-actions/care-programs-submission-action'),
   });
 
