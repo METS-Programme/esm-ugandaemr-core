@@ -99,7 +99,7 @@ export function usePatientQueueRequest(apiUrl: string, provider) {
   );
 
   const mapppedQueues = data?.data?.results
-    .filter((item) => item.provider.identifier !== '' && item.provider.identifier === provider)
+    .filter((item) => item?.provider?.identifier !== '' && item?.provider?.identifier === provider)
     .map((queue: PatientQueue) => {
       return {
         ...queue,

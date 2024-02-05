@@ -11,6 +11,7 @@ import {
   Stack,
   Switch,
   TextArea,
+  InlineLoading,
 } from '@carbon/react';
 import {
   ConfigObject,
@@ -23,6 +24,7 @@ import {
   useConfig,
   useLayoutType,
   useLocations,
+  usePatient,
   useSession,
   useVisitTypes,
 } from '@openmrs/esm-framework';
@@ -66,6 +68,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState('');
   const [selectedProvider, setSelectedProvider] = useState('');
+  const { patient, isLoading } = usePatient(patientUuid);
 
   useEffect(() => {
     if (queueRoomLocations?.length && sessionUser) {
@@ -202,6 +205,16 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
     setIgnoreChanges((prevState) => !prevState);
   };
 
+  const bannerState = useMemo(() => {
+    if (patient) {
+      return {
+        patient,
+        patientUuid,
+        hideActionsOverflow: true,
+      };
+    }
+  }, [patient, patientUuid]);
+
   return (
     <Form className={styles.form} onChange={handleOnChange} onSubmit={handleSubmit}>
       <div>
@@ -210,6 +223,16 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
             <ExtensionSlot name="visit-form-header-slot" className={styles.dataGridRow} state={state} />
           </Row>
         )}
+
+        {isLoading && (
+          <InlineLoading
+            className={styles.bannerLoading}
+            iconDescription="Loading"
+            description="Loading banner"
+            status="active"
+          />
+        )}
+        {patient && <ExtensionSlot name="patient-header-slot" state={bannerState} />}
 
         <Stack gap={8} className={styles.container}>
           <section className={styles.section}>

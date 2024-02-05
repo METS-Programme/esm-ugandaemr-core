@@ -71,18 +71,18 @@ export const systemInfoPage = getAsyncLifecycle(() => import('./pages/system-inf
   moduleName,
 });
 
-export const retrieveFacilityCodeModal = getAsyncLifecycle(
-  () => import('./pages/system-info/facility-modal.component'),
-  {
-    featureName: 'retrieve facility code modal',
-    moduleName,
-  },
-);
+// export const retrieveFacilityCodeModal = getAsyncLifecycle(
+//   () => import('./pages/system-info/facility-modal.component'),
+//   {
+//     featureName: 'retrieve facility code modal',
+//     moduleName,
+//   },
+// );
 
-export const updateFacilityCodeAlert = getAsyncLifecycle(
-  () => import('./pages/system-info/update-facility-code-alert'),
-  {
-    featureName: 'update facility code alert',
-    moduleName,
-  },
-);
+// export const updateFacilityCodeAlert = getAsyncLifecycle(
+//   () => import('./pages/system-info/update-facility-code-alert'),
+//   {
+//     featureName: 'update facility code alert',
+//     moduleName,
+//   },
+// );
