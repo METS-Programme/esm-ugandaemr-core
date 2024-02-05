@@ -33,7 +33,7 @@
         "swr": "^2.1.1"
     },
     "peerDependencies": {
-        "@openmrs/openmrs-form-engine-lib": "5.x"
+        "@openmrs/openmrs-form-engine-lib": "1.x"
     },
     "devDependencies": {
         "@carbon/react": "^1.14.0",
