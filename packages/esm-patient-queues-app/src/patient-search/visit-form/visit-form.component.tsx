@@ -70,6 +70,9 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const [selectedProvider, setSelectedProvider] = useState('');
   const { patient, isLoading } = usePatient(patientUuid);
 
+  const [upcomingAppointment, setUpcomingAppointment] = useState(null);
+  const upcomingAppointmentState = useMemo(() => ({ patientUuid, setUpcomingAppointment }), [patientUuid]);
+
   useEffect(() => {
     if (queueRoomLocations?.length && sessionUser) {
       setSelectedLocation(sessionUser?.sessionLocation?.display);
@@ -235,6 +238,14 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
         {patient && <ExtensionSlot name="patient-header-slot" state={bannerState} />}
 
         <Stack gap={8} className={styles.container}>
+          {config.showUpcomingAppointments && (
+            <section>
+              <div className={styles.sectionTitle}></div>
+              <div className={styles.sectionField}>
+                <ExtensionSlot state={upcomingAppointmentState} name="upcoming-appointment-slot" />
+              </div>
+            </section>
+          )}
           <section className={styles.section}>
             <div className={styles.sectionTitle}>{t('priority', 'Priority')}</div>
             <ContentSwitcher

@@ -138,6 +138,11 @@ export const configSchema = {
     _default: '',
     _description: 'Custom label for patient chart button',
   },
+  showUpcomingAppointments: {
+    _type: Type.Boolean,
+    _description: 'Whether start visit form should display upcoming appointments',
+    _default: true,
+  },
 };
 
 export interface ConfigObject {
@@ -170,6 +175,7 @@ export interface ConfigObject {
   customPatientIdUrl: string;
   defaultFacilityUrl: string;
   customPatientChartText: string;
+  showUpcomingAppointments: boolean;
 }
 
 export interface OutpatientConfig {
