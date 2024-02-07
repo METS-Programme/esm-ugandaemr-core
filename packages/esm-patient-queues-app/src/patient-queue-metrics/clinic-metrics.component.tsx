@@ -10,6 +10,7 @@ import {
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import {
   useActiveVisits,
+  useAppointmentList,
   usePatientsBeingServed,
   usePatientsServed,
   useQueuePatients,
@@ -29,9 +30,9 @@ function ClinicMetrics() {
 
   const { servedCount } = usePatientsServed(session?.sessionLocation?.uuid, 'picked');
 
-  const { count } = useQueuePatients('picked');
-
   const { count: pendingCount } = useQueuePatients('pending');
+
+  const { appointmentList, isLoading: loadingExpectedAppointments } = useAppointmentList('Scheduled');
 
   const { location: childLocations, isLoading: loadingChildLocations } = useParentLocation(
     locations?.parentLocation?.uuid,
@@ -54,7 +55,7 @@ function ClinicMetrics() {
             headerLabel={t('checkedInPatients', 'Checked in patients')}
           />
           <MetricsCard
-            values={[{ label: 'Expected Appointments', value: 0 }]}
+            values={[{ label: 'Expected Appointments', value: appointmentList?.length }]}
             headerLabel={t('noOfExpectedAppointments', 'No. Of Expected Appointments')}
           />
           <MetricsCard
