@@ -1,7 +1,6 @@
 import useSWR from 'swr';
 import groupBy from 'lodash/groupBy';
 import { openmrsFetch } from '@openmrs/esm-framework';
-import { Result } from './useCarePrograms';
 
 export interface Result {
   uuid: string;
