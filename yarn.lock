@@ -1480,12 +1480,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.5, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.5, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.20.13, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.22.5, @babel/runtime@npm:^7.22.6, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.4, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.8.3, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.1, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.5, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.5, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.20.13, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.22.6, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.4, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.8.3, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.1, @babel/runtime@npm:^7.9.2":
   version: 7.22.10
   resolution: "@babel/runtime@npm:7.22.10"
   dependencies:
     regenerator-runtime: ^0.14.0
   checksum: 524d41517e68953dbc73a4f3616b8475e5813f64e28ba89ff5fca2c044d535c2ea1a3f310df1e5bb06162e1f0b401b5c4af73fe6e2519ca2450d9d8c44cf268d
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.23.9":
+  version: 7.23.9
+  resolution: "@babel/runtime@npm:7.23.9"
+  dependencies:
+    regenerator-runtime: ^0.14.0
+  checksum: 6bbebe8d27c0c2dd275d1ac197fc1a6c00e18dab68cc7aaff0adc3195b45862bae9c4cc58975629004b0213955b2ed91e99eccb3d9b39cabea246c657323d667
   languageName: node
   linkType: hard
 
@@ -5092,8 +5101,8 @@ __metadata:
   linkType: hard
 
 "@openmrs/openmrs-form-engine-lib@npm:next":
-  version: 1.0.0-pre.518
-  resolution: "@openmrs/openmrs-form-engine-lib@npm:1.0.0-pre.518"
+  version: 1.0.0-pre.525
+  resolution: "@openmrs/openmrs-form-engine-lib@npm:1.0.0-pre.525"
   dependencies:
     ace-builds: ^1.4.12
     enzyme: ^3.11.0
@@ -5116,7 +5125,7 @@ __metadata:
     react: 18.x
     react-i18next: 11.x
     rxjs: 6.x
-  checksum: 72ecb177fb75d7771cb06872fc863b2feb1f50d9405403ce56487c72040806c105242e07640232612770b77d11c81f64d343b8da5a33fbef957e6c581005b42d
+  checksum: be0a12271e63664135822839319191cfa65d781c553de3a112970f91a04120964b1d1dcd1fd50ad2f0592c54a49449680113d025abde855fbeb653007b4b3ae8
   languageName: node
   linkType: hard
 
@@ -6924,7 +6933,7 @@ __metadata:
     eslint-config-ts-react-important-stuff: ^3.0.0
     eslint-plugin-prettier: ^4.2.1
     husky: ^8.0.3
-    i18next: ^23.2.8
+    i18next: ^23.8.2
     i18next-parser: ^8.0.0
     identity-obj-proxy: ^3.0.0
     install-peers: ^1.0.4
@@ -6933,6 +6942,7 @@ __metadata:
     jest-environment-jsdom: ^28.1.3
     lerna: ^5.6.1
     lodash: ^4.17.21
+    lodash-es: ^4.17.15
     openmrs: next
     prettier: ^2.8.8
     pretty-quick: ^3.1.3
@@ -6940,7 +6950,7 @@ __metadata:
     react-dom: ^18.2.0
     react-full-screen: ^1.1.1
     react-grid-layout: ^1.3.4
-    react-i18next: ^11.18.6
+    react-i18next: ^14.0.5
     react-router-dom: ^6.14.1
     react-to-print: ^2.14.13
     recharts: ^2.7.2
@@ -6949,14 +6959,14 @@ __metadata:
     swc-loader: ^0.2.3
     swr: ^2.1.1
     systemjs-webpack-interop: ^2.3.7
-    turbo: latest
+    turbo: ^1.10.13
     typescript: ^5.0.2
     webpack: ^5.83.1
     webpack-bundle-analyzer: ^4.4.0
     webpack-cli: ^4.10.0
     webpack-dev-server: ^4.8.1
   peerDependencies:
-    "@openmrs/openmrs-form-engine-lib": 1.x
+    "@openmrs/openmrs-form-engine-lib": 5.x
   languageName: unknown
   linkType: soft
 
@@ -14836,12 +14846,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^23.2.8":
-  version: 23.4.5
-  resolution: "i18next@npm:23.4.5"
+"i18next@npm:^23.8.2":
+  version: 23.8.2
+  resolution: "i18next@npm:23.8.2"
   dependencies:
-    "@babel/runtime": ^7.22.5
-  checksum: b39a1edc19fc6fb34df4fd95581e2b86dd5d8c8345e3409a3366df606a72b62f25ee31a82fb9b0e22161cd856408989c91b74ee737b0cce00d547e6d371a14f5
+    "@babel/runtime": ^7.23.2
+  checksum: c20e68c6c216bfcedc16d8d8b1ee545423e26e84ace36b699f936ec8cf1b4df8ee2ae093e7a3e444a9cb5931ca76698ae1a80d31691aa4153bcc804394e0019e
   languageName: node
   linkType: hard
 
@@ -21890,7 +21900,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:^11.18.6, react-i18next@npm:^11.7.0":
+"react-i18next@npm:^11.7.0":
   version: 11.18.6
   resolution: "react-i18next@npm:11.18.6"
   dependencies:
@@ -21905,6 +21915,24 @@ __metadata:
     react-native:
       optional: true
   checksum: 624c0a0313fac4e0d18560b83c99a8bd0a83abc02e5db8d01984e0643ac409d178668aa3a4720d01f7a0d9520d38598dcbff801d6f69a970bae67461de6cd852
+  languageName: node
+  linkType: hard
+
+"react-i18next@npm:^14.0.5":
+  version: 14.0.5
+  resolution: "react-i18next@npm:14.0.5"
+  dependencies:
+    "@babel/runtime": ^7.23.9
+    html-parse-stringify: ^3.0.1
+  peerDependencies:
+    i18next: ">= 23.2.3"
+    react: ">= 16.8.0"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 54fe5ffd887d633852ea7e82e98b6ef057facf45dec512469dd0e43ae64d9450d2bafe7c85c87fd650cf6dad1bf81727a89fba23af0508b7a806153d459fc5cc
   languageName: node
   linkType: hard
 
@@ -25600,58 +25628,58 @@ __metadata:
   languageName: node
   linkType: hard
 
-"turbo-darwin-64@npm:1.11.3":
-  version: 1.11.3
-  resolution: "turbo-darwin-64@npm:1.11.3"
+"turbo-darwin-64@npm:1.12.3":
+  version: 1.12.3
+  resolution: "turbo-darwin-64@npm:1.12.3"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-darwin-arm64@npm:1.11.3":
-  version: 1.11.3
-  resolution: "turbo-darwin-arm64@npm:1.11.3"
+"turbo-darwin-arm64@npm:1.12.3":
+  version: 1.12.3
+  resolution: "turbo-darwin-arm64@npm:1.12.3"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo-linux-64@npm:1.11.3":
-  version: 1.11.3
-  resolution: "turbo-linux-64@npm:1.11.3"
+"turbo-linux-64@npm:1.12.3":
+  version: 1.12.3
+  resolution: "turbo-linux-64@npm:1.12.3"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-linux-arm64@npm:1.11.3":
-  version: 1.11.3
-  resolution: "turbo-linux-arm64@npm:1.11.3"
+"turbo-linux-arm64@npm:1.12.3":
+  version: 1.12.3
+  resolution: "turbo-linux-arm64@npm:1.12.3"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo-windows-64@npm:1.11.3":
-  version: 1.11.3
-  resolution: "turbo-windows-64@npm:1.11.3"
+"turbo-windows-64@npm:1.12.3":
+  version: 1.12.3
+  resolution: "turbo-windows-64@npm:1.12.3"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-windows-arm64@npm:1.11.3":
-  version: 1.11.3
-  resolution: "turbo-windows-arm64@npm:1.11.3"
+"turbo-windows-arm64@npm:1.12.3":
+  version: 1.12.3
+  resolution: "turbo-windows-arm64@npm:1.12.3"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo@npm:latest":
-  version: 1.11.3
-  resolution: "turbo@npm:1.11.3"
+"turbo@npm:^1.10.13":
+  version: 1.12.3
+  resolution: "turbo@npm:1.12.3"
   dependencies:
-    turbo-darwin-64: 1.11.3
-    turbo-darwin-arm64: 1.11.3
-    turbo-linux-64: 1.11.3
-    turbo-linux-arm64: 1.11.3
-    turbo-windows-64: 1.11.3
-    turbo-windows-arm64: 1.11.3
+    turbo-darwin-64: 1.12.3
+    turbo-darwin-arm64: 1.12.3
+    turbo-linux-64: 1.12.3
+    turbo-linux-arm64: 1.12.3
+    turbo-windows-64: 1.12.3
+    turbo-windows-arm64: 1.12.3
   dependenciesMeta:
     turbo-darwin-64:
       optional: true
@@ -25667,7 +25695,7 @@ __metadata:
       optional: true
   bin:
     turbo: bin/turbo
-  checksum: e9165407e7766e7764d8a7c50cfeba9b140522cd304f0fca52fa079e24e28ab653c6e5d03cface06766a91b84e9f3959e953c73c6703ce2872ea8265d0f01ee4
+  checksum: d1f21a7dde12412ae17bd20ec7ff9e8b93eac4b0c2e10e918b0f0ec6711cb8e60f1a76bea74920978cbec8216b429fa27c4215be1221779a55417901ffc03e9a
   languageName: node
   linkType: hard
 
