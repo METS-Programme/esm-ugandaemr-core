@@ -40,26 +40,26 @@ const CarePrograms: React.FC<CareProgramsProps> = ({ patientUuid }) => {
 
   const handleCareProgramClick = useCallback(
     (careProgram: PatientCarePrograms) => {
-      const isEnrolled = careProgram.description === 'active';
+      const isEnrolled = careProgram.enrollmentStatus === 'active';
       const formUuid = isEnrolled ? careProgram.discontinuationFormUuid : careProgram.enrollmentFormUuid;
       const workspaceTitle = isEnrolled
-        ? `${careProgram.name} Discontinuation form`
-        : `${careProgram.name} Enrollment form`;
+        ? `${careProgram.display} Discontinuation form`
+        : `${careProgram.display} Enrollment form`;
 
       currentVisit
         ? launchPatientWorkspace('patient-form-entry-workspace', {
-            workspaceTitle: workspaceTitle,
-            mutateForm: () => {
-              mutate((key) => true, undefined, {
-                revalidate: true,
-              });
-            },
-            formInfo: {
-              encounterUuid: '',
-              formUuid,
-              additionalProps: { enrollmenrDetails: careProgram.enrollmentDetails } ?? {},
-            },
-          })
+          workspaceTitle: workspaceTitle,
+          mutateForm: () => {
+            mutate((key) => true, undefined, {
+              revalidate: true,
+            });
+          },
+          formInfo: {
+            encounterUuid: '',
+            formUuid,
+            additionalProps: { enrollmenrDetails: careProgram.enrollmentDetails } ?? {},
+          },
+        })
         : launchStartVisitPrompt();
     },
     [currentVisit],
@@ -70,13 +70,13 @@ const CarePrograms: React.FC<CareProgramsProps> = ({ patientUuid }) => {
       carePrograms.map((careProgram) => {
         return {
           id: `${careProgram.uuid}`,
-          programName: careProgram.name,
+          programName: careProgram.display,
           status: (
             <div className={styles.careProgramButtonContainer}>
               <span>
                 {capitalize(
-                  `${careProgram.description} ${
-                    careProgram.enrollmentDetails?.dateEnrolled && careProgram.description === 'active'
+                  `${careProgram.enrollmentStatus} ${
+                    careProgram.enrollmentDetails?.dateEnrolled && careProgram.enrollmentStatus === 'active'
                       ? `Since (${formatDate(new Date(careProgram.enrollmentDetails.dateEnrolled))})`
                       : ''
                   }`,
@@ -85,12 +85,11 @@ const CarePrograms: React.FC<CareProgramsProps> = ({ patientUuid }) => {
               <Button
                 size="sm"
                 className="cds--btn--sm cds--layout--size-sm"
-                kind={careProgram.description == 'active' ? 'danger--ghost' : 'ghost'}
+                kind={careProgram.enrollmentStatus == 'active' ? 'danger--ghost' : 'ghost'}
                 iconDescription="Dismiss"
                 onClick={() => handleCareProgramClick(careProgram)}
-                renderIcon={careProgram.description == 'active' ? Close : DocumentAdd}
-              >
-                {careProgram.description == 'active' ? 'Discontinue' : 'Enroll'}
+                renderIcon={careProgram.enrollmentStatus == 'active' ? Close : DocumentAdd}>
+                {careProgram.enrollmentStatus == 'active' ? 'Discontinue' : 'Enroll'}
               </Button>
             </div>
           ),
@@ -129,7 +128,7 @@ const CarePrograms: React.FC<CareProgramsProps> = ({ patientUuid }) => {
   }
 
   return (
-    <Tile>
+    <Tile className={styles.container}>
       <CardHeader title={t('carePrograms', 'Care Programs')}>
         {isValidating && (
           <InlineLoading

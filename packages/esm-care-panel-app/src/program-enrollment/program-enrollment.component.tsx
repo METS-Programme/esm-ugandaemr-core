@@ -20,6 +20,7 @@ import dayjs from 'dayjs';
 import { formatDate } from '@openmrs/esm-framework';
 import orderBy from 'lodash/orderBy';
 import { mutate } from 'swr';
+import { empty } from 'rxjs';
 
 export interface ProgramEnrollmentProps {
   patientUuid: string;
@@ -28,88 +29,66 @@ export interface ProgramEnrollmentProps {
   formEntrySub: any;
   launchPatientWorkspace: Function;
 }
+
 const shareObjProperty = { dateEnrolled: 'Enrolled on', dateCompleted: 'Date Completed' };
 const programDetailsMap = {
   HIV: {
+    dateEnrolled: 'Enrolled on',
     whoStage: 'WHO Stage',
     entryPoint: 'Entry Point',
     regimenShortDisplay: 'Regimen',
     changeReasons: 'Reason for regimen change',
-    dateEnrolled: 'Enrolled on', // Include "Enrolled on" only once
+    reason: 'Reason for discontinuation',
   },
   TB: {
+    ...shareObjProperty,
     startDate: 'Date started regimen',
     regimenShortName: 'Regimen',
-    dateEnrolled: 'Enrolled on', // Include "Enrolled on" only once
   },
   TPT: {
+    ...shareObjProperty,
     tptDrugName: 'Regimen',
     tptDrugStartDate: 'Date started regimen',
     tptIndication: 'Indication for TPT',
-    dateEnrolled: 'Enrolled on', // Include "Enrolled on" only once
   },
   'MCH - Mother Services': {
+    ...shareObjProperty,
     lmp: 'LMP',
     eddLmp: 'EDD',
     gravida: 'Gravida',
     parity: 'Parity',
     gestationInWeeks: 'Gestation in weeks',
-    dateEnrolled: 'Enrolled on', // Include "Enrolled on" only once
   },
-  'MCH - Child Services': {
-    entryPoint: 'Entry Point',
-    dateEnrolled: 'Enrolled on', // Include "Enrolled on" only once
-  },
+  'MCH - Child Services': { ...shareObjProperty, entryPoint: 'Entry Point' },
   mchMother: {},
   mchChild: {},
   VMMC: {
-    dateEnrolled: 'Enrolled on', // Include "Enrolled on" only once
+    ...shareObjProperty,
   },
 };
 
 const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [], programName }) => {
   const { t } = useTranslation();
-
   const orderedEnrollments = orderBy(enrollments, 'dateEnrolled', 'desc');
-
-  const headers = useMemo(() => {
-    const programDetails = programDetailsMap[programName];
-    const fallbackHeaders = { ...shareObjProperty };
-
-    if (!programDetails) {
-      console.warn(`Program details not found for ${programName}. Falling back to default headers.`);
-      return Object.entries(fallbackHeaders).map(([key, value]) => ({ key, header: value }));
-    }
-
-    const uniqueHeaders = new Map();
-
-    Object.entries(programDetails).forEach(([key, value]) => {
-      uniqueHeaders.set(key, value);
-    });
-
-    return Array.from(uniqueHeaders.entries()).map(([key, value]) => ({ key, header: value }));
-  }, [programDetailsMap, programName]);
-
+  const headers = useMemo(
+    () =>
+      Object.entries(programDetailsMap[programName] ?? { ...shareObjProperty }).map(([key, value]) => ({
+        key,
+        header: value,
+      })),
+    [programName],
+  );
   const rows = useMemo(
     () =>
       orderedEnrollments?.map((enrollment) => {
-        console.info('enrollment object:', enrollment); // Log the enrollment object
         const firstEncounter = enrollment?.firstEncounter ?? {};
         const enrollmentEncounterUuid = enrollment?.enrollmentEncounterUuid;
-
-        const formattedDateEnrolled = dayjs(enrollment?.dateEnrolled).isValid()
-          ? formatDate(dayjs(enrollment?.dateEnrolled).toDate())
-          : '--';
-
-        console.info('Formatted Date Enrolled:', formattedDateEnrolled); // Log the formatted date
-
         return {
-          id: `${enrollment?.uuid}`,
+          id: `${enrollment.enrollmentUuid}`,
           ...enrollment,
           ...firstEncounter,
           changeReasons: enrollment?.firstEncounter?.changeReasons?.join(', '),
           enrollmentEncounterUuid: enrollmentEncounterUuid,
-          dateEnrolled: formattedDateEnrolled,
         };
       }),
     [orderedEnrollments],
@@ -151,10 +130,6 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
     });
   };
 
-  if (orderedEnrollments?.length === 0) {
-    return null;
-  }
-
   return (
     <Tile className={styles.whiteBackground}>
       <div className={styles.tileWrapper}>
@@ -169,8 +144,7 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
                         key={header.key}
                         {...getHeaderProps({
                           header,
-                        })}
-                      >
+                        })}>
                         {header.header}
                       </TableHeader>
                     ))}
@@ -178,41 +152,48 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row, index) => (
-                    <TableRow
-                      key={row.id}
-                      {...getRowProps({
-                        row,
-                      })}
-                    >
-                      {row.cells.map((cell) => (
-                        <TableCell key={cell.id}>
-                          {isEmpty(cell.value)
-                            ? '--'
-                            : dayjs(cell.value).isValid()
-                            ? formatDate(new Date(cell.value))
-                            : cell.value}
+                  {rows.length > 0 ? (
+                    rows.map((row, index) => (
+                      <TableRow
+                        key={row.id}
+                        {...getRowProps({
+                          row,
+                        })}>
+                        {row.cells.map((cell) => (
+                          <TableCell key={cell.id}>
+                            {isEmpty(cell.value)
+                              ? '--'
+                              : dayjs(cell.value).isValid()
+                                ? formatDate(new Date(cell.value))
+                                : cell.value}
+                          </TableCell>
+                        ))}
+                        <TableCell className="cds--table-column-menu">
+                          {isEmpty(orderedEnrollments[index]?.dateCompleted) && (
+                            <OverflowMenu size="sm" flipped>
+                              <OverflowMenuItem
+                                hasDivider
+                                itemText={t('edit', 'Edit')}
+                                onClick={() => handleEditEnrollment(orderedEnrollments[index])}
+                              />
+                              <OverflowMenuItem
+                                isDelete
+                                hasDivider
+                                itemText={t('discontinue', 'Discontinue')}
+                                onClick={() => handleDiscontinue(orderedEnrollments[index])}
+                              />
+                            </OverflowMenu>
+                          )}
                         </TableCell>
-                      ))}
-                      <TableCell className="cds--table-column-menu">
-                        {isEmpty(orderedEnrollments[index]?.dateCompleted) && (
-                          <OverflowMenu size="sm" flipped>
-                            <OverflowMenuItem
-                              hasDivider
-                              itemText={t('edit', 'Edit')}
-                              onClick={() => handleEditEnrollment(orderedEnrollments[index])}
-                            />
-                            <OverflowMenuItem
-                              isDelete
-                              hasDivider
-                              itemText={t('discontinue', 'Discontinue')}
-                              onClick={() => handleDiscontinue(orderedEnrollments[index])}
-                            />
-                          </OverflowMenu>
-                        )}
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={headers.length + 1} align="center">
+                        {t('noData', 'No data available')}
                       </TableCell>
                     </TableRow>
-                  ))}
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -222,4 +203,5 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
     </Tile>
   );
 };
+
 export default ProgramEnrollment;
