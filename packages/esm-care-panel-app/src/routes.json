@@ -1,7 +1,6 @@
 {
   "$schema": "https://json.openmrs.org/routes.schema.json",
   "backendDependencies": {
-    "webservices.rest": "^2.24.0"
   },
   "pages": [],
   "extensions": [
@@ -18,22 +17,13 @@
       "name": "care-panel-summary-dashboard-link",
       "component": "carePanelSummaryDashboardLink",
       "slot": "patient-chart-dashboard-slot",
-      "order": 11,
+      "order": 3,
       "meta": {
         "columns": 1,
         "columnSpan": 1,
         "slot": "patient-chart-care-panel-dashboard-slot",
-        "title": "Care panel summary",
+        "layoutMode": "anchored",
         "path": "Care panel"
-      }
-    },
-    {
-      "name": "patient-program-summary",
-      "slot": "patient-chart-summary-dashboard-slot",
-      "component": "patientProgramSummary",
-      "order": 1,
-      "meta": {
-        "columnSpan": 4
       }
     },
     {

@@ -26,7 +26,7 @@ const PatientSummary: React.FC<PatientSummaryProps> = ({ patientUuid }) => {
     onBeforeGetContent: () => setPrintMode(true),
     onAfterPrint: () => setPrintMode(false),
     pageStyle: styles.pageStyle,
-    // documentTitle: data?.patientName,
+    documentTitle: 'Musa Test',
   });
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

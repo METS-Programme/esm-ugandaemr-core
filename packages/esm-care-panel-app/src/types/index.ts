@@ -65,8 +65,8 @@ export type ProgramSummary = {
 };
 
 export enum ProgramType {
-  HIV = 'HIV',
-  TB = 'TB',
+  HIV = 'HIV Program',
+  TB = 'TB Program',
   TPT = 'TPT',
   MCH_MOTHER = 'MCH - Mother Services',
   MCH_CHILD = 'MCH - Child Services',

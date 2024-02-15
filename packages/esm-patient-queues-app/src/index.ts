@@ -15,32 +15,7 @@ const options = {
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 
-  // register post form submission
-  // ipd
-  registerPostSubmissionAction({
-    name: 'IpdAdmissionSubmissionAction',
-    load: () => import('./post-submission-actions/ipd-admission-submission-action'),
-  });
-  // lab
-  registerPostSubmissionAction({
-    name: 'LabSubmissionAction',
-    load: () => import('./post-submission-actions/lab-admission-submission-action'),
-  });
-  // medications
-  registerPostSubmissionAction({
-    name: 'MedicationsSubmissionAction',
-    load: () => import('./post-submission-actions/medications-admission-submission-action'),
-  });
-  // radiology
-  registerPostSubmissionAction({
-    name: 'RadiologySubmissionAction',
-    load: () => import('./post-submission-actions/radiology-admission-submission-action'),
-  });
-  // care-programs
-  registerPostSubmissionAction({
-    name: 'CareProgramSubmissionAction',
-    load: () => import('./post-submission-actions/care-programs-submission-action'),
-  });
+
 
   // console.log('info');
 }
