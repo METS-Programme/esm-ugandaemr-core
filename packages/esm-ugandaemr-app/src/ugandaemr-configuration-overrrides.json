@@ -218,7 +218,7 @@
       ]
     }
   },
-  "@ugandaemr/esm-patient-registration-app": {
+  "@openmrs/esm-patient-registration-app": {
     "logo": {
       "src": "/openmrs/spa/logo.svg",
       "alt": "UgandaEMR+ logo"
@@ -396,15 +396,21 @@
         }
       },
       {
-        "id": "nextOfKinName",
+        "id": "phone",
         "type": "person attribute",
-        "uuid": "3192dd72-48ec-427d-a1e0-f9868834ae68",
+        "uuid": "14d4f066-15f5-102d-96e4-000c29c2a5d7",
+        "label": "Phone Number"
+      },
+      {
+        "id": "nextOfKinName",
+        "type": "obs",
+        "uuid": "162729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "label": "Name"
       },
       {
         "id": "nextOfkinPhone",
-        "type": "person attribute",
-        "uuid": "c7956f8a-18d9-47ca-b190-145c59631705",
+        "type": "obs",
+        "uuid": "165052AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
         "label": "Phone Number",
         "validation": {
           "matches": "^0([0-9](?:(?:[0-9][0-9])|(?:0[0-8])|(4[0-1]))[0-9]{6})$"
@@ -434,6 +440,9 @@
           "label": "Female"
         }
       ]
+    },
+    "registrationObs": {
+      "encounterTypeUuid": "e5a4459e-78fb-4a5c-8ba6-757c4b5be322"
     }
   },
   "@openmrs/esm-home-app": {
