@@ -23,14 +23,19 @@ function ClinicMetrics() {
   const { t } = useTranslation();
 
   const session = useSession();
+  const creatorUuid = session?.user?.uuid;
 
   const { location: locations, isLoading: loading } = useParentLocation(session?.sessionLocation?.uuid);
 
-  const { patientQueueCount, isLoading } = usePatientsBeingServed(session?.sessionLocation?.uuid, 'pending');
+  const { patientQueueCount, isLoading } = usePatientsBeingServed(
+    session?.sessionLocation?.uuid,
+    'pending',
+    creatorUuid,
+  );
 
   const { servedCount } = usePatientsServed(session?.sessionLocation?.uuid, 'picked');
 
-  const { count: pendingCount } = useQueuePatients('pending');
+  const { count: pendingCount } = useQueuePatients('pending', creatorUuid);
 
   const { appointmentList, isLoading: loadingExpectedAppointments } = useAppointmentList('Scheduled');
 
