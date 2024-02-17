@@ -507,24 +507,10 @@ export interface Creator {
 
 export interface Location {
   uuid: string;
-  parentLocation: ParentLocation;
-  childLocations: ChildLocation[];
 }
 
 export interface Link {
   rel: string;
   uri: string;
   resourceAlias: string;
-}
-
-export interface ParentLocation {
-  uuid: string;
-  display: string;
-  links: Link[];
-}
-
-export interface ChildLocation {
-  uuid: string;
-  display: string;
-  links: Link[];
 }
