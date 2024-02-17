@@ -18,6 +18,7 @@ import {
 import styles from './clinic-metrics.scss';
 import MetricsCard from './metrics-card.component';
 import { useParentLocation } from '../active-visits/patient-queues.resource';
+import { usePatientQueuesList } from '../active-visit-patient-reception/active-visits-reception.resource';
 
 function ClinicMetrics() {
   const { t } = useTranslation();
@@ -27,15 +28,11 @@ function ClinicMetrics() {
 
   const { location: locations, isLoading: loading } = useParentLocation(session?.sessionLocation?.uuid);
 
-  const { patientQueueCount, isLoading } = usePatientsBeingServed(
-    session?.sessionLocation?.uuid,
-    'pending',
-    creatorUuid,
-  );
+  const { patientQueueCount, isLoading } = usePatientsBeingServed(session?.sessionLocation?.uuid, 'pending');
 
   const { servedCount } = usePatientsServed(session?.sessionLocation?.uuid, 'picked');
 
-  const { count: pendingCount } = useQueuePatients('pending', creatorUuid);
+  const { patientQueueCount: pendingCount } = usePatientQueuesList(locations?.parentLocation?.uuid);
 
   const { appointmentList, isLoading: loadingExpectedAppointments } = useAppointmentList('Scheduled');
 
@@ -77,7 +74,7 @@ function ClinicMetrics() {
 
         <UserHasAccess privilege={PRIVILIGE_TRIAGE_METRIC}>
           <MetricsCard
-            values={[{ label: 'Patients waiting to be Served', value: patientQueueCount }]}
+            values={[{ label: 'Patients waiting to be Served', value: pendingCount }]}
             headerLabel={t('pendingTriageServing', 'Patients waiting to be Served')}
           />
           <MetricsCard

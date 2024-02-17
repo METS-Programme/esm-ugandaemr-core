@@ -385,7 +385,7 @@ export function usePatientBeingServed(currentQueueLocationUuid: string, status: 
   };
 }
 
-export function usePatientsBeingServed(currentQueueLocationUuid: string, status: string, creatorUuid: string) {
+export function usePatientsBeingServed(currentQueueLocationUuid: string, status: string) {
   const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&status=${status}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
@@ -425,20 +425,15 @@ export function usePatientsBeingServed(currentQueueLocationUuid: string, status:
 }
 
 // overall checked in patients
-export function useQueuePatients(status: string, creatorUuid: string) {
+export function useQueuePatients(status: string) {
   const apiUrl = `/ws/rest/v1/patientqueue?v=full&status=${status}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,
   );
 
-  const filteredResults = data?.data.results?.filter((queueItem) => {
-    return queueItem.creator.uuid === creatorUuid;
-  });
-
   return {
-    count: filteredResults?.length ?? 0,
-    results: filteredResults,
+    count: data?.data.results?.length,
     isLoading,
     isError: error,
     isValidating,
