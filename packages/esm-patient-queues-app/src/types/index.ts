@@ -506,6 +506,7 @@ export interface Creator {
 }
 
 export interface Location {
+  uuid: string;
   parentLocation: ParentLocation;
   childLocations: ChildLocation[];
 }

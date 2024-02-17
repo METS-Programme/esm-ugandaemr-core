@@ -103,13 +103,16 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
 
   const filteredlocations = queueRoomLocations?.filter((location) => location.display != selectedLocation);
 
-  const testings = providers?.flatMap((provider) =>
+  const filteredProviders = providers?.flatMap((provider) =>
     provider.attributes.filter(
-      (item) => item.attributeType.display === 'Default Location' && typeof item.value === 'object',
-    ),
+      (item) =>
+        item.attributeType.display === 'Default Location' &&
+        typeof item.value === 'object' &&
+        item?.value?.uuid === selectedNextQueueLocation,
+    ).length > 0
+      ? provider
+      : [],
   );
-
-  console.info('testing-->', testings);
 
   const handleSubmit = useCallback(
     (event) => {
@@ -323,11 +326,11 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
               onChange={(event) => setSelectedProvider(event.target.value)}
             >
               {!selectedProvider ? <SelectItem text={t('selectProvider', 'Select a provider')} value="" /> : null}
-              {/* {filteredProviders.map((provider) => (
+              {filteredProviders.map((provider) => (
                 <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
                   {provider.display}
                 </SelectItem>
-              ))} */}
+              ))}
             </Select>
           </section>
 
