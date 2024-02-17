@@ -269,24 +269,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
           </section>
 
           <section className={styles.section}>
-            <Select
-              labelText={t('selectProvider', 'Select a provider')}
-              id="providers-list"
-              name="providers-list"
-              invalidText="Required"
-              value={selectedProvider}
-              onChange={(event) => setSelectedProvider(event.target.value)}
-            >
-              {!selectedProvider ? <SelectItem text={t('selectProvider', 'Select a provider')} value="" /> : null}
-              {filteredProviders.map((provider) => (
-                <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
-                  {provider.display}
-                </SelectItem>
-              ))}
-            </Select>
-          </section>
-
-          <section className={styles.section}>
             <TextArea
               labelText={t('notes', 'Enter notes ')}
               id="nextNotes"
@@ -319,6 +301,24 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
                 ))}
               </Select>
             </ResponsiveWrapper>
+          </section>
+
+          <section className={styles.section}>
+            <Select
+              labelText={t('selectProvider', 'Select a provider')}
+              id="providers-list"
+              name="providers-list"
+              invalidText="Required"
+              value={selectedProvider}
+              onChange={(event) => setSelectedProvider(event.target.value)}
+            >
+              {!selectedProvider ? <SelectItem text={t('selectProvider', 'Select a provider')} value="" /> : null}
+              {filteredProviders.map((provider) => (
+                <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
+                  {provider.display}
+                </SelectItem>
+              ))}
+            </Select>
           </section>
         </Stack>
       </div>
