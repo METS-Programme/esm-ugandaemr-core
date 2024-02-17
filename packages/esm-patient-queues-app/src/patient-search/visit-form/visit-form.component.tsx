@@ -37,8 +37,8 @@ import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
 import { NewVisitPayload, PatientProgram, SearchTypes } from '../../types';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './visit-form.scss';
-import { useProviders } from '../../queue-patient-linelists/queue-linelist.resource';
 import { useQueueLocations } from '../hooks/useQueueLocations';
+import { useProviders } from './queue.resource';
 interface VisitFormProps {
   toggleSearchType: (searchMode: SearchTypes, patientUuid) => void;
   patientUuid: string;
@@ -103,7 +103,13 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
 
   const filteredlocations = queueRoomLocations?.filter((location) => location.display != selectedLocation);
 
-  const filteredProviders = providers?.filter((provider) => provider !== null);
+  const testings = providers?.flatMap((provider) =>
+    provider.attributes.filter(
+      (item) => item.attributeType.display === 'Default Location' && typeof item.value === 'object',
+    ),
+  );
+
+  console.info('testing-->', testings);
 
   const handleSubmit = useCallback(
     (event) => {
@@ -317,11 +323,11 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
               onChange={(event) => setSelectedProvider(event.target.value)}
             >
               {!selectedProvider ? <SelectItem text={t('selectProvider', 'Select a provider')} value="" /> : null}
-              {filteredProviders.map((provider) => (
+              {/* {filteredProviders.map((provider) => (
                 <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
                   {provider.display}
                 </SelectItem>
-              ))}
+              ))} */}
             </Select>
           </section>
 

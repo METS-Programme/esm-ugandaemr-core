@@ -31,7 +31,7 @@ export function useCheckedInAppointments() {
 }
 
 export function useProviders() {
-  const customRepresentation = 'custom:(uuid,display,person:(age,display,gender,uuid))';
+  const customRepresentation = 'custom:(uuid,display,person:(age,display,gender,uuid)),attributes';
   const apiUrl = `/ws/rest/v1/provider?q=&v=${customRepresentation}`;
   const { data, error, isLoading, isValidating } = useSWR<{ data: { results: Array<Provider> } }, Error>(
     apiUrl,

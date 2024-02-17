@@ -1,5 +1,6 @@
 import { openmrsFetch } from '@openmrs/esm-framework';
-import { Appointment } from '../../types';
+import { Appointment, ProviderResponse } from '../../types';
+import useSWR from 'swr';
 
 export async function addQueueEntry(
   visitUuid: string,
@@ -57,4 +58,20 @@ export async function saveAppointment(appointment: Appointment) {
       providerUuid: appointment?.provider?.uuid,
     },
   });
+}
+
+// fetch providers of a service point
+export function useProviders() {
+  const apiUrl = `/ws/rest/v1/provider?q=&v=full`;
+  const { data, error, isLoading, isValidating } = useSWR<{ data: { results: Array<ProviderResponse> } }, Error>(
+    apiUrl,
+    openmrsFetch,
+  );
+
+  return {
+    providers: data ? data.data?.results : [],
+    isLoading,
+    isError: error,
+    isValidating,
+  };
 }
