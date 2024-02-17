@@ -38,6 +38,7 @@ import { NewVisitPayload, PatientProgram, SearchTypes } from '../../types';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './visit-form.scss';
 import { useProviders } from '../../queue-patient-linelists/queue-linelist.resource';
+import { useQueueLocations } from '../hooks/useQueueLocations';
 interface VisitFormProps {
   toggleSearchType: (searchMode: SearchTypes, patientUuid) => void;
   patientUuid: string;
@@ -67,6 +68,9 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const { providers } = useProviders();
   const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState('');
+  const [selectedOtherQueueLocation, setSelectedOtherQueueLocation] = useState('');
+  const { queueLocations } = useQueueLocations();
+
   const [selectedProvider, setSelectedProvider] = useState('');
   const { patient, isLoading } = usePatient(patientUuid);
 
@@ -319,6 +323,29 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
                 </SelectItem>
               ))}
             </Select>
+          </section>
+
+          <section className={styles.section}>
+            <div className={styles.sectionTitle}>{t('otherServicePoint', 'Other Service Points')}</div>
+            <ResponsiveWrapper isTablet={isTablet}>
+              <Select
+                labelText={t('otherServicePoint', 'Select other service point')}
+                id="otherLocation"
+                name="otherQueueLocation"
+                invalidText="Required"
+                value={selectedOtherQueueLocation}
+                onChange={(event) => setSelectedOtherQueueLocation(event.target.value)}
+              >
+                {!selectedOtherQueueLocation ? (
+                  <SelectItem text={t('selectOtherServicePoint', 'Select other service point')} value="" />
+                ) : null}
+                {queueLocations.map((location) => (
+                  <SelectItem key={location.id} text={location.name} value={location.id}>
+                    {location.name}
+                  </SelectItem>
+                ))}
+              </Select>
+            </ResponsiveWrapper>
           </section>
         </Stack>
       </div>
