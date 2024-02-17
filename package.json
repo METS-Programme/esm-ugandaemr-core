@@ -1,6 +1,7 @@
 {
     "name": "@ugandaemr/esm-ugandaemr-core",
     "private": true,
+    "version": "1.0.2",
     "description": "Microfrontends for UgandaEMR built on top of OpenMRS 3.x and OHRI",
     "workspaces": [
         "packages/*"
