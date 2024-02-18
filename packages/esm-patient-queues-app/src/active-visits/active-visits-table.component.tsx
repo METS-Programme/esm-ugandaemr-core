@@ -41,7 +41,13 @@ import {
 } from '@openmrs/esm-framework';
 import React, { AnchorHTMLAttributes, MouseEvent, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { buildStatusString, formatWaitTime, getTagColor, trimVisitNumber } from '../helpers/functions';
+import {
+  buildStatusString,
+  formatWaitTime,
+  getProviderTagColor,
+  getTagColor,
+  trimVisitNumber,
+} from '../helpers/functions';
 import PastVisit from '../past-visit/past-visit.component';
 import PatientSearch from '../patient-search/patient-search.component';
 import StatusIcon from '../queue-entry-table-components/status-icon.component';
@@ -167,7 +173,13 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         content: entry.name,
       },
       provider: {
-        content: entry.provider,
+        content: (
+          <Tag>
+            <span style={{ color: `${getProviderTagColor(entry.provider, session.user.person.display)}` }}>
+              {entry.provider}
+            </span>
+          </Tag>
+        ),
       },
       status: {
         content: (
