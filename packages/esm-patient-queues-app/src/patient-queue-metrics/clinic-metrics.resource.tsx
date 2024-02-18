@@ -579,7 +579,7 @@ export interface Link {
 
 // patients in the different service points
 
-export function useServicePointCount(parentLocation: string, beforeDate: string, afterDate: string) {
+export function useServicePointCount(parentLocation: string, beforeDate: Date, afterDate: Date) {
   const apiUrl = `/ws/rest/v1/queuestatistics?parentLocation=${parentLocation}&after=${afterDate}&before=${beforeDate}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientStats> } }, Error>(
     apiUrl,

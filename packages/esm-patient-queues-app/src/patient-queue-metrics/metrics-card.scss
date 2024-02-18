@@ -16,7 +16,7 @@
 
 .tileContainer {
   border: 0.0625rem solid $ui-03;
-  height: 7.875rem;
+  height: 10.875rem;
   padding: spacing.$spacing-05;
   margin: spacing.$spacing-03 spacing.$spacing-03;
 }
@@ -34,6 +34,7 @@
 }
 
 .totalsLabel {
+  font-weight: bold;
   @include type.type-style('label-01');
   color: $text-02;
 }
