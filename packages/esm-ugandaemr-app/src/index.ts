@@ -7,6 +7,11 @@ import {
   createOHRIPatientChartSideNavLink,
   patientChartDivider_dashboardMeta,
 } from '@ohri/openmrs-esm-ohri-commons-lib';
+import formBuilderAppMenu from './menu-app-items/form-builder-app-item/form-builder-app-item.component';
+import systemInfoAppMenu from './menu-app-items/system-info-app-item/system-info-app-item.component';
+import legacyAdminAppMenu from './menu-app-items/legacy-admin-item/legacy-admin-item.component';
+import cohortBuilderAppMenu from './menu-app-items/cohort-builder-item/cohort-builder-item.component';
+import formRenderTestAppMenu from './menu-app-items/form-render-test-item/form-render-test-item.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -14,6 +19,13 @@ const options = {
   featureName: 'esm-ugandaemr-app',
   moduleName,
 };
+
+// Menu App Items
+export const formBuilderAppMenuItem = getSyncLifecycle(formBuilderAppMenu, options);
+export const systemInfoAppMenuItem = getSyncLifecycle(systemInfoAppMenu, options);
+export const legacyAdminAppMenuItem = getSyncLifecycle(legacyAdminAppMenu, options);
+export const cohortBuilderAppMenuItem = getSyncLifecycle(cohortBuilderAppMenu, options);
+export const formRenderTestAppMenuItem = getSyncLifecycle(formRenderTestAppMenu, options);
 
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
@@ -59,18 +71,18 @@ export const systemInfoPage = getAsyncLifecycle(() => import('./pages/system-inf
   moduleName,
 });
 
-export const retrieveFacilityCodeModal = getAsyncLifecycle(
-  () => import('./pages/system-info/facility-modal.component'),
-  {
-    featureName: 'retrieve facility code modal',
-    moduleName,
-  },
-);
+// export const retrieveFacilityCodeModal = getAsyncLifecycle(
+//   () => import('./pages/system-info/facility-modal.component'),
+//   {
+//     featureName: 'retrieve facility code modal',
+//     moduleName,
+//   },
+// );
 
-export const updateFacilityCodeAlert = getAsyncLifecycle(
-  () => import('./pages/system-info/update-facility-code-alert'),
-  {
-    featureName: 'update facility code alert',
-    moduleName,
-  },
-);
+// export const updateFacilityCodeAlert = getAsyncLifecycle(
+//   () => import('./pages/system-info/update-facility-code-alert'),
+//   {
+//     featureName: 'update facility code alert',
+//     moduleName,
+//   },
+// );
