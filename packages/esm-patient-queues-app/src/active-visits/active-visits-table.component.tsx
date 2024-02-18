@@ -62,46 +62,14 @@ import CurrentVisit from '../current-visit/current-visit-summary.component';
 import NotesActionsMenu from './notes-action-menu.components';
 import { PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS } from '../constants';
 
-type FilterProps = {
-  rowIds: Array<string>;
-  headers: Array<DataTableHeader>;
-  cellsById: any;
-  inputValue: string;
-  getCellId: (row, key) => string;
-};
-
 interface ActiveVisitsTableProps {
   status: string;
-}
-
-interface NameLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
-  to: string;
-  from: string;
 }
 
 export interface PatientQueueInfoProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   patientUuid: string;
   patientName: string;
 }
-
-const PatientNameLink: React.FC<NameLinkProps> = ({ from, to, children }) => {
-  const handleNameClick = (event: MouseEvent, to: string) => {
-    event.preventDefault();
-    navigate({ to });
-    localStorage.setItem('fromPage', from);
-  };
-  return (
-    <Button
-      kind="ghost"
-      size="sm"
-      onClick={(e) => handleNameClick(e, to)}
-      href={interpolateUrl(to)}
-      renderIcon={(props) => <Dashboard size={16} {...props} />}
-    >
-      {children}
-    </Button>
-  );
-};
 
 const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const { t } = useTranslation();
@@ -225,15 +193,11 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   if (patientQueueEntries?.length) {
     return (
       <div className={styles.container}>
-        <div className={styles.headerBtnContainer}></div>
-
         <DataTable
           data-floating-menu-container
           headers={tableHeaders}
-          overflowMenuOnHover={isDesktop(layout) ? true : false}
+          overflowMenuOnHover={isDesktop(layout)}
           rows={tableRows}
-          isSortable
-          size="xs"
           useZebraStyles
         >
           {({ rows, headers, getHeaderProps, getTableProps, getRowProps, onInputChange }) => (
