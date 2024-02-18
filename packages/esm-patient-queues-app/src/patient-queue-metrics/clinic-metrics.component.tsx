@@ -24,11 +24,15 @@ function ClinicMetrics() {
   const { t } = useTranslation();
 
   const session = useSession();
-  const creatorUuid = session?.user?.uuid;
+  const creatorUuid = session?.user?.person?.display;
 
   const { location: locations, isLoading: loading } = useParentLocation(session?.sessionLocation?.uuid);
 
-  const { patientQueueCount, isLoading } = usePatientsBeingServed(session?.sessionLocation?.uuid, 'pending');
+  const { patientQueueCount, isLoading } = usePatientsBeingServed(
+    session?.sessionLocation?.uuid,
+    'pending',
+    creatorUuid,
+  );
 
   const { servedCount } = usePatientsServed(session?.sessionLocation?.uuid, 'picked');
 
@@ -58,7 +62,7 @@ function ClinicMetrics() {
           />
           <MetricsCard
             values={[{ label: 'Expected Appointments', value: appointmentList?.length }]}
-            headerLabel={t('noOfExpectedAppointments', 'No. Of Expected Appointments')}
+            headerLabel={t('noOfExpectedAppointments', 'No. of Expected Appointments')}
           />
           <MetricsCard
             values={[
@@ -74,12 +78,16 @@ function ClinicMetrics() {
 
         <UserHasAccess privilege={PRIVILIGE_TRIAGE_METRIC}>
           <MetricsCard
-            values={[{ label: 'Patients waiting to be Served', value: pendingCount }]}
+            values={[{ label: 'In Queue', value: pendingCount }]}
+            headerLabel={t('inQueueTriage', 'Patients Waiting')}
+          />
+          <MetricsCard
+            values={[{ label: t('byTriage', 'By you'), value: patientQueueCount }]}
             headerLabel={t('pendingTriageServing', 'Patients waiting to be Served')}
           />
           <MetricsCard
             values={[{ label: 'Patients Served', value: servedCount }]}
-            headerLabel={t('noOfPatientsServed', 'No. Of Patients Served')}
+            headerLabel={t('noOfPatientsServed', 'No. of Patients Served')}
           />
         </UserHasAccess>
       </div>
