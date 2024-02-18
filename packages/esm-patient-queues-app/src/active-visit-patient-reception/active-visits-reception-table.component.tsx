@@ -143,30 +143,6 @@ function ActiveVisitsReceptionTable() {
     }));
   }, [fromPage, paginatedQueueEntries, t]);
 
-  const handleFilter = ({ rowIds, headers, cellsById, inputValue, getCellId }: FilterProps): Array<string> => {
-    return rowIds.filter((rowId) =>
-      headers.some(({ key }) => {
-        const cellId = getCellId(rowId, key);
-        const filterableValue = cellsById[cellId].value;
-        const filterTerm = inputValue.toLowerCase();
-
-        if (typeof filterableValue === 'boolean') {
-          return false;
-        }
-        if (filterableValue.hasOwnProperty('content')) {
-          if (Array.isArray(filterableValue.content.props.children)) {
-            return ('' + filterableValue.content.props.children[1].props.children).toLowerCase().includes(filterTerm);
-          }
-          if (typeof filterableValue.content.props.children === 'object') {
-            return ('' + filterableValue.content.props.children.props.children).toLowerCase().includes(filterTerm);
-          }
-          return ('' + filterableValue.content.props.children).toLowerCase().includes(filterTerm);
-        }
-        return ('' + filterableValue).toLowerCase().includes(filterTerm);
-      }),
-    );
-  };
-
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;
   }
@@ -205,7 +181,6 @@ function ActiveVisitsReceptionTable() {
 
         <DataTable
           data-floating-menu-container
-          filterRows={handleFilter}
           headers={tableHeaders}
           rows={tableRows}
           isSortable
