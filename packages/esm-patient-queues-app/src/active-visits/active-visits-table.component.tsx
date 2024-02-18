@@ -219,7 +219,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
               <Table {...getTableProps()} className={styles.activeVisitsTable}>
                 <TableHead>
                   <TableRow>
-                    <TableExpandHeader />
                     {headers.map((header) => (
                       <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
                     ))}
@@ -229,36 +228,11 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                   {rows.map((row, index) => {
                     return (
                       <React.Fragment key={row.id}>
-                        <TableExpandRow {...getRowProps({ row })}>
+                        <TableRow {...getRowProps({ row })}>
                           {row.cells.map((cell) => (
                             <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
                           ))}
-                        </TableExpandRow>
-                        {row.isExpanded ? (
-                          <TableExpandedRow className={styles.expandedActiveVisitRow} colSpan={headers.length + 2}>
-                            <>
-                              <Tabs>
-                                <TabList>
-                                  <Tab>{t('currentVisit', 'Current visit')}</Tab>
-                                  <Tab>{t('previousVisit', 'Previous visit')} </Tab>
-                                </TabList>
-                                <TabPanels>
-                                  <TabPanel>
-                                    <CurrentVisit
-                                      patientUuid={tableRows?.[index]?.patientUuid}
-                                      visitUuid={tableRows?.[index]?.uuid}
-                                    />
-                                  </TabPanel>
-                                  <TabPanel>
-                                    <PastVisit patientUuid={tableRows?.[index]?.patientUuid} />
-                                  </TabPanel>
-                                </TabPanels>
-                              </Tabs>
-                            </>
-                          </TableExpandedRow>
-                        ) : (
-                          <TableExpandedRow className={styles.hiddenRow} colSpan={headers.length + 2} />
-                        )}
+                        </TableRow>
                       </React.Fragment>
                     );
                   })}
