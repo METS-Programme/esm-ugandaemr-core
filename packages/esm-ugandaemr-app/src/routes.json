@@ -49,6 +49,14 @@
             "component": "updateFacilityCodeAlert"
         },
         {
+            "name": "form-builder-app-menu-item",
+            "component": "formBuilderAppMenuItem",
+            "slot": "app-menu-item-slot",
+            "meta": {
+                "name": "Form Builder"
+            }
+        },
+        {
             "name": "system-info-app-menu-item",
             "component": "systemInfoAppMenuItem",
             "slot": "app-menu-item-slot",
@@ -62,6 +70,22 @@
             "slot": "app-menu-item-slot",
             "meta": {
                 "name": "Legacy Admin"
+            }
+        },
+        {
+            "name": "cohort-builder-app-menu-item",
+            "component": "cohortBuilderAppMenuItem",
+            "slot": "app-menu-item-slot",
+            "meta": {
+                "name": "Cohort Builder"
+            }
+        },
+        {
+            "name": "form-render-test-app-menu-item",
+            "component": "formRenderTestAppMenuItem",
+            "slot": "app-menu-item-slot",
+            "meta": {
+                "name": "Form Render Test"
             }
         }
     ]

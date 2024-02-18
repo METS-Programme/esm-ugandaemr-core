@@ -21,7 +21,7 @@ export interface Attribute {
   attributeType: OpenmrsResource;
   display: string;
   uuid: string;
-  value: string | number;
+  value: Location;
 }
 
 export interface Person {
@@ -433,4 +433,84 @@ export interface ProvidersQueueRoom {
 export interface WaitTime {
   metric: string;
   averageWaitTime: string;
+}
+
+export interface Identifier {
+  identifier: string;
+  identifierName?: string;
+}
+
+export interface Provider {
+  uuid: string;
+  display: string;
+  comments: string;
+  response?: string;
+  person: OpenmrsResource;
+  name?: string;
+}
+
+export interface ProviderResponse {
+  uuid: string;
+  display: string;
+  person: Person;
+  identifier: string;
+  attributes: Attribute[];
+  retired: boolean;
+  auditInfo: AuditInfo;
+  links: Link[];
+  resourceVersion: string;
+}
+
+export interface Person {
+  uuid: string;
+  display: string;
+  gender: string;
+  age: number;
+  birthdate: any;
+  birthdateEstimated: boolean;
+  dead: boolean;
+  deathDate: any;
+  causeOfDeath: any;
+  preferredName: PreferredName;
+  attributes: Attribute[];
+  voided: boolean;
+  birthtime: any;
+  deathdateEstimated: boolean;
+  links: Link[];
+  resourceVersion: string;
+}
+
+export interface PreferredName {
+  uuid: string;
+  display: string;
+  links: Link[];
+}
+
+export interface Link {
+  rel: string;
+  uri: string;
+  resourceAlias: string;
+}
+
+export interface AuditInfo {
+  creator: Creator;
+  dateCreated: string;
+  changedBy: any;
+  dateChanged: any;
+}
+
+export interface Creator {
+  uuid: string;
+  display: string;
+  links: Link[];
+}
+
+export interface Location {
+  uuid: string;
+}
+
+export interface Link {
+  rel: string;
+  uri: string;
+  resourceAlias: string;
 }

@@ -28,12 +28,6 @@ import { getOriginFromPathName } from '../active-visits/active-visits-table.reso
 import EditActionsMenu from '../active-visits/edit-action-menu.components';
 import PrintActionsMenu from '../active-visits/print-action-menu.components';
 import { buildStatusString, formatWaitTime, getTagColor, getTagType, trimVisitNumber } from '../helpers/functions';
-import {
-  useSelectedQueueLocationUuid,
-  useSelectedQueueRoomLocationName,
-  useSelectedQueueRoomLocationUuid,
-} from '../helpers/helpers';
-import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import PatientSearch from '../patient-search/patient-search.component';
 import StatusIcon from '../queue-entry-table-components/status-icon.component';
 import { SearchTypes } from '../types';
