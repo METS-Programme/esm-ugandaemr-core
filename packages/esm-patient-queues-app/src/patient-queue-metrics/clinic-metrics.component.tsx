@@ -14,6 +14,7 @@ import {
   usePatientsBeingServed,
   usePatientsServed,
   useQueuePatients,
+  useServicePointCount,
 } from './clinic-metrics.resource';
 import styles from './clinic-metrics.scss';
 import MetricsCard from './metrics-card.component';
@@ -51,6 +52,9 @@ function ClinicMetrics() {
       value: 0,
     });
   });
+
+  const { stats: patientStats } = useServicePointCount(locations?.parentLocation?.uuid, '', '');
+
   // receptionist ui
   return (
     <>
@@ -66,11 +70,23 @@ function ClinicMetrics() {
           />
           <MetricsCard
             values={[
-              { label: 'Triage', value: 0 },
-              { label: 'Clinical Room', value: 0 },
-              { label: 'Laboratory', value: 0 },
-              { label: 'Radiology', value: 0 },
-              { label: 'Pharmacy', value: 0 },
+              { label: 'Triage', value: patientStats.find((item) => item.locationTag.display === 'Triage').serving },
+              {
+                label: 'Clinical Room',
+                value: patientStats.find((item) => item.locationTag.display === 'Clinical Room').serving,
+              },
+              {
+                label: 'Laboratory',
+                value: patientStats.find((item) => item.locationTag.display === 'Triage').serving,
+              },
+              {
+                label: 'Radiology',
+                value: patientStats.find((item) => item.locationTag.display === 'Radiology').serving,
+              },
+              {
+                label: 'Pharmacy',
+                value: patientStats.find((item) => item.locationTag.display === 'Main Pharmacy').serving,
+              },
             ]}
             headerLabel={t('currentlyServing', 'No. of Currently being Served')}
           />
