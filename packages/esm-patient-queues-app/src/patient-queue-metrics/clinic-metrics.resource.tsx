@@ -552,3 +552,45 @@ export interface AppointmentService {
   startTimeTimeFormat?: amPm;
   endTimeTimeFormat?: amPm;
 }
+
+export interface PatientStats {
+  locationTag: LocationTag;
+  pending: number;
+  serving: number;
+  completed: number;
+  links: Link[];
+}
+
+export interface LocationTag {
+  uuid: string;
+  display: string;
+  name: string;
+  description: string;
+  retired: boolean;
+  links: Link[];
+  resourceVersion: string;
+}
+
+export interface Link {
+  rel: string;
+  uri: string;
+  resourceAlias: string;
+}
+
+// patients in the different service points
+
+export function useServicePointCount(parentLocation: string, beforeDate: Date, afterDate: Date) {
+  const apiUrl = `/ws/rest/v1/queuestatistics?parentLocation=${parentLocation}&after=${afterDate}&before=${beforeDate}`;
+  const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientStats> } }, Error>(
+    apiUrl,
+    openmrsFetch,
+  );
+
+  return {
+    stats: data?.data.results,
+    isLoading,
+    isError: error,
+    isValidating,
+    mutate,
+  };
+}
