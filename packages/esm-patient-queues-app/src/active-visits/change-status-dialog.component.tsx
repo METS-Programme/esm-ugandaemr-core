@@ -22,7 +22,7 @@ import { MappedQueueEntry } from '../types';
 import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 
 import styles from './change-status-dialog.scss';
-import { useProviders } from '../queue-patient-linelists/queue-linelist.resource';
+import { useProviders } from '../patient-search/visit-form/queue.resource';
 
 interface ChangeStatusDialogProps {
   queueEntry: MappedQueueEntry;
@@ -116,8 +116,16 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const filteredlocations = queueRoomLocations?.filter((location) => location.uuid != selectedLocation);
 
-  const filteredProviders = providers?.filter((provider) => provider !== null);
-
+  const filteredProviders = providers?.flatMap((provider) =>
+    provider.attributes.filter(
+      (item) =>
+        item.attributeType.display === 'Default Location' &&
+        typeof item.value === 'object' &&
+        item?.value?.uuid === selectedNextQueueLocation,
+    ).length > 0
+      ? provider
+      : [],
+  );
   // endVisit
   const endVisitStatus = useCallback(
     (event) => {
@@ -344,24 +352,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               </ContentSwitcher>
             </section>
 
-            <section className={styles.section}>
-              <Select
-                labelText={t('selectProvider', 'Select a provider')}
-                id="providers-list"
-                name="providers-list"
-                invalidText="Required"
-                value={selectedProvider}
-                onChange={(event) => setSelectedProvider(event.target.value)}
-              >
-                {!selectedProvider ? <SelectItem text={t('selectProvider', 'Select a provider')} value="" /> : null}
-                {filteredProviders.map((provider) => (
-                  <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
-                    {provider.display}
-                  </SelectItem>
-                ))}
-              </Select>
-            </section>
-
             {status === 'completed' && (
               <section className={styles.section}>
                 <Select
@@ -383,6 +373,24 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                 </Select>
               </section>
             )}
+
+            <section className={styles.section}>
+              <Select
+                labelText={t('selectProvider', 'Select a provider')}
+                id="providers-list"
+                name="providers-list"
+                invalidText="Required"
+                value={selectedProvider}
+                onChange={(event) => setSelectedProvider(event.target.value)}
+              >
+                {!selectedProvider ? <SelectItem text={t('selectProvider', 'Select a provider')} value="" /> : null}
+                {filteredProviders.map((provider) => (
+                  <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
+                    {provider.display}
+                  </SelectItem>
+                ))}
+              </Select>
+            </section>
 
             {status === 'completed' && (
               <section className={styles.section}>
