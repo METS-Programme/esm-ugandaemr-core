@@ -13,6 +13,8 @@ function ActiveVisitsTabs() {
   const [selectedTab, setSelectedTab] = useState(0);
   const [overlayHeader, setOverlayTitle] = useState('');
 
+  const status = 'completed' || 'serving' || 'pending';
+
   return (
     <div className={styles.container}>
       <Tabs
