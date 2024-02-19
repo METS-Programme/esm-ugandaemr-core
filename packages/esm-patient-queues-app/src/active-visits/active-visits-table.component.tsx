@@ -73,8 +73,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const [currentPageSize, setPageSize] = useState(10);
   const [overlayHeader, setOverlayTitle] = useState('');
 
-  const { goTo, results: paginatedQueueEntries, currentPage } = usePagination(patientQueueEntries, currentPageSize);
-
   const tableHeaders = useMemo(
     () => [
       {
@@ -110,8 +108,38 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
     ],
     [t],
   );
+
+  const filteredPatientQueueEntries = useMemo(() => {
+    let entries;
+    switch (status) {
+      case 'COMPLETED':
+        entries = patientQueueEntries.filter((entry) => entry.status === 'COMPLETED');
+        break;
+      case '':
+        entries = patientQueueEntries.filter((entry) => entry.status === 'PENDING' || entry.status === 'PICKED');
+        break;
+      default:
+        entries = patientQueueEntries.filter((entry) => entry.status === status);
+        break;
+    }
+
+    // Sorting entries such that those with picked come first
+    entries.sort((a, b) => {
+      if (a.status === 'PICKED' && b.status !== 'PICKED') {
+        return 1;
+      } else if (a.status !== 'PICKED' && b.status === 'PICKED') {
+        return -1;
+      }
+      return 0;
+    });
+
+    return entries;
+  }, [patientQueueEntries, status]);
+
+  const { goTo, results: paginatedQueueEntries, currentPage } = usePagination(patientQueueEntries, currentPageSize);
+
   const tableRows = useMemo(() => {
-    return paginatedQueueEntries?.map((entry) => ({
+    return filteredPatientQueueEntries?.map((entry) => ({
       ...entry,
       visitNumber: {
         content: <span>{trimVisitNumber(entry.visitNumber)}</span>,
@@ -163,13 +191,13 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         ),
       },
     }));
-  }, [paginatedQueueEntries, t, session.user, fromPage]);
+  }, [filteredPatientQueueEntries, session.user, t, fromPage]);
 
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;
   }
 
-  if (patientQueueEntries?.length) {
+  if (paginatedQueueEntries?.length) {
     return (
       <div className={styles.container}>
         <DataTable
@@ -242,7 +270,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                 page={currentPage}
                 pageSize={currentPageSize}
                 pageSizes={pageSizes}
-                totalItems={patientQueueEntries?.length}
+                totalItems={filteredPatientQueueEntries?.length}
                 className={styles.pagination}
                 onChange={({ pageSize, page }) => {
                   if (pageSize !== currentPageSize) {
