@@ -329,7 +329,6 @@ export function useAverageWaitTime(serviceUuid: string, statusUuid: string) {
 }
 
 export function usePatientsServed(currentQueueLocationUuid: string, status: string) {
-  //patientqueue?v=full&status=picked&room=f46890559-c543-41ad-97d6-768bcf22ec8f
   const apiUrl = `/ws/rest/v1/patientqueue?v=full&room=${currentQueueLocationUuid}&status=${status}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
@@ -343,6 +342,7 @@ export function usePatientsServed(currentQueueLocationUuid: string, status: stri
       name: queue.patient?.person.display,
       patientUuid: queue.patient?.uuid,
       priorityComment: queue.priorityComment,
+      provider: queue.provider?.identifier,
       priority: queue.priorityComment === 'Urgent' ? 'Priority' : queue.priorityComment,
       waitTime: queue.dateCreated ? `${dayjs().diff(dayjs(queue.dateCreated), 'minutes')}` : '--',
       status: queue.status,
@@ -360,8 +360,7 @@ export function usePatientsServed(currentQueueLocationUuid: string, status: stri
   });
 
   return {
-    servedQueuePatients:
-      mapppedQueues && mapppedQueues.length > 0 ? (mapppedQueues?.[0] as unknown as MappedQueueEntry) : undefined,
+    servedQueuePatients: mapppedQueues,
     servedCount: mapppedQueues?.length,
     isLoading,
     isError: error,
@@ -446,7 +445,6 @@ export function useQueuePatients(status: string) {
 }
 
 // appointments by statuses
-
 export const useAppointmentList = (appointmentStatus: string, date?: string) => {
   const { currentAppointmentDate } = useAppointmentDate();
   const startDate = date ? date : currentAppointmentDate;

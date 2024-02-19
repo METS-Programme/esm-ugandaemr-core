@@ -20,11 +20,10 @@ import {
   useLocations,
   useSession,
 } from '@openmrs/esm-framework';
-import isEmpty from 'lodash-es/isEmpty';
 
 import { getCareProvider, updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
@@ -44,12 +43,6 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
 
   const [selectedLocation, setSelectedLocation] = useState('');
 
-  const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
-
-  const [statusSwitcherIndex, setStatusSwitcherIndex] = useState(1);
-
-  const [status, setStatus] = useState('');
-
   const [selectedQueueLocation, setSelectedQueueLocation] = useState(queueEntry?.queueLocation);
 
   const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
@@ -57,8 +50,6 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
   const sessionUser = useSession();
 
   const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
-
-  const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
 
   const [provider, setProvider] = useState('');
   const [priorityComment, setPriorityComment] = useState('');

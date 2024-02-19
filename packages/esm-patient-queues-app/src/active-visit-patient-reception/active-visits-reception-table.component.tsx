@@ -1,9 +1,7 @@
 import {
   Button,
   DataTable,
-  DataTableHeader,
   DataTableSkeleton,
-  DefinitionTooltip,
   Layer,
   Pagination,
   Table,
@@ -36,14 +34,6 @@ import styles from './active-visits-reception.scss';
 import EmptyState from '../utils/empty-state/empty-state.component';
 import { useParentLocation } from '../active-visits/patient-queues.resource';
 
-type FilterProps = {
-  rowIds: Array<string>;
-  headers: Array<DataTableHeader>;
-  cellsById: any;
-  inputValue: string;
-  getCellId: (row, key) => string;
-};
-
 function ActiveVisitsReceptionTable() {
   const { t } = useTranslation();
   const session = useSession();
@@ -52,7 +42,7 @@ function ActiveVisitsReceptionTable() {
   const [view, setView] = useState('');
   const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
 
-  const { location, isLoading: loading } = useParentLocation(session?.sessionLocation?.uuid);
+  const { location } = useParentLocation(session?.sessionLocation?.uuid);
 
   const { patientQueueEntries, isLoading } = usePatientQueuesList(location?.parentLocation?.uuid);
 
@@ -143,30 +133,6 @@ function ActiveVisitsReceptionTable() {
     }));
   }, [fromPage, paginatedQueueEntries, t]);
 
-  const handleFilter = ({ rowIds, headers, cellsById, inputValue, getCellId }: FilterProps): Array<string> => {
-    return rowIds.filter((rowId) =>
-      headers.some(({ key }) => {
-        const cellId = getCellId(rowId, key);
-        const filterableValue = cellsById[cellId].value;
-        const filterTerm = inputValue.toLowerCase();
-
-        if (typeof filterableValue === 'boolean') {
-          return false;
-        }
-        if (filterableValue.hasOwnProperty('content')) {
-          if (Array.isArray(filterableValue.content.props.children)) {
-            return ('' + filterableValue.content.props.children[1].props.children).toLowerCase().includes(filterTerm);
-          }
-          if (typeof filterableValue.content.props.children === 'object') {
-            return ('' + filterableValue.content.props.children.props.children).toLowerCase().includes(filterTerm);
-          }
-          return ('' + filterableValue.content.props.children).toLowerCase().includes(filterTerm);
-        }
-        return ('' + filterableValue).toLowerCase().includes(filterTerm);
-      }),
-    );
-  };
-
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;
   }
@@ -174,12 +140,10 @@ function ActiveVisitsReceptionTable() {
   if (patientQueueEntries?.length) {
     return (
       <div className={styles.container}>
-        <div className={styles.headerBtnContainer}></div>
         <div className={styles.headerContainer}>
           <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
             <span className={styles.heading}>{`Checked In Patients`}</span>
           </div>
-          {/* <UserHasAccess privilege={PRIVILEGE_CHECKIN}> */}
           <div className={styles.headerButtons}>
             <ExtensionSlot
               name="patient-search-button-slot"
@@ -200,15 +164,12 @@ function ActiveVisitsReceptionTable() {
               }}
             />
           </div>
-          {/* </UserHasAccess> */}
         </div>
 
         <DataTable
           data-floating-menu-container
-          filterRows={handleFilter}
           headers={tableHeaders}
           rows={tableRows}
-          isSortable
           useZebraStyles
           overflowMenuOnHover={isDesktop(layout)}
         >
@@ -305,7 +266,6 @@ function ActiveVisitsReceptionTable() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.headerBtnContainer}></div>
       <div className={styles.headerContainer}>
         <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
           <span className={styles.heading}>{`Checked In Patients`}</span>

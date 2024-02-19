@@ -23,7 +23,6 @@ import {
   toOmrsIsoString,
   useConfig,
   useLayoutType,
-  useLocations,
   usePatient,
   useSession,
   useVisitTypes,
@@ -34,7 +33,7 @@ import { useTranslation } from 'react-i18next';
 import { first } from 'rxjs/operators';
 import { addQueueEntry, useVisitQueueEntries } from '../../active-visits/active-visits-table.resource';
 import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
-import { NewVisitPayload, PatientProgram, SearchTypes } from '../../types';
+import { NewVisitPayload, SearchTypes } from '../../types';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './visit-form.scss';
 import { useQueueLocations } from '../hooks/useQueueLocations';
