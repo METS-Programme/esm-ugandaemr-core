@@ -3,7 +3,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { PRIVILEGE_RECEPTION_METRIC, PRIVILIGE_TRIAGE_METRIC } from '../constants';
 
-import { useAppointmentList, usePatientsServed, useServicePointCount } from './clinic-metrics.resource';
+import {
+  useAppointmentList,
+  usePatientsBeingServed,
+  usePatientsServed,
+  useServicePointCount,
+} from './clinic-metrics.resource';
 import styles from './clinic-metrics.scss';
 import MetricsCard from './metrics-card.component';
 import { useParentLocation } from '../active-visits/patient-queues.resource';
@@ -16,6 +21,9 @@ function ClinicMetrics() {
   const { servedCount } = usePatientsServed(session?.sessionLocation?.uuid, 'picked');
   const { patientQueueCount: pendingCount } = usePatientQueuesList(location?.parentLocation?.uuid);
   const { appointmentList } = useAppointmentList('Scheduled');
+  const creatorUuid = session?.user?.person?.display;
+
+  const { patientQueueCount } = usePatientsBeingServed(session?.sessionLocation?.uuid, 'pending', creatorUuid);
 
   const { stats: patientStats } = useServicePointCount(location?.parentLocation?.uuid, new Date(), new Date());
 
@@ -59,22 +67,21 @@ function ClinicMetrics() {
         />
       </UserHasAccess>
 
-        <UserHasAccess privilege={PRIVILIGE_TRIAGE_METRIC}>
-          <MetricsCard
-            values={[{ label: 'In Queue', value: pendingCount }]}
-            headerLabel={t('inQueueTriage', 'Patients Waiting')}
-          />
-          <MetricsCard
-            values={[{ label: t('byTriage', 'By you'), value: patientQueueCount }]}
-            headerLabel={t('pendingTriageServing', 'Patients waiting to be Served')}
-          />
-          <MetricsCard
-            values={[{ label: 'Patients Served', value: servedCount }]}
-            headerLabel={t('noOfPatientsServed', 'No. of Patients Served')}
-          />
-        </UserHasAccess>
-      </div>
-    </>
+      <UserHasAccess privilege={PRIVILIGE_TRIAGE_METRIC}>
+        <MetricsCard
+          values={[{ label: 'In Queue', value: pendingCount }]}
+          headerLabel={t('inQueueTriage', 'Patients Waiting')}
+        />
+        <MetricsCard
+          values={[{ label: t('byTriage', 'By you'), value: patientQueueCount }]}
+          headerLabel={t('pendingTriageServing', 'Patients waiting to be Served')}
+        />
+        <MetricsCard
+          values={[{ label: 'Patients Served', value: servedCount }]}
+          headerLabel={t('noOfPatientsServed', 'No. of Patients Served')}
+        />
+      </UserHasAccess>
+    </div>
   );
 }
 
