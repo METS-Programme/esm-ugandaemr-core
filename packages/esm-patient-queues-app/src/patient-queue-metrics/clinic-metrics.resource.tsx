@@ -385,14 +385,18 @@ export function usePatientBeingServed(currentQueueLocationUuid: string, status: 
   };
 }
 
-export function usePatientsBeingServed(currentQueueLocationUuid: string, status: string) {
+export function usePatientsBeingServed(currentQueueLocationUuid: string, status: string, loggedInProviderUuid: string) {
   const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&status=${status}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,
   );
 
-  const mapppedQueues = data?.data?.results.map((queue: PatientQueue) => {
+  const filteredQueues = data?.data?.results.filter(
+    (queue: PatientQueue) => queue.provider?.person.display === loggedInProviderUuid,
+  );
+
+  const mapppedQueues = filteredQueues?.map((queue: PatientQueue) => {
     return {
       ...queue,
       id: queue.uuid,
