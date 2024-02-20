@@ -13,6 +13,10 @@ function ActiveVisitsTabs() {
   const [selectedTab, setSelectedTab] = useState(0);
   const [overlayHeader, setOverlayTitle] = useState('');
 
+  const getTabStatus = (selectedIndex) => {
+    return selectedIndex === 0 ? '' : 'COMPLETED';
+  };
+
   return (
     <div className={styles.container}>
       <Tabs
@@ -26,10 +30,10 @@ function ActiveVisitsTabs() {
         </TabList>
         <TabPanels>
           <TabPanel style={{ padding: 0 }}>
-            <ActiveVisitsTable status={''} />
+            <ActiveVisitsTable status={getTabStatus(selectedTab)} />
           </TabPanel>
           <TabPanel style={{ padding: 0 }}>
-            <ActiveVisitsTable status={'completed'} />
+            <ActiveVisitsTable status={getTabStatus(selectedTab)} />
           </TabPanel>
         </TabPanels>
       </Tabs>
