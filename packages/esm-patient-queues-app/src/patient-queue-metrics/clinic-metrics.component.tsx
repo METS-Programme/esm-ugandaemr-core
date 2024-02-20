@@ -13,6 +13,8 @@ import styles from './clinic-metrics.scss';
 import MetricsCard from './metrics-card.component';
 import { useParentLocation } from '../active-visits/patient-queues.resource';
 import { usePatientQueuesList } from '../active-visit-patient-reception/active-visits-reception.resource';
+import { CheckmarkOutline, Pending, ProgressBarRound } from '@carbon/react/icons';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 
 function ClinicMetrics() {
   const { t } = useTranslation();
@@ -37,9 +39,36 @@ function ClinicMetrics() {
       label: locationTag,
       value: stats.serving + stats.completed + stats.pending,
       status: [
-        { status: 'Pending', value: stats.pending, color: 'orange' },
-        { status: 'Serving', value: stats.serving, color: 'green' },
-        { status: 'Completed', value: stats.completed, color: 'blue' },
+        {
+          status: (
+            <>
+              <Pending data-tooltip-id="tooltip-pending" />
+              <ReactTooltip id="tooltip-pending" place="right" content="Pending" variant="warning" />
+            </>
+          ),
+          value: stats.pending,
+          color: 'orange',
+        },
+        {
+          status: (
+            <>
+              <ProgressBarRound data-tooltip-id="tooltip-serving" />
+              <ReactTooltip id="tooltip-serving" place="right" content="Serving" variant="info" />
+            </>
+          ),
+          value: stats.serving,
+          color: 'blue',
+        },
+        {
+          status: (
+            <>
+              <CheckmarkOutline data-tooltip-id="tooltip-completed" />
+              <ReactTooltip id="tooltip-completed" place="right" content="Completed" variant="success" />
+            </>
+          ),
+          value: stats.completed,
+          color: 'green',
+        },
       ],
     };
   };
