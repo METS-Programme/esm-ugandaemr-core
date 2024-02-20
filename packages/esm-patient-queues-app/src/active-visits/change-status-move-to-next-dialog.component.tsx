@@ -25,11 +25,11 @@ import { useProviders } from '../patient-search/visit-form/queue.resource';
 import { MappedQueueEntry } from '../types';
 
 interface ChangeStatusDialogProps {
-  queueEntry?: MappedQueueEntry;
+  patientUuid: string;
   closeModal: () => void;
 }
 
-const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ queueEntry, closeModal }) => {
+const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, closeModal }) => {
   const { t } = useTranslation();
 
   const locations = useLocations();
@@ -44,9 +44,9 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ queueEntry,
 
   const [status, setStatus] = useState('');
 
-  const [selectedQueueLocation, setSelectedQueueLocation] = useState(queueEntry?.queueLocation);
+  // const [selectedQueueLocation, setSelectedQueueLocation] = useState(queueEntry?.queueLocation);
 
-  const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
+  // const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
 
   const sessionUser = useSession();
 
@@ -64,7 +64,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ queueEntry,
     getCareProvider(sessionUser?.user?.systemId).then(
       (response) => {
         setProvider(response?.data?.results[0].uuid);
-        mutate();
+        // mutate();
       },
       (error) => {
         showNotification({
@@ -133,195 +133,172 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ queueEntry,
 
       // check status
 
-      if (status === 'pending') {
-        const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-        updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, comment).then(
-          () => {
-            showToast({
-              critical: true,
-              title: t('updateEntry', 'Update entry'),
-              kind: 'success',
-              description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
-            });
-            closeModal();
-            mutate();
-          },
-          (error) => {
-            showNotification({
-              title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-              kind: 'error',
-              critical: true,
-              description: error?.message,
-            });
-          },
-        );
-      } else if (status === 'completed') {
-        const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-        const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
+      // if (status === 'pending') {
+      //   const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+      //   updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, comment).then(
+      //     () => {
+      //       showToast({
+      //         critical: true,
+      //         title: t('updateEntry', 'Update entry'),
+      //         kind: 'success',
+      //         description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
+      //       });
+      //       closeModal();
+      //       mutate();
+      //     },
+      //     (error) => {
+      //       showNotification({
+      //         title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+      //         kind: 'error',
+      //         critical: true,
+      //         description: error?.message,
+      //       });
+      //     },
+      //   );
+      // } else if (status === 'completed') {
+      //   const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+      //   const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
 
-        updateQueueEntry('Completed', provider, queueEntry?.id, contentSwitcherIndex, priorityComment, comment).then(
-          () => {
-            showToast({
-              critical: true,
-              title: t('endVisit', 'End Vist'),
-              kind: 'success',
-              description: t('endVisitSuccessfully', 'You have successfully ended patient visit'),
-            });
-            closeModal();
-            mutate();
-          },
-          (error) => {
-            showNotification({
-              title: t('queueEntryUpdateFailed', 'Error ending visit'),
-              kind: 'error',
-              critical: true,
-              description: error?.message,
-            });
-          },
-        );
+      //   updateQueueEntry('Completed', provider, queueEntry?.id, contentSwitcherIndex, priorityComment, comment).then(
+      //     () => {
+      //       showToast({
+      //         critical: true,
+      //         title: t('endVisit', 'End Vist'),
+      //         kind: 'success',
+      //         description: t('endVisitSuccessfully', 'You have successfully ended patient visit'),
+      //       });
+      //       closeModal();
+      //       mutate();
+      //     },
+      //     (error) => {
+      //       showNotification({
+      //         title: t('queueEntryUpdateFailed', 'Error ending visit'),
+      //         kind: 'error',
+      //         critical: true,
+      //         description: error?.message,
+      //       });
+      //     },
+      //   );
 
-        addQueueEntry(
-          queueEntry?.id,
-          nextQueueLocationUuid,
-          queueEntry?.patientUuid,
-          selectedProvider,
-          contentSwitcherIndex,
-          '',
-          'pending',
-          selectedLocation,
-          priorityComment,
-          comment,
-        ).then(
-          () => {
-            showToast({
-              critical: true,
-              title: t('updateEntry', 'Move to next queue'),
-              kind: 'success',
-              description: t('movetonextqueue', 'Move to next queue successfully'),
-            });
-            //pick and route
-            const status = 'picked';
-            updateQueueEntry(status, provider, queueEntry?.id, contentSwitcherIndex, priorityComment, 'comment').then(
-              () => {
-                // view patient summary
-                navigate({ to: `\${openmrsSpaBase}/patient/${queueEntry.patientUuid}/chart` });
+      //   addQueueEntry(
+      //     queueEntry?.id,
+      //     nextQueueLocationUuid,
+      //     queueEntry?.patientUuid,
+      //     selectedProvider,
+      //     contentSwitcherIndex,
+      //     '',
+      //     'pending',
+      //     selectedLocation,
+      //     priorityComment,
+      //     comment,
+      //   ).then(
+      //     () => {
+      //       showToast({
+      //         critical: true,
+      //         title: t('updateEntry', 'Move to next queue'),
+      //         kind: 'success',
+      //         description: t('movetonextqueue', 'Move to next queue successfully'),
+      //       });
+      //       //pick and route
+      //       const status = 'picked';
+      //       updateQueueEntry(status, provider, queueEntry?.id, contentSwitcherIndex, priorityComment, 'comment').then(
+      //         () => {
+      //           // view patient summary
+      //           navigate({ to: `\${openmrsSpaBase}/patient/${queueEntry.patientUuid}/chart` });
 
-                closeModal();
-                mutate();
-              },
-              (error) => {
-                showNotification({
-                  title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-                  kind: 'error',
-                  critical: true,
-                  description: error?.message,
-                });
-              },
-            );
+      //           closeModal();
+      //           mutate();
+      //         },
+      //         (error) => {
+      //           showNotification({
+      //             title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+      //             kind: 'error',
+      //             critical: true,
+      //             description: error?.message,
+      //           });
+      //         },
+      //       );
 
-            closeModal();
-            mutate();
-          },
-          (error) => {
-            showNotification({
-              title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-              kind: 'error',
-              critical: true,
-              description: error?.message,
-            });
-          },
-        );
-      }
+      //       closeModal();
+      //       mutate();
+      //     },
+      //     (error) => {
+      //       showNotification({
+      //         title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+      //         kind: 'error',
+      //         critical: true,
+      //         description: error?.message,
+      //       });
+      //     },
+      //   );
+      // }
     },
-    [
-      status,
-      provider,
-      queueEntry?.id,
-      queueEntry?.patientUuid,
-      priorityComment,
-      t,
-      closeModal,
-      mutate,
-      contentSwitcherIndex,
-      selectedProvider,
-      selectedLocation,
-    ],
+    [],
   );
 
-  if (queueEntry && Object.keys(queueEntry)?.length === 0) {
-    return <ModalHeader closeModal={closeModal} title={t('patientNotInQueue', 'The patient is not in the queue')} />;
-  }
+  // if (queueEntry && Object.keys(queueEntry)?.length === 0) {
+  //   return <ModalHeader closeModal={closeModal} title={t('patientNotInQueue', 'The patient is not in the queue')} />;
+  // }
 
-  if (queueEntry && Object.keys(queueEntry)?.length > 0) {
-    return (
-      <div>
-        <Form onSubmit={changeQueueStatus}>
-          <ModalHeader closeModal={closeModal} />
-          <ModalBody>
-            <div className={styles.modalBody}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <h4 className={styles.section}> Queue to next service area :</h4>
-                <div style={{ margin: '10px' }}>
-                  <ArrowUp size={20} />
-                </div>
-              </div>
-              {queueEntry?.name ? (
-                <h5 className={styles.section}>
-                  {queueEntry?.name} &nbsp; · &nbsp;{queueEntry?.patientSex} &nbsp; · &nbsp;{queueEntry?.patientAge}
-                  &nbsp;
-                  {t('years', 'Years')}
-                </h5>
-              ) : (
-                '--'
-              )}
+  // if (queueEntry && Object.keys(queueEntry)?.length > 0) {
+  return (
+    <div>
+      <Form onSubmit={changeQueueStatus}>
+        <ModalHeader closeModal={closeModal} />
+        <ModalBody>
+          <div className={styles.modalBody}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <h4 className={styles.section}> Queue to next service area</h4>
             </div>
+          </div>
+          <section className={styles.section}>
+            <div className={styles.sectionTitle}>{t('priority', 'Priority')}</div>
+            <ContentSwitcher
+              selectedIndex={contentSwitcherIndex}
+              className={styles.contentSwitcher}
+              onChange={({ index }) => setContentSwitcherIndex(index)}
+            >
+              <Switch name="notUrgent" text={t('notUrgent', 'Not Urgent')} />
+              <Switch name="urgent" text={t('urgent', 'Urgent')} />
+              <Switch name="emergency" text={t('emergency', 'Emergency')} />
+            </ContentSwitcher>
+          </section>
+
+          <section className={styles.section}>
+            <div className={styles.sectionTitle}>{t('status', 'Status')}</div>
+            <ContentSwitcher
+              selectedIndex={statusSwitcherIndex}
+              className={styles.contentSwitcher}
+              onChange={({ index }) => setStatusSwitcherIndex(index)}
+            >
+              <Switch name="pending" text={t('pending', 'Move to Pending')} />
+              <Switch name="completed" text={t('completed', 'Move to completed')} />
+            </ContentSwitcher>
+          </section>
+
+          {status === 'completed' && (
             <section className={styles.section}>
-              <div className={styles.sectionTitle}>{t('priority', 'Priority')}</div>
-              <ContentSwitcher
-                selectedIndex={contentSwitcherIndex}
-                className={styles.contentSwitcher}
-                onChange={({ index }) => setContentSwitcherIndex(index)}
+              <Select
+                labelText={t('selectNextQueueRoom', 'Select next queue room ')}
+                id="nextQueueLocation"
+                name="nextQueueLocation"
+                invalidText="Required"
+                value={selectedNextQueueLocation}
+                onChange={(event) => setSelectedNextQueueLocation(event.target.value)}
               >
-                <Switch name="notUrgent" text={t('notUrgent', 'Not Urgent')} />
-                <Switch name="urgent" text={t('urgent', 'Urgent')} />
-                <Switch name="emergency" text={t('emergency', 'Emergency')} />
-              </ContentSwitcher>
+                {!selectedNextQueueLocation ? (
+                  <SelectItem text={t('selectNextServicePoint', 'Select next service point')} value="" />
+                ) : null}
+                {filteredlocations.map((location) => (
+                  <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
+                    {location.display}
+                  </SelectItem>
+                ))}
+              </Select>
             </section>
+          )}
 
-            <section className={styles.section}>
-              <div className={styles.sectionTitle}>{t('status', 'Status')}</div>
-              <ContentSwitcher
-                selectedIndex={statusSwitcherIndex}
-                className={styles.contentSwitcher}
-                onChange={({ index }) => setStatusSwitcherIndex(index)}
-              >
-                <Switch name="pending" text={t('pending', 'Move to Pending')} />
-                <Switch name="completed" text={t('completed', 'Move to completed')} />
-              </ContentSwitcher>
-            </section>
-
-            {status === 'completed' && (
-              <section className={styles.section}>
-                <Select
-                  labelText={t('selectNextQueueRoom', 'Select next queue room ')}
-                  id="nextQueueLocation"
-                  name="nextQueueLocation"
-                  invalidText="Required"
-                  value={selectedNextQueueLocation}
-                  onChange={(event) => setSelectedNextQueueLocation(event.target.value)}
-                >
-                  {!selectedNextQueueLocation ? (
-                    <SelectItem text={t('selectNextServicePoint', 'Select next service point')} value="" />
-                  ) : null}
-                  {filteredlocations.map((location) => (
-                    <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
-                      {location.display}
-                    </SelectItem>
-                  ))}
-                </Select>
-              </section>
-            )}
-
+          {status === 'completed' && (
             <section className={styles.section}>
               <Select
                 labelText={t('selectProvider', 'Select a provider')}
@@ -339,32 +316,33 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ queueEntry,
                 ))}
               </Select>
             </section>
+          )}
 
-            {status === 'completed' && (
-              <section className={styles.section}>
-                <TextArea
-                  labelText={t('notes', 'Enter notes ')}
-                  id="nextNotes"
-                  name="nextNotes"
-                  invalidText="Required"
-                  helperText="Please enter notes"
-                  maxCount={500}
-                  enableCounter
-                />
-              </section>
-            )}
-          </ModalBody>
-          <ModalFooter>
-            <Button kind="secondary" onClick={closeModal}>
-              {t('cancel', 'Cancel')}
-            </Button>
+          {status === 'completed' && (
+            <section className={styles.section}>
+              <TextArea
+                labelText={t('notes', 'Enter notes ')}
+                id="nextNotes"
+                name="nextNotes"
+                invalidText="Required"
+                helperText="Please enter notes"
+                maxCount={500}
+                enableCounter
+              />
+            </section>
+          )}
+        </ModalBody>
+        <ModalFooter>
+          <Button kind="secondary" onClick={closeModal}>
+            {t('cancel', 'Cancel')}
+          </Button>
 
-            <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
-          </ModalFooter>
-        </Form>
-      </div>
-    );
-  }
+          <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
+        </ModalFooter>
+      </Form>
+    </div>
+  );
+  // }
 };
 
 export default ChangeStatusMoveToNext;

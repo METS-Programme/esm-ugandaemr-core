@@ -193,9 +193,9 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
           () => {
             showToast({
               critical: true,
-              title: t('endVisit', 'End Vist'),
+              title: t('completePatient', 'Completed Patient'),
               kind: 'success',
-              description: t('endVisitSuccessfully', 'You have successfully ended patient visit'),
+              description: t('endVisitSuccessfully', 'You have successfully completed working on the patient'),
             });
             closeModal();
             mutate();
@@ -374,23 +374,25 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               </section>
             )}
 
-            <section className={styles.section}>
-              <Select
-                labelText={t('selectProvider', 'Select a provider')}
-                id="providers-list"
-                name="providers-list"
-                invalidText="Required"
-                value={selectedProvider}
-                onChange={(event) => setSelectedProvider(event.target.value)}
-              >
-                {!selectedProvider ? <SelectItem text={t('selectProvider', 'Select a provider')} value="" /> : null}
-                {filteredProviders.map((provider) => (
-                  <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
-                    {provider.display}
-                  </SelectItem>
-                ))}
-              </Select>
-            </section>
+            {status === 'completed' && (
+              <section className={styles.section}>
+                <Select
+                  labelText={t('selectProvider', 'Select a provider')}
+                  id="providers-list"
+                  name="providers-list"
+                  invalidText="Required"
+                  value={selectedProvider}
+                  onChange={(event) => setSelectedProvider(event.target.value)}
+                >
+                  {!selectedProvider ? <SelectItem text={t('selectProvider', 'Select a provider')} value="" /> : null}
+                  {filteredProviders.map((provider) => (
+                    <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
+                      {provider.display}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </section>
+            )}
 
             {status === 'completed' && (
               <section className={styles.section}>
