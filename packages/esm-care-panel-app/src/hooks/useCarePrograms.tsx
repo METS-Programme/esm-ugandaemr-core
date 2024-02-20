@@ -11,7 +11,7 @@ export type PatientCarePrograms = {
 };
 
 export const useCarePrograms = (patientUuid: string) => {
-  const url = `/ws/rest/v1/eligiblePrograms?patientUuid=${patientUuid}`;
+  const url = `/ws/rest/v1/ugandaemr/patientCohorts?patientUuid=${patientUuid}`;
   const { data, error, isLoading, isValidating } = useSWR<{ data: Array<PatientCarePrograms> }>(url, openmrsFetch);
 
   return {
