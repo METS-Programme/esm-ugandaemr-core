@@ -1,6 +1,5 @@
 import { Layer, Tile } from '@carbon/react';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import styles from './metrics-card.scss';
 
 export interface Value {
@@ -10,7 +9,7 @@ export interface Value {
 }
 
 interface Status {
-  status: string;
+  status: any;
   value: number;
   color: string;
 }
@@ -21,7 +20,6 @@ interface MetricsCardProps {
 }
 
 const MetricsCard: React.FC<MetricsCardProps> = ({ values, headerLabel }) => {
-  // Assuming "styles" is imported from a CSS module or styling library
   return (
     <Layer className={`${styles.cardWithChildren} ${styles.container}`}>
       <Tile className={styles.tileContainer}>
@@ -30,25 +28,28 @@ const MetricsCard: React.FC<MetricsCardProps> = ({ values, headerLabel }) => {
             <label className={styles.headerLabel}>{headerLabel}</label>
           </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          {values.map((value) => (
-            <div key={value.label}>
-              <label className={styles.totalsLabel}>{value.label}</label>
-              <p className={styles.totalsValue}>{value.value}</p>
-              <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div className={styles.valueContainer}>
+          {values?.map((value) => (
+            <div className={styles.valueInnerContainer}>
+              <div key={value.label}>
+                <label className={styles.totalsLabel}>{value.label}</label>
+                <p className={styles.totalsValue}>{value.value}</p>
+              </div>
+              <div className={styles.valueStatus}>
                 {value?.status?.map((status, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'start',
-                      marginRight: '10px',
-                      color: `${status.color}`,
-                    }}
-                  >
-                    <p style={{ margin: 0, fontSize: '0.8em', marginRight: '5px' }}>{status.value}</p>
-                    <label style={{ margin: 0, fontSize: '0.8em' }}>{status.status}</label>
+                  <div key={index} className={styles.status}>
+                    <p className={styles.statusValue}>{status.value}</p>
+                    <label
+                      className={`${styles.statusLabel} ${
+                        status.color === 'orange'
+                          ? styles.statusOrange
+                          : status.color === 'green'
+                          ? styles.statusGreen
+                          : styles.statusBlue
+                      }`}
+                    >
+                      {status.status}
+                    </label>
                   </div>
                 ))}
               </div>

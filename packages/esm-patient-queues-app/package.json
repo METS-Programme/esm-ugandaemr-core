@@ -52,6 +52,7 @@
     "react-router-dom": "6.x"
   },
   "devDependencies": {
+    "react-tooltip": "^5.26.3",
     "webpack": "^5.83.1"
   }
 }

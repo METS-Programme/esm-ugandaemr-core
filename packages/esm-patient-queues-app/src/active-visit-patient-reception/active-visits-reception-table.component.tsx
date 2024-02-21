@@ -181,6 +181,7 @@ function ActiveVisitsReceptionTable() {
                 <TableToolbarContent className={styles.toolbarContent}>
                   <Layer>
                     <TableToolbarSearch
+                      expanded
                       className={styles.search}
                       onChange={onInputChange}
                       placeholder={t('searchThisList', 'Search this list')}
