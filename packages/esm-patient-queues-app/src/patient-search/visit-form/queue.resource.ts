@@ -75,3 +75,16 @@ export function useProviders() {
     isValidating,
   };
 }
+
+export async function getCurrentPatientQueueByPatientUuid(patientUuid: string, currentLocation: string) {
+  const apiUrl = `/ws/rest/v1/incompletequeue?queueRoom=${currentLocation}&patient=${patientUuid}&v=full`;
+
+  const abortController = new AbortController();
+
+  return await openmrsFetch(apiUrl, {
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}

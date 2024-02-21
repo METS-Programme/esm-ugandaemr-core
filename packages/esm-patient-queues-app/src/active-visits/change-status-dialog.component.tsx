@@ -195,7 +195,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               critical: true,
               title: t('completePatient', 'Completed Patient'),
               kind: 'success',
-              description: t('endVisitSuccessfully', 'You have successfully completed working on the patient'),
+              description: t('endVisitSuccessfully', 'You have successfully completed working on the pa'),
             });
             closeModal();
             mutate();

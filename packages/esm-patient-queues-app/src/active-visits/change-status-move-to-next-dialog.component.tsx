@@ -1,3 +1,5 @@
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import {
   Button,
   ContentSwitcher,
@@ -11,18 +13,16 @@ import {
   TextArea,
 } from '@carbon/react';
 
-import { navigate, showNotification, showToast, useLocations, useSession } from '@openmrs/esm-framework';
+import { showNotification, showToast, useLocations, useSession } from '@openmrs/esm-framework';
 
-import { addQueueEntry, getCareProvider, updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
+import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
-import { ArrowUp } from '@carbon/react/icons';
 
 import styles from './change-status-dialog.scss';
-import { useProviders } from '../patient-search/visit-form/queue.resource';
-import { MappedQueueEntry } from '../types';
+import { getCurrentPatientQueueByPatientUuid, useProviders } from '../patient-search/visit-form/queue.resource';
+import { MappedQueueEntry, QueueRecord } from '../types';
 
 interface ChangeStatusDialogProps {
   patientUuid: string;
@@ -34,6 +34,8 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   const locations = useLocations();
 
+  const sessionUser = useSession();
+
   const { providers } = useProviders();
 
   const [selectedLocation, setSelectedLocation] = useState('');
@@ -44,12 +46,6 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   const [status, setStatus] = useState('');
 
-  // const [selectedQueueLocation, setSelectedQueueLocation] = useState(queueEntry?.queueLocation);
-
-  // const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
-
-  const sessionUser = useSession();
-
   const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
@@ -59,6 +55,8 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
   const [priorityComment, setPriorityComment] = useState('');
 
   const [selectedProvider, setSelectedProvider] = useState('');
+
+  let mappedQueueEntry: QueueRecord;
 
   useEffect(() => {
     getCareProvider(sessionUser?.user?.systemId).then(
@@ -76,6 +74,22 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
       },
     );
   });
+
+  getCurrentPatientQueueByPatientUuid(patientUuid, sessionUser?.sessionLocation?.uuid).then(
+    (res) => {
+      mappedQueueEntry = res.data.results[0];
+
+      console.info('mappedQueueEntry', JSON.stringify(mappedQueueEntry, null, 2));
+    },
+    (error) => {
+      showNotification({
+        title: t('errorGettingPatientQueueEntry', 'Error Getting Patient Queue Entry'),
+        kind: 'error',
+        critical: true,
+        description: error?.message,
+      });
+    },
+  );
 
   useEffect(() => {
     if (locations?.length && sessionUser) {
@@ -133,114 +147,130 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
       // check status
 
-      // if (status === 'pending') {
-      //   const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-      //   updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, comment).then(
-      //     () => {
-      //       showToast({
-      //         critical: true,
-      //         title: t('updateEntry', 'Update entry'),
-      //         kind: 'success',
-      //         description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
-      //       });
-      //       closeModal();
-      //       mutate();
-      //     },
-      //     (error) => {
-      //       showNotification({
-      //         title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-      //         kind: 'error',
-      //         critical: true,
-      //         description: error?.message,
-      //       });
-      //     },
-      //   );
-      // } else if (status === 'completed') {
-      //   const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-      //   const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
+      if (status === 'pending') {
+        const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+        updateQueueEntry(status, provider, mappedQueueEntry?.uuid, 0, priorityComment, comment).then(
+          () => {
+            showToast({
+              critical: true,
+              title: t('updateEntry', 'Update entry'),
+              kind: 'success',
+              description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
+            });
+            closeModal();
+            // mutate();
+          },
+          (error) => {
+            showNotification({
+              title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+              kind: 'error',
+              critical: true,
+              description: error?.message,
+            });
+          },
+        );
+      } else if (status === 'completed') {
+        const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+        const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
 
-      //   updateQueueEntry('Completed', provider, queueEntry?.id, contentSwitcherIndex, priorityComment, comment).then(
-      //     () => {
-      //       showToast({
-      //         critical: true,
-      //         title: t('endVisit', 'End Vist'),
-      //         kind: 'success',
-      //         description: t('endVisitSuccessfully', 'You have successfully ended patient visit'),
-      //       });
-      //       closeModal();
-      //       mutate();
-      //     },
-      //     (error) => {
-      //       showNotification({
-      //         title: t('queueEntryUpdateFailed', 'Error ending visit'),
-      //         kind: 'error',
-      //         critical: true,
-      //         description: error?.message,
-      //       });
-      //     },
-      //   );
+        updateQueueEntry(
+          'Completed',
+          provider,
+          mappedQueueEntry?.uuid,
+          contentSwitcherIndex,
+          priorityComment,
+          comment,
+        ).then(
+          () => {
+            showToast({
+              critical: true,
+              title: t('endVisit', 'End Vist'),
+              kind: 'success',
+              description: t('endVisitSuccessfully', 'You have successfully ended patient visit'),
+            });
+            closeModal();
+            // mutate();
+          },
+          (error) => {
+            showNotification({
+              title: t('queueEntryUpdateFailed', 'Error ending visit'),
+              kind: 'error',
+              critical: true,
+              description: error?.message,
+            });
+          },
+        );
 
-      //   addQueueEntry(
-      //     queueEntry?.id,
-      //     nextQueueLocationUuid,
-      //     queueEntry?.patientUuid,
-      //     selectedProvider,
-      //     contentSwitcherIndex,
-      //     '',
-      //     'pending',
-      //     selectedLocation,
-      //     priorityComment,
-      //     comment,
-      //   ).then(
-      //     () => {
-      //       showToast({
-      //         critical: true,
-      //         title: t('updateEntry', 'Move to next queue'),
-      //         kind: 'success',
-      //         description: t('movetonextqueue', 'Move to next queue successfully'),
-      //       });
-      //       //pick and route
-      //       const status = 'picked';
-      //       updateQueueEntry(status, provider, queueEntry?.id, contentSwitcherIndex, priorityComment, 'comment').then(
-      //         () => {
-      //           // view patient summary
-      //           navigate({ to: `\${openmrsSpaBase}/patient/${queueEntry.patientUuid}/chart` });
+        addQueueEntry(
+          mappedQueueEntry?.uuid,
+          nextQueueLocationUuid,
+          '',
+          selectedProvider,
+          contentSwitcherIndex,
+          patientUuid,
+          'pending',
+          selectedLocation,
+          priorityComment,
+          comment,
+        ).then(
+          () => {
+            showToast({
+              critical: true,
+              title: t('updateEntry', 'Move to next queue'),
+              kind: 'success',
+              description: t('movetonextqueue', 'Move to next queue successfully'),
+            });
+            //pick and route
+            const status = 'picked';
+            updateQueueEntry(
+              status,
+              provider,
+              mappedQueueEntry?.uuid,
+              contentSwitcherIndex,
+              priorityComment,
+              'comment',
+            ).then(
+              () => {
+                closeModal();
+              },
+              (error) => {
+                showNotification({
+                  title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+                  kind: 'error',
+                  critical: true,
+                  description: error?.message,
+                });
+              },
+            );
 
-      //           closeModal();
-      //           mutate();
-      //         },
-      //         (error) => {
-      //           showNotification({
-      //             title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-      //             kind: 'error',
-      //             critical: true,
-      //             description: error?.message,
-      //           });
-      //         },
-      //       );
-
-      //       closeModal();
-      //       mutate();
-      //     },
-      //     (error) => {
-      //       showNotification({
-      //         title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-      //         kind: 'error',
-      //         critical: true,
-      //         description: error?.message,
-      //       });
-      //     },
-      //   );
-      // }
+            closeModal();
+            // mutate();
+          },
+          (error) => {
+            showNotification({
+              title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+              kind: 'error',
+              critical: true,
+              description: error?.message,
+            });
+          },
+        );
+      }
     },
-    [],
+    [
+      closeModal,
+      contentSwitcherIndex,
+      mappedQueueEntry?.uuid,
+      patientUuid,
+      priorityComment,
+      provider,
+      selectedLocation,
+      selectedProvider,
+      status,
+      t,
+    ],
   );
 
-  // if (queueEntry && Object.keys(queueEntry)?.length === 0) {
-  //   return <ModalHeader closeModal={closeModal} title={t('patientNotInQueue', 'The patient is not in the queue')} />;
-  // }
-
-  // if (queueEntry && Object.keys(queueEntry)?.length > 0) {
   return (
     <div>
       <Form onSubmit={changeQueueStatus}>
@@ -342,7 +372,6 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
       </Form>
     </div>
   );
-  // }
 };
 
 export default ChangeStatusMoveToNext;
