@@ -32,7 +32,7 @@ function ActiveVisitsTabs() {
         <TabList style={{ paddingLeft: '1rem' }} aria-label="Outpatient tabs" contained>
           <Tab>{t('pending', 'In Queue')}</Tab>
           <Tab>{t('completed', 'Completed')}</Tab>
-          {session?.user && userHasAccess(PRIVILEGE_CLINICIAN_QUEUE_LIST, session.user) && (
+          {userHasAccess(PRIVILEGE_CLINICIAN_QUEUE_LIST, session.user) && (
             <Tab>{t('investigations', 'Investigations')}</Tab>
           )}
         </TabList>
@@ -44,7 +44,7 @@ function ActiveVisitsTabs() {
             <ActiveVisitsTable status={getTabStatus(selectedTab)} />
           </TabPanel>
 
-          {session?.user && userHasAccess(PRIVILEGE_CLINICIAN_QUEUE_LIST, session.user) && (
+          {userHasAccess(PRIVILEGE_CLINICIAN_QUEUE_LIST, session.user) && (
             <TabPanel>
               <LabResultsTable />
             </TabPanel>
