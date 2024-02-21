@@ -1,5 +1,5 @@
 import { UserHasAccess, useSession } from '@openmrs/esm-framework';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PRIVILEGE_RECEPTION_METRIC, PRIVILIGE_TRIAGE_METRIC } from '../constants';
 
@@ -15,8 +15,9 @@ import { useParentLocation } from '../active-visits/patient-queues.resource';
 import { usePatientQueuesList } from '../active-visit-patient-reception/active-visits-reception.resource';
 import { CheckmarkOutline, Pending, ProgressBarRound } from '@carbon/react/icons';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
+import { values } from 'lodash-es';
 
-function ClinicMetrics() {
+const ClinicMetrics: React.FC = () => {
   const { t } = useTranslation();
   const session = useSession();
   const { location } = useParentLocation(session?.sessionLocation?.uuid);
@@ -24,60 +25,9 @@ function ClinicMetrics() {
   const { patientQueueCount: pendingCount } = usePatientQueuesList(location?.parentLocation?.uuid);
   const { appointmentList } = useAppointmentList('Scheduled');
   const creatorUuid = session?.user?.person?.display;
-
   const { patientQueueCount } = usePatientsBeingServed(session?.sessionLocation?.uuid, 'pending', creatorUuid);
 
-  const { stats: patientStats } = useServicePointCount(location?.parentLocation?.uuid, new Date(), new Date());
-
-  const getMetrics = (locationTag) => {
-    const stats = patientStats?.find((item) => item.locationTag?.display === locationTag) || {
-      pending: 0,
-      serving: 0,
-      completed: 0,
-    };
-    return {
-      label: locationTag,
-      value: stats.serving + stats.completed + stats.pending,
-      status: [
-        {
-          status: (
-            <>
-              <Pending data-tooltip-id="tooltip-pending" />
-              <ReactTooltip id="tooltip-pending" place="right" content="Pending" variant="warning" />
-            </>
-          ),
-          value: stats.pending,
-          color: 'orange',
-        },
-        {
-          status: (
-            <>
-              <ProgressBarRound data-tooltip-id="tooltip-serving" />
-              <ReactTooltip id="tooltip-serving" place="right" content="Serving" variant="info" />
-            </>
-          ),
-          value: stats.serving,
-          color: 'blue',
-        },
-        {
-          status: (
-            <>
-              <CheckmarkOutline data-tooltip-id="tooltip-completed" />
-              <ReactTooltip id="tooltip-completed" place="right" content="Completed" variant="success" />
-            </>
-          ),
-          value: stats.completed,
-          color: 'green',
-        },
-      ],
-    };
-  };
-
-  const triage = getMetrics('Triage');
-  const clinicalRoom = getMetrics('Clinical Room');
-  const laboratory = getMetrics('Laboratory');
-  const radiology = getMetrics('Radiology');
-  const pharmacy = getMetrics('Main Pharmacy');
+  const { stats } = useServicePointCount(location?.parentLocation?.uuid, new Date(), new Date());
 
   return (
     <div className={styles.cardContainer}>
@@ -90,10 +40,7 @@ function ClinicMetrics() {
           values={[{ label: 'Expected Appointments', value: appointmentList?.length }]}
           headerLabel={t('noOfExpectedAppointments', 'No. Of Expected Appointments')}
         />
-        <MetricsCard
-          values={[triage, clinicalRoom, laboratory, radiology, pharmacy]}
-          headerLabel={t('currentlyServing', 'No. of Currently being Served')}
-        />
+        <MetricsCard values={stats} headerLabel={t('currentlyServing', 'No. of Currently being Served')} />
       </UserHasAccess>
 
       <UserHasAccess privilege={PRIVILIGE_TRIAGE_METRIC}>
@@ -112,6 +59,50 @@ function ClinicMetrics() {
       </UserHasAccess>
     </div>
   );
-}
+};
+
+export const getMetrics = (locationTag, patientStats) => {
+  const stats = patientStats?.find((item) => item.locationTag?.display === locationTag) || {
+    pending: 0,
+    serving: 0,
+    completed: 0,
+  };
+  return {
+    label: locationTag,
+    value: stats.serving + stats.completed + stats.pending,
+    status: [
+      {
+        status: (
+          <>
+            <Pending data-tooltip-id="tooltip-pending" />
+            <ReactTooltip id="tooltip-pending" place="right" content="Pending" variant="warning" />
+          </>
+        ),
+        value: stats.pending,
+        color: 'orange',
+      },
+      {
+        status: (
+          <>
+            <ProgressBarRound data-tooltip-id="tooltip-serving" />
+            <ReactTooltip id="tooltip-serving" place="right" content="Serving" variant="info" />
+          </>
+        ),
+        value: stats.serving,
+        color: 'blue',
+      },
+      {
+        status: (
+          <>
+            <CheckmarkOutline data-tooltip-id="tooltip-completed" />
+            <ReactTooltip id="tooltip-completed" place="right" content="Completed" variant="success" />
+          </>
+        ),
+        value: stats.completed,
+        color: 'green',
+      },
+    ],
+  };
+};
 
 export default ClinicMetrics;

@@ -29,7 +29,7 @@ const MetricsCard: React.FC<MetricsCardProps> = ({ values, headerLabel }) => {
           </div>
         </div>
         <div className={styles.valueContainer}>
-          {values.map((value) => (
+          {values?.map((value) => (
             <div className={styles.valueInnerContainer}>
               <div key={value.label}>
                 <label className={styles.totalsLabel}>{value.label}</label>

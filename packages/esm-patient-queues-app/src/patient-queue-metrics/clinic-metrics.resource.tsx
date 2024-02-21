@@ -16,6 +16,8 @@ import { PatientQueue } from '../types/patient-queues';
 import { omrsDateFormat } from '../constants';
 import { amPm } from '../helpers/time-helpers';
 import { configSchema } from '../config-schema';
+import { Value } from './metrics-card.component';
+import { getMetrics } from './clinic-metrics.component';
 
 export type PickedResponse = {
   results: IResultsItem[];
@@ -577,17 +579,22 @@ export interface Link {
   resourceAlias: string;
 }
 
-// patients in the different service points
-
 export function useServicePointCount(parentLocation: string, beforeDate: Date, afterDate: Date) {
-  const apiUrl = `/ws/rest/v1/queuestatistics?parentLocation=${parentLocation}&after=${afterDate}&before=${beforeDate}`;
+  const apiUrl = `/ws/rest/v1/queuestatistics?parentLocation=${parentLocation}&toDate=${afterDate}&fromDate=${beforeDate}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientStats> } }, Error>(
     apiUrl,
     openmrsFetch,
   );
 
+  const servicePoints = ['Triage', 'Clinical Room', 'Laboratory', 'Radiology', 'Main Pharmacy'];
+  let patientStatsArray: Array<Value> = [];
+
+  servicePoints.map((servicePoint) => {
+    patientStatsArray.push(getMetrics(servicePoint, data?.data?.results));
+  });
+
   return {
-    stats: data?.data.results,
+    stats: patientStatsArray,
     isLoading,
     isError: error,
     isValidating,
