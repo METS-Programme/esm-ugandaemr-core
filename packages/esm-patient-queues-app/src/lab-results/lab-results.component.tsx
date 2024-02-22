@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   DataTable,
   DataTableSkeleton,
@@ -18,7 +18,7 @@ import {
 } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import { usePatientQueuesList } from '../active-visits/patient-queues.resource';
-import { isDesktop, showNotification, useLayoutType, usePagination, useSession } from '@openmrs/esm-framework';
+import { ConfigObject, isDesktop, useConfig, useLayoutType, usePagination, useSession } from '@openmrs/esm-framework';
 import {
   buildStatusString,
   formatWaitTime,
@@ -32,7 +32,7 @@ import styles from './lab-results.scss';
 import { EncounterSearchParams, getPatientEncounterWithOrders } from './lab-results.resource';
 import { extractErrorMessagesFromResponse } from '../utils/utils';
 
-const LabResultsTable: React.FC = () => {
+const LabResultsTable = () => {
   const { t } = useTranslation();
   const session = useSession();
   const layout = useLayoutType();
@@ -45,63 +45,38 @@ const LabResultsTable: React.FC = () => {
 
   const pageSizes = [10, 20, 30, 40, 50];
   const [currentPageSize, setPageSize] = useState(10);
+  const [tableData, setTableData] = useState([]);
 
   const { goTo, results: paginatedQueueEntries, currentPage } = usePagination(patientQueueEntries, currentPageSize);
 
   const tableHeaders = useMemo(
     () => [
-      {
-        id: 0,
-        header: t('visitNumber', 'Visit Number'),
-        key: 'visitNumber',
-      },
-      {
-        id: 1,
-        header: t('name', 'Name'),
-        key: 'name',
-      },
-      {
-        id: 2,
-        header: t('provider', 'Provider'),
-        key: 'provider',
-      },
-      {
-        id: 3,
-        header: t('status', 'Status'),
-        key: 'status',
-      },
-      {
-        id: 4,
-        header: t('waitTime', 'Wait time'),
-        key: 'waitTime',
-      },
+      { id: 0, header: t('visitNumber', 'Visit Number'), key: 'visitNumber' },
+      { id: 1, header: t('name', 'Name'), key: 'name' },
+      { id: 2, header: t('provider', 'Provider'), key: 'provider' },
+      { id: 3, header: t('status', 'Status'), key: 'status' },
+      { id: 4, header: t('waitTime', 'Wait time'), key: 'waitTime' },
     ],
     [t],
   );
 
-  const params: EncounterSearchParams = {
-    patientUuid: '',
-    fromdate: '',
-    todate: '',
-    encountertype: '',
-  };
-
-  getPatientEncounterWithOrders(params).then(
-    (res) => {},
-    (error) => {
-      const errorMessages = extractErrorMessagesFromResponse(error);
-
-      showNotification({
-        title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-        kind: 'error',
-        critical: true,
-        description: errorMessages.join(','),
-      });
-    },
-  );
+  paginatedQueueEntries.flatMap((item) => {
+    getPatientEncounterWithOrders({
+      patientUuid: item?.patient?.uuid,
+      encountertype: '214e27a1-606a-4b1e-a96e-d736c87069d5',
+    }).then(
+      (res) => {
+        console.info('res-->', res.data.results);
+        // res.data.results.find()
+      },
+      (err) => {
+        console.info(extractErrorMessagesFromResponse(err).join(','));
+      },
+    );
+  });
 
   const tableRows = useMemo(() => {
-    return paginatedQueueEntries.map((entry) => ({
+    return tableData.map((entry) => ({
       ...entry,
       visitNumber: {
         content: <span>{trimVisitNumber(entry.visitNumber)}</span>,
@@ -136,13 +111,13 @@ const LabResultsTable: React.FC = () => {
         ),
       },
     }));
-  }, [paginatedQueueEntries, session.user.person.display, t]);
+  }, [tableData, session.user.person.display, t]);
 
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;
   }
 
-  if (paginatedQueueEntries?.length) {
+  if (tableData?.length) {
     return (
       <div className={styles.container}>
         <DataTable
@@ -178,17 +153,15 @@ const LabResultsTable: React.FC = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row, index) => {
-                    return (
-                      <React.Fragment key={row.id}>
-                        <TableRow {...getRowProps({ row })}>
-                          {row.cells.map((cell) => (
-                            <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
-                          ))}
-                        </TableRow>
-                      </React.Fragment>
-                    );
-                  })}
+                  {rows.map((row, index) => (
+                    <React.Fragment key={row.id}>
+                      <TableRow {...getRowProps({ row })}>
+                        {row.cells.map((cell) => (
+                          <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
+                        ))}
+                      </TableRow>
+                    </React.Fragment>
+                  ))}
                 </TableBody>
               </Table>
 
@@ -198,7 +171,7 @@ const LabResultsTable: React.FC = () => {
                 page={currentPage}
                 pageSize={currentPageSize}
                 pageSizes={pageSizes}
-                totalItems={paginatedQueueEntries?.length}
+                totalItems={tableData?.length}
                 className={styles.pagination}
                 onChange={({ pageSize, page }) => {
                   if (pageSize !== currentPageSize) {
