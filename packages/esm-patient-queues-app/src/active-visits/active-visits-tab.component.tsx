@@ -31,21 +31,17 @@ function ActiveVisitsTabs() {
       >
         <TabList style={{ paddingLeft: '1rem' }} aria-label="Outpatient tabs" contained>
           <Tab>{t('pending', 'In Queue')}</Tab>
-          <Tab>{t('completed', 'Completed')}</Tab>
           {userHasAccess(PRIVILEGE_CLINICIAN_QUEUE_LIST, session.user) ? (
             <Tab>{t('investigations', 'Investigations')}</Tab>
           ) : (
             <></>
           )}
+          <Tab>{t('completed', 'Completed')}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel style={{ padding: 0 }}>
             <ActiveVisitsTable status={getTabStatus(selectedTab)} />
           </TabPanel>
-          <TabPanel style={{ padding: 0 }}>
-            <ActiveVisitsTable status={getTabStatus(selectedTab)} />
-          </TabPanel>
-
           {userHasAccess(PRIVILEGE_CLINICIAN_QUEUE_LIST, session.user) ? (
             <TabPanel>
               <LabResultsTable />
@@ -53,6 +49,9 @@ function ActiveVisitsTabs() {
           ) : (
             <></>
           )}
+          <TabPanel style={{ padding: 0 }}>
+            <ActiveVisitsTable status={getTabStatus(selectedTab)} />
+          </TabPanel>
         </TabPanels>
       </Tabs>
       {showOverlay && (
