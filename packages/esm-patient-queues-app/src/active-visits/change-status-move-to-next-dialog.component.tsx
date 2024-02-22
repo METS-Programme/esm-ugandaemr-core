@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-
 import {
   Button,
   ContentSwitcher,
@@ -12,17 +11,14 @@ import {
   Switch,
   TextArea,
 } from '@carbon/react';
-
-import { showNotification, showToast, useLocations, useSession } from '@openmrs/esm-framework';
-
-import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
-
 import { useTranslation } from 'react-i18next';
+import { navigate, showNotification, showToast, useLocations, useSession } from '@openmrs/esm-framework';
+import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
-
-import styles from './change-status-dialog.scss';
 import { getCurrentPatientQueueByPatientUuid, useProviders } from '../patient-search/visit-form/queue.resource';
-import { MappedQueueEntry, QueueRecord } from '../types';
+import { QueueRecord } from '../types';
+import styles from './change-status-dialog.scss';
+import { extractErrorMessagesFromResponse } from '../utils/utils';
 
 interface ChangeStatusDialogProps {
   patientUuid: string;
@@ -65,11 +61,13 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
         // mutate();
       },
       (error) => {
+        const errorMessages = extractErrorMessagesFromResponse(error);
+
         showNotification({
           title: t(`errorGettingProvider', 'Couldn't get provider`),
           kind: 'error',
           critical: true,
-          description: error?.message,
+          description: errorMessages.join(','),
         });
       },
     );
@@ -82,11 +80,13 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
       console.info('mappedQueueEntry', JSON.stringify(mappedQueueEntry, null, 2));
     },
     (error) => {
+      const errorMessages = extractErrorMessagesFromResponse(error);
+
       showNotification({
         title: t('errorGettingPatientQueueEntry', 'Error Getting Patient Queue Entry'),
         kind: 'error',
         critical: true,
-        description: error?.message,
+        description: errorMessages.join(','),
       });
     },
   );
@@ -161,11 +161,13 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             // mutate();
           },
           (error) => {
+            const errorMessages = extractErrorMessagesFromResponse(error);
+
             showNotification({
               title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
               kind: 'error',
               critical: true,
-              description: error?.message,
+              description: errorMessages.join(','),
             });
           },
         );
@@ -192,22 +194,24 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             // mutate();
           },
           (error) => {
+            const errorMessages = extractErrorMessagesFromResponse(error);
+
             showNotification({
               title: t('queueEntryUpdateFailed', 'Error ending visit'),
               kind: 'error',
               critical: true,
-              description: error?.message,
+              description: errorMessages.join(','),
             });
           },
         );
 
         addQueueEntry(
-          mappedQueueEntry?.uuid,
-          nextQueueLocationUuid,
           '',
+          nextQueueLocationUuid,
+          patientUuid,
           selectedProvider,
           contentSwitcherIndex,
-          patientUuid,
+          '',
           'pending',
           selectedLocation,
           priorityComment,
@@ -231,14 +235,19 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
               'comment',
             ).then(
               () => {
+                // view patient summary
+                navigate({ to: `\${openmrsSpaBase}/home/patient-queues` });
+
                 closeModal();
               },
               (error) => {
+                const errorMessages = extractErrorMessagesFromResponse(error);
+
                 showNotification({
                   title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
                   kind: 'error',
                   critical: true,
-                  description: error?.message,
+                  description: errorMessages.join(','),
                 });
               },
             );
@@ -247,11 +256,13 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             // mutate();
           },
           (error) => {
+            const errorMessages = extractErrorMessagesFromResponse(error);
+
             showNotification({
               title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
               kind: 'error',
               critical: true,
-              description: error?.message,
+              description: errorMessages.join(','),
             });
           },
         );
