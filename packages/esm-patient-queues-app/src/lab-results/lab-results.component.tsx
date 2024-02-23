@@ -18,7 +18,7 @@ import {
 } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import { usePatientQueuesList } from '../active-visits/patient-queues.resource';
-import { ConfigObject, isDesktop, useConfig, useLayoutType, usePagination, useSession } from '@openmrs/esm-framework';
+import { isDesktop, useLayoutType, usePagination, useSession } from '@openmrs/esm-framework';
 import {
   buildStatusString,
   formatWaitTime,
@@ -29,8 +29,7 @@ import {
 import StatusIcon from '../queue-entry-table-components/status-icon.component';
 import EmptyState from '../utils/empty-state/empty-state.component';
 import styles from './lab-results.scss';
-import { EncounterSearchParams, getPatientEncounterWithOrders } from './lab-results.resource';
-import { extractErrorMessagesFromResponse } from '../utils/utils';
+import { getPatientEncounterWithOrders } from './lab-results.resource';
 
 const LabResultsTable = () => {
   const { t } = useTranslation();
@@ -45,9 +44,39 @@ const LabResultsTable = () => {
 
   const pageSizes = [10, 20, 30, 40, 50];
   const [currentPageSize, setPageSize] = useState(10);
-  const [tableData, setTableData] = useState([]);
+  const [labEncounters, setLabEncounters] = useState([]);
+  const [filteredQueueEntries, setFilteredQueueEntries] = useState([]);
 
   const { goTo, results: paginatedQueueEntries, currentPage } = usePagination(patientQueueEntries, currentPageSize);
+
+  useEffect(() => {
+    const fetchLabEncounters = async () => {
+      const encountersPromises = paginatedQueueEntries.map((item) =>
+        getPatientEncounterWithOrders({
+          patientUuid: item?.patient?.uuid,
+          encountertype: '214e27a1-606a-4b1e-a96e-d736c87069d5',
+        }),
+      );
+
+      try {
+        const labEncountersData = await Promise.all(encountersPromises);
+        setLabEncounters(labEncountersData.map((res) => res.data.results));
+      } catch (error) {
+        console.error('Error fetching lab encounters:', error);
+      }
+    };
+
+    fetchLabEncounters();
+  }, [paginatedQueueEntries]);
+
+  useEffect(() => {
+    // Filter patientQueueEntries based on the presence of lab encounters
+    const filteredEntries = patientQueueEntries.filter((entry) =>
+      labEncounters.some((labEntry) => labEntry?.patient?.uuid === entry?.patient?.uuid),
+    );
+
+    setFilteredQueueEntries(filteredEntries);
+  }, [patientQueueEntries, labEncounters]);
 
   const tableHeaders = useMemo(
     () => [
@@ -60,23 +89,8 @@ const LabResultsTable = () => {
     [t],
   );
 
-  paginatedQueueEntries.flatMap((item) => {
-    getPatientEncounterWithOrders({
-      patientUuid: item?.patient?.uuid,
-      encountertype: '214e27a1-606a-4b1e-a96e-d736c87069d5',
-    }).then(
-      (res) => {
-        console.info('res-->', res.data.results);
-        // res.data.results.find()
-      },
-      (err) => {
-        console.info(extractErrorMessagesFromResponse(err).join(','));
-      },
-    );
-  });
-
   const tableRows = useMemo(() => {
-    return tableData.map((entry) => ({
+    return filteredQueueEntries.map((entry) => ({
       ...entry,
       visitNumber: {
         content: <span>{trimVisitNumber(entry.visitNumber)}</span>,
@@ -111,13 +125,13 @@ const LabResultsTable = () => {
         ),
       },
     }));
-  }, [tableData, session.user.person.display, t]);
+  }, [filteredQueueEntries, session.user.person.display, t]);
 
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;
   }
 
-  if (tableData?.length) {
+  if (filteredQueueEntries?.length) {
     return (
       <div className={styles.container}>
         <DataTable
@@ -171,7 +185,7 @@ const LabResultsTable = () => {
                 page={currentPage}
                 pageSize={currentPageSize}
                 pageSizes={pageSizes}
-                totalItems={tableData?.length}
+                totalItems={filteredQueueEntries?.length}
                 className={styles.pagination}
                 onChange={({ pageSize, page }) => {
                   if (pageSize !== currentPageSize) {
@@ -189,7 +203,7 @@ const LabResultsTable = () => {
     );
   }
 
-  return <EmptyState msg="No queue items to display" helper="" />;
+  return <EmptyState msg="No queue items with lab encounters to display" helper="" />;
 };
 
 export default LabResultsTable;
