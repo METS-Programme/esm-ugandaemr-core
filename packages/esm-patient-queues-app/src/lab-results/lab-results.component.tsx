@@ -50,15 +50,15 @@ const LabResultsTable = () => {
   const { goTo, results: paginatedQueueEntries, currentPage } = usePagination(patientQueueEntries, currentPageSize);
 
   useEffect(() => {
-    const fetchLabEncounters = async () => {
-      const encountersPromises = paginatedQueueEntries.map((item) =>
-        getPatientEncounterWithOrders({
-          patientUuid: item?.patient?.uuid,
-          encountertype: '214e27a1-606a-4b1e-a96e-d736c87069d5',
-        }),
-      );
-
+    const fetchLabEncountersAndFilter = async () => {
       try {
+        const encountersPromises = paginatedQueueEntries.map((item) =>
+          getPatientEncounterWithOrders({
+            patientUuid: item?.patient?.uuid,
+            encountertype: '214e27a1-606a-4b1e-a96e-d736c87069d5',
+          }),
+        );
+
         const labEncountersData = await Promise.all(encountersPromises);
         const labEncountersResults = labEncountersData.map((res) => res.data.results);
         setLabEncounters(labEncountersResults);
@@ -74,7 +74,7 @@ const LabResultsTable = () => {
       }
     };
 
-    fetchLabEncounters();
+    fetchLabEncountersAndFilter();
   }, [paginatedQueueEntries]);
 
   const tableHeaders = useMemo(
