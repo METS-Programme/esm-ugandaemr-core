@@ -60,7 +60,15 @@ const LabResultsTable = () => {
 
       try {
         const labEncountersData = await Promise.all(encountersPromises);
-        setLabEncounters(labEncountersData.map((res) => res.data.results));
+        const labEncountersResults = labEncountersData.map((res) => res.data.results);
+        setLabEncounters(labEncountersResults);
+
+        // Filter patientQueueEntries based on the presence of lab encounters
+        const filteredEntries = paginatedQueueEntries.filter((entry) =>
+          labEncountersResults.some((labEntry) => labEntry?.patient?.uuid === entry?.patient?.uuid),
+        );
+
+        setFilteredQueueEntries(filteredEntries);
       } catch (error) {
         console.error('Error fetching lab encounters:', error);
       }
@@ -68,15 +76,6 @@ const LabResultsTable = () => {
 
     fetchLabEncounters();
   }, [paginatedQueueEntries]);
-
-  useEffect(() => {
-    // Filter patientQueueEntries based on the presence of lab encounters
-    const filteredEntries = patientQueueEntries.filter((entry) =>
-      labEncounters.some((labEntry) => labEntry?.patient?.uuid === entry?.patient?.uuid),
-    );
-
-    setFilteredQueueEntries(filteredEntries);
-  }, [patientQueueEntries, labEncounters]);
 
   const tableHeaders = useMemo(
     () => [
