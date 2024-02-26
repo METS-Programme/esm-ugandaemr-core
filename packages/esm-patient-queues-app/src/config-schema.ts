@@ -148,6 +148,11 @@ export const configSchema = {
     _description: 'Whether start visit form should display upcoming appointments',
     _default: true,
   },
+  labEncounterType: {
+    _type: Type.String,
+    _description: 'Lab Encounter type use to filter queue records with lab encounters',
+    _defaults: '214e27a1-606a-4b1e-a96e-d736c87069d5',
+  },
 };
 
 export interface ConfigObject {
@@ -181,6 +186,7 @@ export interface ConfigObject {
   defaultFacilityUrl: string;
   customPatientChartText: string;
   showUpcomingAppointments: boolean;
+  labEncounterType: string;
 }
 
 export interface OutpatientConfig {
