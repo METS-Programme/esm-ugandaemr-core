@@ -5,7 +5,7 @@ import PatientSearch from '../patient-search/patient-search.component';
 import ActiveVisitsTable from './active-visits-table.component';
 import styles from './active-visits-table.scss';
 import LabResultsTable from '../lab-results/lab-results.component';
-import { PRIVILEGE_CLINICIAN_QUEUE_LIST, PRIVILEGE_TRIAGE_QUEUE_LIST } from '../constants';
+import { PRIVILEGE_CLINICIAN_QUEUE_LIST } from '../constants';
 import { useSession, userHasAccess } from '@openmrs/esm-framework';
 
 function ActiveVisitsTabs() {
