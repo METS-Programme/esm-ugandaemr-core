@@ -52,23 +52,27 @@ const LabResultsTable = () => {
   useEffect(() => {
     const fetchLabEncountersAndFilter = async () => {
       try {
-        const encountersPromises = paginatedQueueEntries.map((item) =>
-          getPatientEncounterWithOrders({
-            patientUuid: item?.patient?.uuid,
-            encountertype: '214e27a1-606a-4b1e-a96e-d736c87069d5',
-          }),
-        );
+        if (paginatedQueueEntries.length > 0) {
+          const encountersPromises = paginatedQueueEntries.map((item) =>
+            getPatientEncounterWithOrders({
+              patientUuid: item?.patient?.uuid,
+              encountertype: '214e27a1-606a-4b1e-a96e-d736c87069d5',
+            }),
+          );
 
-        const labEncountersData = await Promise.all(encountersPromises);
-        const labEncountersResults = labEncountersData.map((res) => res.data.results);
-        setLabEncounters(labEncountersResults);
+          const labEncountersData = await Promise.all(encountersPromises);
+          const labEncountersResults = labEncountersData.map((res) => res.data.results);
+          setLabEncounters(labEncountersResults);
 
-        // Filter patientQueueEntries based on the presence of lab encounters
-        const filteredEntries = paginatedQueueEntries.filter((entry) =>
-          labEncountersResults.some((labEntry) => labEntry?.patient?.uuid === entry?.patient?.uuid),
-        );
+          // Filter patientQueueEntries based on the presence of lab encounters
+          const filteredEntries = paginatedQueueEntries.filter((entry) =>
+            labEncountersResults.some((labEntry) => labEntry?.patient?.uuid === entry?.patient?.uuid),
+          );
 
-        setFilteredQueueEntries(filteredEntries);
+          setFilteredQueueEntries(filteredEntries);
+        } else {
+          return;
+        }
       } catch (error) {
         console.error('Error fetching lab encounters:', error);
       }

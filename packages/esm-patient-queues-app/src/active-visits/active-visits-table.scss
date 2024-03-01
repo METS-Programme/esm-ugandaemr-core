@@ -10,6 +10,25 @@
   }
 }
 
+.elementContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-direction: column;
+
+  .countTag {
+    position: absolute;
+    font-size: 10px;
+    text-align: center;
+    color: $ui-01;
+    background-color: $danger;
+    padding: 0 4px;
+    border-radius: 50%;
+    top: -14px;
+    right: -12px;
+  }
+}
+
 .headerContainer {
   display: flex;
   justify-content: space-between;
