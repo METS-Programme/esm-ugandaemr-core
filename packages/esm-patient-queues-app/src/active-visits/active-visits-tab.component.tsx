@@ -1,4 +1,4 @@
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@carbon/react';
+import { Tab, TabList, TabPanel, TabPanels, Tabs, IconButton } from '@carbon/react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PatientSearch from '../patient-search/patient-search.component';
@@ -7,6 +7,14 @@ import styles from './active-visits-table.scss';
 import LabResultsTable from '../lab-results/lab-results.component';
 import { PRIVILEGE_CLINICIAN_QUEUE_LIST } from '../constants';
 import { useSession, userHasAccess } from '@openmrs/esm-framework';
+
+function Tags() {
+  return (
+    <>
+      <span className={styles.countTag}>1</span>
+    </>
+  );
+}
 
 function ActiveVisitsTabs() {
   const { t } = useTranslation();
@@ -30,13 +38,18 @@ function ActiveVisitsTabs() {
         className={styles.tabs}
       >
         <TabList style={{ paddingLeft: '1rem' }} aria-label="Outpatient tabs" contained>
-          <Tab>{t('pending', 'In Queue')}</Tab>
+          <Tab style={{ width: '150px' }}>{t('pending', 'In Queue')}</Tab>
           {userHasAccess(PRIVILEGE_CLINICIAN_QUEUE_LIST, session.user) ? (
-            <Tab>{t('investigations', 'Investigations')}</Tab>
+            <Tab style={{ width: '150px' }}>
+              {t('investigations', 'Investigations')}
+              <div className={styles.elementContainer}>
+                <Tags />
+              </div>
+            </Tab>
           ) : (
             <></>
           )}
-          <Tab>{t('completed', 'Completed')}</Tab>
+          <Tab style={{ width: '150px' }}>{t('completed', 'Completed')}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel style={{ padding: 0 }}>
