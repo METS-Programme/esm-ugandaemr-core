@@ -3,10 +3,11 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { openmrsFetch, usePagination } from '@openmrs/esm-framework';
 import { launchPatientWorkspace } from '@openmrs/esm-patient-common-lib';
-import { mockEnrolledProgramsResponse } from '__mocks__';
+import { mockEnrolledProgramsResponse } from '../../../../__mocks__';
 
-import { mockPatient, renderWithSwr, waitForLoadingToFinish } from 'tools';
+import { renderWithSwr, waitForLoadingToFinish } from '../../../../tools';
 import ProgramsOverview from './programs-overview.component';
+import { mockPatient } from '../../../../__mocks__/patient.mock';
 
 const mockOpenmrsFetch = openmrsFetch as jest.Mock;
 const mockUsePagination = usePagination as jest.Mock;

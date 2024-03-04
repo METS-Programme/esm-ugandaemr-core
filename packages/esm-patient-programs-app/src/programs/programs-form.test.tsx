@@ -4,10 +4,10 @@ import { of } from 'rxjs/internal/observable/of';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createErrorHandler, openmrsFetch, showSnackbar } from '@openmrs/esm-framework';
-import { mockCareProgramsResponse, mockEnrolledProgramsResponse, mockLocationsResponse } from '__mocks__';
+import { mockCareProgramsResponse, mockEnrolledProgramsResponse, mockLocationsResponse } from '../../../../__mocks__';
 import { createProgramEnrollment, updateProgramEnrollment } from './programs.resource';
-import { mockPatient } from 'tools';
 import ProgramsForm from './programs-form.component';
+import { mockPatient } from '../../../../__mocks__/patient.mock';
 
 const testProps = {
   closeWorkspace: jest.fn(),
