@@ -56,9 +56,7 @@ export interface DataCaptureComponentProps {
 export interface Program {
   uuid: string;
   display: string;
-  allWorkflows: Array<{
-    links?: Links;
-  }>;
+  allWorkflows: Array<AllWorkflows>;
   concept: {
     uuid: string;
     display: string;
@@ -108,4 +106,31 @@ export interface ConfigurableProgram extends PatientProgram {
   enrollmentStatus: string;
   dateEnrolled: string;
   dateCompleted: string;
+}
+
+export interface AllWorkflows {
+  uuid: string;
+  concept: Concept;
+  retired: boolean;
+  states: State[];
+  links: Link[];
+}
+
+export interface Concept {
+  uuid: string;
+  display: string;
+  links: Link[];
+}
+
+export interface Link {
+  rel: string;
+  uri: string;
+  resourceAlias: string;
+}
+
+export interface State {
+  uuid: string;
+  retired: boolean;
+  concept: Concept;
+  links: Link[];
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import filter from 'lodash-es/filter';
@@ -69,6 +69,10 @@ const ProgramsForm: React.FC<ProgramsFormProps> = ({ closeWorkspace, patientUuid
   const eligiblePrograms = currentProgram
     ? [currentProgram]
     : filter(availablePrograms, (program) => !includes(map(enrollments, 'program.uuid'), program.uuid));
+
+  const [program, selectedProgram] = useState('');
+
+  const programWorkflows = availablePrograms?.find((item) => item?.uuid === program)?.allWorkflows;
 
   const getLocationUuid = () => {
     if (!currentEnrollment?.location.uuid && session?.sessionLocation?.uuid) {
@@ -173,12 +177,16 @@ const ProgramsForm: React.FC<ProgramsFormProps> = ({ closeWorkspace, patientUuid
             id="program"
             invalidText={t('required', 'Required')}
             labelText=""
-            onChange={(event) => onChange(event.target.value)}
+            onChange={(event) => {
+              const selectedValue = event.target.value;
+              selectedProgram(selectedValue);
+              onChange(selectedValue);
+            }}
             value={value}
           >
             <SelectItem text={t('chooseProgram', 'Choose a program')} value="" />
             {eligiblePrograms?.length > 0 &&
-              eligiblePrograms.map((program) => (
+              eligiblePrograms?.map((program) => (
                 <SelectItem key={program.uuid} text={program.display} value={program.uuid}>
                   {program.display}
                 </SelectItem>
@@ -279,6 +287,7 @@ const ProgramsForm: React.FC<ProgramsFormProps> = ({ closeWorkspace, patientUuid
       value: enrollmentLocation,
     },
   ];
+
   return (
     <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <Stack className={styles.formContainer} gap={7}>
@@ -296,6 +305,29 @@ const ProgramsForm: React.FC<ProgramsFormProps> = ({ closeWorkspace, patientUuid
             <div className={styles.selectContainer}>{isTablet ? <Layer>{group.value}</Layer> : group.value}</div>
           </FormGroup>
         ))}
+
+        {programWorkflows?.length > 0 &&
+          programWorkflows?.map((item, index) => {
+            return (
+              <div key={index} style={{ marginBottom: '10px' }}>
+                <span style={{ marginRight: '10px' }}>{item?.concept?.display}</span>
+                <Select
+                  id={`workflowDropdown_${index}`}
+                  labelText={`Workflow for ${item}`}
+                  onChange={(event) => {}}
+                  value={''}
+                >
+                  <SelectItem text={t('choose an states', 'Choose a state')} value="" />
+                  {item?.states.length > 0 &&
+                    item?.states.map((state) => (
+                      <SelectItem key={state?.uuid} text={state?.concept?.display} value={state?.uuid}>
+                        {state?.concept?.display}
+                      </SelectItem>
+                    ))}
+                </Select>
+              </div>
+            );
+          })}
       </Stack>
       <ButtonSet className={isTablet ? styles.tablet : styles.desktop}>
         <Button className={styles.button} kind="secondary" onClick={() => closeWorkspace()}>
