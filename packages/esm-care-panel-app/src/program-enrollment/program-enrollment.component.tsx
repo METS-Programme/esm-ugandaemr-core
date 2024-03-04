@@ -20,6 +20,7 @@ import dayjs from 'dayjs';
 import { formatDate } from '@openmrs/esm-framework';
 import orderBy from 'lodash/orderBy';
 import { mutate } from 'swr';
+import PrintComponent from "../print-layout/print.component";
 
 export interface ProgramEnrollmentProps {
   patientUuid: string;
@@ -132,70 +133,86 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
   }
 
   return (
-    <Tile className={styles.whiteBackground}>
-      <div className={styles.tileWrapper}>
-        <DataTable size="sm" useZebraStyles rows={rows} headers={headers}>
-          {({ rows, headers, getHeaderProps, getRowProps, getTableProps }) => (
-            <TableContainer title={t('EnrollmentDetails', 'Enrollment History')} description="">
-              <Table {...getTableProps()} aria-label="">
-                <TableHead>
-                  <TableRow>
-                    {headers.map((header) => (
-                      <TableHeader
-                        key={header.key}
-                        {...getHeaderProps({
-                          header,
-                        })}
-                      >
-                        {header.header}
-                      </TableHeader>
-                    ))}
-                    <TableHeader />
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row, index) => (
-                    <TableRow
-                      key={row.id}
-                      {...getRowProps({
-                        row,
-                      })}
-                    >
-                      {row.cells.map((cell) => (
-                        <TableCell key={cell.id}>
-                          {isEmpty(cell.value)
-                            ? '--'
-                            : dayjs(cell.value).isValid()
-                            ? formatDate(new Date(cell.value))
-                            : cell.value}
-                        </TableCell>
-                      ))}
-                      <TableCell className="cds--table-column-menu">
-                        {isEmpty(orderedEnrollments[index]?.dateCompleted) && (
-                          <OverflowMenu size="sm" flipped>
-                            <OverflowMenuItem
-                              hasDivider
-                              itemText={t('edit', 'Edit')}
-                              onClick={() => handleEditEnrollment(orderedEnrollments[index])}
-                            />
-                            <OverflowMenuItem
-                              isDelete
-                              hasDivider
-                              itemText={t('discontinue', 'Discontinue')}
-                              onClick={() => handleDiscontinue(orderedEnrollments[index])}
-                            />
-                          </OverflowMenu>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )}
-        </DataTable>
+    <div className={styles.bodyContainer}>
+      <div className={styles.card}>
+
+        <h6>{t('baseline', 'Baseline Information')}</h6>
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('artStartDate', 'ART Start Date')}</p>
+            <p>
+                <span className={styles.value}>
+                  { '--'}
+                </span>
+            </p>
+          </div>
+          <div className={styles.content}>
+            <p className={styles.label}>
+              {t('weight', 'Weight')}
+            </p>
+            <p>
+                <span className={styles.value}>
+                  {'--'}
+                </span>
+            </p>
+          </div>
+          <div className={styles.content}>
+            <p className={styles.label}>
+              {t('bmi', 'BMI')}
+            </p>
+            <p>
+                <span className={styles.value}>
+                  {'--'}
+                </span>
+            </p>
+          </div>
+        </div>
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('durationArt', 'Duration on ART')}</p>
+            <p>
+                <span className={styles.value}>
+                  { '--'}
+                </span>
+            </p>
+          </div>
+          <div className={styles.content}>
+            <p className={styles.label}>
+              {t('whoStage', 'WHO Stage')}
+            </p>
+            <p>
+                <span className={styles.value}>
+                  {'--'}
+                </span>
+            </p>
+          </div>
+        </div>
+
+
+        <h6>{t('lastvist', 'Last Visit')}</h6>
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('currentRegimen', 'Current Regimen')}</p>
+            <p>
+                <span className={styles.value}>
+                  { '--'}
+                </span>
+            </p>
+          </div>
+          <div className={styles.content}>
+            <p className={styles.label}>
+              {t('vlStatus', 'VL Status')}
+            </p>
+            <p>
+                <span className={styles.value}>
+                  {'--'}
+                </span>
+            </p>
+          </div>
+        </div>
+
       </div>
-    </Tile>
+    </div>
   );
 };
 export default ProgramEnrollment;
