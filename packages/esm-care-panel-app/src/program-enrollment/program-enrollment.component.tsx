@@ -20,7 +20,7 @@ import dayjs from 'dayjs';
 import { formatDate } from '@openmrs/esm-framework';
 import orderBy from 'lodash/orderBy';
 import { mutate } from 'swr';
-import PrintComponent from "../print-layout/print.component";
+import PrintComponent from '../print-layout/print.component';
 
 export interface ProgramEnrollmentProps {
   patientUuid: string;
@@ -135,35 +135,24 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
   return (
     <div className={styles.bodyContainer}>
       <div className={styles.card}>
-
         <h6>{t('baseline', 'Baseline Information')}</h6>
         <div className={styles.container}>
           <div className={styles.content}>
             <p className={styles.label}>{t('artStartDate', 'ART Start Date')}</p>
             <p>
-                <span className={styles.value}>
-                  { '--'}
-                </span>
+              <span className={styles.value}>{'--'}</span>
             </p>
           </div>
           <div className={styles.content}>
-            <p className={styles.label}>
-              {t('weight', 'Weight')}
-            </p>
+            <p className={styles.label}>{t('weight', 'Weight')}</p>
             <p>
-                <span className={styles.value}>
-                  {'--'}
-                </span>
+              <span className={styles.value}>{'--'}</span>
             </p>
           </div>
           <div className={styles.content}>
-            <p className={styles.label}>
-              {t('bmi', 'BMI')}
-            </p>
+            <p className={styles.label}>{t('bmi', 'BMI')}</p>
             <p>
-                <span className={styles.value}>
-                  {'--'}
-                </span>
+              <span className={styles.value}>{'--'}</span>
             </p>
           </div>
         </div>
@@ -171,46 +160,32 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
           <div className={styles.content}>
             <p className={styles.label}>{t('durationArt', 'Duration on ART')}</p>
             <p>
-                <span className={styles.value}>
-                  { '--'}
-                </span>
+              <span className={styles.value}>{'--'}</span>
             </p>
           </div>
           <div className={styles.content}>
-            <p className={styles.label}>
-              {t('whoStage', 'WHO Stage')}
-            </p>
+            <p className={styles.label}>{t('whoStage', 'WHO Stage')}</p>
             <p>
-                <span className={styles.value}>
-                  {'--'}
-                </span>
+              <span className={styles.value}>{'--'}</span>
             </p>
           </div>
         </div>
-
 
         <h6>{t('lastvist', 'Last Visit')}</h6>
         <div className={styles.container}>
           <div className={styles.content}>
             <p className={styles.label}>{t('currentRegimen', 'Current Regimen')}</p>
             <p>
-                <span className={styles.value}>
-                  { '--'}
-                </span>
+              <span className={styles.value}>{'--'}</span>
             </p>
           </div>
           <div className={styles.content}>
-            <p className={styles.label}>
-              {t('vlStatus', 'VL Status')}
-            </p>
+            <p className={styles.label}>{t('vlStatus', 'VL Status')}</p>
             <p>
-                <span className={styles.value}>
-                  {'--'}
-                </span>
+              <span className={styles.value}>{'--'}</span>
             </p>
           </div>
         </div>
-
       </div>
     </div>
   );

@@ -34,7 +34,6 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
     [enrollments, isLoading, switchItem?.name, switcherHeaders],
   );
 
-
   if (isLoading) {
     return (
       <div className={styles.widgetCard}>
