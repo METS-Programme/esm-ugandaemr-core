@@ -42,7 +42,6 @@ function ActiveVisitsTabs() {
   );
 
   const [filteredQueueEntries, setFilteredQueueEntries] = useState([]);
-  const [labEncounters, setLabEncounters] = useState([]);
 
   useEffect(() => {
     const fetchLabEncountersAndFilter = async () => {
@@ -57,7 +56,6 @@ function ActiveVisitsTabs() {
 
           const labEncountersData = await Promise.all(encountersPromises);
           const labEncountersResults = labEncountersData.map((res) => res.data.results);
-          setLabEncounters(labEncountersResults);
 
           // Filter patientQueueEntries based on the presence of lab encounters
           const filteredEntries = patientQueueEntries.filter((entry) =>
