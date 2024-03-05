@@ -49,37 +49,37 @@ const LabResultsTable = () => {
 
   const { goTo, results: paginatedQueueEntries, currentPage } = usePagination(patientQueueEntries, currentPageSize);
 
-  useEffect(() => {
-    const fetchLabEncountersAndFilter = async () => {
-      try {
-        if (paginatedQueueEntries.length > 0) {
-          const encountersPromises = paginatedQueueEntries.map((item) =>
-            getPatientEncounterWithOrders({
-              patientUuid: item?.patient?.uuid,
-              encountertype: '214e27a1-606a-4b1e-a96e-d736c87069d5',
-            }),
-          );
+  // useEffect(() => {
+  //   const fetchLabEncountersAndFilter = async () => {
+  //     try {
+  //       if (paginatedQueueEntries.length > 0) {
+  //         const encountersPromises = paginatedQueueEntries.map((item) =>
+  //           getPatientEncounterWithOrders({
+  //             patientUuid: item?.patient?.uuid,
+  //             encountertype: '214e27a1-606a-4b1e-a96e-d736c87069d5',
+  //           }),
+  //         );
 
-          const labEncountersData = await Promise.all(encountersPromises);
-          const labEncountersResults = labEncountersData.map((res) => res.data.results);
-          setLabEncounters(labEncountersResults);
+  //         const labEncountersData = await Promise.all(encountersPromises);
+  //         const labEncountersResults = labEncountersData.map((res) => res.data.results);
+  //         setLabEncounters(labEncountersResults);
 
-          // Filter patientQueueEntries based on the presence of lab encounters
-          const filteredEntries = paginatedQueueEntries.filter((entry) =>
-            labEncountersResults.some((labEntry) => labEntry?.patient?.uuid === entry?.patient?.uuid),
-          );
+  //         // Filter patientQueueEntries based on the presence of lab encounters
+  //         const filteredEntries = paginatedQueueEntries.filter((entry) =>
+  //           labEncountersResults.some((labEntry) => labEntry?.patient?.uuid === entry?.patient?.uuid),
+  //         );
 
-          setFilteredQueueEntries(filteredEntries);
-        } else {
-          return;
-        }
-      } catch (error) {
-        console.error('Error fetching lab encounters:', error);
-      }
-    };
+  //         setFilteredQueueEntries(filteredEntries);
+  //       } else {
+  //         return;
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching lab encounters:', error);
+  //     }
+  //   };
 
-    fetchLabEncountersAndFilter();
-  }, [paginatedQueueEntries]);
+  //   fetchLabEncountersAndFilter();
+  // }, [paginatedQueueEntries]);
 
   const tableHeaders = useMemo(
     () => [
@@ -93,7 +93,7 @@ const LabResultsTable = () => {
   );
 
   const tableRows = useMemo(() => {
-    return filteredQueueEntries.map((entry) => ({
+    return paginatedQueueEntries.map((entry) => ({
       ...entry,
       visitNumber: {
         content: <span>{trimVisitNumber(entry.visitNumber)}</span>,
@@ -128,13 +128,13 @@ const LabResultsTable = () => {
         ),
       },
     }));
-  }, [filteredQueueEntries, session.user.person.display, t]);
+  }, [paginatedQueueEntries, session.user.person.display, t]);
 
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;
   }
 
-  if (filteredQueueEntries?.length) {
+  if (paginatedQueueEntries?.length) {
     return (
       <div className={styles.container}>
         <DataTable
@@ -188,7 +188,7 @@ const LabResultsTable = () => {
                 page={currentPage}
                 pageSize={currentPageSize}
                 pageSizes={pageSizes}
-                totalItems={filteredQueueEntries?.length}
+                totalItems={paginatedQueueEntries?.length}
                 className={styles.pagination}
                 onChange={({ pageSize, page }) => {
                   if (pageSize !== currentPageSize) {
