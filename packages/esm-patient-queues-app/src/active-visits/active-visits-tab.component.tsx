@@ -41,38 +41,38 @@ function ActiveVisitsTabs() {
     session.user.systemId,
   );
 
-  const [filteredQueueEntries, setFilteredQueueEntries] = useState([]);
+  // const [filteredQueueEntries, setFilteredQueueEntries] = useState([]);
 
-  useEffect(() => {
-    const fetchLabEncountersAndFilter = async () => {
-      try {
-        if (patientQueueEntries.length > 0) {
-          const encountersPromises = patientQueueEntries.map((item) =>
-            getPatientEncounterWithOrders({
-              patientUuid: item?.patient?.uuid,
-              encountertype: '214e27a1-606a-4b1e-a96e-d736c87069d5',
-            }),
-          );
+  // useEffect(() => {
+  //   const fetchLabEncountersAndFilter = async () => {
+  //     try {
+  //       if (patientQueueEntries.length > 0) {
+  //         const encountersPromises = patientQueueEntries.map((item) =>
+  //           getPatientEncounterWithOrders({
+  //             patientUuid: item?.patient?.uuid,
+  //             encountertype: '214e27a1-606a-4b1e-a96e-d736c87069d5',
+  //           }),
+  //         );
 
-          const labEncountersData = await Promise.all(encountersPromises);
-          const labEncountersResults = labEncountersData.map((res) => res.data.results);
+  //         const labEncountersData = await Promise.all(encountersPromises);
+  //         const labEncountersResults = labEncountersData.map((res) => res.data.results);
 
-          // Filter patientQueueEntries based on the presence of lab encounters
-          const filteredEntries = patientQueueEntries.filter((entry) =>
-            labEncountersResults.some((labEntry) => labEntry?.patient?.uuid === entry?.patient?.uuid),
-          );
+  //         // Filter patientQueueEntries based on the presence of lab encounters
+  //         const filteredEntries = patientQueueEntries.filter((entry) =>
+  //           labEncountersResults.some((labEntry) => labEntry?.patient?.uuid === entry?.patient?.uuid),
+  //         );
 
-          setFilteredQueueEntries(filteredEntries);
-        } else {
-          return;
-        }
-      } catch (error) {
-        console.error('Error fetching lab encounters:', error);
-      }
-    };
+  //         setFilteredQueueEntries(filteredEntries);
+  //       } else {
+  //         return;
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching lab encounters:', error);
+  //     }
+  //   };
 
-    fetchLabEncountersAndFilter();
-  }, [patientQueueEntries]);
+  //   fetchLabEncountersAndFilter();
+  // }, [patientQueueEntries]);
 
   return (
     <div className={styles.container}>
@@ -83,7 +83,7 @@ function ActiveVisitsTabs() {
       >
         <TabList style={{ paddingLeft: '1rem' }} aria-label="Outpatient tabs" contained>
           <Tab style={{ width: '150px' }}>{t('pending', 'In Queue')}</Tab>
-          {userHasAccess(PRIVILEGE_CLINICIAN_QUEUE_LIST, session.user) ? (
+          {/* {userHasAccess(PRIVILEGE_CLINICIAN_QUEUE_LIST, session.user) ? (
             <Tab style={{ width: '150px' }}>
               {t('investigations', 'Investigations')}
               <div className={styles.elementContainer}>
@@ -92,7 +92,7 @@ function ActiveVisitsTabs() {
             </Tab>
           ) : (
             <></>
-          )}
+          )} */}
           <Tab style={{ width: '150px' }}>{t('completed', 'Completed')}</Tab>
         </TabList>
         <TabPanels>
