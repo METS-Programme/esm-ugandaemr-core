@@ -311,8 +311,8 @@ const ProgramsForm: React.FC<ProgramsFormProps> = ({ closeWorkspace, patientUuid
             return (
               <div key={index} style={{ marginBottom: '10px' }}>
                 <span style={{ marginRight: '10px' }}>{item?.concept?.display}</span>
-                <Select id={`workflowDropdown_${index}`} labelText={`Workflow for ${item}`}>
-                  <SelectItem text={t('choose an states', 'Choose a state')} value="" />
+                <Select id={`workflowDropdown_${index}`} labelText={` ${item.concept.display}`}>
+                  <SelectItem text={t('chooseAState', 'Choose a state')} value="" />
                   {item?.states.length > 0 &&
                     item?.states.map((state) => (
                       <SelectItem key={state?.uuid} text={state?.concept?.display} value={state?.uuid}>
