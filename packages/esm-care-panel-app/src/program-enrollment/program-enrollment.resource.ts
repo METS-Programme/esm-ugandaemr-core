@@ -96,7 +96,6 @@ export function useGetCurrentHIVClinicalStage(
   const apiUrl = `/ws/rest/v1/obs?concept=${conceptuuid}&patient=${params.patientuuid}&v=full`;
   const { data, error, isLoading, mutate } = useSWR<{ data: { results: any[] } }, Error>(apiUrl, openmrsFetch);
 
-  // Parsing the display value to extract just the numeric part of the stage.
   const hivClinicalStage = data ? parseStageFromDisplay(data?.data.results[0]?.display) : null;
 
   useEffect(() => {
@@ -116,8 +115,12 @@ export function useGetCurrentHIVClinicalStage(
 
 function parseStageFromDisplay(display: string | undefined): string | null {
   if (!display) return null;
-  // Assuming the display format includes "HIV WHO CLINICAL STAGE X" where X is the stage number
+  // Check the regex pattern and ensure it matches the expected format
   const match = display.match(/\bSTAGE\s(\d+)/i);
+
+  // Added for debugging: Log the match result
+  console.info(`Regex match result: `, match);
+
   return match ? match[1] : null;
 }
 

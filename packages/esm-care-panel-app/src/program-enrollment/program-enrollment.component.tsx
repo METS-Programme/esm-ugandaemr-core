@@ -20,7 +20,12 @@ import dayjs from 'dayjs';
 import orderBy from 'lodash/orderBy';
 import { mutate } from 'swr';
 import PrintComponent from '../print-layout/print.component';
-import { useGetARTStartDate, useGetCurrentBaselineWeight, useGetCurrentRegimen } from './program-enrollment.resource';
+import {
+  useGetARTStartDate,
+  useGetCurrentBaselineWeight,
+  useGetCurrentHIVClinicalStage,
+  useGetCurrentRegimen,
+} from './program-enrollment.resource';
 import { PatientChartProps } from '../types/index';
 import { usePatient } from '@openmrs/esm-framework';
 
@@ -160,6 +165,14 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
     '900b8fd9-2039-4efc-897b-9b8ce37396f5',
   );
 
+  useGetCurrentHIVClinicalStage(
+    {
+      patientuuid: patientUuid,
+    },
+    handleWhoClinicalStageReceived,
+    'dcdff274-30ab-102d-86b0-7a5022ba4115',
+  );
+
   const handleEditEnrollment = (enrollment) => {
     launchPatientWorkspace('patient-form-entry-workspace', {
       workspaceTitle: enrollment?.enrollmentFormName,
@@ -181,6 +194,7 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
   if (orderedEnrollments?.length === 0) {
     return null;
   }
+  console.info(whoClinicalStage);
 
   return (
     <div className={styles.bodyContainer}>
@@ -190,13 +204,13 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
           <div className={styles.content}>
             <p className={styles.label}>{t('artStartDate', 'ART Start Date')}</p>
             <p>
-              <span className={styles.value}>{artStartDate}</span>
+              <span className={styles.value}>{artStartDate || '--'}</span>
             </p>
           </div>
           <div className={styles.content}>
             <p className={styles.label}>{t('weight', 'Weight')}</p>
             <p>
-              <span className={styles.value}>{baselineWeight}</span>
+              <span className={styles.value}>{baselineWeight || '--'}</span>
             </p>
           </div>
           <div className={styles.content}>
@@ -216,7 +230,7 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
           <div className={styles.content}>
             <p className={styles.label}>{t('whoStage', 'WHO Stage')}</p>
             <p>
-              <span className={styles.value}>{whoClinicalStage}</span>
+              <span className={styles.value}>{whoClinicalStage || '--'}</span>
             </p>
           </div>
         </div>
