@@ -23,7 +23,6 @@ import {
   toOmrsIsoString,
   useConfig,
   useLayoutType,
-  useLocations,
   usePatient,
   useSession,
   useVisitTypes,
@@ -34,10 +33,11 @@ import { useTranslation } from 'react-i18next';
 import { first } from 'rxjs/operators';
 import { addQueueEntry, useVisitQueueEntries } from '../../active-visits/active-visits-table.resource';
 import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
-import { NewVisitPayload, PatientProgram, SearchTypes } from '../../types';
+import { NewVisitPayload, SearchTypes } from '../../types';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './visit-form.scss';
-import { useProviders } from '../../queue-patient-linelists/queue-linelist.resource';
+import { useQueueLocations } from '../hooks/useQueueLocations';
+import { useProviders } from './queue.resource';
 interface VisitFormProps {
   toggleSearchType: (searchMode: SearchTypes, patientUuid) => void;
   patientUuid: string;
@@ -67,8 +67,14 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const { providers } = useProviders();
   const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState('');
+  const [selectedOtherQueueLocation, setSelectedOtherQueueLocation] = useState('');
+  const { queueLocations } = useQueueLocations();
+
   const [selectedProvider, setSelectedProvider] = useState('');
   const { patient, isLoading } = usePatient(patientUuid);
+
+  const [upcomingAppointment, setUpcomingAppointment] = useState(null);
+  const upcomingAppointmentState = useMemo(() => ({ patientUuid, setUpcomingAppointment }), [patientUuid]);
 
   useEffect(() => {
     if (queueRoomLocations?.length && sessionUser) {
@@ -96,7 +102,16 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
 
   const filteredlocations = queueRoomLocations?.filter((location) => location.display != selectedLocation);
 
-  const filteredProviders = providers?.filter((provider) => provider !== null);
+  const filteredProviders = providers?.flatMap((provider) =>
+    provider.attributes.filter(
+      (item) =>
+        item.attributeType.display === 'Default Location' &&
+        typeof item.value === 'object' &&
+        item?.value?.uuid === selectedNextQueueLocation,
+    ).length > 0
+      ? provider
+      : [],
+  );
 
   const handleSubmit = useCallback(
     (event) => {
@@ -235,6 +250,14 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
         {patient && <ExtensionSlot name="patient-header-slot" state={bannerState} />}
 
         <Stack gap={8} className={styles.container}>
+          {config.showUpcomingAppointments && (
+            <section>
+              <div className={styles.sectionTitle}></div>
+              <div className={styles.sectionField}>
+                <ExtensionSlot state={upcomingAppointmentState} name="upcoming-appointment-slot" />
+              </div>
+            </section>
+          )}
           <section className={styles.section}>
             <div className={styles.sectionTitle}>{t('priority', 'Priority')}</div>
             <ContentSwitcher
@@ -255,24 +278,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
               items={priorityLevels}
               itemToString={(priorityLevels) => (priorityLevels ? priorityLevels : 0)}
             />
-          </section>
-
-          <section className={styles.section}>
-            <Select
-              labelText={t('selectProvider', 'Select a provider')}
-              id="providers-list"
-              name="providers-list"
-              invalidText="Required"
-              value={selectedProvider}
-              onChange={(event) => setSelectedProvider(event.target.value)}
-            >
-              {!selectedProvider ? <SelectItem text={t('selectProvider', 'Select a provider')} value="" /> : null}
-              {filteredProviders.map((provider) => (
-                <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
-                  {provider.display}
-                </SelectItem>
-              ))}
-            </Select>
           </section>
 
           <section className={styles.section}>
@@ -304,6 +309,47 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
                 {filteredlocations.map((location) => (
                   <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
                     {location.display}
+                  </SelectItem>
+                ))}
+              </Select>
+            </ResponsiveWrapper>
+          </section>
+
+          <section className={styles.section}>
+            <Select
+              labelText={t('selectProvider', 'Select a provider')}
+              id="providers-list"
+              name="providers-list"
+              invalidText="Required"
+              value={selectedProvider}
+              onChange={(event) => setSelectedProvider(event.target.value)}
+            >
+              {!selectedProvider ? <SelectItem text={t('selectProvider', 'Select a provider')} value="" /> : null}
+              {filteredProviders.map((provider) => (
+                <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
+                  {provider.display}
+                </SelectItem>
+              ))}
+            </Select>
+          </section>
+
+          <section className={styles.section}>
+            <div className={styles.sectionTitle}>{t('otherServicePoint', 'Other Service Points')}</div>
+            <ResponsiveWrapper isTablet={isTablet}>
+              <Select
+                labelText={t('otherServicePoint', 'Select other service point')}
+                id="otherLocation"
+                name="otherQueueLocation"
+                invalidText="Required"
+                value={selectedOtherQueueLocation}
+                onChange={(event) => setSelectedOtherQueueLocation(event.target.value)}
+              >
+                {!selectedOtherQueueLocation ? (
+                  <SelectItem text={t('selectOtherServicePoint', 'Select other service point')} value="" />
+                ) : null}
+                {queueLocations.map((location) => (
+                  <SelectItem key={location.id} text={location.name} value={location.id}>
+                    {location.name}
                   </SelectItem>
                 ))}
               </Select>

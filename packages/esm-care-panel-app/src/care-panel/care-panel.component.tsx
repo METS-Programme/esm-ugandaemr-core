@@ -56,7 +56,6 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
       </>
     );
   }
-
   return (
     <>
       <div className={styles.widgetCard}>
@@ -70,14 +69,15 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
           </div>
         </CardHeader>
         <div style={{ width: '100%', minHeight: '20rem' }}>
-          <ProgramSummary patientUuid={patientUuid} programName={switcherHeaders[switchItem?.index]} />
-          <RegimenHistory patientUuid={patientUuid} category={switcherHeaders[switchItem?.index]} />
+          {/*<ProgramSummary patientUuid={patientUuid} programName={switcherHeaders[switchItem?.index]} />*/}
+          {/*<RegimenHistory patientUuid={patientUuid} category={switcherHeaders[switchItem?.index]} />*/}
           <ProgramEnrollment
             patientUuid={patientUuid}
             programName={switcherHeaders[switchItem?.index]}
             enrollments={patientEnrollments}
             formEntrySub={formEntrySub}
             launchPatientWorkspace={launchPatientWorkspace}
+            PatientChartProps={''}
           />
 
           <CarePrograms patientUuid={patientUuid} />

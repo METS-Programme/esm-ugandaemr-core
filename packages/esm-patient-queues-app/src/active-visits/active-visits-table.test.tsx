@@ -116,5 +116,5 @@ describe('ActiveVisitsTable: ', () => {
 });
 
 function renderActiveVisitsTable() {
-  renderWithSwr(<ActiveVisitsTable />);
+  renderWithSwr(<ActiveVisitsTable status={''} />);
 }

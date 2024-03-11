@@ -1,7 +1,6 @@
 import {
   Button,
   DataTable,
-  DataTableHeader,
   DataTableSkeleton,
   Layer,
   Pagination,
@@ -10,39 +9,27 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableExpandedRow,
-  TableExpandHeader,
-  TableExpandRow,
   TableHead,
   TableHeader,
   TableRow,
   TableToolbar,
   TableToolbarContent,
   TableToolbarSearch,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
   Tag,
   Tile,
 } from '@carbon/react';
-import { Add, Dashboard } from '@carbon/react/icons';
+import { Add } from '@carbon/react/icons';
 
-import {
-  ConfigObject,
-  interpolateUrl,
-  isDesktop,
-  navigate,
-  useConfig,
-  useLayoutType,
-  usePagination,
-  userHasAccess,
-  useSession,
-} from '@openmrs/esm-framework';
+import { isDesktop, useLayoutType, usePagination, userHasAccess, useSession } from '@openmrs/esm-framework';
 import React, { AnchorHTMLAttributes, MouseEvent, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { buildStatusString, formatWaitTime, getTagColor, trimVisitNumber } from '../helpers/functions';
-import PastVisit from '../past-visit/past-visit.component';
+import {
+  buildStatusString,
+  formatWaitTime,
+  getProviderTagColor,
+  getTagColor,
+  trimVisitNumber,
+} from '../helpers/functions';
 import PatientSearch from '../patient-search/patient-search.component';
 import StatusIcon from '../queue-entry-table-components/status-icon.component';
 import { getOriginFromPathName } from './active-visits-table.resource';
@@ -52,50 +39,17 @@ import { usePatientQueuesList } from './patient-queues.resource';
 import PickPatientActionMenu from '../queue-entry-table-components/pick-patient-queue-entry-menu.component';
 import EmptyState from '../utils/empty-state/empty-state.component';
 import ViewActionsMenu from './view-action-menu.components';
-import CurrentVisit from '../current-visit/current-visit-summary.component';
 import NotesActionsMenu from './notes-action-menu.components';
 import { PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS } from '../constants';
 
-type FilterProps = {
-  rowIds: Array<string>;
-  headers: Array<DataTableHeader>;
-  cellsById: any;
-  inputValue: string;
-  getCellId: (row, key) => string;
-};
-
 interface ActiveVisitsTableProps {
   status: string;
-}
-
-interface NameLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
-  to: string;
-  from: string;
 }
 
 export interface PatientQueueInfoProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   patientUuid: string;
   patientName: string;
 }
-
-const PatientNameLink: React.FC<NameLinkProps> = ({ from, to, children }) => {
-  const handleNameClick = (event: MouseEvent, to: string) => {
-    event.preventDefault();
-    navigate({ to });
-    localStorage.setItem('fromPage', from);
-  };
-  return (
-    <Button
-      kind="ghost"
-      size="sm"
-      onClick={(e) => handleNameClick(e, to)}
-      href={interpolateUrl(to)}
-      renderIcon={(props) => <Dashboard size={16} {...props} />}
-    >
-      {children}
-    </Button>
-  );
-};
 
 const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const { t } = useTranslation();
@@ -111,7 +65,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const [view, setView] = useState('');
   const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
   const layout = useLayoutType();
-  const config = useConfig() as ConfigObject;
 
   const currentPathName: string = window.location.pathname;
   const fromPage: string = getOriginFromPathName(currentPathName);
@@ -119,8 +72,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const pageSizes = [10, 20, 30, 40, 50];
   const [currentPageSize, setPageSize] = useState(10);
   const [overlayHeader, setOverlayTitle] = useState('');
-
-  const { goTo, results: paginatedQueueEntries, currentPage } = usePagination(patientQueueEntries, currentPageSize);
 
   const tableHeaders = useMemo(
     () => [
@@ -157,8 +108,38 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
     ],
     [t],
   );
+
+  const filteredPatientQueueEntries = useMemo(() => {
+    let entries;
+    switch (status) {
+      case 'COMPLETED':
+        entries = patientQueueEntries.filter((entry) => entry.status === 'COMPLETED');
+        break;
+      case '':
+        entries = patientQueueEntries.filter((entry) => entry.status === 'PENDING' || entry.status === 'PICKED');
+        break;
+      default:
+        entries = patientQueueEntries.filter((entry) => entry.status === status);
+        break;
+    }
+
+    // Sorting entries such that those with picked come first
+    entries.sort((a, b) => {
+      if (a.status === 'PICKED' && b.status !== 'PICKED') {
+        return 1;
+      } else if (a.status !== 'PICKED' && b.status === 'PICKED') {
+        return -1;
+      }
+      return 0;
+    });
+
+    return entries;
+  }, [patientQueueEntries, status]);
+
+  const { goTo, results: paginatedQueueEntries, currentPage } = usePagination(patientQueueEntries, currentPageSize);
+
   const tableRows = useMemo(() => {
-    return paginatedQueueEntries?.map((entry) => ({
+    return filteredPatientQueueEntries?.map((entry) => ({
       ...entry,
       visitNumber: {
         content: <span>{trimVisitNumber(entry.visitNumber)}</span>,
@@ -167,7 +148,13 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         content: entry.name,
       },
       provider: {
-        content: entry.provider,
+        content: (
+          <Tag>
+            <span style={{ color: `${getProviderTagColor(entry.provider, session.user.person.display)}` }}>
+              {entry.provider}
+            </span>
+          </Tag>
+        ),
       },
       status: {
         content: (
@@ -189,63 +176,35 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       actions: {
         content: (
           <>
-            {entry.status === 'COMPLETED' && (
-              <>
-                <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />
-                {session?.user && userHasAccess(PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS, session.user) && (
-                  <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
-                )}
-              </>
-            )}
+            {entry.status === 'COMPLETED' ||
+              (entry.status === 'PENDING' && (
+                <>
+                  <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />
+                  {session?.user && userHasAccess(PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS, session.user) && (
+                    <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
+                  )}
+                </>
+              ))}
             <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
             <NotesActionsMenu note={entry} />
           </>
         ),
       },
     }));
-  }, [paginatedQueueEntries, t, session.user, fromPage]);
-
-  const handleFilter = ({ rowIds, headers, cellsById, inputValue, getCellId }: FilterProps): Array<string> => {
-    return rowIds.filter((rowId) =>
-      headers.some(({ key }) => {
-        const cellId = getCellId(rowId, key);
-        const filterableValue = cellsById[cellId].value;
-        const filterTerm = inputValue.toLowerCase();
-
-        if (typeof filterableValue === 'boolean') {
-          return false;
-        }
-        if (filterableValue.hasOwnProperty('content')) {
-          if (Array.isArray(filterableValue.content.props.children)) {
-            return ('' + filterableValue.content.props.children[1].props.children).toLowerCase().includes(filterTerm);
-          }
-          if (typeof filterableValue.content.props.children === 'object') {
-            return ('' + filterableValue.content.props.children.props.children).toLowerCase().includes(filterTerm);
-          }
-          return ('' + filterableValue.content.props.children).toLowerCase().includes(filterTerm);
-        }
-        return ('' + filterableValue).toLowerCase().includes(filterTerm);
-      }),
-    );
-  };
+  }, [filteredPatientQueueEntries, session.user, t, fromPage]);
 
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;
   }
 
-  if (patientQueueEntries?.length) {
+  if (paginatedQueueEntries?.length) {
     return (
       <div className={styles.container}>
-        <div className={styles.headerBtnContainer}></div>
-
         <DataTable
           data-floating-menu-container
-          filterRows={handleFilter}
           headers={tableHeaders}
-          overflowMenuOnHover={isDesktop(layout) ? true : false}
+          overflowMenuOnHover={isDesktop(layout)}
           rows={tableRows}
-          isSortable
-          size="xs"
           useZebraStyles
         >
           {({ rows, headers, getHeaderProps, getTableProps, getRowProps, onInputChange }) => (
@@ -256,6 +215,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                 <TableToolbarContent className={styles.toolbarContent}>
                   <Layer>
                     <TableToolbarSearch
+                      expanded
                       className={styles.search}
                       onChange={onInputChange}
                       placeholder={t('searchThisList', 'Search this list')}
@@ -267,7 +227,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
               <Table {...getTableProps()} className={styles.activeVisitsTable}>
                 <TableHead>
                   <TableRow>
-                    <TableExpandHeader />
                     {headers.map((header) => (
                       <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
                     ))}
@@ -277,36 +236,11 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                   {rows.map((row, index) => {
                     return (
                       <React.Fragment key={row.id}>
-                        <TableExpandRow {...getRowProps({ row })}>
+                        <TableRow {...getRowProps({ row })}>
                           {row.cells.map((cell) => (
                             <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
                           ))}
-                        </TableExpandRow>
-                        {row.isExpanded ? (
-                          <TableExpandedRow className={styles.expandedActiveVisitRow} colSpan={headers.length + 2}>
-                            <>
-                              <Tabs>
-                                <TabList>
-                                  <Tab>{t('currentVisit', 'Current visit')}</Tab>
-                                  <Tab>{t('previousVisit', 'Previous visit')} </Tab>
-                                </TabList>
-                                <TabPanels>
-                                  <TabPanel>
-                                    <CurrentVisit
-                                      patientUuid={tableRows?.[index]?.patientUuid}
-                                      visitUuid={tableRows?.[index]?.uuid}
-                                    />
-                                  </TabPanel>
-                                  <TabPanel>
-                                    <PastVisit patientUuid={tableRows?.[index]?.patientUuid} />
-                                  </TabPanel>
-                                </TabPanels>
-                              </Tabs>
-                            </>
-                          </TableExpandedRow>
-                        ) : (
-                          <TableExpandedRow className={styles.hiddenRow} colSpan={headers.length + 2} />
-                        )}
+                        </TableRow>
                       </React.Fragment>
                     );
                   })}
@@ -337,7 +271,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                 page={currentPage}
                 pageSize={currentPageSize}
                 pageSizes={pageSizes}
-                totalItems={patientQueueEntries?.length}
+                totalItems={filteredPatientQueueEntries?.length}
                 className={styles.pagination}
                 onChange={({ pageSize, page }) => {
                   if (pageSize !== currentPageSize) {

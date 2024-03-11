@@ -63,6 +63,16 @@ export const editQueueEntryStatusModal = getAsyncLifecycle(
   },
 );
 
+export const patientChartMoveToNextServicePointModal = getAsyncLifecycle(
+  () => import('./active-visits/change-status-move-to-next-dialog.component'),
+  options,
+);
+
+export const moveToNextServicePointButton = getAsyncLifecycle(
+  () => import('./active-visits/move-to-next-service-point-action.components'),
+  options,
+);
+
 export const patientInfoBannerSlot = getAsyncLifecycle(() => import('./patient-info/patient-info.component'), {
   featureName: 'patient info slot',
   moduleName,

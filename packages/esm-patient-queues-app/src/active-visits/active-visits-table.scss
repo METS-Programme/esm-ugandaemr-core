@@ -3,8 +3,32 @@
 @import '~@openmrs/esm-styleguide/src/vars';
 
 .container {
-  background-color: $ui-01;
+  :global(.cds--tabs.cds--tabs--contained .cds--tabs__nav-item--selected) {
+    background-color: transparent;
+    border-left: 1px solid $ui-03;
+    border-right: 1px solid $ui-03;
+  }
 }
+
+.elementContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-direction: column;
+
+  .countTag {
+    position: absolute;
+    font-size: 10px;
+    text-align: center;
+    color: $ui-01;
+    background-color: $danger;
+    padding: 0 4px;
+    border-radius: 50%;
+    top: -14px;
+    right: -5px;
+  }
+}
+
 
 .headerContainer {
   display: flex;
@@ -69,7 +93,7 @@
 }
 
 .tableContainer {
-  background-color: $ui-01;
+  border: 1px solid $ui-03;
   margin: 0 spacing.$spacing-05;
   padding: 0;
 
@@ -88,6 +112,10 @@
   .toolbarContent {
     height: spacing.$spacing-07;
     margin-bottom: spacing.$spacing-02;
+
+    :global(.cds--toolbar-search-container-active.cds--search) {
+      margin-right: 1rem;
+    }
   }
 }
 

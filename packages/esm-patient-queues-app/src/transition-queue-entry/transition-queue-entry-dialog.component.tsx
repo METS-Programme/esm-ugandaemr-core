@@ -12,12 +12,7 @@ import {
 import dayjs from 'dayjs';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  MappedVisitQueueEntry,
-  serveQueueEntry,
-  updateQueueEntry,
-  useVisitQueueEntries,
-} from '../active-visits/active-visits-table.resource';
+import { MappedVisitQueueEntry, useVisitQueueEntries } from '../active-visits/active-visits-table.resource';
 import { findObsByConceptUUID } from '../helpers/functions';
 import { usePastVisits } from '../past-visit/past-visit.resource';
 import { usePatientAppointments } from '../queue-patient-linelists/queue-linelist.resource';

@@ -82,3 +82,11 @@ export function findObsByConceptUUID(arr: Array<OpenmrsResource>, ids: Array<str
 export function timeDiffInMinutes(date1: Date, date2: Date) {
   return Math.round((date1.getTime() - date2.getTime()) / (1000 * 3600 * 24));
 }
+
+export const getProviderTagColor = (entryProvider: string, loggedInProviderName: string) => {
+  if (entryProvider === loggedInProviderName) {
+    return '#07a862';
+  } else {
+    return '#942509';
+  }
+};

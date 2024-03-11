@@ -138,6 +138,21 @@ export const configSchema = {
     _default: '',
     _description: 'Custom label for patient chart button',
   },
+  patientIdentifierType: {
+    _type: Type.String,
+    _description: 'The name of the patient identifier type to be used for the patient identifier field',
+    _default: 'OpenMRS ID',
+  },
+  showUpcomingAppointments: {
+    _type: Type.Boolean,
+    _description: 'Whether start visit form should display upcoming appointments',
+    _default: true,
+  },
+  labEncounterType: {
+    _type: Type.String,
+    _description: 'Lab Encounter type use to filter queue records with lab encounters',
+    _defaults: '214e27a1-606a-4b1e-a96e-d736c87069d5',
+  },
 };
 
 export interface ConfigObject {
@@ -170,6 +185,8 @@ export interface ConfigObject {
   customPatientIdUrl: string;
   defaultFacilityUrl: string;
   customPatientChartText: string;
+  showUpcomingAppointments: boolean;
+  labEncounterType: string;
 }
 
 export interface OutpatientConfig {

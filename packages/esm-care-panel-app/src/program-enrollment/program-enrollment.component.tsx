@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Tile,
@@ -17,9 +17,12 @@ import styles from './program-enrollment.scss';
 import { launchPatientWorkspace } from '@openmrs/esm-patient-common-lib';
 import isEmpty from 'lodash/isEmpty';
 import dayjs from 'dayjs';
-import { formatDate } from '@openmrs/esm-framework';
 import orderBy from 'lodash/orderBy';
 import { mutate } from 'swr';
+import PrintComponent from '../print-layout/print.component';
+import { useGetARTStartDate, useGetCurrentBaselineWeight, useGetCurrentRegimen } from './program-enrollment.resource';
+import { PatientChartProps } from '../types/index';
+import { usePatient } from '@openmrs/esm-framework';
 
 export interface ProgramEnrollmentProps {
   patientUuid: string;
@@ -27,6 +30,7 @@ export interface ProgramEnrollmentProps {
   enrollments: Array<any>;
   formEntrySub: any;
   launchPatientWorkspace: Function;
+  PatientChartProps: string;
 }
 const shareObjProperty = { dateEnrolled: 'Enrolled on', dateCompleted: 'Date Completed' };
 const programDetailsMap = {
@@ -64,8 +68,11 @@ const programDetailsMap = {
   },
 };
 
-const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [], programName }) => {
+const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [], programName, patientUuid }) => {
   const { t } = useTranslation();
+
+  const { patient } = usePatient(patientUuid);
+
   const orderedEnrollments = orderBy(enrollments, 'dateEnrolled', 'desc');
   const headers = useMemo(
     () =>
@@ -109,6 +116,50 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
     });
   };
 
+  const [artStartDate, setArtStartDate] = useState('');
+  const handleArtStartDateDataReceived = (newArtStartDate: string) => {
+    setArtStartDate(newArtStartDate);
+  };
+
+  const [currentRegimen, setCurrentRegimen] = useState('');
+  const handleCurrentRegimenReceived = (newCurrentRegimen: string) => {
+    setCurrentRegimen(newCurrentRegimen);
+  };
+
+  const [baselineWeight, setBaselineWeight] = useState('');
+  const handleBaselineWeightReceived = (newBaselineWeight: string) => {
+    setBaselineWeight(newBaselineWeight);
+  };
+
+  const [whoClinicalStage, setWhoClinicalStage] = useState('');
+  const handleWhoClinicalStageReceived = (newWhoClinicalStage) => {
+    setWhoClinicalStage(newWhoClinicalStage);
+  };
+
+  useGetARTStartDate(
+    {
+      patientuuid: patientUuid,
+    },
+    handleArtStartDateDataReceived,
+    'ab505422-26d9-41f1-a079-c3d222000440',
+  );
+
+  useGetCurrentRegimen(
+    {
+      patientuuid: patientUuid,
+    },
+    handleCurrentRegimenReceived,
+    'dd2b0b4d-30ab-102d-86b0-7a5022ba4115',
+  );
+
+  useGetCurrentBaselineWeight(
+    {
+      patientuuid: patientUuid,
+    },
+    handleBaselineWeightReceived,
+    '900b8fd9-2039-4efc-897b-9b8ce37396f5',
+  );
+
   const handleEditEnrollment = (enrollment) => {
     launchPatientWorkspace('patient-form-entry-workspace', {
       workspaceTitle: enrollment?.enrollmentFormName,
@@ -132,70 +183,61 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
   }
 
   return (
-    <Tile className={styles.whiteBackground}>
-      <div className={styles.tileWrapper}>
-        <DataTable size="sm" useZebraStyles rows={rows} headers={headers}>
-          {({ rows, headers, getHeaderProps, getRowProps, getTableProps }) => (
-            <TableContainer title={t('EnrollmentDetails', 'Enrollment History')} description="">
-              <Table {...getTableProps()} aria-label="">
-                <TableHead>
-                  <TableRow>
-                    {headers.map((header) => (
-                      <TableHeader
-                        key={header.key}
-                        {...getHeaderProps({
-                          header,
-                        })}
-                      >
-                        {header.header}
-                      </TableHeader>
-                    ))}
-                    <TableHeader />
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row, index) => (
-                    <TableRow
-                      key={row.id}
-                      {...getRowProps({
-                        row,
-                      })}
-                    >
-                      {row.cells.map((cell) => (
-                        <TableCell key={cell.id}>
-                          {isEmpty(cell.value)
-                            ? '--'
-                            : dayjs(cell.value).isValid()
-                            ? formatDate(new Date(cell.value))
-                            : cell.value}
-                        </TableCell>
-                      ))}
-                      <TableCell className="cds--table-column-menu">
-                        {isEmpty(orderedEnrollments[index]?.dateCompleted) && (
-                          <OverflowMenu size="sm" flipped>
-                            <OverflowMenuItem
-                              hasDivider
-                              itemText={t('edit', 'Edit')}
-                              onClick={() => handleEditEnrollment(orderedEnrollments[index])}
-                            />
-                            <OverflowMenuItem
-                              isDelete
-                              hasDivider
-                              itemText={t('discontinue', 'Discontinue')}
-                              onClick={() => handleDiscontinue(orderedEnrollments[index])}
-                            />
-                          </OverflowMenu>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )}
-        </DataTable>
+    <div className={styles.bodyContainer}>
+      <div className={styles.card}>
+        <h6>{t('baseline', 'Baseline Information')}</h6>
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('artStartDate', 'ART Start Date')}</p>
+            <p>
+              <span className={styles.value}>{artStartDate}</span>
+            </p>
+          </div>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('weight', 'Weight')}</p>
+            <p>
+              <span className={styles.value}>{baselineWeight}</span>
+            </p>
+          </div>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('bmi', 'BMI')}</p>
+            <p>
+              <span className={styles.value}>{'--'}</span>
+            </p>
+          </div>
+        </div>
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('durationArt', 'Duration on ART')}</p>
+            <p>
+              <span className={styles.value}>{'--'}</span>
+            </p>
+          </div>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('whoStage', 'WHO Stage')}</p>
+            <p>
+              <span className={styles.value}>{whoClinicalStage}</span>
+            </p>
+          </div>
+        </div>
+
+        <h6>{t('lastvist', 'Last Visit')}</h6>
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('currentRegimen', 'Current Regimen')}</p>
+            <p>
+              <span className={styles.value}>{currentRegimen}</span>
+            </p>
+          </div>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('vlStatus', 'VL Status')}</p>
+            <p>
+              <span className={styles.value}>{'--'}</span>
+            </p>
+          </div>
+        </div>
       </div>
-    </Tile>
+    </div>
   );
 };
 export default ProgramEnrollment;

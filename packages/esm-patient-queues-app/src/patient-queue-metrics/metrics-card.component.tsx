@@ -1,11 +1,17 @@
 import { Layer, Tile } from '@carbon/react';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import styles from './metrics-card.scss';
 
-interface Value {
+export interface Value {
   label: string;
   value: number;
+  status?: Array<Status>;
+}
+
+interface Status {
+  status: any;
+  value: number;
+  color: string;
 }
 
 interface MetricsCardProps {
@@ -14,8 +20,6 @@ interface MetricsCardProps {
 }
 
 const MetricsCard: React.FC<MetricsCardProps> = ({ values, headerLabel }) => {
-  const { t } = useTranslation();
-
   return (
     <Layer className={`${styles.cardWithChildren} ${styles.container}`}>
       <Tile className={styles.tileContainer}>
@@ -24,15 +28,33 @@ const MetricsCard: React.FC<MetricsCardProps> = ({ values, headerLabel }) => {
             <label className={styles.headerLabel}>{headerLabel}</label>
           </div>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          {values.map((value) => {
-            return (
-              <div style={{ margin: '5px' }}>
+        <div className={styles.valueContainer}>
+          {values?.map((value) => (
+            <div className={styles.valueInnerContainer}>
+              <div key={value.label}>
                 <label className={styles.totalsLabel}>{value.label}</label>
                 <p className={styles.totalsValue}>{value.value}</p>
               </div>
-            );
-          })}
+              <div className={styles.valueStatus}>
+                {value?.status?.map((status, index) => (
+                  <div key={index} className={styles.status}>
+                    <p className={styles.statusValue}>{status.value}</p>
+                    <label
+                      className={`${styles.statusLabel} ${
+                        status.color === 'orange'
+                          ? styles.statusOrange
+                          : status.color === 'green'
+                          ? styles.statusGreen
+                          : styles.statusBlue
+                      }`}
+                    >
+                      {status.status}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </Tile>
     </Layer>
