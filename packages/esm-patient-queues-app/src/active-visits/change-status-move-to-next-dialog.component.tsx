@@ -13,7 +13,7 @@ import {
 } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import { navigate, showNotification, showToast, useLocations, useSession } from '@openmrs/esm-framework';
-import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
+import { addQueueEntry, getCareProvider, updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import { getCurrentPatientQueueByPatientUuid, useProviders } from '../patient-search/visit-form/queue.resource';
 import { QueueRecord } from '../types';
@@ -52,13 +52,15 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   const [selectedProvider, setSelectedProvider] = useState('');
 
+  const { mutate } = useVisitQueueEntries('', selectedNextQueueLocation);
+
   let mappedQueueEntry: QueueRecord;
 
   useEffect(() => {
     getCareProvider(sessionUser?.user?.systemId).then(
       (response) => {
         setProvider(response?.data?.results[0].uuid);
-        // mutate();
+        mutate();
       },
       (error) => {
         const errorMessages = extractErrorMessagesFromResponse(error);
@@ -158,7 +160,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
               description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
             });
             closeModal();
-            // mutate();
+            mutate();
           },
           (error) => {
             const errorMessages = extractErrorMessagesFromResponse(error);
@@ -191,7 +193,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
               description: t('endVisitSuccessfully', 'You have successfully ended patient visit'),
             });
             closeModal();
-            // mutate();
+            mutate();
           },
           (error) => {
             const errorMessages = extractErrorMessagesFromResponse(error);
@@ -206,7 +208,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
         );
 
         addQueueEntry(
-          '',
+          mappedQueueEntry?.uuid,
           nextQueueLocationUuid,
           patientUuid,
           selectedProvider,
@@ -237,7 +239,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
               () => {
                 // view patient summary
                 navigate({ to: `\${openmrsSpaBase}/home/patient-queues` });
-
+                mutate();
                 closeModal();
               },
               (error) => {
@@ -253,7 +255,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             );
 
             closeModal();
-            // mutate();
+            mutate();
           },
           (error) => {
             const errorMessages = extractErrorMessagesFromResponse(error);
@@ -272,6 +274,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
       closeModal,
       contentSwitcherIndex,
       mappedQueueEntry?.uuid,
+      mutate,
       patientUuid,
       priorityComment,
       provider,
