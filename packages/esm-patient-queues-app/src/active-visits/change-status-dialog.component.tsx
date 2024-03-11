@@ -131,7 +131,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     (event) => {
       event.preventDefault();
       const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-      const status = 'Completed';
+      const status = 'completed';
       updateQueueEntry(status, provider, queueEntry?.id, contentSwitcherIndex, priorityComment, comment).then(
         () => {
           showToast({
@@ -189,7 +189,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
         const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
 
-        updateQueueEntry('Completed', provider, queueEntry?.id, contentSwitcherIndex, priorityComment, comment).then(
+        updateQueueEntry('completed', provider, queueEntry?.id, contentSwitcherIndex, priorityComment, comment).then(
           () => {
             showToast({
               critical: true,

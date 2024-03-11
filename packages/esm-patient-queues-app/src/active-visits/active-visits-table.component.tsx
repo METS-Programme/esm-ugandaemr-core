@@ -112,7 +112,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const filteredPatientQueueEntries = useMemo(() => {
     let entries;
     switch (status) {
-      case 'COMPLETED':
+      case 'completed':
         entries = patientQueueEntries.filter((entry) => entry.status === 'COMPLETED');
         break;
       case '':

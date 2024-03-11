@@ -178,7 +178,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
         const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
 
         updateQueueEntry(
-          'Completed',
+          'completed',
           provider,
           mappedQueueEntry?.uuid,
           contentSwitcherIndex,
@@ -188,9 +188,9 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
           () => {
             showToast({
               critical: true,
-              title: t('endVisit', 'End Vist'),
+              title: t('completePatient', 'Completed Patient'),
               kind: 'success',
-              description: t('endVisitSuccessfully', 'You have successfully ended patient visit'),
+              description: t('endVisitSuccessfully', 'You have successfully completed working on the pa'),
             });
             closeModal();
             mutate();
