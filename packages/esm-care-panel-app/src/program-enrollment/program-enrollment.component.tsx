@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, {useMemo, useState} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Tile,
@@ -21,6 +21,9 @@ import { formatDate } from '@openmrs/esm-framework';
 import orderBy from 'lodash/orderBy';
 import { mutate } from 'swr';
 import PrintComponent from '../print-layout/print.component';
+import {useGetARTStartDate} from "./program-enrollment.resource";
+import { PatientChartProps} from "../types/index";
+import { usePatient } from "@openmrs/esm-framework";
 
 export interface ProgramEnrollmentProps {
   patientUuid: string;
@@ -28,6 +31,7 @@ export interface ProgramEnrollmentProps {
   enrollments: Array<any>;
   formEntrySub: any;
   launchPatientWorkspace: Function;
+  PatientChartProps: string;
 }
 const shareObjProperty = { dateEnrolled: 'Enrolled on', dateCompleted: 'Date Completed' };
 const programDetailsMap = {
@@ -65,8 +69,12 @@ const programDetailsMap = {
   },
 };
 
-const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [], programName }) => {
+
+const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [], programName,patientUuid }) => {
   const { t } = useTranslation();
+
+  const { patient } = usePatient(patientUuid);
+
   const orderedEnrollments = orderBy(enrollments, 'dateEnrolled', 'desc');
   const headers = useMemo(
     () =>
@@ -110,6 +118,21 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
     });
   };
 
+  const [artStartDate, setArtStartDate] = useState("");
+  const handleArtStartDateDataReceived = (newArtStartDate: string) => {
+    setArtStartDate(newArtStartDate);
+  };
+
+  useGetARTStartDate(
+    {
+      patientuuid: patientUuid,
+    },
+    handleArtStartDateDataReceived,
+    "ab505422-26d9-41f1-a079-c3d222000440"
+  );
+
+  console.info("startDate",artStartDate)
+  
   const handleEditEnrollment = (enrollment) => {
     launchPatientWorkspace('patient-form-entry-workspace', {
       workspaceTitle: enrollment?.enrollmentFormName,

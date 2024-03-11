@@ -7,7 +7,7 @@
         "packages/*"
     ],
     "scripts": {
-        "start": "openmrs develop --backend http://localhost:8080 --sources 'packages/esm-*-app'",
+        "start": "openmrs develop --backend http://194.163.171.253:8282 --sources 'packages/esm-*-app'",
         "ci:publish": "lerna publish from-package --yes",
         "ci:prepublish": "lerna publish from-package --no-git-reset --yes --dist-tag next",
         "release": "lerna version --no-git-tag-version",
@@ -20,6 +20,7 @@
         "extract-translations": "lerna run extract-translations -- --config ../../tools/i18next-parser.config.js"
     },
     "dependencies": {
+        "@hookform/resolvers": "^3.3.4",
         "@openmrs/openmrs-form-engine-lib": "next",
         "@types/base-64": "^1.0.0",
         "axios": "^1.4.0",
@@ -28,9 +29,11 @@
         "dayjs": "^1.11.6",
         "react-full-screen": "^1.1.1",
         "react-grid-layout": "^1.3.4",
+        "react-hook-form": "^7.51.0",
         "react-to-print": "^2.14.13",
         "recharts": "^2.7.2",
-        "swr": "^2.1.1"
+        "swr": "^2.1.1",
+        "zod": "^3.22.4"
     },
     "peerDependencies": {
         "@openmrs/openmrs-form-engine-lib": "5.x"

@@ -219,3 +219,7 @@ export interface UpdateObs {
     value: string | number;
   }>;
 }
+
+export interface PatientChartProps {
+  patientUuid: string;
+}
