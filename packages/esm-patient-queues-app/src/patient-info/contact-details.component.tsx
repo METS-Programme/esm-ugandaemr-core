@@ -47,9 +47,7 @@ const Contact: React.FC<{ contact: Array<fhir.ContactPoint>; patientUuid: string
           <InlineLoading description={t('loading', 'Loading...')} />
         ) : (
           contactAttributes?.map(({ attributeType, value, uuid }) => (
-            <li key={uuid}>
-              {attributeType.display} : {value}
-            </li>
+            <li key={uuid}>{/* {attributeType.display} : {value} */}</li>
           ))
         )}
       </ul>

@@ -2,12 +2,10 @@ import { Button, Tooltip } from '@carbon/react';
 import { Logout, Dashboard, ChooseItem, Notification } from '@carbon/react/icons';
 
 import { showModal, useSession } from '@openmrs/esm-framework';
-import React, { ReactNode, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MappedPatientQueueEntry } from '../active-visits/patient-queues.resource';
 import { usePatientsServed } from '../patient-queue-metrics/clinic-metrics.resource';
-import ActionsMenu from './actions-menu.component';
-import { PatientQueue } from '../types/patient-queues';
 
 interface PickPatientActionMenuProps {
   queueEntry: MappedPatientQueueEntry;
@@ -19,16 +17,15 @@ const PickPatientActionMenu: React.FC<PickPatientActionMenuProps> = ({ queueEntr
 
   const session = useSession();
 
-  const userLocation = session?.sessionLocation?.uuid;
+  const { servedQueuePatients } = usePatientsServed(session?.sessionLocation?.uuid, 'picked');
 
-  // check being served
-  const { servedQueuePatients, servedCount } = usePatientsServed(userLocation, 'picked');
+  const filteredByProvider = servedQueuePatients.filter((item) => item?.provider === session?.user?.systemId);
 
   const launchPickPatientQueueModal = useCallback(() => {
-    if (servedCount === 1 || servedCount > 1) {
+    if (filteredByProvider.length === 1 || filteredByProvider.length > 0) {
       const dispose = showModal('edit-queue-entry-status-modal', {
         closeModal: () => dispose(),
-        queueEntry: servedQueuePatients,
+        queueEntry: filteredByProvider[0],
         currentEntry: queueEntry,
       });
     } else {
@@ -37,7 +34,7 @@ const PickPatientActionMenu: React.FC<PickPatientActionMenuProps> = ({ queueEntr
         queueEntry,
       });
     }
-  }, [queueEntry, servedCount, servedQueuePatients]);
+  }, [filteredByProvider, queueEntry]);
 
   return (
     <Tooltip align="bottom" label="Pick Patient">

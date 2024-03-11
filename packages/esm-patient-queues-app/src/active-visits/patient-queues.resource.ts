@@ -98,37 +98,35 @@ export function usePatientQueueRequest(apiUrl: string, provider) {
     { refreshInterval: 3000 },
   );
 
-  const mapppedQueues = data?.data?.results
-    .filter((item) => item.provider.identifier !== '' && item.provider.identifier === provider)
-    .map((queue: PatientQueue) => {
-      return {
-        ...queue,
-        id: queue.uuid,
-        name: queue.patient?.person.display,
-        patientUuid: queue.patient?.uuid,
-        provider: queue.provider?.person.display,
-        priorityComment: queue.priorityComment,
-        priority: queue.priorityComment === 'Urgent' ? 'Priority' : queue.priorityComment,
-        priorityLevel: queue.priority,
-        waitTime: queue.dateCreated ? `${dayjs().diff(dayjs(queue.dateCreated), 'minutes')}` : '--',
-        status: queue.status,
-        patientAge: queue.patient?.person?.age,
-        patientSex: queue.patient?.person?.gender === 'M' ? 'MALE' : 'FEMALE',
-        patientDob: queue.patient?.person?.birthdate
-          ? formatDate(parseDate(queue.patient.person.birthdate), { time: false })
-          : '--',
-        identifiers: queue.patient?.identifiers,
-        locationFrom: queue.locationFrom?.uuid,
-        locationTo: queue.locationTo?.uuid,
-        locationToName: queue.locationTo?.name,
-        queueRoom: queue.locationTo?.display,
-        visitNumber: queue.visitNumber,
-        dateCreated: queue.dateCreated,
-        creatorUuid: queue.creator?.uuid,
-        creatorUsername: queue.creator?.username,
-        creatorDisplay: queue.creator?.display,
-      };
-    });
+  const mapppedQueues = data?.data?.results.map((queue: PatientQueue) => {
+    return {
+      ...queue,
+      id: queue.uuid,
+      name: queue.patient?.person.display,
+      patientUuid: queue.patient?.uuid,
+      provider: queue.provider?.person.display,
+      priorityComment: queue.priorityComment,
+      priority: queue.priorityComment === 'Urgent' ? 'Priority' : queue.priorityComment,
+      priorityLevel: queue.priority,
+      waitTime: queue.dateCreated ? `${dayjs().diff(dayjs(queue.dateCreated), 'minutes')}` : '--',
+      status: queue.status,
+      patientAge: queue.patient?.person?.age,
+      patientSex: queue.patient?.person?.gender === 'M' ? 'MALE' : 'FEMALE',
+      patientDob: queue.patient?.person?.birthdate
+        ? formatDate(parseDate(queue.patient.person.birthdate), { time: false })
+        : '--',
+      identifiers: queue.patient?.identifiers,
+      locationFrom: queue.locationFrom?.uuid,
+      locationTo: queue.locationTo?.uuid,
+      locationToName: queue.locationTo?.name,
+      queueRoom: queue.locationTo?.display,
+      visitNumber: queue.visitNumber,
+      dateCreated: queue.dateCreated,
+      creatorUuid: queue.creator?.uuid,
+      creatorUsername: queue.creator?.username,
+      creatorDisplay: queue.creator?.display,
+    };
+  });
 
   return {
     patientQueueEntries: mapppedQueues || [],

@@ -1,5 +1,6 @@
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
+@use '@carbon/styles/scss/colors';
 @import '~@openmrs/esm-styleguide/src/vars';
 
 .container {
@@ -16,7 +17,7 @@
 
 .tileContainer {
   border: 0.0625rem solid $ui-03;
-  height: 7.875rem;
+  height: 10.875rem;
   padding: spacing.$spacing-05;
   margin: spacing.$spacing-03 spacing.$spacing-03;
 }
@@ -34,6 +35,7 @@
 }
 
 .totalsLabel {
+  font-weight: bold !important;
   @include type.type-style('label-01');
   color: $text-02;
 }
@@ -66,4 +68,46 @@
   svg {
     margin-left: spacing.$spacing-03;
   }
+}
+
+.valueContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.valueInnerContainer {
+  display: flex;
+}
+
+.valueStatus {
+  padding-left: 0.5rem;
+}
+
+.status {
+  display: flex;
+  align-items: start;
+  margin-right: 10px;
+}
+
+.statusValue {
+  margin: 0 5px 0 0;
+  font-size: 0.8em;
+}
+
+.statusLabel {
+  margin: 0;
+  font-size: 0.8em;
+}
+
+.statusOrange {
+  color: colors.$orange-30;
+}
+
+.statusGreen {
+  color: colors.$green-50;
+}
+
+.statusBlue {
+  color: colors.$blue-30;
 }

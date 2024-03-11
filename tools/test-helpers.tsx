@@ -33,4 +33,16 @@ export function waitForLoadingToFinish() {
   });
 }
 
+export const mockPatientWithLongName = {
+  ...mockPatient,
+  name: [
+    {
+      id: 'efdb246f-4142-4c12-a27a-9be60b9592e9',
+      use: 'usual',
+      family: 'family name',
+      given: ['Some very long given name'],
+    },
+  ],
+};
+
 export const patientChartBasePath = `/patient/${mockPatient.id}/chart`;
