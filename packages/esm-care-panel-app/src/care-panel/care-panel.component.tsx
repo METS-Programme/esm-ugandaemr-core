@@ -77,7 +77,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
             enrollments={patientEnrollments}
             formEntrySub={formEntrySub}
             launchPatientWorkspace={launchPatientWorkspace}
-             PatientChartProps={''}            
+            PatientChartProps={''}
           />
 
           <CarePrograms patientUuid={patientUuid} />

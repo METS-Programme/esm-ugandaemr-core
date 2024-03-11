@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Tile,
@@ -21,9 +21,9 @@ import { formatDate } from '@openmrs/esm-framework';
 import orderBy from 'lodash/orderBy';
 import { mutate } from 'swr';
 import PrintComponent from '../print-layout/print.component';
-import {useGetARTStartDate} from "./program-enrollment.resource";
-import { PatientChartProps} from "../types/index";
-import { usePatient } from "@openmrs/esm-framework";
+import { useGetARTStartDate } from './program-enrollment.resource';
+import { PatientChartProps } from '../types/index';
+import { usePatient } from '@openmrs/esm-framework';
 
 export interface ProgramEnrollmentProps {
   patientUuid: string;
@@ -69,8 +69,7 @@ const programDetailsMap = {
   },
 };
 
-
-const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [], programName,patientUuid }) => {
+const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [], programName, patientUuid }) => {
   const { t } = useTranslation();
 
   const { patient } = usePatient(patientUuid);
@@ -118,7 +117,7 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
     });
   };
 
-  const [artStartDate, setArtStartDate] = useState("");
+  const [artStartDate, setArtStartDate] = useState('');
   const handleArtStartDateDataReceived = (newArtStartDate: string) => {
     setArtStartDate(newArtStartDate);
   };
@@ -128,11 +127,11 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
       patientuuid: patientUuid,
     },
     handleArtStartDateDataReceived,
-    "ab505422-26d9-41f1-a079-c3d222000440"
+    'ab505422-26d9-41f1-a079-c3d222000440',
   );
 
-  console.info("startDate",artStartDate)
-  
+  console.info('startDate', artStartDate);
+
   const handleEditEnrollment = (enrollment) => {
     launchPatientWorkspace('patient-form-entry-workspace', {
       workspaceTitle: enrollment?.enrollmentFormName,
