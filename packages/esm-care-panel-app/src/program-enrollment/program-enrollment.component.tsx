@@ -194,7 +194,6 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
   if (orderedEnrollments?.length === 0) {
     return null;
   }
-  console.info(whoClinicalStage);
 
   return (
     <div className={styles.bodyContainer}>
