@@ -3,10 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { StructuredListSkeleton, ContentSwitcher, Switch } from '@carbon/react';
 import styles from './care-panel.scss';
 import { useEnrollmentHistory } from '../hooks/useEnrollmentHistory';
-import ProgramSummary from '../program-summary/program-summary.component';
 import ProgramEnrollment from '../program-enrollment/program-enrollment.component';
 import { CardHeader, EmptyState } from '@openmrs/esm-patient-common-lib';
-import RegimenHistory from '../regimen/regimen-history.component';
 import first from 'lodash/first';
 import sortBy from 'lodash/sortBy';
 import { ErrorState } from '@openmrs/esm-framework';
@@ -56,7 +54,6 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
       </>
     );
   }
-
   return (
     <>
       <div className={styles.widgetCard}>
@@ -70,14 +67,13 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
           </div>
         </CardHeader>
         <div style={{ width: '100%', minHeight: '20rem' }}>
-          <ProgramSummary patientUuid={patientUuid} programName={switcherHeaders[switchItem?.index]} />
-          <RegimenHistory patientUuid={patientUuid} category={switcherHeaders[switchItem?.index]} />
           <ProgramEnrollment
             patientUuid={patientUuid}
             programName={switcherHeaders[switchItem?.index]}
             enrollments={patientEnrollments}
             formEntrySub={formEntrySub}
             launchPatientWorkspace={launchPatientWorkspace}
+            PatientChartProps={''}
           />
 
           <CarePrograms patientUuid={patientUuid} />

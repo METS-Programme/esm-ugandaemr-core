@@ -1,1 +1,12 @@
-{}
+{
+  "dateConfirmedHivPositive": "Date Positive HIV Test Confirmed",
+  "artStartDate": "ART Start Date",
+  "whoStage": "WHO Stage",
+  "baselineRegimen": "Baseline Regimen",
+  "baselineCd4": "baseline CD4",
+  "lastArtVisitSummary": "Last ART Visit Summary",
+  "viralLoadHistory": "Viral Load History",
+  "encounterDate": "Encounter Date",
+  "viralLoadResults": "Viral Load Results",
+  "hivViralLoad": "HIV Viral Load"
+}
