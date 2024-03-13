@@ -140,6 +140,36 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
       : [],
   );
 
+  // endVisit
+  const endVisitStatus = useCallback(
+    (event) => {
+      event.preventDefault();
+      const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+      const status = 'Completed';
+      updateQueueEntry(status, provider, mappedQueueEntry?.uuid, contentSwitcherIndex, priorityComment, comment).then(
+        () => {
+          showToast({
+            critical: true,
+            title: t('endVisit', 'End Vist'),
+            kind: 'success',
+            description: t('endVisitSuccessfully', 'You have successfully ended patient visit'),
+          });
+          closeModal();
+          // mutate();
+        },
+        (error) => {
+          showNotification({
+            title: t('queueEntryUpdateFailed', 'Error ending visit'),
+            kind: 'error',
+            critical: true,
+            description: error?.message,
+          });
+        },
+      );
+    },
+    [closeModal, contentSwitcherIndex, priorityComment, provider, mappedQueueEntry?.uuid, t],
+  );
+
   // change to picked
   const changeQueueStatus = useCallback(
     (event: { preventDefault: () => void; target: { [x: string]: { value: string } } }) => {
@@ -377,7 +407,9 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
           <Button kind="secondary" onClick={closeModal}>
             {t('cancel', 'Cancel')}
           </Button>
-
+          <Button kind="danger" onClick={endVisitStatus}>
+            {t('endVisit', 'End Visit')}
+          </Button>
           <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
         </ModalFooter>
       </Form>
