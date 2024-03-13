@@ -4,22 +4,7 @@ import { useTranslation } from 'react-i18next';
 import PatientSearch from '../patient-search/patient-search.component';
 import ActiveVisitsTable from './active-visits-table.component';
 import styles from './active-visits-table.scss';
-import LabResultsTable from '../lab-results/lab-results.component';
-import { PRIVILEGE_CLINICIAN_QUEUE_LIST } from '../constants';
-import { useSession, userHasAccess } from '@openmrs/esm-framework';
-import { usePatientQueuesList } from './patient-queues.resource';
-import { getPatientEncounterWithOrders } from '../lab-results/lab-results.resource';
-
-interface TagsProps {
-  tagContent?: string | React.ReactNode;
-}
-function Tags({ tagContent }: TagsProps) {
-  return (
-    <>
-      <span className={styles.countTag}>{tagContent}</span>
-    </>
-  );
-}
+import { QueueStatus } from '../utils/utils';
 
 function ActiveVisitsTabs() {
   const { t } = useTranslation();
@@ -29,10 +14,8 @@ function ActiveVisitsTabs() {
   const [selectedTab, setSelectedTab] = useState(0);
   const [overlayHeader, setOverlayTitle] = useState('');
 
-  const session = useSession();
-
   const getTabStatus = (selectedIndex) => {
-    return selectedIndex === 0 ? '' : 'completed';
+    return selectedIndex === 0 ? '' : QueueStatus.Completed;
   };
 
   return (

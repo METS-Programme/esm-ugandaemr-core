@@ -23,6 +23,7 @@ import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 
 import styles from './change-status-dialog.scss';
 import { useProviders } from '../patient-search/visit-form/queue.resource';
+import { QueueStatus } from '../utils/utils';
 
 interface ChangeStatusDialogProps {
   queueEntry: MappedQueueEntry;
@@ -87,11 +88,11 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   useMemo(() => {
     switch (statusSwitcherIndex) {
       case 0: {
-        setStatus('pending');
+        setStatus(QueueStatus.Pending);
         break;
       }
       case 1: {
-        setStatus('completed');
+        setStatus(QueueStatus.Completed);
         break;
       }
     }
@@ -131,8 +132,14 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     (event) => {
       event.preventDefault();
       const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-      const status = 'completed';
-      updateQueueEntry(status, provider, queueEntry?.id, contentSwitcherIndex, priorityComment, comment).then(
+      updateQueueEntry(
+        QueueStatus.Completed,
+        provider,
+        queueEntry?.id,
+        contentSwitcherIndex,
+        priorityComment,
+        comment,
+      ).then(
         () => {
           showToast({
             critical: true,
@@ -163,7 +170,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
       // check status
 
-      if (status === 'pending') {
+      if (status === QueueStatus.Pending) {
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
         updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, comment).then(
           () => {
@@ -185,11 +192,18 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             });
           },
         );
-      } else if (status === 'completed') {
+      } else if (status === QueueStatus.Completed) {
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
         const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
 
-        updateQueueEntry('completed', provider, queueEntry?.id, contentSwitcherIndex, priorityComment, comment).then(
+        updateQueueEntry(
+          QueueStatus.Completed,
+          provider,
+          queueEntry?.id,
+          contentSwitcherIndex,
+          priorityComment,
+          comment,
+        ).then(
           () => {
             showToast({
               critical: true,
@@ -217,7 +231,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
           selectedProvider,
           contentSwitcherIndex,
           '',
-          'pending',
+          QueueStatus.Pending,
           selectedLocation,
           priorityComment,
           comment,
@@ -230,8 +244,14 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               description: t('movetonextqueue', 'Move to next queue successfully'),
             });
             //pick and route
-            const status = 'picked';
-            updateQueueEntry(status, provider, currentEntry?.id, contentSwitcherIndex, priorityComment, 'comment').then(
+            updateQueueEntry(
+              QueueStatus.Picked,
+              provider,
+              currentEntry?.id,
+              contentSwitcherIndex,
+              priorityComment,
+              'comment',
+            ).then(
               () => {
                 // view patient summary
                 navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry.patientUuid}/chart` });
@@ -352,7 +372,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               </ContentSwitcher>
             </section>
 
-            {status === 'completed' && (
+            {status === QueueStatus.Completed && (
               <section className={styles.section}>
                 <Select
                   labelText={t('selectNextQueueRoom', 'Select next queue room ')}
@@ -374,7 +394,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               </section>
             )}
 
-            {status === 'completed' && (
+            {status === QueueStatus.Completed && (
               <section className={styles.section}>
                 <Select
                   labelText={t('selectProvider', 'Select a provider')}
@@ -394,7 +414,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               </section>
             )}
 
-            {status === 'completed' && (
+            {status === QueueStatus.Completed && (
               <section className={styles.section}>
                 <TextArea
                   labelText={t('notes', 'Enter notes ')}

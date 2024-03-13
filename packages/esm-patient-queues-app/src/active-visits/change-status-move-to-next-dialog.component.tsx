@@ -18,7 +18,7 @@ import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import { getCurrentPatientQueueByPatientUuid, useProviders } from '../patient-search/visit-form/queue.resource';
 import { QueueRecord } from '../types';
 import styles from './change-status-dialog.scss';
-import { extractErrorMessagesFromResponse } from '../utils/utils';
+import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
 
 interface ChangeStatusDialogProps {
   patientUuid: string;
@@ -102,11 +102,11 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
   useMemo(() => {
     switch (statusSwitcherIndex) {
       case 0: {
-        setStatus('pending');
+        setStatus(QueueStatus.Pending);
         break;
       }
       case 1: {
-        setStatus('completed');
+        setStatus(QueueStatus.Completed);
         break;
       }
     }
@@ -149,7 +149,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
       // check status
 
-      if (status === 'pending') {
+      if (status === QueueStatus.Pending) {
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
         updateQueueEntry(status, provider, mappedQueueEntry?.uuid, 0, priorityComment, comment).then(
           () => {
@@ -173,12 +173,12 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             });
           },
         );
-      } else if (status === 'completed') {
+      } else if (status === QueueStatus.Completed) {
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
         const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
 
         updateQueueEntry(
-          'completed',
+          QueueStatus.Completed,
           provider,
           mappedQueueEntry?.uuid,
           contentSwitcherIndex,
@@ -190,7 +190,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
               critical: true,
               title: t('completePatient', 'Completed Patient'),
               kind: 'success',
-              description: t('endVisitSuccessfully', 'You have successfully completed working on the pa'),
+              description: t('endVisitSuccessfully', 'You have successfully completed working on the patient'),
             });
             closeModal();
             mutate();
@@ -214,7 +214,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
           selectedProvider,
           contentSwitcherIndex,
           '',
-          'pending',
+          QueueStatus.Pending,
           selectedLocation,
           priorityComment,
           comment,
@@ -227,9 +227,9 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
               description: t('movetonextqueue', 'Move to next queue successfully'),
             });
             //pick and route
-            const status = 'picked';
+
             updateQueueEntry(
-              status,
+              QueueStatus.Picked,
               provider,
               mappedQueueEntry?.uuid,
               contentSwitcherIndex,
@@ -320,7 +320,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             </ContentSwitcher>
           </section>
 
-          {status === 'completed' && (
+          {status === QueueStatus.Completed && (
             <section className={styles.section}>
               <Select
                 labelText={t('selectNextQueueRoom', 'Select next queue room ')}
@@ -342,7 +342,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             </section>
           )}
 
-          {status === 'completed' && (
+          {status === QueueStatus.Completed && (
             <section className={styles.section}>
               <Select
                 labelText={t('selectProvider', 'Select a provider')}
@@ -362,7 +362,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             </section>
           )}
 
-          {status === 'completed' && (
+          {status === QueueStatus.Completed && (
             <section className={styles.section}>
               <TextArea
                 labelText={t('notes', 'Enter notes ')}
