@@ -204,7 +204,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
           (res) => {
             updateQueueEntry(
               QueueStatus.Pending,
-              provider,
+              selectedProvider,
               res.data?.uuid,
               contentSwitcherIndex,
               priorityComment,

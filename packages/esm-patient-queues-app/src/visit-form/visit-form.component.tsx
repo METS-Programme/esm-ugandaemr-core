@@ -324,29 +324,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
               ))}
             </Select>
           </section>
-
-          <section className={styles.section}>
-            <div className={styles.sectionTitle}>{t('otherServicePoint', 'Other Service Points')}</div>
-            <ResponsiveWrapper isTablet={isTablet}>
-              <Select
-                labelText={t('otherServicePoint', 'Select other service point')}
-                id="otherLocation"
-                name="otherQueueLocation"
-                invalidText="Required"
-                value={selectedOtherQueueLocation}
-                onChange={(event) => setSelectedOtherQueueLocation(event.target.value)}
-              >
-                {!selectedOtherQueueLocation ? (
-                  <SelectItem text={t('selectOtherServicePoint', 'Select other service point')} value="" />
-                ) : null}
-                {queueLocations.map((location) => (
-                  <SelectItem key={location.id} text={location.name} value={location.id}>
-                    {location.name}
-                  </SelectItem>
-                ))}
-              </Select>
-            </ResponsiveWrapper>
-          </section>
         </Stack>
       </div>
       <ButtonSet className={isTablet ? styles.tablet : styles.desktop}>
