@@ -1,5 +1,5 @@
 import { UserHasAccess, useSession } from '@openmrs/esm-framework';
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { PRIVILEGE_RECEPTION_METRIC, PRIVILIGE_TRIAGE_METRIC } from '../constants';
 
@@ -15,7 +15,6 @@ import { useParentLocation } from '../active-visits/patient-queues.resource';
 import { usePatientQueuesList } from '../active-visit-patient-reception/active-visits-reception.resource';
 import { CheckmarkOutline, Pending, ProgressBarRound } from '@carbon/react/icons';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
-import { values } from 'lodash-es';
 
 const ClinicMetrics: React.FC = () => {
   const { t } = useTranslation();
