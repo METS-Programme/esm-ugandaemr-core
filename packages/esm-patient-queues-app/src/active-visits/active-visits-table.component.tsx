@@ -30,7 +30,6 @@ import {
   getTagColor,
   trimVisitNumber,
 } from '../helpers/functions';
-import PatientSearch from '../patient-search/patient-search.component';
 import StatusIcon from '../queue-entry-table-components/status-icon.component';
 import { getOriginFromPathName } from './active-visits-table.resource';
 import styles from './active-visits-table.scss';
@@ -41,6 +40,7 @@ import EmptyState from '../utils/empty-state/empty-state.component';
 import ViewActionsMenu from './view-action-menu.components';
 import NotesActionsMenu from './notes-action-menu.components';
 import { PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS } from '../constants';
+import PatientSearch from '../patient-search/patient-search.component';
 
 interface ActiveVisitsTableProps {
   status: string;
@@ -55,7 +55,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const { t } = useTranslation();
   const session = useSession();
 
-  const { patientQueueEntries, isLoading } = usePatientQueuesList(
+  const { patientQueueEntries, isLoading, mutate } = usePatientQueuesList(
     session?.sessionLocation?.uuid,
     status,
     session.user.systemId,

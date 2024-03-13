@@ -63,8 +63,7 @@ const AdvancedSearch: React.FC<PatientSearchProps> = ({ toggleSearchType }) => {
             renderIcon={(props) => <ArrowLeft size={24} {...props} />}
             iconDescription="Back to simple search"
             size="sm"
-            onClick={() => toggleSearchType(SearchTypes.BASIC)}
-          >
+            onClick={() => toggleSearchType(SearchTypes.BASIC)}>
             <span>{t('backToSimpleSearch', 'Back to simple search')}</span>
           </Button>
         </div>
@@ -75,8 +74,7 @@ const AdvancedSearch: React.FC<PatientSearchProps> = ({ toggleSearchType }) => {
               <ContentSwitcher
                 size="sm"
                 className={styles.fieldRangeSwitcher}
-                onChange={({ index }) => setFieldMatcherRangeSwitcherValue(index)}
-              >
+                onChange={({ index }) => setFieldMatcherRangeSwitcherValue(index)}>
                 <Switch name={fieldMatcherRange.ANY} text={t('any', 'Any')} />
                 <Switch name={fieldMatcherRange.ALL} text={t('all', 'All')} />
               </ContentSwitcher>
@@ -122,8 +120,7 @@ const AdvancedSearch: React.FC<PatientSearchProps> = ({ toggleSearchType }) => {
               <ContentSwitcher
                 size="sm"
                 className={styles.genderSwitcher}
-                onChange={({ index }) => setGenderSwitcherValue(index)}
-              >
+                onChange={({ index }) => setGenderSwitcherValue(index)}>
                 <Switch name={genders.ANY} text={t('any', 'Any')} />
                 <Switch name={genders.MALE} text={t('male', 'Male')} />
                 <Switch name={genders.FEMALE} text={t('female', 'Female')} />

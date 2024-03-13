@@ -1,39 +1,6 @@
 import { openmrsFetch } from '@openmrs/esm-framework';
-import { Appointment, ProviderResponse } from '../../types';
+import { Appointment, ProviderResponse } from '../types';
 import useSWR from 'swr';
-
-export async function addQueueEntry(
-  visitUuid: string,
-  patientUuid: string,
-  priority: string,
-  status: string,
-  queueServiceUuid: string,
-  appointment: Appointment,
-  locationUuid: string,
-) {
-  const abortController = new AbortController();
-
-  return openmrsFetch(`/ws/rest/v1/patientqueue`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    signal: abortController.signal,
-    body: {
-      patient: patientUuid,
-      provider: '',
-      locationFrom: locationUuid,
-      locationTo: queueServiceUuid !== undefined ? queueServiceUuid : 'Not Set',
-      status: status ? status : 'pending',
-      encounter: null,
-      visitNumber: '',
-      priority: 1,
-      priorityComment: 'Urgent',
-      comment: 'Na',
-      queueRoom: queueServiceUuid !== undefined ? queueServiceUuid : 'Not Set',
-    },
-  });
-}
 
 export async function saveAppointment(appointment: Appointment) {
   const abortController = new AbortController();

@@ -13,16 +13,16 @@ import {
 
 import { navigate, showNotification, showToast, useLocations, useSession } from '@openmrs/esm-framework';
 
-import { addQueueEntry, getCareProvider, updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
+import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
+import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 
 import styles from './change-status-dialog.scss';
-import { useProviders } from '../patient-search/visit-form/queue.resource';
+import { useProviders } from '../visit-form/queue.resource';
 import { QueueStatus } from '../utils/utils';
 
 interface ChangeStatusDialogProps {
@@ -46,13 +46,9 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const [status, setStatus] = useState('');
 
-  const [selectedQueueLocation, setSelectedQueueLocation] = useState(queueEntry?.queueLocation);
-
-  const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
-
   const sessionUser = useSession();
 
-  const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
+  const { queueRoomLocations, mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
 
@@ -225,12 +221,10 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
         );
 
         addQueueEntry(
-          queueEntry?.id,
           nextQueueLocationUuid,
           queueEntry?.patientUuid,
           selectedProvider,
           contentSwitcherIndex,
-          '',
           QueueStatus.Pending,
           selectedLocation,
           priorityComment,
@@ -291,7 +285,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
       priorityComment,
       t,
       closeModal,
-      mutate,
       contentSwitcherIndex,
       selectedProvider,
       selectedLocation,

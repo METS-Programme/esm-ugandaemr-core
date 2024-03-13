@@ -1,5 +1,5 @@
 import { usePatientQueueRequest } from '../active-visits/patient-queues.resource';
-import { QueueRoomsResponse, useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
+import { QueueRoomsResponse, useQueueRoomLocations } from '../hooks/useQueueRooms';
 import useSWR from 'swr';
 import { openmrsFetch, useSession } from '@openmrs/esm-framework';
 import { PatientQueue } from '../types/patient-queues';

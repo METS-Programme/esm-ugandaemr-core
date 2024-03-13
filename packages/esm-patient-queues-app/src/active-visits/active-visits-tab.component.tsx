@@ -1,10 +1,10 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs, IconButton } from '@carbon/react';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import PatientSearch from '../patient-search/patient-search.component';
 import ActiveVisitsTable from './active-visits-table.component';
 import styles from './active-visits-table.scss';
 import { QueueStatus } from '../utils/utils';
+import PatientSearch from '../patient-search/patient-search.component';
 
 function ActiveVisitsTabs() {
   const { t } = useTranslation();

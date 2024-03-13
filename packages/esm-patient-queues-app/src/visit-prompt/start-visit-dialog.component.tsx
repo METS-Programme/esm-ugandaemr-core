@@ -1,11 +1,9 @@
-import { Button, Layer, ModalBody, ModalFooter, ModalHeader, Select, SelectItem } from '@carbon/react';
-import { useLayoutType, useLocations, useSession } from '@openmrs/esm-framework';
-import isEmpty from 'lodash-es/isEmpty';
 import React, { useState } from 'react';
+import { Button, Layer, ModalBody, ModalFooter, ModalHeader, Select, SelectItem } from '@carbon/react';
+import { useLayoutType, useSession } from '@openmrs/esm-framework';
 import { useTranslation } from 'react-i18next';
 import { MappedPatientQueueEntry } from '../active-visits/patient-queues.resource';
-import { useDefaultLoginLocation } from '../patient-search/hooks/useDefaultLocation';
-import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
+import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 
 import styles from './start-visit-dialog.scss';
 
@@ -16,9 +14,7 @@ interface StartVisitDialogProps {
 }
 
 const StartVisitDialog: React.FC<StartVisitDialogProps> = ({ queueEntry, closeModal, launchPatientChart }) => {
-  const { defaultFacility, isLoading: loadingDefaultFacility } = useDefaultLoginLocation();
   const isTablet = useLayoutType() === 'tablet';
-  const locations = useLocations();
   const sessionUser = useSession();
   const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
@@ -45,17 +41,13 @@ const StartVisitDialog: React.FC<StartVisitDialogProps> = ({ queueEntry, closeMo
               {!selectedNextQueueLocation ? (
                 <SelectItem text={t('selectNextServicePoint', 'Select next service point')} value="" />
               ) : null}
-              {!isEmpty(defaultFacility) ? (
-                <SelectItem key={defaultFacility?.uuid} text={defaultFacility?.display} value={defaultFacility?.uuid}>
-                  {defaultFacility?.display}
-                </SelectItem>
-              ) : queueRoomLocations?.length > 0 ? (
-                queueRoomLocations.map((location) => (
-                  <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
-                    {location.display}
-                  </SelectItem>
-                ))
-              ) : null}
+              {queueRoomLocations?.length > 0
+                ? queueRoomLocations.map((location) => (
+                    <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
+                      {location.display}
+                    </SelectItem>
+                  ))
+                : null}
             </Select>
           </ResponsiveWrapper>
         </section>
