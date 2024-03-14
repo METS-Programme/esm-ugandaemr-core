@@ -1,34 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Tile,
-  DataTable,
-  Table,
-  TableHead,
-  TableRow,
-  TableHeader,
-  TableBody,
-  TableCell,
-  OverflowMenu,
-  OverflowMenuItem,
-  TableContainer,
-} from '@carbon/react';
 import styles from './program-enrollment.scss';
 import { launchPatientWorkspace } from '@openmrs/esm-patient-common-lib';
-import isEmpty from 'lodash/isEmpty';
 import dayjs from 'dayjs';
 import orderBy from 'lodash/orderBy';
 import { mutate } from 'swr';
-import PrintComponent from '../print-layout/print.component';
-import {
-  parseStageFromDisplay,
-  useGetARTStartDate,
-  useGetBaselineRegimen,
-  useGetCurrentHIVClinicalStage,
-  useGetCurrentRegimen,
-  usePatientObservations,
-} from './program-enrollment.resource';
-import { PatientChartProps } from '../types/index';
+import { parseStageFromDisplay, usePatientObservations } from './program-enrollment.resource';
+import { PatientChartProps, ProgramData } from '../types/index';
 import { usePatient } from '@openmrs/esm-framework';
 import { configSchema } from '../config-schema';
 
@@ -81,12 +59,56 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
 
   const { patient } = usePatient(patientUuid);
 
-  const artStartDateUuidConfig = configSchema.regimenObs.artStartDateUuid._default;
-  const currentRegimenUuidConfig = configSchema.regimenObs.currentRegimenUuid._default;
-  const whoClinicalStageUuidConfig = configSchema.regimenObs.whoClinicalStageUuid._default;
-  const baselineRegimenUuidConfig = configSchema.regimenObs.baselineRegimenUuid._default;
-  const dateConfirmedHivPositiveConfig = configSchema.regimenObs.dateConfirmedHivPositiveUuid._default;
-  const baselineCd4Config = configSchema.regimenObs.baselineCd4Uuid._default;
+  const observationConfig = useMemo(
+    () => [
+      {
+        key: 'artStartDate',
+        uuidConfig: configSchema.artStartDateUuid._default,
+        processValue: (date) => dayjs(date).format('DD-MM-YYYY'),
+      },
+      {
+        key: 'currentRegimen',
+        uuidConfig: configSchema.currentRegimenUuid._default,
+      },
+      {
+        key: 'baselineRegimen',
+        uuidConfig: configSchema.baselineRegimenUuid._default,
+      },
+      {
+        key: 'whoClinicalStage',
+        uuidConfig: configSchema.whoClinicalStageUuid._default,
+        processValue: parseStageFromDisplay,
+      },
+      {
+        key: 'baselineRegimen',
+        uuidConfig: configSchema.baselineRegimenUuid._default,
+      },
+      {
+        key: 'dateConfirmedHivPositive',
+        uuidConfig: configSchema.dateConfirmedHivPositiveUuid._default,
+        processValue: (date) => dayjs(date).format('DD-MM-YYYY'),
+      },
+      {
+        key: 'baselineCd4',
+        uuidConfig: configSchema.baselineCd4Uuid._default,
+      },
+      {
+        key: 'hivViralLoadDate',
+        uuidConfig: configSchema.hivViralLoadDateUuid._default,
+        processValue: (date) => dayjs(date).format('DD-MM-YYYY'),
+      },
+      {
+        key: 'hivViralLoadQualitative',
+        uuidConfig: configSchema.hivViralLoadQualitativeUuid._default,
+      },
+      {
+        key: 'hivViralLoad',
+        uuidConfig: configSchema.hivViralLoadUuid._default,
+      },
+    ],
+    [],
+  );
+  const conceptUuids = observationConfig.map((config) => config.uuidConfig);
 
   const orderedEnrollments = orderBy(enrollments, 'dateEnrolled', 'desc');
   const headers = useMemo(
@@ -131,60 +153,31 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
     });
   };
 
-  const [artStartDate, setArtStartDate] = useState('');
-  const [currentRegimen, setCurrentRegimen] = useState('');
-  const [baselineRegimen, setBaselineRegimen] = useState('');
-  const [whoClinicalStage, setWhoClinicalStage] = useState('');
-  const [dateConfirmedHIVPositive, setDateConfirmedHIVPositive] = useState('');
-  const [baselineCd4, setBaselineCd4] = useState('');
-
-  const [programData, setProgramData] = useState({
-    artStartDate,
-    currentRegimen,
-    baselineRegimen,
-    whoClinicalStage,
-    dateConfirmedHIVPositive,
-    baselineCd4,
+  const [programData, setProgramData] = useState<ProgramData>({
+    artStartDate: '--',
+    currentRegimen: '--',
+    baselineRegimen: '--',
+    whoClinicalStage: '--',
+    dateConfirmedHivPositive: '--',
+    baselineCd4: '--',
+    hivViralLoadDate: '--',
+    hivViralLoadQualitative: '--',
+    hivViralLoad: '--',
+    lastEncounterDate: '--',
   });
-
-  const conceptUuids = [
-    configSchema.regimenObs.artStartDateUuid._default,
-    configSchema.regimenObs.currentRegimenUuid._default,
-    configSchema.regimenObs.whoClinicalStageUuid._default,
-    configSchema.regimenObs.baselineRegimenUuid._default,
-    configSchema.regimenObs.dateConfirmedHivPositiveUuid._default,
-  ];
 
   const { observations, isLoading, isError } = usePatientObservations(patientUuid, conceptUuids);
   useEffect(() => {
     if (observations) {
-      const artStartDate =
-        observations[artStartDateUuidConfig]?.map((date) => dayjs(date).format('DD-MM-YYYY'))[0] || '--';
-      const currentRegimen = observations[currentRegimenUuidConfig]?.[0] || '--';
-      const baselineRegimen = observations[baselineRegimenUuidConfig]?.[0] || '--';
-      const whoClinicalStage = parseStageFromDisplay(observations[whoClinicalStageUuidConfig]?.[0]) || '--';
-      const dateConfirmedHIVPositive =
-        observations[dateConfirmedHivPositiveConfig]?.map((date) => dayjs(date).format('DD-MM-YYYY'))?.[0] || '--';
-      const baselineCd4 = observations[baselineCd4Config]?.[0] || '--';
+      const newData = observationConfig.reduce((acc, { key, uuidConfig, processValue }) => {
+        const value = observations[uuidConfig]?.[0] || '--';
+        acc[key] = processValue ? processValue(value) : value;
+        return acc;
+      }, {});
 
-      setProgramData({
-        artStartDate,
-        currentRegimen,
-        baselineRegimen,
-        whoClinicalStage,
-        dateConfirmedHIVPositive,
-        baselineCd4,
-      });
+      setProgramData((prevState) => ({ ...prevState, ...newData }));
     }
-  }, [
-    observations,
-    artStartDateUuidConfig,
-    currentRegimenUuidConfig,
-    baselineRegimenUuidConfig,
-    whoClinicalStageUuidConfig,
-    dateConfirmedHivPositiveConfig,
-    baselineCd4Config,
-  ]);
+  }, [observationConfig, observations]);
 
   console.info(programData);
 
@@ -218,19 +211,19 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
           <div className={styles.content}>
             <p className={styles.label}>{t('artStartDate', 'ART Start Date')}</p>
             <p>
-              <span className={styles.value}>{artStartDate || '--'}</span>
+              <span className={styles.value}>{programData.artStartDate}</span>
             </p>
           </div>
           <div className={styles.content}>
             <p className={styles.label}>{t('dateConfirmedHivPositive', 'Date Positive HIV Test Confirmed')}</p>
             <p>
-              <span className={styles.value}>{'--'}</span>
+              <span className={styles.value}>{programData.dateConfirmedHivPositive}</span>
             </p>
           </div>
           <div className={styles.content}>
             <p className={styles.label}>{t('baselineRegimen', 'Baseline Regimen')}</p>
             <p>
-              <span className={styles.value}>{baselineRegimen || '--'}</span>
+              <span className={styles.value}>{programData.baselineRegimen}</span>
             </p>
           </div>
         </div>
@@ -238,23 +231,23 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
           <div className={styles.content}>
             <p className={styles.label}>{t('baselineCd4', 'baseline CD4')}</p>
             <p>
-              <span className={styles.value}>{'--'}</span>
+              <span className={styles.value}>{programData.baselineCd4}</span>
             </p>
           </div>
         </div>
-
+        <br></br>
         <h6>{t('lastArtVisitSummary', 'Last ART Visit Summary')}</h6>
         <div className={styles.container}>
           <div className={styles.content}>
             <p className={styles.label}>{t('currentRegimen', 'Current Regimen')}</p>
             <p>
-              <span className={styles.value}>{currentRegimen || '--'}</span>
+              <span className={styles.value}>{programData.currentRegimen}</span>
             </p>
           </div>
           <div className={styles.content}>
             <p className={styles.label}>{t('whoStage', 'WHO Stage')}</p>
             <p>
-              <span className={styles.value}>{whoClinicalStage || '--'}</span>
+              <span className={styles.value}>{programData.whoClinicalStage}</span>
             </p>
           </div>
         </div>
@@ -270,19 +263,19 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
           <div className={styles.content}>
             <p className={styles.label}>{t('viralLoadDate', 'HIV Viral Load Date')}</p>
             <p>
-              <span className={styles.value}>{'--'}</span>
+              <span className={styles.value}>{programData.hivViralLoadDate}</span>
             </p>
           </div>
           <div className={styles.content}>
-            <p className={styles.label}>{t('viralLoadResults', 'Viral Load Results')}</p>
+            <p className={styles.label}>{t('viralLoadQual', 'Viral Load Qualitative')}</p>
             <p>
-              <span className={styles.value}>{'--'}</span>
+              <span className={styles.value}>{programData.hivViralLoadQualitative}</span>
             </p>
           </div>
           <div className={styles.content}>
             <p className={styles.label}>{t('hivViralLoad', 'HIV Viral Load')}</p>
             <p>
-              <span className={styles.value}>{'--'}</span>
+              <span className={styles.value}>{programData.hivViralLoad}</span>
             </p>
           </div>
         </div>

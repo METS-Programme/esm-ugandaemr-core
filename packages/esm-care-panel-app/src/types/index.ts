@@ -223,3 +223,16 @@ export interface UpdateObs {
 export interface PatientChartProps {
   patientUuid: string;
 }
+
+export interface ProgramData {
+  artStartDate?: string;
+  currentRegimen?: string;
+  baselineRegimen?: string;
+  whoClinicalStage?: string;
+  dateConfirmedHivPositive?: string;
+  baselineCd4?: string;
+  hivViralLoadDate?: string;
+  hivViralLoadQualitative?: string;
+  hivViralLoad?: string;
+  lastEncounterDate?: string;
+}
