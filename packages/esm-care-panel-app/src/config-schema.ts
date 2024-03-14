@@ -43,7 +43,7 @@ export const configSchema = {
   },
   hivViralLoadDateUuid: {
     _type: Type.ConceptUuid,
-    _default: '0b434cfa-b11c-4d14-aaa2-9aed6ca2da88',
+    _default: ,
   },
   hivViralLoadQualitativeUuid: {
     _type: Type.ConceptUuid,
