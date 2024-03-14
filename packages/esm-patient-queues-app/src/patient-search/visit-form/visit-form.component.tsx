@@ -271,13 +271,17 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
             </ContentSwitcher>
           </section>
           <section className={styles.section}>
-            <Dropdown
-              id="priority-levels"
-              titleText="Choose Priority Level"
-              label="select a priority Level"
-              items={priorityLevels}
-              itemToString={(priorityLevels) => (priorityLevels ? priorityLevels : 0)}
-            />
+            {contentSwitcherIndex !== 0 && (
+              <section className={styles.section}>
+                <Dropdown
+                  id="priority-levels"
+                  titleText="Choose Priority Level"
+                  label="Select a priority level"
+                  items={priorityLevels}
+                  itemToString={(item) => (item ? String(item) : '')}
+                />
+              </section>
+            )}
           </section>
 
           <section className={styles.section}>
