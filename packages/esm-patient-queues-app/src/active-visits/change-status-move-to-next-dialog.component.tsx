@@ -52,8 +52,6 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   const [selectedProvider, setSelectedProvider] = useState('');
 
-  let mappedQueueEntry: QueueRecord;
-
   useEffect(() => {
     getCareProvider(sessionUser?.user?.systemId).then(
       (response) => {

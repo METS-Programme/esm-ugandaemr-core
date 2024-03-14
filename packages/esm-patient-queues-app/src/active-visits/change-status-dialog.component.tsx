@@ -285,6 +285,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
       priorityComment,
       t,
       closeModal,
+      mutate,
       contentSwitcherIndex,
       selectedProvider,
       selectedLocation,
