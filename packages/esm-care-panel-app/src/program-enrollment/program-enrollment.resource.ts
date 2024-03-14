@@ -1,9 +1,8 @@
 import useSWR from 'swr';
-import axios from 'axios';
-import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
-import { useEffect, useMemo } from 'react';
+import { openmrsFetch } from '@openmrs/esm-framework';
+import { useMemo } from 'react';
 
-function extractValue(observation) {
+export function extractValue(observation) {
   if (observation.valueDateTime) {
     return observation.valueDateTime;
   } else if (observation.valueCodeableConcept && observation.valueCodeableConcept.text) {
@@ -16,7 +15,7 @@ function extractValue(observation) {
 
 export function usePatientObservations(patientUuid, conceptUuids) {
   const conceptsQueryParam = conceptUuids.join('%2C');
-  const apiUrl = `/ws/fhir2/R4/Observation?patient=${patientUuid}&code=${conceptsQueryParam}&_summary=data&_sort=-date`;
+  const apiUrl = `/ws/fhir2/R4/Observation?patient=${patientUuid}&code=${conceptsQueryParam}&_summary=data&_sort=-date&_count=100`;
 
   const { data, error, isValidating, mutate } = useSWR(apiUrl, async (url) => {
     const response = await openmrsFetch(url);
@@ -28,22 +27,26 @@ export function usePatientObservations(patientUuid, conceptUuids) {
 
     data?.entry?.forEach((entry) => {
       const observation = entry.resource;
-      const conceptCode = observation.code.coding.find((coding) => conceptUuids.includes(coding.code)).code;
+      const observedConceptCode = observation.code.coding.find((coding) => conceptUuids.includes(coding.code))?.code;
       const value = extractValue(observation);
 
-      if (value !== null) {
-        if (!resultsByConcept[conceptCode]) {
-          resultsByConcept[conceptCode] = [];
+      if (observedConceptCode && value !== null) {
+        // Ensure the array exists for the conceptCode
+        if (!resultsByConcept[observedConceptCode]) {
+          resultsByConcept[observedConceptCode] = [];
         }
-        resultsByConcept[conceptCode].push(value);
+        // Push the value into the correct array based on conceptCode
+        resultsByConcept[observedConceptCode].push(value);
       }
     });
 
     return resultsByConcept;
   }, [data, conceptUuids]);
+  // console.info(JSON.stringify(data, null, 2));
 
   return {
     observations,
+    data,
     isLoading: isValidating,
     isError: !!error,
     mutate,

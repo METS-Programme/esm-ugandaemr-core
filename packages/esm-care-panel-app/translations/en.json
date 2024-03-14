@@ -5,7 +5,7 @@
   "baselineRegimen": "Baseline Regimen",
   "baselineCd4": "baseline CD4",
   "lastArtVisitSummary": "Last ART Visit Summary",
-  "viralLoadHistory": "Viral Load History",
+  "lastViralLoadResults": "Last Viral Load Results",
   "encounterDate": "Encounter Date",
   "viralLoadQual": "Viral Load Qualitative",
   "hivViralLoad": "HIV Viral Load"

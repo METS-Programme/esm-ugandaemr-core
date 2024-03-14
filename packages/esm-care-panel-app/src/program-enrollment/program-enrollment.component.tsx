@@ -5,7 +5,7 @@ import { launchPatientWorkspace } from '@openmrs/esm-patient-common-lib';
 import dayjs from 'dayjs';
 import orderBy from 'lodash/orderBy';
 import { mutate } from 'swr';
-import { parseStageFromDisplay, usePatientObservations } from './program-enrollment.resource';
+import { extractValue, parseStageFromDisplay, usePatientObservations } from './program-enrollment.resource';
 import { PatientChartProps, ProgramData } from '../types/index';
 import { usePatient } from '@openmrs/esm-framework';
 import { configSchema } from '../config-schema';
@@ -78,10 +78,6 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
         key: 'whoClinicalStage',
         uuidConfig: configSchema.whoClinicalStageUuid._default,
         processValue: parseStageFromDisplay,
-      },
-      {
-        key: 'baselineRegimen',
-        uuidConfig: configSchema.baselineRegimenUuid._default,
       },
       {
         key: 'dateConfirmedHivPositive',
@@ -163,7 +159,6 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
     hivViralLoadDate: '--',
     hivViralLoadQualitative: '--',
     hivViralLoad: '--',
-    lastEncounterDate: '--',
   });
 
   const { observations, isLoading, isError } = usePatientObservations(patientUuid, conceptUuids);
@@ -178,8 +173,6 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
       setProgramData((prevState) => ({ ...prevState, ...newData }));
     }
   }, [observationConfig, observations]);
-
-  console.info(programData);
 
   const handleEditEnrollment = (enrollment) => {
     launchPatientWorkspace('patient-form-entry-workspace', {
@@ -252,14 +245,8 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
           </div>
         </div>
         <br></br>
-        <h6>{t('viralLoadHistory', 'Viral Load History')}</h6>
+        <h6>{t('lastViralLoadResults', 'Last Viral Load Results')}</h6>
         <div className={styles.container}>
-          <div className={styles.content}>
-            <p className={styles.label}>{t('encounterDate', 'Encounter Date')}</p>
-            <p>
-              <span className={styles.value}>{'--'}</span>
-            </p>
-          </div>
           <div className={styles.content}>
             <p className={styles.label}>{t('viralLoadDate', 'HIV Viral Load Date')}</p>
             <p>
