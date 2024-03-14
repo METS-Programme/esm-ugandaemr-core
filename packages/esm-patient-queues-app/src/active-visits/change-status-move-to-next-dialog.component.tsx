@@ -12,13 +12,25 @@ import {
   TextArea,
 } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
-import { navigate, showNotification, showToast, useLocations, useSession } from '@openmrs/esm-framework';
-import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
+import {
+  navigate,
+  parseDate,
+  setCurrentVisit,
+  showNotification,
+  showSnackbar,
+  showToast,
+  updateVisit,
+  useLocations,
+  useSession,
+  useVisit,
+} from '@openmrs/esm-framework';
+import { addQueueEntry, getCareProvider, updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
 import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
 import { getCurrentPatientQueueByPatientUuid, useProviders } from '../patient-search/visit-form/queue.resource';
 import { QueueRecord } from '../types';
 import styles from './change-status-dialog.scss';
 import { extractErrorMessagesFromResponse } from '../utils/utils';
+import { first } from 'rxjs/operators';
 
 interface ChangeStatusDialogProps {
   patientUuid: string;
@@ -51,6 +63,10 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
   const [priorityComment, setPriorityComment] = useState('');
 
   const [selectedProvider, setSelectedProvider] = useState('');
+
+  const { currentVisit, currentVisitIsRetrospective } = useVisit(patientUuid);
+
+  const { mutate } = useVisitQueueEntries('', selectedNextQueueLocation);
 
   let mappedQueueEntry: QueueRecord;
 
@@ -141,34 +157,68 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
   );
 
   // endVisit
-  const endVisitStatus = useCallback(
-    (event) => {
-      event.preventDefault();
-      const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-      const status = 'Completed';
-      updateQueueEntry(status, provider, mappedQueueEntry?.uuid, contentSwitcherIndex, priorityComment, comment).then(
-        () => {
-          showToast({
-            critical: true,
-            title: t('endVisit', 'End Vist'),
-            kind: 'success',
-            description: t('endVisitSuccessfully', 'You have successfully ended patient visit'),
-          });
-          closeModal();
-          // mutate();
-        },
-        (error) => {
-          showNotification({
-            title: t('queueEntryUpdateFailed', 'Error ending visit'),
-            kind: 'error',
-            critical: true,
-            description: error?.message,
-          });
-        },
-      );
-    },
-    [closeModal, contentSwitcherIndex, priorityComment, provider, mappedQueueEntry?.uuid, t],
-  );
+  const endCurrentVisit = () => {
+    if (currentVisitIsRetrospective) {
+      setCurrentVisit(null, null);
+      closeModal();
+    } else {
+      const endVisitPayload = {
+        location: currentVisit.location.uuid,
+        startDatetime: parseDate(currentVisit.startDatetime),
+        visitType: currentVisit.visitType.uuid,
+        stopDatetime: new Date(),
+      };
+
+      const abortController = new AbortController();
+      updateVisit(currentVisit.uuid, endVisitPayload, abortController)
+        .pipe(first())
+        .subscribe(
+          (response) => {
+            if (response.status === 200) {
+              const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+              const status = 'Completed';
+              updateQueueEntry(
+                status,
+                provider,
+                mappedQueueEntry?.uuid,
+                contentSwitcherIndex,
+                priorityComment,
+                comment,
+              ).then(
+                () => {
+                  showSnackbar({
+                    isLowContrast: true,
+                    kind: 'success',
+                    subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
+                    title: t('visitEnded', 'Visit ended'),
+                  });
+                  closeModal();
+                  mutate();
+                },
+                (error) => {
+                  showNotification({
+                    title: t('queueEntryUpdateFailed', 'Error ending visit'),
+                    kind: 'error',
+                    critical: true,
+                    description: error?.message,
+                  });
+                },
+              );
+              mutate();
+              closeModal();
+            }
+          },
+          (error) => {
+            showSnackbar({
+              title: t('errorEndingVisit', 'Error ending visit'),
+              kind: 'error',
+              isLowContrast: false,
+              subtitle: error?.message,
+            });
+          },
+        );
+    }
+  };
 
   // change to picked
   const changeQueueStatus = useCallback(
@@ -407,7 +457,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
           <Button kind="secondary" onClick={closeModal}>
             {t('cancel', 'Cancel')}
           </Button>
-          <Button kind="danger" onClick={endVisitStatus}>
+          <Button kind="danger" onClick={endCurrentVisit}>
             {t('endVisit', 'End Visit')}
           </Button>
           <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
