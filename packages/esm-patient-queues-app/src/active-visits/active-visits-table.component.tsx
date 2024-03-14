@@ -41,6 +41,7 @@ import ViewActionsMenu from './view-action-menu.components';
 import NotesActionsMenu from './notes-action-menu.components';
 import { PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS } from '../constants';
 import PatientSearch from '../patient-search/patient-search.component';
+import { QueueStatus } from '../utils/utils';
 
 interface ActiveVisitsTableProps {
   status: string;
@@ -112,7 +113,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const filteredPatientQueueEntries = useMemo(() => {
     let entries;
     switch (status) {
-      case 'completed':
+      case QueueStatus.Completed:
         entries = patientQueueEntries.filter((entry) => entry.status === 'COMPLETED');
         break;
       case '':

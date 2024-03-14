@@ -5,6 +5,7 @@ import last from 'lodash-es/last';
 import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
 import { Identifer, QueueServiceInfo } from '../types';
+import { QueueStatus } from '../utils/utils';
 
 export type QueuePriority = 'Emergency' | 'Not Urgent' | 'Priority' | 'Urgent';
 export type MappedQueuePriority = Omit<QueuePriority, 'Urgent'>;
@@ -261,10 +262,10 @@ export async function addQueueEntry(
       provider: provider,
       locationFrom: locationUuid,
       locationTo: queueUuid !== undefined ? queueUuid : 'Not Set',
-      status: status ? status : 'pending',
+      status: status ? status : QueueStatus.Pending,
       priority: priority ? priority : 0,
-      priorityComment: priorityComment === 'Urgent' ? 'Priority' : priorityComment,
-      comment: comment ? comment : 'This is pending',
+      priorityComment: priorityComment ?? 'Not Set',
+      comment: comment ?? 'This is pending',
       queueRoom: queueUuid !== undefined ? queueUuid : 'Not Set',
     },
   });
