@@ -1,12 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StructuredListSkeleton, ContentSwitcher, Switch } from '@carbon/react';
 import styles from './care-panel.scss';
 import { useEnrollmentHistory } from '../hooks/useEnrollmentHistory';
 import ProgramEnrollment from '../program-enrollment/program-enrollment.component';
 import { CardHeader, EmptyState } from '@openmrs/esm-patient-common-lib';
-import first from 'lodash/first';
-import sortBy from 'lodash/sortBy';
 import { ErrorState } from '@openmrs/esm-framework';
 import CarePrograms from '../care-programs/care-programs.component';
 
@@ -25,12 +23,11 @@ type SwitcherItem = {
 const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launchPatientWorkspace }) => {
   const { t } = useTranslation();
   const { isLoading, error, enrollments } = useEnrollmentHistory(patientUuid);
-  const switcherHeaders = sortBy(Object.keys(enrollments || {}));
-  const [switchItem, setSwitcherItem] = useState<SwitcherItem>({ index: 0 });
-  const patientEnrollments = useMemo(
-    () => (isLoading ? [] : enrollments[switchItem?.name || first(switcherHeaders)]),
-    [enrollments, isLoading, switchItem?.name, switcherHeaders],
-  );
+  const switcherHeaders = enrollments?.map((item) => item.programName);
+  const [switchItem, setSwitcherItem] = useState<SwitcherItem>();
+  const handleItemTabChange = (index, name) => {
+    setSwitcherItem(index);
+  };
 
   if (isLoading) {
     return (
@@ -59,7 +56,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
       <div className={styles.widgetCard}>
         <CardHeader title={t('carePanel', 'Care Panel')}>
           <div className={styles.contextSwitcherContainer}>
-            <ContentSwitcher selectedIndex={switchItem?.index} onChange={setSwitcherItem}>
+            <ContentSwitcher onChange={(index) => handleItemTabChange(index, switcherHeaders[index])}>
               {switcherHeaders?.map((enrollment) => (
                 <Switch key={enrollment} name={enrollment} text={enrollment} />
               ))}
@@ -67,17 +64,25 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
           </div>
         </CardHeader>
         <div style={{ width: '100%', minHeight: '20rem' }}>
-          <ProgramEnrollment
-            patientUuid={patientUuid}
-            programName={switcherHeaders[switchItem?.index]}
-            enrollments={patientEnrollments}
-            formEntrySub={formEntrySub}
-            launchPatientWorkspace={launchPatientWorkspace}
-            PatientChartProps={''}
-          />
-
-          <CarePrograms patientUuid={patientUuid} />
+          {switchItem?.name === 'HIV Program' ? (
+            <>
+              <ProgramEnrollment
+                patientUuid={patientUuid}
+                programName={switchItem?.name}
+                enrollments={enrollments}
+                formEntrySub={formEntrySub}
+                launchPatientWorkspace={launchPatientWorkspace}
+                PatientChartProps={''}
+              />
+            </>
+          ) : (
+            <div className={styles.emptyState}>
+              <span>No data to display for this program</span>
+            </div>
+          )}
         </div>
+
+        <CarePrograms patientUuid={patientUuid} />
       </div>
     </>
   );
