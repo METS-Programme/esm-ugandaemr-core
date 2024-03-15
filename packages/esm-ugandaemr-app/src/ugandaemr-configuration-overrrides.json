@@ -123,6 +123,69 @@
                 "Manage Patient Program"
               ]
             }
+          },
+          "appointments-summary-dashboard":{
+            "Display conditions": {
+              "privileges": [
+                "Manage Appointments Summary"
+              ]
+            }
+          },
+          "test-results-summary-dashboard":{
+            "Display conditions": {
+              "privileges": [
+                "Manage Patient Test Summary"
+              ]
+            }
+          },
+          "immunization-summary-dashboard":{
+            "Display conditions": {
+              "privileges": [
+                "Manage Immunization Summary"
+              ]
+            }
+          },
+          "visit-header-right-slot":{
+            "configure": {
+              "Display conditions": {
+                "privileges": [
+                  "Manage Patient Banner End Visit Button"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "laboratory-orders-dashboard-slot":{
+        "configure": {
+          "laboratory-orders-summary":{
+            "Display conditions": {
+              "privileges": [
+                "Manage Patient Lab Orders"
+              ]
+            }
+          }
+        }
+      },
+      "patient-chart-appointments-dashboard-slot":{
+        "configure": {
+          "appointments-details-widget":{
+            "Display conditions": {
+              "privileges": [
+                "Manage Patient Appointment Orders"
+              ]
+            }
+          }
+        }
+      },
+      "patient-chart-immunizations-dashboard-slot":{
+        "configure": {
+          "immunization-details-widget":{
+            "Display conditions": {
+              "privileges": [
+                "Manage Patient Immunization Orders"
+              ]
+            }
           }
         }
       }
@@ -137,6 +200,13 @@
     "Display conditions": {
       "privileges": [
         "Add Vitals and Biometrics"
+      ]
+    }
+  },
+  "@ugandaemr/esm-care-panel-app": {
+    "Display conditions": {
+      "privileges": [
+        "Manage Care Panel"
       ]
     }
   },
@@ -189,7 +259,7 @@
       ]
     }
   },
-  "@openmrs/esm-patient-notes-app": {
+  "@ugandaemr/esm-patient-notes-app": {
     "Display conditions": {
       "privileges": [
         "Get Notes"
@@ -218,7 +288,10 @@
       ]
     }
   },
-  "@openmrs/esm-patient-registration-app": {
+  "@ugandaemr/esm-patient-registration-app": {
+    "defaultPatientIdentifierTypes": [
+      "f0c16a6d-dc5f-4118-a803-616d0075d282"
+    ],
     "logo": {
       "src": "/openmrs/spa/logo.svg",
       "alt": "UgandaEMR+ logo"
@@ -389,7 +462,7 @@
       {
         "id": "email",
         "type": "person attribute",
-        "uuid": "9d50ca7e-681b-11ee-bd36-300eb8700ade",
+        "uuid": "08e6647c-e04b-11ee-9653-9e6008080e30",
         "label": "Email address",
         "validation": {
           "matches": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
@@ -442,13 +515,20 @@
       ]
     },
     "registrationObs": {
-      "encounterTypeUuid": "e5a4459e-78fb-4a5c-8ba6-757c4b5be322"
+      "encounterTypeUuid": "1458b726-4a62-4444-be97-bb3e08c73745"
     }
   },
   "@openmrs/esm-home-app": {
     "extensionSlots": {
       "homepage-dashboard-slot": {
         "configure": {
+          "patient-queues-dashboard-link":{
+            "Display conditions": {
+              "privileges": [
+                "Manage Patient Queues"
+              ]
+            }
+          },
           "patient-lists-dashboard-link": {
             "Display conditions": {
               "privileges": [
@@ -537,6 +617,63 @@
     "logo": {
       "src": "/openmrs/spa/logo.svg",
       "alt": "UgandaEMR+ logo"
+    }
+  },
+  "@openmrs/esm-patient-banner-app":{
+    "extensionSlots":{
+      "patient-actions-slot":{
+        "configure": {
+          "start-visit-button":{
+            "Display conditions": {
+              "privileges": [
+                "Start Visit Button"
+              ]
+            }
+          },
+          "stop-visit-button":{
+            "Display conditions": {
+              "privileges": [
+                "Stop Visit Button"
+              ]
+            }
+          },
+          "cancel-visit-button":{
+            "Display conditions": {
+              "privileges": [
+                "Cancel Visit Button"
+              ]
+            }
+          },
+          "mark-patient-deceased-button":{
+            "Display conditions": {
+              "privileges": [
+                "Mark Dead Button"
+              ]
+            }
+          },
+          "edit-patient-details-button":{
+            "Display conditions": {
+              "privileges": [
+                "Edit Patient Details Button"
+              ]
+            }
+          },
+          "add-patient-to-patient-list-button":{
+            "Display conditions": {
+              "privileges": [
+                "Add Patient To List Button"
+              ]
+            }
+          },
+          "patient-move-to-next-service-point":{
+            "Display conditions": {
+              "privileges": [
+                "Move Patient To Next Service Point Button"
+              ]
+            }
+          }
+        }
+      }
     }
   }
 }
