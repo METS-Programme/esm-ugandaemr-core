@@ -7198,13 +7198,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/base-64@npm:^1.0.0":
-  version: 1.0.2
-  resolution: "@types/base-64@npm:1.0.2"
-  checksum: bb7593c6de16c88a1bfed73a37c3be2e940921261bb7a160ab6d671f66d976b5426334ae9ce59553a10086db11e52af348813271a8b636e4f88e4cab8f27a3e4
-  languageName: node
-  linkType: hard
-
 "@types/body-parser@npm:*":
   version: 1.19.5
   resolution: "@types/body-parser@npm:1.19.5"
@@ -8229,7 +8222,6 @@ __metadata:
   resolution: "@ugandaemr/esm-ugandaemr-app@workspace:packages/esm-ugandaemr-app"
   dependencies:
     "@carbon/react": ^1.14.0
-    "@openmrs/openmrs-form-engine-lib": next
     lodash-es: ^4.17.15
     webpack: ^5.83.1
   peerDependencies:
@@ -8256,7 +8248,6 @@ __metadata:
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^13.4.0
     "@testing-library/user-event": ^14.4.3
-    "@types/base-64": ^1.0.0
     "@types/jest": ^28.1.8
     "@types/lodash-es": ^4.17.3
     "@types/react": ^18.2.14
