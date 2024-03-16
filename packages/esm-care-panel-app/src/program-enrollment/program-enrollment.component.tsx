@@ -1,25 +1,14 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Tile,
-  DataTable,
-  Table,
-  TableHead,
-  TableRow,
-  TableHeader,
-  TableBody,
-  TableCell,
-  OverflowMenu,
-  OverflowMenuItem,
-  TableContainer,
-} from '@carbon/react';
 import styles from './program-enrollment.scss';
 import { launchPatientWorkspace } from '@openmrs/esm-patient-common-lib';
-import isEmpty from 'lodash/isEmpty';
 import dayjs from 'dayjs';
-import { formatDate } from '@openmrs/esm-framework';
 import orderBy from 'lodash/orderBy';
 import { mutate } from 'swr';
+import { extractValue, parseStageFromDisplay, usePatientObservations } from './program-enrollment.resource';
+import { PatientChartProps, ProgramData } from '../types/index';
+import { usePatient } from '@openmrs/esm-framework';
+import { configSchema } from '../config-schema';
 
 export interface ProgramEnrollmentProps {
   patientUuid: string;
@@ -27,6 +16,7 @@ export interface ProgramEnrollmentProps {
   enrollments: Array<any>;
   formEntrySub: any;
   launchPatientWorkspace: Function;
+  PatientChartProps: string;
 }
 const shareObjProperty = { dateEnrolled: 'Enrolled on', dateCompleted: 'Date Completed' };
 const programDetailsMap = {
@@ -64,8 +54,58 @@ const programDetailsMap = {
   },
 };
 
-const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [], programName }) => {
+const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [], programName, patientUuid }) => {
   const { t } = useTranslation();
+
+  const { patient } = usePatient(patientUuid);
+
+  const observationConfig = useMemo(
+    () => [
+      {
+        key: 'artStartDate',
+        uuidConfig: configSchema.artStartDateUuid._default,
+        processValue: (date) => dayjs(date).format('DD-MM-YYYY'),
+      },
+      {
+        key: 'currentRegimen',
+        uuidConfig: configSchema.currentRegimenUuid._default,
+      },
+      {
+        key: 'baselineRegimen',
+        uuidConfig: configSchema.baselineRegimenUuid._default,
+      },
+      {
+        key: 'whoClinicalStage',
+        uuidConfig: configSchema.whoClinicalStageUuid._default,
+        processValue: parseStageFromDisplay,
+      },
+      {
+        key: 'dateConfirmedHivPositive',
+        uuidConfig: configSchema.dateConfirmedHivPositiveUuid._default,
+        processValue: (date) => dayjs(date).format('DD-MM-YYYY'),
+      },
+      {
+        key: 'baselineCd4',
+        uuidConfig: configSchema.baselineCd4Uuid._default,
+      },
+      {
+        key: 'hivViralLoadDate',
+        uuidConfig: configSchema.hivViralLoadDateUuid._default,
+        processValue: (date) => dayjs(date).format('DD-MM-YYYY'),
+      },
+      {
+        key: 'hivViralLoadQualitative',
+        uuidConfig: configSchema.hivViralLoadQualitativeUuid._default,
+      },
+      {
+        key: 'hivViralLoad',
+        uuidConfig: configSchema.hivViralLoadUuid._default,
+      },
+    ],
+    [],
+  );
+  const conceptUuids = observationConfig.map((config) => config.uuidConfig);
+
   const orderedEnrollments = orderBy(enrollments, 'dateEnrolled', 'desc');
   const headers = useMemo(
     () =>
@@ -109,6 +149,31 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
     });
   };
 
+  const [programData, setProgramData] = useState<ProgramData>({
+    artStartDate: '--',
+    currentRegimen: '--',
+    baselineRegimen: '--',
+    whoClinicalStage: '--',
+    dateConfirmedHivPositive: '--',
+    baselineCd4: '--',
+    hivViralLoadDate: '--',
+    hivViralLoadQualitative: '--',
+    hivViralLoad: '--',
+  });
+
+  const { observations, isLoading, isError } = usePatientObservations(patientUuid, conceptUuids);
+  useEffect(() => {
+    if (observations) {
+      const newData = observationConfig.reduce((acc, { key, uuidConfig, processValue }) => {
+        const value = observations[uuidConfig]?.[0] || '--';
+        acc[key] = processValue ? processValue(value) : value;
+        return acc;
+      }, {});
+
+      setProgramData((prevState) => ({ ...prevState, ...newData }));
+    }
+  }, [observationConfig, observations]);
+
   const handleEditEnrollment = (enrollment) => {
     launchPatientWorkspace('patient-form-entry-workspace', {
       workspaceTitle: enrollment?.enrollmentFormName,
@@ -132,70 +197,77 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
   }
 
   return (
-    <Tile className={styles.whiteBackground}>
-      <div className={styles.tileWrapper}>
-        <DataTable size="sm" useZebraStyles rows={rows} headers={headers}>
-          {({ rows, headers, getHeaderProps, getRowProps, getTableProps }) => (
-            <TableContainer title={t('EnrollmentDetails', 'Enrollment History')} description="">
-              <Table {...getTableProps()} aria-label="">
-                <TableHead>
-                  <TableRow>
-                    {headers.map((header) => (
-                      <TableHeader
-                        key={header.key}
-                        {...getHeaderProps({
-                          header,
-                        })}
-                      >
-                        {header.header}
-                      </TableHeader>
-                    ))}
-                    <TableHeader />
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row, index) => (
-                    <TableRow
-                      key={row.id}
-                      {...getRowProps({
-                        row,
-                      })}
-                    >
-                      {row.cells.map((cell) => (
-                        <TableCell key={cell.id}>
-                          {isEmpty(cell.value)
-                            ? '--'
-                            : dayjs(cell.value).isValid()
-                            ? formatDate(new Date(cell.value))
-                            : cell.value}
-                        </TableCell>
-                      ))}
-                      <TableCell className="cds--table-column-menu">
-                        {isEmpty(orderedEnrollments[index]?.dateCompleted) && (
-                          <OverflowMenu size="sm" flipped>
-                            <OverflowMenuItem
-                              hasDivider
-                              itemText={t('edit', 'Edit')}
-                              onClick={() => handleEditEnrollment(orderedEnrollments[index])}
-                            />
-                            <OverflowMenuItem
-                              isDelete
-                              hasDivider
-                              itemText={t('discontinue', 'Discontinue')}
-                              onClick={() => handleDiscontinue(orderedEnrollments[index])}
-                            />
-                          </OverflowMenu>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          )}
-        </DataTable>
+    <div className={styles.bodyContainer}>
+      <div className={styles.card}>
+        <h6>{t('baseline', 'Baseline Information')}</h6>
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('artStartDate', 'ART Start Date')}</p>
+            <p>
+              <span className={styles.value}>{programData.artStartDate}</span>
+            </p>
+          </div>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('dateConfirmedHivPositive', 'Date Positive HIV Test Confirmed')}</p>
+            <p>
+              <span className={styles.value}>{programData.dateConfirmedHivPositive}</span>
+            </p>
+          </div>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('baselineRegimen', 'Baseline Regimen')}</p>
+            <p>
+              <span className={styles.value}>{programData.baselineRegimen}</span>
+            </p>
+          </div>
+        </div>
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('baselineCd4', 'baseline CD4')}</p>
+            <p>
+              <span className={styles.value}>{programData.baselineCd4}</span>
+            </p>
+          </div>
+        </div>
+        <br></br>
+        <h6>{t('lastArtVisitSummary', 'Last ART Visit Summary')}</h6>
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('currentRegimen', 'Current Regimen')}</p>
+            <p>
+              <span className={styles.value}>{programData.currentRegimen}</span>
+            </p>
+          </div>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('whoStage', 'WHO Stage')}</p>
+            <p>
+              <span className={styles.value}>{programData.whoClinicalStage}</span>
+            </p>
+          </div>
+        </div>
+        <br></br>
+        <h6>{t('lastViralLoadResults', 'Last Viral Load Results')}</h6>
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('viralLoadDate', 'HIV Viral Load Date')}</p>
+            <p>
+              <span className={styles.value}>{programData.hivViralLoadDate}</span>
+            </p>
+          </div>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('viralLoadQual', 'Viral Load Qualitative')}</p>
+            <p>
+              <span className={styles.value}>{programData.hivViralLoadQualitative}</span>
+            </p>
+          </div>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('hivViralLoad', 'HIV Viral Load')}</p>
+            <p>
+              <span className={styles.value}>{programData.hivViralLoad}</span>
+            </p>
+          </div>
+        </div>
       </div>
-    </Tile>
+    </div>
   );
 };
 export default ProgramEnrollment;

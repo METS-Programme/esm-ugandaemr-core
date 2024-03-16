@@ -12,7 +12,7 @@ export const useEnrollmentHistory = (patientUuid: string) => {
   return {
     error: error,
     isLoading: isLoading,
-    enrollments: groupBy(data?.data ?? [], 'programName') ?? [],
+    enrollments: data?.data ?? [],
     isValidating,
   };
 };
