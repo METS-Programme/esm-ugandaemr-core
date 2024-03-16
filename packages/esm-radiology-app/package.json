@@ -42,7 +42,7 @@
     "react-image-annotate": "^1.8.0"
   },
   "peerDependencies": {
-    "@openmrs/esm-framework": "*",
+    "@openmrs/esm-framework": "5.x",
     "dayjs": "1.x",
     "react": "18.x",
     "react-i18next": "11.x",
