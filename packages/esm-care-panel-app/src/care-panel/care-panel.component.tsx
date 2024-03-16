@@ -7,6 +7,7 @@ import ProgramEnrollment from '../program-enrollment/program-enrollment.componen
 import { CardHeader, EmptyState } from '@openmrs/esm-patient-common-lib';
 import { ErrorState } from '@openmrs/esm-framework';
 import CarePrograms from '../care-programs/care-programs.component';
+import { programs } from '../constants';
 
 interface CarePanelProps {
   patientUuid: string;
@@ -64,7 +65,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
           </div>
         </CardHeader>
         <div style={{ width: '100%', minHeight: '20rem' }}>
-          {switchItem?.name === 'HIV Program' ? (
+          {programs.HIV ? (
             <>
               <ProgramEnrollment
                 patientUuid={patientUuid}

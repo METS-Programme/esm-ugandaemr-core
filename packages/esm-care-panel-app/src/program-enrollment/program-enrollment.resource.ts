@@ -31,18 +31,15 @@ export function usePatientObservations(patientUuid, conceptUuids) {
       const value = extractValue(observation);
 
       if (observedConceptCode && value !== null) {
-        // Ensure the array exists for the conceptCode
         if (!resultsByConcept[observedConceptCode]) {
           resultsByConcept[observedConceptCode] = [];
         }
-        // Push the value into the correct array based on conceptCode
         resultsByConcept[observedConceptCode].push(value);
       }
     });
 
     return resultsByConcept;
   }, [data, conceptUuids]);
-  // console.info(JSON.stringify(data, null, 2));
 
   return {
     observations,
