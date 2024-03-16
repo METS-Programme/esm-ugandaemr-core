@@ -71,18 +71,6 @@ export const getGender = (gender, t) => {
   }
 };
 
-export function findObsByConceptUUID(arr: Array<OpenmrsResource>, ids: Array<string>) {
-  for (const visit of arr) {
-    return visit.obs.filter((o) => {
-      return ids.includes(o.concept.uuid);
-    });
-  }
-}
-
-export function timeDiffInMinutes(date1: Date, date2: Date) {
-  return Math.round((date1.getTime() - date2.getTime()) / (1000 * 3600 * 24));
-}
-
 export const getProviderTagColor = (entryProvider: string, loggedInProviderName: string) => {
   if (entryProvider === loggedInProviderName) {
     return '#07a862';
