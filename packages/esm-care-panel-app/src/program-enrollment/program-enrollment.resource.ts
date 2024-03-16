@@ -16,7 +16,7 @@ export function extractValue(observation) {
 
 export function usePatientObservations(patientUuid, conceptUuids) {
   const conceptsQueryParam = conceptUuids.join('%2C');
-  const apiUrl = `/ws/fhir2/R4/Observation?patient=${patientUuid}&code=${conceptsQueryParam}&_summary=data&_sort=-date&_count=${configSchema.observationCount}`;
+  const apiUrl = `/ws/fhir2/R4/Observation?patient=${patientUuid}&code=${conceptsQueryParam}&_summary=data&_sort=-date&_count=100`;
 
   const { data, error, isValidating, mutate } = useSWR(apiUrl, async (url) => {
     const response = await openmrsFetch(url);
