@@ -13,16 +13,17 @@ import {
 
 import { navigate, showNotification, showToast, useLocations, useSession } from '@openmrs/esm-framework';
 
-import { addQueueEntry, getCareProvider, updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
+import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
+import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 
 import styles from './change-status-dialog.scss';
-import { useProviders } from '../patient-search/visit-form/queue.resource';
+import { useProviders } from '../visit-form/queue.resource';
+import { QueueStatus } from '../utils/utils';
 
 interface ChangeStatusDialogProps {
   queueEntry: MappedQueueEntry;
@@ -45,13 +46,9 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const [status, setStatus] = useState('');
 
-  const [selectedQueueLocation, setSelectedQueueLocation] = useState(queueEntry?.queueLocation);
-
-  const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
-
   const sessionUser = useSession();
 
-  const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
+  const { queueRoomLocations, mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
 
@@ -87,11 +84,11 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   useMemo(() => {
     switch (statusSwitcherIndex) {
       case 0: {
-        setStatus('pending');
+        setStatus(QueueStatus.Pending);
         break;
       }
       case 1: {
-        setStatus('completed');
+        setStatus(QueueStatus.Completed);
         break;
       }
     }
@@ -131,8 +128,14 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     (event) => {
       event.preventDefault();
       const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-      const status = 'Completed';
-      updateQueueEntry(status, provider, queueEntry?.id, contentSwitcherIndex, priorityComment, comment).then(
+      updateQueueEntry(
+        QueueStatus.Completed,
+        provider,
+        queueEntry?.id,
+        contentSwitcherIndex,
+        priorityComment,
+        comment,
+      ).then(
         () => {
           showToast({
             critical: true,
@@ -163,7 +166,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
       // check status
 
-      if (status === 'pending') {
+      if (status === QueueStatus.Pending) {
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
         updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, comment).then(
           () => {
@@ -185,11 +188,18 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             });
           },
         );
-      } else if (status === 'completed') {
+      } else if (status === QueueStatus.Completed) {
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
         const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
 
-        updateQueueEntry('Completed', provider, queueEntry?.id, contentSwitcherIndex, priorityComment, comment).then(
+        updateQueueEntry(
+          QueueStatus.Completed,
+          provider,
+          queueEntry?.id,
+          contentSwitcherIndex,
+          priorityComment,
+          comment,
+        ).then(
           () => {
             showToast({
               critical: true,
@@ -211,13 +221,11 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
         );
 
         addQueueEntry(
-          queueEntry?.id,
           nextQueueLocationUuid,
           queueEntry?.patientUuid,
           selectedProvider,
           contentSwitcherIndex,
-          '',
-          'pending',
+          QueueStatus.Pending,
           selectedLocation,
           priorityComment,
           comment,
@@ -230,8 +238,14 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               description: t('movetonextqueue', 'Move to next queue successfully'),
             });
             //pick and route
-            const status = 'picked';
-            updateQueueEntry(status, provider, currentEntry?.id, contentSwitcherIndex, priorityComment, 'comment').then(
+            updateQueueEntry(
+              QueueStatus.Picked,
+              provider,
+              currentEntry?.id,
+              contentSwitcherIndex,
+              priorityComment,
+              'comment',
+            ).then(
               () => {
                 // view patient summary
                 navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry.patientUuid}/chart` });
@@ -352,7 +366,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               </ContentSwitcher>
             </section>
 
-            {status === 'completed' && (
+            {status === QueueStatus.Completed && (
               <section className={styles.section}>
                 <Select
                   labelText={t('selectNextQueueRoom', 'Select next queue room ')}
@@ -374,7 +388,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               </section>
             )}
 
-            {status === 'completed' && (
+            {status === QueueStatus.Completed && (
               <section className={styles.section}>
                 <Select
                   labelText={t('selectProvider', 'Select a provider')}
@@ -394,7 +408,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               </section>
             )}
 
-            {status === 'completed' && (
+            {status === QueueStatus.Completed && (
               <section className={styles.section}>
                 <TextArea
                   labelText={t('notes', 'Enter notes ')}

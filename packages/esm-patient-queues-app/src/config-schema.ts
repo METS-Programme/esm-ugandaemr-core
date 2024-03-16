@@ -1,6 +1,4 @@
 import { Type } from '@openmrs/esm-framework';
-import vitalsConfigSchema, { VitalsConfigObject } from './current-visit/visit-details/vitals-config-schema';
-import biometricsConfigSchema, { BiometricsConfigObject } from './current-visit/visit-details/biometrics-config-schema';
 
 export const configSchema = {
   concepts: {
@@ -93,13 +91,7 @@ export const configSchema = {
       'The Uuids of person attribute-type that captures contact information `e.g Next of kin contact details`',
     _default: [],
   },
-  vitals: vitalsConfigSchema,
-  biometrics: biometricsConfigSchema,
-  showQueueTableTab: {
-    _type: Type.Boolean,
-    _default: false,
-    _description: 'Disable outpatient table tabs',
-  },
+
   appointmentStatuses: {
     _type: Type.Array,
     _description: 'Configurable appointment status (status of appointments)',
@@ -128,11 +120,7 @@ export const configSchema = {
     _default: '',
     _description: 'Custom URL to fetch patient with id',
   },
-  defaultFacilityUrl: {
-    _type: Type.String,
-    _default: '/ws/rest/v1/default-facility',
-    _description: 'Custom URL to load default facility if it is not in the session',
-  },
+
   customPatientChartText: {
     _type: Type.String,
     _default: '',
@@ -175,15 +163,12 @@ export interface ConfigObject {
     historicalObsConceptUuid: Array<string>;
   };
   contactAttributeType: Array<string>;
-  vitals: VitalsConfigObject;
-  biometrics: BiometricsConfigObject;
   showQueueTableTab: boolean;
   appointmentStatuses: Array<string>;
   defaultIdentifierTypes: Array<string>;
   showRecommendedVisitTypeTab: boolean;
   customPatientChartUrl: string;
   customPatientIdUrl: string;
-  defaultFacilityUrl: string;
   customPatientChartText: string;
   showUpcomingAppointments: boolean;
   labEncounterType: string;

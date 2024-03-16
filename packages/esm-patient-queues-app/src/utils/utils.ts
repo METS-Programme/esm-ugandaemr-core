@@ -5,3 +5,5 @@ export function extractErrorMessagesFromResponse(errorObject) {
   }
   return Object.values(fieldErrors).flatMap((errors: Array<Error>) => errors.map((error) => error.message));
 }
+
+export const QueueStatus = { Completed: 'completed', Pending: 'pending', Picked: 'picked' };

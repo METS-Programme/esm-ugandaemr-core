@@ -130,11 +130,11 @@ export interface Links {
 
 export function useQueueRoomLocations(currentQueueLocation: string) {
   const apiUrl = `/ws/rest/v1/location/${currentQueueLocation}?v=full`;
-  const { data, error, isLoading } = useSWR<{ data: QueueRoomsResponse }>(apiUrl, openmrsFetch);
+  const { data, error, isLoading, mutate } = useSWR<{ data: QueueRoomsResponse }>(apiUrl, openmrsFetch);
 
   const queueRoomLocations = useMemo(
     () => data?.data?.parentLocation?.childLocations?.map((response) => response) ?? [],
     [data?.data?.parentLocation?.childLocations],
   );
-  return { queueRoomLocations: queueRoomLocations ? queueRoomLocations : [], isLoading, error };
+  return { queueRoomLocations: queueRoomLocations ? queueRoomLocations : [], isLoading, error, mutate };
 }
