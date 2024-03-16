@@ -1,9 +1,9 @@
-import React from 'react';
 import { Link } from '@carbon/react';
+import React from 'react';
 
+import { launchPatientWorkspace } from '@openmrs/esm-patient-common-lib';
 import { useTranslation } from 'react-i18next';
 import { RegimenType } from '../types';
-import { launchPatientWorkspace } from '@openmrs/esm-patient-common-lib';
 import styles from './standard-regimen.scss';
 
 interface RegimenButtonProps {

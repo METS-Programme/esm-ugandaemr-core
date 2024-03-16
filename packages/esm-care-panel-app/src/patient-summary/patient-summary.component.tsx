@@ -1,12 +1,12 @@
-import React, { useRef, useState } from 'react';
-import styles from './patient-summary.scss';
-import { useTranslation } from 'react-i18next';
-import { formatDate, useLayoutType, useSession } from '@openmrs/esm-framework';
-import { StructuredListSkeleton, Button } from '@carbon/react';
-import { usePatientSummary } from '../hooks/usePatientSummary';
+import { Button, StructuredListSkeleton } from '@carbon/react';
 import { Printer } from '@carbon/react/icons';
+import { formatDate, useLayoutType, useSession } from '@openmrs/esm-framework';
+import React, { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useReactToPrint } from 'react-to-print';
+import { usePatientSummary } from '../hooks/usePatientSummary';
 import PrintComponent from '../print-layout/print.component';
+import styles from './patient-summary.scss';
 
 interface PatientSummaryProps {
   patientUuid: string;

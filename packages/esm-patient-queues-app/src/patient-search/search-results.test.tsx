@@ -1,6 +1,6 @@
-import React from 'react';
-import { screen, render } from '@testing-library/react';
 import { age } from '@openmrs/esm-framework';
+import { render, screen } from '@testing-library/react';
+import React from 'react';
 import SearchResults from './search-results.component';
 
 const mockAge = age as jest.Mock;

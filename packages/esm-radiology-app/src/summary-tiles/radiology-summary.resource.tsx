@@ -1,6 +1,6 @@
+import { FetchResponse, openmrsFetch } from '@openmrs/esm-framework';
 import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
-import { FetchResponse, openmrsFetch } from '@openmrs/esm-framework';
 
 export function useMetrics() {
   const metrics = {

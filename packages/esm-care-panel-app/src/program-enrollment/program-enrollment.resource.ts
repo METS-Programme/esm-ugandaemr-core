@@ -1,7 +1,6 @@
 import useSWR from 'swr';
 import { openmrsFetch } from '@openmrs/esm-framework';
 import { useMemo } from 'react';
-import { configSchema } from '../config-schema';
 
 export function extractValue(observation) {
   if (observation.valueDateTime) {

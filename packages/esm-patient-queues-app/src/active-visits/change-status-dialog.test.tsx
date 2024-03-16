@@ -1,14 +1,14 @@
-import React from 'react';
-import { screen, render, waitFor, within } from '@testing-library/react';
-import { mockServices } from '../../__mocks__/active-visits.mock';
-import { mockPriorities, mockStatus } from '../../../../__mocks__/metrics.mock';
-import { mockSession } from '../../../../__mocks__/session.mock';
-import { mockLocations } from '../../../../__mocks__/locations.mock';
-import { ConfigObject, showToast, useConfig, showNotification } from '@openmrs/esm-framework';
-import ChangeStatus from './change-status-dialog.component';
-import { mockQueueEntry } from '../../../../__mocks__/queue-entry.mock';
+import { ConfigObject, showNotification, showToast, useConfig } from '@openmrs/esm-framework';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { mockLocations } from '../../../../__mocks__/locations.mock';
+import { mockPriorities, mockStatus } from '../../../../__mocks__/metrics.mock';
+import { mockQueueEntry } from '../../../../__mocks__/queue-entry.mock';
+import { mockSession } from '../../../../__mocks__/session.mock';
+import { mockServices } from '../../__mocks__/active-visits.mock';
 import { updateQueueEntry } from './active-visits-table.resource';
+import ChangeStatus from './change-status-dialog.component';
 
 const mockedUseConfig = useConfig as jest.Mock;
 const mockShowToast = showToast as jest.Mock;

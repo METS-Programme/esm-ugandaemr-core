@@ -1,6 +1,6 @@
 import { SkeletonPlaceholder, SkeletonText } from '@carbon/react';
-import styles from './base-board/base-board.scss';
 import React from 'react';
+import styles from './base-board/base-board.scss';
 
 export const BoardSkeleton: React.FC<{ tiles: number }> = ({ tiles = 1 }: { tiles: number }) => {
   return (

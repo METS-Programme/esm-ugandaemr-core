@@ -1,7 +1,7 @@
 import { ClickableTile } from '@carbon/react';
+import { User } from '@carbon/react/icons';
 import React from 'react';
 import styles from './legacy-admin-item.scss';
-import { User } from '@carbon/react/icons';
 
 const Item = () => {
   // items

@@ -1,8 +1,8 @@
+import { openmrsFetch } from '@openmrs/esm-framework';
 import useSWR from 'swr';
 import useSWRImmutable from 'swr/immutable';
-import { openmrsFetch } from '@openmrs/esm-framework';
-import { Appointment, QueueServiceInfo } from '../types';
 import { startOfDay } from '../constants';
+import { Appointment, QueueServiceInfo } from '../types';
 
 export function useServices(location: string) {
   const apiUrl = `/ws/rest/v1/queue?location=${location}`;

@@ -1,7 +1,7 @@
 import { ClickableTile } from '@carbon/react';
+import { Events } from '@carbon/react/icons';
 import React from 'react';
 import styles from './cohort-builder-item.scss';
-import { Events } from '@carbon/react/icons';
 
 const Item = () => {
   // items

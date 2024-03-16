@@ -1,16 +1,17 @@
 import {
   Button,
   Form,
+  InlineLoading,
   ModalBody,
   ModalFooter,
   ModalHeader,
   Select,
   SelectItem,
+  SelectSkeleton,
   Stack,
   TextInput,
-  InlineLoading,
-  SelectSkeleton,
 } from '@carbon/react';
+import { useConfig } from '@openmrs/esm-framework';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -19,9 +20,8 @@ import {
   handleFacilityResponse,
   useGetResourceInformation,
 } from './system-info.resources';
-import { extractResourceInfo } from './system-info.utils';
 import styles from './system-info.scss';
-import { useConfig } from '@openmrs/esm-framework';
+import { extractResourceInfo } from './system-info.utils';
 
 interface RetrieveFacilityCodeModalProps {
   closeModal: () => void;

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import classNames from 'classnames';
-import { useTranslation } from 'react-i18next';
 import { Button, ClickableTile } from '@carbon/react';
 import { ChevronDown, ChevronUp, Edit } from '@carbon/react/icons';
-import { age, ExtensionSlot, formatDate, parseDate, ConfigurableLink } from '@openmrs/esm-framework';
+import { ConfigurableLink, ExtensionSlot, age, formatDate, parseDate } from '@openmrs/esm-framework';
+import classNames from 'classnames';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import ContactDetails from './contact-details.component';
 import styles from './patient-info.scss';
 

@@ -1,8 +1,8 @@
+import { Search, Tab, TabList, TabPanels, Tabs } from '@carbon/react';
 import React, { useEffect, useState } from 'react';
-import { Tab, Tabs, TabList, TabPanels, Search, ComboBox } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
-import styles from './radiology-queue.scss';
 import RadiologyPatientList from './radiology-patient-list.component';
+import styles from './radiology-queue.scss';
 
 enum TabTypes {
   STARRED,

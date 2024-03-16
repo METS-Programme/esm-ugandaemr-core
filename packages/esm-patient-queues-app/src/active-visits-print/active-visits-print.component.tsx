@@ -1,7 +1,7 @@
+import { QRCodeSVG } from 'qrcode.react';
 import React from 'react';
 import { MappedPatientQueueEntry } from '../active-visits/patient-queues.resource';
 import styles from './active-visits-print.scss';
-import { QRCodeSVG } from 'qrcode.react';
 
 import logo from '../images/ugandaemr_login_logo_green.png';
 import PatientQueueDetailsTable from './patient-queue-details-table.component';

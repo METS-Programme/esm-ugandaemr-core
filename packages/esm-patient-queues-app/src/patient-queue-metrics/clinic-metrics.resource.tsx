@@ -1,23 +1,22 @@
-import { useEffect, useState } from 'react';
-import dayjs from 'dayjs';
-import useSWR from 'swr';
 import {
+  OpenmrsResource,
   Visit,
   formatDate,
+  getGlobalStore,
   openmrsFetch,
   parseDate,
   useSession,
-  getGlobalStore,
-  OpenmrsResource,
-  useConfig,
 } from '@openmrs/esm-framework';
-import { Identifier, MappedQueueEntry, Provider, ServiceTypes, WaitTime } from '../types';
-import { PatientQueue } from '../types/patient-queues';
+import dayjs from 'dayjs';
+import { useEffect, useState } from 'react';
+import useSWR from 'swr';
+import { configSchema } from '../config-schema';
 import { omrsDateFormat } from '../constants';
 import { amPm } from '../helpers/time-helpers';
-import { configSchema } from '../config-schema';
-import { Value } from './metrics-card.component';
+import { Identifier, Provider, ServiceTypes, WaitTime } from '../types';
+import { PatientQueue } from '../types/patient-queues';
 import { getMetrics } from './clinic-metrics.component';
+import { Value } from './metrics-card.component';
 
 export type PickedResponse = {
   results: IResultsItem[];

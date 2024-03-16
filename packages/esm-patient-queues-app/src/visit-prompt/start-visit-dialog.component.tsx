@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
 import { Button, Layer, ModalBody, ModalFooter, ModalHeader, Select, SelectItem } from '@carbon/react';
 import { useLayoutType, useSession } from '@openmrs/esm-framework';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MappedPatientQueueEntry } from '../active-visits/patient-queues.resource';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';

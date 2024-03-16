@@ -3,9 +3,9 @@ import { formatDate, useSession } from '@openmrs/esm-framework';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useParentLocation } from '../active-visits/patient-queues.resource';
 import styles from './patient-queue-header.scss';
 import PatientQueueIllustration from './patient-queue-illustration.component';
-import { useParentLocation } from '../active-visits/patient-queues.resource';
 
 const PatientQueueHeader: React.FC<{ title?: string }> = ({ title }) => {
   const { t } = useTranslation();

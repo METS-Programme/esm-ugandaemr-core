@@ -1,5 +1,4 @@
 import {
-  Button,
   DataTable,
   DataTableSkeleton,
   Layer,
@@ -24,15 +23,15 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getOriginFromPathName } from '../active-visits/active-visits-table.resource';
 import EditActionsMenu from '../active-visits/edit-action-menu.components';
+import { useParentLocation } from '../active-visits/patient-queues.resource';
 import PrintActionsMenu from '../active-visits/print-action-menu.components';
 import { buildStatusString, formatWaitTime, getTagColor, trimVisitNumber } from '../helpers/functions';
+import PatientSearch from '../patient-search/patient-search.component';
 import StatusIcon from '../queue-entry-table-components/status-icon.component';
 import { SearchTypes } from '../types';
+import EmptyState from '../utils/empty-state/empty-state.component';
 import { usePatientQueuesList } from './active-visits-reception.resource';
 import styles from './active-visits-reception.scss';
-import EmptyState from '../utils/empty-state/empty-state.component';
-import { useParentLocation } from '../active-visits/patient-queues.resource';
-import PatientSearch from '../patient-search/patient-search.component';
 
 function ActiveVisitsReceptionTable() {
   const { t } = useTranslation();

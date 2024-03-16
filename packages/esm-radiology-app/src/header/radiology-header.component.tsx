@@ -1,9 +1,9 @@
+import { Calendar, Location } from '@carbon/react/icons';
+import { formatDate, useSession } from '@openmrs/esm-framework';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Calendar, Location } from '@carbon/react/icons';
-import { useSession, formatDate } from '@openmrs/esm-framework';
-import RadiologyIllustration from './radiology-illustration.component';
 import styles from './radiology-header.scss';
+import RadiologyIllustration from './radiology-illustration.component';
 
 export const RadiologyHeader: React.FC = () => {
   const { t } = useTranslation();

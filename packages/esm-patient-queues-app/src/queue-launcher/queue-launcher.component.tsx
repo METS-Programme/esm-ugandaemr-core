@@ -1,10 +1,10 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import styles from './queue-launcher.scss';
 import { Button } from '@carbon/react';
 import { MessageQueue } from '@carbon/react/icons';
 import { navigate } from '@openmrs/esm-framework';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { spaBasePath } from '../constants';
+import styles from './queue-launcher.scss';
 
 const QueueLauncher: React.FC = () => {
   const { t } = useTranslation();

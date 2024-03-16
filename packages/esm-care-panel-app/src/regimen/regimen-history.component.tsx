@@ -1,18 +1,18 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
 import {
-  StructuredListSkeleton,
-  StructuredListRow,
-  StructuredListCell,
-  StructuredListWrapper,
-  StructuredListHead,
   StructuredListBody,
+  StructuredListCell,
+  StructuredListHead,
+  StructuredListRow,
+  StructuredListSkeleton,
+  StructuredListWrapper,
   Tile,
 } from '@carbon/react';
-import styles from './regimen-history.scss';
-import { useRegimenHistory } from '../hooks/useRegimenHistory';
 import { formatDate, parseDate, useLayoutType } from '@openmrs/esm-framework';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useRegimenHistory } from '../hooks/useRegimenHistory';
 import { RegimenType } from '../types';
+import styles from './regimen-history.scss';
 
 export interface RegimenHistoryProps {
   patientUuid: string;

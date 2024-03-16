@@ -1,9 +1,9 @@
+import { DataTableSkeleton } from '@carbon/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { DataTableSkeleton } from '@carbon/react';
+import styles from './radiology-summary-tiles.scss';
 import { useMetrics } from './radiology-summary.resource';
 import SummaryTile from './summary-tile.component';
-import styles from './radiology-summary-tiles.scss';
 
 const RadiologySummaryTiles: React.FC = () => {
   const { t } = useTranslation();

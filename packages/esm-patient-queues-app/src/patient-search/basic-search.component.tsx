@@ -1,14 +1,14 @@
+import { Button, InlineLoading, Layer, Search, Tile } from '@carbon/react';
+import { Search as SearchIcon } from '@carbon/react/icons';
+import debounce from 'lodash-es/debounce';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import debounce from 'lodash-es/debounce';
-import { Search, Button, InlineLoading, Layer, Tile } from '@carbon/react';
-import { Search as SearchIcon } from '@carbon/react/icons';
-import EmptyDataIllustration from './empty-data-illustration.component';
-import SearchIllustration from './search-illustration.component';
-import SearchResults from './search-results.component';
-import usePatients from './hooks/usePatients';
 import { SearchTypes } from '../types';
 import styles from './basic-search.scss';
+import EmptyDataIllustration from './empty-data-illustration.component';
+import usePatients from './hooks/usePatients';
+import SearchIllustration from './search-illustration.component';
+import SearchResults from './search-results.component';
 
 interface BasicSearchProps {
   toggleSearchType: (searchMode: SearchTypes) => void;

@@ -1,12 +1,6 @@
 import { openmrsFetch } from '@openmrs/esm-framework';
 import useSWR from 'swr';
 
-interface PatientRegimenReturnType {
-  patientRegimen: RegimenHistory;
-  isLoading: boolean;
-  error: Error;
-}
-
 interface RegimenHistory {
   startDate: string;
   endDate: string;

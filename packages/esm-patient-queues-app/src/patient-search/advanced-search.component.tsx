@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Button,
   ButtonSet,
@@ -16,6 +14,8 @@ import {
 } from '@carbon/react';
 import { ArrowLeft } from '@carbon/react/icons';
 import { useLayoutType } from '@openmrs/esm-framework';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { SearchTypes } from '../types';
 import styles from './advanced-search.scss';
 

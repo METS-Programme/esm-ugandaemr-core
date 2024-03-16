@@ -1,8 +1,8 @@
-import React from 'react';
-import { render, screen, act } from '@testing-library/react';
-import ProgramSummary, { ProgramSummaryProps } from './program-summary.component';
-import { mockProgram } from '../../../../__mocks__/program-summary.mock';
 import { formatDate } from '@openmrs/esm-framework';
+import { act, render, screen } from '@testing-library/react';
+import React from 'react';
+import { mockProgram } from '../../../../__mocks__/program-summary.mock';
+import ProgramSummary, { ProgramSummaryProps } from './program-summary.component';
 
 jest.mock('@openmrs/esm-framework', () => ({
   ...jest.requireActual('@openmrs/esm-framework'),

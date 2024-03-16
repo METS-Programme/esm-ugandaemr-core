@@ -1,8 +1,8 @@
+import { InlineLoading } from '@carbon/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { InlineLoading } from '@carbon/react';
-import { usePatientContactAttributes } from './hooks/usePatientAttributes';
 import styles from './contact-details.scss';
+import { usePatientContactAttributes } from './hooks/usePatientAttributes';
 
 interface ContactDetailsProps {
   patientId: string;

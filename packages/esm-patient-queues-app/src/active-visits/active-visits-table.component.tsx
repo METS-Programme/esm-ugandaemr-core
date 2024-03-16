@@ -1,10 +1,8 @@
 import {
-  Button,
   DataTable,
   DataTableSkeleton,
   Layer,
   Pagination,
-  Tab,
   Table,
   TableBody,
   TableCell,
@@ -18,11 +16,11 @@ import {
   Tag,
   Tile,
 } from '@carbon/react';
-import { Add } from '@carbon/react/icons';
 
 import { isDesktop, useLayoutType, usePagination, userHasAccess, useSession } from '@openmrs/esm-framework';
-import React, { AnchorHTMLAttributes, MouseEvent, useMemo, useState } from 'react';
+import React, { AnchorHTMLAttributes, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS } from '../constants';
 import {
   buildStatusString,
   formatWaitTime,
@@ -30,18 +28,17 @@ import {
   getTagColor,
   trimVisitNumber,
 } from '../helpers/functions';
+import PatientSearch from '../patient-search/patient-search.component';
+import PickPatientActionMenu from '../queue-entry-table-components/pick-patient-queue-entry-menu.component';
 import StatusIcon from '../queue-entry-table-components/status-icon.component';
+import EmptyState from '../utils/empty-state/empty-state.component';
+import { QueueStatus } from '../utils/utils';
 import { getOriginFromPathName } from './active-visits-table.resource';
 import styles from './active-visits-table.scss';
 import EditActionsMenu from './edit-action-menu.components';
-import { usePatientQueuesList } from './patient-queues.resource';
-import PickPatientActionMenu from '../queue-entry-table-components/pick-patient-queue-entry-menu.component';
-import EmptyState from '../utils/empty-state/empty-state.component';
-import ViewActionsMenu from './view-action-menu.components';
 import NotesActionsMenu from './notes-action-menu.components';
-import { PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS } from '../constants';
-import PatientSearch from '../patient-search/patient-search.component';
-import { QueueStatus } from '../utils/utils';
+import { usePatientQueuesList } from './patient-queues.resource';
+import ViewActionsMenu from './view-action-menu.components';
 
 interface ActiveVisitsTableProps {
   status: string;

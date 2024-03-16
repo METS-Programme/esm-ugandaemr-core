@@ -1,5 +1,5 @@
-import React from 'react';
 import { Tag } from '@carbon/react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { usePatientFlags } from '../hooks/usePatientFlags';
 import styles from './patient-flags.scss';

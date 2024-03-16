@@ -1,8 +1,8 @@
 import { Button } from '@carbon/react';
+import { Add } from '@carbon/react/icons';
 import { showModal } from '@openmrs/esm-framework';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Add } from '@carbon/react/icons';
 
 const UpdateFacilityCodeButton = ({ facilityCodeDetails, setFacilityCodeDetails }) => {
   const { t } = useTranslation();

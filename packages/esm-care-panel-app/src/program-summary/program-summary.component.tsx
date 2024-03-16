@@ -1,12 +1,12 @@
-import React from 'react';
-import styles from './program-summary.scss';
-import { useProgramSummary } from '../hooks/useProgramSummary';
-import { useTranslation } from 'react-i18next';
-import { formatDate, useLayoutType } from '@openmrs/esm-framework';
 import { StructuredListSkeleton, Tile } from '@carbon/react';
-import { ProgramType, RegimenType } from '../types';
-import RegimenButton from '../regimen-editor/regimen-button.component';
+import { formatDate, useLayoutType } from '@openmrs/esm-framework';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useProgramSummary } from '../hooks/useProgramSummary';
 import { useRegimenEncounter } from '../hooks/useRegimenEncounter';
+import RegimenButton from '../regimen-editor/regimen-button.component';
+import { ProgramType, RegimenType } from '../types';
+import styles from './program-summary.scss';
 export interface ProgramSummaryProps {
   patientUuid: string;
   programName: string;
