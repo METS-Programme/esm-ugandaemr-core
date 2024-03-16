@@ -53,4 +53,8 @@ export const configSchema = {
     _type: Type.ConceptUuid,
     _default: 'dc8d83e3-30ab-102d-86b0-7a5022ba4115',
   },
+  observationCount: {
+    _type: Type.String,
+    _default: '100',
+  },
 };

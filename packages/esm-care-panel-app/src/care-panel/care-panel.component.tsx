@@ -65,7 +65,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
           </div>
         </CardHeader>
         <div style={{ width: '100%', minHeight: '20rem' }}>
-          {programs.HIV ? (
+          {switchItem?.name === 'HIV Program' ? (
             <>
               <ProgramEnrollment
                 patientUuid={patientUuid}
