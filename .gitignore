@@ -79,3 +79,4 @@ dist/
 !.yarn/versions
 
 .vscode/
+.turbo/
