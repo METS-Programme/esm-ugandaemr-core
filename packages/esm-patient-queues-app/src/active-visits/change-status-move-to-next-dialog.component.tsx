@@ -24,12 +24,10 @@ import {
   useSession,
   useVisit,
 } from '@openmrs/esm-framework';
-import { addQueueEntry, getCareProvider, updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
-import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
-import { getCurrentPatientQueueByPatientUuid, useProviders } from '../patient-search/visit-form/queue.resource';
-import { QueueRecord } from '../types';
+import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
+import { useQueueRoomLocations } from '../hooks/useQueueRooms';
+import { getCurrentPatientQueueByPatientUuid, useProviders } from '../visit-form/queue.resource';
 import styles from './change-status-dialog.scss';
-import { extractErrorMessagesFromResponse } from '../utils/utils';
 import { first } from 'rxjs/operators';
 import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
 
@@ -64,6 +62,8 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
   const [priorityComment, setPriorityComment] = useState('');
 
   const [selectedProvider, setSelectedProvider] = useState('');
+
+  const { currentVisit, currentVisitIsRetrospective } = useVisit(patientUuid);
 
   useEffect(() => {
     getCareProvider(sessionUser?.user?.systemId).then(
@@ -153,33 +153,38 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
           (response) => {
             if (response.status === 200) {
               const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-              const status = 'Completed';
-              updateQueueEntry(
-                status,
-                provider,
-                mappedQueueEntry?.uuid,
-                contentSwitcherIndex,
-                priorityComment,
-                comment,
-              ).then(
-                () => {
-                  showSnackbar({
-                    isLowContrast: true,
-                    kind: 'success',
-                    subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
-                    title: t('visitEnded', 'Visit ended'),
-                  });
-                  closeModal();
-                  mutate();
+
+              getCurrentPatientQueueByPatientUuid(patientUuid, sessionUser?.sessionLocation?.uuid).then(
+                (res) => {
+                  updateQueueEntry(
+                    QueueStatus.Completed,
+                    provider,
+                    res.data?.results[0]?.uuid,
+                    contentSwitcherIndex,
+                    priorityComment,
+                    comment,
+                  ).then(
+                    () => {
+                      showSnackbar({
+                        isLowContrast: true,
+                        kind: 'success',
+                        subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
+                        title: t('visitEnded', 'Visit ended'),
+                      });
+                      closeModal();
+                      mutate();
+                    },
+                    (error) => {
+                      showNotification({
+                        title: t('queueEntryUpdateFailed', 'Error ending visit'),
+                        kind: 'error',
+                        critical: true,
+                        description: error?.message,
+                      });
+                    },
+                  );
                 },
-                (error) => {
-                  showNotification({
-                    title: t('queueEntryUpdateFailed', 'Error ending visit'),
-                    kind: 'error',
-                    critical: true,
-                    description: error?.message,
-                  });
-                },
+                () => {},
               );
               mutate();
               closeModal();
@@ -203,10 +208,8 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
       event.preventDefault();
 
       // check status
-
       if (status === QueueStatus.Pending) {
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-
         getCurrentPatientQueueByPatientUuid(patientUuid, sessionUser?.sessionLocation?.uuid).then(
           (res) => {
             updateQueueEntry(status, provider, res.data?.results[0].uuid, 0, priorityComment, comment).then(

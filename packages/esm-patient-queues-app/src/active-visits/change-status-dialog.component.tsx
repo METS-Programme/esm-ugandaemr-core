@@ -25,7 +25,6 @@ import {
 } from '@openmrs/esm-framework';
 
 import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
-import { addQueueEntry, getCareProvider, updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
 import { first } from 'rxjs/operators';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -139,7 +138,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
       : [],
   );
   // endVisit
-
   const endCurrentVisit = () => {
     if (currentVisitIsRetrospective) {
       setCurrentVisit(null, null);
@@ -159,8 +157,14 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
           (response) => {
             if (response.status === 200) {
               const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-              const status = 'Completed';
-              updateQueueEntry(status, provider, queueEntry?.id, contentSwitcherIndex, priorityComment, comment).then(
+              updateQueueEntry(
+                QueueStatus.Completed,
+                provider,
+                queueEntry?.id,
+                contentSwitcherIndex,
+                priorityComment,
+                comment,
+              ).then(
                 () => {
                   showSnackbar({
                     isLowContrast: true,
