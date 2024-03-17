@@ -184,9 +184,9 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                   {session?.user && userHasAccess(PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS, session.user) && (
                     <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
                   )}
+                  <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
                 </>
               ))}
-            <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
             <NotesActionsMenu note={entry} />
           </>
         ),

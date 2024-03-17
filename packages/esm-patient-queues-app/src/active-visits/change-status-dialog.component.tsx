@@ -172,6 +172,8 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                     subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
                     title: t('visitEnded', 'Visit ended'),
                   });
+                  navigate({ to: `\${openmrsSpaBase}/home/patient-queues` });
+
                   closeModal();
                   mutate();
                 },
