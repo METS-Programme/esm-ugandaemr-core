@@ -296,7 +296,7 @@ export function useGenerateVisitQueueNumber(location: string, patient: string) {
 export function getCareProvider(provider: string) {
   const abortController = new AbortController();
 
-  return openmrsFetch(`/ws/rest/v1/provider?q=${provider}&v=full`, {
+  return openmrsFetch(`/ws/rest/v1/provider?user=${provider}&v=full`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
