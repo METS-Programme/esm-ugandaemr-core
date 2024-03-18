@@ -73,7 +73,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   const { currentVisit, currentVisitIsRetrospective } = useVisit(queueEntry.patientUuid);
 
   useEffect(() => {
-    getCareProvider(sessionUser?.user?.systemId).then(
+    getCareProvider(sessionUser?.user?.uuid).then(
       (response) => {
         setProvider(response?.data?.results[0].uuid);
         mutate();
