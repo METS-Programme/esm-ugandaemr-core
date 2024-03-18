@@ -7969,24 +7969,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ugandaemr/esm-theatre-app@workspace:packages/esm-theatre-app":
-  version: 0.0.0-use.local
-  resolution: "@ugandaemr/esm-theatre-app@workspace:packages/esm-theatre-app"
-  dependencies:
-    "@carbon/react": ^1.14.0
-    lodash-es: ^4.17.21
-    react-image-annotate: ^1.8.0
-    webpack: ^5.88.1
-  peerDependencies:
-    "@openmrs/esm-framework": 5.x
-    dayjs: 1.x
-    react: 18.x
-    react-i18next: 11.x
-    react-router-dom: 6.x
-    rxjs: 6.x
-  languageName: unknown
-  linkType: soft
-
 "@ugandaemr/esm-ugandaemr-app@workspace:packages/esm-ugandaemr-app":
   version: 0.0.0-use.local
   resolution: "@ugandaemr/esm-ugandaemr-app@workspace:packages/esm-ugandaemr-app"
