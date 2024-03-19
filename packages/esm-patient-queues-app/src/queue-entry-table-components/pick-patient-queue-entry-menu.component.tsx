@@ -19,7 +19,7 @@ const PickPatientActionMenu: React.FC<PickPatientActionMenuProps> = ({ queueEntr
 
   const { servedQueuePatients } = usePatientsServed(session?.sessionLocation?.uuid, 'picked');
 
-  const filteredByProvider = servedQueuePatients.filter((item) => item?.provider === session?.user?.systemId);
+  const filteredByProvider = servedQueuePatients?.filter((item) => item?.provider === session?.user?.systemId);
 
   const launchPickPatientQueueModal = useCallback(() => {
     if (filteredByProvider.length === 1 || filteredByProvider.length > 0) {

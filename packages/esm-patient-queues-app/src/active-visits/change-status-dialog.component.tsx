@@ -11,18 +11,31 @@ import {
   TextArea,
 } from '@carbon/react';
 
-import { navigate, showNotification, showToast, useLocations, useSession } from '@openmrs/esm-framework';
+import {
+  navigate,
+  parseDate,
+  setCurrentVisit,
+  showNotification,
+  showSnackbar,
+  showToast,
+  updateVisit,
+  useLocations,
+  useSession,
+  useVisit,
+} from '@openmrs/esm-framework';
 
-import { addQueueEntry, getCareProvider, updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
+import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
+import { first } from 'rxjs/operators';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
+import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 
 import styles from './change-status-dialog.scss';
-import { useProviders } from '../patient-search/visit-form/queue.resource';
+import { useProviders } from '../visit-form/queue.resource';
+import { QueueStatus } from '../utils/utils';
 
 interface ChangeStatusDialogProps {
   queueEntry: MappedQueueEntry;
@@ -45,13 +58,9 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const [status, setStatus] = useState('');
 
-  const [selectedQueueLocation, setSelectedQueueLocation] = useState(queueEntry?.queueLocation);
-
-  const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
-
   const sessionUser = useSession();
 
-  const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
+  const { queueRoomLocations, mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
 
@@ -61,8 +70,10 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const [selectedProvider, setSelectedProvider] = useState('');
 
+  const { currentVisit, currentVisitIsRetrospective } = useVisit(queueEntry.patientUuid);
+
   useEffect(() => {
-    getCareProvider(sessionUser?.user?.systemId).then(
+    getCareProvider(sessionUser?.user?.uuid).then(
       (response) => {
         setProvider(response?.data?.results[0].uuid);
         mutate();
@@ -87,11 +98,11 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   useMemo(() => {
     switch (statusSwitcherIndex) {
       case 0: {
-        setStatus('pending');
+        setStatus(QueueStatus.Pending);
         break;
       }
       case 1: {
-        setStatus('completed');
+        setStatus(QueueStatus.Completed);
         break;
       }
     }
@@ -127,34 +138,69 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
       : [],
   );
   // endVisit
-  const endVisitStatus = useCallback(
-    (event) => {
-      event.preventDefault();
-      const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-      const status = 'Completed';
-      updateQueueEntry(status, provider, queueEntry?.id, contentSwitcherIndex, priorityComment, comment).then(
-        () => {
-          showToast({
-            critical: true,
-            title: t('endVisit', 'End Vist'),
-            kind: 'success',
-            description: t('endVisitSuccessfully', 'You have successfully ended patient visit'),
-          });
-          closeModal();
-          mutate();
-        },
-        (error) => {
-          showNotification({
-            title: t('queueEntryUpdateFailed', 'Error ending visit'),
-            kind: 'error',
-            critical: true,
-            description: error?.message,
-          });
-        },
-      );
-    },
-    [closeModal, contentSwitcherIndex, mutate, priorityComment, provider, queueEntry?.id, t],
-  );
+  const endCurrentVisit = () => {
+    if (currentVisitIsRetrospective) {
+      setCurrentVisit(null, null);
+      closeModal();
+    } else {
+      const endVisitPayload = {
+        location: currentVisit.location.uuid,
+        startDatetime: parseDate(currentVisit.startDatetime),
+        visitType: currentVisit.visitType.uuid,
+        stopDatetime: new Date(),
+      };
+
+      const abortController = new AbortController();
+      updateVisit(currentVisit.uuid, endVisitPayload, abortController)
+        .pipe(first())
+        .subscribe(
+          (response) => {
+            if (response.status === 200) {
+              const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+              updateQueueEntry(
+                QueueStatus.Completed,
+                provider,
+                queueEntry?.id,
+                contentSwitcherIndex,
+                priorityComment,
+                comment,
+              ).then(
+                () => {
+                  showSnackbar({
+                    isLowContrast: true,
+                    kind: 'success',
+                    subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
+                    title: t('visitEnded', 'Visit ended'),
+                  });
+                  navigate({ to: `\${openmrsSpaBase}/home/patient-queues` });
+
+                  closeModal();
+                  mutate();
+                },
+                (error) => {
+                  showNotification({
+                    title: t('queueEntryUpdateFailed', 'Error ending visit'),
+                    kind: 'error',
+                    critical: true,
+                    description: error?.message,
+                  });
+                },
+              );
+              mutate();
+              closeModal();
+            }
+          },
+          (error) => {
+            showSnackbar({
+              title: t('errorEndingVisit', 'Error ending visit'),
+              kind: 'error',
+              isLowContrast: false,
+              subtitle: error?.message,
+            });
+          },
+        );
+    }
+  };
 
   // change to picked
   const changeQueueStatus = useCallback(
@@ -163,7 +209,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
       // check status
 
-      if (status === 'pending') {
+      if (status === QueueStatus.Pending) {
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
         updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, comment).then(
           () => {
@@ -185,11 +231,18 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             });
           },
         );
-      } else if (status === 'completed') {
+      } else if (status === QueueStatus.Completed) {
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
         const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
 
-        updateQueueEntry('Completed', provider, queueEntry?.id, contentSwitcherIndex, priorityComment, comment).then(
+        updateQueueEntry(
+          QueueStatus.Completed,
+          provider,
+          queueEntry?.id,
+          contentSwitcherIndex,
+          priorityComment,
+          comment,
+        ).then(
           () => {
             showToast({
               critical: true,
@@ -211,13 +264,11 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
         );
 
         addQueueEntry(
-          queueEntry?.id,
           nextQueueLocationUuid,
           queueEntry?.patientUuid,
           selectedProvider,
           contentSwitcherIndex,
-          '',
-          'pending',
+          QueueStatus.Pending,
           selectedLocation,
           priorityComment,
           comment,
@@ -230,8 +281,14 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               description: t('movetonextqueue', 'Move to next queue successfully'),
             });
             //pick and route
-            const status = 'picked';
-            updateQueueEntry(status, provider, currentEntry?.id, contentSwitcherIndex, priorityComment, 'comment').then(
+            updateQueueEntry(
+              QueueStatus.Picked,
+              provider,
+              currentEntry?.id,
+              contentSwitcherIndex,
+              priorityComment,
+              'comment',
+            ).then(
               () => {
                 // view patient summary
                 navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry.patientUuid}/chart` });
@@ -352,7 +409,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               </ContentSwitcher>
             </section>
 
-            {status === 'completed' && (
+            {status === QueueStatus.Completed && (
               <section className={styles.section}>
                 <Select
                   labelText={t('selectNextQueueRoom', 'Select next queue room ')}
@@ -374,7 +431,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               </section>
             )}
 
-            {status === 'completed' && (
+            {status === QueueStatus.Completed && (
               <section className={styles.section}>
                 <Select
                   labelText={t('selectProvider', 'Select a provider')}
@@ -394,7 +451,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               </section>
             )}
 
-            {status === 'completed' && (
+            {status === QueueStatus.Completed && (
               <section className={styles.section}>
                 <TextArea
                   labelText={t('notes', 'Enter notes ')}
@@ -412,7 +469,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             <Button kind="secondary" onClick={closeModal}>
               {t('cancel', 'Cancel')}
             </Button>
-            <Button kind="danger" onClick={endVisitStatus}>
+            <Button kind="danger" onClick={endCurrentVisit}>
               {t('endVisit', 'End Visit')}
             </Button>
             <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>

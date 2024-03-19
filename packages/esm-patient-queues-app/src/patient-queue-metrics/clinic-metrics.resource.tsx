@@ -579,7 +579,7 @@ export interface Link {
   resourceAlias: string;
 }
 
-export function useServicePointCount(parentLocation: string, beforeDate: Date, afterDate: Date) {
+export function useServicePointCount(parentLocation: string, beforeDate: String, afterDate: String) {
   const apiUrl = `/ws/rest/v1/queuestatistics?parentLocation=${parentLocation}&toDate=${afterDate}&fromDate=${beforeDate}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientStats> } }, Error>(
     apiUrl,

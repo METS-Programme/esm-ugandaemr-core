@@ -15,7 +15,7 @@ import { useParentLocation } from '../active-visits/patient-queues.resource';
 import { usePatientQueuesList } from '../active-visit-patient-reception/active-visits-reception.resource';
 import { CheckmarkOutline, Pending, ProgressBarRound } from '@carbon/react/icons';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
-import { values } from 'lodash-es';
+import dayjs from 'dayjs';
 
 const ClinicMetrics: React.FC = () => {
   const { t } = useTranslation();
@@ -27,7 +27,11 @@ const ClinicMetrics: React.FC = () => {
   const creatorUuid = session?.user?.person?.display;
   const { patientQueueCount } = usePatientsBeingServed(session?.sessionLocation?.uuid, 'pending', creatorUuid);
 
-  const { stats } = useServicePointCount(location?.parentLocation?.uuid, new Date(), new Date());
+  const { stats } = useServicePointCount(
+    location?.parentLocation?.uuid,
+    dayjs(new Date()).format('YYYY-MM-DD'),
+    dayjs(new Date()).format('YYYY-MM-DD'),
+  );
 
   return (
     <div className={styles.cardContainer}>

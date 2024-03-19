@@ -5,6 +5,10 @@ import { launchPatientWorkspace } from '@openmrs/esm-patient-common-lib';
 import dayjs from 'dayjs';
 import orderBy from 'lodash/orderBy';
 import { mutate } from 'swr';
+import { extractValue, parseStageFromDisplay, usePatientObservations } from './program-enrollment.resource';
+import { PatientChartProps, ProgramData } from '../types/index';
+import { usePatient } from '@openmrs/esm-framework';
+import { configSchema } from '../config-schema';
 import { parseStageFromDisplay, usePatientObservations } from './program-enrollment.resource';
 import { ProgramData } from '../types/index';
 import { usePatient } from '@openmrs/esm-framework';
@@ -16,6 +20,7 @@ export interface ProgramEnrollmentProps {
   enrollments: Array<any>;
   formEntrySub: any;
   launchPatientWorkspace: Function;
+  PatientChartProps: string;
   PatientChartProps: string;
 }
 const shareObjProperty = { dateEnrolled: 'Enrolled on', dateCompleted: 'Date Completed' };

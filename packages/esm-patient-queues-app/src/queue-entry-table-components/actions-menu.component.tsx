@@ -14,13 +14,6 @@ interface ActionsMenuProps {
 const ActionsMenu: React.FC<ActionsMenuProps> = ({ queueEntry }) => {
   const { t } = useTranslation();
 
-  const launchEndVisitModal = useCallback(() => {
-    const dispose = showModal('remove-queue-entry', {
-      closeModal: () => dispose(),
-      queueEntry,
-    });
-  }, [queueEntry]);
-
   const launchNextQueueModal = useCallback(() => {
     const dispose = showModal('edit-queue-entry-status-modal', {
       closeModal: () => dispose(),

@@ -21,11 +21,11 @@ import {
   useSession,
 } from '@openmrs/esm-framework';
 
-import { getCareProvider, updateQueueEntry, useVisitQueueEntries } from './active-visits-table.resource';
+import { getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueueRoomLocations } from '../patient-search/hooks/useQueueRooms';
+import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 
 import styles from './change-status-dialog.scss';
@@ -43,19 +43,15 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
 
   const [selectedLocation, setSelectedLocation] = useState('');
 
-  const [selectedQueueLocation, setSelectedQueueLocation] = useState(queueEntry?.queueLocation);
-
-  const { mutate } = useVisitQueueEntries('', selectedQueueLocation);
-
   const sessionUser = useSession();
 
-  const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
+  const { queueRoomLocations, mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
   const [provider, setProvider] = useState('');
   const [priorityComment, setPriorityComment] = useState('');
 
   useEffect(() => {
-    getCareProvider(sessionUser?.user?.systemId).then(
+    getCareProvider(sessionUser?.user?.uuid).then(
       (response) => {
         setProvider(response?.data?.results[0].uuid);
         mutate();
@@ -92,7 +88,6 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
           });
 
           navigate({ to: `\${openmrsSpaBase}/patient/${queueEntry.patientUuid}/chart` });
-
           closeModal();
           mutate();
         },
@@ -106,7 +101,7 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
         },
       );
     },
-    [provider, queueEntry?.id, queueEntry?.patientUuid, priorityComment, t, closeModal, mutate],
+    [provider, queueEntry?.id, queueEntry.patientUuid, priorityComment, t, closeModal, mutate],
   );
 
   if (queueEntry && Object.keys(queueEntry)?.length === 0) {
