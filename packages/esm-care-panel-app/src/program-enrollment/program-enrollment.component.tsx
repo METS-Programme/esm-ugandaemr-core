@@ -9,10 +9,6 @@ import { extractValue, parseStageFromDisplay, usePatientObservations } from './p
 import { PatientChartProps, ProgramData } from '../types/index';
 import { usePatient } from '@openmrs/esm-framework';
 import { configSchema } from '../config-schema';
-import { parseStageFromDisplay, usePatientObservations } from './program-enrollment.resource';
-import { ProgramData } from '../types/index';
-import { usePatient } from '@openmrs/esm-framework';
-import { configSchema } from '../config-schema';
 
 export interface ProgramEnrollmentProps {
   patientUuid: string;
@@ -20,7 +16,6 @@ export interface ProgramEnrollmentProps {
   enrollments: Array<any>;
   formEntrySub: any;
   launchPatientWorkspace: Function;
-  PatientChartProps: string;
   PatientChartProps: string;
 }
 const shareObjProperty = { dateEnrolled: 'Enrolled on', dateCompleted: 'Date Completed' };
