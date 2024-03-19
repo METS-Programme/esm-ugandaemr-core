@@ -5,8 +5,8 @@ import { launchPatientWorkspace } from '@openmrs/esm-patient-common-lib';
 import dayjs from 'dayjs';
 import orderBy from 'lodash/orderBy';
 import { mutate } from 'swr';
-import { extractValue, parseStageFromDisplay, usePatientObservations } from './program-enrollment.resource';
-import { PatientChartProps, ProgramData } from '../types/index';
+import { parseStageFromDisplay, usePatientObservations } from './program-enrollment.resource';
+import { ProgramData } from '../types/index';
 import { usePatient } from '@openmrs/esm-framework';
 import { configSchema } from '../config-schema';
 
@@ -64,7 +64,9 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
       {
         key: 'artStartDate',
         uuidConfig: configSchema.artStartDateUuid._default,
-        processValue: (date) => dayjs(date).format('DD-MM-YYYY'),
+        processValue: (date) => {
+          return date && dayjs(date).isValid() ? dayjs(date).format('DD-MM-YYYY') : '--';
+        },
       },
       {
         key: 'currentRegimen',
@@ -82,7 +84,9 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
       {
         key: 'dateConfirmedHivPositive',
         uuidConfig: configSchema.dateConfirmedHivPositiveUuid._default,
-        processValue: (date) => dayjs(date).format('DD-MM-YYYY'),
+        processValue: (date) => {
+          return date && dayjs(date).isValid() ? dayjs(date).format('DD-MM-YYYY') : '--';
+        },
       },
       {
         key: 'baselineCd4',
@@ -91,7 +95,9 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
       {
         key: 'hivViralLoadDate',
         uuidConfig: configSchema.hivViralLoadDateUuid._default,
-        processValue: (date) => dayjs(date).format('DD-MM-YYYY'),
+        processValue: (date) => {
+          return date && dayjs(date).isValid() ? dayjs(date).format('DD-MM-YYYY') : '--';
+        },
       },
       {
         key: 'hivViralLoadQualitative',
