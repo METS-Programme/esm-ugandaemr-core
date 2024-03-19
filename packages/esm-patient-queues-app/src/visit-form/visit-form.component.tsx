@@ -31,12 +31,12 @@ import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { first } from 'rxjs/operators';
-import { addQueueEntry, useVisitQueueEntries } from '../../active-visits/active-visits-table.resource';
-import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
-import { NewVisitPayload, SearchTypes } from '../../types';
+import { addQueueEntry } from '../active-visits/active-visits-table.resource';
+import { amPm, convertTime12to24 } from '../helpers/time-helpers';
+import { NewVisitPayload, SearchTypes } from '../types';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './visit-form.scss';
-import { useQueueLocations } from '../hooks/useQueueLocations';
+import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
 import { useProviders } from './queue.resource';
 interface VisitFormProps {
   toggleSearchType: (searchMode: SearchTypes, patientUuid) => void;
@@ -59,13 +59,12 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const state = useMemo(() => ({ patientUuid }), [patientUuid]);
   const allVisitTypes = useVisitTypes();
   const [ignoreChanges, setIgnoreChanges] = useState(true);
-  const { mutate } = useVisitQueueEntries('', '');
   const [selectedLocation, setSelectedLocation] = useState('');
   const [visitType, setVisitType] = useState('');
   const [priorityComment, setPriorityComment] = useState('');
   const priorityLevels = [1, 2, 3];
   const { providers } = useProviders();
-  const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
+  const { queueRoomLocations, mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState('');
   const [selectedOtherQueueLocation, setSelectedOtherQueueLocation] = useState('');
   const { queueLocations } = useQueueLocations();
@@ -152,12 +151,10 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
             if (response.status === 201) {
               // add new queue entry if visit created successfully
               addQueueEntry(
-                response.data.uuid,
                 nextQueueLocationUuid,
                 patientUuid,
                 selectedProvider,
                 contentSwitcherIndex,
-                '',
                 status,
                 selectedLocation,
                 priorityComment,
@@ -233,12 +230,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   return (
     <Form className={styles.form} onChange={handleOnChange} onSubmit={handleSubmit}>
       <div>
-        {isTablet && (
-          <Row className={styles.headerGridRow}>
-            <ExtensionSlot name="visit-form-header-slot" className={styles.dataGridRow} state={state} />
-          </Row>
-        )}
-
         {isLoading && (
           <InlineLoading
             className={styles.bannerLoading}
@@ -247,7 +238,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
             status="active"
           />
         )}
-        {patient && <ExtensionSlot name="patient-header-slot" state={bannerState} />}
 
         <Stack gap={8} className={styles.container}>
           {config.showUpcomingAppointments && (
@@ -272,15 +262,13 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
           </section>
           <section className={styles.section}>
             {contentSwitcherIndex !== 0 && (
-              <section className={styles.section}>
-                <Dropdown
-                  id="priority-levels"
-                  titleText="Choose Priority Level"
-                  label="Select a priority level"
-                  items={priorityLevels}
-                  itemToString={(item) => (item ? String(item) : '')}
-                />
-              </section>
+              <Dropdown
+                id="priority-levels"
+                titleText="Choose Priority Level"
+                label="Select a priority level"
+                items={priorityLevels}
+                itemToString={(item) => (item ? String(item) : '')}
+              />
             )}
           </section>
 
@@ -335,29 +323,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
                 </SelectItem>
               ))}
             </Select>
-          </section>
-
-          <section className={styles.section}>
-            <div className={styles.sectionTitle}>{t('otherServicePoint', 'Other Service Points')}</div>
-            <ResponsiveWrapper isTablet={isTablet}>
-              <Select
-                labelText={t('otherServicePoint', 'Select other service point')}
-                id="otherLocation"
-                name="otherQueueLocation"
-                invalidText="Required"
-                value={selectedOtherQueueLocation}
-                onChange={(event) => setSelectedOtherQueueLocation(event.target.value)}
-              >
-                {!selectedOtherQueueLocation ? (
-                  <SelectItem text={t('selectOtherServicePoint', 'Select other service point')} value="" />
-                ) : null}
-                {queueLocations.map((location) => (
-                  <SelectItem key={location.id} text={location.name} value={location.id}>
-                    {location.name}
-                  </SelectItem>
-                ))}
-              </Select>
-            </ResponsiveWrapper>
           </section>
         </Stack>
       </div>

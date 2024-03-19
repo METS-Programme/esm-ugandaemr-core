@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Grid, Row, Column, InlineLoading } from '@carbon/react';
+import { InlineLoading } from '@carbon/react';
 import { usePatientContactAttributes } from './hooks/usePatientAttributes';
 import styles from './contact-details.scss';
 
@@ -46,9 +46,7 @@ const Contact: React.FC<{ contact: Array<fhir.ContactPoint>; patientUuid: string
         {isLoading ? (
           <InlineLoading description={t('loading', 'Loading...')} />
         ) : (
-          contactAttributes?.map(({ attributeType, value, uuid }) => (
-            <li key={uuid}>{/* {attributeType.display} : {value} */}</li>
-          ))
+          contactAttributes?.map(({ attributeType, value, uuid }) => <li key={uuid}>{attributeType.display}</li>)
         )}
       </ul>
     </div>
