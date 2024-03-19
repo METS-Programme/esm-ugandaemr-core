@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StructuredListSkeleton, ContentSwitcher, Switch } from '@carbon/react';
 import styles from './care-panel.scss';
