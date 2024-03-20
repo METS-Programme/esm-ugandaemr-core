@@ -6814,21 +6814,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ugandaemr/esm-outpatient-app@workspace:packages/esm-outpatient-app":
-  version: 0.0.0-use.local
-  resolution: "@ugandaemr/esm-outpatient-app@workspace:packages/esm-outpatient-app"
-  dependencies:
-    "@carbon/react": ^1.14.0
-    "@openmrs/openmrs-form-engine-lib": next
-    lodash-es: ^4.17.15
-    webpack: ^5.83.1
-  peerDependencies:
-    "@openmrs/esm-framework": 5.x
-    react: 18.x
-    react-i18next: 11.x
-  languageName: unknown
-  linkType: soft
-
 "@ugandaemr/esm-patient-flags-app@workspace:packages/esm-patient-flags-app":
   version: 0.0.0-use.local
   resolution: "@ugandaemr/esm-patient-flags-app@workspace:packages/esm-patient-flags-app"
