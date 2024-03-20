@@ -113,29 +113,6 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
   const conceptUuids = observationConfig.map((config) => config.uuidConfig);
 
   const orderedEnrollments = orderBy(enrollments, 'dateEnrolled', 'desc');
-  const headers = useMemo(
-    () =>
-      Object.entries(programDetailsMap[programName] ?? { ...shareObjProperty }).map(([key, value]) => ({
-        key,
-        header: value,
-      })),
-    [programName],
-  );
-  const rows = useMemo(
-    () =>
-      orderedEnrollments?.map((enrollment) => {
-        const firstEncounter = enrollment?.firstEncounter ?? {};
-        const enrollmentEncounterUuid = enrollment?.enrollmentEncounterUuid;
-        return {
-          id: `${enrollment.enrollmentUuid}`,
-          ...enrollment,
-          ...firstEncounter,
-          changeReasons: enrollment?.firstEncounter?.changeReasons?.join(', '),
-          enrollmentEncounterUuid: enrollmentEncounterUuid,
-        };
-      }),
-    [orderedEnrollments],
-  );
 
   const handleDiscontinue = (enrollment) => {
     launchPatientWorkspace('patient-form-entry-workspace', {
