@@ -7884,70 +7884,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ugandaemr/esm-family-health-app@workspace:packages/esm-family-health-app":
-  version: 0.0.0-use.local
-  resolution: "@ugandaemr/esm-family-health-app@workspace:packages/esm-family-health-app"
-  dependencies:
-    "@carbon/react": ^1.14.0
-    "@openmrs/openmrs-form-engine-lib": next
-    lodash-es: ^4.17.15
-    webpack: ^5.83.1
-  peerDependencies:
-    "@openmrs/esm-framework": 5.x
-    react: 18.x
-    react-i18next: 11.x
-  languageName: unknown
-  linkType: soft
-
-"@ugandaemr/esm-hiv-app@workspace:packages/esm-hiv-app":
-  version: 0.0.0-use.local
-  resolution: "@ugandaemr/esm-hiv-app@workspace:packages/esm-hiv-app"
-  dependencies:
-    "@carbon/react": ^1.14.0
-    "@openmrs/openmrs-form-engine-lib": next
-    lodash-es: ^4.17.21
-    react-image-annotate: ^1.8.0
-    webpack: ^5.88.1
-  peerDependencies:
-    "@openmrs/esm-framework": "*"
-    dayjs: 1.x
-    react: 18.x
-    react-i18next: 11.x
-    react-router-dom: 6.x
-    rxjs: 6.x
-  languageName: unknown
-  linkType: soft
-
-"@ugandaemr/esm-inpatient-app@workspace:packages/esm-ipd-app":
-  version: 0.0.0-use.local
-  resolution: "@ugandaemr/esm-inpatient-app@workspace:packages/esm-ipd-app"
-  dependencies:
-    "@carbon/react": ^1.14.0
-    "@openmrs/openmrs-form-engine-lib": next
-    lodash-es: ^4.17.15
-    webpack: ^5.83.1
-  peerDependencies:
-    "@openmrs/esm-framework": 5.x
-    react: 18.x
-    react-i18next: 11.x
-  languageName: unknown
-  linkType: soft
-
-"@ugandaemr/esm-outpatient-app@workspace:packages/esm-outpatient-app":
-  version: 0.0.0-use.local
-  resolution: "@ugandaemr/esm-outpatient-app@workspace:packages/esm-outpatient-app"
-  dependencies:
-    "@carbon/react": ^1.14.0
-    "@openmrs/openmrs-form-engine-lib": next
-    lodash-es: ^4.17.15
-    webpack: ^5.83.1
-  peerDependencies:
-    "@openmrs/esm-framework": 5.x
-    react: 18.x
-    react-i18next: 11.x
-  languageName: unknown
-  linkType: soft
-
 "@ugandaemr/esm-patient-flags-app@workspace:packages/esm-patient-flags-app":
   version: 0.0.0-use.local
   resolution: "@ugandaemr/esm-patient-flags-app@workspace:packages/esm-patient-flags-app"
@@ -8000,39 +7936,6 @@ __metadata:
     react: 18.x
     react-i18next: 11.x
     react-router-dom: 6.x
-  languageName: unknown
-  linkType: soft
-
-"@ugandaemr/esm-radiology-app@workspace:packages/esm-radiology-app":
-  version: 0.0.0-use.local
-  resolution: "@ugandaemr/esm-radiology-app@workspace:packages/esm-radiology-app"
-  dependencies:
-    "@carbon/react": ^1.14.0
-    lodash-es: ^4.17.21
-    react-image-annotate: ^1.8.0
-    webpack: ^5.88.1
-  peerDependencies:
-    "@openmrs/esm-framework": "*"
-    dayjs: 1.x
-    react: 18.x
-    react-i18next: 11.x
-    react-router-dom: 6.x
-    rxjs: 6.x
-  languageName: unknown
-  linkType: soft
-
-"@ugandaemr/esm-tb-app@workspace:packages/esm-tb-app":
-  version: 0.0.0-use.local
-  resolution: "@ugandaemr/esm-tb-app@workspace:packages/esm-tb-app"
-  dependencies:
-    "@carbon/react": ^1.14.0
-    "@openmrs/openmrs-form-engine-lib": next
-    lodash-es: ^4.17.15
-    webpack: ^5.83.1
-  peerDependencies:
-    "@openmrs/esm-framework": 5.x
-    react: 18.x
-    react-i18next: 11.x
   languageName: unknown
   linkType: soft
 
