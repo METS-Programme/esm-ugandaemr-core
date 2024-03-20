@@ -66,16 +66,14 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
         </CardHeader>
         <div style={{ width: '100%', minHeight: '20rem' }}>
           {programEnrolled === 'HIV Program' ? (
-            <>
-              <ProgramEnrollment
-                patientUuid={patientUuid}
-                programName={switchItem?.name}
-                enrollments={enrollments}
-                formEntrySub={formEntrySub}
-                launchPatientWorkspace={launchPatientWorkspace}
-                PatientChartProps={''}
-              />
-            </>
+            <ProgramEnrollment
+              patientUuid={patientUuid}
+              programName={switchItem?.name}
+              enrollments={enrollments}
+              formEntrySub={formEntrySub}
+              launchPatientWorkspace={launchPatientWorkspace}
+              PatientChartProps={''}
+            />
           ) : (
             <div className={styles.emptyState}>
               <span>No data to display for this program</span>
