@@ -6853,7 +6853,6 @@ __metadata:
   resolution: "@ugandaemr/esm-patient-queues-app@workspace:packages/esm-patient-queues-app"
   dependencies:
     "@carbon/react": ^1.13.0
-    "@openmrs/openmrs-form-engine-lib": next
     dayjs: ^1.11.6
     lodash-es: ^4.17.15
     qrcode.react: ^3.1.0
@@ -6874,7 +6873,6 @@ __metadata:
   resolution: "@ugandaemr/esm-ugandaemr-app@workspace:packages/esm-ugandaemr-app"
   dependencies:
     "@carbon/react": ^1.14.0
-    "@openmrs/openmrs-form-engine-lib": next
     lodash-es: ^4.17.15
     webpack: ^5.83.1
   peerDependencies:
@@ -6894,7 +6892,6 @@ __metadata:
     "@openmrs/esm-framework": next
     "@openmrs/esm-patient-common-lib": next
     "@openmrs/esm-styleguide": ^5.1.0
-    "@openmrs/openmrs-form-engine-lib": next
     "@swc/cli": ^0.1.57
     "@swc/core": ^1.3.6
     "@swc/jest": ^0.2.23
@@ -6959,8 +6956,6 @@ __metadata:
     webpack-cli: ^4.10.0
     webpack-dev-server: ^4.8.1
     zod: ^3.22.4
-  peerDependencies:
-    "@openmrs/openmrs-form-engine-lib": 5.x
   languageName: unknown
   linkType: soft
 
