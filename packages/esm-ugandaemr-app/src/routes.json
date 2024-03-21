@@ -87,6 +87,14 @@
             "meta": {
                 "name": "Form Render Test"
             }
+        },
+      {
+        "name": "dispensing-app-menu-item",
+        "component": "dispensingAppMenuItem",
+        "slot": "app-menu-item-slot",
+        "meta": {
+          "name": "Dispensing App"
         }
+      }
     ]
 }
