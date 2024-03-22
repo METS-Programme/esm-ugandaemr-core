@@ -93,7 +93,7 @@
         "component": "dispensingAppMenuItem",
         "slot": "app-menu-item-slot",
         "meta": {
-          "name": "Dispensing App"
+          "name": "Dispensing"
         }
       }
     ]

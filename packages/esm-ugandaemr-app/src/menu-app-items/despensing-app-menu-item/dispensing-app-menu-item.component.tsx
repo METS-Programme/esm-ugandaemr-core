@@ -10,7 +10,7 @@ const Item = () => {
   return (
     <ClickableTile className={styles.customTile} id="menu-item" href={`${openmrsSpaBase}dispensing`}>
       <div className="customTileTitle">{<Medication  size={24} />}</div>
-      <div>Dispensing app</div>
+      <div>Dispensing</div>
     </ClickableTile>
   );
 };
