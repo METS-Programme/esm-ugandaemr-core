@@ -1,8 +1,22 @@
-import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle } from '@openmrs/esm-framework';
+import { defineConfigSchema, getSyncLifecycle } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 import { createDashboardLink } from './createDashboardLink';
-import { dashboardMeta } from './dashboard.meta';
+import { ClinicalRoomMeta, ReceptionMeta, TriageMeta, dashboardMeta } from './dashboard.meta';
+import editQueueEntryStatusModalComponent from './active-visits/change-status-dialog.component';
+import patientChartMoveToNextServicePointModalComponent from './active-visits/change-status-move-to-next-dialog.component';
+import moveToNextServicePointButtonComponent from './active-visits/move-to-next-service-point-action.components';
+import addPatientToQueueComponent from './visit-form/visit-form.component';
+import notesModalComponent from './active-visits/notes-dialog.component';
+import pickPatientEntryQueueComponent from './active-visits/pick-patient-dialog.component';
+import queueScreenComponent from './queue-board/queue-board.component';
+import testScreenComponent from './test.component';
+import rootComponent from './root.component';
+import homeDashboardComponent from './home.component';
+import outpatientSideNavExtComponent from './side-menu/side-menu.component';
+import triageRoomComponent from './queue-triage-home.component';
+import receptionRoomComponent from './queue-reception-home.component';
+import clinicalRoomComponent from './queue-clinical-room-home.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -16,45 +30,46 @@ export function startupApp() {
 }
 
 // pages
-export const root = getAsyncLifecycle(() => import('./root.component'), options);
+export const root = getSyncLifecycle(rootComponent, options);
+
+export const triageRoom = getSyncLifecycle(triageRoomComponent, options);
+
+export const receptionRoom = getSyncLifecycle(receptionRoomComponent, options);
+
+export const clinicalRoom = getSyncLifecycle(clinicalRoomComponent, options);
+
+export const homeDashboard = getSyncLifecycle(homeDashboardComponent, options);
 
 // extensions
-export const outpatientSideNavExt = getAsyncLifecycle(() => import('./side-menu/side-menu.component'), options);
+export const outpatientSideNavExt = getSyncLifecycle(outpatientSideNavExtComponent, options);
 
+// patient queues side nav items
 export const patientQueuesDashboardLink = getSyncLifecycle(createDashboardLink(dashboardMeta), options);
 
-export const homeDashboard = getAsyncLifecycle(() => import('./home.component'), options);
+// reception side nav item
+export const queueReceptionDashboardLink = getSyncLifecycle(createDashboardLink(ReceptionMeta), options);
 
-export const editQueueEntryStatusModal = getAsyncLifecycle(
-  () => import('./active-visits/change-status-dialog.component'),
-  {
-    featureName: 'edit queue status',
-    moduleName,
-  },
-);
+// triage side nav item
+export const queueTriageDashboardLink = getSyncLifecycle(createDashboardLink(TriageMeta), options);
 
-export const patientChartMoveToNextServicePointModal = getAsyncLifecycle(
-  () => import('./active-visits/change-status-move-to-next-dialog.component'),
+// clinical room side nav item
+export const queueClinicalRoomDashboardLink = getSyncLifecycle(createDashboardLink(ClinicalRoomMeta), options);
+
+export const editQueueEntryStatusModal = getSyncLifecycle(editQueueEntryStatusModalComponent, options);
+
+export const patientChartMoveToNextServicePointModal = getSyncLifecycle(
+  patientChartMoveToNextServicePointModalComponent,
   options,
 );
 
-export const moveToNextServicePointButton = getAsyncLifecycle(
-  () => import('./active-visits/move-to-next-service-point-action.components'),
-  options,
-);
+export const moveToNextServicePointButton = getSyncLifecycle(moveToNextServicePointButtonComponent, options);
 
-export const addPatientToQueue = getAsyncLifecycle(() => import('./visit-form/visit-form.component'), {
-  featureName: ' add patient to queue',
-  moduleName,
-});
+export const addPatientToQueue = getSyncLifecycle(addPatientToQueueComponent, options);
 
-export const notesModal = getAsyncLifecycle(() => import('./active-visits/notes-dialog.component'), options);
+export const notesModal = getSyncLifecycle(notesModalComponent, options);
 
-export const pickPatientEntryQueue = getAsyncLifecycle(() => import('./active-visits/pick-patient-dialog.component'), {
-  featureName: 'pick patient dialog',
-  moduleName,
-});
+export const pickPatientEntryQueue = getSyncLifecycle(pickPatientEntryQueueComponent, options);
 
-export const queueScreen = getAsyncLifecycle(() => import('./queue-board/queue-board.component'), options);
+export const queueScreen = getSyncLifecycle(queueScreenComponent, options);
 
-export const testScreen = getAsyncLifecycle(() => import('./test.component'), options);
+export const testScreen = getSyncLifecycle(testScreenComponent, options);
