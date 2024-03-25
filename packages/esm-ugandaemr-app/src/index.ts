@@ -9,6 +9,7 @@ import systemInfoAppMenu from './menu-app-items/system-info-app-item/system-info
 import legacyAdminAppMenu from './menu-app-items/legacy-admin-item/legacy-admin-item.component';
 import cohortBuilderAppMenu from './menu-app-items/cohort-builder-item/cohort-builder-item.component';
 import formRenderTestAppMenu from './menu-app-items/form-render-test-item/form-render-test-item.component';
+import dispensingAppMenu from './menu-app-items/despensing-app-menu-item/dispensing-app-menu-item.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -23,6 +24,7 @@ export const systemInfoAppMenuItem = getSyncLifecycle(systemInfoAppMenu, options
 export const legacyAdminAppMenuItem = getSyncLifecycle(legacyAdminAppMenu, options);
 export const cohortBuilderAppMenuItem = getSyncLifecycle(cohortBuilderAppMenu, options);
 export const formRenderTestAppMenuItem = getSyncLifecycle(formRenderTestAppMenu, options);
+export const dispensingAppMenuItem = getSyncLifecycle(dispensingAppMenu, options);
 
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
