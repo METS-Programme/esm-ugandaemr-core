@@ -9,7 +9,9 @@ import styles from './patient-queue-metrics/clinic-metrics.scss';
 import { useParentLocation } from './active-visits/patient-queues.resource';
 import { usePatientQueuesList } from './active-visit-patient-reception/active-visits-reception.resource';
 import { useAppointmentList, useServicePointCount } from './patient-queue-metrics/clinic-metrics.resource';
-import { useSession } from '@openmrs/esm-framework';
+import { UserHasAccess, useSession } from '@openmrs/esm-framework';
+import QueueLauncher from './queue-launcher/queue-launcher.component';
+import { PRIVILEGE_RECEPTION_QUEUE_LIST } from './constants';
 
 const ReceptionHome: React.FC = () => {
   const { t } = useTranslation();
@@ -26,6 +28,9 @@ const ReceptionHome: React.FC = () => {
   return (
     <div>
       <PatientQueueHeader title="Reception" />
+      <UserHasAccess privilege={PRIVILEGE_RECEPTION_QUEUE_LIST}>
+        <QueueLauncher />
+      </UserHasAccess>
       <div className={styles.cardContainer}>
         <MetricsCard
           values={[{ label: 'Patients', value: pendingCount }]}

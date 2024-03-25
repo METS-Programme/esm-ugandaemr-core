@@ -44,7 +44,7 @@ export const homeDashboard = getSyncLifecycle(homeDashboardComponent, options);
 export const outpatientSideNavExt = getSyncLifecycle(outpatientSideNavExtComponent, options);
 
 // patient queues side nav items
-export const patientQueuesDashboardLink = getSyncLifecycle(createDashboardLink(dashboardMeta), options);
+// export const patientQueuesDashboardLink = getSyncLifecycle(createDashboardLink(dashboardMeta), options);
 
 // reception side nav item
 export const queueReceptionDashboardLink = getSyncLifecycle(createDashboardLink(ReceptionMeta), options);
