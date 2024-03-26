@@ -120,7 +120,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
     }
   }, [contentSwitcherIndex]);
 
-  const filteredlocations = queueRoomLocations?.filter((location) => location.uuid != selectedLocation);
+  const filteredlocations = queueRoomLocations?.filter((location) => location.uuid != null);
 
   const filteredProviders = providers?.flatMap((provider) =>
     provider.attributes.filter(
