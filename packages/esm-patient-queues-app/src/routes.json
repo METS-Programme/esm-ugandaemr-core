@@ -4,34 +4,19 @@
         "fhir2": ">=1.2",
         "webservices.rest": "^2.24.0"
     },
-    "pages": [
-        {
+    "pages": [{
             "component": "root",
             "route": "patient-queues"
         },
         {
             "component": "queueScreen",
             "route": "patient-queues/screen"
-        },
-        {
-            "component": "triageRoom",
-            "route": "patient-queues/triage"
-        },
-        {
-            "component": "receptionRoom",
-            "route": "patient-queues/reception"
-        },
-        {
-            "component": "clinicalRoom",
-            "route": "patient-queues/clinical-room"
-        },
-        {
+        }, {
             "component": "testScreen",
             "route": "form-render-test"
         }
     ],
-    "extensions": [
-        {
+    "extensions": [{
             "name": "outpatient-side-nav-ext",
             "slot": "outpatient-sidebar-slot",
             "component": "outpatientSideNavExt"
@@ -54,60 +39,6 @@
             "name": "patient-queues",
             "slot": "patient-queues-dashboard-slot",
             "component": "root"
-        },
-        {
-            "name": "reception-patient-queues",
-            "slot": "patient-queues-reception-room-dashboard-slot",
-            "component": "receptionRoom"
-        },
-        {
-            "name": "triage-patient-queues",
-            "slot": "patient-queues-triage-room-dashboard-slot",
-            "component": "triageRoom"
-        },
-        {
-            "name": "clinical-room-patient-queues",
-            "slot": "patient-queues-clinical-room-dashboard-slot",
-            "component": "clinicalRoom"
-        },
-        {
-            "name": "queue-reception-dashboard-link",
-            "component": "queueReceptionDashboardLink",
-            "slot": "homepage-dashboard-slot",
-            "privilege": [
-                "reception"
-            ],
-            "meta": {
-                "name": "reception-patient-queues",
-                "slot": "patient-queues-reception-room-dashboard-slot",
-                "title": "Reception"
-            }
-        },
-        {
-            "name": "queue-triage-dashboard-link",
-            "component": "queueTriageDashboardLink",
-            "slot": "homepage-dashboard-slot",
-            "privilege": [
-                "triage"
-            ],
-            "meta": {
-                "name": "triage-patient-queues",
-                "slot": "patient-queues-triage-room-dashboard-slot",
-                "title": "Triage"
-            }
-        },
-        {
-            "name": "queue-clinical-room-dashboard-link",
-            "component": "queueClinicalRoomDashboardLink",
-            "slot": "homepage-dashboard-slot",
-            "privilege": [
-                "clinician"
-            ],
-            "meta": {
-                "name": "clinical-room-patient-queues",
-                "slot": "patient-queues-clinical-room-dashboard-slot",
-                "title": "Clinical Room"
-            }
         },
         {
             "name": "edit-queue-entry-status-modal",
@@ -168,7 +99,7 @@
             "component": "addQueueEntryWidget"
         },
         {
-            "name": "notes-dialog-modal",
+            "name" :"notes-dialog-modal",
             "component": "notesModal"
         }
     ]
