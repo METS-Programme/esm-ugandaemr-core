@@ -22,13 +22,15 @@ type SwitcherItem = {
 
 const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launchPatientWorkspace }) => {
   const { t } = useTranslation();
-  const [programEnrolled, setProgramEnrolled] = useState<programs>('HIV Program');
+  const [programEnrolled, setProgramEnrolled] = useState<programs>('TB Program');
   const { isLoading, error, enrollments } = useEnrollmentHistory(patientUuid);
-  const switcherHeaders = enrollments?.map((item) => item.programName);
+  // const switcherHeaders = enrollments?.map((item) => item.programName);
+  const switcherHeaders = enrollments;
   const [switchItem, setSwitcherItem] = useState<SwitcherItem>();
-  const handleItemTabChange = (index, name) => {
-    setSwitcherItem(index);
+  const handleItemTabChange = (name) => {
+    setProgramEnrolled(name);
   };
+  // console.info(enrollments);
 
   if (isLoading) {
     return (
@@ -44,12 +46,9 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
 
   if (Object.keys(enrollments).length === 0) {
     return (
-      <>
-        <EmptyState displayText={t('carePanel', 'care panel')} headerTitle={t('carePanel', 'Care panel')} />
-        <div className={styles.careProgramContainer}>
-          <CarePrograms patientUuid={patientUuid} />
-        </div>
-      </>
+      <div className={styles.careProgramContainer}>
+        <CarePrograms patientUuid={patientUuid} />
+      </div>
     );
   }
   return (
@@ -57,8 +56,8 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
       <div className={styles.widgetCard}>
         <CardHeader title={t('carePanel', 'Care Panel')}>
           <div className={styles.contextSwitcherContainer}>
-            <ContentSwitcher onChange={(index) => handleItemTabChange(index, switcherHeaders[index])}>
-              {switcherHeaders?.map((enrollment) => (
+            <ContentSwitcher onChange={(e) => handleItemTabChange(e.name)}>
+              {switcherHeaders?.map((enrollment, idx) => (
                 <Switch key={enrollment} name={enrollment} text={enrollment} />
               ))}
             </ContentSwitcher>
@@ -80,9 +79,8 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
             </div>
           )}
         </div>
-
-        <CarePrograms patientUuid={patientUuid} />
       </div>
+      <CarePrograms patientUuid={patientUuid} />
     </>
   );
 };
