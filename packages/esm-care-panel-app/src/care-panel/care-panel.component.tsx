@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StructuredListSkeleton, ContentSwitcher, Switch } from '@carbon/react';
 import styles from './care-panel.scss';
-import { useEnrollmentHistory } from '../hooks/useEnrollmentHistory';
+import { usePatientPrograms } from '../hooks/useEnrollmentHistory';
 import ProgramEnrollment from '../program-enrollment/program-enrollment.component';
 import { CardHeader, EmptyState } from '@openmrs/esm-patient-common-lib';
 import { ErrorState } from '@openmrs/esm-framework';
@@ -23,9 +23,8 @@ type SwitcherItem = {
 const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launchPatientWorkspace }) => {
   const { t } = useTranslation();
   const [programEnrolled, setProgramEnrolled] = useState<programs>('TB Program');
-  const { isLoading, error, enrollments } = useEnrollmentHistory(patientUuid);
-  // const switcherHeaders = enrollments?.map((item) => item.programName);
-  const switcherHeaders = enrollments;
+  const { isLoading, error, enrollments } = usePatientPrograms(patientUuid);
+  const switcherHeaders = enrollments?.map((item) => item.display);
   const [switchItem, setSwitcherItem] = useState<SwitcherItem>();
   const handleItemTabChange = (name) => {
     setProgramEnrolled(name);

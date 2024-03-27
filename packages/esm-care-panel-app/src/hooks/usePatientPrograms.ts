@@ -1,16 +1,21 @@
 import useSWR from 'swr';
 import { openmrsFetch } from '@openmrs/esm-framework';
 
-export const useEnrollmentHistory = (patientUuid: string) => {
+export interface patientProgramResponse {
+  uuid: string;
+  display: string;
+}
+
+export const usePatientPrograms = (patientUuid: string) => {
   const enrollmentHistoryUrl = `/ws/rest/v1/programenrollment/?patient=${patientUuid}`;
-  const { data, isValidating, error, isLoading } = useSWR<{ data: Array<Record<string, any>> }>(
+  const { data, isValidating, error, isLoading } = useSWR<{ data: { results: Array<patientProgramResponse> } }>(
     enrollmentHistoryUrl,
     openmrsFetch,
   );
   return {
     error: error,
     isLoading: isLoading,
-    enrollments: data?.data ?? [],
+    enrollments: data?.data?.results ?? [],
     isValidating,
   };
 };
