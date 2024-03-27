@@ -1,35 +1,35 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import dayjs from 'dayjs';
 import {
   Button,
   ButtonSet,
   DatePicker,
   DatePickerInput,
   Form,
-  Stack,
-  RadioButtonGroup,
   RadioButton,
+  RadioButtonGroup,
+  Stack,
 } from '@carbon/react';
-import { useTranslation } from 'react-i18next';
 import {
-  useSession,
-  useLayoutType,
-  toOmrsIsoString,
-  toDateObjectStrict,
+  showModal,
   showNotification,
   showToast,
+  toDateObjectStrict,
+  toOmrsIsoString,
   useConfig,
-  showModal,
+  useLayoutType,
+  useSession,
 } from '@openmrs/esm-framework';
-import styles from './standard-regimen.scss';
-import StandardRegimen from './standard-regimen.component';
-import RegimenReason from './regimen-reason.component';
-import { Encounter, Regimen, UpdateObs } from '../types';
-import { saveEncounter, updateEncounter } from './regimen.resource';
-import { useRegimenEncounter } from '../hooks/useRegimenEncounter';
-import { CarePanelConfig } from '../config-schema';
+import dayjs from 'dayjs';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { mutate } from 'swr';
+import { CarePanelConfig } from '../config-schema';
+import { useRegimenEncounter } from '../hooks/useRegimenEncounter';
+import { Encounter, Regimen, UpdateObs } from '../types';
 import NonStandardRegimen from './non-standard-regimen.component';
+import RegimenReason from './regimen-reason.component';
+import { saveEncounter, updateEncounter } from './regimen.resource';
+import StandardRegimen from './standard-regimen.component';
+import styles from './standard-regimen.scss';
 import { addOrUpdateObsObject } from './utils';
 
 interface RegimenFormProps {

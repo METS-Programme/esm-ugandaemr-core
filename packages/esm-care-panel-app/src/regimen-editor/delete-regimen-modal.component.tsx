@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button, ModalBody, ModalFooter, ModalHeader } from '@carbon/react';
 import { showNotification, showToast } from '@openmrs/esm-framework';
-import { deleteEncounter } from './regimen.resource';
+import React, { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { mutate } from 'swr';
+import { deleteEncounter } from './regimen.resource';
 
 interface DeleteRegimenModalProps {
   closeCancelModal: () => void;

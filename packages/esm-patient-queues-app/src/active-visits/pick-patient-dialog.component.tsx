@@ -1,15 +1,4 @@
-import {
-  Button,
-  ContentSwitcher,
-  Form,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  Select,
-  SelectItem,
-  Switch,
-  TextArea,
-} from '@carbon/react';
+import { Button, Form, ModalBody, ModalFooter, ModalHeader } from '@carbon/react';
 
 import {
   formatDate,
@@ -28,7 +17,6 @@ import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 
-import styles from './change-status-dialog.scss';
 import { trimVisitNumber } from '../helpers/functions';
 
 interface PickPatientDialogProps {

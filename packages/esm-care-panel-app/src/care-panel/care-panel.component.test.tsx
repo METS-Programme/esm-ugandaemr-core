@@ -1,8 +1,7 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import CarePanel from './care-panel.component';
-import { mockComponent } from 'react-dom/test-utils';
+import React from 'react';
 import { mockPatient } from '../../../../__mocks__/patient-summary.mock';
+import CarePanel from './care-panel.component';
 
 jest.mock('../program-summary/program-summary.component', () => ({
   __esModule: true,

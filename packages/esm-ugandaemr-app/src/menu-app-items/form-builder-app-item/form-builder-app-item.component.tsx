@@ -1,7 +1,7 @@
 import { ClickableTile } from '@carbon/react';
+import { DocumentAdd } from '@carbon/react/icons';
 import React from 'react';
 import styles from './form-builder-app-item.scss';
-import { DocumentAdd } from '@carbon/react/icons';
 
 const Item = () => {
   // items

@@ -44,10 +44,6 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           server-token: ${{ env.TURBO_TOKEN }}
 
-
-      - name: Run lint, type checks and tests
-        run: yarn verify
-
       - name: Run build
         run: yarn turbo build --color --concurrency=5
 

@@ -1,8 +1,7 @@
+import { openmrsFetch } from '@openmrs/esm-framework';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
-import { FetchResponse, openmrsFetch, useConfig } from '@openmrs/esm-framework';
 import { systemInfo } from './system-info.types';
-import { useState, useEffect } from 'react';
-import { PropertyResponse } from './types';
 
 export function useGetSystemInformation() {
   const apiUrl = `/ws/rest/v1/systeminformation?v=full`;

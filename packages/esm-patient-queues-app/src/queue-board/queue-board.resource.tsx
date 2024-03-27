@@ -1,9 +1,8 @@
-import { usePatientQueueRequest } from '../active-visits/patient-queues.resource';
-import { QueueRoomsResponse, useQueueRoomLocations } from '../hooks/useQueueRooms';
-import useSWR from 'swr';
 import { openmrsFetch, useSession } from '@openmrs/esm-framework';
+import useSWR from 'swr';
+import { usePatientQueueRequest } from '../active-visits/patient-queues.resource';
+import { QueueRoomsResponse } from '../hooks/useQueueRooms';
 import { PatientQueue } from '../types/patient-queues';
-import { useEffect, useState } from 'react';
 
 export function usePatientQueuesListByStatus(status: string) {
   const apiUrl = `/ws/rest/v1/patientqueue?v=full&status=${status}`;

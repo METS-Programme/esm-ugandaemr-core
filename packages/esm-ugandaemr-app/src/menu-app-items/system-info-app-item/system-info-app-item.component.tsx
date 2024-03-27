@@ -1,7 +1,7 @@
 import { ClickableTile } from '@carbon/react';
+import { VolumeFileStorage } from '@carbon/react/icons';
 import React from 'react';
 import styles from './system-info-app-item.scss';
-import { VolumeFileStorage } from '@carbon/react/icons';
 
 const Item = () => {
   // items

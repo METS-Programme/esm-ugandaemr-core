@@ -1,11 +1,11 @@
-import useSWR from 'swr';
-import { map as rxjsMap } from 'rxjs/operators';
 import { openmrsFetch, openmrsObservableFetch } from '@openmrs/esm-framework';
-import { type PatientProgram, type Program, type ProgramsFetchResponse } from '../types';
-import uniqBy from 'lodash-es/uniqBy';
 import filter from 'lodash-es/filter';
 import includes from 'lodash-es/includes';
 import map from 'lodash-es/map';
+import uniqBy from 'lodash-es/uniqBy';
+import { map as rxjsMap } from 'rxjs/operators';
+import useSWR from 'swr';
+import { type PatientProgram, type Program, type ProgramsFetchResponse } from '../types';
 
 export const customRepresentation = `custom:(uuid,display,program,dateEnrolled,dateCompleted,location:(uuid,display))`;
 

@@ -1,12 +1,12 @@
-import React from 'react';
 import { Button, Column, Grid } from '@carbon/react';
 import { FitToScreen, ShrinkScreen } from '@carbon/react/icons';
-import styles from './queue-board.scss';
-import BaseBoardComponent from './base-board/base-board.component';
+import React from 'react';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
-import { usePatientQueueBoard } from './queue-board.resource';
-import { BoardSkeleton } from './board-skeleton.component';
 import { getPatientQueueWaitingList, updatePatientQueueWaitingList } from '../helpers/helpers';
+import BaseBoardComponent from './base-board/base-board.component';
+import { BoardSkeleton } from './board-skeleton.component';
+import { usePatientQueueBoard } from './queue-board.resource';
+import styles from './queue-board.scss';
 import { readTickets } from './voice.utils';
 
 const QueueBoardComponent: React.FC = () => {

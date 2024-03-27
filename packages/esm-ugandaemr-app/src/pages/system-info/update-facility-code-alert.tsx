@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
 import { ActionableNotification } from '@carbon/react';
-import { navigate, UserHasAccess } from '@openmrs/esm-framework';
-import { useRetrieveFacilityCode } from './system-info.resources';
+import { UserHasAccess, navigate } from '@openmrs/esm-framework';
+import React, { useEffect, useState } from 'react';
 import { PRIVILEGE_UPDATE_FACILITY_CODE } from '../../constants';
+import { useRetrieveFacilityCode } from './system-info.resources';
 
 const UpdateFacilityCodeAlert = () => {
   const [showAlert, setShowAlert] = useState(false);

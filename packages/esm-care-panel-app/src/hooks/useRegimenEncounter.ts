@@ -1,6 +1,5 @@
 import { openmrsFetch } from '@openmrs/esm-framework';
 import useSWR from 'swr';
-import { RegimenEncounter } from '../types';
 
 export const useRegimenEncounter = (category: string, patientUuid: string) => {
   const regimenEncounterUrl = `/ws/rest/v1/ugandaemr/lastRegimenEncounter?patientUuid=${patientUuid}&category=${category}`;

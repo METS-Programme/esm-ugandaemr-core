@@ -1,8 +1,6 @@
-import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
+import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
-import { createDashboardLink } from './createDashboardLink';
-import { facilityHomeDashboardMeta, hieHomeDashboardMeta } from './dashboard.meta';
 
 import formBuilderAppMenu from './menu-app-items/form-builder-app-item/form-builder-app-item.component';
 import systemInfoAppMenu from './menu-app-items/system-info-app-item/system-info-app-item.component';
@@ -30,35 +28,6 @@ export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 }
 
-// pages
-export const facilityDashboard = getAsyncLifecycle(() => import('./views/facility/facility-root.component'), options);
-export const hieDashboard = getAsyncLifecycle(() => import('./views/hie/hie-root.component'), options);
-
-// extensions
-export const facilityHomeDashboardLink = getSyncLifecycle(createDashboardLink(facilityHomeDashboardMeta), options);
-export const facilityHomeDashboardExt = getAsyncLifecycle(() => import('./views/facility/facility-home.component'), {
-  featureName: 'facility dashboard',
-  moduleName,
-});
-
-export const hieHomeDashboardLink = getSyncLifecycle(createDashboardLink(hieHomeDashboardMeta), options);
-export const hieHomeDashboardExt = getAsyncLifecycle(() => import('./views/hie/hie-home.component'), options);
-
-// cervical cancer
-export const cervicalCancerSummaryExt = getAsyncLifecycle(
-  () => import('./views/cervical-cancer/cacx-visits/cacx-visits.component'),
-  {
-    featureName: 'cervical-cancer-summary-extension',
-    moduleName,
-  },
-);
-
-// clinical views divider
-/*export const clinicalViewsDivider = getSyncLifecycle(
-  createOHRIPatientChartSideNavLink(patientChartDivider_dashboardMeta),
-  options,
-);*/
-
 // system info lin
 export const systemInfoMenuLink = getAsyncLifecycle(() => import('./pages/system-info/system-info-link.component'), {
   featureName: 'system info link',
@@ -69,19 +38,3 @@ export const systemInfoPage = getAsyncLifecycle(() => import('./pages/system-inf
   featureName: 'system info page',
   moduleName,
 });
-
-// export const retrieveFacilityCodeModal = getAsyncLifecycle(
-//   () => import('./pages/system-info/facility-modal.component'),
-//   {
-//     featureName: 'retrieve facility code modal',
-//     moduleName,
-//   },
-// );
-
-// export const updateFacilityCodeAlert = getAsyncLifecycle(
-//   () => import('./pages/system-info/update-facility-code-alert'),
-//   {
-//     featureName: 'update facility code alert',
-//     moduleName,
-//   },
-// );

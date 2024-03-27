@@ -1,6 +1,6 @@
+import { fhirBaseUrl, openmrsFetch } from '@openmrs/esm-framework';
 import { useMemo } from 'react';
 import useSWR from 'swr';
-import { fhirBaseUrl, openmrsFetch } from '@openmrs/esm-framework';
 
 interface FHIRResponse {
   entry: Array<{ resource: fhir.Patient }>;

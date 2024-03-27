@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Column,
-  Grid,
   DataTable,
   DataTableSkeleton,
+  Grid,
   Table,
-  TableHead,
-  TableRow,
-  TableHeader,
   TableBody,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
   Tile,
 } from '@carbon/react';
-import { ErrorState, UserHasAccess, showToast, showNotification } from '@openmrs/esm-framework';
-import { useGetSystemInformation, updatePropertyValue, useRetrieveFacilityCode } from './system-info.resources';
-import styles from './system-info.scss';
-import coatOfArms from '../../images/coat_of_arms.png';
-import UpdateFacilityCode from './update-facility-code-button.component';
+import { ErrorState, UserHasAccess, showNotification, showToast } from '@openmrs/esm-framework';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { PRIVILEGE_UPDATE_FACILITY_CODE } from '../../constants';
+import coatOfArms from '../../images/coat_of_arms.png';
 import UpdateInternetPowerButton from '../internet-power/internet-power-button.component';
+import { updatePropertyValue, useGetSystemInformation, useRetrieveFacilityCode } from './system-info.resources';
+import styles from './system-info.scss';
+import UpdateFacilityCode from './update-facility-code-button.component';
 
 interface FacilityCodeDetails {
   value?: string;

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
 import {
   DataTable,
-  DataTableSkeleton,
   Pagination,
+  TabPanel,
   Table,
   TableBody,
   TableCell,
@@ -12,8 +11,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  TabPanel,
 } from '@carbon/react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { formatDatetime, parseDate } from '@openmrs/esm-framework';

@@ -4,14 +4,13 @@ import {
   ContentSwitcher,
   Dropdown,
   Form,
+  InlineLoading,
   Layer,
-  Row,
   Select,
   SelectItem,
   Stack,
   Switch,
   TextArea,
-  InlineLoading,
 } from '@carbon/react';
 import {
   ConfigObject,
@@ -33,11 +32,11 @@ import { useTranslation } from 'react-i18next';
 import { first } from 'rxjs/operators';
 import { addQueueEntry } from '../active-visits/active-visits-table.resource';
 import { amPm, convertTime12to24 } from '../helpers/time-helpers';
-import { NewVisitPayload, SearchTypes } from '../types';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
-import styles from './visit-form.scss';
 import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
+import { NewVisitPayload, SearchTypes } from '../types';
 import { useProviders } from './queue.resource';
+import styles from './visit-form.scss';
 interface VisitFormProps {
   toggleSearchType: (searchMode: SearchTypes, patientUuid) => void;
   patientUuid: string;

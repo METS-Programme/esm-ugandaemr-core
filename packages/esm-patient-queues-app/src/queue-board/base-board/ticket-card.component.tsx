@@ -1,8 +1,8 @@
-import styles from '../../queue-screen/queue-screen.scss';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { PatientQueue } from '../../types/patient-queues';
 import { trimVisitNumber } from '../../helpers/functions';
+import styles from '../../queue-screen/queue-screen.scss';
+import { PatientQueue } from '../../types/patient-queues';
 
 interface TicketCardProp {
   queue: PatientQueue;

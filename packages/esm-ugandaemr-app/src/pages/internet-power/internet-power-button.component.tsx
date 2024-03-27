@@ -1,7 +1,7 @@
 import { Button } from '@carbon/react';
+import { Add } from '@carbon/react/icons';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Add } from '@carbon/react/icons';
 import InternetPowerModal from './internet_power.component';
 
 const UpdateInternetPowerButton = () => {

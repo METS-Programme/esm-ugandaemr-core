@@ -38,7 +38,6 @@
   },
   "dependencies": {
     "@carbon/react": "^1.13.0",
-    "@openmrs/openmrs-form-engine-lib": "next",
     "dayjs": "^1.11.6",
     "lodash-es": "^4.17.15",
     "qrcode.react": "^3.1.0",

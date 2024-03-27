@@ -1,8 +1,8 @@
+import { ExtensionSlot, usePatient } from '@openmrs/esm-framework';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SearchTypes } from '../types';
 import Overlay from '../overlay.component';
-import { ExtensionSlot, usePatient } from '@openmrs/esm-framework';
+import { SearchTypes } from '../types';
 import VisitForm from '../visit-form/visit-form.component';
 
 interface PatientSearchProps {

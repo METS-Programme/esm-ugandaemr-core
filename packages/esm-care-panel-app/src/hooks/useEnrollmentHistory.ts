@@ -1,6 +1,5 @@
-import useSWR from 'swr';
-import groupBy from 'lodash/groupBy';
 import { openmrsFetch } from '@openmrs/esm-framework';
+import useSWR from 'swr';
 
 export const useEnrollmentHistory = (patientUuid: string) => {
   const enrollmentHistoryUrl = `/ws/rest/v1/ugandaemr/patientHistoricalEnrollment?patientUuid=${patientUuid}`;

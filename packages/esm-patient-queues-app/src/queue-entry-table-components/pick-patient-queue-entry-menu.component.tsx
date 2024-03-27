@@ -1,5 +1,5 @@
 import { Button, Tooltip } from '@carbon/react';
-import { Logout, Dashboard, ChooseItem, Notification } from '@carbon/react/icons';
+import { Notification } from '@carbon/react/icons';
 
 import { showModal, useSession } from '@openmrs/esm-framework';
 import React, { useCallback } from 'react';

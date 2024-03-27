@@ -4,7 +4,8 @@
         "fhir2": ">=1.2",
         "webservices.rest": "^2.24.0"
     },
-    "pages": [{
+    "pages": [
+        {
             "component": "facilityDashboard",
             "route": "facility-dashboard"
         },
@@ -17,23 +18,7 @@
             "route": "about"
         }
     ],
-    "extensions": [{
-            "name": "clinical-views-divider",
-            "component": "clinicalViewsDivider",
-            "slot": "patient-chart-dashboard-slot",
-            "privilege": [
-                "Manage Patients"
-            ],
-            "order": 15
-        },
-        {
-            "component": "cervicalCancerSummaryExt",
-            "name": "cervical-cancer-summary-ext",
-            "slot": "cacx-visits-slot",
-            "meta": {
-                "columnSpan": 4
-            }
-        },
+    "extensions": [
         {
             "name": "system-info-link",
             "slot": "app-menu-slot",

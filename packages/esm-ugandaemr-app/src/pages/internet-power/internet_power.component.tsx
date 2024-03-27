@@ -1,7 +1,7 @@
+import { Dropdown, Modal, RadioButton, RadioButtonGroup } from '@carbon/react';
 import React, { useState } from 'react';
-import { Dropdown, Modal, RadioButtonGroup, RadioButton, TextInput } from '@carbon/react';
-import styles from './internet-power.scss';
 import { useTranslation } from 'react-i18next';
+import styles from './internet-power.scss';
 
 interface InternetPowerModalProps {
   closeModal: () => void;

@@ -1,8 +1,8 @@
 import { Button, Tooltip } from '@carbon/react';
 import { CatalogPublish } from '@carbon/react/icons';
+import { showModal } from '@openmrs/esm-framework';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { showModal } from '@openmrs/esm-framework';
 import { MappedPatientQueueEntry } from './patient-queues.resource';
 
 interface NotesActionsMenuProps {

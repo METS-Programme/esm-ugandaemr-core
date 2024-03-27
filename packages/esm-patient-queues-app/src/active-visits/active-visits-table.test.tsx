@@ -1,14 +1,14 @@
-import React from 'react';
-import { screen } from '@testing-library/react';
 import { ConfigObject, useConfig, usePagination, useSession } from '@openmrs/esm-framework';
+import { screen } from '@testing-library/react';
+import React from 'react';
+import { mockMappedQueueEntries } from '../../../../__mocks__/queue-entry.mock';
+import { mockSession } from '../../../../__mocks__/session.mock';
 import { renderWithSwr } from '../../../../tools/test-helpers';
 import { mockServices, mockVisitQueueEntries } from '../../__mocks__/active-visits.mock';
-import ActiveVisitsTable from './active-visits-table.component';
-import { mockMappedQueueEntries } from '../../../../__mocks__/queue-entry.mock';
-import { useVisitQueueEntries } from './active-visits-table.resource';
 import { useQueueRooms } from '../add-provider-queue-room/add-provider-queue-room.resource';
-import { mockSession } from '../../../../__mocks__/session.mock';
 import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
+import ActiveVisitsTable from './active-visits-table.component';
+import { useVisitQueueEntries } from './active-visits-table.resource';
 
 const mockedUseConfig = useConfig as jest.Mock;
 const mockUsePagination = usePagination as jest.Mock;

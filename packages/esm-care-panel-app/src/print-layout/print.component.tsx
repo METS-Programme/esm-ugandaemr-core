@@ -1,6 +1,6 @@
+import { useConfig } from '@openmrs/esm-framework';
 import React, { useRef } from 'react';
 import styles from './print.scss';
-import { useConfig } from '@openmrs/esm-framework';
 
 export function PrintComponent() {
   const componentRef = useRef(null);

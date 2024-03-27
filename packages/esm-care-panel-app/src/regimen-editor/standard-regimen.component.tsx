@@ -1,6 +1,6 @@
+import { Select, SelectItem } from '@carbon/react';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Select, SelectItem } from '@carbon/react';
 import { useStandardRegimen } from '../hooks/useStandardRegimen';
 import styles from './standard-regimen.scss';
 

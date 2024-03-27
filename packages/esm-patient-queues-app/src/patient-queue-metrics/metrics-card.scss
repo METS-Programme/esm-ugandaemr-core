@@ -9,6 +9,7 @@
 
 /* Tablet viewport */
 :global(.omrs-breakpoint-lt-desktop) {
+
   // The card containing the dropdown element should be the first to overflow on tablet
   .cardWithChildren {
     order: 3;

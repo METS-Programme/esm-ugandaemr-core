@@ -1,10 +1,9 @@
-import { FetchResponse, formatDate, openmrsFetch, parseDate, useConfig, Visit } from '@openmrs/esm-framework';
+import { openmrsFetch, Visit } from '@openmrs/esm-framework';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
 import last from 'lodash-es/last';
 import useSWR from 'swr';
-import useSWRImmutable from 'swr/immutable';
-import { Identifer, QueueServiceInfo } from '../types';
+import { Identifer } from '../types';
 import { QueueStatus } from '../utils/utils';
 
 export type QueuePriority = 'Emergency' | 'Not Urgent' | 'Priority' | 'Urgent';

@@ -1,10 +1,6 @@
-import React, { useCallback, useMemo } from 'react';
-import classNames from 'classnames';
-import { useTranslation } from 'react-i18next';
 import {
   Button,
   DataTable,
-  type DataTableHeader,
   DataTableSkeleton,
   InlineLoading,
   InlineNotification,
@@ -15,19 +11,23 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  type DataTableHeader,
 } from '@carbon/react';
 import { Add, Edit } from '@carbon/react/icons';
 import {
+  isDesktop as desktopLayout,
   formatDate,
   formatDatetime,
   useConfig,
-  type ConfigObject,
   useLayoutType,
-  isDesktop as desktopLayout,
+  type ConfigObject,
 } from '@openmrs/esm-framework';
 import { CardHeader, EmptyState, ErrorState, launchPatientWorkspace } from '@openmrs/esm-patient-common-lib';
-import { usePrograms } from './programs.resource';
+import classNames from 'classnames';
+import React, { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './programs-detailed-summary.scss';
+import { usePrograms } from './programs.resource';
 
 interface ProgramsDetailedSummaryProps {
   patientUuid: string;

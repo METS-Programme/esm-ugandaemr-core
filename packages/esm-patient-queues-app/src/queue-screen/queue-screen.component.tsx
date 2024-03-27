@@ -1,9 +1,9 @@
-import React from 'react';
 import { DataTableSkeleton } from '@carbon/react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useActiveTickets } from './useActiveTickets';
 import PatientQueueHeader from '../patient-queue-header/patient-queue-header.component';
 import styles from './queue-screen.scss';
+import { useActiveTickets } from './useActiveTickets';
 
 interface QueueScreenProps {}
 
