@@ -475,6 +475,15 @@
         "label": "Phone Number"
       },
       {
+        "id": "alternativePhone",
+        "type": "person attribute",
+        "uuid": "8c44d411-285f-46c6-9f17-c2f919823b34",
+        "label": "Alternative Phone Number",
+        "validation": {
+          "matches": "^0([0-9](?:(?:[0-9][0-9])|(?:0[0-8])|(4[0-1]))[0-9]{6})$"
+        }
+      },
+      {
         "id": "nextOfKinName",
         "type": "obs",
         "uuid": "162729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
