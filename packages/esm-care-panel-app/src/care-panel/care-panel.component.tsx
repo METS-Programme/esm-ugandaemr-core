@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StructuredListSkeleton, ContentSwitcher, Switch } from '@carbon/react';
 import styles from './care-panel.scss';
-import { useEnrollmentHistory } from '../hooks/useEnrollmentHistory';
+import { usePatientPrograms } from '../hooks/usePatientPrograms';
 import ProgramEnrollment from '../program-enrollment/program-enrollment.component';
 import { CardHeader, EmptyState } from '@openmrs/esm-patient-common-lib';
 import { ErrorState } from '@openmrs/esm-framework';
@@ -22,14 +22,19 @@ type SwitcherItem = {
 
 const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launchPatientWorkspace }) => {
   const { t } = useTranslation();
-  const [programEnrolled, setProgramEnrolled] = useState<programs>('HIV Program');
-  const { isLoading, error, enrollments } = useEnrollmentHistory(patientUuid);
-  const switcherHeaders = enrollments?.map((item) => item.programName);
+  const [programEnrolled, setProgramEnrolled] = useState('TB Program');
+  const { isLoading, error, enrollments } = usePatientPrograms(patientUuid);
+  const switcherHeaders = enrollments?.map((item) => item.program.name);
   const [switchItem, setSwitcherItem] = useState<SwitcherItem>();
-  const handleItemTabChange = (index, name) => {
-    setSwitcherItem(index);
+  const programs = {
+    hiv: 'HIV Program',
+    tb: 'TB Program',
+    mch: 'MCH Program',
+    nutrition: 'Nutrition Program',
   };
-
+  const handleItemTabChange = (name) => {
+    setProgramEnrolled(name);
+  };
   if (isLoading) {
     return (
       <div className={styles.widgetCard}>
@@ -44,12 +49,9 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
 
   if (Object.keys(enrollments).length === 0) {
     return (
-      <>
-        <EmptyState displayText={t('carePanel', 'care panel')} headerTitle={t('carePanel', 'Care panel')} />
-        <div className={styles.careProgramContainer}>
-          <CarePrograms patientUuid={patientUuid} />
-        </div>
-      </>
+      <div className={styles.careProgramContainer}>
+        <CarePrograms patientUuid={patientUuid} />
+      </div>
     );
   }
   return (
@@ -57,15 +59,15 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
       <div className={styles.widgetCard}>
         <CardHeader title={t('carePanel', 'Care Panel')}>
           <div className={styles.contextSwitcherContainer}>
-            <ContentSwitcher onChange={(index) => handleItemTabChange(index, switcherHeaders[index])}>
-              {switcherHeaders?.map((enrollment) => (
+            <ContentSwitcher onChange={(event) => handleItemTabChange(event.name)}>
+              {switcherHeaders?.map((enrollment, index) => (
                 <Switch key={enrollment} name={enrollment} text={enrollment} />
               ))}
             </ContentSwitcher>
           </div>
         </CardHeader>
         <div style={{ width: '100%', minHeight: '20rem' }}>
-          {programEnrolled === 'HIV Program' ? (
+          {programEnrolled === programs.hiv && (
             <ProgramEnrollment
               patientUuid={patientUuid}
               programName={switchItem?.name}
@@ -74,15 +76,15 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
               launchPatientWorkspace={launchPatientWorkspace}
               PatientChartProps={''}
             />
-          ) : (
+          )}
+          {programEnrolled === programs.tb && (
             <div className={styles.emptyState}>
               <span>No data to display for this program</span>
             </div>
           )}
         </div>
-
-        <CarePrograms patientUuid={patientUuid} />
       </div>
+      <CarePrograms patientUuid={patientUuid} />
     </>
   );
 };
