@@ -22,10 +22,16 @@ type SwitcherItem = {
 
 const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launchPatientWorkspace }) => {
   const { t } = useTranslation();
-  const [programEnrolled, setProgramEnrolled] = useState<programs>('HIV Program');
+  const [programEnrolled, setProgramEnrolled] = useState('TB Program');
   const { isLoading, error, enrollments } = usePatientPrograms(patientUuid);
   const switcherHeaders = enrollments?.map((item) => item.program.name);
   const [switchItem, setSwitcherItem] = useState<SwitcherItem>();
+  const programs = {
+    hiv: 'HIV Program',
+    tb: 'TB Program',
+    mch: 'MCH Program',
+    nutrition: 'Nutrition Program',
+  };
   const handleItemTabChange = (name) => {
     setProgramEnrolled(name);
   };
@@ -53,15 +59,15 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
       <div className={styles.widgetCard}>
         <CardHeader title={t('carePanel', 'Care Panel')}>
           <div className={styles.contextSwitcherContainer}>
-            <ContentSwitcher onChange={(e) => handleItemTabChange(e.name)}>
-              {switcherHeaders?.map((enrollment, idx) => (
+            <ContentSwitcher onChange={(event) => handleItemTabChange(event.name)}>
+              {switcherHeaders?.map((enrollment, index) => (
                 <Switch key={enrollment} name={enrollment} text={enrollment} />
               ))}
             </ContentSwitcher>
           </div>
         </CardHeader>
         <div style={{ width: '100%', minHeight: '20rem' }}>
-          {programEnrolled === 'HIV Program' && (
+          {programEnrolled === programs.hiv && (
             <ProgramEnrollment
               patientUuid={patientUuid}
               programName={switchItem?.name}
@@ -71,7 +77,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
               PatientChartProps={''}
             />
           )}
-          {programEnrolled === 'TB Program' && (
+          {programEnrolled === programs.tb && (
             <div className={styles.emptyState}>
               <span>No data to display for this program</span>
             </div>

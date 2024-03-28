@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { openmrsFetch } from '@openmrs/esm-framework';
+import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
 import { configSchema } from '../config-schema';
 
 export interface patientProgramResponse {
@@ -13,7 +13,7 @@ export interface patientProgramResponse {
 }
 
 export const usePatientPrograms = (patientUuid: string) => {
-  const apiUrl = `/ws/rest/v1/programenrollment/?patient=${patientUuid}&v=full`;
+  const apiUrl = `${restBaseUrl}/programenrollment/?patient=${patientUuid}&v=full`;
   const { data, isValidating, error, isLoading } = useSWR<{ data: { results: Array<patientProgramResponse> } }>(
     apiUrl,
     openmrsFetch,
