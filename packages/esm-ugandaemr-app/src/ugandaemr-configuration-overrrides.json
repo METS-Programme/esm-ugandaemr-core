@@ -308,6 +308,7 @@
         "id": "custom",
         "name": "Demographics",
         "fields": [
+          "alternativePhone",
           "maritalStatus",
           "nationality",
           "occupation",
@@ -473,6 +474,15 @@
         "type": "person attribute",
         "uuid": "14d4f066-15f5-102d-96e4-000c29c2a5d7",
         "label": "Phone Number",
+        "validation": {
+          "matches": "^0([0-9](?:(?:[0-9][0-9])|(?:0[0-8])|(4[0-1]))[0-9]{6})$"
+        }
+      },
+      {
+        "id": "alternativePhone",
+        "type": "person attribute",
+        "uuid": "8c44d411-285f-46c6-9f17-c2f919823b34",
+        "label": "Alternative Phone Number",
         "validation": {
           "matches": "^0([0-9](?:(?:[0-9][0-9])|(?:0[0-8])|(4[0-1]))[0-9]{6})$"
         }
