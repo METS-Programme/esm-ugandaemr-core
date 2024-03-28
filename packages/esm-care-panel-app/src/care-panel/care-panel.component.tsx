@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StructuredListSkeleton, ContentSwitcher, Switch } from '@carbon/react';
 import styles from './care-panel.scss';
-import { usePatientPrograms } from '../hooks/useEnrollmentHistory';
+import { usePatientPrograms } from '../hooks/usePatientPrograms';
 import ProgramEnrollment from '../program-enrollment/program-enrollment.component';
 import { CardHeader, EmptyState } from '@openmrs/esm-patient-common-lib';
 import { ErrorState } from '@openmrs/esm-framework';
@@ -22,15 +22,13 @@ type SwitcherItem = {
 
 const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launchPatientWorkspace }) => {
   const { t } = useTranslation();
-  const [programEnrolled, setProgramEnrolled] = useState<programs>('TB Program');
+  const [programEnrolled, setProgramEnrolled] = useState<programs>('HIV Program');
   const { isLoading, error, enrollments } = usePatientPrograms(patientUuid);
-  const switcherHeaders = enrollments?.map((item) => item.display);
+  const switcherHeaders = enrollments?.map((item) => item.program.name);
   const [switchItem, setSwitcherItem] = useState<SwitcherItem>();
   const handleItemTabChange = (name) => {
     setProgramEnrolled(name);
   };
-  // console.info(enrollments);
-
   if (isLoading) {
     return (
       <div className={styles.widgetCard}>
@@ -63,7 +61,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
           </div>
         </CardHeader>
         <div style={{ width: '100%', minHeight: '20rem' }}>
-          {programEnrolled === 'HIV Program' ? (
+          {programEnrolled === 'HIV Program' && (
             <ProgramEnrollment
               patientUuid={patientUuid}
               programName={switchItem?.name}
@@ -72,7 +70,8 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
               launchPatientWorkspace={launchPatientWorkspace}
               PatientChartProps={''}
             />
-          ) : (
+          )}
+          {programEnrolled === 'TB Program' && (
             <div className={styles.emptyState}>
               <span>No data to display for this program</span>
             </div>
