@@ -21,7 +21,6 @@
     },
     "dependencies": {
         "@hookform/resolvers": "^3.3.4",
-        "@openmrs/openmrs-form-engine-lib": "next",
         "@types/base-64": "^1.0.0",
         "axios": "^1.4.0",
         "base-64": "^1.0.0",
