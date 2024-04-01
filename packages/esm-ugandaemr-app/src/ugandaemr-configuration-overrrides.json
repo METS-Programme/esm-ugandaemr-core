@@ -124,28 +124,21 @@
               ]
             }
           },
-          "appointments-summary-dashboard":{
-            "Display conditions": {
-              "privileges": [
-                "Manage Appointments Summary"
-              ]
-            }
-          },
-          "test-results-summary-dashboard":{
+          "test-results-summary-dashboard": {
             "Display conditions": {
               "privileges": [
                 "Manage Patient Test Summary"
               ]
             }
           },
-          "immunization-summary-dashboard":{
+          "immunization-summary-dashboard": {
             "Display conditions": {
               "privileges": [
                 "Manage Immunization Summary"
               ]
             }
           },
-          "visit-header-right-slot":{
+          "visit-header-right-slot": {
             "configure": {
               "Display conditions": {
                 "privileges": [
@@ -156,9 +149,9 @@
           }
         }
       },
-      "laboratory-orders-dashboard-slot":{
+      "laboratory-orders-dashboard-slot": {
         "configure": {
-          "laboratory-orders-summary":{
+          "laboratory-orders-summary": {
             "Display conditions": {
               "privileges": [
                 "Manage Patient Lab Orders"
@@ -167,23 +160,44 @@
           }
         }
       },
-      "patient-chart-appointments-dashboard-slot":{
+      "patient-chart-immunizations-dashboard-slot": {
         "configure": {
-          "appointments-details-widget":{
+          "immunization-details-widget": {
             "Display conditions": {
               "privileges": [
-                "Manage Patient Appointment Orders"
+                "Manage Patient Immunization Orders"
               ]
             }
           }
         }
       },
-      "patient-chart-immunizations-dashboard-slot":{
+      "action-menu-chart-items-slot": {
         "configure": {
-          "immunization-details-widget":{
+          "order-basket-action-menu": {
             "Display conditions": {
               "privileges": [
-                "Manage Patient Immunization Orders"
+                "Manage Order Basket"
+              ]
+            }
+          },
+          "visit-note-nav-button": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Visit Note"
+              ]
+            }
+          },
+          "clinical-form-action-menu": {
+            "Display conditions": {
+              "privileges": [
+                "Manage Clinical Forms"
+              ]
+            }
+          },
+          "vl-suppression-prediction": {
+            "Display conditions": {
+              "privileges": [
+                "Manage AI Button"
               ]
             }
           }
@@ -255,7 +269,8 @@
   "@openmrs/esm-patient-medications-app": {
     "Display conditions": {
       "privileges": [
-        "Add Orders"
+        "Add Orders",
+        "View OrderTemplates"
       ]
     }
   },
@@ -463,7 +478,7 @@
       {
         "id": "email",
         "type": "person attribute",
-        "uuid": "08e6647c-e04b-11ee-9653-9e6008080e30",
+        "uuid": "44b6da84-e638-11ee-9653-9e6008080e30",
         "label": "Email address",
         "validation": {
           "matches": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
@@ -535,10 +550,31 @@
     "extensionSlots": {
       "homepage-dashboard-slot": {
         "configure": {
-          "patient-queues-dashboard-link":{
+          "patient-queues-dashboard-link": {
             "Display conditions": {
               "privileges": [
                 "Manage Patient Queues"
+              ]
+            }
+          },
+          "queue-reception-dashboard-link" :{
+            "Display conditions": {
+              "privileges": [
+                "View Reception Menu"
+              ]
+            }
+          },
+          "queue-triage-dashboard-link":{
+            "Display conditions": {
+              "privileges": [
+                "View Triage Menu"
+              ]
+            }
+          },
+          "queue-clinical-room-dashboard-link":{
+            "Display conditions": {
+              "privileges": [
+                "View Clinical Room Menu"
               ]
             }
           },
@@ -632,53 +668,53 @@
       "alt": "UgandaEMR+ logo"
     }
   },
-  "@openmrs/esm-patient-banner-app":{
-    "extensionSlots":{
-      "patient-actions-slot":{
+  "@openmrs/esm-patient-banner-app": {
+    "extensionSlots": {
+      "patient-actions-slot": {
         "configure": {
-          "start-visit-button":{
+          "start-visit-button": {
             "Display conditions": {
               "privileges": [
                 "Start Visit Button"
               ]
             }
           },
-          "stop-visit-button":{
+          "stop-visit-button": {
             "Display conditions": {
               "privileges": [
                 "Stop Visit Button"
               ]
             }
           },
-          "cancel-visit-button":{
+          "cancel-visit-button": {
             "Display conditions": {
               "privileges": [
                 "Cancel Visit Button"
               ]
             }
           },
-          "mark-patient-deceased-button":{
+          "mark-patient-deceased-button": {
             "Display conditions": {
               "privileges": [
                 "Mark Dead Button"
               ]
             }
           },
-          "edit-patient-details-button":{
+          "edit-patient-details-button": {
             "Display conditions": {
               "privileges": [
                 "Edit Patient Details Button"
               ]
             }
           },
-          "add-patient-to-patient-list-button":{
+          "add-patient-to-patient-list-button": {
             "Display conditions": {
               "privileges": [
                 "Add Patient To List Button"
               ]
             }
           },
-          "patient-move-to-next-service-point":{
+          "patient-move-to-next-service-point": {
             "Display conditions": {
               "privileges": [
                 "Move Patient To Next Service Point Button"
@@ -686,6 +722,42 @@
             }
           }
         }
+      }
+    }
+  },
+  "@openmrs/esm-patient-vitals-app": {
+    "vitals": {
+      "useMuacColors": true,
+      "showPrintButton": true,
+      "useFormEngine": false
+    }
+  },
+  "@openmrs/esm-patient-orders-app": {
+    "orderEncounterType": "dbe038cd-cad5-439d-a761-a6d6d680219c"
+  },
+  "@openmrs/esm-dispensing-app": {
+    "locationBehavior": {
+      "locationColumn": {
+        "enabled": true
+      },
+      "locationFilter": {
+        "enabled": true,
+        "tag": "Login Location"
+      }
+    },
+    "appName": "Dispensing",
+    "valueSets": {
+      "substitutionReason": {
+        "uuid": "2de6e1be-f2dd-4ba0-9516-8a611aa2af9b"
+      },
+      "substitutionType": {
+        "uuid": "b9c5bca0-d026-4245-a4d2-e4c0a8999082"
+      },
+      "reasonForClose": {
+        "uuid": "2462a9d7-61fb-4bf5-9359-aedecb8d03cb"
+      },
+      "reasonForPause": {
+        "uuid": "2462a9d7-61fb-4bf5-9359-aedecb8d03cb"
       }
     }
   }
