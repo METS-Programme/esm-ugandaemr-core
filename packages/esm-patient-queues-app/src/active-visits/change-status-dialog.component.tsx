@@ -72,22 +72,20 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const { currentVisit, currentVisitIsRetrospective } = useVisit(queueEntry.patientUuid);
 
-  useEffect(() => {
-    getCareProvider(sessionUser?.user?.uuid).then(
-      (response) => {
-        setProvider(response?.data?.results[0].uuid);
-        mutate();
-      },
-      (error) => {
-        showNotification({
-          title: t(`errorGettingProvider', 'Couldn't get provider`),
-          kind: 'error',
-          critical: true,
-          description: error?.message,
-        });
-      },
-    );
-  });
+  getCareProvider(sessionUser?.user?.uuid).then(
+    (response) => {
+      setProvider(response?.data?.results[0].uuid);
+      mutate();
+    },
+    (error) => {
+      showNotification({
+        title: t(`errorGettingProvider', 'Couldn't get provider`),
+        kind: 'error',
+        critical: true,
+        description: error?.message,
+      });
+    },
+  );
 
   useEffect(() => {
     if (locations?.length && sessionUser) {
@@ -172,7 +170,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                     subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
                     title: t('visitEnded', 'Visit ended'),
                   });
-                  navigate({ to: `\${openmrsSpaBase}/home/patient-queues` });
+                  navigate({ to: `\${openmrsSpaBase}/home` });
 
                   closeModal();
                   mutate();
@@ -206,9 +204,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   const changeQueueStatus = useCallback(
     (event: { preventDefault: () => void; target: { [x: string]: { value: string } } }) => {
       event.preventDefault();
-
       // check status
-
       if (status === QueueStatus.Pending) {
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
         updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, comment).then(
@@ -244,54 +240,47 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
           comment,
         ).then(
           () => {
-            showToast({
-              critical: true,
-              title: t('completePatient', 'Completed Patient'),
-              kind: 'success',
-              description: t('endVisitSuccessfully', 'You have successfully completed working on the pa'),
-            });
-            closeModal();
-            mutate();
-          },
-          (error) => {
-            showNotification({
-              title: t('queueEntryUpdateFailed', 'Error ending visit'),
-              kind: 'error',
-              critical: true,
-              description: error?.message,
-            });
-          },
-        );
-
-        addQueueEntry(
-          nextQueueLocationUuid,
-          queueEntry?.patientUuid,
-          selectedProvider,
-          contentSwitcherIndex,
-          QueueStatus.Pending,
-          selectedLocation,
-          priorityComment,
-          comment,
-        ).then(
-          () => {
-            showToast({
-              critical: true,
-              title: t('updateEntry', 'Move to next queue'),
-              kind: 'success',
-              description: t('movetonextqueue', 'Move to next queue successfully'),
-            });
-            //pick and route
-            updateQueueEntry(
-              QueueStatus.Picked,
-              provider,
-              currentEntry?.id,
+            addQueueEntry(
+              nextQueueLocationUuid,
+              queueEntry?.patientUuid,
+              selectedProvider,
               contentSwitcherIndex,
+              QueueStatus.Pending,
+              selectedLocation,
               priorityComment,
-              'comment',
+              comment,
             ).then(
               () => {
-                // view patient summary
-                navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry.patientUuid}/chart` });
+                //pick and route
+                updateQueueEntry(
+                  QueueStatus.Picked,
+                  provider,
+                  currentEntry?.id,
+                  contentSwitcherIndex,
+                  priorityComment,
+                  comment,
+                ).then(
+                  () => {
+                    showToast({
+                      critical: true,
+                      title: t('updateEntry', 'Move to next queue'),
+                      kind: 'success',
+                      description: t('movetonextqueue', 'Move to next queue successfully'),
+                    });
+                    // view patient summary
+                    navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry.patientUuid}/chart` });
+                    closeModal();
+                    mutate();
+                  },
+                  (error) => {
+                    showNotification({
+                      title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+                      kind: 'error',
+                      critical: true,
+                      description: error?.message,
+                    });
+                  },
+                );
 
                 closeModal();
                 mutate();
@@ -305,13 +294,10 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                 });
               },
             );
-
-            closeModal();
-            mutate();
           },
           (error) => {
             showNotification({
-              title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+              title: t('queueEntryUpdateFailed', 'Error ending visit'),
               kind: 'error',
               critical: true,
               description: error?.message,
