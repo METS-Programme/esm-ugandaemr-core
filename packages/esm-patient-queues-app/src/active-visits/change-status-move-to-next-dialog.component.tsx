@@ -39,13 +39,9 @@ interface ChangeStatusDialogProps {
 const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, closeModal }) => {
   const { t } = useTranslation();
 
-  const locations = useLocations();
-
   const sessionUser = useSession();
 
   const { providers } = useProviders();
-
-  const [selectedLocation, setSelectedLocation] = useState('');
 
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
 
@@ -81,12 +77,6 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
       });
     },
   );
-
-  useEffect(() => {
-    if (locations?.length && sessionUser) {
-      setSelectedLocation(sessionUser?.sessionLocation?.uuid);
-    }
-  }, [locations, sessionUser]);
 
   useMemo(() => {
     switch (statusSwitcherIndex) {

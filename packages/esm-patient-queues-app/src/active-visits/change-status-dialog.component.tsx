@@ -46,11 +46,7 @@ interface ChangeStatusDialogProps {
 const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEntry, closeModal }) => {
   const { t } = useTranslation();
 
-  const locations = useLocations();
-
   const { providers } = useProviders();
-
-  const [selectedLocation, setSelectedLocation] = useState('');
 
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
 
@@ -87,12 +83,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     },
   );
 
-  useEffect(() => {
-    if (locations?.length && sessionUser) {
-      setSelectedLocation(sessionUser?.sessionLocation?.uuid);
-    }
-  }, [locations, sessionUser]);
-
   useMemo(() => {
     switch (statusSwitcherIndex) {
       case 0: {
@@ -123,7 +113,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     }
   }, [contentSwitcherIndex]);
 
-  const filteredlocations = queueRoomLocations?.filter((location) => location.uuid != selectedLocation);
+  const filteredlocations = queueRoomLocations?.filter((location) => location.uuid != null);
 
   const filteredProviders = providers?.flatMap((provider) =>
     provider.attributes.filter(
@@ -246,7 +236,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               selectedProvider,
               contentSwitcherIndex,
               QueueStatus.Pending,
-              selectedLocation,
+              sessionUser?.sessionLocation?.uuid,
               priorityComment,
               comment,
             ).then(
@@ -317,7 +307,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
       mutate,
       contentSwitcherIndex,
       selectedProvider,
-      selectedLocation,
+      sessionUser?.sessionLocation?.uuid,
       currentEntry?.id,
       currentEntry.patientUuid,
     ],
