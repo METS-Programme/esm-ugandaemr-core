@@ -53,4 +53,12 @@ export const configSchema = {
     _type: Type.ConceptUuid,
     _default: 'dc8d83e3-30ab-102d-86b0-7a5022ba4115',
   },
+  hivProgramUuid: {
+    _type: Type.ConceptUuid,
+    _default: '18c6d4aa-0a36-11e7-8dbb-507b9dc4c741',
+  },
+  tbProgramUuid: {
+    _type: Type.ConceptUuid,
+    _default: '9dc21a72-0971-11e7-8037-507b9dc4c741',
+  },
 };
