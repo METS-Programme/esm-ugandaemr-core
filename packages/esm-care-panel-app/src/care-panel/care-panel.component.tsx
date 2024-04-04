@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StructuredListSkeleton, ContentSwitcher, Switch } from '@carbon/react';
 import styles from './care-panel.scss';
@@ -22,9 +22,10 @@ type SwitcherItem = {
 
 const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launchPatientWorkspace }) => {
   const { t } = useTranslation();
-  const [programEnrolled, setProgramEnrolled] = useState('TB Program');
   const { isLoading, error, enrollments } = usePatientPrograms(patientUuid);
   const switcherHeaders = enrollments?.map((item) => item.program.name);
+  const [programEnrolled, setProgramEnrolled] = useState<programs>('HIV Program');
+
   const [switchItem, setSwitcherItem] = useState<SwitcherItem>();
   const programs = {
     hiv: 'HIV Program',
@@ -46,44 +47,43 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
   if (error) {
     return <ErrorState error={error} headerTitle={t('carePanelError', 'Care panel')} />;
   }
-
-  if (Object.keys(enrollments).length === 0) {
-    return (
-      <div className={styles.careProgramContainer}>
-        <CarePrograms patientUuid={patientUuid} />
-      </div>
-    );
-  }
+  console.info(programEnrolled);
   return (
     <>
-      <div className={styles.widgetCard}>
-        <CardHeader title={t('carePanel', 'Care Panel')}>
-          <div className={styles.contextSwitcherContainer}>
-            <ContentSwitcher onChange={(event) => handleItemTabChange(event.name)}>
-              {switcherHeaders?.map((enrollment, index) => (
-                <Switch key={enrollment} name={enrollment} text={enrollment} />
-              ))}
-            </ContentSwitcher>
-          </div>
-        </CardHeader>
-        <div style={{ width: '100%', minHeight: '20rem' }}>
-          {programEnrolled === programs.hiv && (
-            <ProgramEnrollment
-              patientUuid={patientUuid}
-              programName={switchItem?.name}
-              enrollments={enrollments}
-              formEntrySub={formEntrySub}
-              launchPatientWorkspace={launchPatientWorkspace}
-              PatientChartProps={''}
-            />
-          )}
-          {programEnrolled === programs.tb && (
-            <div className={styles.emptyState}>
-              <span>No data to display for this program</span>
+      {Object.keys(enrollments).length > 0 ? (
+        <div className={styles.widgetCard}>
+          <CardHeader title={t('carePanel', 'Care Panel')}>
+            <div className={styles.contextSwitcherContainer}>
+              <ContentSwitcher onChange={(event) => handleItemTabChange(event.name)}>
+                {switcherHeaders?.map((enrollment, index) => (
+                  <Switch key={enrollment} name={enrollment} text={enrollment} />
+                ))}
+              </ContentSwitcher>
             </div>
-          )}
+          </CardHeader>
+          <div style={{ width: '100%', minHeight: '20rem' }}>
+            {programEnrolled === programs.hiv && (
+              <ProgramEnrollment
+                patientUuid={patientUuid}
+                programName={switchItem?.name}
+                enrollments={enrollments}
+                formEntrySub={formEntrySub}
+                launchPatientWorkspace={launchPatientWorkspace}
+                PatientChartProps={''}
+              />
+            )}
+            {programEnrolled === programs.tb && (
+              <div className={styles.emptyState}>
+                <span>No data to display for this program</span>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className={styles.careProgramContainer}>
+          <CarePrograms patientUuid={patientUuid} />
+        </div>
+      )}
       <CarePrograms patientUuid={patientUuid} />
     </>
   );
