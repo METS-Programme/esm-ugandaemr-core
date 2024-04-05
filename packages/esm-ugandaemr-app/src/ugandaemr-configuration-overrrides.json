@@ -14,6 +14,35 @@
     }
   },
   "@openmrs/esm-laboratory-app": {
+    "extensionSlots": {
+      "lab-panels-slot": {
+        "remove": [
+          "completed-lab-requests-table"
+        ]
+      },
+      "lab-tiles-slot": {
+        "order": [
+          "tests-ordered-tile-component",
+          "worklist-tile-component",
+          "completed-tile-component"
+        ]
+      },
+      "tests-ordered-actions-slot": {
+        "remove": [
+          "pick-lab-request-action"
+        ],
+        "order": [
+          "pick-lab-request-action-ug",
+          "pick-lab-request-action"
+        ]
+      }
+    },
+    "targetPatientDashboard": "laboratory-orders",
+    "Translation overrides": {
+      "en": {
+        "In progress": "Worklist"
+      }
+    },
     "Display conditions": {
       "privileges": [
         "Manage Laboratory"

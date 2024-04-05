@@ -1,100 +1,187 @@
 {
-    "$schema": "https://json.openmrs.org/routes.schema.json",
-    "backendDependencies": {
-        "fhir2": ">=1.2",
-        "webservices.rest": "^2.24.0"
+  "$schema": "https://json.openmrs.org/routes.schema.json",
+  "backendDependencies": {
+    "fhir2": ">=1.2",
+    "webservices.rest": "^2.24.0"
+  },
+  "pages": [
+    {
+      "component": "facilityDashboard",
+      "route": "facility-dashboard"
     },
-    "pages": [{
-            "component": "facilityDashboard",
-            "route": "facility-dashboard"
-        },
-        {
-            "component": "hieDashboard",
-            "route": "hie-dashboard"
-        },
-        {
-            "component": "systemInfoPage",
-            "route": "about"
-        }
-    ],
-    "extensions": [{
-            "name": "clinical-views-divider",
-            "component": "clinicalViewsDivider",
-            "slot": "patient-chart-dashboard-slot",
-            "privilege": [
-                "Manage Patients"
-            ],
-            "order": 15
-        },
-        {
-            "component": "cervicalCancerSummaryExt",
-            "name": "cervical-cancer-summary-ext",
-            "slot": "cacx-visits-slot",
-            "meta": {
-                "columnSpan": 4
-            }
-        },
-        {
-            "name": "system-info-link",
-            "slot": "app-menu-slot",
-            "component": "systemInfoMenuLink"
-        },
-        {
-            "name": "retrieve-facility-code-modal",
-            "component": "retrieveFacilityCodeModal"
-        },
-        {
-            "name": "update-facility-code-alert",
-            "slot": "homepage-widgets-slot",
-            "component": "updateFacilityCodeAlert"
-        },
-        {
-            "name": "form-builder-app-menu-item",
-            "component": "formBuilderAppMenuItem",
-            "slot": "app-menu-item-slot",
-            "meta": {
-                "name": "Form Builder"
-            }
-        },
-        {
-            "name": "system-info-app-menu-item",
-            "component": "systemInfoAppMenuItem",
-            "slot": "app-menu-item-slot",
-            "meta": {
-                "name": "System Info"
-            }
-        },
-        {
-            "name": "legacy-admin-app-menu-item",
-            "component": "legacyAdminAppMenuItem",
-            "slot": "app-menu-item-slot",
-            "meta": {
-                "name": "Legacy Admin"
-            }
-        },
-        {
-            "name": "cohort-builder-app-menu-item",
-            "component": "cohortBuilderAppMenuItem",
-            "slot": "app-menu-item-slot",
-            "meta": {
-                "name": "Cohort Builder"
-            }
-        },
-        {
-            "name": "form-render-test-app-menu-item",
-            "component": "formRenderTestAppMenuItem",
-            "slot": "app-menu-item-slot",
-            "meta": {
-                "name": "Form Render Test"
-            }
-        },
-      {
-        "name": "dispensing-app-menu-item",
-        "component": "dispensingAppMenuItem",
-        "slot": "app-menu-item-slot",
-        "meta": {
-          "name": "Dispensing"
-        }
+    {
+      "component": "hieDashboard",
+      "route": "hie-dashboard"
+    },
+    {
+      "component": "systemInfoPage",
+      "route": "about"
+    }
+  ],
+  "extensions": [
+    {
+      "name": "clinical-views-divider",
+      "component": "clinicalViewsDivider",
+      "slot": "patient-chart-dashboard-slot",
+      "privilege": [
+        "Manage Patients"
+      ],
+      "order": 15
+    },
+    {
+      "component": "cervicalCancerSummaryExt",
+      "name": "cervical-cancer-summary-ext",
+      "slot": "cacx-visits-slot",
+      "meta": {
+        "columnSpan": 4
       }
-    ]
+    },
+    {
+      "name": "system-info-link",
+      "slot": "app-menu-slot",
+      "component": "systemInfoMenuLink"
+    },
+    {
+      "name": "retrieve-facility-code-modal",
+      "component": "retrieveFacilityCodeModal"
+    },
+    {
+      "name": "update-facility-code-alert",
+      "slot": "homepage-widgets-slot",
+      "component": "updateFacilityCodeAlert"
+    },
+    {
+      "name": "form-builder-app-menu-item",
+      "component": "formBuilderAppMenuItem",
+      "slot": "app-menu-item-slot",
+      "meta": {
+        "name": "Form Builder"
+      }
+    },
+    {
+      "name": "system-info-app-menu-item",
+      "component": "systemInfoAppMenuItem",
+      "slot": "app-menu-item-slot",
+      "meta": {
+        "name": "System Info"
+      }
+    },
+    {
+      "name": "legacy-admin-app-menu-item",
+      "component": "legacyAdminAppMenuItem",
+      "slot": "app-menu-item-slot",
+      "meta": {
+        "name": "Legacy Admin"
+      }
+    },
+    {
+      "name": "cohort-builder-app-menu-item",
+      "component": "cohortBuilderAppMenuItem",
+      "slot": "app-menu-item-slot",
+      "meta": {
+        "name": "Cohort Builder"
+      }
+    },
+    {
+      "name": "form-render-test-app-menu-item",
+      "component": "formRenderTestAppMenuItem",
+      "slot": "app-menu-item-slot",
+      "meta": {
+        "name": "Form Render Test"
+      }
+    },
+    {
+      "name": "dispensing-app-menu-item",
+      "component": "dispensingAppMenuItem",
+      "slot": "app-menu-item-slot",
+      "meta": {
+        "name": "Dispensing"
+      }
+    },
+    {
+      "name": "pick-lab-request-action-ug",
+      "component": "pickupLabRequestAction",
+      "slot": "tests-ordered-actions-slot"
+    },
+    {
+      "name": "add-to-worklist-dialog",
+      "component": "labRequestModal"
+    },
+    {
+      "name": "review-lab-requests-table",
+      "slot": "lab-panels-slot",
+      "component": "reviewList",
+      "meta": {
+        "name": "review list",
+        "title": "Review"
+      }
+    },
+    {
+      "name": "approved-lab-requests-table",
+      "slot": "lab-panels-slot",
+      "component": "completedOrdersList",
+      "meta": {
+        "name": "approved list",
+        "title": "Approved"
+      }
+    },
+    {
+      "name": "rejected-lab-requests-table",
+      "slot": "lab-panels-slot",
+      "component": "rejectedOrdersList",
+      "meta": {
+        "name": "rejected list",
+        "title": "Rejected"
+      }
+    },
+    {
+      "name": "referred-lab-requests-table",
+      "slot": "lab-panels-slot",
+      "component": "referredOrdersList",
+      "meta": {
+        "name": "referred list",
+        "title": "Referred"
+      }
+    },
+    {
+      "name": "review-item-dialog",
+      "component": "reviewItemModal"
+    },
+    {
+      "name": "rejected-tile",
+      "slot": "lab-tiles-slot",
+      "component": "rejectedTile",
+      "meta": {
+        "name": "rejected tile",
+        "title": "Rejected"
+      }
+    },
+    {
+      "name": "referred-tile",
+      "slot": "lab-tiles-slot",
+      "component": "referredTile",
+      "meta": {
+        "name": "referred tile",
+        "title": "Referred Tests"
+      }
+    },
+    {
+      "name": "laboratory-patient-chart-link",
+      "slot": "patient-chart-dashboard-slot",
+      "component": "laboratoryOrderDashboardLink",
+      "order": 13,
+      "meta": {
+        "path": "laboratory-orders",
+        "slot": "laboratory-orders-dashboard-slot",
+        "title": "Laboratory",
+        "columns": 1,
+        "layoutMode": "anchored"
+      }
+    },
+    {
+      "name": "laboratory-orders-summary",
+      "slot": "laboratory-orders-dashboard-slot",
+      "component": "laboratoryOrderComponent"
+    }
+  ]
 }

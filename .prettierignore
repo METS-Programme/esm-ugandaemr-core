@@ -12,3 +12,4 @@ yarn.lock
 **/*.scss
 **/*.md
 **/*.json
+**/*.png

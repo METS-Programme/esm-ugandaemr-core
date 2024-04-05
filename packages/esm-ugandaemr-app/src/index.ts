@@ -10,6 +10,11 @@ import legacyAdminAppMenu from './menu-app-items/legacy-admin-item/legacy-admin-
 import cohortBuilderAppMenu from './menu-app-items/cohort-builder-item/cohort-builder-item.component';
 import formRenderTestAppMenu from './menu-app-items/form-render-test-item/form-render-test-item.component';
 import dispensingAppMenu from './menu-app-items/despensing-app-menu-item/dispensing-app-menu-item.component';
+import {
+  registerWorkspace,
+  createDashboardLink as createPatientChartDashboardLink,
+} from '@openmrs/esm-patient-common-lib';
+import laboratoryReferralWorkspaceComponent from './laboratory/patient-chart/laboratory-workspaces/laboratory-referral.workspace.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -28,6 +33,11 @@ export const dispensingAppMenuItem = getSyncLifecycle(dispensingAppMenu, options
 
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
+  registerWorkspace({
+    name: 'patient-laboratory-referral-workspace',
+    title: 'Laboratory Referral Form',
+    load: getSyncLifecycle(laboratoryReferralWorkspaceComponent, options),
+  });
 }
 
 // pages
@@ -85,3 +95,79 @@ export const systemInfoPage = getAsyncLifecycle(() => import('./pages/system-inf
 //     moduleName,
 //   },
 // );
+
+///////////////////////////////
+// Laboratory components
+///////////////////////////////
+export const pickupLabRequestAction = getAsyncLifecycle(
+  () => import('./laboratory/actions/pick-lab-request-menu.component'),
+  {
+    featureName: 'pickup lab request action',
+    moduleName,
+  },
+);
+
+export const labRequestModal = getAsyncLifecycle(
+  () => import('./laboratory/dialogs/add-to-worklist-dialog.component'),
+  {
+    featureName: 'pickup lab request modal',
+    moduleName,
+  },
+);
+
+export const reviewItemModal = getAsyncLifecycle(
+  () => import('./laboratory/tabs/review-list/dialog/review-item.component'),
+  {
+    featureName: 'review item modal',
+    moduleName,
+  },
+);
+
+export const reviewList = getAsyncLifecycle(() => import('./laboratory/tabs/review-list/review-tab.component'), {
+  featureName: 'review list',
+  moduleName,
+});
+
+export const completedOrdersList = getAsyncLifecycle(
+  () => import('./laboratory/tabs/completed/completed-tab.component'),
+  {
+    featureName: 'completed list',
+    moduleName,
+  },
+);
+
+export const rejectedOrdersList = getAsyncLifecycle(() => import('./laboratory/tabs/rejected/rejected-tab.component'), {
+  featureName: 'rejected list',
+  moduleName,
+});
+
+export const referredOrdersList = getAsyncLifecycle(() => import('./laboratory/tabs/referred/referred-tab.component'), {
+  featureName: 'referred list',
+  moduleName,
+});
+
+export const referredTile = getAsyncLifecycle(() => import('./laboratory/tiles/referred-tile.component'), {
+  featureName: 'referred tile',
+  moduleName,
+});
+
+export const rejectedTile = getAsyncLifecycle(() => import('./laboratory/tiles/rejected-tile.component'), {
+  featureName: 'rejected tile',
+  moduleName,
+});
+
+// Patient Chart
+
+export const laboratoryOrderDashboardLink = getSyncLifecycle(
+  createPatientChartDashboardLink({
+    path: 'laboratory-orders',
+    title: 'Investigative Results',
+    moduleName,
+  }),
+  options,
+);
+
+export const laboratoryOrderComponent = getAsyncLifecycle(
+  () => import('./laboratory/patient-chart/patient-laboratory-order-results.component'),
+  options,
+);
