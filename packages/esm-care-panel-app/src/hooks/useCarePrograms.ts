@@ -10,6 +10,15 @@ export type PatientCarePrograms = {
   enrollmentDetails?: { uuid: string; dateCompleted: string; location: string; dateEnrolled: string };
 };
 
+export interface ProgramEnrollmentProps {
+  patientUuid: string;
+  programName: string;
+  enrollments: Array<any>;
+  formEntrySub: any;
+  launchPatientWorkspace: Function;
+  PatientChartProps: string;
+}
+
 export const useCarePrograms = (patientUuid: string) => {
   const url = `/ws/rest/v1/ugandaemr/patientCohorts?patientUuid=${patientUuid}`;
   const { data, error, isLoading, isValidating } = useSWR<{ data: Array<PatientCarePrograms> }>(url, openmrsFetch);

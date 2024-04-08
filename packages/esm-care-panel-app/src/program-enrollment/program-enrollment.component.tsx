@@ -9,52 +9,9 @@ import { parseStageFromDisplay, usePatientObservations } from './program-enrollm
 import { ProgramData } from '../types/index';
 import { usePatient } from '@openmrs/esm-framework';
 import { configSchema } from '../config-schema';
+import { ProgramEnrollmentProps } from '../hooks/useCarePrograms';
 
-export interface ProgramEnrollmentProps {
-  patientUuid: string;
-  programName: string;
-  enrollments: Array<any>;
-  formEntrySub: any;
-  launchPatientWorkspace: Function;
-  PatientChartProps: string;
-}
-const shareObjProperty = { dateEnrolled: 'Enrolled on', dateCompleted: 'Date Completed' };
-const programDetailsMap = {
-  HIV: {
-    dateEnrolled: 'Enrolled on',
-    whoStage: 'WHO Stage',
-    entryPoint: 'Entry Point',
-    regimenShortDisplay: 'Regimen',
-    changeReasons: 'Reason for regimen change',
-  },
-  TB: {
-    ...shareObjProperty,
-    startDate: 'Date started regimen',
-    regimenShortName: 'Regimen',
-  },
-  TPT: {
-    ...shareObjProperty,
-    tptDrugName: 'Regimen',
-    tptDrugStartDate: 'Date started regimen',
-    tptIndication: 'Indication for TPT',
-  },
-  'MCH - Mother Services': {
-    ...shareObjProperty,
-    lmp: 'LMP',
-    eddLmp: 'EDD',
-    gravida: 'Gravida',
-    parity: 'Parity',
-    gestationInWeeks: 'Gestation in weeks',
-  },
-  'MCH - Child Services': { ...shareObjProperty, entryPoint: 'Entry Point' },
-  mchMother: {},
-  mchChild: {},
-  VMMC: {
-    ...shareObjProperty,
-  },
-};
-
-const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [], programName, patientUuid }) => {
+const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [], patientUuid }) => {
   const { t } = useTranslation();
 
   const { patient } = usePatient(patientUuid);
@@ -113,29 +70,6 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
   const conceptUuids = observationConfig.map((config) => config.uuidConfig);
 
   const orderedEnrollments = orderBy(enrollments, 'dateEnrolled', 'desc');
-  const headers = useMemo(
-    () =>
-      Object.entries(programDetailsMap[programName] ?? { ...shareObjProperty }).map(([key, value]) => ({
-        key,
-        header: value,
-      })),
-    [programName],
-  );
-  const rows = useMemo(
-    () =>
-      orderedEnrollments?.map((enrollment) => {
-        const firstEncounter = enrollment?.firstEncounter ?? {};
-        const enrollmentEncounterUuid = enrollment?.enrollmentEncounterUuid;
-        return {
-          id: `${enrollment.enrollmentUuid}`,
-          ...enrollment,
-          ...firstEncounter,
-          changeReasons: enrollment?.firstEncounter?.changeReasons?.join(', '),
-          enrollmentEncounterUuid: enrollmentEncounterUuid,
-        };
-      }),
-    [orderedEnrollments],
-  );
 
   const handleDiscontinue = (enrollment) => {
     launchPatientWorkspace('patient-form-entry-workspace', {
