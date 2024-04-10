@@ -66,7 +66,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const [selectedProvider, setSelectedProvider] = useState('');
 
-  const { currentVisit, currentVisitIsRetrospective } = useVisit(queueEntry.patientUuid);
+  const { activeVisit } = useVisit(queueEntry.patientUuid);
 
   getCareProvider(sessionUser?.user?.uuid).then(
     (response) => {
@@ -127,67 +127,62 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   );
   // endVisit
   const endCurrentVisit = () => {
-    if (currentVisitIsRetrospective) {
-      setCurrentVisit(null, null);
-      closeModal();
-    } else {
-      const endVisitPayload = {
-        location: currentVisit.location.uuid,
-        startDatetime: parseDate(currentVisit.startDatetime),
-        visitType: currentVisit.visitType.uuid,
-        stopDatetime: new Date(),
-      };
+    const endVisitPayload = {
+      location: activeVisit.location.uuid,
+      startDatetime: parseDate(activeVisit.startDatetime),
+      visitType: activeVisit.visitType.uuid,
+      stopDatetime: new Date(),
+    };
 
-      const abortController = new AbortController();
-      updateVisit(currentVisit.uuid, endVisitPayload, abortController)
-        .pipe(first())
-        .subscribe(
-          (response) => {
-            if (response.status === 200) {
-              const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-              updateQueueEntry(
-                QueueStatus.Completed,
-                provider,
-                queueEntry?.id,
-                contentSwitcherIndex,
-                priorityComment,
-                comment,
-              ).then(
-                () => {
-                  showSnackbar({
-                    isLowContrast: true,
-                    kind: 'success',
-                    subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
-                    title: t('visitEnded', 'Visit ended'),
-                  });
-                  navigate({ to: `\${openmrsSpaBase}/home` });
+    const abortController = new AbortController();
+    updateVisit(activeVisit.uuid, endVisitPayload, abortController)
+      .pipe(first())
+      .subscribe(
+        (response) => {
+          if (response.status === 200) {
+            const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+            updateQueueEntry(
+              QueueStatus.Completed,
+              provider,
+              queueEntry?.id,
+              contentSwitcherIndex,
+              priorityComment,
+              comment,
+            ).then(
+              () => {
+                showSnackbar({
+                  isLowContrast: true,
+                  kind: 'success',
+                  subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
+                  title: t('visitEnded', 'Visit ended'),
+                });
+                navigate({ to: `\${openmrsSpaBase}/home` });
 
-                  closeModal();
-                  mutate();
-                },
-                (error) => {
-                  showNotification({
-                    title: t('queueEntryUpdateFailed', 'Error ending visit'),
-                    kind: 'error',
-                    critical: true,
-                    description: error?.message,
-                  });
-                },
-              );
-              mutate();
-              closeModal();
-            }
-          },
-          (error) => {
-            showSnackbar({
-              title: t('errorEndingVisit', 'Error ending visit'),
-              kind: 'error',
-              isLowContrast: false,
-              subtitle: error?.message,
-            });
-          },
-        );
-    }
+                closeModal();
+                mutate();
+              },
+              (error) => {
+                showNotification({
+                  title: t('queueEntryUpdateFailed', 'Error ending visit'),
+                  kind: 'error',
+                  critical: true,
+                  description: error?.message,
+                });
+              },
+            );
+            mutate();
+            closeModal();
+          }
+        },
+        (error) => {
+          showSnackbar({
+            title: t('errorEndingVisit', 'Error ending visit'),
+            kind: 'error',
+            isLowContrast: false,
+            subtitle: error?.message,
+          });
+        },
+      );
   };
 
   // change to picked
