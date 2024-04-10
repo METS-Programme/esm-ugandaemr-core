@@ -8,7 +8,6 @@ config.overrides.resolve = {
   extensions: ['.tsx', '.ts', '.jsx', '.js', '.scss'],
   alias: {
     '@openmrs/esm-framework': '@openmrs/esm-framework/src/internal',
-    '@openmrs/openmrs-form-engine-lib': '@openmrs/openmrs-form-engine-lib/src/index',
     '@ohri/openmrs-esm-ohri-commons-lib': '@ohri/openmrs-esm-ohri-commons-lib/src/index',
   },
 };

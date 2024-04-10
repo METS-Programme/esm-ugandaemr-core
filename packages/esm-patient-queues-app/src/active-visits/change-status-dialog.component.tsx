@@ -230,6 +230,8 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
           comment,
         ).then(
           () => {
+            mutate();
+
             addQueueEntry(
               nextQueueLocationUuid,
               queueEntry?.patientUuid,
@@ -241,6 +243,8 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               comment,
             ).then(
               () => {
+                mutate();
+
                 //pick and route
                 updateQueueEntry(
                   QueueStatus.Picked,
