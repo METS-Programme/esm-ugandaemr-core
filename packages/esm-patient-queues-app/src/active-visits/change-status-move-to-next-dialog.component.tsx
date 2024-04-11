@@ -15,12 +15,10 @@ import { useTranslation } from 'react-i18next';
 import {
   navigate,
   parseDate,
-  setCurrentVisit,
   showNotification,
   showSnackbar,
   showToast,
   updateVisit,
-  useLocations,
   useSession,
   useVisit,
 } from '@openmrs/esm-framework';
@@ -108,7 +106,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
     }
   }, [contentSwitcherIndex]);
 
-  const filteredlocations = queueRoomLocations?.filter((location) => location.uuid != null);
+  const filteredlocations = queueRoomLocations?.filter((location) => location?.uuid != null);
 
   const filteredProviders = providers?.flatMap((provider) =>
     provider.attributes.filter(
@@ -135,41 +133,78 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
       .pipe(first())
       .subscribe(
         (response) => {
+          mutate();
+
           if (response.status === 200) {
             const comment = event?.target['nextNotes']?.value ?? 'Not Set';
 
             getCurrentPatientQueueByPatientUuid(patientUuid, sessionUser?.sessionLocation?.uuid).then(
               (res) => {
-                updateQueueEntry(
-                  QueueStatus.Completed,
-                  provider,
-                  res.data?.results[0]?.uuid,
-                  contentSwitcherIndex,
-                  priorityComment,
-                  comment,
-                ).then(
-                  () => {
-                    showSnackbar({
-                      isLowContrast: true,
-                      kind: 'success',
-                      subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
-                      title: t('visitEnded', 'Visit ended'),
-                    });
+                const queues = res.data?.results[0]?.patientQueues;
 
-                    navigate({ to: `\${openmrsSpaBase}/home/patient-queues` });
+                if (queues.length > 0) {
+                  updateQueueEntry(
+                    QueueStatus.Completed,
+                    provider,
+                    queues[0]?.uuid,
+                    contentSwitcherIndex,
+                    priorityComment,
+                    comment,
+                  ).then(
+                    () => {
+                      showSnackbar({
+                        isLowContrast: true,
+                        kind: 'success',
+                        subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
+                        title: t('visitEnded', 'Visit ended'),
+                      });
 
-                    closeModal();
-                    mutate();
-                  },
-                  (error) => {
-                    showNotification({
-                      title: t('queueEntryUpdateFailed', 'Error ending visit'),
-                      kind: 'error',
-                      critical: true,
-                      description: error?.message,
-                    });
-                  },
-                );
+                      navigate({ to: `\${openmrsSpaBase}/home` });
+
+                      closeModal();
+                      mutate();
+                    },
+                    (error) => {
+                      showNotification({
+                        title: t('queueEntryUpdateFailed', 'Error ending visit'),
+                        kind: 'error',
+                        critical: true,
+                        description: error?.message,
+                      });
+                    },
+                  );
+                } else if (queues.length === 1) {
+                  updateQueueEntry(
+                    QueueStatus.Completed,
+                    provider,
+                    queues[0]?.uuid,
+                    contentSwitcherIndex,
+                    priorityComment,
+                    comment,
+                  ).then(
+                    () => {
+                      showSnackbar({
+                        isLowContrast: true,
+                        kind: 'success',
+                        subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
+                        title: t('visitEnded', 'Visit ended'),
+                      });
+
+                      navigate({ to: `\${openmrsSpaBase}/home` });
+
+                      closeModal();
+                      mutate();
+                    },
+                    (error) => {
+                      showNotification({
+                        title: t('queueEntryUpdateFailed', 'Error ending visit'),
+                        kind: 'error',
+                        critical: true,
+                        description: error?.message,
+                      });
+                    },
+                  );
+                }
               },
               () => {},
             );
@@ -198,16 +233,19 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
         getCurrentPatientQueueByPatientUuid(patientUuid, sessionUser?.sessionLocation?.uuid).then(
           (res) => {
-            updateQueueEntry(status, provider, res.data?.results[0].uuid, 0, priorityComment, comment).then(() => {
-              showToast({
-                critical: true,
-                title: t('updateEntry', 'Update entry'),
-                kind: 'success',
-                description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
+            const queues = res.data?.results[0]?.patientQueues;
+
+            if (queues.length > 0) {
+              updateQueueEntry(status, provider, queues[0]?.uuid, 0, priorityComment, comment).then(() => {
+                closeModal();
+                mutate();
               });
-              closeModal();
-              mutate();
-            });
+            } else if (queues.length === 1) {
+              updateQueueEntry(status, provider, queues[0]?.uuid, 0, priorityComment, comment).then(() => {
+                closeModal();
+                mutate();
+              });
+            }
           },
           (error) => {
             const errorMessages = extractErrorMessagesFromResponse(error);
@@ -224,77 +262,153 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
         getCurrentPatientQueueByPatientUuid(patientUuid, sessionUser?.sessionLocation?.uuid).then(
           (res) => {
-            updateQueueEntry(
-              QueueStatus.Completed,
-              provider,
-              res.data.results[0]?.uuid,
-              contentSwitcherIndex,
-              priorityComment,
-              comment,
-            ).then(
-              () => {
-                // mutate();
-                addQueueEntry(
-                  selectedNextQueueLocation,
-                  patientUuid,
-                  selectedProvider,
-                  contentSwitcherIndex,
-                  QueueStatus.Pending,
-                  sessionUser?.sessionLocation?.uuid,
-                  priorityComment,
-                  comment,
-                ).then(
-                  (res) => {
-                    mutate();
-                    updateQueueEntry(
-                      QueueStatus.Pending,
-                      selectedProvider,
-                      res.data?.uuid,
-                      contentSwitcherIndex,
-                      priorityComment,
-                      comment,
-                    ).then(
-                      () => {
-                        showToast({
-                          critical: true,
-                          title: t('updateEntry', 'Move to next queue'),
-                          kind: 'success',
-                          description: t('movetonextqueue', 'Move to next queue successfully'),
-                        });
-                        // view patient summary
-                        navigate({ to: `\${openmrsSpaBase}/home` });
-                        mutate();
-                        closeModal();
-                      },
-                      (error) => {
-                        const errorMessages = extractErrorMessagesFromResponse(error);
-                        showNotification({
-                          title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-                          kind: 'error',
-                          critical: true,
-                          description: errorMessages.join(','),
-                        });
-                      },
-                    );
-                    closeModal();
-                    mutate();
-                  },
-                  (error) => {
-                    const errorMessages = extractErrorMessagesFromResponse(error);
+            const queues = res.data?.results[0]?.patientQueues;
 
-                    showNotification({
-                      title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-                      kind: 'error',
-                      critical: true,
-                      description: errorMessages.join(','),
-                    });
-                  },
-                );
-              },
-              () => {
-                mutate();
-              },
-            );
+            if (queues.length > 0) {
+              updateQueueEntry(
+                QueueStatus.Completed,
+                provider,
+                queues[0]?.uuid,
+                contentSwitcherIndex,
+                priorityComment,
+                comment,
+              ).then(
+                () => {
+                  mutate();
+                  addQueueEntry(
+                    selectedNextQueueLocation,
+                    patientUuid,
+                    selectedProvider,
+                    contentSwitcherIndex,
+                    QueueStatus.Pending,
+                    sessionUser?.sessionLocation?.uuid,
+                    priorityComment,
+                    comment,
+                  ).then(
+                    (res) => {
+                      mutate();
+                      updateQueueEntry(
+                        QueueStatus.Pending,
+                        selectedProvider,
+                        res.data?.uuid,
+                        contentSwitcherIndex,
+                        priorityComment,
+                        comment,
+                      ).then(
+                        () => {
+                          showToast({
+                            critical: true,
+                            title: t('updateEntry', 'Move to next queue'),
+                            kind: 'success',
+                            description: t('movetonextqueue', 'Move to next queue successfully'),
+                          });
+                          // view patient summary
+                          navigate({ to: `\${openmrsSpaBase}/home` });
+                          mutate();
+                          closeModal();
+                        },
+                        (error) => {
+                          const errorMessages = extractErrorMessagesFromResponse(error);
+                          showNotification({
+                            title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+                            kind: 'error',
+                            critical: true,
+                            description: errorMessages.join(','),
+                          });
+                        },
+                      );
+                      closeModal();
+                      mutate();
+                    },
+                    (error) => {
+                      const errorMessages = extractErrorMessagesFromResponse(error);
+
+                      showNotification({
+                        title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+                        kind: 'error',
+                        critical: true,
+                        description: errorMessages.join(','),
+                      });
+                    },
+                  );
+                },
+                () => {
+                  mutate();
+                },
+              );
+            } else if (queues.length === 1) {
+              updateQueueEntry(
+                QueueStatus.Completed,
+                provider,
+                queues[0]?.uuid,
+                contentSwitcherIndex,
+                priorityComment,
+                comment,
+              ).then(
+                () => {
+                  mutate();
+                  addQueueEntry(
+                    selectedNextQueueLocation,
+                    patientUuid,
+                    selectedProvider,
+                    contentSwitcherIndex,
+                    QueueStatus.Pending,
+                    sessionUser?.sessionLocation?.uuid,
+                    priorityComment,
+                    comment,
+                  ).then(
+                    (res) => {
+                      mutate();
+                      updateQueueEntry(
+                        QueueStatus.Pending,
+                        selectedProvider,
+                        res.data?.uuid,
+                        contentSwitcherIndex,
+                        priorityComment,
+                        comment,
+                      ).then(
+                        () => {
+                          showToast({
+                            critical: true,
+                            title: t('updateEntry', 'Move to next queue'),
+                            kind: 'success',
+                            description: t('movetonextqueue', 'Move to next queue successfully'),
+                          });
+                          // view patient summary
+                          navigate({ to: `\${openmrsSpaBase}/home` });
+                          mutate();
+                          closeModal();
+                        },
+                        (error) => {
+                          const errorMessages = extractErrorMessagesFromResponse(error);
+                          showNotification({
+                            title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+                            kind: 'error',
+                            critical: true,
+                            description: errorMessages.join(','),
+                          });
+                        },
+                      );
+                      closeModal();
+                      mutate();
+                    },
+                    (error) => {
+                      const errorMessages = extractErrorMessagesFromResponse(error);
+
+                      showNotification({
+                        title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+                        kind: 'error',
+                        critical: true,
+                        description: errorMessages.join(','),
+                      });
+                    },
+                  );
+                },
+                () => {
+                  mutate();
+                },
+              );
+            }
           },
           (error) => {
             const errorMessages = extractErrorMessagesFromResponse(error);

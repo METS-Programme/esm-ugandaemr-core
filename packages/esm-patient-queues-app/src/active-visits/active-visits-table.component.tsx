@@ -254,15 +254,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                       <p className={styles.content}>{t('noPatientsToDisplay', 'No patients to display')}</p>
                       <p className={styles.helper}>{t('checkFilters', 'Check the filters above')}</p>
                     </div>
-                    <p className={styles.separator}>{t('or', 'or')}</p>
-                    <Button
-                      kind="ghost"
-                      size="sm"
-                      renderIcon={(props) => <Add size={16} {...props} />}
-                      onClick={() => setShowOverlay(true)}
-                    >
-                      {t('addPatientToList', 'Add patient to list')}
-                    </Button>
                   </Tile>
                 </div>
               ) : null}

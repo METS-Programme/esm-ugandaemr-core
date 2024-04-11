@@ -14,12 +14,10 @@ import {
 import {
   navigate,
   parseDate,
-  setCurrentVisit,
   showNotification,
   showSnackbar,
   showToast,
   updateVisit,
-  useLocations,
   useSession,
   useVisit,
 } from '@openmrs/esm-framework';
@@ -113,7 +111,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     }
   }, [contentSwitcherIndex]);
 
-  const filteredlocations = queueRoomLocations?.filter((location) => location.uuid != null);
+  const filteredlocations = queueRoomLocations?.filter((location) => location?.uuid != null);
 
   const filteredProviders = providers?.flatMap((provider) =>
     provider.attributes.filter(
