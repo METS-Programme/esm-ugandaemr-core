@@ -235,4 +235,8 @@ export interface ProgramData {
   hivViralLoadQualitative?: string;
   hivViralLoad?: string;
   lastEncounterDate?: string;
+  dateStartedTBFirstLineRegimen?: string;
+  dsTBRegimen?: string;
+  tbDiseaseClassification?: string;
+  tbPatientType?: string;
 }

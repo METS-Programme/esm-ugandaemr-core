@@ -151,8 +151,8 @@
 .container {
     display: flex;
     flex-direction: row;
-    padding-left: 1rem;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .value {
