@@ -141,12 +141,13 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             getCurrentPatientQueueByPatientUuid(patientUuid, sessionUser?.sessionLocation?.uuid).then(
               (res) => {
                 const queues = res.data?.results[0]?.patientQueues;
+                const queueEntry = queues?.filter((item) => item?.patient?.uuid === patientUuid);
 
-                if (queues.length > 0) {
+                if (queueEntry.length > 0) {
                   updateQueueEntry(
                     QueueStatus.Completed,
                     provider,
-                    queues[0]?.uuid,
+                    queueEntry[0]?.uuid,
                     contentSwitcherIndex,
                     priorityComment,
                     comment,
@@ -173,11 +174,11 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
                       });
                     },
                   );
-                } else if (queues.length === 1) {
+                } else if (queueEntry.length === 1) {
                   updateQueueEntry(
                     QueueStatus.Completed,
                     provider,
-                    queues[0]?.uuid,
+                    queueEntry[0]?.uuid,
                     contentSwitcherIndex,
                     priorityComment,
                     comment,
@@ -234,14 +235,15 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
         getCurrentPatientQueueByPatientUuid(patientUuid, sessionUser?.sessionLocation?.uuid).then(
           (res) => {
             const queues = res.data?.results[0]?.patientQueues;
+            const queueEntry = queues?.filter((item) => item?.patient?.uuid === patientUuid);
 
-            if (queues.length > 0) {
-              updateQueueEntry(status, provider, queues[0]?.uuid, 0, priorityComment, comment).then(() => {
+            if (queueEntry.length > 0) {
+              updateQueueEntry(status, provider, queueEntry[0]?.uuid, 0, priorityComment, comment).then(() => {
                 closeModal();
                 mutate();
               });
-            } else if (queues.length === 1) {
-              updateQueueEntry(status, provider, queues[0]?.uuid, 0, priorityComment, comment).then(() => {
+            } else if (queueEntry.length === 1) {
+              updateQueueEntry(status, provider, queueEntry[0]?.uuid, 0, priorityComment, comment).then(() => {
                 closeModal();
                 mutate();
               });
@@ -263,12 +265,13 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
         getCurrentPatientQueueByPatientUuid(patientUuid, sessionUser?.sessionLocation?.uuid).then(
           (res) => {
             const queues = res.data?.results[0]?.patientQueues;
+            const queueEntry = queues?.filter((item) => item?.patient?.uuid === patientUuid);
 
-            if (queues.length > 0) {
+            if (queueEntry.length > 0) {
               updateQueueEntry(
                 QueueStatus.Completed,
                 provider,
-                queues[0]?.uuid,
+                queueEntry[0]?.uuid,
                 contentSwitcherIndex,
                 priorityComment,
                 comment,
@@ -336,11 +339,11 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
                   mutate();
                 },
               );
-            } else if (queues.length === 1) {
+            } else if (queueEntry.length === 1) {
               updateQueueEntry(
                 QueueStatus.Completed,
                 provider,
-                queues[0]?.uuid,
+                queueEntry[0]?.uuid,
                 contentSwitcherIndex,
                 priorityComment,
                 comment,
