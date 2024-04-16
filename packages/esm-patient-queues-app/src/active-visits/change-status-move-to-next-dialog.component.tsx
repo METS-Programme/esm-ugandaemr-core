@@ -252,7 +252,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
           (error) => {
             const errorMessages = extractErrorMessagesFromResponse(error);
             showNotification({
-              title: t('errorGettingPatientQueueEntry', 'Error Getting Patient Queue Entry'),
+              title: t('errorMovinPatientToNextServicePoint', 'Error Moving Patient to next service point'),
               kind: 'error',
               critical: true,
               description: errorMessages.join(','),
@@ -301,9 +301,9 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
                         () => {
                           showToast({
                             critical: true,
-                            title: t('updateEntry', 'Move to next queue'),
+                            title: t('moveToNextServicePoint', 'Move to next service point'),
                             kind: 'success',
-                            description: t('movetonextqueue', 'Move to next queue successfully'),
+                            description: t('movetonextservicepoint', 'Moved to next service point successfully'),
                           });
                           // view patient summary
                           navigate({ to: `\${openmrsSpaBase}/home` });
@@ -313,7 +313,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
                         (error) => {
                           const errorMessages = extractErrorMessagesFromResponse(error);
                           showNotification({
-                            title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+                            title: t('queueEntryUpdateFailed', 'Error updating next service point'),
                             kind: 'error',
                             critical: true,
                             description: errorMessages.join(','),
@@ -327,7 +327,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
                       const errorMessages = extractErrorMessagesFromResponse(error);
 
                       showNotification({
-                        title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+                        title: t('queueEntryUpdateFailed', 'Error updating next service point'),
                         kind: 'error',
                         critical: true,
                         description: errorMessages.join(','),
@@ -373,9 +373,9 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
                         () => {
                           showToast({
                             critical: true,
-                            title: t('updateEntry', 'Move to next queue'),
+                            title: t('successfullyMovedToNextServicePoint', 'Moved to Next Service Point'),
                             kind: 'success',
-                            description: t('movetonextqueue', 'Move to next queue successfully'),
+                            description: t('movetonextservicepoint', 'Successfully moved to next service point'),
                           });
                           // view patient summary
                           navigate({ to: `\${openmrsSpaBase}/home` });
@@ -385,7 +385,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
                         (error) => {
                           const errorMessages = extractErrorMessagesFromResponse(error);
                           showNotification({
-                            title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+                            title: t('errorGettingPatientQueueEntry', 'Error Moving Patient to next service point'),
                             kind: 'error',
                             critical: true,
                             description: errorMessages.join(','),
@@ -399,7 +399,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
                       const errorMessages = extractErrorMessagesFromResponse(error);
 
                       showNotification({
-                        title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+                        title: t('errorUpdatingServicePoint', 'Error updating next service point status'),
                         kind: 'error',
                         critical: true,
                         description: errorMessages.join(','),
@@ -416,7 +416,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
           (error) => {
             const errorMessages = extractErrorMessagesFromResponse(error);
             showNotification({
-              title: t('errorGettingPatientQueueEntry', 'Error Getting Patient Queue Entry'),
+              title: t('errorUpdatingServicePoint', 'Error updating next service point status'),
               kind: 'error',
               critical: true,
               description: errorMessages.join(','),
