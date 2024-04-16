@@ -8,6 +8,7 @@ import { mockCareProgramsResponse, mockEnrolledProgramsResponse, mockLocationsRe
 import { createProgramEnrollment, updateProgramEnrollment } from './programs.resource';
 import ProgramsForm from './programs-form.component';
 import { mockPatient } from '../../../../__mocks__/patient.mock';
+import { CloseWorkspaceOptions } from '@openmrs/esm-patient-common-lib';
 
 const testProps = {
   closeWorkspace: jest.fn(),
@@ -176,5 +177,13 @@ describe('ProgramsForm', () => {
 });
 
 function renderProgramsForm(programEnrollmentUuidToEdit?: string) {
-  render(<ProgramsForm {...testProps} programEnrollmentId={programEnrollmentUuidToEdit} />);
+  render(
+    <ProgramsForm
+      closeWorkspaceWithSavedChanges={function (closeWorkspaceOptions?: CloseWorkspaceOptions): void {
+        throw new Error('Function not implemented.');
+      }}
+      {...testProps}
+      programEnrollmentId={programEnrollmentUuidToEdit}
+    />,
+  );
 }
