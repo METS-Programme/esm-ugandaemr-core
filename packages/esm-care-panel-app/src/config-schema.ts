@@ -1,4 +1,5 @@
 import { Type } from '@openmrs/esm-framework';
+import _default from 'react-hook-form/dist/utils/createSubject';
 
 export interface CarePanelConfig {
   regimenObs: {
@@ -76,5 +77,29 @@ export const configSchema = {
   tbPatientTypeUuid: {
     _type: Type.ConceptUuid,
     _default: 'e077f196-c19a-417f-adc6-b175a3343bfd',
+  },
+  fbimUuid: {
+    _type: Type.ConceptUuid,
+    _default: '733144c0-c321-11e8-a355-529269fb1459',
+  },
+  fbgUuid: {
+    _type: Type.ConceptUuid,
+    _default: '73313c96-c321-11e8-a355-529269fb1459',
+  },
+  ftdrUuid: {
+    _type: Type.ConceptUuid,
+    _default: '73313f20-c321-11e8-a355-529269fb1459',
+  },
+  ccladUuid: {
+    _type: Type.ConceptUuid,
+    _default: '733139e4-c321-11e8-a355-529269fb1459',
+  },
+  cddpUuid: {
+    _type: Type.ConceptUuid,
+    _default: '73313728-c321-11e8-a355-529269fb1459',
+  },
+  currentARVDurationUuid: {
+    _type: Type.ConceptUuid,
+    _default: '171de3f4-a500-46f6-8098-8097561dfffb',
   },
 };
