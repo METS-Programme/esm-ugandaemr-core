@@ -138,6 +138,24 @@
               ]
             }
           },
+          "patient-appointments-summary-dashboard":{
+            "configure": {
+              "Display conditions": {
+                "privileges": [
+                  "Manage Patient appointments A"
+                ]
+              }
+            }
+          },
+          "appointments-summary-dashboard":{
+            "configure": {
+              "Display conditions": {
+                "privileges": [
+                  "Manage Patient appointments B"
+                ]
+              }
+            }
+          },
           "visit-header-right-slot": {
             "configure": {
               "Display conditions": {
@@ -478,7 +496,7 @@
       {
         "id": "email",
         "type": "person attribute",
-        "uuid": "44b6da84-e638-11ee-9653-9e6008080e30",
+        "uuid": "202dd75a-f194-11ee-8943-8b85fa55baa4",
         "label": "Email address",
         "validation": {
           "matches": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
@@ -628,6 +646,17 @@
             }
           }
         }
+      },
+      "clinical-appointments-dashboard-slot":{
+        "configure": {
+          "clinical-appointments-dashboard":{
+            "Display conditions": {
+              "privileges": [
+                "Manage appointments dashboard"
+              ]
+            }
+          }
+        }
       }
     }
   },
@@ -717,7 +746,7 @@
           "patient-move-to-next-service-point": {
             "Display conditions": {
               "privileges": [
-                "Move Patient To Next Service Point Button"
+                "Next Service Point"
               ]
             }
           }
