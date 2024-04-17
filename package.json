@@ -6,7 +6,7 @@
         "packages/*"
     ],
     "scripts": {
-        "start": "openmrs develop --backend http://194.163.171.253:8282 --sources 'packages/esm-*-app'",
+        "start": "openmrs develop",
         "ci:publish": "lerna publish from-package --yes",
         "ci:prepublish": "lerna publish from-package --no-git-reset --yes --dist-tag next",
         "release": "lerna version --no-git-tag-version",
@@ -31,15 +31,10 @@
         "recharts": "^2.7.2",
         "swr": "^2.1.1"
     },
-    "peerDependencies": {
-        "@openmrs/openmrs-form-engine-lib": "5.x"
-    },
     "devDependencies": {
         "@carbon/react": "^1.14.0",
-        "@ohri/openmrs-esm-ohri-commons-lib": "next",
         "@openmrs/esm-framework": "next",
-        "@openmrs/esm-patient-common-lib": "next",
-        "@openmrs/esm-styleguide": "^5.1.0",
+        "@openmrs/esm-styleguide": "next",
         "@swc/cli": "^0.1.57",
         "@swc/core": "^1.3.6",
         "@swc/jest": "^0.2.23",
