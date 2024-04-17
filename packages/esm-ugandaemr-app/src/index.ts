@@ -45,13 +45,6 @@ export const hieHomeDashboardLink = getSyncLifecycle(createDashboardLink(hieHome
 export const hieHomeDashboardExt = getAsyncLifecycle(() => import('./views/hie/hie-home.component'), options);
 
 // cervical cancer
-export const cervicalCancerSummaryExt = getAsyncLifecycle(
-  () => import('./views/cervical-cancer/cacx-visits/cacx-visits.component'),
-  {
-    featureName: 'cervical-cancer-summary-extension',
-    moduleName,
-  },
-);
 
 // clinical views divider
 /*export const clinicalViewsDivider = getSyncLifecycle(
