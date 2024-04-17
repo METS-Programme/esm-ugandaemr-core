@@ -10,6 +10,7 @@ import CarePrograms from '../care-programs/care-programs.component';
 import ProgramEnrollmentTB from '../program-enrollment/program-enrollment-tb.component';
 import { programs } from '../constants';
 import DSDMHistory from '../dsdm-history/dsdm-history.component';
+import RegimenHistory from '../regimen-history/regimen-history.component';
 
 interface CarePanelProps {
   patientUuid: string;
@@ -128,6 +129,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
             </div>
           )}
           {selectedTab === 'dsdm' && dsdmModels && <DSDMHistory patientUuid={patientUuid} />}
+          {selectedTab === 'regimenHistory' && <RegimenHistory />}
         </div>
       ) : (
         <div className={styles.careProgramContainer}>
