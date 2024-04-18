@@ -1,10 +1,8 @@
 import {
-  Button,
   DataTable,
   DataTableSkeleton,
   Layer,
   Pagination,
-  Tab,
   Table,
   TableBody,
   TableCell,
@@ -18,10 +16,9 @@ import {
   Tag,
   Tile,
 } from '@carbon/react';
-import { Add } from '@carbon/react/icons';
 
 import { isDesktop, useLayoutType, usePagination, userHasAccess, useSession } from '@openmrs/esm-framework';
-import React, { AnchorHTMLAttributes, MouseEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { AnchorHTMLAttributes, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   buildStatusString,
@@ -36,7 +33,6 @@ import styles from './active-visits-table.scss';
 import EditActionsMenu from './edit-action-menu.components';
 import { usePatientQueuesList } from './patient-queues.resource';
 import PickPatientActionMenu from '../queue-entry-table-components/pick-patient-queue-entry-menu.component';
-import EmptyState from '../utils/empty-state/empty-state.component';
 import ViewActionsMenu from './view-action-menu.components';
 import NotesActionsMenu from './notes-action-menu.components';
 import { PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS } from '../constants';
@@ -227,7 +223,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         rows={tableRows}
         useZebraStyles
       >
-        {({ rows, headers, getHeaderProps, getTableProps, getRowProps, onInputChange }) => (
+        {({ rows, headers, getHeaderProps, getTableProps, getRowProps }) => (
           <TableContainer className={styles.tableContainer}>
             <TableToolbar style={{ position: 'static', height: '3rem', overflow: 'visible', backgroundColor: 'color' }}>
               <TableToolbarContent className={styles.toolbarContent}>
@@ -251,7 +247,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row, index) => {
+                {rows.map((row) => {
                   return (
                     <React.Fragment key={row.id}>
                       <TableRow {...getRowProps({ row })}>

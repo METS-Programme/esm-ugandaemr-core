@@ -1,5 +1,4 @@
 import {
-  Button,
   DataTable,
   DataTableSkeleton,
   Layer,
@@ -191,7 +190,7 @@ function ActiveVisitsReceptionTable() {
         useZebraStyles
         overflowMenuOnHover={isDesktop(layout)}
       >
-        {({ rows, headers, getHeaderProps, getTableProps, getRowProps, onInputChange }) => (
+        {({ rows, headers, getHeaderProps, getTableProps, getRowProps }) => (
           <TableContainer className={styles.tableContainer}>
             <TableToolbar style={{ position: 'static', height: '3rem', overflow: 'visible', backgroundColor: 'color' }}>
               <TableToolbarContent className={styles.toolbarContent}>
@@ -215,7 +214,7 @@ function ActiveVisitsReceptionTable() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row, index) => {
+                {rows.map((row) => {
                   return (
                     <React.Fragment key={row.id}>
                       <TableRow {...getRowProps({ row })}>
