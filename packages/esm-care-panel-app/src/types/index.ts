@@ -239,4 +239,5 @@ export interface ProgramData {
   dsTBRegimen?: string;
   tbDiseaseClassification?: string;
   tbPatientType?: string;
+  currentARVDuration?: string;
 }

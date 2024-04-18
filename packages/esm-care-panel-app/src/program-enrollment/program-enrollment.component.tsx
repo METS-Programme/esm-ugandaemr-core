@@ -64,30 +64,16 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
         key: 'hivViralLoad',
         uuidConfig: configSchema.hivViralLoadUuid._default,
       },
+      {
+        key: 'currentARVDuration',
+        uuidConfig: configSchema.currentARVDurationUuid._default,
+      },
     ],
     [],
   );
   const conceptUuids = observationConfig.map((config) => config.uuidConfig);
 
   const orderedEnrollments = orderBy(enrollments, 'dateEnrolled', 'desc');
-
-  const handleDiscontinue = (enrollment) => {
-    launchPatientWorkspace('patient-form-entry-workspace', {
-      workspaceTitle: enrollment?.discontinuationFormName,
-      mutateForm: () => {
-        mutate((key) => true, undefined, {
-          revalidate: true,
-        });
-      },
-      formInfo: {
-        encounterUuid: '',
-        formUuid: enrollment?.discontinuationFormUuid,
-        additionalProps:
-          { enrollmenrDetails: { dateEnrolled: new Date(enrollment.dateEnrolled), uuid: enrollment.enrollmentUuid } } ??
-          {},
-      },
-    });
-  };
 
   const [programData, setProgramData] = useState<ProgramData>({
     artStartDate: '--',
@@ -99,6 +85,7 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
     hivViralLoadDate: '--',
     hivViralLoadQualitative: '--',
     hivViralLoad: '--',
+    currentARVDuration: '--',
   });
 
   const { observations, isLoading, isError } = usePatientObservations(patientUuid, conceptUuids);
@@ -113,24 +100,6 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
       setProgramData((prevState) => ({ ...prevState, ...newData }));
     }
   }, [observationConfig, observations]);
-
-  const handleEditEnrollment = (enrollment) => {
-    launchPatientWorkspace('patient-form-entry-workspace', {
-      workspaceTitle: enrollment?.enrollmentFormName,
-      mutateForm: () => {
-        mutate((key) => true, undefined, {
-          revalidate: true,
-        });
-      },
-      formInfo: {
-        encounterUuid: enrollment?.enrollmentEncounterUuid,
-        formUuid: enrollment?.enrollmentFormUuid,
-        additionalProps:
-          { enrollmenrDetails: { dateEnrolled: new Date(enrollment.dateEnrolled), uuid: enrollment.enrollmentUuid } } ??
-          {},
-      },
-    });
-  };
 
   if (orderedEnrollments?.length === 0) {
     return null;
