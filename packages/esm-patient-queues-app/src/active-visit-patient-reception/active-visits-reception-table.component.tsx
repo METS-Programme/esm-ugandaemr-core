@@ -20,7 +20,7 @@ import {
 import { Add } from '@carbon/react/icons';
 
 import { ExtensionSlot, isDesktop, useLayoutType, usePagination, useSession } from '@openmrs/esm-framework';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getOriginFromPathName } from '../active-visits/active-visits-table.resource';
 import EditActionsMenu from '../active-visits/edit-action-menu.components';
@@ -34,6 +34,14 @@ import EmptyState from '../utils/empty-state/empty-state.component';
 import { useParentLocation } from '../active-visits/patient-queues.resource';
 import PatientSearch from '../patient-search/patient-search.component';
 
+type FilterProps = {
+  rowIds: Array<string>;
+  headers: any;
+  cellsById: any;
+  inputValue: string;
+  getCellId: (row, key) => string;
+};
+
 function ActiveVisitsReceptionTable() {
   const { t } = useTranslation();
   const session = useSession();
@@ -41,6 +49,8 @@ function ActiveVisitsReceptionTable() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [view, setView] = useState('');
   const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredPatients, setFilteredPatients] = useState([]);
 
   const { location } = useParentLocation(session?.sessionLocation?.uuid);
 
@@ -55,6 +65,39 @@ function ActiveVisitsReceptionTable() {
   const [overlayHeader, setOverlayTitle] = useState('');
   const layout = useLayoutType();
   const { goTo, results: paginatedQueueEntries, currentPage } = usePagination(patientQueueEntries, currentPageSize);
+
+  const handleSearchInputChange = useCallback((event) => {
+    const searchText = event?.target?.value?.trim().toLowerCase();
+    setSearchTerm(searchText);
+  }, []);
+
+  useEffect(() => {
+    if (searchTerm !== '') {
+      const lowercasedTerm = searchTerm.toLowerCase();
+      const filteredResults = patientQueueEntries.filter((patient) =>
+        patient.name.toLowerCase().includes(lowercasedTerm),
+      );
+      setFilteredPatients(filteredResults);
+    } else {
+      setFilteredPatients(patientQueueEntries);
+    }
+  }, [searchTerm, patientQueueEntries]);
+
+  const handleFilter = ({ rowIds, headers, cellsById, inputValue, getCellId }: FilterProps): Array<string> => {
+    return rowIds.filter((rowId) =>
+      headers.some(({ key }) => {
+        const cellId = getCellId(rowId, key);
+        const filterableValue = cellsById[cellId].value;
+        const filterTerm = inputValue.toLowerCase();
+
+        if (typeof filterableValue === 'boolean') {
+          return false;
+        }
+
+        return ('' + filterableValue).toLowerCase().includes(filterTerm);
+      }),
+    );
+  };
 
   const tableHeaders = useMemo(
     () => [
@@ -94,7 +137,7 @@ function ActiveVisitsReceptionTable() {
   );
 
   const tableRows = useMemo(() => {
-    return paginatedQueueEntries?.map((entry) => ({
+    return filteredPatients?.map((entry) => ({
       ...entry,
       visitNumber: {
         content: <span>{trimVisitNumber(entry.visitNumber)}</span>,
@@ -131,7 +174,7 @@ function ActiveVisitsReceptionTable() {
         ),
       },
     }));
-  }, [fromPage, paginatedQueueEntries, t]);
+  }, [filteredPatients, fromPage, t]);
 
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;
@@ -170,6 +213,7 @@ function ActiveVisitsReceptionTable() {
           data-floating-menu-container
           headers={tableHeaders}
           rows={tableRows}
+          filterRows={handleFilter}
           useZebraStyles
           overflowMenuOnHover={isDesktop(layout)}
         >
@@ -183,7 +227,7 @@ function ActiveVisitsReceptionTable() {
                     <TableToolbarSearch
                       expanded
                       className={styles.search}
-                      onChange={onInputChange}
+                      onChange={handleSearchInputChange}
                       placeholder={t('searchThisList', 'Search this list')}
                       size="sm"
                     />

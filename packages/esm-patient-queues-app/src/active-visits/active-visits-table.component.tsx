@@ -21,7 +21,7 @@ import {
 import { Add } from '@carbon/react/icons';
 
 import { isDesktop, useLayoutType, usePagination, userHasAccess, useSession } from '@openmrs/esm-framework';
-import React, { AnchorHTMLAttributes, MouseEvent, useMemo, useState } from 'react';
+import React, { AnchorHTMLAttributes, MouseEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   buildStatusString,
@@ -52,6 +52,14 @@ export interface PatientQueueInfoProps extends AnchorHTMLAttributes<HTMLAnchorEl
   patientName: string;
 }
 
+type FilterProps = {
+  rowIds: Array<string>;
+  headers: any;
+  cellsById: any;
+  inputValue: string;
+  getCellId: (row, key) => string;
+};
+
 const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const { t } = useTranslation();
   const session = useSession();
@@ -65,6 +73,8 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const [showOverlay, setShowOverlay] = useState(false);
   const [view, setView] = useState('');
   const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredPatients, setFilteredPatients] = useState([]);
   const layout = useLayoutType();
 
   const currentPathName: string = window.location.pathname;
@@ -73,6 +83,36 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const pageSizes = [10, 20, 30, 40, 50];
   const [currentPageSize, setPageSize] = useState(10);
   const [overlayHeader, setOverlayTitle] = useState('');
+
+  const handleSearchInputChange = useCallback((event) => {
+    const searchText = event?.target?.value?.trim().toLowerCase();
+    setSearchTerm(searchText);
+  }, []);
+
+  useEffect(() => {
+    const lowercasedTerm = searchTerm.toLowerCase();
+    const filteredResults = searchTerm
+      ? patientQueueEntries.filter((patient) => patient.name.toLowerCase().includes(lowercasedTerm))
+      : patientQueueEntries;
+
+    setFilteredPatients(filteredResults);
+  }, [searchTerm, patientQueueEntries]);
+
+  const handleFilter = ({ rowIds, headers, cellsById, inputValue, getCellId }: FilterProps): Array<string> => {
+    return rowIds.filter((rowId) =>
+      headers.some(({ key }) => {
+        const cellId = getCellId(rowId, key);
+        const filterableValue = cellsById[cellId].value;
+        const filterTerm = inputValue.toLowerCase();
+
+        if (typeof filterableValue === 'boolean') {
+          return false;
+        }
+
+        return ('' + filterableValue).toLowerCase().includes(filterTerm);
+      }),
+    );
+  };
 
   const tableHeaders = useMemo(
     () => [
@@ -124,6 +164,11 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         break;
     }
 
+    if (searchTerm) {
+      const lowercasedTerm = searchTerm.toLowerCase();
+      entries = entries.filter((entry) => entry.name.toLowerCase().includes(lowercasedTerm));
+    }
+
     // Sorting entries such that those with picked come first
     entries.sort((a, b) => {
       if (a.status === 'PICKED' && b.status !== 'PICKED') {
@@ -135,7 +180,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
     });
 
     return entries;
-  }, [patientQueueEntries, status]);
+  }, [patientQueueEntries, searchTerm, status]);
 
   const { goTo, results: paginatedQueueEntries, currentPage } = usePagination(patientQueueEntries, currentPageSize);
 
@@ -204,6 +249,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         <DataTable
           data-floating-menu-container
           headers={tableHeaders}
+          filterRows={handleFilter}
           overflowMenuOnHover={isDesktop(layout)}
           rows={tableRows}
           useZebraStyles
@@ -218,7 +264,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                     <TableToolbarSearch
                       expanded
                       className={styles.search}
-                      onChange={onInputChange}
+                      onChange={handleSearchInputChange}
                       placeholder={t('searchThisList', 'Search this list')}
                       size="sm"
                     />
