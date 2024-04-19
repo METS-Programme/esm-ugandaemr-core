@@ -239,11 +239,23 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
             if (queueEntry.length > 0) {
               updateQueueEntry(status, provider, queueEntry[0]?.uuid, 0, priorityComment, comment).then(() => {
+                showToast({
+                  critical: true,
+                  title: t('moveToNextServicePoint', 'Move back your service point'),
+                  kind: 'success',
+                  description: t('backToQueue', 'Successfully moved back patient to your service point'),
+                });
                 closeModal();
                 mutate();
               });
             } else if (queueEntry.length === 1) {
               updateQueueEntry(status, provider, queueEntry[0]?.uuid, 0, priorityComment, comment).then(() => {
+                showToast({
+                  critical: true,
+                  title: t('moveToNextServicePoint', 'Move back your service point'),
+                  kind: 'success',
+                  description: t('backToQueue', 'Successfully moved back patient to your service point'),
+                });
                 closeModal();
                 mutate();
               });
