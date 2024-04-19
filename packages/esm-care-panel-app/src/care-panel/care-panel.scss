@@ -43,10 +43,8 @@
     }
 }
 
-.emptyState {
+.section {
+    margin: spacing.$spacing-03;
     display: flex;
     justify-content: center;
-    align-items: center;
-    line-height: 20rem;
-    font-weight: bold;
 }

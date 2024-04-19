@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StructuredListSkeleton, ContentSwitcher, Switch } from '@carbon/react';
-import { CloudMonitoring, Medication, Stethoscope } from '@carbon/react/icons';
 import styles from './care-panel.scss';
 import { usePatientPrograms } from '../hooks/usePatientPrograms';
 import ProgramEnrollment from '../program-enrollment/program-enrollment.component';
@@ -10,7 +9,7 @@ import CarePrograms from '../care-programs/care-programs.component';
 import ProgramEnrollmentTB from '../program-enrollment/program-enrollment-tb.component';
 import { programs } from '../constants';
 import DSDMHistory from '../dsdm-history/dsdm-history.component';
-import RegimenHistory from '../regimen-history/regimen-history.component';
+import { CardHeader } from '@openmrs/esm-patient-common-lib';
 
 interface CarePanelProps {
   patientUuid: string;
@@ -33,7 +32,6 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
     const firstEnrollment = enrollments?.[0];
     return firstEnrollment ? { index: 0, name: firstEnrollment.program.name } : undefined;
   });
-  const [selectedTab, setSelectedTab] = useState('carePanel');
 
   useEffect(() => {
     if (!switchItem && enrollments && enrollments.length > 0) {
@@ -51,10 +49,6 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
     }
   };
 
-  const handleChartTypeChange = ({ name }) => {
-    setSelectedTab(name);
-  };
-
   if (isLoading) {
     return (
       <div className={styles.widgetCard}>
@@ -70,28 +64,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
     <>
       {Object.keys(enrollments).length > 0 ? (
         <div className={styles.widgetCard}>
-          <ContentSwitcher selectedIndex={0} onChange={handleChartTypeChange}>
-            <Switch name="carePanel">
-              <div className={styles.switch}>
-                <CloudMonitoring />
-                <span>Care Panel</span>
-              </div>
-            </Switch>
-            <Switch name="dsdm">
-              <div className={styles.switch}>
-                <Stethoscope />
-                <span>DSD Model History</span>
-              </div>
-            </Switch>
-            <Switch name="regimenHistory">
-              <div className={styles.switch}>
-                <Medication />
-                <span>Regimen History</span>
-              </div>
-            </Switch>
-          </ContentSwitcher>
-
-          {selectedTab === 'carePanel' && (
+          <CardHeader title={t('carePanel', 'Care Panel')}>
             <div className={styles.contextSwitcherContainer}>
               <ContentSwitcher
                 selectedIndex={selectedIndex}
@@ -102,9 +75,9 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
                 ))}
               </ContentSwitcher>
             </div>
-          )}
+          </CardHeader>
 
-          {selectedTab === 'carePanel' && switchItem?.name === programs.hiv && (
+          {switchItem?.name === programs.hiv && (
             <div style={{ width: '100%', minHeight: '20rem' }}>
               <ProgramEnrollment
                 patientUuid={patientUuid}
@@ -116,7 +89,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
               />
             </div>
           )}
-          {selectedTab === 'carePanel' && switchItem?.name === programs.tb && (
+          {switchItem?.name === programs.tb && (
             <div style={{ width: '100%', minHeight: '20rem' }}>
               <ProgramEnrollmentTB
                 patientUuid={patientUuid}
@@ -128,8 +101,14 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
               />
             </div>
           )}
-          {selectedTab === 'dsdm' && dsdmModels && <DSDMHistory patientUuid={patientUuid} />}
-          {selectedTab === 'regimenHistory' && <RegimenHistory />}
+          {switchItem?.name === programs.hiv && dsdmModels && (
+            <div>
+              <section className={styles.section}>
+                <h5 className={styles.section}>{t('dsdmHistory', 'DSD Model History')}</h5>
+              </section>
+              <DSDMHistory patientUuid={patientUuid} />
+            </div>
+          )}
         </div>
       ) : (
         <div className={styles.careProgramContainer}>
