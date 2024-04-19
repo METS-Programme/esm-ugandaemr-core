@@ -1,10 +1,8 @@
 import {
-  Button,
   DataTable,
   DataTableSkeleton,
   Layer,
   Pagination,
-  Tab,
   Table,
   TableBody,
   TableCell,
@@ -18,10 +16,9 @@ import {
   Tag,
   Tile,
 } from '@carbon/react';
-import { Add } from '@carbon/react/icons';
 
 import { isDesktop, useLayoutType, usePagination, userHasAccess, useSession } from '@openmrs/esm-framework';
-import React, { AnchorHTMLAttributes, MouseEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { AnchorHTMLAttributes, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   buildStatusString,
@@ -36,7 +33,6 @@ import styles from './active-visits-table.scss';
 import EditActionsMenu from './edit-action-menu.components';
 import { usePatientQueuesList } from './patient-queues.resource';
 import PickPatientActionMenu from '../queue-entry-table-components/pick-patient-queue-entry-menu.component';
-import EmptyState from '../utils/empty-state/empty-state.component';
 import ViewActionsMenu from './view-action-menu.components';
 import NotesActionsMenu from './notes-action-menu.components';
 import { PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS } from '../constants';
@@ -52,19 +48,12 @@ export interface PatientQueueInfoProps extends AnchorHTMLAttributes<HTMLAnchorEl
   patientName: string;
 }
 
-type FilterProps = {
-  rowIds: Array<string>;
-  headers: any;
-  cellsById: any;
-  inputValue: string;
-  getCellId: (row, key) => string;
-};
-
 const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const { t } = useTranslation();
   const session = useSession();
+  const layout = useLayoutType();
 
-  const { patientQueueEntries, isLoading, mutate } = usePatientQueuesList(
+  const { patientQueueEntries, isLoading } = usePatientQueuesList(
     session?.sessionLocation?.uuid,
     status,
     session.user.systemId,
@@ -74,15 +63,15 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const [view, setView] = useState('');
   const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [overlayHeader, setOverlayTitle] = useState('');
   const [filteredPatients, setFilteredPatients] = useState([]);
-  const layout = useLayoutType();
 
   const currentPathName: string = window.location.pathname;
   const fromPage: string = getOriginFromPathName(currentPathName);
 
   const pageSizes = [10, 20, 30, 40, 50];
   const [currentPageSize, setPageSize] = useState(10);
-  const [overlayHeader, setOverlayTitle] = useState('');
+  const { goTo, results: paginatedQueueEntries, currentPage } = usePagination(patientQueueEntries, currentPageSize);
 
   const handleSearchInputChange = useCallback((event) => {
     const searchText = event?.target?.value?.trim().toLowerCase();
@@ -97,22 +86,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
 
     setFilteredPatients(filteredResults);
   }, [searchTerm, patientQueueEntries]);
-
-  const handleFilter = ({ rowIds, headers, cellsById, inputValue, getCellId }: FilterProps): Array<string> => {
-    return rowIds.filter((rowId) =>
-      headers.some(({ key }) => {
-        const cellId = getCellId(rowId, key);
-        const filterableValue = cellsById[cellId].value;
-        const filterTerm = inputValue.toLowerCase();
-
-        if (typeof filterableValue === 'boolean') {
-          return false;
-        }
-
-        return ('' + filterableValue).toLowerCase().includes(filterTerm);
-      }),
-    );
-  };
 
   const tableHeaders = useMemo(
     () => [
@@ -154,13 +127,13 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
     let entries;
     switch (status) {
       case QueueStatus.Completed:
-        entries = patientQueueEntries.filter((entry) => entry.status === 'COMPLETED');
+        entries = paginatedQueueEntries.filter((entry) => entry.status === 'COMPLETED');
         break;
       case '':
-        entries = patientQueueEntries.filter((entry) => entry.status === 'PENDING' || entry.status === 'PICKED');
+        entries = paginatedQueueEntries.filter((entry) => entry.status === 'PENDING' || entry.status === 'PICKED');
         break;
       default:
-        entries = patientQueueEntries.filter((entry) => entry.status === status);
+        entries = paginatedQueueEntries.filter((entry) => entry.status === status);
         break;
     }
 
@@ -180,9 +153,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
     });
 
     return entries;
-  }, [patientQueueEntries, searchTerm, status]);
-
-  const { goTo, results: paginatedQueueEntries, currentPage } = usePagination(patientQueueEntries, currentPageSize);
+  }, [paginatedQueueEntries, searchTerm, status]);
 
   const tableRows = useMemo(() => {
     return filteredPatientQueueEntries?.map((entry) => ({
@@ -243,100 +214,93 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
     return <DataTableSkeleton role="progressbar" />;
   }
 
-  if (paginatedQueueEntries?.length) {
-    return (
-      <div className={styles.container}>
-        <DataTable
-          data-floating-menu-container
-          headers={tableHeaders}
-          filterRows={handleFilter}
-          overflowMenuOnHover={isDesktop(layout)}
-          rows={tableRows}
-          useZebraStyles
-        >
-          {({ rows, headers, getHeaderProps, getTableProps, getRowProps, onInputChange }) => (
-            <TableContainer className={styles.tableContainer}>
-              <TableToolbar
-                style={{ position: 'static', height: '3rem', overflow: 'visible', backgroundColor: 'color' }}
-              >
-                <TableToolbarContent className={styles.toolbarContent}>
-                  <Layer>
-                    <TableToolbarSearch
-                      expanded
-                      className={styles.search}
-                      onChange={handleSearchInputChange}
-                      placeholder={t('searchThisList', 'Search this list')}
-                      size="sm"
-                    />
-                  </Layer>
-                </TableToolbarContent>
-              </TableToolbar>
-              <Table {...getTableProps()} className={styles.activeVisitsTable}>
-                <TableHead>
-                  <TableRow>
-                    {headers.map((header) => (
-                      <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row, index) => {
-                    return (
-                      <React.Fragment key={row.id}>
-                        <TableRow {...getRowProps({ row })}>
-                          {row.cells.map((cell) => (
-                            <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
-                          ))}
-                        </TableRow>
-                      </React.Fragment>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-              {rows.length === 0 ? (
-                <div className={styles.tileContainer}>
-                  <Tile className={styles.tile}>
-                    <div className={styles.tileContent}>
-                      <p className={styles.content}>{t('noPatientsToDisplay', 'No patients to display')}</p>
-                      <p className={styles.helper}>{t('checkFilters', 'Check the filters above')}</p>
-                    </div>
-                  </Tile>
-                </div>
-              ) : null}
-              <Pagination
-                forwardText="Next page"
-                backwardText="Previous page"
-                page={currentPage}
-                pageSize={currentPageSize}
-                pageSizes={pageSizes}
-                totalItems={filteredPatientQueueEntries?.length}
-                className={styles.pagination}
-                onChange={({ pageSize, page }) => {
-                  if (pageSize !== currentPageSize) {
-                    setPageSize(pageSize);
-                  }
-                  if (page !== currentPage) {
-                    goTo(page);
-                  }
-                }}
-              />
-            </TableContainer>
-          )}
-        </DataTable>
-        {showOverlay && (
-          <PatientSearch
-            view={view}
-            closePanel={() => setShowOverlay(false)}
-            viewState={{
-              selectedPatientUuid: viewState.selectedPatientUuid,
-            }}
-            headerTitle={overlayHeader}
-          />
+  return (
+    <div className={styles.container}>
+      <DataTable
+        data-floating-menu-container
+        headers={tableHeaders}
+        overflowMenuOnHover={isDesktop(layout)}
+        rows={tableRows}
+        useZebraStyles
+      >
+        {({ rows, headers, getHeaderProps, getTableProps, getRowProps }) => (
+          <TableContainer className={styles.tableContainer}>
+            <TableToolbar style={{ position: 'static', height: '3rem', overflow: 'visible', backgroundColor: 'color' }}>
+              <TableToolbarContent className={styles.toolbarContent}>
+                <Layer>
+                  <TableToolbarSearch
+                    expanded
+                    className={styles.search}
+                    onChange={handleSearchInputChange}
+                    placeholder={t('searchThisList', 'Search this list')}
+                    size="sm"
+                  />
+                </Layer>
+              </TableToolbarContent>
+            </TableToolbar>
+            <Table {...getTableProps()} className={styles.activeVisitsTable}>
+              <TableHead>
+                <TableRow>
+                  {headers.map((header) => (
+                    <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => {
+                  return (
+                    <React.Fragment key={row.id}>
+                      <TableRow {...getRowProps({ row })}>
+                        {row.cells.map((cell) => (
+                          <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
+                        ))}
+                      </TableRow>
+                    </React.Fragment>
+                  );
+                })}
+              </TableBody>
+            </Table>
+            {rows.length === 0 ? (
+              <div className={styles.tileContainer}>
+                <Tile className={styles.tile}>
+                  <div className={styles.tileContent}>
+                    <p className={styles.content}>{t('noPatientsToDisplay', 'No patients to display')}</p>
+                    <p className={styles.helper}>{t('checkFilters', 'Check the filters above')}</p>
+                  </div>
+                </Tile>
+              </div>
+            ) : null}
+            <Pagination
+              forwardText="Next page"
+              backwardText="Previous page"
+              page={currentPage}
+              pageSize={currentPageSize}
+              pageSizes={pageSizes}
+              totalItems={patientQueueEntries?.length}
+              className={styles.pagination}
+              onChange={({ pageSize, page }) => {
+                if (pageSize !== currentPageSize) {
+                  setPageSize(pageSize);
+                }
+                if (page !== currentPage) {
+                  goTo(page);
+                }
+              }}
+            />
+          </TableContainer>
         )}
-      </div>
-    );
-  }
-
-  return <EmptyState msg="No queue items to display" helper="" />;
+      </DataTable>
+      {showOverlay && (
+        <PatientSearch
+          view={view}
+          closePanel={() => setShowOverlay(false)}
+          viewState={{
+            selectedPatientUuid: viewState.selectedPatientUuid,
+          }}
+          headerTitle={overlayHeader}
+        />
+      )}
+    </div>
+  );
 };
 export default ActiveVisitsTable;
