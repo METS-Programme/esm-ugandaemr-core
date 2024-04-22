@@ -115,6 +115,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
           <CarePrograms patientUuid={patientUuid} />
         </div>
       )}
+      <CarePrograms patientUuid={patientUuid} />
     </>
   );
 };

@@ -104,6 +104,7 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
   if (orderedEnrollments?.length === 0) {
     return null;
   }
+  console.info(programData.artStartDate);
 
   return (
     <div className={styles.bodyContainer}>
