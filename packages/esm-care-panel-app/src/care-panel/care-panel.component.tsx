@@ -4,10 +4,12 @@ import { StructuredListSkeleton, ContentSwitcher, Switch } from '@carbon/react';
 import styles from './care-panel.scss';
 import { usePatientPrograms } from '../hooks/usePatientPrograms';
 import ProgramEnrollment from '../program-enrollment/program-enrollment.component';
-import { CardHeader, EmptyState } from '@openmrs/esm-patient-common-lib';
 import { ErrorState } from '@openmrs/esm-framework';
 import CarePrograms from '../care-programs/care-programs.component';
 import ProgramEnrollmentTB from '../program-enrollment/program-enrollment-tb.component';
+import { programs } from '../constants';
+import DSDMHistory from '../dsdm-history/dsdm-history.component';
+import { CardHeader } from '@openmrs/esm-patient-common-lib';
 
 interface CarePanelProps {
   patientUuid: string;
@@ -23,19 +25,14 @@ type SwitcherItem = {
 
 const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launchPatientWorkspace }) => {
   const { t } = useTranslation();
-  const { isLoading, error, enrollments } = usePatientPrograms(patientUuid);
-  const switcherHeaders = enrollments?.map((item) => item.program.name);
+  const { isLoading, error, enrollments, dsdmModels } = usePatientPrograms(patientUuid);
+  const switcherHeaders = enrollments?.map((item) => item.program.name) || [];
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [switchItem, setSwitcherItem] = useState<SwitcherItem>(() => {
     const firstEnrollment = enrollments?.[0];
     return firstEnrollment ? { index: 0, name: firstEnrollment.program.name } : undefined;
   });
-  const programs = {
-    hiv: 'HIV Program',
-    tb: 'TB Program',
-    mch: 'MCH Program',
-    nutrition: 'Nutrition Program',
-  };
+
   useEffect(() => {
     if (!switchItem && enrollments && enrollments.length > 0) {
       setSwitcherItem({ index: 0, name: enrollments[0].program.name });
@@ -51,6 +48,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
       setSelectedIndex(index);
     }
   };
+
   if (isLoading) {
     return (
       <div className={styles.widgetCard}>
@@ -78,8 +76,9 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
               </ContentSwitcher>
             </div>
           </CardHeader>
-          <div style={{ width: '100%', minHeight: '20rem' }}>
-            {switchItem?.name === programs.hiv && (
+
+          {switchItem?.name === programs.hiv && (
+            <div style={{ width: '100%', minHeight: '20rem' }}>
               <ProgramEnrollment
                 patientUuid={patientUuid}
                 programName={switchItem?.name}
@@ -88,20 +87,28 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
                 launchPatientWorkspace={launchPatientWorkspace}
                 PatientChartProps={''}
               />
-            )}
-            <div style={{ width: '100%', minHeight: '20rem' }}>
-              {switchItem?.name === programs.tb && (
-                <ProgramEnrollmentTB
-                  patientUuid={patientUuid}
-                  programName={switchItem?.name}
-                  enrollments={enrollments}
-                  formEntrySub={formEntrySub}
-                  launchPatientWorkspace={launchPatientWorkspace}
-                  PatientChartProps={''}
-                />
-              )}
             </div>
-          </div>
+          )}
+          {switchItem?.name === programs.tb && (
+            <div style={{ width: '100%', minHeight: '20rem' }}>
+              <ProgramEnrollmentTB
+                patientUuid={patientUuid}
+                programName={switchItem?.name}
+                enrollments={enrollments}
+                formEntrySub={formEntrySub}
+                launchPatientWorkspace={launchPatientWorkspace}
+                PatientChartProps={''}
+              />
+            </div>
+          )}
+          {switchItem?.name === programs.hiv && dsdmModels && (
+            <div>
+              <section className={styles.section}>
+                <h5 className={styles.section}>{t('dsdmHistory', 'DSD Model History')}</h5>
+              </section>
+              <DSDMHistory patientUuid={patientUuid} />
+            </div>
+          )}
         </div>
       ) : (
         <div className={styles.careProgramContainer}>
