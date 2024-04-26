@@ -13,6 +13,7 @@ import {
 } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import {
+  getSessionStore,
   navigate,
   parseDate,
   showNotification,
@@ -318,7 +319,23 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
                             description: t('movetonextservicepoint', 'Moved to next service point successfully'),
                           });
                           // view patient summary
-                          navigate({ to: `\${openmrsSpaBase}/home` });
+                          // navigate({ to: `\${openmrsSpaBase}/home` });
+                          const roles = getSessionStore().getState().session?.user?.roles;
+                          const roleName = roles[0]?.display;
+                          if (roles && roles?.length > 0) {
+                            if (roles?.filter((item) => item?.display === 'Organizational: Clinician').length > 0) {
+                              navigate({
+                                to: `${window.getOpenmrsSpaBase()}home/clinical-room-patient-queues`,
+                              });
+                            } else if (roleName === 'Triage') {
+                              navigate({
+                                to: `${window.getOpenmrsSpaBase()}home/triage-patient-queues`,
+                              });
+                            } else {
+                              navigate({ to: `${window.getOpenmrsSpaBase()}home` });
+                            }
+                          }
+
                           mutate();
                           closeModal();
                         },
@@ -390,7 +407,21 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
                             description: t('movetonextservicepoint', 'Successfully moved to next service point'),
                           });
                           // view patient summary
-                          navigate({ to: `\${openmrsSpaBase}/home` });
+                          const roles = getSessionStore().getState().session?.user?.roles;
+                          const roleName = roles[0]?.display;
+                          if (roles && roles?.length > 0) {
+                            if (roles?.filter((item) => item?.display === 'Organizational: Clinician').length > 0) {
+                              navigate({
+                                to: `${window.getOpenmrsSpaBase()}home/clinical-room-patient-queues`,
+                              });
+                            } else if (roleName === 'Triage') {
+                              navigate({
+                                to: `${window.getOpenmrsSpaBase()}home/triage-patient-queues`,
+                              });
+                            } else {
+                              navigate({ to: `${window.getOpenmrsSpaBase()}home` });
+                            }
+                          }
                           mutate();
                           closeModal();
                         },
