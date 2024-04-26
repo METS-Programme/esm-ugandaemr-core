@@ -1,10 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './program-enrollment.scss';
-import { launchPatientWorkspace } from '@openmrs/esm-patient-common-lib';
 import dayjs from 'dayjs';
 import orderBy from 'lodash/orderBy';
-import { mutate } from 'swr';
 import { parseStageFromDisplay, usePatientObservations } from './program-enrollment.resource';
 import { ProgramData } from '../types/index';
 import { usePatient } from '@openmrs/esm-framework';
@@ -104,12 +102,11 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
   if (orderedEnrollments?.length === 0) {
     return null;
   }
-  console.info(programData.artStartDate);
 
   return (
     <div className={styles.bodyContainer}>
       <div className={styles.card}>
-        <h6>{t('baseline', 'Baseline Information')}</h6>
+        <div className={styles.sectionTitle}>{t('baseline', 'Baseline Information')}</div>
         <div className={styles.container}>
           <div className={styles.content}>
             <p className={styles.label}>{t('artStartDate', 'ART Start Date')}</p>
@@ -139,7 +136,7 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
           </div>
         </div>
         <br></br>
-        <h6>{t('lastArtVisitSummary', 'Last ART Visit Summary')}</h6>
+        <div className={styles.sectionTitle}>{t('lastArtVisitSummary', 'Last ART Visit Summary')}</div>
         <div className={styles.container}>
           <div className={styles.content}>
             <p className={styles.label}>{t('currentRegimen', 'Current Regimen')}</p>
@@ -155,7 +152,7 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
           </div>
         </div>
         <br></br>
-        <h6>{t('lastViralLoadResults', 'Last Viral Load Results')}</h6>
+        <div className={styles.sectionTitle}>{t('lastViralLoadResults', 'Last Viral Load Results')}</div>
         <div className={styles.container}>
           <div className={styles.content}>
             <p className={styles.label}>{t('viralLoadDate', 'HIV Viral Load Date')}</p>
