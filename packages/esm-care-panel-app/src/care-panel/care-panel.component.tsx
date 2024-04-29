@@ -103,9 +103,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
           )}
           {switchItem?.name === programs.hiv && dsdmModels && (
             <div>
-              <section className={styles.section}>
-                <h5 className={styles.section}>{t('dsdmHistory', 'DSD Model History')}</h5>
-              </section>
+              <div className={styles.sectionTitle}>{t('dsdmHistory', 'DSD Model History')}</div>
               <DSDMHistory patientUuid={patientUuid} />
             </div>
           )}
