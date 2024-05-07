@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { StructuredListSkeleton, ContentSwitcher, Switch } from '@carbon/react';
 import styles from './care-panel.scss';
 import { usePatientPrograms } from '../hooks/usePatientPrograms';
-import ProgramEnrollment from '../program-enrollment/program-enrollment.component';
+import ProgramEnrollment from '../program-enrollment/program-enrollment-hiv.component';
 import { ErrorState } from '@openmrs/esm-framework';
 import CarePrograms from '../care-programs/care-programs.component';
 import ProgramEnrollmentTB from '../program-enrollment/program-enrollment-tb.component';

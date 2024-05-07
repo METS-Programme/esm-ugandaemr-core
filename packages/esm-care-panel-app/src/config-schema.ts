@@ -102,4 +102,16 @@ export const configSchema = {
     _type: Type.ConceptUuid,
     _default: '171de3f4-a500-46f6-8098-8097561dfffb',
   },
+  tptStatusUuid: {
+    _type: Type.ConceptUuid,
+    _default: '37d4ac43-b3b4-4445-b63b-e3acf47c8910',
+  },
+  tptStartDateUuid: {
+    _type: Type.ConceptUuid,
+    _default: '483939c7-79ba-4ca4-8c3e-346488c97fc7',
+  },
+  tptCompletionDateUuid: {
+    _type: Type.ConceptUuid,
+    _default: '813e21e7-4ccb-4fe9-aaab-3c0e40b6e356',
+  },
 };

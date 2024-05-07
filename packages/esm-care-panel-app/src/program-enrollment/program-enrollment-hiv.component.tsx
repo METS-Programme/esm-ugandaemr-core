@@ -66,6 +66,24 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
         key: 'currentARVDuration',
         uuidConfig: configSchema.currentARVDurationUuid._default,
       },
+      {
+        key: 'tptStatus',
+        uuidConfig: configSchema.tptStatusUuid._default,
+      },
+      {
+        key: 'tptStartDate',
+        uuidConfig: configSchema.tptStartDateUuid._default,
+        processValue: (date) => {
+          return date && dayjs(date).isValid() ? dayjs(date).format('DD-MM-YYYY') : '--';
+        },
+      },
+      {
+        key: 'tptCompletionDate',
+        uuidConfig: configSchema.tptCompletionDateUuid._default,
+        processValue: (date) => {
+          return date && dayjs(date).isValid() ? dayjs(date).format('DD-MM-YYYY') : '--';
+        },
+      },
     ],
     [],
   );
@@ -74,16 +92,15 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
   const orderedEnrollments = orderBy(enrollments, 'dateEnrolled', 'desc');
 
   const [programData, setProgramData] = useState<ProgramData>({
-    artStartDate: '--',
     currentRegimen: '--',
     baselineRegimen: '--',
     whoClinicalStage: '--',
     dateConfirmedHivPositive: '--',
     baselineCd4: '--',
-    hivViralLoadDate: '--',
     hivViralLoadQualitative: '--',
     hivViralLoad: '--',
     currentARVDuration: '--',
+    tptStatus: '--',
   });
 
   const { observations, isLoading, isError } = usePatientObservations(patientUuid, conceptUuids);
@@ -97,7 +114,7 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
 
       setProgramData((prevState) => ({ ...prevState, ...newData }));
     }
-  }, [observationConfig, observations]);
+  }, [conceptUuids, observationConfig, observations]);
 
   if (orderedEnrollments?.length === 0) {
     return null;
@@ -110,29 +127,21 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
         <div className={styles.container}>
           <div className={styles.content}>
             <p className={styles.label}>{t('artStartDate', 'ART Start Date')}</p>
-            <p>
-              <span className={styles.value}>{programData.artStartDate}</span>
-            </p>
+            <span className={styles.value}>{programData.artStartDate}</span>
           </div>
           <div className={styles.content}>
             <p className={styles.label}>{t('dateConfirmedHivPositive', 'Date Positive HIV Test Confirmed')}</p>
-            <p>
-              <span className={styles.value}>{programData.dateConfirmedHivPositive}</span>
-            </p>
+            <span className={styles.value}>{programData.dateConfirmedHivPositive}</span>
           </div>
           <div className={styles.content}>
             <p className={styles.label}>{t('baselineRegimen', 'Baseline Regimen')}</p>
-            <p>
-              <span className={styles.value}>{programData.baselineRegimen}</span>
-            </p>
+            <span className={styles.value}>{programData.baselineRegimen}</span>
           </div>
         </div>
         <div className={styles.container}>
           <div className={styles.content}>
             <p className={styles.label}>{t('baselineCd4', 'baseline CD4')}</p>
-            <p>
-              <span className={styles.value}>{programData.baselineCd4}</span>
-            </p>
+            <span className={styles.value}>{programData.baselineCd4}</span>
           </div>
         </div>
         <br></br>
@@ -140,15 +149,12 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
         <div className={styles.container}>
           <div className={styles.content}>
             <p className={styles.label}>{t('currentRegimen', 'Current Regimen')}</p>
-            <p>
-              <span className={styles.value}>{programData.currentRegimen}</span>
-            </p>
+
+            <span className={styles.value}>{programData.currentRegimen}</span>
           </div>
           <div className={styles.content}>
             <p className={styles.label}>{t('whoStage', 'WHO Stage')}</p>
-            <p>
-              <span className={styles.value}>{programData.whoClinicalStage}</span>
-            </p>
+            <span className={styles.value}>{programData.whoClinicalStage}</span>
           </div>
         </div>
         <br></br>
@@ -156,22 +162,36 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
         <div className={styles.container}>
           <div className={styles.content}>
             <p className={styles.label}>{t('viralLoadDate', 'HIV Viral Load Date')}</p>
-            <p>
-              <span className={styles.value}>{programData.hivViralLoadDate}</span>
-            </p>
+            <span className={styles.value}>{programData.hivViralLoadDate}</span>
           </div>
           <div className={styles.content}>
             <p className={styles.label}>{t('viralLoadQual', 'Viral Load Qualitative')}</p>
-            <p>
-              <span className={styles.value}>{programData.hivViralLoadQualitative}</span>
-            </p>
+            <span className={styles.value}>{programData.hivViralLoadQualitative}</span>
           </div>
           <div className={styles.content}>
             <p className={styles.label}>{t('hivViralLoad', 'HIV Viral Load')}</p>
-            <p>
-              <span className={styles.value}>{programData.hivViralLoad}</span>
-            </p>
+            <span className={styles.value}>{programData.hivViralLoad}</span>
           </div>
+        </div>
+        <br></br>
+        <div className={styles.sectionTitle}>{t('tptDetails', 'TPT Details')}</div>
+        <div className={styles.container}>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('tptStatus', 'TPT Status')}</p>
+            <span className={styles.value}>{programData.tptStatus}</span>
+          </div>
+          {programData.tptStatus === 'Treatment complete' && (
+            <>
+              <div className={styles.content}>
+                <p className={styles.label}>{t('tptStartDate', 'TPT Start Date')}</p>
+                <span className={styles.value}>{programData.tptStartDate}</span>
+              </div>
+              <div className={styles.content}>
+                <p className={styles.label}>{t('tptCompletionDate', 'TPT Completion Date')}</p>
+                <span className={styles.value}>{programData.tptCompletionDate}</span>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
