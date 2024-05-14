@@ -165,6 +165,8 @@
     margin: spacing.$spacing-03 0;
     &>p:first-child {
         @include type.type-style('label-01');
+        font-size: var(--cds-label-01-font-size, 1rem);
+        font-weight: var(--cds-label-01-font-weight, 600);
         color: colors.$gray-70;
         margin-bottom: spacing.$spacing-02;
     }

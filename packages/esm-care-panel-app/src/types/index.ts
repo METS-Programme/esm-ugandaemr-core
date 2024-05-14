@@ -240,4 +240,7 @@ export interface ProgramData {
   tbDiseaseClassification?: string;
   tbPatientType?: string;
   currentARVDuration?: string;
+  tptStatus?: string;
+  tptStartDate?: string;
+  tptCompletionDate?: string;
 }
