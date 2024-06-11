@@ -63,9 +63,6 @@ const OverallSystemInfo = ({ buildInfo, emrVersion, facilityCodeDetails, setFaci
             />
           </Column>
         </UserHasAccess>
-        <Column>
-          <UpdateInternetPowerButton />
-        </Column>
       </div>
     </Grid>
   );

@@ -206,7 +206,9 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({
         <Button kind="secondary" onClick={closeModal}>
           {t('cancel', 'Cancel')}
         </Button>
-        <Button onClick={handleAddFacilityCode}>{t('addFacilityCode', 'Add Facility Code')}</Button>
+        <Button onClick={handleAddFacilityCode} disabled={`${code}.length < 1`}>
+          {t('addFacilityCode', 'Add Facility Code')}
+        </Button>
       </ModalFooter>
     </div>
   );
