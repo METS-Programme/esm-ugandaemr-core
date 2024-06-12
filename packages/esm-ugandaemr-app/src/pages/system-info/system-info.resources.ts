@@ -2,7 +2,13 @@ import useSWR from 'swr';
 import { FetchResponse, openmrsFetch, useConfig } from '@openmrs/esm-framework';
 import { systemInfo } from './system-info.types';
 import { useState, useEffect } from 'react';
-import { PropertyResponse } from './types';
+import { SystemSettingResponse } from './types';
+import axios from 'axios';
+
+type facilityRequest = {
+  resource: string;
+  type: string;
+}
 
 export function useGetSystemInformation() {
   const apiUrl = `/ws/rest/v1/systeminformation?v=full`;
@@ -15,40 +21,45 @@ export function useGetSystemInformation() {
   };
 }
 
-export function useGetResourceInformation(type, facilityUrl: string) {
-  const [state, setState] = useState({});
-  const [error, setError] = useState('');
+export function useGetResourceInformation(params: facilityRequest) {
+  const apiUrl = `https://api-nhfr.health.go.ug/NHFRSearch?resource=${params.resource}&type=${params.type}`;
 
-  const url = `${facilityUrl}?`;
-  let param = '';
+  const fetcher = async () => {
+    try {
+      const response = await axios.get(apiUrl, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-  switch (type) {
-    case 'ownership':
-      param = 'resource=ValueSet&name=facilityOwnership';
-      break;
-    case 'careLevel':
-      param = 'resource=ValueSet&name=facilityLevel';
-      break;
-  }
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error in fetcher: ${error.message}`);
+    }
+  };
 
-  useEffect(() => {
-    const dataFetch = async () => {
-      try {
-        const data = await (
-          await fetch(`${url}${param}&_pretty=true`, {
-            method: 'GET',
-          })
-        ).json();
-        setState(data);
-      } catch (e) {
-        setError('Error loading resource');
-      }
-    };
+  const { data, error } = useSWR<SystemSettingResponse, Error>(apiUrl, fetcher);
 
-    dataFetch();
-  }, [param, url]);
+  const levelOfCareValues = Array.from(
+    new Set(
+      data?.entry?.map(entry => {
+        const extensions = entry?.resource?.extension || [];
+        const levelOfCare = extensions.find(ext => ext.url === 'levelOfCare');
+        return levelOfCare ? levelOfCare.valueCode : null;
+      }).filter(value => value !== null)
+    )
+  );
 
-  return { data: state, error: error };
+// TO BE REMOVED
+console.info(levelOfCareValues);
+
+
+  return {
+    facility: data,
+    levelOfCare: levelOfCareValues,
+    isLoading: !error && !data,
+    isError: error,
+  };
 }
 
 export async function getFacility(params, facilityUrl: string) {

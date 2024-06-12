@@ -51,6 +51,8 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({
   });
 
   const [facilityUrl, setFacilityUrl] = useState('');
+  const [resource, setResource] = useState('Location');
+  const [type, setType] = useState('healthFacility');
 
   getGlobalPropertyValue(nhfrGlobalPropertyValueName)
     .then((resp) => {
@@ -60,17 +62,7 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({
       console.info(error);
     });
 
-  const { data: ownershipData } = useGetResourceInformation('ownership', facilityUrl);
-  const { data: careLevelsData } = useGetResourceInformation('careLevel', facilityUrl);
-
-  useEffect(() => {
-    if (Object.keys(careLevelsData).length) {
-      setCareLevels(extractResourceInfo(careLevelsData['entry']));
-    }
-    if (Object.keys(ownershipData).length) {
-      setOwnership(extractResourceInfo(ownershipData['entry']));
-    }
-  }, [careLevelsData, ownershipData]);
+  const { levelOfCare } = useGetResourceInformation({ resource, type });
 
   useEffect(() => {
     if (code) {
@@ -112,28 +104,24 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({
         <Form onSubmit={handleSubmit}>
           <Stack gap={7}>
             {/* care level */}
-            {Object.keys(careLevelsData).length ? (
-              <Select
-                labelText={t('selectLevelOfCare', 'Select facility level')}
-                id="careLevel"
-                value={searchParams.careLevel}
-                onChange={(event) => setSearchParams({ ...searchParams, careLevel: event.target.value })}
-                light
-              >
-                <SelectItem key={'LevelOfCare'} text={'Choose Facility Level'} value={''} />
-                {careLevels.map((level) => {
-                  return (
-                    <SelectItem key={level.code} text={level.display} value={level.code}>
-                      {level.display}
-                    </SelectItem>
-                  );
-                })}
-              </Select>
-            ) : (
-              <SelectSkeleton />
-            )}
+            <Select
+              labelText={t('selectLevelOfCare', 'Select facility level')}
+              id="careLevel"
+              value={levelOfCare}
+              onChange={(event) => setSearchParams({ ...searchParams, careLevel: event.target.value })}
+              light
+            >
+              <SelectItem key={'LevelOfCare'} text={'Choose Facility Level'} value={''} />
+              {careLevels.map((level) => {
+                return (
+                  <SelectItem key={level.code} text={level.display} value={level.code}>
+                    {level.display}
+                  </SelectItem>
+                );
+              })}
+            </Select>
             {/* ownership */}
-            {Object.keys(ownershipData).length ? (
+            {/* {Object.keys(ownershipData).length ? (
               <Select
                 labelText={t('selectOwnershipType', 'Select ownership type')}
                 id="ownership"
@@ -153,7 +141,7 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({
               </Select>
             ) : (
               <SelectSkeleton />
-            )}
+            )} */}
             {/* facility name */}
             <TextInput
               id="facilityName"
