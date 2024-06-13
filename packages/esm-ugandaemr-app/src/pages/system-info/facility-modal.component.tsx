@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, ComboBox, ModalBody, ModalFooter, ModalHeader, Select, SelectItem, TextInput } from '@carbon/react';
+import { Button, Select, SelectItem, TextInput, ModalBody, ModalFooter, ModalHeader } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import { useGetResourceInformation } from './system-info.resources';
 import styles from './system-info.scss';
@@ -18,6 +18,7 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({
   const { t } = useTranslation();
 
   const [facilities, setFacilities] = useState([]);
+  const [facilityCodes, setFacilityCodes] = useState({});
   const [code, setCode] = useState('');
 
   const [resource, setResource] = useState('Location');
@@ -27,12 +28,25 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({
   useEffect(() => {
     if (suggestedFacilities) {
       const facilityNames = suggestedFacilities.map((item) => item.resource.name);
+      const facilityCodesMap = {};
+      suggestedFacilities.forEach((item) => {
+        const uniqueIdentifier = item.resource.extension.find((ext) => ext.url === 'uniqueIdentifier');
+        if (uniqueIdentifier) {
+          facilityCodesMap[item.resource.name] = uniqueIdentifier.valueString;
+        }
+      });
       setFacilities(facilityNames);
+      setFacilityCodes(facilityCodesMap);
     }
   }, [suggestedFacilities]);
 
   const handleFacilityNameChange = (event) => {
     setFacilityName(event.target.value);
+  };
+
+  const handleSelectFacility = (event) => {
+    const selectedFacilityName = event.target.value;
+    setCode(facilityCodes[selectedFacilityName] || '');
   };
 
   const handleAddFacilityCode = () => {
@@ -44,7 +58,6 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({
     }
     closeModal();
   };
-  console.info(suggestedFacilities);
 
   return (
     <div>
@@ -63,7 +76,7 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({
               labelText={t('selectFacility', 'Select your facility')}
               id="facility"
               value={code}
-              onChange={(event) => setCode(event.target.value)}
+              onChange={handleSelectFacility}
               light
             >
               <SelectItem key={'chooseFacility'} text={'Facility Name'} value={''} />

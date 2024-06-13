@@ -141,6 +141,7 @@ const SystemInfoPage = () => {
   const [facilityCodeDetails, setFacilityCodeDetails] = useState<FacilityCodeDetails>({ value: null, uuid: null });
 
   const { facilityIds } = useRetrieveFacilityCode();
+  console.info(facilityIds);
 
   useEffect(() => {
     if (facilityIds && facilityIds.length) {
