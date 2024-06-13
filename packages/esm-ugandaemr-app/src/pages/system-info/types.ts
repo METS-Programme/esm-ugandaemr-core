@@ -26,6 +26,7 @@ export interface FacilityEntry {
 
 export interface Resource {
   resourceType: string;
+  name: string;
   extension: Extension[];
 }
 

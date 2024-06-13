@@ -14,12 +14,11 @@ import {
   Tile,
 } from '@carbon/react';
 import { ErrorState, UserHasAccess, showToast, showNotification } from '@openmrs/esm-framework';
-import { useGetSystemInformation, updatePropertyValue, useRetrieveFacilityCode } from './system-info.resources';
+import { updatePropertyValue, useGetSystemInformation, useRetrieveFacilityCode } from './system-info.resources';
 import styles from './system-info.scss';
 import coatOfArms from '../../images/coat_of_arms.png';
 import UpdateFacilityCode from './update-facility-code-button.component';
 import { PRIVILEGE_UPDATE_FACILITY_CODE } from '../../constants';
-import UpdateInternetPowerButton from '../internet-power/internet-power-button.component';
 
 interface FacilityCodeDetails {
   value?: string;

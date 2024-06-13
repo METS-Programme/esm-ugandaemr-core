@@ -1,27 +1,8 @@
-import {
-  Button,
-  Form,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  Select,
-  SelectItem,
-  Stack,
-  TextInput,
-  InlineLoading,
-  SelectSkeleton,
-} from '@carbon/react';
 import React, { useEffect, useState } from 'react';
+import { Button, ComboBox, ModalBody, ModalFooter, ModalHeader, Select, SelectItem, TextInput } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
-import {
-  getFacility,
-  getGlobalPropertyValue,
-  handleFacilityResponse,
-  useGetResourceInformation,
-} from './system-info.resources';
-import { extractResourceInfo } from './system-info.utils';
+import { useGetResourceInformation } from './system-info.resources';
 import styles from './system-info.scss';
-import { useConfig } from '@openmrs/esm-framework';
 
 interface RetrieveFacilityCodeModalProps {
   closeModal: () => void;
@@ -35,41 +16,24 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({
   facilityCodeDetails,
 }) => {
   const { t } = useTranslation();
-  const config = useConfig();
-  const { nhfrGlobalPropertyValueName } = config;
 
-  const [careLevels, setCareLevels] = useState([]);
-  const [ownership, setOwnership] = useState([]);
   const [facilities, setFacilities] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [showResults, setShowResults] = useState(false);
   const [code, setCode] = useState('');
-  const [searchParams, setSearchParams] = useState({
-    ownership: null,
-    careLevel: null,
-    facilityName: null,
-  });
 
-  const [facilityUrl, setFacilityUrl] = useState('');
   const [resource, setResource] = useState('Location');
-  const [type, setType] = useState('healthFacility');
-
-  getGlobalPropertyValue(nhfrGlobalPropertyValueName)
-    .then((resp) => {
-      setFacilityUrl(resp?.data?.results[0].value);
-    })
-    .catch((error) => {
-      console.info(error);
-    });
-
-  const { levelOfCare } = useGetResourceInformation({ resource, type });
+  const [facilityName, setFacilityName] = useState('');
+  const { data: suggestedFacilities } = useGetResourceInformation({ resource, name: facilityName });
 
   useEffect(() => {
-    if (code) {
-      const selectedFacility = facilities.filter((f) => f['code'] === code)[0];
-      setCode(selectedFacility.code);
+    if (suggestedFacilities) {
+      const facilityNames = suggestedFacilities.map((item) => item.resource.name);
+      setFacilities(facilityNames);
     }
-  }, [code, facilities]);
+  }, [suggestedFacilities]);
+
+  const handleFacilityNameChange = (event) => {
+    setFacilityName(event.target.value);
+  };
 
   const handleAddFacilityCode = () => {
     if (code) {
@@ -80,121 +44,44 @@ const RetrieveFacilityCodeModal: React.FC<RetrieveFacilityCodeModalProps> = ({
     }
     closeModal();
   };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    // todo: validate form
-    setFacilities([]);
-    setCode('');
-    setIsLoading(true);
-    setShowResults(false);
-    const response = await getFacility(searchParams, facilityUrl);
-    const facilitiesArray = handleFacilityResponse(response);
-    if (facilitiesArray[0]['id'] !== null) {
-      setFacilities(facilitiesArray);
-    }
-    setShowResults(true);
-    setIsLoading(false);
-  };
+  console.info(suggestedFacilities);
 
   return (
     <div>
       <ModalHeader closeModal={closeModal} title={t('addFacilityCode', 'Add Facility Code')} />
       <ModalBody>
-        <Form onSubmit={handleSubmit}>
-          <Stack gap={7}>
-            {/* care level */}
+        <TextInput
+          id="facilityName"
+          value={facilityName}
+          onChange={handleFacilityNameChange}
+          placeholder={t('searchFacilityName', 'Search by Facility Name')}
+          labelText={t('facilityName', 'Facility Name')}
+        />
+        {facilities.length > 0 && (
+          <div className={styles['results']}>
             <Select
-              labelText={t('selectLevelOfCare', 'Select facility level')}
-              id="careLevel"
-              value={levelOfCare}
-              onChange={(event) => setSearchParams({ ...searchParams, careLevel: event.target.value })}
+              labelText={t('selectFacility', 'Select your facility')}
+              id="facility"
+              value={code}
+              onChange={(event) => setCode(event.target.value)}
               light
             >
-              <SelectItem key={'LevelOfCare'} text={'Choose Facility Level'} value={''} />
-              {careLevels.map((level) => {
-                return (
-                  <SelectItem key={level.code} text={level.display} value={level.code}>
-                    {level.display}
-                  </SelectItem>
-                );
-              })}
+              <SelectItem key={'chooseFacility'} text={'Facility Name'} value={''} />
+              {facilities.map((facility, index) => (
+                <SelectItem key={index} text={facility} value={facility}>
+                  {facility}
+                </SelectItem>
+              ))}
             </Select>
-            {/* ownership */}
-            {/* {Object.keys(ownershipData).length ? (
-              <Select
-                labelText={t('selectOwnershipType', 'Select ownership type')}
-                id="ownership"
-                invalidText="Required"
-                value={searchParams.ownership}
-                onChange={(event) => setSearchParams({ ...searchParams, ownership: event.target.value })}
-                light
-              >
-                <SelectItem key={'OwnershipType'} text={'Choose ownership type'} value={''} />
-                {ownership.map((type) => {
-                  return (
-                    <SelectItem key={type.code} text={type.display} value={type.code}>
-                      {type.display}
-                    </SelectItem>
-                  );
-                })}
-              </Select>
-            ) : (
-              <SelectSkeleton />
-            )} */}
-            {/* facility name */}
-            <TextInput
-              id="facilityName"
-              invalidText="Required"
-              labelText={t('facilityName', 'Facility Name')}
-              onChange={(event) => setSearchParams({ ...searchParams, facilityName: event.target.value })}
-              value={searchParams.facilityName}
-            />
-            {isLoading ? (
-              <InlineLoading description={t('loading', 'Loading...')} role="progressbar" />
-            ) : (
-              <Button type="submit">{t('searchForFacility', 'Search')}</Button>
-            )}
-          </Stack>
-        </Form>
-        {showResults ? (
-          Object.keys(facilities).length > 0 ? (
-            <div className={styles['results']}>
-              <Select
-                labelText={t('selectFacility', 'Select your facility')}
-                id="facility"
-                value={code}
-                onChange={(event) => setCode(event.target.value)}
-                light
-              >
-                <SelectItem key={'chooseFacility'} text={'Facility Name'} value={''} />
-                {facilities.map((facility) => {
-                  return (
-                    <SelectItem key={facility.id} text={facility.name} value={facility.code}>
-                      {facility.name}
-                    </SelectItem>
-                  );
-                })}
-              </Select>
-              <TextInput
-                id="facilityCode"
-                readOnly={true}
-                labelText={t('facilityCode', 'Facility Code')}
-                value={code}
-              />
-            </div>
-          ) : (
-            <p className={styles['no-results']}>{t('noMatch', 'No matching health facility found')}!</p>
-          )
-        ) : (
-          ''
+            <TextInput id="facilityCode" readOnly={true} labelText={t('facilityCode', 'Facility Code')} value={code} />
+          </div>
         )}
       </ModalBody>
       <ModalFooter>
         <Button kind="secondary" onClick={closeModal}>
           {t('cancel', 'Cancel')}
         </Button>
-        <Button onClick={handleAddFacilityCode} disabled={`${code}.length < 1`}>
+        <Button onClick={handleAddFacilityCode} disabled={code.length < 1}>
           {t('addFacilityCode', 'Add Facility Code')}
         </Button>
       </ModalFooter>

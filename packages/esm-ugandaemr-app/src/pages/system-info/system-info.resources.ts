@@ -1,34 +1,21 @@
 import useSWR from 'swr';
-import { FetchResponse, openmrsFetch, useConfig } from '@openmrs/esm-framework';
-import { systemInfo } from './system-info.types';
-import { useState, useEffect } from 'react';
-import { SystemSettingResponse } from './types';
 import axios from 'axios';
+import { openmrsFetch } from '@openmrs/esm-framework';
+import { systemInfo } from './system-info.types';
 
 type facilityRequest = {
   resource: string;
-  type: string;
-}
-
-export function useGetSystemInformation() {
-  const apiUrl = `/ws/rest/v1/systeminformation?v=full`;
-  const { data, error, isLoading } = useSWR<{ data: systemInfo }, Error>(apiUrl, openmrsFetch);
-
-  return {
-    systemInfo: data?.data,
-    isLoading,
-    isError: error,
-  };
-}
+  name: string;
+};
 
 export function useGetResourceInformation(params: facilityRequest) {
-  const apiUrl = `https://api-nhfr.health.go.ug/NHFRSearch?resource=${params.resource}&type=${params.type}`;
+  const apiUrl = `https://api-nhfr.health.go.ug/NHFRSearch?resource=${params.resource}&name=${params.name}`;
 
   const fetcher = async () => {
     try {
       const response = await axios.get(apiUrl, {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
 
@@ -38,25 +25,13 @@ export function useGetResourceInformation(params: facilityRequest) {
     }
   };
 
-  const { data, error } = useSWR<SystemSettingResponse, Error>(apiUrl, fetcher);
-
-  const levelOfCareValues = Array.from(
-    new Set(
-      data?.entry?.map(entry => {
-        const extensions = entry?.resource?.extension || [];
-        const levelOfCare = extensions.find(ext => ext.url === 'levelOfCare');
-        return levelOfCare ? levelOfCare.valueCode : null;
-      }).filter(value => value !== null)
-    )
+  const { data, error } = useSWR(apiUrl, fetcher);
+  const facilities = data?.entry?.filter((entry) =>
+    entry?.resource?.extension?.find((extension) => extension.url === 'levelOfCare'),
   );
 
-// TO BE REMOVED
-console.info(levelOfCareValues);
-
-
   return {
-    facility: data,
-    levelOfCare: levelOfCareValues,
+    data: facilities,
     isLoading: !error && !data,
     isError: error,
   };
@@ -140,16 +115,13 @@ export async function updatePropertyValue(propertyUuid: string, value: string) {
   });
 }
 
-export function getGlobalPropertyValue(property: string) {
-  const abortController = new AbortController();
+export function useGetSystemInformation() {
+  const apiUrl = `/ws/rest/v1/systeminformation?v=full`;
+  const { data, error, isLoading } = useSWR<{ data: systemInfo }, Error>(apiUrl, openmrsFetch);
 
-  return openmrsFetch(`/ws/rest/v1/systemsetting?q=${property}&v=full`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    signal: abortController.signal,
-  });
+  return {
+    systemInfo: data?.data,
+    isLoading,
+    isError: error,
+  };
 }
-
-// global p
