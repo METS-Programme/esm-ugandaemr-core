@@ -16,6 +16,25 @@ export interface Result {
   resourceVersion: string;
 }
 
+export interface SystemSettingResponse {
+  entry: FacilityEntry[];
+}
+
+export interface FacilityEntry {
+  resource: Resource;
+}
+
+export interface Resource {
+  resourceType: string;
+  name: string;
+  extension: Extension[];
+}
+
+export interface Extension {
+  url: string;
+  valueCode: string;
+}
+
 export interface Link {
   rel: string;
   uri: string;
