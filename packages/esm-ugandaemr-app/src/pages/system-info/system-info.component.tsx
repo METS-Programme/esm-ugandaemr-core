@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Column,
@@ -13,7 +13,7 @@ import {
   TableCell,
   Tile,
 } from '@carbon/react';
-import { ErrorState, UserHasAccess, showToast, showNotification } from '@openmrs/esm-framework';
+import { ErrorState, UserHasAccess, showToast, showNotification, showSnackbar } from '@openmrs/esm-framework';
 import { updatePropertyValue, useGetSystemInformation, useRetrieveFacilityCode } from './system-info.resources';
 import styles from './system-info.scss';
 import coatOfArms from '../../images/coat_of_arms.png';
@@ -22,13 +22,12 @@ import { PRIVILEGE_UPDATE_FACILITY_CODE } from '../../constants';
 
 interface FacilityCodeDetails {
   value?: string;
-  uuid?: string;
 }
 
 const OverallSystemInfo = ({ buildInfo, emrVersion, facilityCodeDetails, setFacilityCodeDetails }) => {
   const { t } = useTranslation();
   const buildDateTime =
-    Object.keys(buildInfo).length > 0
+    buildInfo && buildInfo['SystemInfo.OpenMRSInstallation.systemDate']
       ? `${buildInfo['SystemInfo.OpenMRSInstallation.systemDate']}, ${buildInfo['SystemInfo.OpenMRSInstallation.systemTime']}`
       : '-';
 
@@ -115,15 +114,13 @@ function SystemInfoTable({ moduleInfo, error, loading }): React.JSX.Element {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row: { cells }) => {
-                return (
-                  <TableRow {...getRowProps({ row })}>
-                    {row.cells.map((cell) => (
-                      <TableCell key={cell.id}>{cell.value}</TableCell>
-                    ))}
-                  </TableRow>
-                );
-              })}
+              {rows.map((row: { cells }) => (
+                <TableRow {...getRowProps({ row })}>
+                  {row.cells.map((cell) => (
+                    <TableCell key={cell.id}>{cell.value}</TableCell>
+                  ))}
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         )}
@@ -138,35 +135,32 @@ const SystemInfoPage = () => {
   const [buildInfo, setBuildInfo] = useState({});
   const [emrVersion, setEMRVersion] = useState('4.0');
   const { systemInfo, isError, isLoading } = useGetSystemInformation();
-  const [facilityCodeDetails, setFacilityCodeDetails] = useState<FacilityCodeDetails>({ value: null, uuid: null });
+  const [facilityCodeDetails, setFacilityCodeDetails] = useState<FacilityCodeDetails>({ value: null });
 
   const { facilityIds } = useRetrieveFacilityCode();
-  console.info(facilityIds);
 
   useEffect(() => {
     if (facilityIds && facilityIds.length) {
       setFacilityCodeDetails({
-        ...facilityCodeDetails,
         value: facilityIds[0]['value'],
-        uuid: facilityIds[0]['uuid'],
       });
     }
-  }, [facilityCodeDetails, facilityIds]);
+  }, [facilityIds]);
 
-  useEffect(() => {
-    if (facilityCodeDetails.uuid !== null && facilityCodeDetails.value !== null) {
-      updatePropertyValue(facilityCodeDetails.uuid, facilityCodeDetails.value).then(
+  const updateFacilityCode = useCallback(() => {
+    if (facilityCodeDetails.value) {
+      updatePropertyValue('ugandaemrsync.national.health.facility.registry.identifier', facilityCodeDetails.value).then(
         (response) => {
-          showToast({
-            critical: true,
-            title: t('Updating Facility Code', `Updating Facility Code`),
+          showSnackbar({
+            isLowContrast: true,
             kind: 'success',
-            description: t('UpdatingFacilityCode', `Updated Facility Code ${response?.data['value']}`),
+            title: t('Updating Facility Code', 'Updating Facility Code'),
+            subtitle: t('UpdatingFacilityCode', `Updated Facility Code ${response?.value}`),
           });
         },
         (error) => {
           showNotification({
-            title: t(`errorUpdatingFacilityCode', 'Could not update facility code`),
+            title: t('errorUpdatingFacilityCode', 'Could not update facility code'),
             kind: 'error',
             critical: true,
             description: error?.message,
@@ -174,12 +168,19 @@ const SystemInfoPage = () => {
         },
       );
     }
-  });
+  }, [facilityCodeDetails.value, t]);
+
+  useEffect(() => {
+    if (facilityCodeDetails.value) {
+      updateFacilityCode();
+    }
+  }, [facilityCodeDetails.value, updateFacilityCode]);
 
   useEffect(() => {
     if (systemInfo) {
-      delete systemInfo['systemInfo']['SystemInfo.title.moduleInformation']['SystemInfo.Module.repositoryPath'];
-      setModuleInfo(systemInfo['systemInfo']['SystemInfo.title.moduleInformation']);
+      const moduleInformation = { ...systemInfo['systemInfo']['SystemInfo.title.moduleInformation'] };
+      delete moduleInformation['SystemInfo.Module.repositoryPath'];
+      setModuleInfo(moduleInformation);
       setBuildInfo(systemInfo['systemInfo']['SystemInfo.title.openmrsInformation']);
     }
   }, [systemInfo]);

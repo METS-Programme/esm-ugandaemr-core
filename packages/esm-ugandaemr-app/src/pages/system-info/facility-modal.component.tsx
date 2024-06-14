@@ -6,7 +6,7 @@ import styles from './system-info.scss';
 
 interface RetrieveFacilityCodeModalProps {
   closeModal: () => void;
-  facilityCodeDetails: { value: string; uuid: string };
+  facilityCodeDetails: { value: string };
   setFacilityCodeDetails: (obj: {}) => void;
 }
 
