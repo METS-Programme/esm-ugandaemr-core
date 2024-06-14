@@ -18,7 +18,12 @@ import { updatePropertyValue, useGetSystemInformation, useRetrieveFacilityCode }
 import styles from './system-info.scss';
 import coatOfArms from '../../images/coat_of_arms.png';
 import UpdateFacilityCode from './update-facility-code-button.component';
-import { PRIVILEGE_UPDATE_FACILITY_CODE } from '../../constants';
+import {
+  NHFRIdentifier,
+  PRIVILEGE_UPDATE_FACILITY_CODE,
+  systemInstallationDate,
+  systemInstallationTime,
+} from '../../constants';
 
 interface FacilityCodeDetails {
   value?: string;
@@ -27,8 +32,8 @@ interface FacilityCodeDetails {
 const OverallSystemInfo = ({ buildInfo, emrVersion, facilityCodeDetails, setFacilityCodeDetails }) => {
   const { t } = useTranslation();
   const buildDateTime =
-    buildInfo && buildInfo['SystemInfo.OpenMRSInstallation.systemDate']
-      ? `${buildInfo['SystemInfo.OpenMRSInstallation.systemDate']}, ${buildInfo['SystemInfo.OpenMRSInstallation.systemTime']}`
+    buildInfo && buildInfo[`${systemInstallationDate}`]
+      ? `${buildInfo[`${systemInstallationDate}`]}, ${buildInfo[`${systemInstallationTime}`]}`
       : '-';
 
   return (
@@ -149,7 +154,7 @@ const SystemInfoPage = () => {
 
   const updateFacilityCode = useCallback(() => {
     if (facilityCodeDetails.value) {
-      updatePropertyValue('ugandaemrsync.national.health.facility.registry.identifier', facilityCodeDetails.value).then(
+      updatePropertyValue(`${NHFRIdentifier}`, facilityCodeDetails.value).then(
         (response) => {
           showSnackbar({
             isLowContrast: true,

@@ -2,6 +2,7 @@ import useSWR from 'swr';
 import axios from 'axios';
 import { openmrsFetch } from '@openmrs/esm-framework';
 import { systemInfo } from './system-info.types';
+import { NHFRIdentifier } from '../../constants';
 
 type facilityRequest = {
   resource: string;
@@ -74,7 +75,7 @@ export function useGetSystemInformation() {
 }
 
 export function useRetrieveFacilityCode() {
-  const apiURL = '/ws/rest/v1/systemsetting?q=ugandaemrsync.national.health.facility.registry.identifier&v=full';
+  const apiURL = `/ws/rest/v1/systemsetting?q=${NHFRIdentifier}&v=full`;
 
   const { data, error, isLoading } = useSWR<{ data: [] }, Error>(apiURL, openmrsFetch);
 
