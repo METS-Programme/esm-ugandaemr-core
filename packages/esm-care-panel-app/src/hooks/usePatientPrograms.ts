@@ -2,32 +2,41 @@ import useSWR from 'swr';
 import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
 import { configSchema } from '../config-schema';
 
-export interface Concept {
+export interface PatientProgramResponse {
   uuid: string;
-  display: string;
+  program: Program;
+  dateEnrolled: string;
+  dateCompleted: string;
+  states: State[];
 }
 
 export interface Program {
   uuid: string;
   name: string;
-  description: string;
+}
+
+export interface State {
+  state: StateDetail;
+  startDate: string;
+  endDate: string;
+}
+
+export interface StateDetail {
   concept: Concept;
 }
 
-export interface PatientProgramResponse {
+export interface Concept {
   uuid: string;
   display: string;
-  program: Program;
-  dateEnrolled: string;
-  dateCompleted: string;
 }
 
 export const usePatientPrograms = (patientUuid: string) => {
-  const apiUrl = `${restBaseUrl}/programenrollment/?patient=${patientUuid}&v=full`;
+  const apiUrl = `${restBaseUrl}/programenrollment/?patient=${patientUuid}&v=custom:(uuid,program:(uuid,name,allWorkflows:(uuid,states:(uuid,concept.name.name,),concept.name.name)),location:(uuid,name),attributes:(uuid,attributeType:(uuid,display),value:(uuid,name.name)),dateEnrolled,dateCompleted,states:(state:(concept),startDate,endDate,voided),outcome)`;
   const { data, isValidating, error, isLoading } = useSWR<{ data: { results: Array<PatientProgramResponse> } }>(
     apiUrl,
     openmrsFetch,
   );
+
   const hivTbUuids = [configSchema.hivProgramUuid._default, configSchema.tbProgramUuid._default];
 
   const dsdmUuids = [
@@ -41,7 +50,10 @@ export const usePatientPrograms = (patientUuid: string) => {
   const filteredPrograms =
     data?.data?.results.filter((enrollment) => hivTbUuids.includes(enrollment.program.uuid)) ?? [];
 
-  const filteredDSDModels = data?.data?.results.filter((model) => dsdmUuids.includes(model.program.concept.uuid) ?? []);
+  const filteredDSDModels =
+    data?.data?.results.flatMap((enrollment) =>
+      enrollment.states.filter((state) => dsdmUuids.includes(state.state.concept.uuid)),
+    ) ?? [];
 
   return {
     error: error,
@@ -50,4 +62,12 @@ export const usePatientPrograms = (patientUuid: string) => {
     dsdmModels: filteredDSDModels,
     isValidating,
   };
+};
+
+export const getAcronym = (text) => {
+  if (!text) return '';
+  return text
+    .split(' ')
+    .map((word) => word[0])
+    .join('');
 };

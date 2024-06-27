@@ -18,7 +18,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { formatDate, parseDate, usePagination } from '@openmrs/esm-framework';
 import styles from './dsdm-history.scss';
-import { usePatientPrograms } from '../hooks/usePatientPrograms';
+import { getAcronym, usePatientPrograms } from '../hooks/usePatientPrograms';
 
 interface dsdmnProps {
   patientUuid: string;
@@ -44,16 +44,16 @@ const DSDMHistory: React.FC<dsdmnProps> = ({ patientUuid }) => {
     const currentDate = new Date();
 
     return paginatedDSDM?.map((model) => {
-      const enrolledDate = model.dateEnrolled ? parseDate(model.dateEnrolled) : null;
+      const enrolledDate = model.startDate ? parseDate(model.startDate) : null;
       const formattedEnrolledDate = enrolledDate ? formatDate(enrolledDate) : '';
 
-      const completedDate = model.dateCompleted ? parseDate(model.dateCompleted) : currentDate;
-      const formattedCompletedDate = model.dateCompleted ? formatDate(completedDate) : 'Current';
+      const completedDate = model.endDate ? parseDate(model.endDate) : currentDate;
+      const formattedCompletedDate = model.endDate ? formatDate(completedDate) : 'Current';
 
       return {
         ...model,
-        id: model?.program?.concept?.uuid,
-        model: model?.display,
+        id: model?.state?.concept?.uuid,
+        model: getAcronym(model?.state?.concept?.display),
         dateEnrolled: formattedEnrolledDate,
         dateCompleted: formattedCompletedDate,
       };
@@ -100,7 +100,7 @@ const DSDMHistory: React.FC<dsdmnProps> = ({ patientUuid }) => {
               <div className={styles.tileContainer}>
                 <Tile className={styles.tile}>
                   <div className={styles.tileContent}>
-                    <p className={styles.content}>{t('noWorklistsToDisplay', 'No worklists orders to display')}</p>
+                    <p className={styles.content}>{t('noDSDMToDisplay', 'Patient not enrolled on any DSDM')}</p>
                   </div>
                 </Tile>
               </div>
