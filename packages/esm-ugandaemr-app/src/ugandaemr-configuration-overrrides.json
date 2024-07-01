@@ -346,7 +346,8 @@
           "nationality",
           "occupation",
           "education",
-          "email"
+          "email",
+          "specialCategories"
         ]
       },
       {
@@ -534,6 +535,70 @@
         "validation": {
           "matches": "^0([0-9](?:(?:[0-9][0-9])|(?:0[0-8])|(4[0-1]))[0-9]{6})$"
         }
+      },
+      {
+        "id": "specialCategories",
+        "type": "obs",
+        "uuid": "927563c5-cb91-4536-b23c-563a72d3f829",
+        "label": "Special Categories",
+        "rendering": "multiCheckbox",
+        "validation": {
+          "required": false
+        },
+        "customConceptAnswers": [
+          {
+            "uuid": "162277AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "label": "In prison"
+          },
+          {
+            "uuid": "160666AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "label": "Drug user"
+          },
+          {
+            "uuid": "165125AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "label": "Uniformed Officer"
+          },
+          {
+            "uuid": "165126AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "label": "Migrant Worker"
+          },
+          {
+            "uuid": "162198AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "label": "Long distance truck driver"
+          },
+          {
+            "uuid": "159674AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "label": "Fisherman"
+          },
+          {
+            "uuid": "165127AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "label": "Refugee Camp"
+          },
+          {
+            "uuid": "dcda5179-30ab-102d-86b0-7a5022ba4115",
+            "label": "PREGNANT"
+          },
+          {
+            "uuid": "9e5ac0a8-6041-4feb-8c07-fe522ef5f9ab",
+            "label": "Breast feeding"
+          },
+          {
+            "uuid": "165132AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "label": "AGYW"
+          },
+          {
+            "uuid": "162558AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "label": "Disability"
+          },
+          {
+            "uuid": "93d7b669-c6d7-45dd-a727-cb438e3992e1",
+            "label": "Non IDU"
+          },
+          {
+            "uuid": "342db3a7-74c4-4cb0-943a-432c6b3693b6",
+            "label": "Other PPs"
+          }
+        ]
       }
     ],
     "links": {
