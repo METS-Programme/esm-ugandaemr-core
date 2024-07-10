@@ -44,15 +44,6 @@ export const facilityHomeDashboardExt = getAsyncLifecycle(() => import('./views/
 export const hieHomeDashboardLink = getSyncLifecycle(createDashboardLink(hieHomeDashboardMeta), options);
 export const hieHomeDashboardExt = getAsyncLifecycle(() => import('./views/hie/hie-home.component'), options);
 
-// cervical cancer
-
-// clinical views divider
-/*export const clinicalViewsDivider = getSyncLifecycle(
-  createOHRIPatientChartSideNavLink(patientChartDivider_dashboardMeta),
-  options,
-);*/
-
-// system info link
 export const systemInfoMenuLink = getAsyncLifecycle(() => import('./pages/system-info/system-info-link.component'), {
   featureName: 'system info link',
   moduleName,
@@ -77,4 +68,14 @@ export const updateFacilityCodeAlert = getAsyncLifecycle(
     featureName: 'update facility code alert',
     moduleName,
   },
+);
+
+export const dispensingDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    name: 'dispensing',
+    slot: 'dispensing-dashboard-slot',
+    title: 'Pharmacy',
+    customSpaBasePath: `${window.spaBase}`,
+  }),
+  options,
 );
