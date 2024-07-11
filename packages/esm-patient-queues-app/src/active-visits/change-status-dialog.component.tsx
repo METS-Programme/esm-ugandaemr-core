@@ -187,7 +187,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   const changeQueueStatus = useCallback(
     (event: { preventDefault: () => void; target: { [x: string]: { value: string } } }) => {
       event.preventDefault();
-      // check status
+      // Check status
       if (status === QueueStatus.Pending) {
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
         updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, comment).then(
@@ -223,6 +223,12 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
           comment,
         ).then(
           () => {
+            showToast({
+              critical: true,
+              title: t('updateEntry', 'Update entry'),
+              kind: 'success',
+              description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
+            });
             mutate();
 
             addQueueEntry(
@@ -236,9 +242,15 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               comment,
             ).then(
               () => {
+                showToast({
+                  critical: true,
+                  title: t('addQueueEntry', 'Add Queue Entry'),
+                  kind: 'success',
+                  description: t('queueEntryAddedSuccessfully', 'Queue Entry Added Successfully'),
+                });
                 mutate();
 
-                //pick and route
+                // Pick and route
                 updateQueueEntry(
                   QueueStatus.Picked,
                   provider,
@@ -254,7 +266,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                       kind: 'success',
                       description: t('movetonextqueue', 'Move to next queue successfully'),
                     });
-                    // view patient summary
+                    // View patient summary
                     navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry.patientUuid}/chart` });
                     closeModal();
                     mutate();
