@@ -92,6 +92,22 @@
             "component": "ClinicalPatientSummaryTabs"
         },
         {
+            "name": "subjective-findings-section",
+            "component": "SubjectiveFindingsComponent"
+        },
+        {
+            "name": "objective-findings-section",
+            "component": "ObjectiveFindingsComponent"
+        },
+        {
+            "name": "treatment-plan-section",
+            "component": "TreatmentPlanComponent"
+        },
+        {
+            "name": "assessment-section",
+            "component": "AssessmentComponent"
+        },
+        {
             "name": "form-builder-app-menu-item",
             "component": "formBuilderAppMenuItem",
             "slot": "app-menu-item-slot",

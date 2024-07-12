@@ -8,3 +8,17 @@
 .panelContainer {
     margin: 10px
 }
+
+.tabcontainer {
+    background-color: $ui-background;
+}
+
+.tabContent {
+    margin-bottom: 0.5rem;
+     :global(.cds--text-input) {
+        width: 48%;
+    }
+     :global(.cds--label) {
+        font-size: 0.825rem;
+    }
+}

@@ -26,6 +26,10 @@ const ClinicalPatientSummary: React.FC<ClinicalPatientProps> = ({ patientUuid })
             <p className={styles.label}>{t('facilityPatientIdentifier', 'Facility Patient Unique Identifier')}</p>
             <span className={styles.value}>MOH/09099</span>
           </div>
+          <div className={styles.content}>
+            <p className={styles.label}>{t('healthWorkerID', 'National Healthworker Unique Identifier')}</p>
+            <span className={styles.value}>UG/989009</span>
+          </div>
         </div>
         <br></br>
         <div className={styles.sectionTitle}>{t('vitalsDetails', 'Vitals Details')}</div>
@@ -63,7 +67,7 @@ const ClinicalPatientSummary: React.FC<ClinicalPatientProps> = ({ patientUuid })
             <span className={styles.value}>57</span>
           </div>
         </div>
-        <ClinicalPatientSummaryTabs patientUuid={patientUuid} />
+        <ClinicalPatientSummaryTabs />
       </div>
     </div>
   );

@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@carbon/react';
 import styles from './clinical-patient-summary-tabs.scss';
+import SubjectiveFindingsComponent from './subjective-findings.component';
+import ObjectiveFindingsComponent from './objective-findings.component';
+import TreatmentPlanComponent from './treatment-plan.component';
+import AssessmentComponent from './assessment.component';
 
-interface clinicalPatientSummaryTabs {
-  patientUuid: string;
-}
-
-export const ClinicalPatientSummaryTabs: React.FC<clinicalPatientSummaryTabs> = ({ patientUuid }) => {
+export const ClinicalPatientSummaryTabs = () => {
   const { t } = useTranslation();
   const [selectedTab, setSelectedTab] = useState(0);
   return (
-    <div className={styles.container}>
+    <div className={styles.tabcontainer}>
       <Tabs selectedIndex={selectedTab} onChange={({ selectedIndex }) => setSelectedTab(selectedIndex)}>
         <TabList>
           <Tab>{t('subjectiveFindings', 'Subjective Findings')}</Tab>
@@ -20,7 +20,18 @@ export const ClinicalPatientSummaryTabs: React.FC<clinicalPatientSummaryTabs> = 
           <Tab>{t('treatmentPlan', 'Treatment Plan')}</Tab>
         </TabList>
         <TabPanels>
-          <TabPanel></TabPanel>
+          <TabPanel>
+            <SubjectiveFindingsComponent />
+          </TabPanel>
+          <TabPanel>
+            <ObjectiveFindingsComponent />
+          </TabPanel>
+          <TabPanel>
+            <AssessmentComponent />
+          </TabPanel>
+          <TabPanel>
+            <TreatmentPlanComponent />
+          </TabPanel>
         </TabPanels>
       </Tabs>
     </div>

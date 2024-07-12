@@ -163,6 +163,7 @@
 .content {
     width: 30%;
     margin: spacing.$spacing-03 0;
+    padding-left: 0.5rem;
     &>p:first-child {
         @include type.type-style('label-01');
         font-size: var(--cds-label-01-font-size, 1rem);
@@ -179,7 +180,7 @@
 .sectionTitle {
     margin: 0 0.5rem 0 0;
     display: flex;
-    background-color: #edf4ff;
-    color: #0f62fe;
+    background-color: #5bc3c0;
+    color: #f4f4f4;
     padding: 0.5rem;
 }

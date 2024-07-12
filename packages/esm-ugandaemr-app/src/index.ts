@@ -14,6 +14,10 @@ import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
 import { createHomeDashboardLink } from './create-dashboard-link';
 import ClinicalPatientSummary from './pages/clinical-patient-summary/clinical-patient-summary.component';
 import ClinicalPatientSummaryTabs from './pages/clinical-patient-summary/clinical-patient-summary-tabs/clinical-patient-summary-tabs.component';
+import SubjectiveFindingsComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/subjective-findings.component';
+import ObjectiveFindingsComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/objective-findings.component';
+import TreatmentPlanComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/treatment-plan.component';
+import AssessmentComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/assessment.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -96,3 +100,11 @@ export const clinicalPatientDashboardLink = getSyncLifecycle(
 export const clinicalPatientSummary = getSyncLifecycle(ClinicalPatientSummary, options);
 
 export const clincialPatientSummaryTabs = getSyncLifecycle(ClinicalPatientSummaryTabs, options);
+
+export const subjectiveFindingsSection = getSyncLifecycle(SubjectiveFindingsComponent, options);
+
+export const objectiveFindingsSection = getSyncLifecycle(ObjectiveFindingsComponent, options);
+
+export const treatmentPlanSection = getSyncLifecycle(TreatmentPlanComponent, options);
+
+export const assessmentSection = getSyncLifecycle(AssessmentComponent, options)
