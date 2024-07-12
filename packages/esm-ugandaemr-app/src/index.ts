@@ -13,7 +13,8 @@ import dispensingAppMenu from './menu-app-items/despensing-app-menu-item/dispens
 import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
 import { createHomeDashboardLink } from './create-dashboard-link';
 import ClinicalPatientSummary from './pages/clinical-patient-summary/clinical-patient-summary.component';
-import SubjectiveFindings from './pages/clinical-patient-summary/clinical-patient-summary-subjective-findings.component';
+import SubjectiveFindings from './pages/clinical-patient-summary/clinical-patient-summary-data-tables/clinical-patient-summary-subjective-findings.component';
+import ObjectiveFindings from './pages/clinical-patient-summary/clinical-patient-summary-data-tables/clincial-patient-summary-objective.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -95,4 +96,6 @@ export const clinicalPatientDashboardLink = getSyncLifecycle(
 
 export const clinicalPatientSummary = getSyncLifecycle(ClinicalPatientSummary, options);
 
-// export const subjectiveFindings = getSyncLifecycle(SubjectiveFindings, options);
+export const subjectiveFindings = getSyncLifecycle(SubjectiveFindings, options);
+
+export const objectiveFindings = getSyncLifecycle(ObjectiveFindings, options);

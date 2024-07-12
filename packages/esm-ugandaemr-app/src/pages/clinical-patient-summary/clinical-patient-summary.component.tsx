@@ -2,6 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './clinical-patient-summary.scss';
 import { usePatient } from '@openmrs/esm-framework';
+import SubjectiveFindings from './clinical-patient-summary-data-tables/clinical-patient-summary-subjective-findings.component';
+import ObjectiveFindings from './clinical-patient-summary-data-tables/clincial-patient-summary-objective.component';
 
 export interface ClinicalPatientProps {
   patientUuid: string;
@@ -62,30 +64,12 @@ const ClinicalPatientSummary: React.FC<ClinicalPatientProps> = ({ patientUuid })
             <span className={styles.value}>57</span>
           </div>
         </div>
-        <br></br>
         <div className={styles.sectionTitle}>{t('subjectiveFindings', 'Subjective Findings')}</div>
-        <div className={styles.container}>
-          <div className={styles.content}>
-            <p className={styles.label}>{t('presentingComplaints', 'Reason for patient visit')}</p>
-            <span className={styles.value}>Feeling a headache</span>
-          </div>
-          <div className={styles.content}>
-            <p className={styles.label}>{t('historyPresentingComplaints', 'History of Presenting Complaints')}</p>
-            <span className={styles.value}>jdjssjkdcndeicfskdkfnmdkfcsldffvnsdkfjsnkfcnvskdfvnksdvsjldfvns</span>
-          </div>
-          <div className={styles.content}>
-            <p className={styles.label}>{t('hivViralLoad', 'HIV Viral Load')}</p>
-            <span className={styles.value}>hahhdhskskdkcnuecdfbedjfc</span>
-          </div>
-        </div>
+
+        <SubjectiveFindings patientUuid={patientUuid} />
         <br></br>
-        <div className={styles.sectionTitle}>{t('tptDetails', 'TPT Details')}</div>
-        <div className={styles.container}>
-          <div className={styles.content}>
-            <p className={styles.label}>{t('tptStatus', 'TPT Status')}</p>
-            {/* <span className={styles.value}>{programData.tptStatus}</span> */}
-          </div>
-        </div>
+        <div className={styles.sectionTitle}>{t('objectiveFindings', 'Objective Findings')}</div>
+        <ObjectiveFindings patientUuid={patientUuid} />
       </div>
     </div>
   );

@@ -16,47 +16,42 @@ import {
 
 import { useTranslation } from 'react-i18next';
 import { usePagination } from '@openmrs/esm-framework';
-import styles from './dsdm-history.scss';
+import styles from './clinical-patient-summary-subjective-findings.scss';
 
 interface subjectiveFindingsProps {
   patientUuid: string;
 }
 
-const SubjectiveFindings: React.FC<subjectiveFindingsProps> = ({ patientUuid }) => {
+const ObjectiveFindings: React.FC<subjectiveFindingsProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
   const pageSizes = [10, 20, 30, 40, 50];
   const [currentPageSize, setPageSize] = useState(10);
 
   let columns = [
-    { id: 0, header: t('presentingComplaints', 'Presenting Complaints'), key: 'presentingComplaints' },
-
+    { id: 0, header: t('generalExamination', 'Physical Findings'), key: 'generalExamination' },
     {
       id: 1,
-      header: t('historyPresentingComplaints', 'History of Presenting Complaints'),
-      key: 'historyPresentingComplaints',
+      header: t('systemicExamination', 'Narrative of abnormal findings'),
+      key: 'systemicExamination',
     },
-    { id: 2, header: t('reviewOfBodySystems', 'Review of Body Systems'), key: 'reviewOfBodySystems' },
   ];
 
   const tableRows = [
     {
       id: 'reason-1',
-      presentingComplaints: 'Stomache',
-      historyPresentingComplaints: 'I started feeling stomache last night',
-      reviewOfBodySystems: 'Stomach',
+      generalExamination: 'Stomache',
+      systemicExamination: 'I started feeling stomache last night',
     },
     {
-      id: 'reason-1',
-      presentingComplaints: 'Stomache',
-      historyPresentingComplaints: 'I started feeling stomache last night',
-      reviewOfBodySystems: 'Stomach',
+      id: 'reason-2',
+      generalExamination: 'Stomache',
+      systemicExamination: 'I started feeling stomache last night',
     },
     {
-      id: 'reason-1',
-      presentingComplaints: 'Stomache',
-      historyPresentingComplaints: 'I started feeling stomache last night',
-      reviewOfBodySystems: 'Stomach',
+      id: 'reason-3',
+      generalExamination: 'Stomache',
+      systemicExamination: 'I started feeling stomache last night',
     },
   ];
 
@@ -127,4 +122,4 @@ const SubjectiveFindings: React.FC<subjectiveFindingsProps> = ({ patientUuid }) 
   }
 };
 
-export default SubjectiveFindings;
+export default ObjectiveFindings;

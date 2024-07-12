@@ -80,6 +80,14 @@
             "component": "clinicalPatientSummary"
         },
         {
+            "name": "subjective-findings-datalist",
+            "component": "SubjectiveFindings"
+        },
+        {
+            "name": "objective-findings-datalist",
+            "component": "ObjectiveFindings"
+        },
+        {
             "name": "form-builder-app-menu-item",
             "component": "formBuilderAppMenuItem",
             "slot": "app-menu-item-slot",
