@@ -88,6 +88,10 @@
             "component": "ObjectiveFindings"
         },
         {
+            "name": "clinical-patient-summary-tabs",
+            "component": "ClinicalPatientSummaryTabs"
+        },
+        {
             "name": "form-builder-app-menu-item",
             "component": "formBuilderAppMenuItem",
             "slot": "app-menu-item-slot",

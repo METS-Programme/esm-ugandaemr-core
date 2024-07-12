@@ -2,8 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './clinical-patient-summary.scss';
 import { usePatient } from '@openmrs/esm-framework';
-import SubjectiveFindings from './clinical-patient-summary-data-tables/clinical-patient-summary-subjective-findings.component';
-import ObjectiveFindings from './clinical-patient-summary-data-tables/clincial-patient-summary-objective.component';
+import ClinicalPatientSummaryTabs from './clinical-patient-summary-tabs/clinical-patient-summary-tabs.component';
 
 export interface ClinicalPatientProps {
   patientUuid: string;
@@ -64,12 +63,7 @@ const ClinicalPatientSummary: React.FC<ClinicalPatientProps> = ({ patientUuid })
             <span className={styles.value}>57</span>
           </div>
         </div>
-        <div className={styles.sectionTitle}>{t('subjectiveFindings', 'Subjective Findings')}</div>
-
-        <SubjectiveFindings patientUuid={patientUuid} />
-        <br></br>
-        <div className={styles.sectionTitle}>{t('objectiveFindings', 'Objective Findings')}</div>
-        <ObjectiveFindings patientUuid={patientUuid} />
+        <ClinicalPatientSummaryTabs patientUuid={patientUuid} />
       </div>
     </div>
   );
