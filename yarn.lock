@@ -4291,21 +4291,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openmrs/esm-patient-common-lib@npm:^7.0.1":
-  version: 7.1.0
-  resolution: "@openmrs/esm-patient-common-lib@npm:7.1.0"
-  dependencies:
-    "@carbon/react": ^1.12.0
-    lodash-es: ^4.17.21
-    uuid: ^8.3.2
-  peerDependencies:
-    "@openmrs/esm-framework": 5.x
-    react: 18.x
-    single-spa: 6.x
-  checksum: ba8b5194a7aeb9a1f3ecbb441e64c6843e991a52a208f2c57a1d015df1d090c34362afe8c7323072894ebec7d7ae584962f10f59c2c0dc24c68dc95b40935029
-  languageName: node
-  linkType: hard
-
 "@openmrs/esm-patient-common-lib@npm:next":
   version: 7.1.1-pre.4335
   resolution: "@openmrs/esm-patient-common-lib@npm:7.1.1-pre.4335"
@@ -6692,7 +6677,7 @@ __metadata:
   resolution: "@ugandaemr/esm-patient-programs-app@workspace:packages/esm-patient-programs-app"
   dependencies:
     "@carbon/react": ^1.12.0
-    "@openmrs/esm-patient-common-lib": ^7.0.1
+    "@openmrs/esm-patient-common-lib": next
     lodash-es: ^4.17.21
   peerDependencies:
     "@openmrs/esm-framework": 5.x

@@ -5,12 +5,14 @@ import { BrowserRouter, useLocation } from 'react-router-dom';
 export interface DashboardLinkConfig {
   name: string;
   title: string;
+  slot?: string;
+  customSpaBasePath?: string;
 }
 
 function DashboardExtension({ dashboardLinkConfig }: { dashboardLinkConfig: DashboardLinkConfig }) {
-  const { name, title } = dashboardLinkConfig;
+  const { name, title, customSpaBasePath } = dashboardLinkConfig;
   const location = useLocation();
-  const spaBasePath = `${window.spaBase}/home`;
+  const spaBasePath = customSpaBasePath || `${window.spaBase}/home`;
 
   const navLink = useMemo(() => {
     const pathArray = location.pathname.split('/home');
