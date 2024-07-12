@@ -63,6 +63,23 @@
             }
         },
         {
+            "name": "clincial-patient-link",
+            "slot": "patient-chart-dashboard-slot",
+            "component": "clinicalPatientDashboardLink",
+            "order": 15,
+            "meta": {
+                "slot": "clinical-patient-summary-slot",
+                "path": "clinical-patient-dashboard",
+                "title": "Clinical Patient Summary",
+                "columns": 1
+            }
+        },
+        {
+            "name": "clinical-patient-summary",
+            "slot": "clinical-patient-summary-slot",
+            "component": "clinicalPatientSummary"
+        },
+        {
             "name": "form-builder-app-menu-item",
             "component": "formBuilderAppMenuItem",
             "slot": "app-menu-item-slot",
