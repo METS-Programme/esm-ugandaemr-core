@@ -30,7 +30,7 @@ function DashboardExtension({ dashboardLinkConfig }: { dashboardLinkConfig: Dash
   );
 }
 
-export const createDashboardLink = (dashboardLinkConfig: DashboardLinkConfig) => () =>
+export const createHomeDashboardLink = (dashboardLinkConfig: DashboardLinkConfig) => () =>
   (
     <BrowserRouter>
       <DashboardExtension dashboardLinkConfig={dashboardLinkConfig} />

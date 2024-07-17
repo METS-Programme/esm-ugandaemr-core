@@ -1,7 +1,6 @@
 import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
-import { createDashboardLink } from './createDashboardLink';
 import { facilityHomeDashboardMeta, hieHomeDashboardMeta } from './dashboard.meta';
 
 import formBuilderAppMenu from './menu-app-items/form-builder-app-item/form-builder-app-item.component';
@@ -10,6 +9,15 @@ import legacyAdminAppMenu from './menu-app-items/legacy-admin-item/legacy-admin-
 import cohortBuilderAppMenu from './menu-app-items/cohort-builder-item/cohort-builder-item.component';
 import formRenderTestAppMenu from './menu-app-items/form-render-test-item/form-render-test-item.component';
 import dispensingAppMenu from './menu-app-items/despensing-app-menu-item/dispensing-app-menu-item.component';
+
+import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
+import { createHomeDashboardLink } from './create-dashboard-link';
+import ClinicalPatientSummary from './pages/clinical-patient-summary/clinical-patient-summary.component';
+import ClinicalPatientSummaryTabs from './pages/clinical-patient-summary/clinical-patient-summary-tabs/clinical-patient-summary-tabs.component';
+import SubjectiveFindingsComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/subjective-findings.component';
+import ObjectiveFindingsComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/objective-findings.component';
+import TreatmentPlanComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/treatment-plan.component';
+import AssessmentComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/assessment.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -35,13 +43,13 @@ export const facilityDashboard = getAsyncLifecycle(() => import('./views/facilit
 export const hieDashboard = getAsyncLifecycle(() => import('./views/hie/hie-root.component'), options);
 
 // extensions
-export const facilityHomeDashboardLink = getSyncLifecycle(createDashboardLink(facilityHomeDashboardMeta), options);
+export const facilityHomeDashboardLink = getSyncLifecycle(createHomeDashboardLink(facilityHomeDashboardMeta), options);
 export const facilityHomeDashboardExt = getAsyncLifecycle(() => import('./views/facility/facility-home.component'), {
   featureName: 'facility dashboard',
   moduleName,
 });
 
-export const hieHomeDashboardLink = getSyncLifecycle(createDashboardLink(hieHomeDashboardMeta), options);
+export const hieHomeDashboardLink = getSyncLifecycle(createHomeDashboardLink(hieHomeDashboardMeta), options);
 export const hieHomeDashboardExt = getAsyncLifecycle(() => import('./views/hie/hie-home.component'), options);
 
 export const systemInfoMenuLink = getAsyncLifecycle(() => import('./pages/system-info/system-info-link.component'), {
@@ -71,7 +79,7 @@ export const updateFacilityCodeAlert = getAsyncLifecycle(
 );
 
 export const dispensingDashboardLink = getSyncLifecycle(
-  createDashboardLink({
+  createHomeDashboardLink({
     name: 'dispensing',
     slot: 'dispensing-dashboard-slot',
     title: 'Pharmacy',
@@ -79,3 +87,24 @@ export const dispensingDashboardLink = getSyncLifecycle(
   }),
   options,
 );
+
+export const clinicalPatientDashboardLink = getSyncLifecycle(
+  createDashboardLink({
+    path: 'clinical-patient-dashboard',
+    title: 'Clinical Patient Dashboard',
+    moduleName,
+  }),
+  options,
+);
+
+export const clinicalPatientSummary = getSyncLifecycle(ClinicalPatientSummary, options);
+
+export const clincialPatientSummaryTabs = getSyncLifecycle(ClinicalPatientSummaryTabs, options);
+
+export const subjectiveFindingsSection = getSyncLifecycle(SubjectiveFindingsComponent, options);
+
+export const objectiveFindingsSection = getSyncLifecycle(ObjectiveFindingsComponent, options);
+
+export const treatmentPlanSection = getSyncLifecycle(TreatmentPlanComponent, options);
+
+export const assessmentSection = getSyncLifecycle(AssessmentComponent, options)
