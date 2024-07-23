@@ -52,11 +52,6 @@ export const facilityHomeDashboardExt = getAsyncLifecycle(() => import('./views/
 export const hieHomeDashboardLink = getSyncLifecycle(createHomeDashboardLink(hieHomeDashboardMeta), options);
 export const hieHomeDashboardExt = getAsyncLifecycle(() => import('./views/hie/hie-home.component'), options);
 
-export const systemInfoMenuLink = getAsyncLifecycle(() => import('./pages/system-info/system-info-link.component'), {
-  featureName: 'system info link',
-  moduleName,
-});
-
 export const systemInfoPage = getAsyncLifecycle(() => import('./pages/system-info/system-info.component'), {
   featureName: 'system info page',
   moduleName,
@@ -107,4 +102,4 @@ export const objectiveFindingsSection = getSyncLifecycle(ObjectiveFindingsCompon
 
 export const treatmentPlanSection = getSyncLifecycle(TreatmentPlanComponent, options);
 
-export const assessmentSection = getSyncLifecycle(AssessmentComponent, options)
+export const assessmentSection = getSyncLifecycle(AssessmentComponent, options);
