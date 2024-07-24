@@ -107,4 +107,4 @@ export const objectiveFindingsSection = getSyncLifecycle(ObjectiveFindingsCompon
 
 export const treatmentPlanSection = getSyncLifecycle(TreatmentPlanComponent, options);
 
-export const assessmentSection = getSyncLifecycle(AssessmentComponent, options)
+export const assessmentSection = getSyncLifecycle(AssessmentComponent, options);
