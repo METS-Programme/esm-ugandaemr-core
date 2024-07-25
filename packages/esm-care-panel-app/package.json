@@ -13,7 +13,6 @@
     "build": "webpack --mode production",
     "analyze": "webpack --mode=production --env.analyze=true",
     "lint": "eslint src --ext ts,tsx",
-    "typescript": "tsc",
     "extract-translations": "i18next 'src/**/*.component.tsx'"
   },
   "browserslist": [
