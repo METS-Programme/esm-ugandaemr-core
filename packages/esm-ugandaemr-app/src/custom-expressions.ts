@@ -1,11 +1,11 @@
 export function CalcMonthsOnART(artStartDate: Date, followupDate: Date) {
-  let resultMonthsOnART: string;
+  let resultMonthsOnART: number;
   let artInDays = Math.round((followupDate.getTime() - artStartDate.getTime?.()) / 86400000);
   if (artStartDate && followupDate && artInDays < 30) {
-    resultMonthsOnART = '0 months';
+    resultMonthsOnART = 0;
   } else if (artStartDate && followupDate && artInDays >= 30) {
-    resultMonthsOnART = `${Math.floor(artInDays / 30)} months`;
+    resultMonthsOnART = Math.floor(artInDays / 30);
   }
-  console.log('myCustom', resultMonthsOnART);
+
   return artStartDate && followupDate ? resultMonthsOnART : null;
 }

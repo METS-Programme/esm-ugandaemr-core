@@ -19,10 +19,7 @@ import ObjectiveFindingsComponent from './pages/clinical-patient-summary/clinica
 import TreatmentPlanComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/treatment-plan.component';
 import AssessmentComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/assessment.component';
 import { CalcMonthsOnART } from './custom-expressions';
-import {
-  registerControl,
-  registerExpressionHelper,
-} from "@openmrs/openmrs-form-engine-lib";
+import { registerControl, registerExpressionHelper } from '@openmrs/openmrs-form-engine-lib';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -42,8 +39,6 @@ export const dispensingAppMenuItem = getSyncLifecycle(dispensingAppMenu, options
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
   registerExpressionHelper('CustomMonthsOnARTCalc', CalcMonthsOnART);
-  console.log('Register Custom Helper');
-
 }
 
 // pages
@@ -115,4 +110,4 @@ export const objectiveFindingsSection = getSyncLifecycle(ObjectiveFindingsCompon
 
 export const treatmentPlanSection = getSyncLifecycle(TreatmentPlanComponent, options);
 
-export const assessmentSection = getSyncLifecycle(AssessmentComponent, options)
+export const assessmentSection = getSyncLifecycle(AssessmentComponent, options);
