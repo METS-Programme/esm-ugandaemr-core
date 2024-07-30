@@ -18,6 +18,8 @@ import SubjectiveFindingsComponent from './pages/clinical-patient-summary/clinic
 import ObjectiveFindingsComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/objective-findings.component';
 import TreatmentPlanComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/treatment-plan.component';
 import AssessmentComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/assessment.component';
+import {CalcMonthsOnART, getLatestObs, latestObs} from './custom-expressions';
+import { registerControl, registerExpressionHelper } from '@openmrs/openmrs-form-engine-lib';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -36,6 +38,8 @@ export const dispensingAppMenuItem = getSyncLifecycle(dispensingAppMenu, options
 
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
+  registerExpressionHelper('CustomMonthsOnARTCalc', CalcMonthsOnART);
+  registerExpressionHelper('cusGetLatestObs', latestObs);
 }
 
 // pages
@@ -107,4 +111,4 @@ export const objectiveFindingsSection = getSyncLifecycle(ObjectiveFindingsCompon
 
 export const treatmentPlanSection = getSyncLifecycle(TreatmentPlanComponent, options);
 
-export const assessmentSection = getSyncLifecycle(AssessmentComponent, options)
+export const assessmentSection = getSyncLifecycle(AssessmentComponent, options);

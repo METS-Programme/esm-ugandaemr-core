@@ -38,6 +38,7 @@
     },
     "dependencies": {
         "@carbon/react": "^1.14.0",
+        "@openmrs/openmrs-form-engine-lib": "next",
         "lodash-es": "^4.17.15"
     },
     "peerDependencies": {
