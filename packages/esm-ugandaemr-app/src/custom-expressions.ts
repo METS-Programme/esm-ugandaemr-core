@@ -1,7 +1,16 @@
-import { getLatestObs } from './custom-apis/custom-apis';
+import { getConceptDataType, getLatestObs } from './custom-apis/custom-apis';
+import dayjs from 'dayjs';
 
-export async function loadCurrentRegimen(patientId: string) {
-  const response = await getLatestObs(patientId, 'dd2b0b4d-30ab-102d-86b0-7a5022ba4115');
+export async function latestObs(patientId: string, conceptUuid: string) {
+  const response = await getLatestObs(patientId, conceptUuid);
 
-  return response?.valueCodeableConcept?.coding[0]?.display ?? 'No Current Regimen';
+  if (response) {
+    const conceptDataType = await getConceptDataType(conceptUuid);
+
+    if (conceptDataType === 'Date') {
+      return dayjs(response?.valueDateTime).format('DD/MM/YYYY');
+    } else if (conceptDataType === 'Coded') {
+      return response?.valueCodeableConcept?.coding[0]?.display;
+    }
+  }
 }
