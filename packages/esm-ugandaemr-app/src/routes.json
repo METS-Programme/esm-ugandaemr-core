@@ -39,11 +39,6 @@
             }
         },
         {
-            "name": "system-info-link",
-            "slot": "app-menu-slot",
-            "component": "systemInfoMenuLink"
-        },
-        {
             "name": "retrieve-facility-code-modal",
             "component": "retrieveFacilityCodeModal"
         },
