@@ -290,7 +290,8 @@
                 "Add Orders",
                 "View OrderTemplates"
             ]
-        }
+        },
+      "maxDispenseDurationInDays": 366
     },
     "@ugandaemr/esm-patient-notes-app": {
         "Display conditions": {
