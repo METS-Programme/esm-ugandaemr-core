@@ -38,6 +38,7 @@ import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './visit-form.scss';
 import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
 import { useProviders } from './queue.resource';
+
 interface VisitFormProps {
   toggleSearchType: (searchMode: SearchTypes, patientUuid) => void;
   patientUuid: string;
@@ -111,6 +112,9 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
       ? provider
       : [],
   );
+
+  // Check if selectedNextQueueLocation has a value selected
+  const isFormValid = selectedNextQueueLocation;
 
   const handleSubmit = useCallback(
     (event) => {
@@ -330,7 +334,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
         <Button className={styles.button} kind="secondary" onClick={closePanel}>
           {t('discard', 'Discard')}
         </Button>
-        <Button className={styles.button} disabled={isSubmitting} kind="primary" type="submit">
+        <Button className={styles.button} disabled={!isFormValid || isSubmitting} kind="primary" type="submit">
           {t('startVisit', 'Start visit')}
         </Button>
       </ButtonSet>
