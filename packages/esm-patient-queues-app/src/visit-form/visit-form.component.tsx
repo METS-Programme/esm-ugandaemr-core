@@ -66,9 +66,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const { providers } = useProviders();
   const { queueRoomLocations, mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState('');
-  const [selectedOtherQueueLocation, setSelectedOtherQueueLocation] = useState('');
-  const { queueLocations } = useQueueLocations();
-
   const [selectedProvider, setSelectedProvider] = useState('');
   const { patient, isLoading } = usePatient(patientUuid);
 
@@ -216,16 +213,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const handleOnChange = () => {
     setIgnoreChanges((prevState) => !prevState);
   };
-
-  const bannerState = useMemo(() => {
-    if (patient) {
-      return {
-        patient,
-        patientUuid,
-        hideActionsOverflow: true,
-      };
-    }
-  }, [patient, patientUuid]);
 
   return (
     <Form className={styles.form} onChange={handleOnChange} onSubmit={handleSubmit}>
