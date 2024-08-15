@@ -10,6 +10,7 @@ import ProgramEnrollmentTB from '../program-enrollment/program-enrollment-tb.com
 import { programs } from '../constants';
 import DSDMHistory from '../dsdm-history/dsdm-history.component';
 import { CardHeader } from '@openmrs/esm-patient-common-lib';
+import CarePanelTabs from './care-panel-tabs/care-panel-tabs.component';
 
 interface CarePanelProps {
   patientUuid: string;
@@ -87,6 +88,8 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
                 launchPatientWorkspace={launchPatientWorkspace}
                 PatientChartProps={''}
               />
+
+              <CarePanelTabs patientUuid={patientUuid} />
             </div>
           )}
           {switchItem?.name === programs.tb && (
@@ -99,12 +102,6 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
                 launchPatientWorkspace={launchPatientWorkspace}
                 PatientChartProps={''}
               />
-            </div>
-          )}
-          {switchItem?.name === programs.hiv && dsdmModels && (
-            <div>
-              <div className={styles.sectionTitle}>{t('dsdmHistory', 'DSD Model History')}</div>
-              <DSDMHistory patientUuid={patientUuid} />
             </div>
           )}
         </div>

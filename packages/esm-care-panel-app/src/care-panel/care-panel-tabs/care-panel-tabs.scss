@@ -1,0 +1,14 @@
+@use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/type';
+@import "~@openmrs/esm-styleguide/src/vars";
+.tabContainer {
+    margin-top: 1rem;
+}
+
+.tabList {
+    padding-left: 2rem
+}
+
+.tabWidth {
+    width: 150px
+}

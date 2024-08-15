@@ -48,21 +48,6 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
         uuidConfig: configSchema.baselineCd4Uuid._default,
       },
       {
-        key: 'hivViralLoadDate',
-        uuidConfig: configSchema.hivViralLoadDateUuid._default,
-        processValue: (date) => {
-          return date && dayjs(date).isValid() ? dayjs(date).format('DD-MM-YYYY') : '--';
-        },
-      },
-      {
-        key: 'hivViralLoadQualitative',
-        uuidConfig: configSchema.hivViralLoadQualitativeUuid._default,
-      },
-      {
-        key: 'hivViralLoad',
-        uuidConfig: configSchema.hivViralLoadUuid._default,
-      },
-      {
         key: 'currentARVDuration',
         uuidConfig: configSchema.currentARVDurationUuid._default,
       },
@@ -97,8 +82,6 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
     whoClinicalStage: '--',
     dateConfirmedHivPositive: '--',
     baselineCd4: '--',
-    hivViralLoadQualitative: '--',
-    hivViralLoad: '--',
     currentARVDuration: '--',
     tptStatus: '--',
   });
@@ -155,22 +138,6 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
           <div className={styles.content}>
             <p className={styles.label}>{t('whoStage', 'WHO Stage')}</p>
             <span className={styles.value}>{programData.whoClinicalStage}</span>
-          </div>
-        </div>
-        <br></br>
-        <div className={styles.sectionTitle}>{t('lastViralLoadResults', 'Last Viral Load Results')}</div>
-        <div className={styles.container}>
-          <div className={styles.content}>
-            <p className={styles.label}>{t('viralLoadDate', 'HIV Viral Load Date')}</p>
-            <span className={styles.value}>{programData.hivViralLoadDate}</span>
-          </div>
-          <div className={styles.content}>
-            <p className={styles.label}>{t('viralLoadQual', 'Viral Load Qualitative')}</p>
-            <span className={styles.value}>{programData.hivViralLoadQualitative}</span>
-          </div>
-          <div className={styles.content}>
-            <p className={styles.label}>{t('hivViralLoad', 'HIV Viral Load')}</p>
-            <span className={styles.value}>{programData.hivViralLoad}</span>
           </div>
         </div>
         <br></br>
