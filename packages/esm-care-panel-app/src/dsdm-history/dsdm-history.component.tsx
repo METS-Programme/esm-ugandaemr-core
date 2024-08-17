@@ -69,11 +69,6 @@ const DSDMHistory: React.FC<dsdmnProps> = ({ patientUuid }) => {
       <DataTable rows={tableRows} headers={columns} useZebraStyles overflowMenuOnHover={true}>
         {({ rows, headers, getHeaderProps, getTableProps, getRowProps }) => (
           <TableContainer className={styles.tableContainer}>
-            <TableToolbar
-              style={{
-                position: 'static',
-              }}
-            ></TableToolbar>
             <Table {...getTableProps()} className={styles.activePatientsTable}>
               <TableHead>
                 <TableRow>

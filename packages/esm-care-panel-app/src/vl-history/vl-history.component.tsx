@@ -19,12 +19,13 @@ import {
 import styles from '../dsdm-history/dsdm-history.scss';
 import { useTranslation } from 'react-i18next';
 
-interface ViraLoadProps {
+interface ViralLoadProps {
   patientUuid: string;
 }
 
-const ViralLoadList: React.FC<ViraLoadProps> = ({ patientUuid }) => {
+const ViralLoadList: React.FC<ViralLoadProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
+
   const observationConfig = useMemo(
     () => [
       {
@@ -42,45 +43,48 @@ const ViralLoadList: React.FC<ViraLoadProps> = ({ patientUuid }) => {
     ],
     [],
   );
+
   const conceptUuids = observationConfig.map((config) => config.uuidConfig);
 
-  const { data, isLoading } = usePatientObservations(patientUuid, conceptUuids);
+  const { observations: groupedObservations, isLoading } = usePatientObservations(patientUuid, conceptUuids);
 
   const pageSizes = [10, 20, 30, 40, 50];
   const [currentPageSize, setPageSize] = useState(10);
 
-  const { goTo, results: paginatedData, currentPage } = usePagination(data, currentPageSize);
-
   const tableHeaders = [
     { id: 0, header: t('hivViralLoadDate', 'Viral Load Date'), key: 'hivViralLoadDate' },
-
     { id: 1, header: t('hivViralLoadQualitative', 'Viral Load Qualitative'), key: 'hivViralLoadQualitative' },
-    { id: 2, header: t('hivViralLoad', 'Viral Load'), key: 'hivViralLoad' },
+    { id: 2, header: t('hivViralLoad', 'HIV Viral Load'), key: 'hivViralLoad' },
   ];
 
   const tableRows = useMemo(() => {
-    return paginatedData?.map((obs, index) => {
-      return {
-        id: `${index}-${obs.date}`,
-        hivViralLoadDate: obs.date,
-        hivViralLoadQualitative: obs.vlQualitative?.join(', ') || '--',
-        hivViralLoad: obs.viralLoad?.join(', ') || '--',
-      };
-    });
-  }, [paginatedData]);
+    const rows = [];
+
+    if (groupedObservations) {
+      Object.keys(groupedObservations)?.forEach((dateTime, index) => {
+        const group = groupedObservations[dateTime];
+        rows.push({
+          id: index.toString(),
+          hivViralLoadDate: group.dateArray?.[0].split('T')[0] || '',
+          hivViralLoadQualitative: group.displayArray?.[0] || '',
+          hivViralLoad: group?.valuesArray?.[0] || '',
+        });
+      });
+    }
+
+    return rows;
+  }, [groupedObservations]);
+
+  const { goTo, results: paginatedData, currentPage } = usePagination(tableRows, currentPageSize);
 
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;
   }
+
   return (
-    <DataTable rows={tableRows} headers={tableHeaders} useZebraStyles overflowMenuOnHover={true}>
+    <DataTable rows={paginatedData} headers={tableHeaders} useZebraStyles overflowMenuOnHover={true}>
       {({ rows, headers, getHeaderProps, getTableProps, getRowProps }) => (
         <TableContainer className={styles.tableContainer}>
-          <TableToolbar
-            style={{
-              position: 'static',
-            }}
-          ></TableToolbar>
           <Table {...getTableProps()} className={styles.activePatientsTable}>
             <TableHead>
               <TableRow>
@@ -90,7 +94,7 @@ const ViralLoadList: React.FC<ViraLoadProps> = ({ patientUuid }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row, index) => (
+              {rows.map((row) => (
                 <TableRow {...getRowProps({ row })} key={row.id}>
                   {row.cells.map((cell) => (
                     <TableCell key={cell.id}>{cell.value}</TableCell>
@@ -114,7 +118,7 @@ const ViralLoadList: React.FC<ViraLoadProps> = ({ patientUuid }) => {
             page={currentPage}
             pageSize={currentPageSize}
             pageSizes={pageSizes}
-            totalItems={data?.length}
+            totalItems={tableRows.length}
             className={styles.pagination}
             onChange={({ pageSize, page }) => {
               if (pageSize !== currentPageSize) {

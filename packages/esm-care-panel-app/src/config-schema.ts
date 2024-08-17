@@ -114,4 +114,8 @@ export const configSchema = {
     _type: Type.ConceptUuid,
     _default: '813e21e7-4ccb-4fe9-aaab-3c0e40b6e356',
   },
+  viralLoadSetUuid: {
+    _type: Type.ConceptUuid,
+    _default: '1eb05918-f50c-4cad-a827-3c78f296a10a',
+  },
 };

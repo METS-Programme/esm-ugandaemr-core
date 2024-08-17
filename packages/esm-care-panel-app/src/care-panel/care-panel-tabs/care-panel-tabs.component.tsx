@@ -26,14 +26,10 @@ const CarePanelTabs: React.FC<CarePanelTabsProps> = ({ patientUuid }) => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <div>
-              <DSDMHistory patientUuid={patientUuid} />
-            </div>
+            <DSDMHistory patientUuid={patientUuid} />
           </TabPanel>
           <TabPanel>
-            <div>
-              <ViralLoadList patientUuid={patientUuid} />
-            </div>
+            <ViralLoadList patientUuid={patientUuid} />
           </TabPanel>
         </TabPanels>
       </Tabs>
