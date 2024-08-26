@@ -7,7 +7,7 @@
         "packages/*"
     ],
     "scripts": {
-        "start": "openmrs develop",
+        "start": "openmrs develop --sources 'packages/esm-*-app' --backend http://localhost:8085",
         "ci:publish": "lerna publish from-package --yes",
         "ci:prepublish": "lerna publish from-package --no-git-reset --yes --dist-tag next",
         "release": "lerna version --no-git-tag-version",
@@ -35,7 +35,7 @@
         "zod": "^3.22.4"
     },
     "devDependencies": {
-        "@carbon/react": "^1.14.0",
+        "@carbon/react": "^1.64.1",
         "@openmrs/esm-framework": "next",
         "@openmrs/esm-patient-common-lib": "next",
         "@openmrs/esm-styleguide": "next",

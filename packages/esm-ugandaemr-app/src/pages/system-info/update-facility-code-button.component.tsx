@@ -2,7 +2,7 @@ import { Button } from '@carbon/react';
 import { showModal } from '@openmrs/esm-framework';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ApiKey } from '@carbon/react/icons';
+import { IbmCloudHyperProtectCryptoServices } from '@carbon/react/icons';
 
 const UpdateFacilityCodeButton = ({ facilityCodeDetails, setFacilityCodeDetails }) => {
   const { t } = useTranslation();
@@ -20,7 +20,7 @@ const UpdateFacilityCodeButton = ({ facilityCodeDetails, setFacilityCodeDetails 
       size="sm"
       onClick={launchRetrieveFacilityCodeModal}
       iconDescription={t('updateFacilityCodeButton', 'Update Facility Code Button')}
-      renderIcon={(props) => <ApiKey size={16} {...props} />}
+      renderIcon={(props) => <IbmCloudHyperProtectCryptoServices size={16} {...props} />}
     >
       {facilityCodeDetails.value === null ? 'Update Facility Code' : 'Edit Facility Code'}
     </Button>
