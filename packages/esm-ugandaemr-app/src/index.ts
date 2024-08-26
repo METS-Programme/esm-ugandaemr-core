@@ -2,6 +2,7 @@ import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 import { facilityHomeDashboardMeta, hieHomeDashboardMeta } from './dashboard.meta';
+import { registerExpressionHelper } from '@openmrs/openmrs-form-engine-lib';
 
 import formBuilderAppMenu from './menu-app-items/form-builder-app-item/form-builder-app-item.component';
 import systemInfoAppMenu from './menu-app-items/system-info-app-item/system-info-app-item.component';
@@ -18,6 +19,7 @@ import SubjectiveFindingsComponent from './pages/clinical-patient-summary/clinic
 import ObjectiveFindingsComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/objective-findings.component';
 import TreatmentPlanComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/treatment-plan.component';
 import AssessmentComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/assessment.component';
+import { latestObs, patientDSDM } from './custom-expressions/custom-expressions';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -36,6 +38,8 @@ export const dispensingAppMenuItem = getSyncLifecycle(dispensingAppMenu, options
 
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
+  registerExpressionHelper('cusGetLatestObs', latestObs);
+  registerExpressionHelper('getPatientDSMD', patientDSDM);
 }
 
 export const systemInfoMenuLink = getAsyncLifecycle(() => import('./pages/system-info/system-info-link.component'), {
