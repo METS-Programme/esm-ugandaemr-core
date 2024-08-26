@@ -98,6 +98,10 @@ export const configSchema = {
     _type: Type.ConceptUuid,
     _default: '73313728-c321-11e8-a355-529269fb1459',
   },
+  crpddpUuid: {
+    _type: Type.ConceptUuid,
+    _default: '566e7e03-4024-4299-b12e-ecaa2820698d',
+  },
   currentARVDurationUuid: {
     _type: Type.ConceptUuid,
     _default: '171de3f4-a500-46f6-8098-8097561dfffb',
