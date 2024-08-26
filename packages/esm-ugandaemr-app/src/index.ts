@@ -38,20 +38,6 @@ export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 }
 
-// pages
-export const facilityDashboard = getAsyncLifecycle(() => import('./views/facility/facility-root.component'), options);
-export const hieDashboard = getAsyncLifecycle(() => import('./views/hie/hie-root.component'), options);
-
-// extensions
-export const facilityHomeDashboardLink = getSyncLifecycle(createHomeDashboardLink(facilityHomeDashboardMeta), options);
-export const facilityHomeDashboardExt = getAsyncLifecycle(() => import('./views/facility/facility-home.component'), {
-  featureName: 'facility dashboard',
-  moduleName,
-});
-
-export const hieHomeDashboardLink = getSyncLifecycle(createHomeDashboardLink(hieHomeDashboardMeta), options);
-export const hieHomeDashboardExt = getAsyncLifecycle(() => import('./views/hie/hie-home.component'), options);
-
 export const systemInfoMenuLink = getAsyncLifecycle(() => import('./pages/system-info/system-info-link.component'), {
   featureName: 'system info link',
   moduleName,
