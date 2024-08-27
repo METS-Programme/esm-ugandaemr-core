@@ -45,6 +45,7 @@ export const usePatientPrograms = (patientUuid: string) => {
     configSchema.fbgUuid._default,
     configSchema.fbimUuid._default,
     configSchema.ftdrUuid._default,
+    configSchema.crpddpUuid._default,
   ];
 
   const filteredPrograms =

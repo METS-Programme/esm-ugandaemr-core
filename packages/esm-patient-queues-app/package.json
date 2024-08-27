@@ -37,7 +37,7 @@
     "url": "https://github.com/METS-Programme/esm-ugandaemr-core/issues"
   },
   "dependencies": {
-    "@carbon/react": "^1.13.0",
+    "@carbon/react": "^1.64.1",
     "dayjs": "^1.11.6",
     "lodash-es": "^4.17.15",
     "qrcode.react": "^3.1.0",

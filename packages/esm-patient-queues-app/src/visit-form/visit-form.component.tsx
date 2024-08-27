@@ -38,6 +38,7 @@ import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './visit-form.scss';
 import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
 import { useProviders } from './queue.resource';
+
 interface VisitFormProps {
   toggleSearchType: (searchMode: SearchTypes, patientUuid) => void;
   patientUuid: string;
@@ -66,9 +67,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const { providers } = useProviders();
   const { queueRoomLocations, mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState('');
-  const [selectedOtherQueueLocation, setSelectedOtherQueueLocation] = useState('');
-  const { queueLocations } = useQueueLocations();
-
   const [selectedProvider, setSelectedProvider] = useState('');
   const { patient, isLoading } = usePatient(patientUuid);
 
@@ -111,6 +109,9 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
       ? provider
       : [],
   );
+
+  // Check if selectedNextQueueLocation has a value selected
+  const isFormValid = selectedNextQueueLocation;
 
   const handleSubmit = useCallback(
     (event) => {
@@ -217,16 +218,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
     setIgnoreChanges((prevState) => !prevState);
   };
 
-  const bannerState = useMemo(() => {
-    if (patient) {
-      return {
-        patient,
-        patientUuid,
-        hideActionsOverflow: true,
-      };
-    }
-  }, [patient, patientUuid]);
-
   return (
     <Form className={styles.form} onChange={handleOnChange} onSubmit={handleSubmit}>
       <div>
@@ -330,7 +321,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
         <Button className={styles.button} kind="secondary" onClick={closePanel}>
           {t('discard', 'Discard')}
         </Button>
-        <Button className={styles.button} disabled={isSubmitting} kind="primary" type="submit">
+        <Button className={styles.button} disabled={!isFormValid || isSubmitting} kind="primary" type="submit">
           {t('startVisit', 'Start visit')}
         </Button>
       </ButtonSet>

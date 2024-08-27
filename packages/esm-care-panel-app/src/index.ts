@@ -19,19 +19,10 @@ export const carePanelPatientSummary = getAsyncLifecycle(
   () => import('./patient-summary/patient-summary.component'),
   options,
 );
-// export const deleteRegimenConfirmationDialog = getAsyncLifecycle(
-//   () => import('./regimen-editor/delete-regimen-modal.component'),
-//   options,
-// );
-// registerWorkspace({
-//   name: 'patient-regimen-workspace',
-//   title: 'Regimen Form',
-//   load: getAsyncLifecycle(() => import('./regimen-editor/regimen-form.component'), options),
-//   //canMaximize: true,
-//   //canHide: true,
-//   //width: 'wider',
-//   //type: 'clinical-form',
-// });
+export const deleteRegimenConfirmationDialog = getAsyncLifecycle(
+  () => import('./regimen-editor/delete-regimen-modal.component'),
+  options,
+);
 
 // t('carePanel', 'Care panel')
 export const carePanelSummaryDashboardLink = getSyncLifecycle(
