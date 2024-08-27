@@ -42,6 +42,5 @@ export function CalcMonthsOnART(artStartDate: Date, followupDate: Date) {
   } else if (artStartDate && followupDate && artInDays >= 30) {
     resultMonthsOnART = Math.floor(artInDays / 30);
   }
-
   return artStartDate && followupDate ? resultMonthsOnART : null;
 }
