@@ -43,11 +43,6 @@ export function startupApp() {
   registerExpressionHelper('CustomMonthsOnARTCalc', CalcMonthsOnART);
 }
 
-export const systemInfoMenuLink = getAsyncLifecycle(() => import('./pages/system-info/system-info-link.component'), {
-  featureName: 'system info link',
-  moduleName,
-});
-
 export const systemInfoPage = getAsyncLifecycle(() => import('./pages/system-info/system-info.component'), {
   featureName: 'system info page',
   moduleName,
