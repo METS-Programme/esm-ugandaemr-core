@@ -1,7 +1,7 @@
 import { getAsyncLifecycle, defineConfigSchema, registerBreadcrumbs, getSyncLifecycle } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 import { dashboardMeta } from './dashboard.meta';
-import { createDashboardLink, registerWorkspace } from '@openmrs/esm-patient-common-lib';
+import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
 
 const moduleName = '@ugandaemr/esm-care-panel-app';
 
@@ -12,6 +12,8 @@ const options = {
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
 export const patientProgramSummary = getAsyncLifecycle(() => import('./care-panel/care-panel.component'), options);
+
+export const ViralLoadList = getAsyncLifecycle(() => import('./vl-history/vl-history.component'), options);
 
 export const carePanelPatientSummary = getAsyncLifecycle(
   () => import('./patient-summary/patient-summary.component'),

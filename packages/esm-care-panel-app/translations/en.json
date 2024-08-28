@@ -1,12 +1,10 @@
 {
-  "dateConfirmedHivPositive": "Date Positive HIV Test Confirmed",
-  "artStartDate": "ART Start Date",
-  "whoStage": "WHO Stage",
-  "baselineRegimen": "Baseline Regimen",
-  "baselineCd4": "baseline CD4",
-  "lastArtVisitSummary": "Last ART Visit Summary",
-  "lastViralLoadResults": "Last Viral Load Results",
-  "encounterDate": "Encounter Date",
-  "viralLoadQual": "Viral Load Qualitative",
-  "hivViralLoad": "HIV Viral Load"
+    "dateConfirmedHivPositive": "Date Positive HIV Test Confirmed",
+    "artStartDate": "ART Start Date",
+    "whoStage": "WHO Stage",
+    "baselineRegimen": "Baseline Regimen",
+    "baselineCd4": "baseline CD4",
+    "lastArtVisitSummary": "Last ART Visit Summary",
+    "lastViralLoadResults": "Last Viral Load Results",
+    "encounterDate": "Encounter Date"
 }

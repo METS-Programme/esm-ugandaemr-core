@@ -19,7 +19,7 @@ import SubjectiveFindingsComponent from './pages/clinical-patient-summary/clinic
 import ObjectiveFindingsComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/objective-findings.component';
 import TreatmentPlanComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/treatment-plan.component';
 import AssessmentComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/assessment.component';
-import {CalcMonthsOnART, latestObs, patientDSDM} from './custom-expressions/custom-expressions';
+import { CalcMonthsOnART, latestObs, patientDSDM } from './custom-expressions/custom-expressions';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
