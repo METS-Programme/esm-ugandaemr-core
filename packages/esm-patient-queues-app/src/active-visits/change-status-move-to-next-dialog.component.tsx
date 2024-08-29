@@ -10,6 +10,7 @@ import {
   SelectItem,
   Switch,
   TextArea,
+  InlineLoading,
 } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -29,7 +30,6 @@ import { getCurrentPatientQueueByPatientUuid, useProviders } from '../visit-form
 import styles from './change-status-dialog.scss';
 import { first } from 'rxjs/operators';
 import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
-import { InlineLoading } from '@carbon/react';
 
 interface ChangeStatusDialogProps {
   patientUuid: string;

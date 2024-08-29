@@ -42,7 +42,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   const { t } = useTranslation();
 
   const { providers } = useProviders();
-  let isCancelled = false;
 
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
 
@@ -91,12 +90,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
     return providerUuid;
   }, [sessionUser?.user?.uuid, mutate]);
-
-  useEffect(() => {
-    return () => {
-      isCancelled = true;
-    };
-  }, [isCancelled]);
 
   useEffect(() => providerUuid, [providerUuid]);
 

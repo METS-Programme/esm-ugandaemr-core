@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Button, Form, ModalBody, ModalFooter, ModalHeader } from '@carbon/react';
+import { Button, Form, ModalBody, ModalFooter, ModalHeader, InlineLoading } from '@carbon/react';
 import { formatDate, navigate, parseDate, showNotification, showToast, useSession } from '@openmrs/esm-framework';
 
 import { getCareProvider, updateQueueEntry } from './active-visits-table.resource';
@@ -8,7 +8,6 @@ import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 import { trimVisitNumber } from '../helpers/functions';
 import { extractErrorMessagesFromResponse } from '../utils/utils';
-import { InlineLoading } from '@carbon/react';
 
 interface PickPatientDialogProps {
   queueEntry: MappedQueueEntry;
@@ -54,7 +53,7 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
     );
 
     return providerUuid;
-  }, [sessionUser?.user?.uuid, mutate, isCancelled]);
+  }, [sessionUser?.user?.uuid, mutate]);
 
   useEffect(() => providerUuid, [providerUuid]);
 
