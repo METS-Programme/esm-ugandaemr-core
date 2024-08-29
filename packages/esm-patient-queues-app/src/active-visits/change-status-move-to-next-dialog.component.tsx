@@ -87,13 +87,13 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
     );
 
     return providerUuid;
-  }, [sessionUser?.user?.uuid]);
+  }, [sessionUser?.user?.uuid, mutate, isCancelled]);
 
   useEffect(() => {
     return () => {
       isCancelled = true;
     };
-  }, []);
+  }, [isCancelled]);
 
   useEffect(() => providerUuid, [providerUuid]);
 

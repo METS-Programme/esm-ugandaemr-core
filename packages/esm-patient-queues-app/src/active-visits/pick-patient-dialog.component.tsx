@@ -62,13 +62,13 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
     );
 
     return providerUuid;
-  }, [sessionUser?.user?.uuid]);
+  }, [sessionUser?.user?.uuid, mutate, isCancelled]);
 
   useEffect(() => {
     return () => {
       isCancelled = true;
     };
-  }, []);
+  }, [isCancelled]);
 
   useEffect(() => providerUuid, [providerUuid]);
 
