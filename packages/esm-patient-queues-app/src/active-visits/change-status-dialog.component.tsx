@@ -89,13 +89,13 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     );
 
     return providerUuid;
-  }, [sessionUser?.user?.uuid]);
+  }, [sessionUser?.user?.uuid, mutate, isCancelled]);
 
   useEffect(() => {
     return () => {
       isCancelled = true;
     };
-  }, []);
+  }, [isCancelled]);
 
   useEffect(() => providerUuid, [providerUuid]);
 
