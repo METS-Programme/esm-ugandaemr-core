@@ -1,21 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Form, ModalBody, ModalFooter, ModalHeader } from '@carbon/react';
-import {
-  formatDate,
-  navigate,
-  parseDate,
-  showNotification,
-  showToast,
-  useLocations,
-  useSession,
-} from '@openmrs/esm-framework';
+import { formatDate, navigate, parseDate, showNotification, showToast, useSession } from '@openmrs/esm-framework';
 
 import { getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 import { trimVisitNumber } from '../helpers/functions';
-import { useProviders } from '../visit-form/queue.resource';
 import { extractErrorMessagesFromResponse } from '../utils/utils';
 
 interface PickPatientDialogProps {
@@ -30,6 +21,8 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
 
   const sessionUser = useSession();
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const { queueRoomLocations, mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
   const [provider, setProvider] = useState('');
@@ -38,19 +31,21 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
 
   const providerUuid = useMemo(() => {
     if (!sessionUser?.user?.uuid) return null;
+    setIsLoading(true);
 
     getCareProvider(sessionUser?.user?.uuid).then(
       (response) => {
         if (!isCancelled) {
           const uuid = response?.data?.results[0].uuid;
           setProvider(uuid);
+          setIsLoading(false);
           mutate();
         }
       },
       (error) => {
         if (!isCancelled) {
+          setIsLoading(false);
           const errorMessages = extractErrorMessagesFromResponse(error);
-
           showNotification({
             title: "Couldn't get provider",
             kind: 'error',
@@ -126,7 +121,10 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
             <Button kind="secondary" onClick={closeModal}>
               {t('cancel', 'Cancel')}
             </Button>
-            <Button type="submit">{t('pickPatient', 'Pick Patient')}</Button>
+
+            <Button disabled={isLoading} type="submit">
+              {t('pickPatient', 'Pick Patient')}
+            </Button>
           </ModalFooter>
         </Form>
       </div>

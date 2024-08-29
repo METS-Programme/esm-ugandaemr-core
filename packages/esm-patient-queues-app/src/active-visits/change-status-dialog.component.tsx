@@ -63,21 +63,25 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const { activeVisit } = useVisit(queueEntry.patientUuid);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const providerUuid = useMemo(() => {
     if (!sessionUser?.user?.uuid) return null;
+    setIsLoading(true);
 
     getCareProvider(sessionUser?.user?.uuid).then(
       (response) => {
         if (!isCancelled) {
           const uuid = response?.data?.results[0].uuid;
           setProvider(uuid);
+          setIsLoading(false);
           mutate();
         }
       },
       (error) => {
         if (!isCancelled) {
           const errorMessages = extractErrorMessagesFromResponse(error);
-
+          setIsLoading(false);
           showNotification({
             title: "Couldn't get provider",
             kind: 'error',
@@ -475,7 +479,9 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             <Button kind="danger" onClick={endCurrentVisit}>
               {t('endVisit', 'End Visit')}
             </Button>
-            <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
+            <Button disabled={isLoading} type="submit">
+              {status === 'pending' ? 'Save' : 'Move to the next queue room'}
+            </Button>
           </ModalFooter>
         </Form>
       </div>

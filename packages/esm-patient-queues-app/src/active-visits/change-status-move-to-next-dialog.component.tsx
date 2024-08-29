@@ -43,6 +43,8 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   const { providers } = useProviders();
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
 
   const [statusSwitcherIndex, setStatusSwitcherIndex] = useState(1);
@@ -63,11 +65,12 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   const providerUuid = useMemo(() => {
     if (!sessionUser?.user?.uuid) return null;
-
+    setIsLoading(true);
     getCareProvider(sessionUser?.user?.uuid).then(
       (response) => {
         if (!isCancelled) {
           const uuid = response?.data?.results[0].uuid;
+          setIsLoading(false);
           setProvider(uuid);
           mutate();
         }
@@ -75,7 +78,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
       (error) => {
         if (!isCancelled) {
           const errorMessages = extractErrorMessagesFromResponse(error);
-
+          setIsLoading(false);
           showNotification({
             title: "Couldn't get provider",
             kind: 'error',
@@ -614,7 +617,9 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
           <Button kind="danger" onClick={endCurrentVisit}>
             {t('endVisit', 'End Visit')}
           </Button>
-          <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
+          <Button disabled={isLoading} type="submit">
+            {status === 'pending' ? 'Save' : 'Move to the next queue room'}
+          </Button>
         </ModalFooter>
       </Form>
     </div>
