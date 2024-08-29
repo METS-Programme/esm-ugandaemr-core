@@ -26,7 +26,7 @@ interface PickPatientDialogProps {
 const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, closeModal }) => {
   const { t } = useTranslation();
 
-  const isCancelledRef = useRef(false);
+  let isCancelled = false;
 
   const sessionUser = useSession();
 
@@ -41,14 +41,14 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
 
     getCareProvider(sessionUser?.user?.uuid).then(
       (response) => {
-        if (!isCancelledRef.current) {
+        if (!isCancelled) {
           const uuid = response?.data?.results[0].uuid;
           setProvider(uuid);
           mutate();
         }
       },
       (error) => {
-        if (!isCancelledRef.current) {
+        if (!isCancelled) {
           const errorMessages = extractErrorMessagesFromResponse(error);
 
           showNotification({
@@ -62,13 +62,13 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
     );
 
     return providerUuid;
-  }, [sessionUser?.user?.uuid, mutate]);
+  }, [sessionUser?.user?.uuid, mutate, isCancelled]);
 
   useEffect(() => {
     return () => {
-      isCancelledRef.current = true;
+      isCancelled = true;
     };
-  }, []); // Empty dependency array means this effect runs on unmount
+  }, [isCancelled]);
 
   useEffect(() => providerUuid, [providerUuid]);
 

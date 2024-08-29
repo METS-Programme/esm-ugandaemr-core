@@ -39,7 +39,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
   const { t } = useTranslation();
 
   const sessionUser = useSession();
-  const isCancelledRef = useRef(false);
+  let isCancelled = false;
 
   const { providers } = useProviders();
 
@@ -66,14 +66,14 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
     getCareProvider(sessionUser?.user?.uuid).then(
       (response) => {
-        if (!isCancelledRef.current) {
+        if (!isCancelled) {
           const uuid = response?.data?.results[0].uuid;
           setProvider(uuid);
           mutate();
         }
       },
       (error) => {
-        if (!isCancelledRef.current) {
+        if (!isCancelled) {
           const errorMessages = extractErrorMessagesFromResponse(error);
 
           showNotification({
@@ -87,13 +87,13 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
     );
 
     return providerUuid;
-  }, [sessionUser?.user?.uuid, mutate]);
+  }, [sessionUser?.user?.uuid, mutate, isCancelled]);
 
   useEffect(() => {
     return () => {
-      isCancelledRef.current = true;
+      isCancelled = true;
     };
-  }, []); // Empty dependency array means this effect runs on unmount
+  }, [isCancelled]);
 
   useEffect(() => providerUuid, [providerUuid]);
 

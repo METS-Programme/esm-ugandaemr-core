@@ -22,7 +22,7 @@ import {
 } from '@openmrs/esm-framework';
 import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { first } from 'rxjs/operators';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
@@ -39,8 +39,9 @@ interface ChangeStatusDialogProps {
 
 const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEntry, closeModal }) => {
   const { t } = useTranslation();
+
   const { providers } = useProviders();
-  const isCancelledRef = useRef(false);
+  let isCancelled = false;
 
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
 
@@ -67,14 +68,14 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
     getCareProvider(sessionUser?.user?.uuid).then(
       (response) => {
-        if (!isCancelledRef.current) {
+        if (!isCancelled) {
           const uuid = response?.data?.results[0].uuid;
           setProvider(uuid);
           mutate();
         }
       },
       (error) => {
-        if (!isCancelledRef.current) {
+        if (!isCancelled) {
           const errorMessages = extractErrorMessagesFromResponse(error);
 
           showNotification({
@@ -88,13 +89,13 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     );
 
     return providerUuid;
-  }, [sessionUser?.user?.uuid, mutate]);
+  }, [sessionUser?.user?.uuid, mutate, isCancelled]);
 
   useEffect(() => {
     return () => {
-      isCancelledRef.current = true;
+      isCancelled = true;
     };
-  }, []); // Empty dependency array means this effect runs on unmount
+  }, [isCancelled]);
 
   useEffect(() => providerUuid, [providerUuid]);
 
