@@ -10,12 +10,13 @@ import {
   useSession,
 } from '@openmrs/esm-framework';
 
-import { updateQueueEntry } from './active-visits-table.resource';
+import { getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 import { trimVisitNumber } from '../helpers/functions';
 import { useProviders } from '../visit-form/queue.resource';
+import { extractErrorMessagesFromResponse } from '../utils/utils';
 
 interface PickPatientDialogProps {
   queueEntry: MappedQueueEntry;
@@ -25,11 +26,7 @@ interface PickPatientDialogProps {
 const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, closeModal }) => {
   const { t } = useTranslation();
 
-  const locations = useLocations();
-
-  const { providers } = useProviders();
-
-  const [selectedLocation, setSelectedLocation] = useState('');
+  let isCancelled = false;
 
   const sessionUser = useSession();
 
@@ -40,24 +37,40 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
   const [priorityComment, setPriorityComment] = useState('');
 
   const providerUuid = useMemo(() => {
-    if (!providers || providers.length === 0) return null;
+    if (!sessionUser?.user?.uuid) return null;
 
-    return providers.find((provider) => provider?.identifier === sessionUser?.user?.systemId)?.uuid ?? '';
-  }, [providers, sessionUser?.user?.uuid]);
+    getCareProvider(sessionUser?.user?.uuid).then(
+      (response) => {
+        if (!isCancelled) {
+          const uuid = response?.data?.results[0].uuid;
+          setProvider(uuid);
+          mutate();
+        }
+      },
+      (error) => {
+        if (!isCancelled) {
+          const errorMessages = extractErrorMessagesFromResponse(error);
 
-  useMemo(() => {
-    if (providerUuid) {
-      setProvider(providerUuid);
-    }
-  }, [providerUuid]);
+          showNotification({
+            title: "Couldn't get provider",
+            kind: 'error',
+            critical: true,
+            description: errorMessages.join(','),
+          });
+        }
+      },
+    );
 
-  console.log('sessionUser?.user?.uuid-->' + sessionUser?.user?.uuid + 'provider--->' + providerUuid);
+    return providerUuid;
+  }, [sessionUser?.user?.uuid]);
 
   useEffect(() => {
-    if (locations?.length && sessionUser) {
-      setSelectedLocation(sessionUser?.sessionLocation?.uuid);
-    }
-  }, [locations, sessionUser]);
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
+
+  useEffect(() => providerUuid, [providerUuid]);
 
   const pickPatientQueueStatus = useCallback(
     (event) => {

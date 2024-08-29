@@ -20,7 +20,7 @@ import {
   useSession,
   useVisit,
 } from '@openmrs/esm-framework';
-import { addQueueEntry, updateQueueEntry } from './active-visits-table.resource';
+import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { first } from 'rxjs/operators';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +29,7 @@ import { MappedQueueEntry } from '../types';
 import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 import styles from './change-status-dialog.scss';
 import { useProviders } from '../visit-form/queue.resource';
-import { QueueStatus } from '../utils/utils';
+import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
 
 interface ChangeStatusDialogProps {
   queueEntry: MappedQueueEntry;
@@ -41,6 +41,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   const { t } = useTranslation();
 
   const { providers } = useProviders();
+  let isCancelled = false;
 
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
 
@@ -63,25 +64,40 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   const { activeVisit } = useVisit(queueEntry.patientUuid);
 
   const providerUuid = useMemo(() => {
-    if (!providers || providers.length === 0) return null;
+    if (!sessionUser?.user?.uuid) return null;
 
-    return providers.find((provider) => provider?.identifier === sessionUser?.user?.systemId)?.uuid ?? '';
-  }, [providers, sessionUser?.user?.uuid]);
+    getCareProvider(sessionUser?.user?.uuid).then(
+      (response) => {
+        if (!isCancelled) {
+          const uuid = response?.data?.results[0].uuid;
+          setProvider(uuid);
+          mutate();
+        }
+      },
+      (error) => {
+        if (!isCancelled) {
+          const errorMessages = extractErrorMessagesFromResponse(error);
 
-  useMemo(() => {
-    if (providerUuid) {
-      setProvider(providerUuid);
-    }
-  }, [providerUuid]);
+          showNotification({
+            title: "Couldn't get provider",
+            kind: 'error',
+            critical: true,
+            description: errorMessages.join(','),
+          });
+        }
+      },
+    );
 
-  console.log(
-    'sessionUser?.user?.uuid-->' +
-      sessionUser?.user?.uuid +
-      'provider--->' +
-      provider +
-      'providers--->' +
-      JSON.stringify(providers, null, 2),
-  );
+    return providerUuid;
+  }, [sessionUser?.user?.uuid]);
+
+  useEffect(() => {
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
+
+  useEffect(() => providerUuid, [providerUuid]);
 
   useMemo(() => {
     switch (statusSwitcherIndex) {
