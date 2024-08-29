@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Button,
   ContentSwitcher,
@@ -39,7 +39,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
   const { t } = useTranslation();
 
   const sessionUser = useSession();
-  let isCancelled = false;
+  const isCancelledRef = useRef(false);
 
   const { providers } = useProviders();
 
@@ -66,14 +66,14 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
     getCareProvider(sessionUser?.user?.uuid).then(
       (response) => {
-        if (!isCancelled) {
+        if (!isCancelledRef.current) {
           const uuid = response?.data?.results[0].uuid;
           setProvider(uuid);
           mutate();
         }
       },
       (error) => {
-        if (!isCancelled) {
+        if (!isCancelledRef.current) {
           const errorMessages = extractErrorMessagesFromResponse(error);
 
           showNotification({
@@ -87,13 +87,13 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
     );
 
     return providerUuid;
-  }, [sessionUser?.user?.uuid, mutate, isCancelled]);
+  }, [sessionUser?.user?.uuid, mutate]);
 
   useEffect(() => {
     return () => {
-      isCancelled = true;
+      isCancelledRef.current = true;
     };
-  }, [isCancelled]);
+  }, []); // Empty dependency array means this effect runs on unmount
 
   useEffect(() => providerUuid, [providerUuid]);
 
