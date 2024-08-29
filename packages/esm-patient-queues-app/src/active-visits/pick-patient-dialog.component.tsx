@@ -8,6 +8,7 @@ import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 import { trimVisitNumber } from '../helpers/functions';
 import { extractErrorMessagesFromResponse } from '../utils/utils';
+import { InlineLoading } from '@carbon/react';
 
 interface PickPatientDialogProps {
   queueEntry: MappedQueueEntry;
@@ -35,35 +36,25 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
 
     getCareProvider(sessionUser?.user?.uuid).then(
       (response) => {
-        if (!isCancelled) {
-          const uuid = response?.data?.results[0].uuid;
-          setProvider(uuid);
-          setIsLoading(false);
-          mutate();
-        }
+        const uuid = response?.data?.results[0].uuid;
+        setProvider(uuid);
+        setIsLoading(false);
+        mutate();
       },
       (error) => {
-        if (!isCancelled) {
-          setIsLoading(false);
-          const errorMessages = extractErrorMessagesFromResponse(error);
-          showNotification({
-            title: "Couldn't get provider",
-            kind: 'error',
-            critical: true,
-            description: errorMessages.join(','),
-          });
-        }
+        setIsLoading(false);
+        const errorMessages = extractErrorMessagesFromResponse(error);
+        showNotification({
+          title: "Couldn't get provider",
+          kind: 'error',
+          critical: true,
+          description: errorMessages.join(','),
+        });
       },
     );
 
     return providerUuid;
   }, [sessionUser?.user?.uuid, mutate, isCancelled]);
-
-  useEffect(() => {
-    return () => {
-      isCancelled = true;
-    };
-  }, [isCancelled]);
 
   useEffect(() => providerUuid, [providerUuid]);
 
@@ -122,9 +113,13 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
               {t('cancel', 'Cancel')}
             </Button>
 
-            <Button disabled={isLoading} type="submit">
-              {t('pickPatient', 'Pick Patient')}
-            </Button>
+            {isLoading ? (
+              <InlineLoading />
+            ) : (
+              <Button disabled={isLoading} type="submit">
+                {t('pickPatient', 'Pick Patient')}
+              </Button>
+            )}
           </ModalFooter>
         </Form>
       </div>

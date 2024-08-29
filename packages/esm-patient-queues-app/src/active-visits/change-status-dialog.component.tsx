@@ -8,6 +8,7 @@ import {
   Select,
   SelectItem,
   Switch,
+  InlineLoading,
   TextArea,
 } from '@carbon/react';
 import {
@@ -71,29 +72,25 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
     getCareProvider(sessionUser?.user?.uuid).then(
       (response) => {
-        if (!isCancelled) {
-          const uuid = response?.data?.results[0].uuid;
-          setProvider(uuid);
-          setIsLoading(false);
-          mutate();
-        }
+        const uuid = response?.data?.results[0].uuid;
+        setProvider(uuid);
+        setIsLoading(false);
+        mutate();
       },
       (error) => {
-        if (!isCancelled) {
-          const errorMessages = extractErrorMessagesFromResponse(error);
-          setIsLoading(false);
-          showNotification({
-            title: "Couldn't get provider",
-            kind: 'error',
-            critical: true,
-            description: errorMessages.join(','),
-          });
-        }
+        const errorMessages = extractErrorMessagesFromResponse(error);
+        setIsLoading(false);
+        showNotification({
+          title: "Couldn't get provider",
+          kind: 'error',
+          critical: true,
+          description: errorMessages.join(','),
+        });
       },
     );
 
     return providerUuid;
-  }, [sessionUser?.user?.uuid, mutate, isCancelled]);
+  }, [sessionUser?.user?.uuid, mutate]);
 
   useEffect(() => {
     return () => {
@@ -479,9 +476,11 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             <Button kind="danger" onClick={endCurrentVisit}>
               {t('endVisit', 'End Visit')}
             </Button>
-            <Button disabled={isLoading} type="submit">
-              {status === 'pending' ? 'Save' : 'Move to the next queue room'}
-            </Button>
+            {isLoading ? (
+              <InlineLoading />
+            ) : (
+              <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
+            )}
           </ModalFooter>
         </Form>
       </div>

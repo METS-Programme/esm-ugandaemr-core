@@ -29,6 +29,7 @@ import { getCurrentPatientQueueByPatientUuid, useProviders } from '../visit-form
 import styles from './change-status-dialog.scss';
 import { first } from 'rxjs/operators';
 import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
+import { InlineLoading } from '@carbon/react';
 
 interface ChangeStatusDialogProps {
   patientUuid: string;
@@ -68,35 +69,25 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
     setIsLoading(true);
     getCareProvider(sessionUser?.user?.uuid).then(
       (response) => {
-        if (!isCancelled) {
-          const uuid = response?.data?.results[0].uuid;
-          setIsLoading(false);
-          setProvider(uuid);
-          mutate();
-        }
+        const uuid = response?.data?.results[0].uuid;
+        setIsLoading(false);
+        setProvider(uuid);
+        mutate();
       },
       (error) => {
-        if (!isCancelled) {
-          const errorMessages = extractErrorMessagesFromResponse(error);
-          setIsLoading(false);
-          showNotification({
-            title: "Couldn't get provider",
-            kind: 'error',
-            critical: true,
-            description: errorMessages.join(','),
-          });
-        }
+        const errorMessages = extractErrorMessagesFromResponse(error);
+        setIsLoading(false);
+        showNotification({
+          title: "Couldn't get provider",
+          kind: 'error',
+          critical: true,
+          description: errorMessages.join(','),
+        });
       },
     );
 
     return providerUuid;
-  }, [sessionUser?.user?.uuid, mutate, isCancelled]);
-
-  useEffect(() => {
-    return () => {
-      isCancelled = true;
-    };
-  }, [isCancelled]);
+  }, [sessionUser?.user?.uuid, mutate]);
 
   useEffect(() => providerUuid, [providerUuid]);
 
@@ -617,9 +608,11 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
           <Button kind="danger" onClick={endCurrentVisit}>
             {t('endVisit', 'End Visit')}
           </Button>
-          <Button disabled={isLoading} type="submit">
-            {status === 'pending' ? 'Save' : 'Move to the next queue room'}
-          </Button>
+          {isLoading ? (
+            <InlineLoading />
+          ) : (
+            <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
+          )}
         </ModalFooter>
       </Form>
     </div>
