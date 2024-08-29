@@ -1,16 +1,5 @@
-import {
-  Button,
-  ContentSwitcher,
-  Form,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  Select,
-  SelectItem,
-  Switch,
-  TextArea,
-} from '@carbon/react';
-
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Button, Form, ModalBody, ModalFooter, ModalHeader } from '@carbon/react';
 import {
   formatDate,
   navigate,
@@ -21,15 +10,12 @@ import {
   useSession,
 } from '@openmrs/esm-framework';
 
-import { getCareProvider, updateQueueEntry } from './active-visits-table.resource';
-
-import React, { useCallback, useEffect, useState } from 'react';
+import { updateQueueEntry } from './active-visits-table.resource';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
-
-import styles from './change-status-dialog.scss';
 import { trimVisitNumber } from '../helpers/functions';
+import { useProviders } from '../visit-form/queue.resource';
 
 interface PickPatientDialogProps {
   queueEntry: MappedQueueEntry;
@@ -41,6 +27,8 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
 
   const locations = useLocations();
 
+  const { providers } = useProviders();
+
   const [selectedLocation, setSelectedLocation] = useState('');
 
   const sessionUser = useSession();
@@ -48,24 +36,22 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
   const { queueRoomLocations, mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
   const [provider, setProvider] = useState('');
+
   const [priorityComment, setPriorityComment] = useState('');
 
-  useEffect(() => {
-    getCareProvider(sessionUser?.user?.uuid).then(
-      (response) => {
-        setProvider(response?.data?.results[0].uuid);
-        mutate();
-      },
-      (error) => {
-        showNotification({
-          title: t(`errorGettingProvider', 'Couldn't get provider`),
-          kind: 'error',
-          critical: true,
-          description: error?.message,
-        });
-      },
-    );
-  });
+  const providerUuid = useMemo(() => {
+    if (!providers || providers.length === 0) return null;
+
+    return providers.find((provider) => provider?.identifier === sessionUser?.user?.systemId)?.uuid ?? '';
+  }, [providers, sessionUser?.user?.uuid]);
+
+  useMemo(() => {
+    if (providerUuid) {
+      setProvider(providerUuid);
+    }
+  }, [providerUuid]);
+
+  console.log('sessionUser?.user?.uuid-->' + sessionUser?.user?.uuid + 'provider--->' + providerUuid);
 
   useEffect(() => {
     if (locations?.length && sessionUser) {

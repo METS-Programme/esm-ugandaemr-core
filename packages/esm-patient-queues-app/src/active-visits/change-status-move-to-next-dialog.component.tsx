@@ -23,7 +23,7 @@ import {
   useSession,
   useVisit,
 } from '@openmrs/esm-framework';
-import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
+import { addQueueEntry, updateQueueEntry } from './active-visits-table.resource';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { getCurrentPatientQueueByPatientUuid, useProviders } from '../visit-form/queue.resource';
 import styles from './change-status-dialog.scss';
@@ -60,22 +60,19 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   const { activeVisit } = useVisit(patientUuid);
 
-  getCareProvider(sessionUser?.user?.uuid).then(
-    (response) => {
-      setProvider(response?.data?.results[0].uuid);
-      mutate();
-    },
-    (error) => {
-      const errorMessages = extractErrorMessagesFromResponse(error);
+  const providerUuid = useMemo(() => {
+    if (!providers || providers.length === 0) return null;
 
-      showNotification({
-        title: t(`errorGettingProvider', 'Couldn't get provider`),
-        kind: 'error',
-        critical: true,
-        description: errorMessages.join(','),
-      });
-    },
-  );
+    return providers.find((provider) => provider?.identifier === sessionUser?.user?.systemId)?.uuid ?? '';
+  }, [providers, sessionUser?.user?.uuid]);
+
+  useMemo(() => {
+    if (providerUuid) {
+      setProvider(providerUuid);
+    }
+  }, [providerUuid]);
+
+  console.log('sessionUser?.user?.uuid-->' + sessionUser?.user?.uuid + 'provider--->' + provider);
 
   useMemo(() => {
     switch (statusSwitcherIndex) {

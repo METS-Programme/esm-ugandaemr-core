@@ -10,7 +10,6 @@ import {
   Switch,
   TextArea,
 } from '@carbon/react';
-
 import {
   navigate,
   parseDate,
@@ -21,16 +20,13 @@ import {
   useSession,
   useVisit,
 } from '@openmrs/esm-framework';
-
-import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
+import { addQueueEntry, updateQueueEntry } from './active-visits-table.resource';
 import { first } from 'rxjs/operators';
-
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 import { ArrowUp, ArrowDown } from '@carbon/react/icons';
-
 import styles from './change-status-dialog.scss';
 import { useProviders } from '../visit-form/queue.resource';
 import { QueueStatus } from '../utils/utils';
@@ -66,19 +62,25 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const { activeVisit } = useVisit(queueEntry.patientUuid);
 
-  getCareProvider(sessionUser?.user?.uuid).then(
-    (response) => {
-      setProvider(response?.data?.results[0].uuid);
-      mutate();
-    },
-    (error) => {
-      showNotification({
-        title: t(`errorGettingProvider', 'Couldn't get provider`),
-        kind: 'error',
-        critical: true,
-        description: error?.message,
-      });
-    },
+  const providerUuid = useMemo(() => {
+    if (!providers || providers.length === 0) return null;
+
+    return providers.find((provider) => provider?.identifier === sessionUser?.user?.systemId)?.uuid ?? '';
+  }, [providers, sessionUser?.user?.uuid]);
+
+  useMemo(() => {
+    if (providerUuid) {
+      setProvider(providerUuid);
+    }
+  }, [providerUuid]);
+
+  console.log(
+    'sessionUser?.user?.uuid-->' +
+      sessionUser?.user?.uuid +
+      'provider--->' +
+      provider +
+      'providers--->' +
+      JSON.stringify(providers, null, 2),
   );
 
   useMemo(() => {
