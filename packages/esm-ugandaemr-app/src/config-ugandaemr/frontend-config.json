@@ -290,7 +290,8 @@
         "Add Orders",
         "View OrderTemplates"
       ]
-    }
+    },
+    "maxDispenseDurationInDays": 366
   },
   "@ugandaemr/esm-patient-notes-app": {
     "Display conditions": {
@@ -491,7 +492,7 @@
       {
         "id": "email",
         "type": "person attribute",
-        "uuid": "202dd75a-f194-11ee-8943-8b85fa55baa4",
+        "uuid": "5ecfd59d-5988-4aa3-84f8-8b43599fc67c",
         "label": "Email address",
         "validation": {
           "matches": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
@@ -857,6 +858,7 @@
       "restrictTotalQuantityDispensed": true,
       "allowModifyingPrescription": false
     },
-    "medicationRequestExpirationPeriodInDays": 1
+    "medicationRequestExpirationPeriodInDays": 1,
+    "enableStockDispense": false
   }
 }
