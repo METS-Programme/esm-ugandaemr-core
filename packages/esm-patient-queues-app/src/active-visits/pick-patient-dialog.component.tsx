@@ -17,8 +17,6 @@ interface PickPatientDialogProps {
 const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, closeModal }) => {
   const { t } = useTranslation();
 
-  let isCancelled = false;
-
   const sessionUser = useSession();
 
   const [isLoading, setIsLoading] = useState(true);

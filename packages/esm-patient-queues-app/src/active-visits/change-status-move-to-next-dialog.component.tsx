@@ -40,7 +40,6 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
   const { t } = useTranslation();
 
   const sessionUser = useSession();
-  let isCancelled = false;
 
   const { providers } = useProviders();
 
