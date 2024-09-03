@@ -1,4 +1,4 @@
-import { Button, Tooltip } from '@carbon/react';
+import { Button } from '@carbon/react';
 import { CatalogPublish } from '@carbon/react/icons';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -18,14 +18,12 @@ const NotesActionsMenu: React.FC<NotesActionsMenuProps> = ({ note }) => {
     });
   }, [note]);
   return (
-    <Tooltip align="bottom" label="View Notes">
-      <Button
-        kind="ghost"
-        onClick={launchNotesModal}
-        iconDescription={t('viewNotes', 'View Notes')}
-        renderIcon={(props) => <CatalogPublish size={16} {...props} />}
-      />
-    </Tooltip>
+    <Button
+      kind="ghost"
+      onClick={launchNotesModal}
+      iconDescription={t('viewNotes', 'View Notes')}
+      renderIcon={(props) => <CatalogPublish size={16} {...props} />}
+    />
   );
 };
 export default NotesActionsMenu;
