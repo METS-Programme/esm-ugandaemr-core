@@ -192,7 +192,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       },
       actions: {
         content: (
-          <>
+          <div style={{ display: 'flex' }}>
             {entry.status === 'COMPLETED' ||
               (entry.status === 'PENDING' && (
                 <>
@@ -204,7 +204,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
               ))}
             <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
             <NotesActionsMenu note={entry} />
-          </>
+          </div>
         ),
       },
     }));

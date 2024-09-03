@@ -37,12 +37,14 @@ const PickPatientActionMenu: React.FC<PickPatientActionMenuProps> = ({ queueEntr
   }, [filteredByProvider, queueEntry]);
 
   return (
-    <Button
-      kind="ghost"
-      onClick={launchPickPatientQueueModal}
-      iconDescription={t('pickPatient', 'Pick Patient ')}
-      renderIcon={(props) => <Notification size={16} {...props} />}
-    />
+    <div>
+      <Button
+        kind="ghost"
+        onClick={launchPickPatientQueueModal}
+        iconDescription={t('pickPatient', 'Pick Patient ')}
+        renderIcon={(props) => <Notification size={16} {...props} />}
+      />
+    </div>
   );
 };
 

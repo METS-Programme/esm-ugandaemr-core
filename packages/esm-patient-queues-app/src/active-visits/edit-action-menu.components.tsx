@@ -18,13 +18,15 @@ const EditActionsMenu: React.FC<NameLinkProps> = ({ from, to }) => {
     localStorage.setItem('fromPage', from);
   };
   return (
-    <Button
-      kind="ghost"
-      onClick={(e) => handleNameClick(e, to)}
-      href={interpolateUrl(to)}
-      iconDescription={t('editPatient', 'Edit Patient')}
-      renderIcon={(props) => <Edit size={16} {...props} />}
-    />
+    <div>
+      <Button
+        kind="ghost"
+        onClick={(e) => handleNameClick(e, to)}
+        href={interpolateUrl(to)}
+        iconDescription={t('editPatient', 'Edit Patient')}
+        renderIcon={(props) => <Edit size={16} {...props} />}
+      />
+    </div>
   );
 };
 export default EditActionsMenu;

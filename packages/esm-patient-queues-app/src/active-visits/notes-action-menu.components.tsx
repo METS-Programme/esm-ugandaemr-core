@@ -18,12 +18,14 @@ const NotesActionsMenu: React.FC<NotesActionsMenuProps> = ({ note }) => {
     });
   }, [note]);
   return (
-    <Button
-      kind="ghost"
-      onClick={launchNotesModal}
-      iconDescription={t('viewNotes', 'View Notes')}
-      renderIcon={(props) => <CatalogPublish size={16} {...props} />}
-    />
+    <div>
+      <Button
+        kind="ghost"
+        onClick={launchNotesModal}
+        iconDescription={t('viewNotes', 'View Notes')}
+        renderIcon={(props) => <CatalogPublish size={16} {...props} />}
+      />
+    </div>
   );
 };
 export default NotesActionsMenu;
