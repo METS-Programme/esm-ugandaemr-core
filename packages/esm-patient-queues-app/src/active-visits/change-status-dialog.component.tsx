@@ -65,15 +65,17 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const providerUuid = useMemo(() => {
-    if (!sessionUser?.user?.uuid) return null;
+  // Memoize the function to fetch the provider using useCallback
+  const fetchProvider = useCallback(() => {
+    if (!sessionUser?.user?.uuid) return;
+
     setIsLoading(true);
 
     getCareProvider(sessionUser?.user?.uuid).then(
       (response) => {
         const uuid = response?.data?.results[0].uuid;
-        setProvider(uuid);
         setIsLoading(false);
+        setProvider(uuid);
         mutate();
       },
       (error) => {
@@ -87,11 +89,9 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
         });
       },
     );
-
-    return providerUuid;
   }, [sessionUser?.user?.uuid, mutate]);
 
-  useEffect(() => providerUuid, [providerUuid]);
+  useEffect(() => fetchProvider(), [fetchProvider]);
 
   useMemo(() => {
     switch (statusSwitcherIndex) {
@@ -470,7 +470,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               {t('endVisit', 'End Visit')}
             </Button>
             {isLoading ? (
-              <InlineLoading />
+              <InlineLoading description={'Fetching Provider..'} />
             ) : (
               <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
             )}

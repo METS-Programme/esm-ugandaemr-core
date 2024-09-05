@@ -27,20 +27,22 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
 
   const [priorityComment, setPriorityComment] = useState('');
 
-  const providerUuid = useMemo(() => {
-    if (!sessionUser?.user?.uuid) return null;
+  // Memoize the function to fetch the provider using useCallback
+  const fetchProvider = useCallback(() => {
+    if (!sessionUser?.user?.uuid) return;
+
     setIsLoading(true);
 
     getCareProvider(sessionUser?.user?.uuid).then(
       (response) => {
         const uuid = response?.data?.results[0].uuid;
-        setProvider(uuid);
         setIsLoading(false);
+        setProvider(uuid);
         mutate();
       },
       (error) => {
-        setIsLoading(false);
         const errorMessages = extractErrorMessagesFromResponse(error);
+        setIsLoading(false);
         showNotification({
           title: "Couldn't get provider",
           kind: 'error',
@@ -49,11 +51,9 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
         });
       },
     );
-
-    return providerUuid;
   }, [sessionUser?.user?.uuid, mutate]);
 
-  useEffect(() => providerUuid, [providerUuid]);
+  useEffect(() => fetchProvider(), [fetchProvider]);
 
   const pickPatientQueueStatus = useCallback(
     (event) => {
@@ -111,7 +111,7 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
             </Button>
 
             {isLoading ? (
-              <InlineLoading />
+              <InlineLoading description={'Fetching Provider..'} />
             ) : (
               <Button disabled={isLoading} type="submit">
                 {t('pickPatient', 'Pick Patient')}
