@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Button,
   ContentSwitcher,
@@ -10,6 +10,7 @@ import {
   SelectItem,
   Switch,
   TextArea,
+  InlineLoading,
 } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -42,6 +43,8 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   const { providers } = useProviders();
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
 
   const [statusSwitcherIndex, setStatusSwitcherIndex] = useState(1);
@@ -60,22 +63,33 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   const { activeVisit } = useVisit(patientUuid);
 
-  getCareProvider(sessionUser?.user?.uuid).then(
-    (response) => {
-      setProvider(response?.data?.results[0].uuid);
-      mutate();
-    },
-    (error) => {
-      const errorMessages = extractErrorMessagesFromResponse(error);
+  // Memoize the function to fetch the provider using useCallback
+  const fetchProvider = useCallback(() => {
+    if (!sessionUser?.user?.uuid) return;
 
-      showNotification({
-        title: t(`errorGettingProvider', 'Couldn't get provider`),
-        kind: 'error',
-        critical: true,
-        description: errorMessages.join(','),
-      });
-    },
-  );
+    setIsLoading(true);
+
+    getCareProvider(sessionUser?.user?.uuid).then(
+      (response) => {
+        const uuid = response?.data?.results[0].uuid;
+        setIsLoading(false);
+        setProvider(uuid);
+        mutate();
+      },
+      (error) => {
+        const errorMessages = extractErrorMessagesFromResponse(error);
+        setIsLoading(false);
+        showNotification({
+          title: "Couldn't get provider",
+          kind: 'error',
+          critical: true,
+          description: errorMessages.join(','),
+        });
+      },
+    );
+  }, [sessionUser?.user?.uuid, mutate]);
+
+  useEffect(() => fetchProvider(), [fetchProvider]);
 
   useMemo(() => {
     switch (statusSwitcherIndex) {
@@ -594,7 +608,11 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
           <Button kind="danger" onClick={endCurrentVisit}>
             {t('endVisit', 'End Visit')}
           </Button>
-          <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
+          {isLoading ? (
+            <InlineLoading description={'Fetching Provider..'} />
+          ) : (
+            <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
+          )}
         </ModalFooter>
       </Form>
     </div>

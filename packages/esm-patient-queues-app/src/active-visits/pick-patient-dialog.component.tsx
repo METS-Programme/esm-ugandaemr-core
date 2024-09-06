@@ -1,35 +1,13 @@
-import {
-  Button,
-  ContentSwitcher,
-  Form,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  Select,
-  SelectItem,
-  Switch,
-  TextArea,
-} from '@carbon/react';
-
-import {
-  formatDate,
-  navigate,
-  parseDate,
-  showNotification,
-  showToast,
-  useLocations,
-  useSession,
-} from '@openmrs/esm-framework';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Button, Form, ModalBody, ModalFooter, ModalHeader, InlineLoading } from '@carbon/react';
+import { formatDate, navigate, parseDate, showNotification, showToast, useSession } from '@openmrs/esm-framework';
 
 import { getCareProvider, updateQueueEntry } from './active-visits-table.resource';
-
-import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
-
-import styles from './change-status-dialog.scss';
 import { trimVisitNumber } from '../helpers/functions';
+import { extractErrorMessagesFromResponse } from '../utils/utils';
 
 interface PickPatientDialogProps {
   queueEntry: MappedQueueEntry;
@@ -39,39 +17,43 @@ interface PickPatientDialogProps {
 const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, closeModal }) => {
   const { t } = useTranslation();
 
-  const locations = useLocations();
-
-  const [selectedLocation, setSelectedLocation] = useState('');
-
   const sessionUser = useSession();
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const { queueRoomLocations, mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
   const [provider, setProvider] = useState('');
+
   const [priorityComment, setPriorityComment] = useState('');
 
-  useEffect(() => {
+  // Memoize the function to fetch the provider using useCallback
+  const fetchProvider = useCallback(() => {
+    if (!sessionUser?.user?.uuid) return;
+
+    setIsLoading(true);
+
     getCareProvider(sessionUser?.user?.uuid).then(
       (response) => {
-        setProvider(response?.data?.results[0].uuid);
+        const uuid = response?.data?.results[0].uuid;
+        setIsLoading(false);
+        setProvider(uuid);
         mutate();
       },
       (error) => {
+        const errorMessages = extractErrorMessagesFromResponse(error);
+        setIsLoading(false);
         showNotification({
-          title: t(`errorGettingProvider', 'Couldn't get provider`),
+          title: "Couldn't get provider",
           kind: 'error',
           critical: true,
-          description: error?.message,
+          description: errorMessages.join(','),
         });
       },
     );
-  });
+  }, [sessionUser?.user?.uuid, mutate]);
 
-  useEffect(() => {
-    if (locations?.length && sessionUser) {
-      setSelectedLocation(sessionUser?.sessionLocation?.uuid);
-    }
-  }, [locations, sessionUser]);
+  useEffect(() => fetchProvider(), [fetchProvider]);
 
   const pickPatientQueueStatus = useCallback(
     (event) => {
@@ -127,7 +109,14 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
             <Button kind="secondary" onClick={closeModal}>
               {t('cancel', 'Cancel')}
             </Button>
-            <Button type="submit">{t('pickPatient', 'Pick Patient')}</Button>
+
+            {isLoading ? (
+              <InlineLoading description={'Fetching Provider..'} />
+            ) : (
+              <Button disabled={isLoading} type="submit">
+                {t('pickPatient', 'Pick Patient')}
+              </Button>
+            )}
           </ModalFooter>
         </Form>
       </div>

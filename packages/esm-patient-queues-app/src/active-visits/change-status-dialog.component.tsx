@@ -8,9 +8,9 @@ import {
   Select,
   SelectItem,
   Switch,
+  InlineLoading,
   TextArea,
 } from '@carbon/react';
-
 import {
   navigate,
   parseDate,
@@ -21,19 +21,16 @@ import {
   useSession,
   useVisit,
 } from '@openmrs/esm-framework';
-
 import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { first } from 'rxjs/operators';
-
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 import { ArrowUp, ArrowDown } from '@carbon/react/icons';
-
 import styles from './change-status-dialog.scss';
 import { useProviders } from '../visit-form/queue.resource';
-import { QueueStatus } from '../utils/utils';
+import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
 
 interface ChangeStatusDialogProps {
   queueEntry: MappedQueueEntry;
@@ -66,20 +63,35 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const { activeVisit } = useVisit(queueEntry.patientUuid);
 
-  getCareProvider(sessionUser?.user?.uuid).then(
-    (response) => {
-      setProvider(response?.data?.results[0].uuid);
-      mutate();
-    },
-    (error) => {
-      showNotification({
-        title: t(`errorGettingProvider', 'Couldn't get provider`),
-        kind: 'error',
-        critical: true,
-        description: error?.message,
-      });
-    },
-  );
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Memoize the function to fetch the provider using useCallback
+  const fetchProvider = useCallback(() => {
+    if (!sessionUser?.user?.uuid) return;
+
+    setIsLoading(true);
+
+    getCareProvider(sessionUser?.user?.uuid).then(
+      (response) => {
+        const uuid = response?.data?.results[0].uuid;
+        setIsLoading(false);
+        setProvider(uuid);
+        mutate();
+      },
+      (error) => {
+        const errorMessages = extractErrorMessagesFromResponse(error);
+        setIsLoading(false);
+        showNotification({
+          title: "Couldn't get provider",
+          kind: 'error',
+          critical: true,
+          description: errorMessages.join(','),
+        });
+      },
+    );
+  }, [sessionUser?.user?.uuid, mutate]);
+
+  useEffect(() => fetchProvider(), [fetchProvider]);
 
   useMemo(() => {
     switch (statusSwitcherIndex) {
@@ -457,7 +469,11 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             <Button kind="danger" onClick={endCurrentVisit}>
               {t('endVisit', 'End Visit')}
             </Button>
-            <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
+            {isLoading ? (
+              <InlineLoading description={'Fetching Provider..'} />
+            ) : (
+              <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
+            )}
           </ModalFooter>
         </Form>
       </div>
