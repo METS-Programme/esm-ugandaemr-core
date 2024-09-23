@@ -30,13 +30,21 @@ export function usePatientObservations(patientUuid, conceptUuids) {
       const coding = observation?.code?.coding[0];
       if (coding?.code === `${configSchema.hivViralLoadUuid._default}` && observation?.valueQuantity) {
         acc[effectiveDateTime].valuesArray.push(observation.valueQuantity.value);
-      } else if (coding?.code === `${configSchema.hivViralLoadDateUuid._default}` && observation?.effectiveDateTime) {
+      }
+
+      if (coding?.code === `${configSchema.hivViralLoadDateUuid._default}`) {
         acc[effectiveDateTime].dateArray.push(observation.effectiveDateTime);
-      } else if (
+      }
+
+      if (
         coding?.code === `${configSchema.hivViralLoadQualitativeUuid._default}` &&
         observation?.valueCodeableConcept
       ) {
         acc[effectiveDateTime].displayArray.push(observation.valueCodeableConcept?.coding[0]?.display);
+      }
+
+      if (acc[effectiveDateTime].dateArray.length === 0) {
+        acc[effectiveDateTime].dateArray.push(observation.effectiveDateTime);
       }
 
       return acc;
@@ -44,7 +52,6 @@ export function usePatientObservations(patientUuid, conceptUuids) {
 
     return groupedObservations;
   }, [data]);
-
   return {
     observations: observationsByDate,
     isLoading: isValidating,
