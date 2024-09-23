@@ -8547,11 +8547,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ugandaemr/esm-patient-flags-app@workspace:packages/esm-patient-flags-app":
+"@ugandaemr/esm-patient-flags-app@file:, @ugandaemr/esm-patient-flags-app@workspace:packages/esm-patient-flags-app":
   version: 0.0.0-use.local
   resolution: "@ugandaemr/esm-patient-flags-app@workspace:packages/esm-patient-flags-app"
   dependencies:
     "@carbon/react": ^1.64.1
+    "@ugandaemr/esm-patient-flags-app": "file:"
     lodash-es: ^4.17.15
     webpack: ^5.74.0
   peerDependencies:
@@ -8562,11 +8563,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ugandaemr/esm-patient-queues-app@workspace:packages/esm-patient-queues-app":
+"@ugandaemr/esm-patient-queues-app@file:, @ugandaemr/esm-patient-queues-app@workspace:packages/esm-patient-queues-app":
   version: 0.0.0-use.local
   resolution: "@ugandaemr/esm-patient-queues-app@workspace:packages/esm-patient-queues-app"
   dependencies:
     "@carbon/react": ^1.64.1
+    "@ugandaemr/esm-patient-queues-app": "file:"
     dayjs: ^1.11.6
     lodash-es: ^4.17.15
     qrcode.react: ^3.1.0
