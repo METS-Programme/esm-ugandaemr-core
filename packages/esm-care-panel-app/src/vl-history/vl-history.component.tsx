@@ -65,7 +65,7 @@ const ViralLoadList: React.FC<ViralLoadProps> = ({ patientUuid }) => {
         const group = groupedObservations[dateTime];
         rows.push({
           id: index.toString(),
-          hivViralLoadDate: group.dateArray?.[0].split('T')[0] || '',
+          hivViralLoadDate: group.dateArray?.[0]?.split('T')[0] || '',
           hivViralLoadQualitative: group.displayArray?.[0] || '',
           hivViralLoad: group?.valuesArray?.[0] || '',
         });
