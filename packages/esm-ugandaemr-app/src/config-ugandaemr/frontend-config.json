@@ -655,7 +655,7 @@
             }
           },
           "dispensing-dashboard-link": {
-            "Display Conditions": {
+            "Display conditions": {
               "privileges": [
                 "View Dispensing Menu"
               ]
