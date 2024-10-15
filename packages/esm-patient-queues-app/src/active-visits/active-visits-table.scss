@@ -119,6 +119,16 @@
   }
 }
 
+.tableFilter {
+  display: flex;
+  flex-direction: row;
+  margin: 4rem;
+}
+
+.toggle {
+  margin: 2rem;
+}
+
 .emptyRow {
   padding: 0 1rem;
   display: flex;
