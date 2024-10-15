@@ -67,9 +67,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
     session.user.systemId,
   );
 
-  const [showOverlay, setShowOverlay] = useState(false);
-  const [view, setView] = useState('');
-  const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [overlayHeader, setOverlayTitle] = useState('');
 
@@ -234,26 +231,33 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         {({ rows, headers, getHeaderProps, getTableProps, getRowProps }) => (
           <TableContainer className={styles.tableContainer}>
             <TableToolbar
-              style={{ position: 'absolute', height: '3rem', overflow: 'visible', backgroundColor: 'color' }}
+              style={{
+                position: 'static',
+                overflow: 'visible',
+                backgroundColor: 'color',
+              }}
             >
-              <TableToolbarContent className={styles.toolbarContent}>
-                <Layer className={styles.tableFilter}>
-                  <TableToolbarSearch
-                    expanded
-                    className={styles.search}
-                    onChange={handleSearchInputChange}
-                    placeholder={t('searchThisList', 'Search this list')}
-                    size="sm"
-                  />
-                  <Toggle
-                    className={styles.toggle}
-                    labelA="Off" // Label for the 'Off' state
-                    labelB="On" // Label for the 'On' state
-                    id="toggle-1" // A unique ID for the toggle
-                    toggled={isToggled} // Pass the state to the component
-                    onToggle={handleToggleChange} // Function to handle toggle action
-                  />
-                </Layer>
+              <TableToolbarContent
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <TableToolbarSearch
+                  expanded
+                  className={styles.search}
+                  onChange={handleSearchInputChange}
+                  placeholder={t('searchThisList', 'Search this list')}
+                  size="sm"
+                />
+                <Toggle
+                  className={styles.toggle}
+                  labelA="Off"
+                  labelB="On"
+                  id="toggle-1"
+                  toggled={isToggled}
+                  onToggle={handleToggleChange}
+                />
               </TableToolbarContent>
             </TableToolbar>
             <Table {...getTableProps()} className={styles.activeVisitsTable}>
@@ -308,16 +312,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
           </TableContainer>
         )}
       </DataTable>
-      {showOverlay && (
-        <PatientSearch
-          view={view}
-          closePanel={() => setShowOverlay(false)}
-          viewState={{
-            selectedPatientUuid: viewState.selectedPatientUuid,
-          }}
-          headerTitle={overlayHeader}
-        />
-      )}
     </div>
   );
 };
