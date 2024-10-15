@@ -6,13 +6,6 @@
       ]
     }
   },
-  "@ugandaemr/esm-hiv-app": {
-    "Display conditions": {
-      "privileges": [
-        "Manage HIV"
-      ]
-    }
-  },
   "@openmrs/esm-laboratory-app": {
     "Display conditions": {
       "privileges": [
@@ -24,48 +17,6 @@
     "Display conditions": {
       "privileges": [
         "Manage Data Visualizer"
-      ]
-    }
-  },
-  "@ugandaemr/esm-bed-management-app": {
-    "Display conditions": {
-      "privileges": [
-        "Manage Inpatient"
-      ]
-    }
-  },
-  "@ugandaemr/esm-tb-app": {
-    "Display conditions": {
-      "privileges": [
-        "Manage TB"
-      ]
-    }
-  },
-  "@ugandaemr/esm-radiology-app": {
-    "Display conditions": {
-      "privileges": [
-        "Manage Radiology"
-      ]
-    }
-  },
-  "@ugandaemr/esm-theatre-app": {
-    "Display conditions": {
-      "privileges": [
-        "Manage Theatre"
-      ]
-    }
-  },
-  "@ugandaemr/esm-inpatient-app": {
-    "Display conditions": {
-      "privileges": [
-        "Manage IPD"
-      ]
-    }
-  },
-  "@ugandaemr/esm-family-health-app": {
-    "Display conditions": {
-      "privileges": [
-        "Manage Family"
       ]
     }
   },
@@ -860,5 +811,20 @@
     },
     "medicationRequestExpirationPeriodInDays": 1,
     "enableStockDispense": false
+  },
+  "@ugandaemr/esm-patient-queues-app":{
+    "extensionSlots": {
+      "upcoming-appointment-slot":{
+        "configure": {
+          "patient-upcoming-appointment-widget": {
+            "Display conditions": {
+              "privileges": [
+                "View Upcoming Appointment"
+              ]
+            }
+          }
+        }
+      }
+    }
   }
 }
