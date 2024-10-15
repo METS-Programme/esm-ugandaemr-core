@@ -15,6 +15,7 @@ import {
   TableToolbarSearch,
   Tag,
   Tile,
+  Toggle,
 } from '@carbon/react';
 
 import { isDesktop, useLayoutType, usePagination, userHasAccess, useSession } from '@openmrs/esm-framework';
@@ -38,6 +39,7 @@ import NotesActionsMenu from './notes-action-menu.components';
 import { PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS } from '../constants';
 import PatientSearch from '../patient-search/patient-search.component';
 import { QueueStatus } from '../utils/utils';
+import MovetoNextPointAction from './move-patient-to-next-action-menu.components';
 
 interface ActiveVisitsTableProps {
   status: string;
@@ -202,10 +204,11 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
               </>
             )}
 
-            {entry.status === 'COMPLETED' && (
-              <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
-            )}
+            <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
+
             <NotesActionsMenu note={entry} />
+            {entry.status === 'SERVING' ||
+              (entry.status === 'PENDING' && <MovetoNextPointAction patientUuid={entry?.patientUuid} />)}
           </div>
         ),
       },
@@ -229,7 +232,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
           <TableContainer className={styles.tableContainer}>
             <TableToolbar style={{ position: 'static', height: '3rem', overflow: 'visible', backgroundColor: 'color' }}>
               <TableToolbarContent className={styles.toolbarContent}>
-                <Layer>
+                <Layer className={styles.toolbarContentLayer}>
                   <TableToolbarSearch
                     expanded
                     className={styles.search}
