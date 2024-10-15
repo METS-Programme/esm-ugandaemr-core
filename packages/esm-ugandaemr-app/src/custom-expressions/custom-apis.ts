@@ -41,3 +41,9 @@ export async function getPatientPrograms(patientUuid: string) {
 
   return filteredDSDModels;
 }
+
+export async function getCohortCategorization(uuid: string) {
+  let apiUrl = `${restBaseUrl}/cohortm/cohort?v=custom:(name,uuid)&cohortType=${uuid}`;
+
+  return await openmrsFetch(apiUrl);
+}
