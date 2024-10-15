@@ -227,7 +227,9 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       >
         {({ rows, headers, getHeaderProps, getTableProps, getRowProps }) => (
           <TableContainer className={styles.tableContainer}>
-            <TableToolbar style={{ position: 'absolute', height: '3rem', overflow: 'visible', backgroundColor: 'color' }}>
+            <TableToolbar
+              style={{ position: 'absolute', height: '3rem', overflow: 'visible', backgroundColor: 'color' }}
+            >
               <TableToolbarContent className={styles.toolbarContent}>
                 <Layer className={styles.tableFilter}>
                   <TableToolbarSearch
