@@ -32,7 +32,7 @@ import StatusIcon from '../queue-entry-table-components/status-icon.component';
 import { getOriginFromPathName } from './active-visits-table.resource';
 import styles from './active-visits-table.scss';
 import EditActionsMenu from './edit-action-menu.components';
-import { usePatientQueuesList } from './patient-queues.resource';
+import { useParentLocation, usePatientQueuesList } from './patient-queues.resource';
 import PickPatientActionMenu from '../queue-entry-table-components/pick-patient-queue-entry-menu.component';
 import ViewActionsMenu from './view-action-menu.components';
 import NotesActionsMenu from './notes-action-menu.components';
@@ -54,9 +54,15 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const { t } = useTranslation();
   const session = useSession();
   const layout = useLayoutType();
+  const [isToggled, setIsToggled] = useState(false);
+
+  const handleToggleChange = () => {
+    setIsToggled(!isToggled);
+  };
+  const { location } = useParentLocation(session?.sessionLocation?.uuid);
 
   const { patientQueueEntries, isLoading } = usePatientQueuesList(
-    session?.sessionLocation?.uuid,
+    isToggled ? session?.sessionLocation?.uuid : location?.parentLocation.uuid,
     status,
     session.user.systemId,
   );
@@ -239,7 +245,14 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                     placeholder={t('searchThisList', 'Search this list')}
                     size="sm"
                   />
-                  <Toggle className={styles.toggle} />
+                  <Toggle
+                    className={styles.toggle}
+                    labelA="Off" // Label for the 'Off' state
+                    labelB="On" // Label for the 'On' state
+                    id="toggle-1" // A unique ID for the toggle
+                    toggled={isToggled} // Pass the state to the component
+                    onToggle={handleToggleChange} // Function to handle toggle action
+                  />
                 </Layer>
               </TableToolbarContent>
             </TableToolbar>
