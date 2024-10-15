@@ -86,12 +86,12 @@ export interface ChildLocation {
   links: Link[];
 }
 
-export function usePatientQueuesList(currentQueueLocationUuid: string, status: string, provider: string) {
+export function usePatientQueuesList(currentQueueLocationUuid: string, status: string) {
   const apiUrl = `/ws/rest/v1/patientqueue?v=full&status=${status}&room=${currentQueueLocationUuid}`;
-  return usePatientQueueRequest(apiUrl, provider);
+  return usePatientQueueRequest(apiUrl);
 }
 
-export function usePatientQueueRequest(apiUrl: string, provider) {
+export function usePatientQueueRequest(apiUrl: string) {
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,
