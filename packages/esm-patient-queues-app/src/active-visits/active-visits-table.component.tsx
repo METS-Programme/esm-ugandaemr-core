@@ -64,7 +64,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [overlayHeader, setOverlayTitle] = useState('');
-  const [filteredPatients, setFilteredPatients] = useState([]);
 
   const currentPathName: string = window.location.pathname;
   const fromPage: string = getOriginFromPathName(currentPathName);
@@ -77,15 +76,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
     const searchText = event?.target?.value?.trim().toLowerCase();
     setSearchTerm(searchText);
   }, []);
-
-  useEffect(() => {
-    const lowercasedTerm = searchTerm.toLowerCase();
-    const filteredResults = searchTerm
-      ? patientQueueEntries.filter((patient) => patient.name.toLowerCase().includes(lowercasedTerm))
-      : patientQueueEntries;
-
-    setFilteredPatients(filteredResults);
-  }, [searchTerm, patientQueueEntries]);
 
   const tableHeaders = useMemo(
     () => [
