@@ -149,11 +149,15 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       } else if (a.status !== 'PICKED' && b.status === 'PICKED') {
         return -1;
       }
-      return 0;
+
+      // If statuses are the same, sort by creation time (oldest first)
+      const aCreatedTime = new Date(a.dateCreated).getTime();
+      const bCreatedTime = new Date(b.dateCreated).getTime();
+
+      return aCreatedTime - bCreatedTime; // Oldest entries come first
     });
 
     // sort entries so that those that have been created last come first
-    
 
     return entries;
   }, [paginatedQueueEntries, searchTerm, status]);
