@@ -152,6 +152,9 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       return 0;
     });
 
+    // sort entries so that those that have been created last come first
+    
+
     return entries;
   }, [paginatedQueueEntries, searchTerm, status]);
 
