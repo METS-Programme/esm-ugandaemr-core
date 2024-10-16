@@ -62,10 +62,9 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   };
   const { location } = useParentLocation(session?.sessionLocation?.uuid);
 
-  const { patientQueueEntries, isLoading } = usePatientQueuesList(
-    isToggled ? session?.sessionLocation?.uuid : location?.parentLocation.uuid,
-    status,
-  );
+  const activeLocationUuid = isToggled ? location?.parentLocation?.uuid : session?.sessionLocation?.uuid;
+
+  const { patientQueueEntries, isLoading } = usePatientQueuesList(activeLocationUuid || '', status, isToggled);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [overlayHeader, setOverlayTitle] = useState('');

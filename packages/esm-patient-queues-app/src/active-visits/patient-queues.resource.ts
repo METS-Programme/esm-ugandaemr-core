@@ -86,9 +86,15 @@ export interface ChildLocation {
   links: Link[];
 }
 
-export function usePatientQueuesList(currentQueueLocationUuid: string, status: string) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&status=${status}&room=${currentQueueLocationUuid}`;
-  return usePatientQueueRequest(apiUrl);
+export function usePatientQueuesList(currentQueueLocationUuid: string, status: string, isToggled: boolean) {
+  let url = '';
+
+  if (isToggled) {
+    url = `/ws/rest/v1/patientqueue?v=full&status=${status}&parentLocation=${currentQueueLocationUuid}`;
+  } else {
+    url = `/ws/rest/v1/patientqueue?v=full&status=${status}&room=${currentQueueLocationUuid}`;
+  }
+  return usePatientQueueRequest(url);
 }
 
 export function usePatientQueueRequest(apiUrl: string) {
