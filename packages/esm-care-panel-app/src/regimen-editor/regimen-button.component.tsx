@@ -1,39 +1,34 @@
 import React from 'react';
-import { Link } from '@carbon/react';
-
 import { useTranslation } from 'react-i18next';
-import { RegimenType } from '../types';
-import { launchPatientWorkspace } from '@openmrs/esm-patient-common-lib';
+import { launchPatientWorkspace, useLaunchWorkspaceRequiringVisit } from '@openmrs/esm-patient-common-lib';
+import { Link } from '@carbon/react';
 import styles from './standard-regimen.scss';
 
-interface RegimenButtonProps {
-  patientUuid: string;
-  category: string;
-  onRegimen: string;
-  lastRegimenEncounter: {
-    uuid: string;
-    startDate: string;
-    endDate: string;
-    event: string;
-  };
-}
-
-const RegimenButton: React.FC<RegimenButtonProps> = ({ category, patientUuid, onRegimen, lastRegimenEncounter }) => {
+const RegimenButton: React.FC = () => {
   const { t } = useTranslation();
+  const launchFormsWorkspace = useLaunchWorkspaceRequiringVisit('patient-form-entry-workspace');
+
+  const launchPatientWorkspaceCb = () => {
+    launchFormsWorkspace();
+  };
+
   return (
-    <Link
-      className={styles.linkName}
-      onClick={() =>
-        launchPatientWorkspace('patient-regimen-workspace', {
-          category: RegimenType[category],
-          patientUuid: patientUuid,
-          onRegimen: onRegimen,
-          lastRegimenEncounter: lastRegimenEncounter,
-        })
-      }
-    >
-      {t('editRegimen', 'Edit')}
-    </Link>
+    <>
+      <Link
+        className={styles.linkName}
+        onClick={() =>
+          launchPatientWorkspace('patient-form-entry-workspace', {
+            formInfo: {
+              encounterUuid: '',
+              formUuid: '835e6672-9693-4c07-98bc-a5a7804bdb5c',
+            },
+            workspaceTitle: 'Clinical Form',
+          })
+        }
+      >
+        {t('editRegimen', 'Edit')}
+      </Link>
+    </>
   );
 };
 
