@@ -1,7 +1,6 @@
 import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
-import { facilityHomeDashboardMeta, hieHomeDashboardMeta } from './dashboard.meta';
 import { registerExpressionHelper } from '@openmrs/openmrs-form-engine-lib';
 
 import formBuilderAppMenu from './menu-app-items/form-builder-app-item/form-builder-app-item.component';
