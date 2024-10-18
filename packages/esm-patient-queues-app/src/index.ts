@@ -2,9 +2,10 @@ import { defineConfigSchema, getSyncLifecycle } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 import { createDashboardLink } from './createDashboardLink';
-import { ClinicalRoomMeta, ReceptionMeta, TriageMeta, dashboardMeta } from './dashboard.meta';
+import { ClinicalRoomMeta, ReceptionMeta, TriageMeta } from './dashboard.meta';
 import editQueueEntryStatusModalComponent from './active-visits/change-status-dialog.component';
 import patientChartMoveToNextServicePointModalComponent from './active-visits/change-status-move-to-next-dialog.component';
+import queueTableMoveToNextServicePointModalComponent from './active-visits/queue-table-move-to-next-dialog.component';
 import moveToNextServicePointButtonComponent from './active-visits/move-to-next-service-point-action.components';
 import addPatientToQueueComponent from './visit-form/visit-form.component';
 import notesModalComponent from './active-visits/notes-dialog.component';
@@ -59,6 +60,11 @@ export const editQueueEntryStatusModal = getSyncLifecycle(editQueueEntryStatusMo
 
 export const patientChartMoveToNextServicePointModal = getSyncLifecycle(
   patientChartMoveToNextServicePointModalComponent,
+  options,
+);
+
+export const queueTableMoveToNextServicePointModal = getSyncLifecycle(
+  queueTableMoveToNextServicePointModalComponent,
   options,
 );
 

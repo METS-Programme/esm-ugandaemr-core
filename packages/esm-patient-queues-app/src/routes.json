@@ -117,6 +117,10 @@
             "name": "patient-move-to-next-service-point-modal",
             "component": "patientChartMoveToNextServicePointModal"
         },
+          {
+            "name": "queue-table-move-to-next-service-point-modal",
+            "component": "queueTableMoveToNextServicePointModal"
+        },
         {
             "name": "patient-move-to-next-service-point",
             "slot": "patient-actions-slot",

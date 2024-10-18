@@ -32,9 +32,6 @@ const NotesDialog: React.FC<NotesDialogProps> = ({ queueEntry, closeModal }) => 
           <Button kind="secondary" onClick={closeModal}>
             {t('cancel', 'Cancel')}
           </Button>
-          <Button type="submit" onClick={closeModal}>
-            {t('submit', 'Submit')}
-          </Button>
         </ModalFooter>
       </Form>
     </div>
