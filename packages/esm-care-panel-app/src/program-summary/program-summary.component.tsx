@@ -79,7 +79,7 @@ const ProgramSummary: React.FC<ProgramSummaryProps> = ({ patientUuid, programNam
                         ? data?.HIV?.lastEncDetails?.regimenShortDisplay
                         : t('neverOnArvRegimen', 'Never on ARVs')}
                       <span>
-                        <RegimenButton
+                        {/* <RegimenButton
                           patientUuid={patientUuid}
                           category={programName}
                           onRegimen={
@@ -88,7 +88,7 @@ const ProgramSummary: React.FC<ProgramSummaryProps> = ({ patientUuid, programNam
                               : ''
                           }
                           lastRegimenEncounter={regimenEncounter}
-                        />
+                        /> */}
                       </span>
                     </p>
                   </div>
@@ -147,12 +147,12 @@ const ProgramSummary: React.FC<ProgramSummaryProps> = ({ patientUuid, programNam
                           ? data?.TB?.lastTbEncounter?.regimenShortDisplay
                           : t('neverOnTbRegimen', 'Never on TB regimen')}
                       </span>
-                      <RegimenButton
+                      {/* <RegimenButton
                         patientUuid={patientUuid}
                         category={programName}
                         onRegimen={data?.TB?.lastTbEncounter ? data?.TB?.lastTbEncounter?.regimenShortDisplay : ''}
                         lastRegimenEncounter={regimenEncounter}
-                      />
+                      /> */}
                     </p>
                   </div>
                   <div className={styles.content}>

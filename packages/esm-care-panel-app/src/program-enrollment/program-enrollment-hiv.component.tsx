@@ -8,6 +8,7 @@ import { ProgramData } from '../types/index';
 import { usePatient } from '@openmrs/esm-framework';
 import { configSchema } from '../config-schema';
 import { ProgramEnrollmentProps } from '../hooks/useCarePrograms';
+import RegimenButton from '../regimen-editor/regimen-button.component';
 
 const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [], patientUuid }) => {
   const { t } = useTranslation();
@@ -134,6 +135,9 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
             <p className={styles.label}>{t('currentRegimen', 'Current Regimen')}</p>
 
             <span className={styles.value}>{programData.currentRegimen}</span>
+            <span>
+              <RegimenButton />
+            </span>
           </div>
           <div className={styles.content}>
             <p className={styles.label}>{t('whoStage', 'WHO Stage')}</p>
