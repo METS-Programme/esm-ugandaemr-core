@@ -20,7 +20,7 @@ const RegimenButton: React.FC = () => {
           launchPatientWorkspace('patient-form-entry-workspace', {
             formInfo: {
               encounterUuid: '',
-              formUuid: '835e6672-9693-4c07-98bc-a5a7804bdb5c',
+              formUuid: '53a3850c-855a-11eb-8dcd-0242ac130003',
             },
             workspaceTitle: 'Clinical Form',
           })
