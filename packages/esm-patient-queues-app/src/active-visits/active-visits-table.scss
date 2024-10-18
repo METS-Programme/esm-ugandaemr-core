@@ -119,6 +119,16 @@
   }
 }
 
+.tableFilter {
+  display: flex;
+  flex-direction: row;
+  margin: 4rem;
+}
+
+.toggle {
+  margin: 2rem;
+}
+
 .emptyRow {
   padding: 0 1rem;
   display: flex;
@@ -139,13 +149,13 @@
   td {
     padding: 0.5rem;
 
-    > div {
+    >div {
       max-height: max-content !important;
       background-color: $ui-02;
     }
   }
 
-  th[colspan] td[colspan] > div:first-child {
+  th[colspan] td[colspan]>div:first-child {
     padding: 0 1rem;
   }
 }
