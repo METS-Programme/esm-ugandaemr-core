@@ -204,7 +204,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
 
             <NotesActionsMenu note={entry} />
             {entry.status === 'SERVING' ||
-              (entry.status === 'PENDING' && <MovetoNextPointAction patientUuid={entry?.patientUuid} />)}
+              (entry.status === 'PENDING' && isToggled && <MovetoNextPointAction patientUuid={entry?.patientUuid} />)}
           </div>
         ),
       },
@@ -248,9 +248,9 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
                 />
                 <Toggle
                   className={styles.toggle}
-                  labelA="Off"
-                  labelB="On"
-                  id="toggle-1"
+                  labelA="My Location"
+                  labelB="All Locations"
+                  id="all-queue-locations-toggle"
                   toggled={isToggled}
                   onToggle={handleToggleChange}
                 />
