@@ -39,11 +39,9 @@ function ActiveVisitsReceptionTable() {
 
   const [showOverlay, setShowOverlay] = useState(false);
   const [overlayHeader, setOverlayTitle] = useState('');
-
   const [view, setView] = useState('');
-  const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
+  const [viewState, setViewState] = useState<{ selectedPatientUuid: string } | null>(null); // Added | null explicitly
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredPatients, setFilteredPatients] = useState([]);
 
   const { location } = useParentLocation(session?.sessionLocation?.uuid);
 
@@ -62,72 +60,50 @@ function ActiveVisitsReceptionTable() {
     setSearchTerm(searchText);
   }, []);
 
-  useEffect(() => {
-    if (searchTerm !== '') {
-      const lowercasedTerm = searchTerm.toLowerCase();
-      const filteredResults = paginatedQueueEntries.filter((patient) =>
-        patient.name.toLowerCase().includes(lowercasedTerm),
-      );
-      setFilteredPatients(filteredResults);
-    } else {
-      setFilteredPatients(paginatedQueueEntries);
-    }
-  }, [searchTerm, patientQueueEntries, paginatedQueueEntries]);
-
   const tableHeaders = useMemo(
     () => [
-      {
-        id: 0,
-        header: t('visitNumber', 'Visit Number'),
-        key: 'visitNumber',
-      },
-      {
-        id: 1,
-        header: t('name', 'Name'),
-        key: 'name',
-      },
-      {
-        id: 2,
-        header: t('currentlocation', 'Current Location'),
-        key: 'location',
-      },
-      {
-        id: 3,
-        header: t('status', 'Status'),
-        key: 'status',
-      },
-
-      {
-        id: 4,
-        header: t('waitTime', 'Wait time'),
-        key: 'waitTime',
-      },
-      {
-        id: 5,
-        header: t('actions', 'Actions'),
-        key: 'actions',
-      },
+      { id: 0, header: t('visitNumber', 'Visit Number'), key: 'visitNumber' },
+      { id: 1, header: t('name', 'Name'), key: 'name' },
+      { id: 2, header: t('currentlocation', 'Current Location'), key: 'location' },
+      { id: 3, header: t('status', 'Status'), key: 'status' },
+      { id: 4, header: t('waitTime', 'Wait time'), key: 'waitTime' },
+      { id: 5, header: t('actions', 'Actions'), key: 'actions' },
     ],
     [t],
   );
 
+  // Filter and sort entries
+  const filteredPatientQueueEntries = useMemo(() => {
+    let entries = paginatedQueueEntries || [];
+
+    // Apply search term filter
+    if (searchTerm) {
+      const lowercasedTerm = searchTerm.toLowerCase();
+      entries = entries.filter((entry) => entry.name?.toLowerCase().includes(lowercasedTerm));
+    }
+
+    // Sort entries by creation time (oldest first)
+    entries.sort((a, b) => {
+      const aCreatedTime = new Date(a.dateCreated).getTime();
+      const bCreatedTime = new Date(b.dateCreated).getTime();
+      return aCreatedTime - bCreatedTime; // Oldest entries first
+    });
+
+    return entries;
+  }, [paginatedQueueEntries, searchTerm]);
+
+  // Prepare table rows
   const tableRows = useMemo(() => {
-    return filteredPatients?.map((entry) => ({
+    return filteredPatientQueueEntries.map((entry) => ({
       ...entry,
-      visitNumber: {
-        content: <span>{trimVisitNumber(entry.visitNumber)}</span>,
-      },
-      name: {
-        content: <span>{entry.name}</span>,
-      },
-      location: {
-        content: <span> {entry.queueRoom} </span>,
-      },
+      visitNumber: { content: <span>{trimVisitNumber(entry.visitNumber)}</span> },
+      name: { content: <span>{entry.name}</span> },
+      location: { content: <span>{entry.queueRoom}</span> },
       status: {
         content: (
           <span className={styles.statusContainer}>
-            <StatusIcon status={entry.status.toLowerCase()} />
-            <span>{buildStatusString(entry.status.toLowerCase())}</span>
+            <StatusIcon status={entry.status?.toLowerCase()} />
+            <span>{buildStatusString(entry.status?.toLowerCase())}</span>
           </span>
         ),
       },
@@ -149,7 +125,7 @@ function ActiveVisitsReceptionTable() {
         ),
       },
     }));
-  }, [filteredPatients, fromPage, t]);
+  }, [filteredPatientQueueEntries, fromPage, t]);
 
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;
