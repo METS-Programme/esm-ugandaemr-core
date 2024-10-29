@@ -1,5 +1,4 @@
 import React from 'react';
-import { MappedQueueEntry } from '../types';
 import { Button, Form, ModalBody, ModalFooter, ModalHeader } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import styles from './change-status-dialog.scss';

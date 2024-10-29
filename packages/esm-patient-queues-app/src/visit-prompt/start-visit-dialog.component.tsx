@@ -13,7 +13,7 @@ interface StartVisitDialogProps {
   launchPatientChart?: boolean;
 }
 
-const StartVisitDialog: React.FC<StartVisitDialogProps> = ({ queueEntry, closeModal, launchPatientChart }) => {
+const StartVisitDialog: React.FC<StartVisitDialogProps> = ({ queueEntry, closeModal }) => {
   const isTablet = useLayoutType() === 'tablet';
   const sessionUser = useSession();
   const { queueRoomLocations } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);

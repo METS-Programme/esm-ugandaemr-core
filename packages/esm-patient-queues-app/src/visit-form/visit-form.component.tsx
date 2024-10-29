@@ -36,17 +36,15 @@ import { amPm, convertTime12to24 } from '../helpers/time-helpers';
 import { NewVisitPayload, SearchTypes } from '../types';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './visit-form.scss';
-import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
 import { useProviders } from './queue.resource';
 
 interface VisitFormProps {
-  toggleSearchType: (searchMode: SearchTypes, patientUuid) => void;
   patientUuid: string;
   closePanel: () => void;
   mode: boolean;
 }
 
-const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchType, closePanel, mode }) => {
+const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, mode }) => {
   const { t } = useTranslation();
   const isTablet = useLayoutType() === 'tablet';
   const sessionUser = useSession();

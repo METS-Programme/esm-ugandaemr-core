@@ -13,7 +13,7 @@ import {
   InlineLoading,
 } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
-import { getSessionStore, navigate, showNotification, showToast, useSession, useVisit } from '@openmrs/esm-framework';
+import { getSessionStore, navigate, showNotification, showToast, useSession } from '@openmrs/esm-framework';
 import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { getCurrentPatientQueueByPatientUuid, useProviders } from '../visit-form/queue.resource';

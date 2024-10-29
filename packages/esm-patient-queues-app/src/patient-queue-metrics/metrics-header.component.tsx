@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { MessageQueue, ArrowRight } from '@carbon/react/icons';
+import { MessageQueue } from '@carbon/react/icons';
 import { Button } from '@carbon/react';
 import styles from './metrics-header.scss';
 import { navigate } from '@openmrs/esm-framework';

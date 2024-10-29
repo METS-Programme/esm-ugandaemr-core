@@ -1,5 +1,5 @@
+import React from 'react';
 import { UserHasAccess, useSession } from '@openmrs/esm-framework';
-import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PRIVILEGE_RECEPTION_METRIC, PRIVILIGE_TRIAGE_METRIC } from '../constants';
 
