@@ -53,15 +53,28 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const session = useSession();
   const layout = useLayoutType();
   const [isToggled, setIsToggled] = useState(false);
+  const [isClinical, setIsClinical] = useState(false);
+
+  const tags = ['c0e1d1d8-c97d-4869-ba16-68d351d3d5f5', '96be1b53-e65c-494b-be41-b36899cb5d09'];
 
   const handleToggleChange = () => {
     setIsToggled(!isToggled);
+    setIsClinical(!isToggled);
   };
   const { location } = useParentLocation(session?.sessionLocation?.uuid);
 
-  const activeLocationUuid = isToggled ? location?.parentLocation?.uuid : session?.sessionLocation?.uuid;
+  const activeLocationUuid = isClinical
+    ? ''
+    : isToggled
+    ? location?.parentLocation?.uuid
+    : session?.sessionLocation?.uuid;
 
-  const { patientQueueEntries, isLoading } = usePatientQueuesList(activeLocationUuid || '', status, isToggled);
+  const { patientQueueEntries, isLoading } = usePatientQueuesList(
+    activeLocationUuid || '',
+    status,
+    isToggled,
+    isClinical,
+  );
 
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -153,61 +166,69 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   }, [paginatedQueueEntries, searchTerm, status]);
 
   const tableRows = useMemo(() => {
-    return filteredPatientQueueEntries?.map((entry) => ({
-      ...entry,
-      visitNumber: {
-        content: <span>{trimVisitNumber(entry.visitNumber)}</span>,
-      },
-      name: {
-        content: entry.name,
-      },
-      provider: {
-        content: (
-          <Tag>
-            <span style={{ color: `${getProviderTagColor(entry.provider, session.user.person.display)}` }}>
-              {entry.provider}
+    return filteredPatientQueueEntries
+      ?.filter((entry) =>
+        isToggled
+          ? Array.isArray(entry.locationTags) &&
+            entry.locationTags.length > 0 &&
+            entry.locationTags.some((tag) => tag.uuid === tags)
+          : true,
+      )
+      .map((entry) => ({
+        ...entry,
+        visitNumber: {
+          content: <span>{trimVisitNumber(entry.visitNumber)}</span>,
+        },
+        name: {
+          content: entry.name,
+        },
+        provider: {
+          content: (
+            <Tag>
+              <span style={{ color: `${getProviderTagColor(entry.provider, session.user.person.display)}` }}>
+                {entry.provider}
+              </span>
+            </Tag>
+          ),
+        },
+        status: {
+          content: (
+            <span className={styles.statusContainer}>
+              <StatusIcon status={entry.status.toLowerCase()} />
+              <span>{buildStatusString(entry.status.toLowerCase())}</span>
             </span>
-          </Tag>
-        ),
-      },
-      status: {
-        content: (
-          <span className={styles.statusContainer}>
-            <StatusIcon status={entry.status.toLowerCase()} />
-            <span>{buildStatusString(entry.status.toLowerCase())}</span>
-          </span>
-        ),
-      },
-      waitTime: {
-        content: (
-          <Tag>
-            <span className={styles.statusContainer} style={{ color: `${getTagColor(entry.waitTime)}` }}>
-              {formatWaitTime(entry.waitTime, t)}
-            </span>
-          </Tag>
-        ),
-      },
-      actions: {
-        content: (
-          <div style={{ display: 'flex' }}>
-            {entry.status === 'PENDING' && (
-              <>
-                <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />
-                {session?.user && userHasAccess(PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS, session.user) && (
-                  <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
-                )}
-              </>
-            )}
+          ),
+        },
+        waitTime: {
+          content: (
+            <Tag>
+              <span className={styles.statusContainer} style={{ color: `${getTagColor(entry.waitTime)}` }}>
+                {formatWaitTime(entry.waitTime, t)}
+              </span>
+            </Tag>
+          ),
+        },
+        actions: {
+          content: (
+            <div style={{ display: 'flex' }}>
+              {entry.status === 'PENDING' && (
+                <>
+                  <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />
+                  {session?.user && userHasAccess(PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS, session.user) && (
+                    <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
+                  )}
+                </>
+              )}
 
-            <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
+              <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
 
-            <NotesActionsMenu note={entry} />
-            {entry.status === 'SERVING' ||
-              (entry.status === 'PENDING' && isToggled && <MovetoNextPointAction patientUuid={entry?.patientUuid} />)}
-          </div>
-        ),
-      },
-    }));
+              <NotesActionsMenu note={entry} />
+              {entry.status === 'SERVING' ||
+                (entry.status === 'PENDING' && isToggled && <MovetoNextPointAction patientUuid={entry?.patientUuid} />)}
+            </div>
+          ),
+        },
+      }));
   }, [filteredPatientQueueEntries, session.user, t, fromPage, isToggled]);
 
   if (isLoading) {
