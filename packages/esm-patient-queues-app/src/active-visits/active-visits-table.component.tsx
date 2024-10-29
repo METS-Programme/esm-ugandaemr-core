@@ -1,7 +1,6 @@
 import {
   DataTable,
   DataTableSkeleton,
-  Layer,
   Pagination,
   Table,
   TableBody,
@@ -209,7 +208,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
         ),
       },
     }));
-  }, [filteredPatientQueueEntries, session.user, t, fromPage]);
+  }, [filteredPatientQueueEntries, session.user, t, fromPage, isToggled]);
 
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;

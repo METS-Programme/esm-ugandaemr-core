@@ -1,4 +1,3 @@
-
 // Patient Chart
 export const clinicalViewsDividerMeta = {
   name: 'clinical-views-divider',
