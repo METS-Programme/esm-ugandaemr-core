@@ -37,9 +37,7 @@ import PickPatientActionMenu from '../queue-entry-table-components/pick-patient-
 import ViewActionsMenu from './view-action-menu.components';
 import NotesActionsMenu from './notes-action-menu.components';
 import { PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS } from '../constants';
-import PatientSearch from '../patient-search/patient-search.component';
 import { QueueStatus } from '../utils/utils';
-import { usePatientQueuesByParentLocation } from '../queue-board/queue-board.resource';
 import MovetoNextPointAction from './move-patient-to-next-action-menu.components';
 
 interface ActiveVisitsTableProps {
@@ -67,7 +65,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const { patientQueueEntries, isLoading } = usePatientQueuesList(activeLocationUuid || '', status, isToggled);
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [overlayHeader, setOverlayTitle] = useState('');
 
   const currentPathName: string = window.location.pathname;
   const fromPage: string = getOriginFromPathName(currentPathName);
