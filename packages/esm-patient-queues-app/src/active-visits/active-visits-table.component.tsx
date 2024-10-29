@@ -32,12 +32,11 @@ import StatusIcon from '../queue-entry-table-components/status-icon.component';
 import { getOriginFromPathName } from './active-visits-table.resource';
 import styles from './active-visits-table.scss';
 import EditActionsMenu from './edit-action-menu.components';
-import { usePatientQueuesList } from './patient-queues.resource';
+import { useParentLocation, usePatientQueuesList } from './patient-queues.resource';
 import PickPatientActionMenu from '../queue-entry-table-components/pick-patient-queue-entry-menu.component';
 import ViewActionsMenu from './view-action-menu.components';
 import NotesActionsMenu from './notes-action-menu.components';
 import { PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS } from '../constants';
-import PatientSearch from '../patient-search/patient-search.component';
 import { QueueStatus } from '../utils/utils';
 import MovetoNextPointAction from './move-patient-to-next-action-menu.components';
 
@@ -54,18 +53,18 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const { t } = useTranslation();
   const session = useSession();
   const layout = useLayoutType();
+  const [isToggled, setIsToggled] = useState(false);
 
-  const { patientQueueEntries, isLoading } = usePatientQueuesList(
-    session?.sessionLocation?.uuid,
-    status,
-    session.user.systemId,
-  );
+  const handleToggleChange = () => {
+    setIsToggled(!isToggled);
+  };
+  const { location } = useParentLocation(session?.sessionLocation?.uuid);
 
-  const [showOverlay, setShowOverlay] = useState(false);
-  const [view, setView] = useState('');
-  const [viewState, setViewState] = useState<{ selectedPatientUuid: string }>(null);
+  const activeLocationUuid = isToggled ? location?.parentLocation?.uuid : session?.sessionLocation?.uuid;
+
+  const { patientQueueEntries, isLoading } = usePatientQueuesList(activeLocationUuid || '', status, isToggled);
+
   const [searchTerm, setSearchTerm] = useState('');
-  const [overlayHeader, setOverlayTitle] = useState('');
 
   const currentPathName: string = window.location.pathname;
   const fromPage: string = getOriginFromPathName(currentPathName);
@@ -227,17 +226,34 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
       >
         {({ rows, headers, getHeaderProps, getTableProps, getRowProps }) => (
           <TableContainer className={styles.tableContainer}>
-            <TableToolbar style={{ position: 'static', height: '3rem', overflow: 'visible', backgroundColor: 'color' }}>
-              <TableToolbarContent className={styles.toolbarContent}>
-                <Layer className={styles.toolbarContentLayer}>
-                  <TableToolbarSearch
-                    expanded
-                    className={styles.search}
-                    onChange={handleSearchInputChange}
-                    placeholder={t('searchThisList', 'Search this list')}
-                    size="sm"
-                  />
-                </Layer>
+            <TableToolbar
+              style={{
+                position: 'static',
+                overflow: 'visible',
+                backgroundColor: 'color',
+              }}
+            >
+              <TableToolbarContent
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <TableToolbarSearch
+                  expanded
+                  className={styles.search}
+                  onChange={handleSearchInputChange}
+                  placeholder={t('searchThisList', 'Search this list')}
+                  size="sm"
+                />
+                <Toggle
+                  className={styles.toggle}
+                  labelA="Off"
+                  labelB="On"
+                  id="toggle-1"
+                  toggled={isToggled}
+                  onToggle={handleToggleChange}
+                />
               </TableToolbarContent>
             </TableToolbar>
             <Table {...getTableProps()} className={styles.activeVisitsTable}>
@@ -292,16 +308,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
           </TableContainer>
         )}
       </DataTable>
-      {showOverlay && (
-        <PatientSearch
-          view={view}
-          closePanel={() => setShowOverlay(false)}
-          viewState={{
-            selectedPatientUuid: viewState.selectedPatientUuid,
-          }}
-          headerTitle={overlayHeader}
-        />
-      )}
     </div>
   );
 };
