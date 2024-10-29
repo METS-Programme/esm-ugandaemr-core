@@ -39,12 +39,13 @@ import styles from './visit-form.scss';
 import { useProviders } from './queue.resource';
 
 interface VisitFormProps {
+  toggleSearchType: (searchMode: SearchTypes, patientUuid) => void;
   patientUuid: string;
   closePanel: () => void;
   mode: boolean;
 }
 
-const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, mode }) => {
+const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchType, closePanel, mode }) => {
   const { t } = useTranslation();
   const isTablet = useLayoutType() === 'tablet';
   const sessionUser = useSession();
