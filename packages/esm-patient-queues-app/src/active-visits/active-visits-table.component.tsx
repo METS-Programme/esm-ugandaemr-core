@@ -229,7 +229,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
           ),
         },
       }));
-  }, [filteredPatientQueueEntries, session.user, t, fromPage, isToggled]);
+  }, [filteredPatientQueueEntries, session.user, t, fromPage, isToggled, tags]);
 
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;
