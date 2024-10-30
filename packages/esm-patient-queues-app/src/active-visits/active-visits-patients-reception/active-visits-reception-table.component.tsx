@@ -196,30 +196,29 @@ function ActiveVisitsReceptionTable() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.length ? (
-                  rows.map((row) => (
-                    <TableRow key={row.id} {...getRowProps({ row })}>
-                      {row.cells.map((cell) => (
-                        <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
-                      ))}
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={headers.length} className={styles.noDataCell}>
-                      <div className={styles.tileContainer}>
-                        <Tile className={styles.tile}>
-                          <div className={styles.tileContent}>
-                            <p className={styles.content}>{t('noPatientsToDisplay', 'No patients to display')}</p>
-                            <p className={styles.helper}>{t('checkFilters', 'Check the filters above')}</p>
-                          </div>
-                        </Tile>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                )}
+                {rows.map((row) => {
+                  return (
+                    <React.Fragment key={row.id}>
+                      <TableRow {...getRowProps({ row })}>
+                        {row.cells.map((cell) => (
+                          <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
+                        ))}
+                      </TableRow>
+                    </React.Fragment>
+                  );
+                })}
               </TableBody>
             </Table>
+            {rows.length === 0 ? (
+              <div className={styles.tileContainer}>
+                <Tile className={styles.tile}>
+                  <div className={styles.tileContent}>
+                    <p className={styles.content}>{t('noPatientsToDisplay', 'No patients to display')}</p>
+                    <p className={styles.helper}>{t('checkFilters', 'Check the filters above')}</p>
+                  </div>
+                </Tile>
+              </div>
+            ) : null}
             <Pagination
               forwardText="Next page"
               backwardText="Previous page"

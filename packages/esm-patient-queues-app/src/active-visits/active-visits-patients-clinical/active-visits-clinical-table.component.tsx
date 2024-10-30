@@ -120,7 +120,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
   );
 
   const filteredPatientQueueEntries = useMemo(() => {
-    let entries;
+    let entries = paginatedQueueEntries || [];
     switch (status) {
       case QueueStatus.Completed:
         entries = paginatedQueueEntries.filter((entry) => entry.status === 'COMPLETED');
@@ -292,7 +292,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
             page={currentPage}
             pageSize={currentPageSize}
             pageSizes={pageSizes}
-            totalItems={paginatedQueueEntries?.length}
+            totalItems={patientQueueEntries?.length || 0}
             className={styles.pagination}
             onChange={({ pageSize, page }) => {
               if (pageSize !== currentPageSize) {
