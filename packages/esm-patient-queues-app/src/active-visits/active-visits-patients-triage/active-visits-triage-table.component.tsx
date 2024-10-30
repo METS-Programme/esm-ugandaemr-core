@@ -289,7 +289,7 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
               page={currentPage}
               pageSize={currentPageSize}
               pageSizes={pageSizes}
-              totalItems={patientQueueEntries?.length}
+              totalItems={filteredPatientQueueEntries?.length || 0} // Updated to use filteredPatientQueueEntries
               className={styles.pagination}
               onChange={({ pageSize, page }) => {
                 if (pageSize !== currentPageSize) {

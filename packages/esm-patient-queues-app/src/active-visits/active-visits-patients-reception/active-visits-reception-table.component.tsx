@@ -225,11 +225,15 @@ function ActiveVisitsReceptionTable() {
               page={currentPage}
               pageSize={currentPageSize}
               pageSizes={pageSizes}
-              totalItems={patientQueueEntries?.length || 0}
+              totalItems={filteredPatientQueueEntries?.length || 0} // Updated to use filteredPatientQueueEntries
               className={styles.pagination}
               onChange={({ pageSize, page }) => {
-                if (pageSize !== currentPageSize) setPageSize(pageSize);
-                if (page !== currentPage) goTo(page);
+                if (pageSize !== currentPageSize) {
+                  setPageSize(pageSize);
+                }
+                if (page !== currentPage) {
+                  goTo(page);
+                }
               }}
             />
           </TableContainer>
