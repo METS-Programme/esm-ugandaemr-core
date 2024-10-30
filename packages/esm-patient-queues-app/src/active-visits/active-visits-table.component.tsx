@@ -55,7 +55,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const [isToggled, setIsToggled] = useState(false);
   const [isClinical, setIsClinical] = useState(false);
 
-  const tags = ['c0e1d1d8-c97d-4869-ba16-68d351d3d5f5', '96be1b53-e65c-494b-be41-b36899cb5d09'];
+  const tags = useMemo(() => ['c0e1d1d8-c97d-4869-ba16-68d351d3d5f5', '96be1b53-e65c-494b-be41-b36899cb5d09'], []);
 
   const handleToggleChange = () => {
     setIsToggled(!isToggled);
