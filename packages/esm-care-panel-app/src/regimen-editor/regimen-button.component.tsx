@@ -19,14 +19,13 @@ const RegimenButton: React.FC = () => {
         onClick={() =>
           launchPatientWorkspace('patient-form-entry-workspace', {
             formInfo: {
-              encounterUuid: '',
               formUuid: '53a3850c-855a-11eb-8dcd-0242ac130003',
             },
             workspaceTitle: 'Clinical Form',
           })
         }
       >
-        {t('editRegimen', 'Edit')}
+        {t('editRegimen', 'Change Regimen')}
       </Link>
     </>
   );

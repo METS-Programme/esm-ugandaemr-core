@@ -147,12 +147,6 @@ const ProgramSummary: React.FC<ProgramSummaryProps> = ({ patientUuid, programNam
                           ? data?.TB?.lastTbEncounter?.regimenShortDisplay
                           : t('neverOnTbRegimen', 'Never on TB regimen')}
                       </span>
-                      {/* <RegimenButton
-                        patientUuid={patientUuid}
-                        category={programName}
-                        onRegimen={data?.TB?.lastTbEncounter ? data?.TB?.lastTbEncounter?.regimenShortDisplay : ''}
-                        lastRegimenEncounter={regimenEncounter}
-                      /> */}
                     </p>
                   </div>
                   <div className={styles.content}>
