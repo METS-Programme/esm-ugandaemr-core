@@ -132,7 +132,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
         entries = paginatedQueueEntries.filter((entry) => entry.status === status);
         break;
     }
-
+    // this is going to be left here for now
     // entries = paginatedQueueEntries.filter((entry) =>
     //   entry?.locationTags?.some((tag) => locationTags?.includes(tag.uuid)),
     // );
