@@ -121,26 +121,34 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
 
   const filteredPatientQueueEntries = useMemo(() => {
     let entries = paginatedQueueEntries || [];
+
+    // Filter by `status`
     switch (status) {
       case QueueStatus.Completed:
-        entries = paginatedQueueEntries.filter((entry) => entry.status === 'COMPLETED');
+        entries = entries.filter((entry) => entry.status === 'COMPLETED');
         break;
       case '':
-        entries = paginatedQueueEntries.filter((entry) => entry.status === 'PENDING' || entry.status === 'PICKED');
+        entries = entries.filter((entry) => entry.status === 'PENDING' || entry.status === 'PICKED');
         break;
       default:
-        entries = paginatedQueueEntries.filter((entry) => entry.status === status);
+        entries = entries.filter((entry) => entry.status === status);
         break;
     }
-    // this is going to be left here for now
-    // entries = paginatedQueueEntries.filter((entry) =>
-    //   entry?.locationTags?.some((tag) => locationTags?.includes(tag.uuid)),
-    // );
+
+    // Filter by `locationTags` on the already filtered `entries`
+    if (locationTags?.length) {
+      entries = entries.filter((entry) =>
+        entry?.locationTags?.some((tag) => locationTags.some((locTag) => locTag.uuid === tag.uuid)),
+      );
+    }
+
+    // Filter by `searchTerm` if provided
     if (searchTerm) {
       const lowercasedTerm = searchTerm.toLowerCase();
       entries = entries.filter((entry) => entry.name.toLowerCase().includes(lowercasedTerm));
     }
 
+    // Sort entries based on `status` and creation time
     entries.sort((a, b) => {
       if (a.status === 'PICKED' && b.status !== 'PICKED') {
         return 1;
@@ -154,7 +162,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
     });
 
     return entries;
-  }, [paginatedQueueEntries, searchTerm, status]);
+  }, [paginatedQueueEntries, searchTerm, status, locationTags]); // Added `locationTags` as dependency
 
   const tableRows = useMemo(() => {
     return filteredPatientQueueEntries.map((entry) => ({
