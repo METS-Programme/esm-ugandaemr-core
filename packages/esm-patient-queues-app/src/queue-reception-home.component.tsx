@@ -9,9 +9,7 @@ import styles from './patient-queue-metrics/clinic-metrics.scss';
 import { useParentLocation } from './active-visits/patient-queues.resource';
 import { usePatientQueuesList } from './active-visits/active-visits-patients-reception/active-visits-reception.resource';
 import { useAppointmentList, useServicePointCount } from './patient-queue-metrics/clinic-metrics.resource';
-import { UserHasAccess, useSession, userHasAccess } from '@openmrs/esm-framework';
-import QueueLauncher from './queue-launcher/queue-launcher.component';
-import { PRIVILEGE_RECEPTION_METRIC, PRIVILEGE_RECEPTION_QUEUE_LIST } from './constants';
+import { useSession } from '@openmrs/esm-framework';
 
 const ReceptionHome: React.FC = () => {
   const { t } = useTranslation();
@@ -29,17 +27,15 @@ const ReceptionHome: React.FC = () => {
     <div>
       <PatientQueueHeader title="Reception" />
       <div className={styles.cardContainer}>
-        <UserHasAccess privilege={PRIVILEGE_RECEPTION_METRIC}>
-          <MetricsCard
-            values={[{ label: 'Patients', value: pendingCount }]}
-            headerLabel={t('checkedInPatients', 'Checked in patients')}
-          />
-          <MetricsCard
-            values={[{ label: 'Expected Appointments', value: appointmentList?.length }]}
-            headerLabel={t('noOfExpectedAppointments', 'No. Of Expected Appointments')}
-          />
-          <MetricsCard values={stats} headerLabel={t('currentlyServing', 'No. of Currently being Served')} />
-        </UserHasAccess>
+        <MetricsCard
+          values={[{ label: 'Patients', value: pendingCount }]}
+          headerLabel={t('checkedInPatients', 'Checked in patients')}
+        />
+        <MetricsCard
+          values={[{ label: 'Expected Appointments', value: appointmentList?.length }]}
+          headerLabel={t('noOfExpectedAppointments', 'No. Of Expected Appointments')}
+        />
+        <MetricsCard values={stats} headerLabel={t('currentlyServing', 'No. of Currently being Served')} />
       </div>
       <ActiveVisitsReceptionTable />
     </div>

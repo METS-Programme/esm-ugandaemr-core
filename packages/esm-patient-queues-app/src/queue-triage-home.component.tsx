@@ -3,13 +3,12 @@ import React from 'react';
 import PatientQueueHeader from './patient-queue-header/patient-queue-header.component';
 import MetricsCard from './patient-queue-metrics/metrics-card.component';
 import { useTranslation } from 'react-i18next';
-import { UserHasAccess, useSession } from '@openmrs/esm-framework';
+import { useSession } from '@openmrs/esm-framework';
 import styles from './patient-queue-metrics/clinic-metrics.scss';
 
 import { useParentLocation } from './active-visits/patient-queues.resource';
 import { usePatientQueuesList } from './active-visits/active-visits-patients-reception/active-visits-reception.resource';
 import { usePatientsBeingServed, usePatientsServed } from './patient-queue-metrics/clinic-metrics.resource';
-import { PRIVILIGE_TRIAGE_METRIC } from './constants';
 import ActiveTriageVisitsTabs from './active-visits/active-visits-triage-tab.component';
 
 const TriageHome: React.FC = () => {
@@ -30,20 +29,18 @@ const TriageHome: React.FC = () => {
     <div>
       <PatientQueueHeader title="Triage" />
       <div className={styles.cardContainer}>
-        <UserHasAccess privilege={PRIVILIGE_TRIAGE_METRIC}>
-          <MetricsCard
-            values={[{ label: 'In Queue', value: pendingCount }]}
-            headerLabel={t('inQueueTriage', 'Patients Waiting')}
-          />
-          <MetricsCard
-            values={[{ label: t('byTriage', 'By you'), value: patientQueueCount }]}
-            headerLabel={t('pendingTriageServing', 'Patients waiting to be Served')}
-          />
-          <MetricsCard
-            values={[{ label: 'Patients Served', value: servedCount }]}
-            headerLabel={t('noOfPatientsServed', 'No. of Patients Served')}
-          />
-        </UserHasAccess>
+        <MetricsCard
+          values={[{ label: 'In Queue', value: pendingCount }]}
+          headerLabel={t('inQueueTriage', 'Patients Waiting')}
+        />
+        <MetricsCard
+          values={[{ label: t('byTriage', 'By you'), value: patientQueueCount }]}
+          headerLabel={t('pendingTriageServing', 'Patients waiting to be Served')}
+        />
+        <MetricsCard
+          values={[{ label: 'Patients Served', value: servedCount }]}
+          headerLabel={t('noOfPatientsServed', 'No. of Patients Served')}
+        />
       </div>
       <ActiveTriageVisitsTabs />
     </div>
