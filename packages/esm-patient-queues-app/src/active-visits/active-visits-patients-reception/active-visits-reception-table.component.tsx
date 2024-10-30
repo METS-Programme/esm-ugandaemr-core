@@ -1,3 +1,5 @@
+import React, { useCallback, useMemo, useState } from 'react';
+
 import {
   DataTable,
   DataTableSkeleton,
@@ -19,18 +21,17 @@ import {
 import { Add } from '@carbon/react/icons';
 
 import { ExtensionSlot, isDesktop, useLayoutType, usePagination, useSession } from '@openmrs/esm-framework';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getOriginFromPathName } from '../active-visits/active-visits-table.resource';
-import EditActionsMenu from '../active-visits/edit-action-menu.components';
-import PrintActionsMenu from '../active-visits/print-action-menu.components';
-import { buildStatusString, formatWaitTime, getTagColor, trimVisitNumber } from '../helpers/functions';
-import StatusIcon from '../queue-entry-table-components/status-icon.component';
-import { SearchTypes } from '../types';
+import { getOriginFromPathName } from '../active-visits-table.resource';
+import EditActionsMenu from '../edit-action-menu.components';
+import PrintActionsMenu from '../print-action-menu.components';
+import { buildStatusString, formatWaitTime, getTagColor, trimVisitNumber } from '../../helpers/functions';
+import StatusIcon from '../../queue-entry-table-components/status-icon.component';
+import { SearchTypes } from '../../types';
 import { usePatientQueuesList } from './active-visits-reception.resource';
 import styles from './active-visits-reception.scss';
-import { useParentLocation } from '../active-visits/patient-queues.resource';
-import PatientSearch from '../patient-search/patient-search.component';
+import { useParentLocation } from '../patient-queues.resource';
+import PatientSearch from '../../patient-search/patient-search.component';
 
 function ActiveVisitsReceptionTable() {
   const { t } = useTranslation();
@@ -40,7 +41,7 @@ function ActiveVisitsReceptionTable() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [overlayHeader, setOverlayTitle] = useState('');
   const [view, setView] = useState('');
-  const [viewState, setViewState] = useState<{ selectedPatientUuid: string } | null>(null); // Added | null explicitly
+  const [viewState, setViewState] = useState<{ selectedPatientUuid: string } | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   const { location } = useParentLocation(session?.sessionLocation?.uuid);
@@ -72,21 +73,18 @@ function ActiveVisitsReceptionTable() {
     [t],
   );
 
-  // Filter and sort entries
   const filteredPatientQueueEntries = useMemo(() => {
     let entries = paginatedQueueEntries || [];
 
-    // Apply search term filter
     if (searchTerm) {
       const lowercasedTerm = searchTerm.toLowerCase();
       entries = entries.filter((entry) => entry.name?.toLowerCase().includes(lowercasedTerm));
     }
 
-    // Sort entries by creation time (oldest first)
     entries.sort((a, b) => {
       const aCreatedTime = new Date(a.dateCreated).getTime();
       const bCreatedTime = new Date(b.dateCreated).getTime();
-      return aCreatedTime - bCreatedTime; // Oldest entries first
+      return aCreatedTime - bCreatedTime;
     });
 
     return entries;

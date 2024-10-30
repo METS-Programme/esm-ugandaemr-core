@@ -1,13 +1,13 @@
 import React from 'react';
 import PatientQueueHeader from './patient-queue-header/patient-queue-header.component';
-import ActiveVisitsReceptionTable from './active-visit-patient-reception/active-visits-reception-table.component';
+import ActiveVisitsReceptionTable from './active-visits/active-visits-patients-reception/active-visits-reception-table.component';
 import MetricsCard from './patient-queue-metrics/metrics-card.component';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import styles from './patient-queue-metrics/clinic-metrics.scss';
 
 import { useParentLocation } from './active-visits/patient-queues.resource';
-import { usePatientQueuesList } from './active-visit-patient-reception/active-visits-reception.resource';
+import { usePatientQueuesList } from './active-visits/active-visits-patients-reception/active-visits-reception.resource';
 import { useAppointmentList, useServicePointCount } from './patient-queue-metrics/clinic-metrics.resource';
 import { UserHasAccess, useSession, userHasAccess } from '@openmrs/esm-framework';
 import QueueLauncher from './queue-launcher/queue-launcher.component';

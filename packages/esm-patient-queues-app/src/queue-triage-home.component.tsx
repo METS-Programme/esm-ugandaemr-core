@@ -3,14 +3,14 @@ import React from 'react';
 import PatientQueueHeader from './patient-queue-header/patient-queue-header.component';
 import MetricsCard from './patient-queue-metrics/metrics-card.component';
 import { useTranslation } from 'react-i18next';
-import { UserHasAccess, useSession, userHasAccess } from '@openmrs/esm-framework';
+import { UserHasAccess, useSession } from '@openmrs/esm-framework';
 import styles from './patient-queue-metrics/clinic-metrics.scss';
 
 import { useParentLocation } from './active-visits/patient-queues.resource';
-import { usePatientQueuesList } from './active-visit-patient-reception/active-visits-reception.resource';
+import { usePatientQueuesList } from './active-visits/active-visits-patients-reception/active-visits-reception.resource';
 import { usePatientsBeingServed, usePatientsServed } from './patient-queue-metrics/clinic-metrics.resource';
-import ActiveVisitsTabs from './active-visits/active-visits-tab.component';
-import { PRIVILEGE_TRIAGE_QUEUE_LIST, PRIVILIGE_TRIAGE_METRIC } from './constants';
+import { PRIVILIGE_TRIAGE_METRIC } from './constants';
+import ActiveTriageVisitsTabs from './active-visits/active-visits-triage-tab.component';
 
 const TriageHome: React.FC = () => {
   const { t } = useTranslation();
@@ -45,8 +45,7 @@ const TriageHome: React.FC = () => {
           />
         </UserHasAccess>
       </div>
-
-      {session?.user && userHasAccess(PRIVILEGE_TRIAGE_QUEUE_LIST, session.user) && <ActiveVisitsTabs />}
+      <ActiveTriageVisitsTabs />
     </div>
   );
 };

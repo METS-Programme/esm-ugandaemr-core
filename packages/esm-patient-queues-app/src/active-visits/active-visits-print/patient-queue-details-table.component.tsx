@@ -1,7 +1,7 @@
 import React from 'react';
-import { MappedPatientQueueEntry } from '../active-visits/patient-queues.resource';
+import { MappedPatientQueueEntry } from '../patient-queues.resource';
 import styles from './active-visits-print.scss';
-import { trimVisitNumber } from '../helpers/functions';
+import { trimVisitNumber } from '../../helpers/functions';
 import { formatDate, parseDate, useSession } from '@openmrs/esm-framework';
 
 interface PrintTableProps {

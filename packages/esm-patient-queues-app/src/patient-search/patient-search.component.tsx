@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { SearchTypes } from '../types';
 import Overlay from '../overlay.component';
 import { ExtensionSlot, usePatient } from '@openmrs/esm-framework';
-import VisitForm from '../visit-form/visit-form.component';
+import VisitForm from '../active-visits/visit-form/visit-form.component';
 
 interface PatientSearchProps {
   closePanel: () => void;

@@ -1,9 +1,9 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '@carbon/react';
 import { Printer } from '@carbon/react/icons';
-import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useReactToPrint } from 'react-to-print';
-import VisitCardToPrint from '../active-visits-print/active-visits-print.component';
+import VisitCardToPrint from './active-visits-print/active-visits-print.component';
 import { MappedPatientQueueEntry } from './patient-queues.resource';
 
 interface PrintActionsMenuProps {

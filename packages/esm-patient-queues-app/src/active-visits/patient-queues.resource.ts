@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import useSWR from 'swr';
 
-import { formatDate, openmrsFetch, parseDate } from '@openmrs/esm-framework';
+import { formatDate, openmrsFetch, parseDate, restBaseUrl } from '@openmrs/esm-framework';
 import { PatientQueue, UuidDisplay } from '../types/patient-queues';
 
 export interface MappedPatientQueueEntry {
@@ -92,14 +92,13 @@ export function usePatientQueuesList(
   isToggled: boolean,
   isClinical: boolean,
 ) {
-  let url = '';
-  if (isToggled) {
-    url = `/ws/rest/v1/patientqueue?v=full&status=${status}&parentLocation=${currentQueueLocationUuid}`;
-  } else if (isToggled && isClinical) {
-    url = `/ws/rest/v1/patientqueue?v=full&status=${status}`;
-  } else {
-    url = `/ws/rest/v1/patientqueue?v=full&status=${status}&room=${currentQueueLocationUuid}`;
-  }
+  const url =
+    isToggled && isClinical
+      ? `${restBaseUrl}/patientqueue?v=full&status=${status}`
+      : isToggled
+      ? `${restBaseUrl}/patientqueue?v=full&status=${status}&parentLocation=${currentQueueLocationUuid}`
+      : `${restBaseUrl}/patientqueue?v=full&status=${status}&room=${currentQueueLocationUuid}`;
+
   return usePatientQueueRequest(url);
 }
 

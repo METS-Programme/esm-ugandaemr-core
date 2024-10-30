@@ -16,9 +16,9 @@ import { useTranslation } from 'react-i18next';
 import { getSessionStore, navigate, showNotification, showToast, useSession } from '@openmrs/esm-framework';
 import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
-import { getCurrentPatientQueueByPatientUuid, useProviders } from '../visit-form/queue.resource';
 import styles from './change-status-dialog.scss';
 import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
+import { getCurrentPatientQueueByPatientUuid, useProviders } from './visit-form/queue.resource';
 
 interface ChangeStatusDialogProps {
   patientUuid: string;

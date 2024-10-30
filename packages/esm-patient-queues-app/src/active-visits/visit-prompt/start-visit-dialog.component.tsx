@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Button, Layer, ModalBody, ModalFooter, ModalHeader, Select, SelectItem } from '@carbon/react';
 import { useLayoutType, useSession } from '@openmrs/esm-framework';
 import { useTranslation } from 'react-i18next';
-import { MappedPatientQueueEntry } from '../active-visits/patient-queues.resource';
-import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 
 import styles from './start-visit-dialog.scss';
+import { MappedPatientQueueEntry } from '../patient-queues.resource';
+import { useQueueRoomLocations } from '../../hooks/useQueueRooms';
 
 interface StartVisitDialogProps {
   queueEntry: MappedPatientQueueEntry;

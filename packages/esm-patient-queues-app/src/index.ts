@@ -7,7 +7,7 @@ import editQueueEntryStatusModalComponent from './active-visits/change-status-di
 import patientChartMoveToNextServicePointModalComponent from './active-visits/change-status-move-to-next-dialog.component';
 import queueTableMoveToNextServicePointModalComponent from './active-visits/queue-table-move-to-next-dialog.component';
 import moveToNextServicePointButtonComponent from './active-visits/move-to-next-service-point-action.components';
-import addPatientToQueueComponent from './visit-form/visit-form.component';
+import addPatientToQueueComponent from './active-visits/visit-form/visit-form.component';
 import notesModalComponent from './active-visits/notes-dialog.component';
 import pickPatientEntryQueueComponent from './active-visits/pick-patient-dialog.component';
 import queueScreenComponent from './queue-board/queue-board.component';
@@ -43,9 +43,6 @@ export const homeDashboard = getSyncLifecycle(homeDashboardComponent, options);
 
 // extensions
 export const outpatientSideNavExt = getSyncLifecycle(outpatientSideNavExtComponent, options);
-
-// patient queues side nav items
-// export const patientQueuesDashboardLink = getSyncLifecycle(createDashboardLink(dashboardMeta), options);
 
 // reception side nav item
 export const queueReceptionDashboardLink = getSyncLifecycle(createDashboardLink(ReceptionMeta), options);

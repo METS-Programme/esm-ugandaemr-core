@@ -1,8 +1,8 @@
+import React, { AnchorHTMLAttributes } from 'react';
 import { Button } from '@carbon/react';
 import { Edit } from '@carbon/react/icons';
 import { interpolateUrl, navigate } from '@openmrs/esm-framework';
 
-import React, { AnchorHTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface NameLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
