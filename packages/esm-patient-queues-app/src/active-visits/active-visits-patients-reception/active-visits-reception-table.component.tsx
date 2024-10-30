@@ -3,7 +3,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import {
   DataTable,
   DataTableSkeleton,
-  Layer,
   Pagination,
   Table,
   TableBody,
@@ -32,6 +31,7 @@ import { usePatientQueuesList } from './active-visits-reception.resource';
 import styles from './active-visits-reception.scss';
 import { useParentLocation } from '../patient-queues.resource';
 import PatientSearch from '../../patient-search/patient-search.component';
+import QueueLauncher from '../../queue-launcher/queue-launcher.component';
 
 function ActiveVisitsReceptionTable() {
   const { t } = useTranslation();
@@ -132,9 +132,7 @@ function ActiveVisitsReceptionTable() {
   return (
     <div className={styles.container}>
       <div className={styles.headerContainer}>
-        <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
-          <span className={styles.heading}>{`Checked In Patients`}</span>
-        </div>
+        <QueueLauncher />
         <div className={styles.headerButtons}>
           <ExtensionSlot
             name="patient-search-button-slot"
@@ -144,7 +142,6 @@ function ActiveVisitsReceptionTable() {
               buttonProps: {
                 kind: 'secondary',
                 renderIcon: (props) => <Add size={16} {...props} />,
-                size: 'sm',
               },
               selectPatientAction: (selectedPatientUuid) => {
                 setShowOverlay(true);
@@ -164,73 +161,82 @@ function ActiveVisitsReceptionTable() {
         useZebraStyles
         overflowMenuOnHover={isDesktop(layout)}
       >
-        {({ rows, headers, getHeaderProps, getTableProps, getRowProps }) => (
-          <TableContainer className={styles.tableContainer}>
-            <TableToolbar style={{ position: 'static', height: '3rem', overflow: 'visible', backgroundColor: 'color' }}>
-              <TableToolbarContent className={styles.toolbarContent}>
-                <Layer>
-                  <TableToolbarSearch
-                    expanded
-                    className={styles.search}
-                    onChange={handleSearchInputChange}
-                    placeholder={t('searchThisList', 'Search this list')}
-                    size="sm"
-                  />
-                </Layer>
+        {({ rows, headers, getHeaderProps, getRowProps, getTableProps, getToolbarProps, getTableContainerProps }) => (
+          <TableContainer className={styles.tableContainer} {...getTableContainerProps()}>
+            <TableToolbar
+              {...getToolbarProps()}
+              style={{ position: 'static', overflow: 'visible', backgroundColor: 'color' }}
+            >
+              <TableToolbarContent
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '0.5rem 0',
+                }}
+              >
+                <span style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>CheckedIn Patients</span>
+                <TableToolbarSearch
+                  expanded
+                  className={styles.search}
+                  onChange={handleSearchInputChange}
+                  placeholder={t('searchThisList', 'Search this list')}
+                  size="sm"
+                />
               </TableToolbarContent>
             </TableToolbar>
             <Table {...getTableProps()} className={styles.activeVisitsTable}>
               <TableHead>
                 <TableRow>
                   {headers.map((header) => (
-                    <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
+                    <TableHeader key={header.key} {...getHeaderProps({ header })}>
+                      {header.header}
+                    </TableHeader>
                   ))}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => {
-                  return (
-                    <React.Fragment key={row.id}>
-                      <TableRow {...getRowProps({ row })}>
-                        {row.cells.map((cell) => (
-                          <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
-                        ))}
-                      </TableRow>
-                    </React.Fragment>
-                  );
-                })}
+                {rows.length ? (
+                  rows.map((row) => (
+                    <TableRow key={row.id} {...getRowProps({ row })}>
+                      {row.cells.map((cell) => (
+                        <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={headers.length} className={styles.noDataCell}>
+                      <div className={styles.tileContainer}>
+                        <Tile className={styles.tile}>
+                          <div className={styles.tileContent}>
+                            <p className={styles.content}>{t('noPatientsToDisplay', 'No patients to display')}</p>
+                            <p className={styles.helper}>{t('checkFilters', 'Check the filters above')}</p>
+                          </div>
+                        </Tile>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
-            {rows.length === 0 ? (
-              <div className={styles.tileContainer}>
-                <Tile className={styles.tile}>
-                  <div className={styles.tileContent}>
-                    <p className={styles.content}>{t('noPatientsToDisplay', 'No patients to display')}</p>
-                    <p className={styles.helper}>{t('checkFilters', 'Check the filters above')}</p>
-                  </div>
-                </Tile>
-              </div>
-            ) : null}
             <Pagination
               forwardText="Next page"
               backwardText="Previous page"
               page={currentPage}
               pageSize={currentPageSize}
               pageSizes={pageSizes}
-              totalItems={patientQueueEntries?.length}
+              totalItems={patientQueueEntries?.length || 0}
               className={styles.pagination}
               onChange={({ pageSize, page }) => {
-                if (pageSize !== currentPageSize) {
-                  setPageSize(pageSize);
-                }
-                if (page !== currentPage) {
-                  goTo(page);
-                }
+                if (pageSize !== currentPageSize) setPageSize(pageSize);
+                if (page !== currentPage) goTo(page);
               }}
             />
           </TableContainer>
         )}
       </DataTable>
+
       {showOverlay && (
         <PatientSearch
           view={view}

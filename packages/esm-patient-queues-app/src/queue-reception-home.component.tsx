@@ -28,9 +28,6 @@ const ReceptionHome: React.FC = () => {
   return (
     <div>
       <PatientQueueHeader title="Reception" />
-      <UserHasAccess privilege={PRIVILEGE_RECEPTION_QUEUE_LIST}>
-        <QueueLauncher />
-      </UserHasAccess>
       <div className={styles.cardContainer}>
         <UserHasAccess privilege={PRIVILEGE_RECEPTION_METRIC}>
           <MetricsCard
@@ -44,7 +41,7 @@ const ReceptionHome: React.FC = () => {
           <MetricsCard values={stats} headerLabel={t('currentlyServing', 'No. of Currently being Served')} />
         </UserHasAccess>
       </div>
-      {session?.user && userHasAccess(PRIVILEGE_RECEPTION_QUEUE_LIST, session.user) && <ActiveVisitsReceptionTable />}{' '}
+      <ActiveVisitsReceptionTable />
     </div>
   );
 };

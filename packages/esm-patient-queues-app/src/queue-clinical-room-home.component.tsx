@@ -5,8 +5,6 @@ import { useSession } from '@openmrs/esm-framework';
 import ActiveClinicalVisitsTabs from './active-visits/active-visits-clinical-tab.component';
 
 const ClinicalRoomHome: React.FC = () => {
-  const session = useSession();
-
   return (
     <div>
       <PatientQueueHeader title="Clinical Room" />

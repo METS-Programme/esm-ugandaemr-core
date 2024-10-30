@@ -20,7 +20,7 @@ import {
 } from '@carbon/react';
 
 import { useTranslation } from 'react-i18next';
-import { useSession, useLayoutType, usePagination, userHasAccess, isDesktop } from '@openmrs/esm-framework';
+import { useSession, useLayoutType, usePagination, isDesktop } from '@openmrs/esm-framework';
 import { useParentLocation, usePatientQueuesList } from '../patient-queues.resource';
 import { getOriginFromPathName } from '../active-visits-table.resource';
 import { QueueStatus } from '../../utils/utils';
@@ -33,11 +33,9 @@ import {
 } from '../../helpers/functions';
 import StatusIcon from '../../queue-entry-table-components/status-icon.component';
 import PickPatientActionMenu from '../../queue-entry-table-components/pick-patient-queue-entry-menu.component';
-import EditActionsMenu from '../edit-action-menu.components';
 import ViewActionsMenu from '../view-action-menu.components';
 import NotesActionsMenu from '../notes-action-menu.components';
 import MovetoNextPointAction from '../move-patient-to-next-action-menu.components';
-import { PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS } from '../../constants';
 import styles from '../active-visits-table.scss';
 
 interface ActiveVisitsTableProps {
@@ -192,14 +190,7 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
       actions: {
         content: (
           <div style={{ display: 'flex' }}>
-            {entry.status === 'PENDING' && (
-              <>
-                <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />
-                {session?.user && userHasAccess(PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS, session.user) && (
-                  <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
-                )}
-              </>
-            )}
+            {entry.status === 'PENDING' && <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />}
 
             <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
 
