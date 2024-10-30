@@ -21,7 +21,7 @@ import {
 
 import { useTranslation } from 'react-i18next';
 import { useSession, useLayoutType, usePagination, isDesktop } from '@openmrs/esm-framework';
-import { useParentLocation, usePatientQueuesList } from '../patient-queues.resource';
+import { useParentLocation } from '../patient-queues.resource';
 import { getOriginFromPathName } from '../active-visits-table.resource';
 import {
   buildStatusString,
@@ -37,6 +37,7 @@ import NotesActionsMenu from '../notes-action-menu.components';
 import MovetoNextPointAction from '../move-patient-to-next-action-menu.components';
 import styles from '../active-visits-table.scss';
 import { QueueStatus } from '../../utils/utils';
+import { getLocationByUuid, usePatientQueuesList } from './active-visits-clinical.resource';
 
 interface ActiveVisitsTableProps {
   status: string;
@@ -52,7 +53,8 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
   const session = useSession();
   const layout = useLayoutType();
   const [isToggled, setIsToggled] = useState(false);
-  const [isClinical, setIsClinical] = useState(false);
+
+  const [locationTags, setLocationTags] = useState([]);
 
   const handleToggleChange = () => {
     setIsToggled(!isToggled);
@@ -61,12 +63,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
 
   const activeLocationUuid = isToggled ? location?.parentLocation?.uuid : session?.sessionLocation?.uuid;
 
-  const { patientQueueEntries, isLoading } = usePatientQueuesList(
-    activeLocationUuid || '',
-    status,
-    isToggled,
-    isClinical,
-  );
+  const { patientQueueEntries, isLoading } = usePatientQueuesList(activeLocationUuid || '', status, isToggled);
 
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -81,6 +78,10 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
     const searchText = event?.target?.value?.trim().toLowerCase();
     setSearchTerm(searchText);
   }, []);
+
+  getLocationByUuid(session?.sessionLocation?.uuid).then((resp) => {
+    setLocationTags(resp.data?.tags);
+  });
 
   const tableHeaders = useMemo(
     () => [
@@ -132,6 +133,9 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
         break;
     }
 
+    // entries = paginatedQueueEntries.filter((entry) =>
+    //   entry?.locationTags?.some((tag) => locationTags?.includes(tag.uuid)),
+    // );
     if (searchTerm) {
       const lowercasedTerm = searchTerm.toLowerCase();
       entries = entries.filter((entry) => entry.name.toLowerCase().includes(lowercasedTerm));
@@ -150,7 +154,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
     });
 
     return entries;
-  }, [paginatedQueueEntries, searchTerm, status]);
+  }, [paginatedQueueEntries, searchTerm, status, locationTags]);
 
   const tableRows = useMemo(() => {
     return filteredPatientQueueEntries.map((entry) => ({
@@ -211,99 +215,97 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
   }
 
   return (
-    <div className={styles.container}>
-      <DataTable
-        data-floating-menu-container
-        headers={tableHeaders}
-        overflowMenuOnHover={isDesktop(layout)}
-        rows={tableRows}
-        useZebraStyles
-      >
-        {({ rows, headers, getHeaderProps, getTableProps, getRowProps }) => (
-          <TableContainer className={styles.tableContainer}>
-            <TableToolbar
+    <DataTable
+      data-floating-menu-container
+      headers={tableHeaders}
+      overflowMenuOnHover={isDesktop(layout)}
+      rows={tableRows}
+      useZebraStyles
+    >
+      {({ rows, headers, getHeaderProps, getTableProps, getRowProps }) => (
+        <TableContainer className={styles.tableContainer}>
+          <TableToolbar
+            style={{
+              position: 'static',
+              overflow: 'visible',
+              backgroundColor: 'color',
+            }}
+          >
+            <TableToolbarContent
               style={{
-                position: 'static',
-                overflow: 'visible',
-                backgroundColor: 'color',
+                display: 'flex',
+                alignItems: 'center',
               }}
             >
-              <TableToolbarContent
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <TableToolbarSearch
-                  expanded
-                  className={styles.search}
-                  onChange={handleSearchInputChange}
-                  placeholder={t('searchThisList', 'Search this list')}
-                  size="sm"
-                />
-                <Toggle
-                  className={styles.toggle}
-                  labelA="My Location"
-                  labelB="All Locations"
-                  id="all-queue-locations-toggle"
-                  toggled={isToggled}
-                  onToggle={handleToggleChange}
-                />
-              </TableToolbarContent>
-            </TableToolbar>
-            <Table {...getTableProps()} className={styles.activeVisitsTable}>
-              <TableHead>
-                <TableRow>
-                  {headers.map((header) => (
-                    <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => {
-                  return (
-                    <React.Fragment key={row.id}>
-                      <TableRow {...getRowProps({ row })}>
-                        {row.cells.map((cell) => (
-                          <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
-                        ))}
-                      </TableRow>
-                    </React.Fragment>
-                  );
-                })}
-              </TableBody>
-            </Table>
-            {rows.length === 0 ? (
-              <div className={styles.tileContainer}>
-                <Tile className={styles.tile}>
-                  <div className={styles.tileContent}>
-                    <p className={styles.content}>{t('noPatientsToDisplay', 'No patients to display')}</p>
-                    <p className={styles.helper}>{t('checkFilters', 'Check the filters above')}</p>
-                  </div>
-                </Tile>
-              </div>
-            ) : null}
-            <Pagination
-              forwardText="Next page"
-              backwardText="Previous page"
-              page={currentPage}
-              pageSize={currentPageSize}
-              pageSizes={pageSizes}
-              totalItems={patientQueueEntries?.length}
-              className={styles.pagination}
-              onChange={({ pageSize, page }) => {
-                if (pageSize !== currentPageSize) {
-                  setPageSize(pageSize);
-                }
-                if (page !== currentPage) {
-                  goTo(page);
-                }
-              }}
-            />
-          </TableContainer>
-        )}
-      </DataTable>
-    </div>
+              <TableToolbarSearch
+                expanded
+                className={styles.search}
+                onChange={handleSearchInputChange}
+                placeholder={t('searchThisList', 'Search this list')}
+                size="sm"
+              />
+              <Toggle
+                className={styles.toggle}
+                labelA="My Location"
+                labelB="All Locations"
+                id="all-queue-locations-toggle"
+                toggled={isToggled}
+                onToggle={handleToggleChange}
+              />
+            </TableToolbarContent>
+          </TableToolbar>
+          <Table {...getTableProps()} className={styles.activeVisitsTable}>
+            <TableHead>
+              <TableRow>
+                {headers.map((header) => (
+                  <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => {
+                return (
+                  <React.Fragment key={row.id}>
+                    <TableRow {...getRowProps({ row })}>
+                      {row.cells.map((cell) => (
+                        <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
+                      ))}
+                    </TableRow>
+                  </React.Fragment>
+                );
+              })}
+            </TableBody>
+          </Table>
+          {rows.length === 0 ? (
+            <div className={styles.tileContainer}>
+              <Tile className={styles.tile}>
+                <div className={styles.tileContent}>
+                  <p className={styles.content}>{t('noPatientsToDisplay', 'No patients to display')}</p>
+                  <p className={styles.helper}>{t('checkFilters', 'Check the filters above')}</p>
+                </div>
+              </Tile>
+            </div>
+          ) : null}
+          <Pagination
+            forwardText="Next page"
+            backwardText="Previous page"
+            page={currentPage}
+            pageSize={currentPageSize}
+            pageSizes={pageSizes}
+            totalItems={paginatedQueueEntries?.length}
+            className={styles.pagination}
+            onChange={({ pageSize, page }) => {
+              if (pageSize !== currentPageSize) {
+                setPageSize(pageSize);
+              }
+              if (page !== currentPage) {
+                goTo(page);
+              }
+            }}
+          />
+        </TableContainer>
+      )}
+    </DataTable>
   );
 };
 export default ActiveClinicalVisitsTable;
