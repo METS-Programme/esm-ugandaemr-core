@@ -154,7 +154,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
     });
 
     return entries;
-  }, [paginatedQueueEntries, searchTerm, status, locationTags]);
+  }, [paginatedQueueEntries, searchTerm, status]);
 
   const tableRows = useMemo(() => {
     return filteredPatientQueueEntries.map((entry) => ({
