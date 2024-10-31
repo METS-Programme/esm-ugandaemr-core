@@ -80,7 +80,12 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
   }, []);
 
   getLocationByUuid(session?.sessionLocation?.uuid).then((resp) => {
-    setLocationTags(resp.data?.tags);
+    const excludedUuids = ['c0e1d1d8-c97d-4869-ba16-68d351d3d5f5', '1d3e4224-382a-11ee-be56-0242ac120002'];
+    const filteredTags = resp.data?.tags.filter((tag) => !excludedUuids.includes(tag.uuid));
+
+    if (filteredTags.length > 0) {
+      setLocationTags(filteredTags);
+    }
   });
 
   const tableHeaders = useMemo(
