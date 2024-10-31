@@ -27,7 +27,6 @@ import {
 import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './change-status-dialog.scss';
-import { first } from 'rxjs/operators';
 import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
 import { getCurrentPatientQueueByPatientUuid, useProviders } from './visit-form/queue.resource';
 
@@ -144,112 +143,110 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
     };
 
     const abortController = new AbortController();
-    updateVisit(activeVisit.uuid, endVisitPayload, abortController)
-      .pipe(first())
-      .subscribe(
-        (response) => {
-          mutate();
+    updateVisit(activeVisit.uuid, endVisitPayload, abortController).then(
+      (response) => {
+        mutate();
 
-          if (response.status === 200) {
-            const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+        if (response.status === 200) {
+          const comment = event?.target['nextNotes']?.value ?? 'Not Set';
 
-            getCurrentPatientQueueByPatientUuid(patientUuid, sessionUser?.sessionLocation?.uuid).then(
-              (res) => {
-                const queues = res.data?.results[0]?.patientQueues;
-                const queueEntry = queues?.filter((item) => item?.patient?.uuid === patientUuid);
+          getCurrentPatientQueueByPatientUuid(patientUuid, sessionUser?.sessionLocation?.uuid).then(
+            (res) => {
+              const queues = res.data?.results[0]?.patientQueues;
+              const queueEntry = queues?.filter((item) => item?.patient?.uuid === patientUuid);
 
-                if (queueEntry.length > 0) {
-                  updateQueueEntry(
-                    QueueStatus.Completed,
-                    provider,
-                    queueEntry[0]?.uuid,
-                    contentSwitcherIndex,
-                    priorityComment,
-                    comment,
-                  ).then(
-                    () => {
-                      showSnackbar({
-                        isLowContrast: true,
-                        kind: 'success',
-                        subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
-                        title: t('visitEnded', 'Visit ended'),
-                      });
+              if (queueEntry.length > 0) {
+                updateQueueEntry(
+                  QueueStatus.Completed,
+                  provider,
+                  queueEntry[0]?.uuid,
+                  contentSwitcherIndex,
+                  priorityComment,
+                  comment,
+                ).then(
+                  () => {
+                    showSnackbar({
+                      isLowContrast: true,
+                      kind: 'success',
+                      subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
+                      title: t('visitEnded', 'Visit ended'),
+                    });
 
-                      navigate({ to: `\${openmrsSpaBase}/home` });
+                    navigate({ to: `\${openmrsSpaBase}/home` });
 
-                      closeModal();
-                      mutate();
-                    },
-                    (error) => {
-                      showNotification({
-                        title: t('queueEntryUpdateFailed', 'Error ending visit'),
-                        kind: 'error',
-                        critical: true,
-                        description: error?.message,
-                      });
-                    },
-                  );
-                } else if (queueEntry.length === 1) {
-                  updateQueueEntry(
-                    QueueStatus.Completed,
-                    provider,
-                    queueEntry[0]?.uuid,
-                    contentSwitcherIndex,
-                    priorityComment,
-                    comment,
-                  ).then(
-                    () => {
-                      showSnackbar({
-                        isLowContrast: true,
-                        kind: 'success',
-                        subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
-                        title: t('visitEnded', 'Visit ended'),
-                      });
+                    closeModal();
+                    mutate();
+                  },
+                  (error) => {
+                    showNotification({
+                      title: t('queueEntryUpdateFailed', 'Error ending visit'),
+                      kind: 'error',
+                      critical: true,
+                      description: error?.message,
+                    });
+                  },
+                );
+              } else if (queueEntry.length === 1) {
+                updateQueueEntry(
+                  QueueStatus.Completed,
+                  provider,
+                  queueEntry[0]?.uuid,
+                  contentSwitcherIndex,
+                  priorityComment,
+                  comment,
+                ).then(
+                  () => {
+                    showSnackbar({
+                      isLowContrast: true,
+                      kind: 'success',
+                      subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
+                      title: t('visitEnded', 'Visit ended'),
+                    });
 
-                      const roles = getSessionStore().getState().session?.user?.roles;
-                      const roleName = roles[0]?.display;
-                      if (roles && roles?.length > 0) {
-                        if (roles?.filter((item) => item?.display === 'Organizational: Clinician').length > 0) {
-                          navigate({
-                            to: `${window.getOpenmrsSpaBase()}home/clinical-room-patient-queues`,
-                          });
-                        } else if (roleName === 'Triage') {
-                          navigate({
-                            to: `${window.getOpenmrsSpaBase()}home/triage-patient-queues`,
-                          });
-                        } else {
-                          navigate({ to: `${window.getOpenmrsSpaBase()}home` });
-                        }
+                    const roles = getSessionStore().getState().session?.user?.roles;
+                    const roleName = roles[0]?.display;
+                    if (roles && roles?.length > 0) {
+                      if (roles?.filter((item) => item?.display === 'Organizational: Clinician').length > 0) {
+                        navigate({
+                          to: `${window.getOpenmrsSpaBase()}home/clinical-room-patient-queues`,
+                        });
+                      } else if (roleName === 'Triage') {
+                        navigate({
+                          to: `${window.getOpenmrsSpaBase()}home/triage-patient-queues`,
+                        });
+                      } else {
+                        navigate({ to: `${window.getOpenmrsSpaBase()}home` });
                       }
-                      closeModal();
-                      mutate();
-                    },
-                    (error) => {
-                      showNotification({
-                        title: t('queueEntryUpdateFailed', 'Error ending visit'),
-                        kind: 'error',
-                        critical: true,
-                        description: error?.message,
-                      });
-                    },
-                  );
-                }
-              },
-              () => {},
-            );
-            mutate();
-            closeModal();
-          }
-        },
-        (error) => {
-          showSnackbar({
-            title: t('errorEndingVisit', 'Error ending visit'),
-            kind: 'error',
-            isLowContrast: false,
-            subtitle: error?.message,
-          });
-        },
-      );
+                    }
+                    closeModal();
+                    mutate();
+                  },
+                  (error) => {
+                    showNotification({
+                      title: t('queueEntryUpdateFailed', 'Error ending visit'),
+                      kind: 'error',
+                      critical: true,
+                      description: error?.message,
+                    });
+                  },
+                );
+              }
+            },
+            () => {},
+          );
+          mutate();
+          closeModal();
+        }
+      },
+      (error) => {
+        showSnackbar({
+          title: t('errorEndingVisit', 'Error ending visit'),
+          kind: 'error',
+          isLowContrast: false,
+          subtitle: error?.message,
+        });
+      },
+    );
   };
 
   // change to picked

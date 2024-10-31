@@ -29,7 +29,6 @@ import {
 import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { first } from 'rxjs/operators';
 import styles from './visit-form.scss';
 import { useProviders } from './queue.resource';
 import { NewVisitPayload, SearchTypes } from '../../types';
@@ -142,58 +141,55 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
       };
 
       const abortController = new AbortController();
-
-      saveVisit(payload, abortController)
-        .pipe(first())
-        .subscribe(
-          (response) => {
-            if (response.status === 201) {
-              // add new queue entry if visit created successfully
-              addQueueEntry(
-                nextQueueLocationUuid,
-                patientUuid,
-                selectedProvider,
-                contentSwitcherIndex,
-                status,
-                selectedLocation,
-                priorityComment,
-                comment,
-              ).then(
-                ({ status }) => {
-                  if (status === 201) {
-                    showToast({
-                      kind: 'success',
-                      title: t('startVisit', 'Start a visit'),
-                      description: t(
-                        'startVisitQueueSuccessfully',
-                        'Patient has been added to active visits list and queue.',
-                        `${hours} : ${minutes}`,
-                      ),
-                    });
-                    closePanel();
-                    mutate();
-                  }
-                },
-                (error) => {
-                  showNotification({
-                    title: t('queueEntryError', 'Error adding patient to the queue'),
-                    kind: 'error',
-                    critical: true,
-                    description: error?.message,
+      saveVisit(payload, abortController).then(
+        (response) => {
+          if (response.status === 201) {
+            // add new queue entry if visit created successfully
+            addQueueEntry(
+              nextQueueLocationUuid,
+              patientUuid,
+              selectedProvider,
+              contentSwitcherIndex,
+              status,
+              selectedLocation,
+              priorityComment,
+              comment,
+            ).then(
+              ({ status }) => {
+                if (status === 201) {
+                  showToast({
+                    kind: 'success',
+                    title: t('startVisit', 'Start a visit'),
+                    description: t(
+                      'startVisitQueueSuccessfully',
+                      'Patient has been added to active visits list and queue.',
+                      `${hours} : ${minutes}`,
+                    ),
                   });
-                },
-              );
-            }
-          },
-          (error) => {
-            showNotification({
-              title: t('startVisitError', 'Error starting visit'),
-              kind: 'error',
-              critical: true,
-              description: error?.message,
-            });
-          },
-        );
+                  closePanel();
+                  mutate();
+                }
+              },
+              (error) => {
+                showNotification({
+                  title: t('queueEntryError', 'Error adding patient to the queue'),
+                  kind: 'error',
+                  critical: true,
+                  description: error?.message,
+                });
+              },
+            );
+          }
+        },
+        (error) => {
+          showNotification({
+            title: t('startVisitError', 'Error starting visit'),
+            kind: 'error',
+            critical: true,
+            description: error?.message,
+          });
+        },
+      );
     },
     [
       closePanel,
