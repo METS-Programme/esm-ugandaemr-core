@@ -57,7 +57,7 @@ const CarePrograms: React.FC<CareProgramsProps> = ({ patientUuid }) => {
             formInfo: {
               encounterUuid: '',
               formUuid,
-              additionalProps: { enrollmenrDetails: careProgram.enrollmentDetails } ?? {},
+              additionalProps: { enrollmentDetails: careProgram.enrollmentDetails },
             },
           })
         : launchStartVisitPrompt();

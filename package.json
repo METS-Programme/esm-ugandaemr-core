@@ -36,7 +36,7 @@
     },
     "devDependencies": {
         "@carbon/react": "^1.64.1",
-        "@openmrs/esm-framework": "next",
+        "@openmrs/esm-framework": "5.8.2-pre.2417",
         "@openmrs/esm-patient-common-lib": "next",
         "@openmrs/esm-styleguide": "next",
         "@swc/cli": "^0.1.57",

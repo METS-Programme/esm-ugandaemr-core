@@ -35,6 +35,7 @@ import { NewVisitPayload, SearchTypes } from '../../types';
 import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
 import { useQueueRoomLocations } from '../../hooks/useQueueRooms';
 import { addQueueEntry } from '../active-visits-table.resource';
+import { first } from 'rxjs/operators';
 
 interface VisitFormProps {
   toggleSearchType: (searchMode: SearchTypes, patientUuid) => void;
@@ -141,55 +142,57 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
       };
 
       const abortController = new AbortController();
-      saveVisit(payload, abortController).then(
-        (response) => {
-          if (response.status === 201) {
-            // add new queue entry if visit created successfully
-            addQueueEntry(
-              nextQueueLocationUuid,
-              patientUuid,
-              selectedProvider,
-              contentSwitcherIndex,
-              status,
-              selectedLocation,
-              priorityComment,
-              comment,
-            ).then(
-              ({ status }) => {
-                if (status === 201) {
-                  showToast({
-                    kind: 'success',
-                    title: t('startVisit', 'Start a visit'),
-                    description: t(
-                      'startVisitQueueSuccessfully',
-                      'Patient has been added to active visits list and queue.',
-                      `${hours} : ${minutes}`,
-                    ),
+      saveVisit(payload, abortController)
+        .pipe(first())
+        .subscribe(
+          (response) => {
+            if (response.status === 201) {
+              // add new queue entry if visit created successfully
+              addQueueEntry(
+                nextQueueLocationUuid,
+                patientUuid,
+                selectedProvider,
+                contentSwitcherIndex,
+                status,
+                selectedLocation,
+                priorityComment,
+                comment,
+              ).then(
+                ({ status }) => {
+                  if (status === 201) {
+                    showToast({
+                      kind: 'success',
+                      title: t('startVisit', 'Start a visit'),
+                      description: t(
+                        'startVisitQueueSuccessfully',
+                        'Patient has been added to active visits list and queue.',
+                        `${hours} : ${minutes}`,
+                      ),
+                    });
+                    closePanel();
+                    mutate();
+                  }
+                },
+                (error) => {
+                  showNotification({
+                    title: t('queueEntryError', 'Error adding patient to the queue'),
+                    kind: 'error',
+                    critical: true,
+                    description: error?.message,
                   });
-                  closePanel();
-                  mutate();
-                }
-              },
-              (error) => {
-                showNotification({
-                  title: t('queueEntryError', 'Error adding patient to the queue'),
-                  kind: 'error',
-                  critical: true,
-                  description: error?.message,
-                });
-              },
-            );
-          }
-        },
-        (error) => {
-          showNotification({
-            title: t('startVisitError', 'Error starting visit'),
-            kind: 'error',
-            critical: true,
-            description: error?.message,
-          });
-        },
-      );
+                },
+              );
+            }
+          },
+          (error) => {
+            showNotification({
+              title: t('startVisitError', 'Error starting visit'),
+              kind: 'error',
+              critical: true,
+              description: error?.message,
+            });
+          },
+        );
     },
     [
       closePanel,

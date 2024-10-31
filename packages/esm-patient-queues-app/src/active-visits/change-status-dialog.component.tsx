@@ -146,52 +146,54 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     };
 
     const abortController = new AbortController();
-    updateVisit(activeVisit.uuid, endVisitPayload, abortController).then(
-      (response) => {
-        if (response.status === 200) {
-          const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-          updateQueueEntry(
-            QueueStatus.Completed,
-            provider,
-            queueEntry?.id,
-            contentSwitcherIndex,
-            priorityComment,
-            comment,
-          ).then(
-            () => {
-              showSnackbar({
-                isLowContrast: true,
-                kind: 'success',
-                subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
-                title: t('visitEnded', 'Visit ended'),
-              });
-              navigate({ to: `\${openmrsSpaBase}/home` });
+    updateVisit(activeVisit.uuid, endVisitPayload, abortController)
+      .pipe(first())
+      .subscribe(
+        (response) => {
+          if (response.status === 200) {
+            const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+            updateQueueEntry(
+              QueueStatus.Completed,
+              provider,
+              queueEntry?.id,
+              contentSwitcherIndex,
+              priorityComment,
+              comment,
+            ).then(
+              () => {
+                showSnackbar({
+                  isLowContrast: true,
+                  kind: 'success',
+                  subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
+                  title: t('visitEnded', 'Visit ended'),
+                });
+                navigate({ to: `\${openmrsSpaBase}/home` });
 
-              closeModal();
-              mutate();
-            },
-            (error) => {
-              showNotification({
-                title: t('queueEntryUpdateFailed', 'Error ending visit'),
-                kind: 'error',
-                critical: true,
-                description: error?.message,
-              });
-            },
-          );
-          mutate();
-          closeModal();
-        }
-      },
-      (error) => {
-        showSnackbar({
-          title: t('errorEndingVisit', 'Error ending visit'),
-          kind: 'error',
-          isLowContrast: false,
-          subtitle: error?.message,
-        });
-      },
-    );
+                closeModal();
+                mutate();
+              },
+              (error) => {
+                showNotification({
+                  title: t('queueEntryUpdateFailed', 'Error ending visit'),
+                  kind: 'error',
+                  critical: true,
+                  description: error?.message,
+                });
+              },
+            );
+            mutate();
+            closeModal();
+          }
+        },
+        (error) => {
+          showSnackbar({
+            title: t('errorEndingVisit', 'Error ending visit'),
+            kind: 'error',
+            isLowContrast: false,
+            subtitle: error?.message,
+          });
+        },
+      );
   };
 
   // change to picked
