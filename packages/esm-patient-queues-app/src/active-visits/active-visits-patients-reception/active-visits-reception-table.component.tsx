@@ -1,7 +1,8 @@
+import React, { useCallback, useMemo, useState } from 'react';
+
 import {
   DataTable,
   DataTableSkeleton,
-  Layer,
   Pagination,
   Table,
   TableBody,
@@ -19,18 +20,18 @@ import {
 import { Add } from '@carbon/react/icons';
 
 import { ExtensionSlot, isDesktop, useLayoutType, usePagination, useSession } from '@openmrs/esm-framework';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getOriginFromPathName } from '../active-visits/active-visits-table.resource';
-import EditActionsMenu from '../active-visits/edit-action-menu.components';
-import PrintActionsMenu from '../active-visits/print-action-menu.components';
-import { buildStatusString, formatWaitTime, getTagColor, trimVisitNumber } from '../helpers/functions';
-import StatusIcon from '../queue-entry-table-components/status-icon.component';
-import { SearchTypes } from '../types';
+import { getOriginFromPathName } from '../active-visits-table.resource';
+import EditActionsMenu from '../edit-action-menu.components';
+import PrintActionsMenu from '../print-action-menu.components';
+import { buildStatusString, formatWaitTime, getTagColor, trimVisitNumber } from '../../helpers/functions';
+import StatusIcon from '../../queue-entry-table-components/status-icon.component';
+import { SearchTypes } from '../../types';
 import { usePatientQueuesList } from './active-visits-reception.resource';
 import styles from './active-visits-reception.scss';
-import { useParentLocation } from '../active-visits/patient-queues.resource';
-import PatientSearch from '../patient-search/patient-search.component';
+import { useParentLocation } from '../patient-queues.resource';
+import PatientSearch from '../../patient-search/patient-search.component';
+import QueueLauncher from '../../queue-launcher/queue-launcher.component';
 
 function ActiveVisitsReceptionTable() {
   const { t } = useTranslation();
@@ -40,7 +41,7 @@ function ActiveVisitsReceptionTable() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [overlayHeader, setOverlayTitle] = useState('');
   const [view, setView] = useState('');
-  const [viewState, setViewState] = useState<{ selectedPatientUuid: string } | null>(null); // Added | null explicitly
+  const [viewState, setViewState] = useState<{ selectedPatientUuid: string } | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   const { location } = useParentLocation(session?.sessionLocation?.uuid);
@@ -72,21 +73,18 @@ function ActiveVisitsReceptionTable() {
     [t],
   );
 
-  // Filter and sort entries
   const filteredPatientQueueEntries = useMemo(() => {
     let entries = paginatedQueueEntries || [];
 
-    // Apply search term filter
     if (searchTerm) {
       const lowercasedTerm = searchTerm.toLowerCase();
       entries = entries.filter((entry) => entry.name?.toLowerCase().includes(lowercasedTerm));
     }
 
-    // Sort entries by creation time (oldest first)
     entries.sort((a, b) => {
       const aCreatedTime = new Date(a.dateCreated).getTime();
       const bCreatedTime = new Date(b.dateCreated).getTime();
-      return aCreatedTime - bCreatedTime; // Oldest entries first
+      return aCreatedTime - bCreatedTime;
     });
 
     return entries;
@@ -134,9 +132,7 @@ function ActiveVisitsReceptionTable() {
   return (
     <div className={styles.container}>
       <div className={styles.headerContainer}>
-        <div className={!isDesktop(layout) ? styles.tabletHeading : styles.desktopHeading}>
-          <span className={styles.heading}>{`Checked In Patients`}</span>
-        </div>
+        <QueueLauncher />
         <div className={styles.headerButtons}>
           <ExtensionSlot
             name="patient-search-button-slot"
@@ -146,7 +142,6 @@ function ActiveVisitsReceptionTable() {
               buttonProps: {
                 kind: 'secondary',
                 renderIcon: (props) => <Add size={16} {...props} />,
-                size: 'sm',
               },
               selectPatientAction: (selectedPatientUuid) => {
                 setShowOverlay(true);
@@ -166,26 +161,37 @@ function ActiveVisitsReceptionTable() {
         useZebraStyles
         overflowMenuOnHover={isDesktop(layout)}
       >
-        {({ rows, headers, getHeaderProps, getTableProps, getRowProps }) => (
-          <TableContainer className={styles.tableContainer}>
-            <TableToolbar style={{ position: 'static', height: '3rem', overflow: 'visible', backgroundColor: 'color' }}>
-              <TableToolbarContent className={styles.toolbarContent}>
-                <Layer>
-                  <TableToolbarSearch
-                    expanded
-                    className={styles.search}
-                    onChange={handleSearchInputChange}
-                    placeholder={t('searchThisList', 'Search this list')}
-                    size="sm"
-                  />
-                </Layer>
+        {({ rows, headers, getHeaderProps, getRowProps, getTableProps, getToolbarProps, getTableContainerProps }) => (
+          <TableContainer className={styles.tableContainer} {...getTableContainerProps()}>
+            <TableToolbar
+              {...getToolbarProps()}
+              style={{ position: 'static', overflow: 'visible', backgroundColor: 'color' }}
+            >
+              <TableToolbarContent
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '0.5rem 0',
+                }}
+              >
+                <span style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>CheckedIn Patients</span>
+                <TableToolbarSearch
+                  expanded
+                  className={styles.search}
+                  onChange={handleSearchInputChange}
+                  placeholder={t('searchThisList', 'Search this list')}
+                  size="sm"
+                />
               </TableToolbarContent>
             </TableToolbar>
             <Table {...getTableProps()} className={styles.activeVisitsTable}>
               <TableHead>
                 <TableRow>
                   {headers.map((header) => (
-                    <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
+                    <TableHeader key={header.key} {...getHeaderProps({ header })}>
+                      {header.header}
+                    </TableHeader>
                   ))}
                 </TableRow>
               </TableHead>
@@ -219,7 +225,7 @@ function ActiveVisitsReceptionTable() {
               page={currentPage}
               pageSize={currentPageSize}
               pageSizes={pageSizes}
-              totalItems={patientQueueEntries?.length}
+              totalItems={filteredPatientQueueEntries?.length || 0} // Updated to use filteredPatientQueueEntries
               className={styles.pagination}
               onChange={({ pageSize, page }) => {
                 if (pageSize !== currentPageSize) {
@@ -233,6 +239,7 @@ function ActiveVisitsReceptionTable() {
           </TableContainer>
         )}
       </DataTable>
+
       {showOverlay && (
         <PatientSearch
           view={view}

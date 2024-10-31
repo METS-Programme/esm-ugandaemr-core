@@ -1,3 +1,5 @@
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import {
   Button,
   ContentSwitcher,
@@ -23,14 +25,13 @@ import {
 } from '@openmrs/esm-framework';
 import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { first } from 'rxjs/operators';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 import styles from './change-status-dialog.scss';
-import { useProviders } from '../visit-form/queue.resource';
 import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
+import { useProviders } from './visit-form/queue.resource';
 
 interface ChangeStatusDialogProps {
   queueEntry: MappedQueueEntry;

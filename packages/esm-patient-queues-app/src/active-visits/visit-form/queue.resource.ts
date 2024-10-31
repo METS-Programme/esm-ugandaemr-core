@@ -1,6 +1,6 @@
-import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
-import { Appointment, ProviderResponse } from '../types';
+import { openmrsFetch } from '@openmrs/esm-framework';
 import useSWR from 'swr';
+import { Appointment, ProviderResponse } from '../../types';
 
 export async function saveAppointment(appointment: Appointment) {
   const abortController = new AbortController();

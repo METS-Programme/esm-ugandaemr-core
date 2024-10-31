@@ -48,7 +48,6 @@ const AdvancedSearch: React.FC<PatientSearchProps> = ({ toggleSearchType }) => {
   const [fieldMatcherRangeSwitcherValue, setFieldMatcherRangeSwitcherValue] = useState(0);
   const [genderSwitcherValue, setGenderSwitcherValue] = useState(0);
   const [searchParams, setSearchParams] = useState([]);
-  const [open, setOpen] = useState(false);
 
   const handleSearch = () => {
     setSearchParams([firstName, middleName, lastName, gender, dateOfBirth, phoneNumber, postCode, lastVisitDate]);

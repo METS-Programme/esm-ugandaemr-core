@@ -1,6 +1,7 @@
-import { Button } from '@carbon/react';
-import { ArrowRight } from '@carbon/react/icons';
 import React, { useCallback } from 'react';
+
+import { Button, Tooltip } from '@carbon/react';
+import { Send } from '@carbon/react/icons';
 import { useTranslation } from 'react-i18next';
 import { showModal } from '@openmrs/esm-framework';
 
@@ -19,12 +20,14 @@ const MovetoNextPointAction: React.FC<MovetoNextPointActionProps> = ({ patientUu
   }, [patientUuid]);
 
   return (
-    <Button
-      kind="ghost"
-      onClick={openModal}
-      iconDescription={t('movePatient', 'Move Patient')}
-      renderIcon={(props) => <ArrowRight size={16} {...props} />}
-    />
+    <Tooltip label="Re-Assign">
+      <Button
+        kind="ghost"
+        onClick={openModal}
+        iconDescription={t('reassignPatient', 'ReAssign Patient')}
+        renderIcon={(props) => <Send size={16} {...props} />}
+      />
+    </Tooltip>
   );
 };
 export default MovetoNextPointAction;

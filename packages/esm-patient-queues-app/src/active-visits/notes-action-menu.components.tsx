@@ -1,6 +1,6 @@
+import React, { useCallback } from 'react';
 import { Button } from '@carbon/react';
 import { CatalogPublish } from '@carbon/react/icons';
-import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { showModal } from '@openmrs/esm-framework';
 import { MappedPatientQueueEntry } from './patient-queues.resource';

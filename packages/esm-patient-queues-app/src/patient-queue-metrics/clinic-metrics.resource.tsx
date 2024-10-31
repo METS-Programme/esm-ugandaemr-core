@@ -9,7 +9,6 @@ import {
   useSession,
   getGlobalStore,
   OpenmrsResource,
-  useConfig,
 } from '@openmrs/esm-framework';
 import { Identifier, MappedQueueEntry, Provider, ServiceTypes, WaitTime } from '../types';
 import { PatientQueue } from '../types/patient-queues';

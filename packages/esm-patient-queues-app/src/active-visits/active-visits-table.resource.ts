@@ -1,10 +1,9 @@
-import { FetchResponse, formatDate, openmrsFetch, parseDate, useConfig, Visit } from '@openmrs/esm-framework';
+import { openmrsFetch, restBaseUrl, Visit } from '@openmrs/esm-framework';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
 import last from 'lodash-es/last';
 import useSWR from 'swr';
-import useSWRImmutable from 'swr/immutable';
-import { Identifer, QueueServiceInfo } from '../types';
+import { Identifer } from '../types';
 import { QueueStatus } from '../utils/utils';
 
 export type QueuePriority = 'Emergency' | 'Not Urgent' | 'Priority' | 'Urgent';
@@ -207,7 +206,7 @@ export async function updateQueueEntry(
 ) {
   const abortController = new AbortController();
 
-  return openmrsFetch(`/ws/rest/v1/patientqueue/${queueUuid}`, {
+  return openmrsFetch(`${restBaseUrl}/patientqueue/${queueUuid}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -227,7 +226,7 @@ export async function updateQueueEntry(
 
 export async function endPatientStatus(previousQueueUuid: string, queueEntryUuid: string, endedAt: Date) {
   const abortController = new AbortController();
-  await openmrsFetch(`/ws/rest/v1/queue/${previousQueueUuid}/entry/${queueEntryUuid}`, {
+  await openmrsFetch(`${restBaseUrl}/queue/${previousQueueUuid}/entry/${queueEntryUuid}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -251,7 +250,7 @@ export async function addQueueEntry(
 ) {
   const abortController = new AbortController();
 
-  return openmrsFetch(`/ws/rest/v1/patientqueue`, {
+  return openmrsFetch(`${restBaseUrl}/patientqueue`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -273,7 +272,7 @@ export async function addQueueEntry(
 
 export function generateVisitQueueNumber(location: string, patient: string) {
   const abortController = new AbortController();
-  return openmrsFetch(`/ws/rest/v1/queuenumber?patient=${patient}&location=${location}`, {
+  return openmrsFetch(`${restBaseUrl}/queuenumber?patient=${patient}&location=${location}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -283,7 +282,7 @@ export function generateVisitQueueNumber(location: string, patient: string) {
 }
 
 export function useGenerateVisitQueueNumber(location: string, patient: string) {
-  const apiUrl = `/ws/rest/v1/queuenumber?patient=${patient}&location=${location}`;
+  const apiUrl = `${restBaseUrl}/queuenumber?patient=${patient}&location=${location}`;
   const { data, error, isLoading } = useSWR<{ data: VisitNumberResponse }, Error>(apiUrl, openmrsFetch);
 
   return {
@@ -296,7 +295,18 @@ export function useGenerateVisitQueueNumber(location: string, patient: string) {
 export function getCareProvider(provider: string) {
   const abortController = new AbortController();
 
-  return openmrsFetch(`/ws/rest/v1/provider?user=${provider}&v=full`, {
+  return openmrsFetch(`${restBaseUrl}/provider?user=${provider}&v=full`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    signal: abortController.signal,
+  });
+}
+
+export function getLocation(uuid: string) {
+  const abortController = new AbortController();
+  return openmrsFetch(`${restBaseUrl}/location/${uuid}&v=full`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

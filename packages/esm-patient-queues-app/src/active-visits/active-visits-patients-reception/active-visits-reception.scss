@@ -53,12 +53,7 @@
   background-color: #ffc9a3;
 }
 
-.backgroundDataFetchingIndicator {
-  align-items: center;
-  display: flex;
-  flex: 1 1 0%;
-  justify-content: center;
-}
+
 
 .search {
   max-width: 16rem;
@@ -93,12 +88,6 @@
   :global(.cds--toolbar-search-container-active.cds--search) {
     margin-right: 1rem;
   }
-}
-
-.emptyRow {
-  padding: 0 1rem;
-  display: flex;
-  align-items: center;
 }
 
 .activeVisitsTable tr:last-of-type {
@@ -249,4 +238,10 @@
   color: $interactive-01;
   margin-top: 0.5rem;
   cursor: pointer;
+}
+
+.toolbarDiv {
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem;
 }

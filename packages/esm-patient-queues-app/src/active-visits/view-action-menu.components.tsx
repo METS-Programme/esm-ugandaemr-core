@@ -1,6 +1,7 @@
+import React, { AnchorHTMLAttributes } from 'react';
+
 import { Button } from '@carbon/react';
 import { Dashboard } from '@carbon/react/icons';
-import React, { AnchorHTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
 import { navigate } from '@openmrs/esm-framework';
 

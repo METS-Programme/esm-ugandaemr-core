@@ -5,7 +5,6 @@ import {
   Dropdown,
   Form,
   Layer,
-  Row,
   Select,
   SelectItem,
   Stack,
@@ -31,13 +30,12 @@ import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { first } from 'rxjs/operators';
-import { addQueueEntry } from '../active-visits/active-visits-table.resource';
-import { amPm, convertTime12to24 } from '../helpers/time-helpers';
-import { NewVisitPayload, SearchTypes } from '../types';
-import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './visit-form.scss';
-import { useQueueLocations } from '../patient-search/hooks/useQueueLocations';
 import { useProviders } from './queue.resource';
+import { NewVisitPayload, SearchTypes } from '../../types';
+import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
+import { useQueueRoomLocations } from '../../hooks/useQueueRooms';
+import { addQueueEntry } from '../active-visits-table.resource';
 
 interface VisitFormProps {
   toggleSearchType: (searchMode: SearchTypes, patientUuid) => void;

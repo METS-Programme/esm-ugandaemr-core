@@ -1,10 +1,10 @@
-import { formatDate, openmrsFetch, parseDate } from '@openmrs/esm-framework';
+import { formatDate, openmrsFetch, parseDate, restBaseUrl } from '@openmrs/esm-framework';
 import dayjs from 'dayjs';
 import useSWR from 'swr';
-import { PatientQueue } from '../types/patient-queues';
+import { PatientQueue } from '../../types/patient-queues';
 
 export function usePatientQueuesList(currentQueueRoomLocationUuid: string) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&status=pending&parentLocation=${currentQueueRoomLocationUuid}`;
+  const apiUrl = `${restBaseUrl}/patientqueue?v=full&status=pending&parentLocation=${currentQueueRoomLocationUuid}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,

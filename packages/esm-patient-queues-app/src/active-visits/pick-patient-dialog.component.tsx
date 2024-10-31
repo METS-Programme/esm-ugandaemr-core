@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Form, ModalBody, ModalFooter, ModalHeader, InlineLoading } from '@carbon/react';
 import { formatDate, navigate, parseDate, showNotification, showToast, useSession } from '@openmrs/esm-framework';
 
@@ -21,7 +21,7 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const { queueRoomLocations, mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
+  const { mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
   const [provider, setProvider] = useState('');
 

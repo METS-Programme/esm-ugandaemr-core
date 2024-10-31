@@ -20,25 +20,23 @@ import {
 } from '@carbon/react';
 
 import { useTranslation } from 'react-i18next';
+import { useSession, useLayoutType, usePagination, isDesktop } from '@openmrs/esm-framework';
+import { useParentLocation, usePatientQueuesList } from '../patient-queues.resource';
+import { getOriginFromPathName } from '../active-visits-table.resource';
+import { QueueStatus } from '../../utils/utils';
 import {
   buildStatusString,
   formatWaitTime,
   getProviderTagColor,
   getTagColor,
   trimVisitNumber,
-} from '../helpers/functions';
-import StatusIcon from '../queue-entry-table-components/status-icon.component';
-import { getOriginFromPathName } from './active-visits-table.resource';
-import styles from './active-visits-table.scss';
-import EditActionsMenu from './edit-action-menu.components';
-import { useParentLocation, usePatientQueuesList } from './patient-queues.resource';
-import PickPatientActionMenu from '../queue-entry-table-components/pick-patient-queue-entry-menu.component';
-import ViewActionsMenu from './view-action-menu.components';
-import NotesActionsMenu from './notes-action-menu.components';
-import { PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS } from '../constants';
-import { QueueStatus } from '../utils/utils';
-import MovetoNextPointAction from './move-patient-to-next-action-menu.components';
-import { useSession, useLayoutType, usePagination, userHasAccess, isDesktop } from '@openmrs/esm-framework';
+} from '../../helpers/functions';
+import StatusIcon from '../../queue-entry-table-components/status-icon.component';
+import PickPatientActionMenu from '../../queue-entry-table-components/pick-patient-queue-entry-menu.component';
+import ViewActionsMenu from '../view-action-menu.components';
+import NotesActionsMenu from '../notes-action-menu.components';
+import MovetoNextPointAction from '../move-patient-to-next-action-menu.components';
+import styles from '../active-visits-table.scss';
 
 interface ActiveVisitsTableProps {
   status: string;
@@ -49,7 +47,7 @@ export interface PatientQueueInfoProps extends AnchorHTMLAttributes<HTMLAnchorEl
   patientName: string;
 }
 
-const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
+const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
   const { t } = useTranslation();
   const session = useSession();
   const layout = useLayoutType();
@@ -194,14 +192,10 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
           <div style={{ display: 'flex' }}>
             {entry.status === 'PENDING' && (
               <>
-                <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />
-                {session?.user && userHasAccess(PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS, session.user) && (
-                  <EditActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/edit`} from={fromPage} />
-                )}
+                <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />{' '}
+                <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
               </>
             )}
-
-            <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
 
             <NotesActionsMenu note={entry} />
             {entry.status === 'SERVING' ||
@@ -295,7 +289,7 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
               page={currentPage}
               pageSize={currentPageSize}
               pageSizes={pageSizes}
-              totalItems={patientQueueEntries?.length}
+              totalItems={filteredPatientQueueEntries?.length || 0} // Updated to use filteredPatientQueueEntries
               className={styles.pagination}
               onChange={({ pageSize, page }) => {
                 if (pageSize !== currentPageSize) {
@@ -312,4 +306,4 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
     </div>
   );
 };
-export default ActiveVisitsTable;
+export default ActiveTriageVisitsTable;

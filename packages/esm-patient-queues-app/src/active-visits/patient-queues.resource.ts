@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import useSWR from 'swr';
 
-import { formatDate, openmrsFetch, parseDate } from '@openmrs/esm-framework';
+import { formatDate, openmrsFetch, parseDate, restBaseUrl } from '@openmrs/esm-framework';
 import { PatientQueue, UuidDisplay } from '../types/patient-queues';
 
 export interface MappedPatientQueueEntry {
@@ -86,14 +86,19 @@ export interface ChildLocation {
   links: Link[];
 }
 
-export function usePatientQueuesList(currentQueueLocationUuid: string, status: string, isToggled: boolean) {
-  let url = '';
+export function usePatientQueuesList(
+  currentQueueLocationUuid: string,
+  status: string,
+  isToggled: boolean,
+  isClinical: boolean,
+) {
+  const url =
+    isToggled && isClinical
+      ? `${restBaseUrl}/patientqueue?v=full&status=${status}`
+      : isToggled
+      ? `${restBaseUrl}/patientqueue?v=full&status=${status}&parentLocation=${currentQueueLocationUuid}`
+      : `${restBaseUrl}/patientqueue?v=full&status=${status}&room=${currentQueueLocationUuid}`;
 
-  if (isToggled) {
-    url = `/ws/rest/v1/patientqueue?v=full&status=${status}&parentLocation=${currentQueueLocationUuid}`;
-  } else {
-    url = `/ws/rest/v1/patientqueue?v=full&status=${status}&room=${currentQueueLocationUuid}`;
-  }
   return usePatientQueueRequest(url);
 }
 
@@ -126,6 +131,7 @@ export function usePatientQueueRequest(apiUrl: string) {
       locationTo: queue.locationTo?.uuid,
       locationToName: queue.locationTo?.name,
       queueRoom: queue.locationTo?.display,
+      locationTags: queue.queueRoom?.tags,
       visitNumber: queue.visitNumber,
       dateCreated: queue.dateCreated,
       creatorUuid: queue.creator?.uuid,
