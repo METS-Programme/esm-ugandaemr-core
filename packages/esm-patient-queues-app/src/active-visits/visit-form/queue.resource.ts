@@ -1,11 +1,11 @@
-import { openmrsFetch } from '@openmrs/esm-framework';
+import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
 import useSWR from 'swr';
 import { Appointment, ProviderResponse } from '../../types';
 
 export async function saveAppointment(appointment: Appointment) {
   const abortController = new AbortController();
 
-  await openmrsFetch(`/ws/rest/v1/appointment`, {
+  await openmrsFetch(`${restBaseUrl}/appointment`, {
     method: 'POST',
     signal: abortController.signal,
     headers: {
@@ -29,7 +29,7 @@ export async function saveAppointment(appointment: Appointment) {
 
 // fetch providers of a service point
 export function useProviders() {
-  const apiUrl = `/ws/rest/v1/provider?q=&v=full`;
+  const apiUrl = `${restBaseUrl}/provider?q=&v=full`;
   const { data, error, isLoading, isValidating } = useSWR<{ data: { results: Array<ProviderResponse> } }, Error>(
     apiUrl,
     openmrsFetch,
@@ -44,7 +44,7 @@ export function useProviders() {
 }
 
 export async function getCurrentPatientQueueByPatientUuid(patientUuid: string, currentLocation: string) {
-  const apiUrl = `/ws/rest/v1/incompletequeue?queueRoom=${currentLocation}&patient=${patientUuid}&v=full`;
+  const apiUrl = `${restBaseUrl}/incompletequeue?queueRoom=${currentLocation}&patient=${patientUuid}&v=full`;
 
   const abortController = new AbortController();
 

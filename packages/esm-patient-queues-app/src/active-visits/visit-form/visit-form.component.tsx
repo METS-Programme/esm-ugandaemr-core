@@ -29,13 +29,13 @@ import {
 import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { first } from 'rxjs/operators';
 import styles from './visit-form.scss';
 import { useProviders } from './queue.resource';
 import { NewVisitPayload, SearchTypes } from '../../types';
 import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
 import { useQueueRoomLocations } from '../../hooks/useQueueRooms';
 import { addQueueEntry } from '../active-visits-table.resource';
+import { first } from 'rxjs/operators';
 
 interface VisitFormProps {
   toggleSearchType: (searchMode: SearchTypes, patientUuid) => void;
@@ -142,7 +142,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
       };
 
       const abortController = new AbortController();
-
       saveVisit(payload, abortController)
         .pipe(first())
         .subscribe(

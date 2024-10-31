@@ -27,9 +27,9 @@ import {
 import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './change-status-dialog.scss';
-import { first } from 'rxjs/operators';
 import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
 import { getCurrentPatientQueueByPatientUuid, useProviders } from './visit-form/queue.resource';
+import { first } from 'rxjs/operators';
 
 interface ChangeStatusDialogProps {
   patientUuid: string;
