@@ -375,6 +375,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
       selectedProvider,
       sessionUser?.sessionLocation?.uuid,
       status,
+      entries,
       t,
     ],
   );
