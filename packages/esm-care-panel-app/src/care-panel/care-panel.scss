@@ -50,3 +50,7 @@
     color: #0f62fe;
     padding: 0.5rem;
 }
+
+:global(.cds--header__global > button[aria-label="End visit"]), :global(.cds--header__global > button[aria-label="Start a visit"]) {
+  display: none;
+}
