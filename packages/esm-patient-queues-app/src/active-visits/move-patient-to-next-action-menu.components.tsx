@@ -13,9 +13,6 @@ interface MovetoNextPointActionProps {
 const MovetoNextPointAction: React.FC<MovetoNextPointActionProps> = ({ patient, entries }) => {
   const { t } = useTranslation();
 
-  // console.log('am here doo ', patient);
-  // console.log('am here doo ', entries);
-
   const openModal = useCallback(() => {
     const dispose = showModal('queue-table-move-to-next-service-point-modal', {
       patient,

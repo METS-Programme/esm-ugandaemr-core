@@ -176,7 +176,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
           () => {
             const queueEntry = entries?.filter((item) => item?.patient?.uuid === patient);
 
-            if (queueEntry) {
+            if (queueEntry.length > 0) {
               updateQueueEntry(
                 QueueStatus.Completed,
                 provider,
