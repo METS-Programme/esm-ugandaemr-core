@@ -204,8 +204,6 @@ const ActiveVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) => {
             <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
 
             <NotesActionsMenu note={entry} />
-            {entry.status === 'SERVING' ||
-              (entry.status === 'PENDING' && isToggled && <MovetoNextPointAction patientUuid={entry?.patientUuid} />)}
           </div>
         ),
       },

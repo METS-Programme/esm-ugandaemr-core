@@ -6,18 +6,23 @@ import { useTranslation } from 'react-i18next';
 import { showModal } from '@openmrs/esm-framework';
 
 interface MovetoNextPointActionProps {
-  patientUuid: string;
+  patient: string;
+  entries: [];
 }
 
-const MovetoNextPointAction: React.FC<MovetoNextPointActionProps> = ({ patientUuid }) => {
+const MovetoNextPointAction: React.FC<MovetoNextPointActionProps> = ({ patient, entries }) => {
   const { t } = useTranslation();
+
+  // console.log('am here doo ', patient);
+  // console.log('am here doo ', entries);
 
   const openModal = useCallback(() => {
     const dispose = showModal('queue-table-move-to-next-service-point-modal', {
-      patientUuid,
+      patient,
+      entries,
       closeModal: () => dispose(),
     });
-  }, [patientUuid]);
+  }, [patient, entries]);
 
   return (
     <Tooltip label="Re-Assign">

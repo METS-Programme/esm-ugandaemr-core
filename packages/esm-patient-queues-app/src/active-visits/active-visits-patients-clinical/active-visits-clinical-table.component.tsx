@@ -215,8 +215,6 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
             )}
 
             <NotesActionsMenu note={entry} />
-            {entry.status === 'SERVING' ||
-              (entry.status === 'PENDING' && isToggled && <MovetoNextPointAction patientUuid={entry?.patientUuid} />)}
           </div>
         ),
       },

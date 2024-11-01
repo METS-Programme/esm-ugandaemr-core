@@ -19,13 +19,15 @@ import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './change-status-dialog.scss';
 import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
 import { getCurrentPatientQueueByPatientUuid, useProviders } from './visit-form/queue.resource';
+import { PatientQueue } from '../types/patient-queues';
 
 interface ChangeStatusDialogProps {
-  patientUuid: string;
+  patient: string;
+  entries: PatientQueue[];
   closeModal: () => void;
 }
 
-const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, closeModal }) => {
+const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entries, closeModal }) => {
   const { t } = useTranslation();
 
   const sessionUser = useSession();
@@ -129,10 +131,9 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
       // check status
       if (status === QueueStatus.Pending) {
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-        getCurrentPatientQueueByPatientUuid(patientUuid, sessionUser?.sessionLocation?.uuid).then(
-          (res) => {
-            const queues = res.data?.results[0]?.patientQueues;
-            const queueEntry = queues?.filter((item) => item?.patient?.uuid === patientUuid);
+        getCurrentPatientQueueByPatientUuid(patient, sessionUser?.sessionLocation?.uuid).then(
+          () => {
+            const queueEntry = entries?.filter((item) => item?.patient?.uuid === patient);
 
             if (queueEntry.length > 0) {
               updateQueueEntry(status, provider, queueEntry[0]?.uuid, 0, priorityComment, comment).then(() => {
@@ -171,12 +172,11 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
       } else if (status === QueueStatus.Completed) {
         const comment = event?.target['nextNotes']?.value ?? 'Not Set';
 
-        getCurrentPatientQueueByPatientUuid(patientUuid, sessionUser?.sessionLocation?.uuid).then(
-          (res) => {
-            const queues = res.data?.results[0]?.patientQueues;
-            const queueEntry = queues?.filter((item) => item?.patient?.uuid === patientUuid);
+        getCurrentPatientQueueByPatientUuid(patient, sessionUser?.sessionLocation?.uuid).then(
+          () => {
+            const queueEntry = entries?.filter((item) => item?.patient?.uuid === patient);
 
-            if (queueEntry.length > 0) {
+            if (queueEntry) {
               updateQueueEntry(
                 QueueStatus.Completed,
                 provider,
@@ -189,7 +189,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
                   mutate();
                   addQueueEntry(
                     selectedNextQueueLocation,
-                    patientUuid,
+                    patient,
                     selectedProvider,
                     contentSwitcherIndex,
                     QueueStatus.Pending,
@@ -277,7 +277,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
                   mutate();
                   addQueueEntry(
                     selectedNextQueueLocation,
-                    patientUuid,
+                    patient,
                     selectedProvider,
                     contentSwitcherIndex,
                     QueueStatus.Pending,
@@ -368,7 +368,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
       closeModal,
       contentSwitcherIndex,
       mutate,
-      patientUuid,
+      patient,
       priorityComment,
       provider,
       selectedNextQueueLocation,
