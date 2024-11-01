@@ -55,3 +55,14 @@ export async function getCurrentPatientQueueByPatientUuid(patientUuid: string, c
     },
   });
 }
+
+export function getCurrentVisit(patient: string, date: string) {
+  const apiUrl = `${restBaseUrl}/visit?patient=${patient}&includeInactive=false&fromStartDate=${date}&v=default&limit=1`;
+  const abortController = new AbortController();
+  return openmrsFetch(apiUrl, {
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
