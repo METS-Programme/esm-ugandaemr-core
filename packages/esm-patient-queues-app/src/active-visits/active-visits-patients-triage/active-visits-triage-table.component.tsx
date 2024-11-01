@@ -153,7 +153,7 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
   }, [paginatedQueueEntries, searchTerm, status]);
 
   const tableRows = useMemo(() => {
-    return filteredPatientQueueEntries.map((entry) => ({
+    return filteredPatientQueueEntries.map((entry, index) => ({
       ...entry,
       visitNumber: {
         content: <span>{trimVisitNumber(entry.visitNumber)}</span>,
@@ -193,13 +193,19 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
             {entry.status === 'PENDING' && (
               <>
                 <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />{' '}
-                <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
               </>
             )}
 
+            <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
+
             <NotesActionsMenu note={entry} />
             {entry.status === 'SERVING' ||
-              (entry.status === 'PENDING' && isToggled && <MovetoNextPointAction patientUuid={entry?.patientUuid} />)}
+              (entry.status === 'PENDING' && isToggled && (
+                <MovetoNextPointAction
+                  patient={filteredPatientQueueEntries[index]?.patientUuid}
+                  entries={filteredPatientQueueEntries}
+                />
+              ))}
           </div>
         ),
       },
