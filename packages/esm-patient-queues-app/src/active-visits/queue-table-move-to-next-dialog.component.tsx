@@ -123,7 +123,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
 
   // change to picked
   const changeQueueStatus = useCallback(
-    (event: { preventDefault: () => void; target: { [x: string]: { value: string } } }) => {
+    (event) => {
       event.preventDefault();
 
       // check status
