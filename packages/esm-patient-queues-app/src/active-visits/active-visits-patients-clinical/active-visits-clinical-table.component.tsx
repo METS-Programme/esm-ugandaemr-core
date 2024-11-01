@@ -209,10 +209,10 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
           <div style={{ display: 'flex' }}>
             {entry.status === 'PENDING' && (
               <>
-                <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />{' '}
-                <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
+                <PickPatientActionMenu queueEntry={entry} closeModal={() => true} />
               </>
             )}
+            <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${entry?.patientUuid}/chart`} from={fromPage} />
 
             <NotesActionsMenu note={entry} />
           </div>
