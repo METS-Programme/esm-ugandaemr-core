@@ -30,21 +30,20 @@ import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './visit-form.scss';
-import { useProviders } from './queue.resource';
-import { NewVisitPayload, SearchTypes } from '../../types';
+import { getCurrentVisit, useProviders } from './queue.resource';
+import { NewVisitPayload } from '../../types';
 import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
 import { useQueueRoomLocations } from '../../hooks/useQueueRooms';
 import { addQueueEntry } from '../active-visits-table.resource';
 import { first } from 'rxjs/operators';
 
 interface VisitFormProps {
-  toggleSearchType: (searchMode: SearchTypes, patientUuid) => void;
   patientUuid: string;
   closePanel: () => void;
   mode: boolean;
 }
 
-const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchType, closePanel, mode }) => {
+const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, mode }) => {
   const { t } = useTranslation();
   const isTablet = useLayoutType() === 'tablet';
   const sessionUser = useSession();
@@ -55,7 +54,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const [timeFormat, setTimeFormat] = useState<amPm>(new Date().getHours() >= 12 ? 'PM' : 'AM');
   const [visitDate, setVisitDate] = useState(new Date());
   const [visitTime, setVisitTime] = useState(dayjs(new Date()).format('hh:mm'));
-  const state = useMemo(() => ({ patientUuid }), [patientUuid]);
   const allVisitTypes = useVisitTypes();
   const [ignoreChanges, setIgnoreChanges] = useState(true);
   const [selectedLocation, setSelectedLocation] = useState('');
@@ -66,7 +64,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const { queueRoomLocations, mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState('');
   const [selectedProvider, setSelectedProvider] = useState('');
-  const { patient, isLoading } = usePatient(patientUuid);
+  const { isLoading } = usePatient(patientUuid);
 
   const [upcomingAppointment, setUpcomingAppointment] = useState(null);
   const upcomingAppointmentState = useMemo(() => ({ patientUuid, setUpcomingAppointment }), [patientUuid]);
@@ -108,17 +106,36 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
       : [],
   );
 
+  // check for a current visit before starting a visit
+  async function checkCurrentVisit(patientUuid) {
+    const date = dayjs().format('YYYY-MM-DD');
+    const resp = await getCurrentVisit(patientUuid, date);
+    return resp.data?.results !== null && resp.data?.results.length > 0;
+  }
+
   // Check if selectedNextQueueLocation has a value selected
   const isFormValid = selectedNextQueueLocation;
 
   const handleSubmit = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault();
 
       // retrieve values from queue extension
       const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
       const status = 'pending';
       const comment = event?.target['nextNotes']?.value;
+
+      // Check for an existing visit before proceeding
+      const existingVisit = await checkCurrentVisit(patientUuid);
+
+      if (existingVisit) {
+        showNotification({
+          title: t('visitExists', 'Visit already exists'),
+          kind: 'info',
+          description: t('activeVisitExists', 'An active visit already exists for this patient.'),
+        });
+        return;
+      }
 
       if (!visitType) {
         setIsMissingVisitType(true);

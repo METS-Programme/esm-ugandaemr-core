@@ -30,8 +30,9 @@ import { SearchTypes } from '../../types';
 import { usePatientQueuesList } from './active-visits-reception.resource';
 import styles from './active-visits-reception.scss';
 import { useParentLocation } from '../patient-queues.resource';
-import PatientSearch from '../../patient-search/patient-search.component';
+// import PatientSearch from '../../patient-search/patient-search.component';
 import QueueLauncher from '../../queue-launcher/queue-launcher.component';
+import PatientSearch from '../../patient-search/patient-search.component';
 
 function ActiveVisitsReceptionTable() {
   const { t } = useTranslation();
