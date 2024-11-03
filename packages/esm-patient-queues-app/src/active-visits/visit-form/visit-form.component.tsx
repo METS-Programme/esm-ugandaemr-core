@@ -65,6 +65,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, mod
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState('');
   const [selectedProvider, setSelectedProvider] = useState('');
   const { isLoading } = usePatient(patientUuid);
+  const [visitExist, setVisitExist] = useState(false);
 
   const [upcomingAppointment, setUpcomingAppointment] = useState(null);
   const upcomingAppointmentState = useMemo(() => ({ patientUuid, setUpcomingAppointment }), [patientUuid]);
@@ -107,22 +108,34 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, mod
   );
 
   // check for a current visit before starting a visit
-  getCurrentVisit('', '').then(
-    (resp) => {},
-    (error) => {},
-  );
+  async function checkCurrentVisit(patientUuid) {
+    const date = dayjs().format('YYYY-MM-DD');
+    const resp = await getCurrentVisit(patientUuid, date);
+    setVisitExist(resp.data === null);
+  }
 
   // Check if selectedNextQueueLocation has a value selected
   const isFormValid = selectedNextQueueLocation;
 
   const handleSubmit = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault();
 
       // retrieve values from queue extension
       const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
       const status = 'pending';
       const comment = event?.target['nextNotes']?.value;
+
+      // Check for an existing visit before proceeding
+      await checkCurrentVisit(patientUuid);
+      if (visitExist) {
+        showNotification({
+          title: t('visitExists', 'Visit already exists'),
+          kind: 'info',
+          description: t('activeVisitExists', 'An active visit already exists for this patient.'),
+        });
+        return;
+      }
 
       if (!visitType) {
         setIsMissingVisitType(true);
