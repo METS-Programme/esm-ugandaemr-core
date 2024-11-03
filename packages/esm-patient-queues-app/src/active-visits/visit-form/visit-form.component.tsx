@@ -65,7 +65,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, mod
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState('');
   const [selectedProvider, setSelectedProvider] = useState('');
   const { isLoading } = usePatient(patientUuid);
-  const [visitExist, setVisitExist] = useState(false);
 
   const [upcomingAppointment, setUpcomingAppointment] = useState(null);
   const upcomingAppointmentState = useMemo(() => ({ patientUuid, setUpcomingAppointment }), [patientUuid]);
@@ -111,7 +110,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, mod
   async function checkCurrentVisit(patientUuid) {
     const date = dayjs().format('YYYY-MM-DD');
     const resp = await getCurrentVisit(patientUuid, date);
-    setVisitExist(resp.data === null);
+    return resp.data?.results !== null && resp.data?.results.length > 0;
   }
 
   // Check if selectedNextQueueLocation has a value selected
@@ -127,8 +126,9 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, mod
       const comment = event?.target['nextNotes']?.value;
 
       // Check for an existing visit before proceeding
-      await checkCurrentVisit(patientUuid);
-      if (visitExist) {
+      const existingVisit = await checkCurrentVisit(patientUuid);
+
+      if (existingVisit) {
         showNotification({
           title: t('visitExists', 'Visit already exists'),
           kind: 'info',
@@ -225,7 +225,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, mod
       visitDate,
       visitTime,
       visitType,
-      visitExist,
     ],
   );
 
