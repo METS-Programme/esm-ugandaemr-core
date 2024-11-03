@@ -225,6 +225,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, mod
       visitDate,
       visitTime,
       visitType,
+      visitExist,
     ],
   );
 
