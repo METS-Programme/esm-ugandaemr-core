@@ -122,4 +122,12 @@ export const configSchema = {
     _type: Type.ConceptUuid,
     _default: '1eb05918-f50c-4cad-a827-3c78f296a10a',
   },
+  regimenChangeActionUuid: {
+    _type: Type.ConceptUuid,
+    _default: 'ca5a71aa-05f9-42a0-bf0d-65bcfd08036b',
+  },
+  priorArvRegimenUuid: {
+    _type: Type.ConceptUuid,
+    _default: '107bef04-bf05-4f41-9260-b167c1108f7e',
+  },
 };
