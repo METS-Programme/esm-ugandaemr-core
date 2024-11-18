@@ -8,7 +8,6 @@ import { ErrorState } from '@openmrs/esm-framework';
 import CarePrograms from '../care-programs/care-programs.component';
 import ProgramEnrollmentTB from '../program-enrollment/program-enrollment-tb.component';
 import { programs } from '../constants';
-import DSDMHistory from '../dsdm-history/dsdm-history.component';
 import { CardHeader } from '@openmrs/esm-patient-common-lib';
 import CarePanelTabs from './care-panel-tabs/care-panel-tabs.component';
 
