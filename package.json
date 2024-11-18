@@ -36,6 +36,7 @@
     },
     "devDependencies": {
         "@carbon/react": "^1.64.1",
+        "@openmrs/esm-form-engine-lib": "latest",
         "@openmrs/esm-framework": "next",
         "@openmrs/esm-patient-common-lib": "next",
         "@openmrs/esm-styleguide": "next",

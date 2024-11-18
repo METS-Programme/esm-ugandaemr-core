@@ -30,3 +30,4 @@ export const REGISTRY_REGIONS_URL = 'https://nhfr-staging-api.planetsystems.co/n
 
 // privileges
 export const PRIVILEGE_UPDATE_FACILITY_CODE = 'Update Facility Code';
+export const dateFormat = 'YYYY-MM-DD';

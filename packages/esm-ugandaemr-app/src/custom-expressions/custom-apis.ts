@@ -1,5 +1,7 @@
 import { fhirBaseUrl, restBaseUrl, openmrsFetch } from '@openmrs/esm-framework';
 import { configSchema } from '@ugandaemr/esm-care-panel-app/src/config-schema';
+import dayjs from "dayjs";
+import {dateFormat} from "../constants";
 
 export async function getLatestObs(patientUuid: string, conceptUuid: string, encounterTypeUuid?: string) {
   let params = `patient=${patientUuid}&code=${conceptUuid}${
@@ -46,4 +48,29 @@ export async function getCohortCategorization(uuid: string) {
   let apiUrl = `${restBaseUrl}/cohortm/cohort?v=custom:(name,uuid)&cohortType=${uuid}`;
 
   return await openmrsFetch(apiUrl);
+}
+
+export async function getEncounters(patientUuid: string, encounterTypeUuid?: string) {
+  let params = `patient=${patientUuid}${encounterTypeUuid ? `&encounterType=${encounterTypeUuid}` : ''}`;
+
+  const apiUrl = `${restBaseUrl}/encounter?${params}&v=custom:(uuid,encounterDatetime,encounterType:(uuid,name))`;
+  const { data } = await openmrsFetch(apiUrl);
+
+  return (
+    data?.results?.map((encounter) => ({
+      uuid: encounter.uuid,
+      encounterDatetime: encounter.encounterDatetime,
+      encounterType: encounter.encounterType.name,
+    })) || []
+  );
+}
+
+export function getPatientEncounterDates(patientUuid: string, encounterTypeUuid: string) {
+  let params = `encounterType=${encounterTypeUuid}&patient=${patientUuid}&v=custom:(uuid,encounterDatetime)`;
+  return openmrsFetch(`${restBaseUrl}/encounter?${params}`).then(({ data }) => {
+    if (data.results.length === 0) {
+      return [];
+    }
+    return data.results.map((encounter: any) => dayjs(encounter.encounterDatetime).format(dateFormat));
+  });
 }
