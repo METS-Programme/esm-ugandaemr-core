@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import styles from './care-panel-tabs.scss';
 import DSDMHistory from '../../dsdm-history/dsdm-history.component';
 import ViralLoadList from '../../vl-history/vl-history.component';
+import RegimenHistory from '../../regimen-history/regimen-history.component';
 
 interface CarePanelTabsProps {
   patientUuid: string;
@@ -23,6 +24,7 @@ const CarePanelTabs: React.FC<CarePanelTabsProps> = ({ patientUuid }) => {
         <TabList contained className={styles.tabList}>
           <Tab>{t('dsdmHistory', 'DSDM History')}</Tab>
           <Tab>{t('vlHistory', 'Viral Load History')}</Tab>
+          <Tab>{t('regimenHistory', 'Regimen History')}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -30,6 +32,9 @@ const CarePanelTabs: React.FC<CarePanelTabsProps> = ({ patientUuid }) => {
           </TabPanel>
           <TabPanel>
             <ViralLoadList patientUuid={patientUuid} />
+          </TabPanel>
+          <TabPanel>
+            <RegimenHistory patientUuid={patientUuid} />
           </TabPanel>
         </TabPanels>
       </Tabs>
