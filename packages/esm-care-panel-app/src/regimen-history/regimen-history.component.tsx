@@ -18,6 +18,7 @@ import {
 } from '@carbon/react';
 import styles from '../dsdm-history/dsdm-history.scss';
 import dayjs from 'dayjs';
+import { usePatientRegimenObservations } from '../regimen-editor/regimen.resource';
 
 interface regimenHistoryProps {
   patientUuid: string;
@@ -46,7 +47,7 @@ const RegimenHistory: React.FC<regimenHistoryProps> = ({ patientUuid }) => {
 
   const regimenHistoryConceptUuids = observationConfig.map((config) => config.uuidConfig);
 
-  const { observations, isLoading } = usePatientObservations(patientUuid, regimenHistoryConceptUuids);
+  const { observations, isLoading } = usePatientRegimenObservations(patientUuid, regimenHistoryConceptUuids);
   console.info(observations);
 
   const pageSizes = [10, 20, 30, 40, 50];
@@ -62,14 +63,37 @@ const RegimenHistory: React.FC<regimenHistoryProps> = ({ patientUuid }) => {
   const tableRows = useMemo(() => {
     if (!observations) return [];
 
-    return observations?.filter((item) =>
-      item?.code?.coding
-        ?.some((coding) => coding.code === configSchema.priorArvRegimenUuid._default)
-        .map((item) => {
-          const date = item?.effectiveDateTime ? dayjs(item?.effectiveDateTime).format('DD-MM-YYYY') : '';
-          const priorArvRegimen = item?.valueCodeableConcept?.coding[0]?.display || '';
-        }),
-    );
+    const groupedRows = observations.reduce((acc, obs) => {
+      const resource = obs?.resource;
+      const date = resource?.effectiveDateTime;
+
+      if (!date) return acc;
+
+      let row = acc.find((r) => r.regimenChangeDate === dayjs(date).format('DD-MM-YYYY'));
+
+      if (!row) {
+        row = {
+          id: date,
+          regimenChangeDate: dayjs(date).format('DD-MM-YYYY'),
+          regimenChangeAction: '',
+          priorArvRegimen: '',
+          currentArvRegimen: '',
+        };
+        acc.push(row);
+      }
+
+      if (resource?.code?.coding?.some((coding) => coding.code === configSchema.regimenChangeActionUuid._default)) {
+        row.regimenChangeAction = resource.valueCodeableConcept?.coding?.[0]?.display || '';
+      } else if (resource?.code?.coding?.some((coding) => coding.code === configSchema.priorArvRegimenUuid._default)) {
+        row.priorArvRegimen = resource.valueCodeableConcept?.coding?.[0]?.display || '';
+      } else if (resource?.code?.coding?.some((coding) => coding.code === configSchema.currentRegimenUuid._default)) {
+        row.currentArvRegimen = resource.valueCodeableConcept?.coding?.[0]?.display || '';
+      }
+
+      return acc;
+    }, []);
+
+    return groupedRows;
   }, [observations]);
 
   const { goTo, results: paginatedData, currentPage } = usePagination(tableRows, currentPageSize);
