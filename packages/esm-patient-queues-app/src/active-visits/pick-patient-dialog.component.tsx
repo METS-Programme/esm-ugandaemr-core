@@ -4,7 +4,6 @@ import { formatDate, navigate, parseDate, showNotification, showToast, useSessio
 
 import { getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { useTranslation } from 'react-i18next';
-import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 import { trimVisitNumber } from '../helpers/functions';
 import { extractErrorMessagesFromResponse } from '../utils/utils';
@@ -20,48 +19,59 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
   const sessionUser = useSession();
 
   const [isLoading, setIsLoading] = useState(true);
-
-  const { mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [provider, setProvider] = useState('');
 
-  // Memoize the function to fetch the provider using useCallback
-  const fetchProvider = useCallback(() => {
+  // Centralized error handling function
+  const handleError = (title, error) => {
+    const errorMessages = extractErrorMessagesFromResponse(error);
+    showNotification({
+      title,
+      kind: 'error',
+      critical: true,
+      description: errorMessages.join(',') || error?.message,
+    });
+  };
+
+  // Fetch provider details
+  const fetchProvider = useCallback(async () => {
     if (!sessionUser?.user?.uuid) return;
 
     setIsLoading(true);
 
-    getCareProvider(sessionUser?.user?.uuid).then(
-      (response) => {
-        const uuid = response?.data?.results[0].uuid;
-        setIsLoading(false);
-        setProvider(uuid);
-        mutate();
-      },
-      (error) => {
-        const errorMessages = extractErrorMessagesFromResponse(error);
-        setIsLoading(false);
-        showNotification({
-          title: "Couldn't get provider",
-          kind: 'error',
-          critical: true,
-          description: errorMessages.join(','),
-        });
-      },
-    );
-  }, [sessionUser?.user?.uuid, mutate]);
+    try {
+      const response = await getCareProvider(sessionUser?.user?.uuid);
+      const uuid = response?.data?.results?.[0]?.uuid;
 
-  useEffect(() => fetchProvider(), [fetchProvider]);
+      if (!uuid) throw new Error('Provider UUID not found');
 
+      setProvider(uuid);
+    } catch (error) {
+      handleError("Couldn't get provider", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [sessionUser?.user?.uuid]);
+
+  useEffect(() => {
+    fetchProvider();
+  }, [fetchProvider]);
+
+  // Handle patient queue status update
   const pickPatientQueueStatus = useCallback(
     async (event) => {
       event.preventDefault();
 
+      if (!queueEntry?.id || !queueEntry?.patientUuid) {
+        handleError(t('invalidQueueEntry', 'Invalid queue entry'), new Error('Queue entry data is missing'));
+        return;
+      }
+
       const status = 'Picked';
-      setIsLoading(true); 
+      setIsSubmitting(true);
 
       try {
-        await updateQueueEntry(status, provider, queueEntry?.id, 0, '', 'comment');
+        await updateQueueEntry(status, provider, queueEntry.id, 0, '', 'comment');
 
         showToast({
           critical: true,
@@ -69,62 +79,54 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
           kind: 'success',
           description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
         });
-        setIsLoading(false); 
         navigate({ to: `${window.getOpenmrsSpaBase()}/patient/${queueEntry.patientUuid}/chart` });
         closeModal();
-        mutate();
       } catch (error) {
-        setIsLoading(false); 
-        showNotification({
-          title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-          kind: 'error',
-          critical: true,
-          description: error?.message,
-        });
+        handleError(t('queueEntryUpdateFailed', 'Error updating queue entry status'), error);
       } finally {
-        setIsLoading(false); 
+        setIsSubmitting(false);
       }
     },
-    [provider, queueEntry?.id, queueEntry.patientUuid, t, closeModal, mutate],
+    [provider, queueEntry?.id, queueEntry?.patientUuid, t, closeModal],
   );
 
-  if (queueEntry && Object.keys(queueEntry)?.length === 0) {
+  if (!queueEntry || Object.keys(queueEntry)?.length === 0) {
     return <ModalHeader closeModal={closeModal} title={t('patientNotInQueue', 'The patient is not in the queue')} />;
   }
 
-  if (queueEntry && Object.keys(queueEntry)?.length > 0) {
-    return (
-      <div>
-        <Form onSubmit={pickPatientQueueStatus}>
-          <ModalHeader closeModal={closeModal} title={t('pickPatient', 'Pick Patient')} />
-          <ModalBody>
-            <h5>{queueEntry.name}</h5>
-            <h5>VisitNo : {trimVisitNumber(queueEntry.visitNumber)}</h5>
-            <h5>
-              Date Created :
-              {formatDate(parseDate(queueEntry.dateCreated), {
-                time: true,
-              })}
-            </h5>
-          </ModalBody>
-          <ModalFooter>
-            <Button kind="secondary" onClick={closeModal}>
-              {t('cancel', 'Cancel')}
-            </Button>
+  return (
+    <div>
+      <Form onSubmit={pickPatientQueueStatus}>
+        <ModalHeader closeModal={closeModal} title={t('pickPatient', 'Pick Patient')} />
+        <ModalBody>
+          <h5>{queueEntry.name}</h5>
+          <h5>VisitNo : {trimVisitNumber(queueEntry.visitNumber)}</h5>
+          <h5>
+            Date Created :
+            {formatDate(parseDate(queueEntry.dateCreated), {
+              time: true,
+            })}
+          </h5>
+        </ModalBody>
+        <ModalFooter>
+          <Button kind="secondary" onClick={closeModal}>
+            {t('cancel', 'Cancel')}
+          </Button>
 
-            {isLoading ? (
-              <InlineLoading description={'Fetching Provider..'} />
-            ) : (
-              <Button disabled={isLoading} type="submit">
-                {t('pickPatient', 'Pick Patient')}
-              </Button>
-            )}
-          </ModalFooter>
-        </Form>
-      </div>
-    );
-  }
+          {isLoading ? (
+            <InlineLoading description={'Fetching Provider...'} />
+          ) : (
+            <Button disabled={isSubmitting || isLoading} type="submit">
+              {isSubmitting ? t('submitting', 'Submitting...') : t('pickPatient', 'Pick Patient')}
+            </Button>
+          )}
+        </ModalFooter>
+      </Form>
+    </div>
+  );
 };
 
 export default PickPatientStatus;
+
+
 
