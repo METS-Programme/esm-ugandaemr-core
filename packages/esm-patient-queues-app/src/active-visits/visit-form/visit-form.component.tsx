@@ -50,14 +50,11 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const sessionUser = useSession();
   const config = useConfig() as ConfigObject;
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(0);
-  const [isMissingVisitType, setIsMissingVisitType] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [timeFormat, setTimeFormat] = useState<amPm>(new Date().getHours() >= 12 ? 'PM' : 'AM');
   const [visitDate, setVisitDate] = useState(new Date());
   const [visitTime, setVisitTime] = useState(dayjs(new Date()).format('hh:mm'));
-  const state = useMemo(() => ({ patientUuid }), [patientUuid]);
   const allVisitTypes = useVisitTypes();
-  const [ignoreChanges, setIgnoreChanges] = useState(true);
   const [selectedLocation, setSelectedLocation] = useState('');
   const [visitType, setVisitType] = useState('');
   const [priorityComment, setPriorityComment] = useState('');
@@ -68,8 +65,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const [selectedProvider, setSelectedProvider] = useState('');
   const { patient, isLoading } = usePatient(patientUuid);
 
-  const [upcomingAppointment, setUpcomingAppointment] = useState(null);
-  const upcomingAppointmentState = useMemo(() => ({ patientUuid, setUpcomingAppointment }), [patientUuid]);
+  const upcomingAppointmentState = useMemo(() => ({ patientUuid }), [patientUuid]);
 
   useEffect(() => {
     if (queueRoomLocations?.length && sessionUser) {
@@ -120,10 +116,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
       const status = 'pending';
       const comment = event?.target['nextNotes']?.value;
 
-      if (!visitType) {
-        setIsMissingVisitType(true);
-        return;
-      }
+  
 
       setIsSubmitting(true);
 
@@ -160,6 +153,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
               ).then(
                 ({ status }) => {
                   if (status === 201) {
+                    setIsSubmitting(false)
                     showToast({
                       kind: 'success',
                       title: t('startVisit', 'Start a visit'),
@@ -174,6 +168,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
                   }
                 },
                 (error) => {
+                  setIsSubmitting(false)
                   showNotification({
                     title: t('queueEntryError', 'Error adding patient to the queue'),
                     kind: 'error',
@@ -185,6 +180,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
             }
           },
           (error) => {
+            setIsSubmitting(false)
             showNotification({
               title: t('startVisitError', 'Error starting visit'),
               kind: 'error',
@@ -211,12 +207,10 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
     ],
   );
 
-  const handleOnChange = () => {
-    setIgnoreChanges((prevState) => !prevState);
-  };
+
 
   return (
-    <Form className={styles.form} onChange={handleOnChange} onSubmit={handleSubmit}>
+    <Form className={styles.form}  onSubmit={handleSubmit}>
       <div>
         {isLoading && (
           <InlineLoading

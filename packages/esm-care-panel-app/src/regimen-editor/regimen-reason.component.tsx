@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Select, SelectItem } from '@carbon/react';
 import styles from './standard-regimen.scss';
