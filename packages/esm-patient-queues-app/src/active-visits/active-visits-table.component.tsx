@@ -37,7 +37,6 @@ import ViewActionsMenu from './view-action-menu.components';
 import NotesActionsMenu from './notes-action-menu.components';
 import { PRIVILEGE_ENABLE_EDIT_DEMOGRAPHICS } from '../constants';
 import { QueueStatus } from '../utils/utils';
-import MovetoNextPointAction from './move-patient-to-next-action-menu.components';
 import { useSession, useLayoutType, usePagination, userHasAccess, isDesktop } from '@openmrs/esm-framework';
 
 interface ActiveVisitsTableProps {

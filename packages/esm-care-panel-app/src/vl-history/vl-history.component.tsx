@@ -13,7 +13,6 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  TableToolbar,
   Tile,
 } from '@carbon/react';
 import styles from '../dsdm-history/dsdm-history.scss';
