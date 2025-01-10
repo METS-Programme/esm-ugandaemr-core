@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { formatDate, useLayoutType } from '@openmrs/esm-framework';
 import { StructuredListSkeleton, Tile } from '@carbon/react';
 import { ProgramType, RegimenType } from '../types';
-import RegimenButton from '../regimen-editor/regimen-button.component';
 import { useRegimenEncounter } from '../hooks/useRegimenEncounter';
 export interface ProgramSummaryProps {
   patientUuid: string;

@@ -10,8 +10,6 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  TableToolbar,
-  Layer,
   Tile,
 } from '@carbon/react';
 

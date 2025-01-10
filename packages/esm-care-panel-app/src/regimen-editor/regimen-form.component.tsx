@@ -56,7 +56,7 @@ const RegimenForm: React.FC<RegimenFormProps> = ({
   const isTablet = useLayoutType() === 'tablet';
   const sessionUser = useSession();
   const config = useConfig() as CarePanelConfig;
-  const { regimenEncounter, isLoading, error } = useRegimenEncounter(category, patientUuid);
+  const { regimenEncounter } = useRegimenEncounter(category, patientUuid);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [visitDate, setVisitDate] = useState(new Date());
   const [regimenEvent, setRegimenEvent] = useState('');
