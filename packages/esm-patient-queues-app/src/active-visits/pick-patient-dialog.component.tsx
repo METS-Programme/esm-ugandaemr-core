@@ -25,8 +25,6 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
 
   const [provider, setProvider] = useState('');
 
-  const [priorityComment, setPriorityComment] = useState('');
-
   // Memoize the function to fetch the provider using useCallback
   const fetchProvider = useCallback(() => {
     if (!sessionUser?.user?.uuid) return;
@@ -56,34 +54,38 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
   useEffect(() => fetchProvider(), [fetchProvider]);
 
   const pickPatientQueueStatus = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault();
 
       const status = 'Picked';
-      updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, 'comment').then(
-        () => {
-          showToast({
-            critical: true,
-            title: t('updateEntry', 'Update entry'),
-            kind: 'success',
-            description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
-          });
+      setIsLoading(true); 
 
-          navigate({ to: `\${openmrsSpaBase}/patient/${queueEntry.patientUuid}/chart` });
-          closeModal();
-          mutate();
-        },
-        (error) => {
-          showNotification({
-            title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-            kind: 'error',
-            critical: true,
-            description: error?.message,
-          });
-        },
-      );
+      try {
+        await updateQueueEntry(status, provider, queueEntry?.id, 0, '', 'comment');
+
+        showToast({
+          critical: true,
+          title: t('updateEntry', 'Update entry'),
+          kind: 'success',
+          description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
+        });
+        setIsLoading(false); 
+        navigate({ to: `${window.getOpenmrsSpaBase()}/patient/${queueEntry.patientUuid}/chart` });
+        closeModal();
+        mutate();
+      } catch (error) {
+        setIsLoading(false); 
+        showNotification({
+          title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+          kind: 'error',
+          critical: true,
+          description: error?.message,
+        });
+      } finally {
+        setIsLoading(false); 
+      }
     },
-    [provider, queueEntry?.id, queueEntry.patientUuid, priorityComment, t, closeModal, mutate],
+    [provider, queueEntry?.id, queueEntry.patientUuid, t, closeModal, mutate],
   );
 
   if (queueEntry && Object.keys(queueEntry)?.length === 0) {
@@ -125,3 +127,4 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
 };
 
 export default PickPatientStatus;
+
