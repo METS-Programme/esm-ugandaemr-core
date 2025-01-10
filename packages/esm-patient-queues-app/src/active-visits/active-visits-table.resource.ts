@@ -256,10 +256,10 @@ export async function addQueueEntry(
   });
 }
 
-export function getCareProvider(provider: string) {
+export async function getCareProvider(provider: string) {
   const abortController = new AbortController();
 
-  return openmrsFetch(`${restBaseUrl}/provider?user=${provider}&v=full`, {
+  return await openmrsFetch(`${restBaseUrl}/provider?user=${provider}&v=full`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
