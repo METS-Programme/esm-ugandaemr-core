@@ -116,7 +116,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
       const status = 'pending';
       const comment = event?.target['nextNotes']?.value;
 
-  
 
       setIsSubmitting(true);
 
