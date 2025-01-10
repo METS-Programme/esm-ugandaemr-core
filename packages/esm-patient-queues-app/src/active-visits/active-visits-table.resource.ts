@@ -224,20 +224,6 @@ export async function updateQueueEntry(
   });
 }
 
-export async function endPatientStatus(previousQueueUuid: string, queueEntryUuid: string, endedAt: Date) {
-  const abortController = new AbortController();
-  await openmrsFetch(`${restBaseUrl}/queue/${previousQueueUuid}/entry/${queueEntryUuid}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    signal: abortController.signal,
-    body: {
-      endedAt: endedAt,
-    },
-  });
-}
-
 export async function addQueueEntry(
   queueUuid: string,
   patientUuid: string,
@@ -270,28 +256,6 @@ export async function addQueueEntry(
   });
 }
 
-export function generateVisitQueueNumber(location: string, patient: string) {
-  const abortController = new AbortController();
-  return openmrsFetch(`${restBaseUrl}/queuenumber?patient=${patient}&location=${location}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    signal: abortController.signal,
-  });
-}
-
-export function useGenerateVisitQueueNumber(location: string, patient: string) {
-  const apiUrl = `${restBaseUrl}/queuenumber?patient=${patient}&location=${location}`;
-  const { data, error, isLoading } = useSWR<{ data: VisitNumberResponse }, Error>(apiUrl, openmrsFetch);
-
-  return {
-    visitNumber: data.data.queueNumber,
-    isLoading,
-    isError: error,
-  };
-}
-
 export function getCareProvider(provider: string) {
   const abortController = new AbortController();
 
@@ -304,13 +268,4 @@ export function getCareProvider(provider: string) {
   });
 }
 
-export function getLocation(uuid: string) {
-  const abortController = new AbortController();
-  return openmrsFetch(`${restBaseUrl}/location/${uuid}&v=full`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    signal: abortController.signal,
-  });
-}
+
