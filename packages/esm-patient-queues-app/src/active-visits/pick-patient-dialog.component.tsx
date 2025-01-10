@@ -22,7 +22,6 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [provider, setProvider] = useState('');
 
-  // Centralized error handling function
   const handleError = (title, error) => {
     const errorMessages = extractErrorMessagesFromResponse(error);
     showNotification({
@@ -33,7 +32,6 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
     });
   };
 
-  // Fetch provider details
   const fetchProvider = useCallback(async () => {
     if (!sessionUser?.user?.uuid) return;
 
@@ -57,7 +55,6 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
     fetchProvider();
   }, [fetchProvider]);
 
-  // Handle patient queue status update
   const pickPatientQueueStatus = useCallback(
     async (event) => {
       event.preventDefault();
