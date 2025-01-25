@@ -119,7 +119,14 @@ export function usePatientQueueRequest(apiUrl: string) {
       priorityComment: queue.priorityComment,
       priority: queue.priorityComment === 'Urgent' ? 'Priority' : queue.priorityComment,
       priorityLevel: queue.priority,
-      waitTime: queue.dateCreated ? `${dayjs().diff(dayjs(queue.dateCreated), 'minutes')}` : '--',
+      waitTime:
+        queue.status === 'COMPLETED'
+          ? queue.dateCreated && queue.dateChanged
+            ? `${dayjs(queue.dateChanged).diff(dayjs(queue.dateCreated), 'minutes')} Minutes`
+            : '--'
+          : queue.dateCreated
+          ? `${dayjs().diff(dayjs(queue.dateCreated), 'minutes')} Minutes`
+          : '--',
       status: queue.status,
       patientAge: queue.patient?.person?.age,
       patientSex: queue.patient?.person?.gender === 'M' ? 'MALE' : 'FEMALE',
