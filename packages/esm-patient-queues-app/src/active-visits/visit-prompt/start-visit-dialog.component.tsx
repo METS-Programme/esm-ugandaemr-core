@@ -25,8 +25,6 @@ const StartVisitDialog: React.FC<StartVisitDialogProps> = ({ queueEntry, closeMo
     <div>
       <ModalHeader closeModal={closeModal}>Patient : {queueEntry?.name}</ModalHeader>
       <ModalBody>
-        <section></section>
-
         <section className={styles.section}>
           <div className={styles.sectionTitle}>{t('nextServicePoint', 'Next Service Point')}</div>
           <ResponsiveWrapper isTablet={isTablet}>

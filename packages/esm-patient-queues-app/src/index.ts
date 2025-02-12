@@ -11,7 +11,6 @@ import addPatientToQueueComponent from './active-visits/visit-form/visit-form.co
 import notesModalComponent from './active-visits/notes-dialog.component';
 import pickPatientEntryQueueComponent from './active-visits/pick-patient-dialog.component';
 import queueScreenComponent from './queue-board/queue-board.component';
-import testScreenComponent from './test.component';
 import rootComponent from './root.component';
 import homeDashboardComponent from './home.component';
 import outpatientSideNavExtComponent from './side-menu/side-menu.component';
@@ -75,4 +74,3 @@ export const pickPatientEntryQueue = getSyncLifecycle(pickPatientEntryQueueCompo
 
 export const queueScreen = getSyncLifecycle(queueScreenComponent, options);
 
-export const testScreen = getSyncLifecycle(testScreenComponent, options);
