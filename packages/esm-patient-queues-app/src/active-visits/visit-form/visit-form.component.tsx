@@ -50,7 +50,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const sessionUser = useSession();
   const config = useConfig() as ConfigObject;
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(0);
-  const [isMissingVisitType, setIsMissingVisitType] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [timeFormat, setTimeFormat] = useState<amPm>(new Date().getHours() >= 12 ? 'PM' : 'AM');
   const [visitDate, setVisitDate] = useState(new Date());
@@ -116,11 +115,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
       const status = 'pending';
       const comment = event?.target['nextNotes']?.value;
 
-      if (!visitType) {
-        setIsMissingVisitType(true);
-        return;
-      }
-
+  
       setIsSubmitting(true);
 
       const [hours, minutes] = convertTime12to24(visitTime, timeFormat);
