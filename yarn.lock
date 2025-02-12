@@ -2049,6 +2049,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hookform/resolvers@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@hookform/resolvers@npm:4.0.0"
+  peerDependencies:
+    react-hook-form: ^7.0.0
+  checksum: e7b64511f2cc097f0716bb04d400c6d20b54cb75493452cebe5cd596da5730d03087384fceac3613c70eb2ed886c24e7a95865b02c3118dde74f1afdcb6ebb77
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.11.10":
   version: 0.11.10
   resolution: "@humanwhocodes/config-array@npm:0.11.10"
@@ -8911,6 +8920,7 @@ __metadata:
   resolution: "@ugandaemr/esm-patient-queues-app@workspace:packages/esm-patient-queues-app"
   dependencies:
     "@carbon/react": ^1.64.1
+    "@hookform/resolvers": ^4.0.0
     dayjs: ^1.11.6
     lodash-es: ^4.17.15
     qrcode.react: ^3.1.0
@@ -8918,6 +8928,7 @@ __metadata:
     react-tooltip: ^5.26.3
     swr: ^2.1.1
     webpack: ^5.83.1
+    zod: ^3.24.2
   peerDependencies:
     "@openmrs/esm-framework": 5.8.2-pre.2417
     react: 18.x
@@ -24947,6 +24958,13 @@ __metadata:
   version: 3.22.4
   resolution: "zod@npm:3.22.4"
   checksum: 80bfd7f8039b24fddeb0718a2ec7c02aa9856e4838d6aa4864335a047b6b37a3273b191ef335bf0b2002e5c514ef261ffcda5a589fb084a48c336ffc4cdbab7f
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.24.2":
+  version: 3.24.2
+  resolution: "zod@npm:3.24.2"
+  checksum: c02455c09678c5055c636d64f9fcda2424fea0aa46ac7d9681e7f41990bc55f488bcd84b9d7cfef0f6e906f51f55b245239d92a9f726248aa74c5b84edf00c2d
   languageName: node
   linkType: hard
 
