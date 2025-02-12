@@ -66,10 +66,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   const { queueRoomLocations, mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState('');
   const [selectedProvider, setSelectedProvider] = useState('');
-  const { patient, isLoading } = usePatient(patientUuid);
-
-  const [upcomingAppointment, setUpcomingAppointment] = useState(null);
-  const upcomingAppointmentState = useMemo(() => ({ patientUuid, setUpcomingAppointment }), [patientUuid]);
 
   useEffect(() => {
     if (queueRoomLocations?.length && sessionUser) {
@@ -218,24 +214,8 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, toggleSearchTyp
   return (
     <Form className={styles.form} onChange={handleOnChange} onSubmit={handleSubmit}>
       <div>
-        {isLoading && (
-          <InlineLoading
-            className={styles.bannerLoading}
-            iconDescription="Loading"
-            description="Loading banner"
-            status="active"
-          />
-        )}
-
+      
         <Stack gap={8} className={styles.container}>
-          {config.showUpcomingAppointments && (
-            <section>
-              <div className={styles.sectionTitle}></div>
-              <div className={styles.sectionField}>
-                <ExtensionSlot state={upcomingAppointmentState} name="upcoming-appointment-slot" />
-              </div>
-            </section>
-          )}
           <section className={styles.section}>
             <div className={styles.sectionTitle}>{t('priority', 'Priority')}</div>
             <ContentSwitcher
