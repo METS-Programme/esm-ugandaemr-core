@@ -36,6 +36,13 @@
             "slot": "outpatient-sidebar-slot",
             "component": "outpatientSideNavExt"
         },
+
+        {
+            "name" : "start-visit-form-button",
+            "component": "startVisitFormButton",
+            "slot": "start-visit-button-slot"
+        },
+
         {
             "name": "patient-queues-dashboard-link",
             "component": "patientQueuesDashboardLink",

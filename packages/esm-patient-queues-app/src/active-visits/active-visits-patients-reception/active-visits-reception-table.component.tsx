@@ -26,11 +26,9 @@ import EditActionsMenu from '../edit-action-menu.components';
 import PrintActionsMenu from '../print-action-menu.components';
 import { buildStatusString, formatWaitTime, getTagColor, trimVisitNumber } from '../../helpers/functions';
 import StatusIcon from '../../queue-entry-table-components/status-icon.component';
-import { SearchTypes } from '../../types';
 import { usePatientQueuesList } from './active-visits-reception.resource';
 import styles from './active-visits-reception.scss';
 import { useParentLocation } from '../patient-queues.resource';
-import PatientSearch from '../../patient-search/patient-search.component';
 import QueueLauncher from '../../queue-launcher/queue-launcher.component';
 
 function ActiveVisitsReceptionTable() {
@@ -38,9 +36,6 @@ function ActiveVisitsReceptionTable() {
   const session = useSession();
   const layout = useLayoutType();
 
-  const [showOverlay, setShowOverlay] = useState(false);
-  const [overlayHeader, setOverlayTitle] = useState('');
-  const [view, setView] = useState('');
   const [viewState, setViewState] = useState<{ selectedPatientUuid: string } | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -144,10 +139,7 @@ function ActiveVisitsReceptionTable() {
                 renderIcon: (props) => <Add size={16} {...props} />,
               },
               selectPatientAction: (selectedPatientUuid) => {
-                setShowOverlay(true);
-                setView(SearchTypes.VISIT_FORM);
                 setViewState({ selectedPatientUuid });
-                setOverlayTitle(t('checkIn', 'Check In'));
               },
             }}
           />
@@ -240,7 +232,7 @@ function ActiveVisitsReceptionTable() {
         )}
       </DataTable>
 
-      {showOverlay && (
+      {/* {showOverlay && (
         <PatientSearch
           view={view}
           closePanel={() => setShowOverlay(false)}
@@ -249,7 +241,7 @@ function ActiveVisitsReceptionTable() {
           }}
           headerTitle={overlayHeader}
         />
-      )}
+      )} */}
     </div>
   );
 }

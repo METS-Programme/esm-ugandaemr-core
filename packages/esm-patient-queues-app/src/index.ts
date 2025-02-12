@@ -17,6 +17,8 @@ import outpatientSideNavExtComponent from './side-menu/side-menu.component';
 import triageRoomComponent from './queue-triage-home.component';
 import receptionRoomComponent from './queue-reception-home.component';
 import clinicalRoomComponent from './queue-clinical-room-home.component';
+import startVisitFormComponent from './active-visits/visit-form/visit-form.component';
+import startVisitFormButtonComponent from './active-visits/start-visit-form-button.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -73,4 +75,10 @@ export const notesModal = getSyncLifecycle(notesModalComponent, options);
 export const pickPatientEntryQueue = getSyncLifecycle(pickPatientEntryQueueComponent, options);
 
 export const queueScreen = getSyncLifecycle(queueScreenComponent, options);
+
+export const startVisitForm = getSyncLifecycle(startVisitFormComponent, options);
+
+export const startVisitFormButton = getSyncLifecycle(startVisitFormButtonComponent, options);
+
+
 

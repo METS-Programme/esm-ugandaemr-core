@@ -270,3 +270,25 @@ export const updatePatientQueueWaitingList = (queue: PatientQueue[]) => {
   const store = getPatientQueueWaitingList();
   store.setState({ queue });
 };
+
+
+// patient
+const initialSelectedPatientUuid = { patientUuid: localStorage.getItem('patientUuid') };
+
+export function getSelectedPatientUuid() {
+  return getGlobalStore<{ patientUuid: string }>('patientUuid', initialSelectedPatientUuid);
+}
+
+export const updateSelectedPatientUuid = (currentPatientUuid: string) => {
+  const store = getSelectedPatientUuid();
+  store.setState({ patientUuid: currentPatientUuid });
+};
+
+export const useSelectedPatientUuid = () => {
+  const [currentPatientUuid, setCurrentPatientUuid] = useState(initialSelectedPatientUuid.patientUuid);
+
+  useEffect(() => {
+    getSelectedPatientUuid().subscribe(({ patientUuid }) => setCurrentPatientUuid(patientUuid));
+  }, []);
+  return currentPatientUuid;
+};

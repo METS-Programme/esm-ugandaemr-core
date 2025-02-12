@@ -206,7 +206,7 @@ export async function updateQueueEntry(
 ) {
   const abortController = new AbortController();
 
-  return openmrsFetch(`${restBaseUrl}/patientqueue/${queueUuid}`, {
+  return await openmrsFetch(`${restBaseUrl}/patientqueue/${queueUuid}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -226,7 +226,7 @@ export async function updateQueueEntry(
 
 export async function endPatientStatus(previousQueueUuid: string, queueEntryUuid: string, endedAt: Date) {
   const abortController = new AbortController();
-  await openmrsFetch(`${restBaseUrl}/queue/${previousQueueUuid}/entry/${queueEntryUuid}`, {
+  return await openmrsFetch(`${restBaseUrl}/queue/${previousQueueUuid}/entry/${queueEntryUuid}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -250,7 +250,7 @@ export async function addQueueEntry(
 ) {
   const abortController = new AbortController();
 
-  return openmrsFetch(`${restBaseUrl}/patientqueue`, {
+  return await openmrsFetch(`${restBaseUrl}/patientqueue`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

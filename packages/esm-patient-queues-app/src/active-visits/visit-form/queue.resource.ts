@@ -1,6 +1,6 @@
 import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
 import useSWR from 'swr';
-import { Appointment, ProviderResponse } from '../../types';
+import { Appointment, NewVisitPayload, ProviderResponse } from '../../types';
 
 export async function saveAppointment(appointment: Appointment) {
   const abortController = new AbortController();
@@ -53,5 +53,34 @@ export async function getCurrentPatientQueueByPatientUuid(patientUuid: string, c
     headers: {
       'Content-Type': 'application/json',
     },
+  });
+}
+
+
+// create visit
+export async function createVisit(payload: NewVisitPayload) {
+  const abortController = new AbortController();
+
+  return await openmrsFetch(`${restBaseUrl}/visit`, {
+    method: 'POST',
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: payload,
+  });
+}
+
+// update Visit
+export async function updateVisit(uuid: string, payload: NewVisitPayload) {
+  const abortController = new AbortController();
+
+  return await openmrsFetch(`${restBaseUrl}/visit/${uuid}`, {
+    method: 'POST',
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: payload,
   });
 }
