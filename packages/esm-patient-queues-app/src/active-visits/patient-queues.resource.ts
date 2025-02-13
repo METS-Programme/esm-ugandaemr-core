@@ -1,9 +1,8 @@
 import dayjs from 'dayjs';
 import useSWR from 'swr';
-
 import { formatDate, openmrsFetch, parseDate, restBaseUrl } from '@openmrs/esm-framework';
 import { PatientQueue, UuidDisplay } from '../types/patient-queues';
-import { Appointment, NewVisitPayload, ProviderResponse } from '../types';
+import { NewVisitPayload, ProviderResponse } from '../types';
 
 export interface MappedPatientQueueEntry {
   id: string;
@@ -191,31 +190,6 @@ export function useChildLocations(parentUuid: string) {
   };
 }
 
-
-export async function saveAppointment(appointment: Appointment) {
-  const abortController = new AbortController();
-
-  await openmrsFetch(`${restBaseUrl}/appointment`, {
-    method: 'POST',
-    signal: abortController.signal,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: {
-      patientUuid: appointment?.patient.uuid,
-      serviceUuid: appointment?.service?.uuid,
-      startDateTime: appointment?.startDateTime,
-      endDateTime: appointment?.endDateTime,
-      appointmentKind: appointment?.appointmentKind,
-      locationUuid: appointment?.location?.uuid,
-      comments: appointment?.comments,
-      status: 'CheckedIn',
-      appointmentNumber: appointment?.appointmentNumber,
-      uuid: appointment?.uuid,
-      providerUuid: appointment?.provider?.uuid,
-    },
-  });
-}
 
 // fetch providers of a service point
 export function useProviders() {
