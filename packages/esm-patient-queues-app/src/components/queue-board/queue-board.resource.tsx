@@ -31,15 +31,16 @@ export function usePatientQueuesByParentLocation(status: string) {
   const {
     data,
     error: patientQueueErrors,
-    isLoading: patientQueueLoading,
+    isLoading: patientQueueLoading, mutate
   } = useSWR<{
     data: { results: Array<PatientQueue> };
-  }>(queueApiUrl, openmrsFetch, { refreshInterval: 20000 });
+  }>(queueApiUrl, openmrsFetch);
 
   return {
     isLoading: patientQueueLoading || queueRoomLoading,
     isError: patientQueueErrors || queueRoomError,
     patientQueues: data?.data?.results,
+    mutate
   };
 }
 

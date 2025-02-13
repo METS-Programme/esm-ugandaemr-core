@@ -106,7 +106,6 @@ export function usePatientQueueRequest(apiUrl: string) {
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,
-    { refreshInterval: 3000 },
   );
 
   const mapppedQueues = data?.data?.results.map((queue: PatientQueue) => {
@@ -194,7 +193,7 @@ export function useChildLocations(parentUuid: string) {
 // fetch providers of a service point
 export function useProviders() {
   const apiUrl = `${restBaseUrl}/provider?q=&v=full`;
-  const { data, error, isLoading, isValidating } = useSWR<{ data: { results: Array<ProviderResponse> } }, Error>(
+  const { data, error, isLoading, isValidating,mutate } = useSWR<{ data: { results: Array<ProviderResponse> } }, Error>(
     apiUrl,
     openmrsFetch,
   );
@@ -204,6 +203,7 @@ export function useProviders() {
     isLoading,
     isError: error,
     isValidating,
+    mutate
   };
 }
 

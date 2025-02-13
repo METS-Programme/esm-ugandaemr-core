@@ -15,7 +15,6 @@ export function usePatientQueueRequest(apiUrl: string) {
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,
-    { refreshInterval: 3000 },
   );
 
   const mapppedQueues = data?.data?.results.map((queue: PatientQueue) => {
