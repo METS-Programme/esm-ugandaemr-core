@@ -19,19 +19,17 @@ import {
   showNotification,
   showSnackbar,
   showToast,
-  updateVisit,
   useSession,
   useVisit,
 } from '@openmrs/esm-framework';
 import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
-import { first } from 'rxjs/operators';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { MappedQueueEntry } from '../types';
 import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 import styles from './change-status-dialog.scss';
 import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
-import { useProviders } from './visit-form/queue.resource';
+import { updateVisit, useProviders } from './visit-form/queue.resource';
 
 interface ChangeStatusDialogProps {
   queueEntry: MappedQueueEntry;
@@ -137,185 +135,150 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
       : [],
   );
   // endVisit
-  const endCurrentVisit = () => {
-    const endVisitPayload = {
-      location: activeVisit.location.uuid,
-      startDatetime: parseDate(activeVisit.startDatetime),
-      visitType: activeVisit.visitType.uuid,
-      stopDatetime: new Date(),
-    };
+  const endCurrentVisit = async () => {
+    try {
+      const endVisitPayload = {
+        location: activeVisit.location.uuid,
+        startDatetime: parseDate(activeVisit.startDatetime),
+        visitType: activeVisit.visitType.uuid,
+        stopDatetime: new Date(),
+      };
 
-    const abortController = new AbortController();
-    updateVisit(activeVisit.uuid, endVisitPayload, abortController)
-      .pipe(first())
-      .subscribe(
-        (response) => {
-          if (response.status === 200) {
-            const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-            updateQueueEntry(
-              QueueStatus.Completed,
-              provider,
-              queueEntry?.id,
-              contentSwitcherIndex,
-              priorityComment,
-              comment,
-            ).then(
-              () => {
-                showSnackbar({
-                  isLowContrast: true,
-                  kind: 'success',
-                  subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
-                  title: t('visitEnded', 'Visit ended'),
-                });
-                navigate({ to: `\${openmrsSpaBase}/home` });
+      const response = await updateVisit(activeVisit.uuid, endVisitPayload);
 
-                closeModal();
-                mutate();
-              },
-              (error) => {
-                showNotification({
-                  title: t('queueEntryUpdateFailed', 'Error ending visit'),
-                  kind: 'error',
-                  critical: true,
-                  description: error?.message,
-                });
-              },
-            );
-            mutate();
-            closeModal();
-          }
-        },
-        (error) => {
+      if (response.status === 200) {
+        const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+
+        try {
+          await updateQueueEntry(
+            QueueStatus.Completed,
+            provider,
+            queueEntry?.id,
+            contentSwitcherIndex,
+            priorityComment,
+            comment,
+          );
+
           showSnackbar({
-            title: t('errorEndingVisit', 'Error ending visit'),
-            kind: 'error',
-            isLowContrast: false,
-            subtitle: error?.message,
+            isLowContrast: true,
+            kind: 'success',
+            subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
+            title: t('visitEnded', 'Visit ended'),
           });
-        },
-      );
+
+          navigate({ to: `\${openmrsSpaBase}/home` });
+          closeModal();
+          mutate();
+        } catch (error) {
+          showNotification({
+            title: t('queueEntryUpdateFailed', 'Error ending visit'),
+            kind: 'error',
+            critical: true,
+            description: error?.message,
+          });
+        }
+      }
+    } catch (error) {
+      showSnackbar({
+        title: t('errorEndingVisit', 'Error ending visit'),
+        kind: 'error',
+        isLowContrast: false,
+        subtitle: error?.message,
+      });
+    }
   };
 
-  // change to picked
   const changeQueueStatus = useCallback(
-    (event: { preventDefault: () => void; target: { [x: string]: { value: string } } }) => {
+    async (event: { preventDefault: () => void; target: { [x: string]: { value: string } } }) => {
       event.preventDefault();
-      // Check status
-      if (status === QueueStatus.Pending) {
-        const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-        updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, comment).then(
-          () => {
-            showToast({
-              critical: true,
-              title: t('updateEntry', 'Update entry'),
-              kind: 'success',
-              description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
-            });
-            closeModal();
-            mutate();
-          },
-          (error) => {
-            showNotification({
-              title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-              kind: 'error',
-              critical: true,
-              description: error?.message,
-            });
-          },
-        );
-      } else if (status === QueueStatus.Completed) {
-        const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-        const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
 
-        updateQueueEntry(
-          QueueStatus.Completed,
-          provider,
-          queueEntry?.id,
-          contentSwitcherIndex,
-          priorityComment,
-          comment,
-        ).then(
-          () => {
-            showToast({
-              critical: true,
-              title: t('updateEntry', 'Update entry'),
-              kind: 'success',
-              description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
-            });
-            mutate();
+      try {
+        if (status === QueueStatus.Pending) {
+          const comment = event?.target['nextNotes']?.value ?? 'Not Set';
 
-            addQueueEntry(
-              nextQueueLocationUuid,
-              queueEntry?.patientUuid,
-              selectedProvider,
-              contentSwitcherIndex,
-              QueueStatus.Pending,
-              sessionUser?.sessionLocation?.uuid,
-              priorityComment,
-              comment,
-            ).then(
-              () => {
-                showToast({
-                  critical: true,
-                  title: t('addQueueEntry', 'Add Queue Entry'),
-                  kind: 'success',
-                  description: t('queueEntryAddedSuccessfully', 'Queue Entry Added Successfully'),
-                });
-                mutate();
+          await updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, comment);
 
-                // Pick and route
-                updateQueueEntry(
-                  QueueStatus.Picked,
-                  provider,
-                  currentEntry?.id,
-                  contentSwitcherIndex,
-                  priorityComment,
-                  comment,
-                ).then(
-                  () => {
-                    showToast({
-                      critical: true,
-                      title: t('updateEntry', 'Move to next queue'),
-                      kind: 'success',
-                      description: t('movetonextqueue', 'Move to next queue successfully'),
-                    });
-                    // View patient summary
-                    navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry.patientUuid}/chart` });
-                    closeModal();
-                    mutate();
-                  },
-                  (error) => {
-                    showNotification({
-                      title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-                      kind: 'error',
-                      critical: true,
-                      description: error?.message,
-                    });
-                  },
-                );
+          showToast({
+            critical: true,
+            title: t('updateEntry', 'Update entry'),
+            kind: 'success',
+            description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
+          });
 
-                closeModal();
-                mutate();
-              },
-              (error) => {
-                showNotification({
-                  title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-                  kind: 'error',
-                  critical: true,
-                  description: error?.message,
-                });
-              },
-            );
-          },
-          (error) => {
-            showNotification({
-              title: t('queueEntryUpdateFailed', 'Error ending visit'),
-              kind: 'error',
-              critical: true,
-              description: error?.message,
-            });
-          },
-        );
+          closeModal();
+          mutate();
+        } else if (status === QueueStatus.Completed) {
+          const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+          const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
+
+          await updateQueueEntry(
+            QueueStatus.Completed,
+            provider,
+            queueEntry?.id,
+            contentSwitcherIndex,
+            priorityComment,
+            comment,
+          );
+
+          showToast({
+            critical: true,
+            title: t('updateEntry', 'Update entry'),
+            kind: 'success',
+            description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
+          });
+
+          mutate();
+
+          await addQueueEntry(
+            nextQueueLocationUuid,
+            queueEntry?.patientUuid,
+            selectedProvider,
+            contentSwitcherIndex,
+            QueueStatus.Pending,
+            sessionUser?.sessionLocation?.uuid,
+            priorityComment,
+            comment,
+          );
+
+          showToast({
+            critical: true,
+            title: t('addQueueEntry', 'Add Queue Entry'),
+            kind: 'success',
+            description: t('queueEntryAddedSuccessfully', 'Queue Entry Added Successfully'),
+          });
+
+          mutate();
+
+          // Pick and route
+          await updateQueueEntry(
+            QueueStatus.Picked,
+            provider,
+            currentEntry?.id,
+            contentSwitcherIndex,
+            priorityComment,
+            comment,
+          );
+
+          showToast({
+            critical: true,
+            title: t('updateEntry', 'Move to next queue'),
+            kind: 'success',
+            description: t('movetonextqueue', 'Move to next queue successfully'),
+          });
+
+          // View patient summary
+          navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry.patientUuid}/chart` });
+
+          closeModal();
+          mutate();
+        }
+      } catch (error: any) {
+        showNotification({
+          title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+          kind: 'error',
+          critical: true,
+          description: error?.message,
+        });
       }
     },
     [

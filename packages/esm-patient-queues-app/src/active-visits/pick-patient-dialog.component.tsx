@@ -56,35 +56,35 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
   useEffect(() => fetchProvider(), [fetchProvider]);
 
   const pickPatientQueueStatus = useCallback(
-    (event) => {
-      event.preventDefault();
+  async (event) => {
+    event.preventDefault();
 
+    try {
       const status = 'Picked';
-      updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, 'comment').then(
-        () => {
-          showToast({
-            critical: true,
-            title: t('updateEntry', 'Update entry'),
-            kind: 'success',
-            description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
-          });
+      await updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, 'comment');
 
-          navigate({ to: `\${openmrsSpaBase}/patient/${queueEntry.patientUuid}/chart` });
-          closeModal();
-          mutate();
-        },
-        (error) => {
-          showNotification({
-            title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-            kind: 'error',
-            critical: true,
-            description: error?.message,
-          });
-        },
-      );
-    },
-    [provider, queueEntry?.id, queueEntry.patientUuid, priorityComment, t, closeModal, mutate],
-  );
+      showToast({
+        critical: true,
+        title: t('updateEntry', 'Update entry'),
+        kind: 'success',
+        description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
+      });
+
+      navigate({ to: `\${openmrsSpaBase}/patient/${queueEntry.patientUuid}/chart` });
+      closeModal();
+      mutate();
+    } catch (error: any) {
+      showNotification({
+        title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+        kind: 'error',
+        critical: true,
+        description: error?.message,
+      });
+    }
+  },
+  [provider, queueEntry?.id, queueEntry.patientUuid, priorityComment, t, closeModal, mutate]
+);
+
 
   if (queueEntry && Object.keys(queueEntry)?.length === 0) {
     return <ModalHeader closeModal={closeModal} title={t('patientNotInQueue', 'The patient is not in the queue')} />;
