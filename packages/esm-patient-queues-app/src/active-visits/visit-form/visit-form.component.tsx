@@ -24,12 +24,12 @@ import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './visit-form.scss';
-import { createVisit, useProviders } from './queue.resource';
-import { NewVisitPayload, SearchTypes } from '../../types';
+import { NewVisitPayload } from '../../types';
 import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
 import { useQueueRoomLocations } from '../../hooks/useQueueRooms';
 import { addQueueEntry } from '../active-visits-table.resource';
 import Overlay from '../../overlay.component';
+import { createVisit, useProviders } from '../patient-queues.resource';
 
 interface VisitFormProps {
   patientUuid: string;

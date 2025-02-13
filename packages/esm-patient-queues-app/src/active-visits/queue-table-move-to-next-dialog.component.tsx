@@ -18,8 +18,8 @@ import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visit
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './change-status-dialog.scss';
 import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
-import { getCurrentPatientQueueByPatientUuid, useProviders } from './visit-form/queue.resource';
 import { PatientQueue } from '../types/patient-queues';
+import { getCurrentPatientQueueByPatientUuid, useProviders } from './patient-queues.resource';
 
 interface ChangeStatusDialogProps {
   patient: string;

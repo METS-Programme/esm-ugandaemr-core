@@ -21,7 +21,7 @@ export function VisitCardToPrint({ queueEntry }: VisitCardToPrintProps) {
           {queueEntry.identifiers.length > 0 && patientUIC ? (
             <QRCodeSVG value={patientUIC?.display.split('=')[1]} />
           ) : (
-            <> An Error occured</>
+            <> NA</>
           )}
         </div>
         <div>

@@ -231,17 +231,6 @@ function ActiveVisitsReceptionTable() {
           </TableContainer>
         )}
       </DataTable>
-
-      {/* {showOverlay && (
-        <PatientSearch
-          view={view}
-          closePanel={() => setShowOverlay(false)}
-          viewState={{
-            selectedPatientUuid: viewState.selectedPatientUuid,
-          }}
-          headerTitle={overlayHeader}
-        />
-      )} */}
     </div>
   );
 }

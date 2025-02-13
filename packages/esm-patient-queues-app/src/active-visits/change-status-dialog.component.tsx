@@ -29,7 +29,7 @@ import { MappedQueueEntry } from '../types';
 import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 import styles from './change-status-dialog.scss';
 import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
-import { updateVisit, useProviders } from './visit-form/queue.resource';
+import { updateVisit, useProviders } from './patient-queues.resource';
 
 interface ChangeStatusDialogProps {
   queueEntry: MappedQueueEntry;

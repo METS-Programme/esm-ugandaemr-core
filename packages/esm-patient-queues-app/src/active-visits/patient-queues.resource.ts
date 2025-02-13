@@ -3,6 +3,7 @@ import useSWR from 'swr';
 
 import { formatDate, openmrsFetch, parseDate, restBaseUrl } from '@openmrs/esm-framework';
 import { PatientQueue, UuidDisplay } from '../types/patient-queues';
+import { Appointment, NewVisitPayload, ProviderResponse } from '../types';
 
 export interface MappedPatientQueueEntry {
   id: string;
@@ -188,4 +189,88 @@ export function useChildLocations(parentUuid: string) {
     isValidating,
     mutate,
   };
+}
+
+
+export async function saveAppointment(appointment: Appointment) {
+  const abortController = new AbortController();
+
+  await openmrsFetch(`${restBaseUrl}/appointment`, {
+    method: 'POST',
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: {
+      patientUuid: appointment?.patient.uuid,
+      serviceUuid: appointment?.service?.uuid,
+      startDateTime: appointment?.startDateTime,
+      endDateTime: appointment?.endDateTime,
+      appointmentKind: appointment?.appointmentKind,
+      locationUuid: appointment?.location?.uuid,
+      comments: appointment?.comments,
+      status: 'CheckedIn',
+      appointmentNumber: appointment?.appointmentNumber,
+      uuid: appointment?.uuid,
+      providerUuid: appointment?.provider?.uuid,
+    },
+  });
+}
+
+// fetch providers of a service point
+export function useProviders() {
+  const apiUrl = `${restBaseUrl}/provider?q=&v=full`;
+  const { data, error, isLoading, isValidating } = useSWR<{ data: { results: Array<ProviderResponse> } }, Error>(
+    apiUrl,
+    openmrsFetch,
+  );
+
+  return {
+    providers: data ? data.data?.results : [],
+    isLoading,
+    isError: error,
+    isValidating,
+  };
+}
+
+export async function getCurrentPatientQueueByPatientUuid(patientUuid: string, currentLocation: string) {
+  const apiUrl = `${restBaseUrl}/incompletequeue?queueRoom=${currentLocation}&patient=${patientUuid}&v=full`;
+
+  const abortController = new AbortController();
+
+  return await openmrsFetch(apiUrl, {
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
+
+// create visit
+export async function createVisit(payload: NewVisitPayload) {
+  const abortController = new AbortController();
+
+  return await openmrsFetch(`${restBaseUrl}/visit`, {
+    method: 'POST',
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: payload,
+  });
+}
+
+// update Visit
+export async function updateVisit(uuid: string, payload: NewVisitPayload) {
+  const abortController = new AbortController();
+
+  return await openmrsFetch(`${restBaseUrl}/visit/${uuid}`, {
+    method: 'POST',
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: payload,
+  });
 }
