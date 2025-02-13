@@ -224,20 +224,6 @@ export async function updateQueueEntry(
   });
 }
 
-export async function endPatientStatus(previousQueueUuid: string, queueEntryUuid: string, endedAt: Date) {
-  const abortController = new AbortController();
-  return await openmrsFetch(`${restBaseUrl}/queue/${previousQueueUuid}/entry/${queueEntryUuid}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    signal: abortController.signal,
-    body: {
-      endedAt: endedAt,
-    },
-  });
-}
-
 export async function addQueueEntry(
   queueUuid: string,
   patientUuid: string,

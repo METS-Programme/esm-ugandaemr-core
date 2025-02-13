@@ -92,35 +92,19 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   useEffect(() => fetchProvider(), [fetchProvider]);
 
-  useMemo(() => {
-    switch (statusSwitcherIndex) {
-      case 0: {
-        setStatus(QueueStatus.Pending);
-        break;
-      }
-      case 1: {
-        setStatus(QueueStatus.Completed);
-        break;
-      }
-    }
-  }, [statusSwitcherIndex]);
+  const priorityLabels = ['Not Urgent', 'Urgent', 'Emergency'];
+  const statusLabels = [
+    { status: 'pending', label: 'Move to Pending' },
+    { status: 'completed', label: 'Move to Completed' },
+  ];
 
-  useMemo(() => {
-    switch (contentSwitcherIndex) {
-      case 0: {
-        setPriorityComment('Not Urgent');
-        break;
-      }
-      case 1: {
-        setPriorityComment('Urgent');
-        break;
-      }
-      case 2: {
-        setPriorityComment('Emergency');
-        break;
-      }
-    }
+  useEffect(() => {
+    setPriorityComment(priorityLabels[contentSwitcherIndex]);
   }, [contentSwitcherIndex]);
+
+  useEffect(() => {
+    setStatus(statusLabels[statusSwitcherIndex].status);
+  }, [statusSwitcherIndex]);
 
   const filteredlocations = queueRoomLocations?.filter((location) => location?.uuid != null);
 
@@ -352,9 +336,13 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                 className={styles.contentSwitcher}
                 onChange={({ index }) => setContentSwitcherIndex(index)}
               >
-                <Switch name="notUrgent" text={t('notUrgent', 'Not Urgent')} />
-                <Switch name="urgent" text={t('urgent', 'Urgent')} />
-                <Switch name="emergency" text={t('emergency', 'Emergency')} />
+                {priorityLabels.map((label, index) => (
+                  <Switch
+                    key={index}
+                    name={label.toLowerCase().replace(' ', '')}
+                    text={t(label.toLowerCase(), label)}
+                  />
+                ))}
               </ContentSwitcher>
             </section>
 
@@ -365,65 +353,66 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                 className={styles.contentSwitcher}
                 onChange={({ index }) => setStatusSwitcherIndex(index)}
               >
-                <Switch name="pending" text={t('pending', 'Move to Pending')} />
-                <Switch name="completed" text={t('completed', 'Move to completed')} />
+                {statusLabels.map((status, index) => (
+                  <Switch
+                    key={index}
+                    name={status.label.toLowerCase().replace(' ', '')}
+                    text={t(status.label.toLowerCase(), status.label)}
+                  />
+                ))}
               </ContentSwitcher>
             </section>
 
             {status === QueueStatus.Completed && (
-              <section className={styles.section}>
-                <Select
-                  labelText={t('selectNextQueueRoom', 'Select next queue room ')}
-                  id="nextQueueLocation"
-                  name="nextQueueLocation"
-                  invalidText="Required"
-                  value={selectedNextQueueLocation}
-                  onChange={(event) => setSelectedNextQueueLocation(event.target.value)}
-                >
-                  {!selectedNextQueueLocation ? (
-                    <SelectItem text={t('selectNextServicePoint', 'Select next service point')} value="" />
-                  ) : null}
-                  {filteredlocations.map((location) => (
-                    <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
-                      {location.display}
-                    </SelectItem>
-                  ))}
-                </Select>
-              </section>
-            )}
-
-            {status === QueueStatus.Completed && (
-              <section className={styles.section}>
-                <Select
-                  labelText={t('selectProvider', 'Select a provider')}
-                  id="providers-list"
-                  name="providers-list"
-                  invalidText="Required"
-                  value={selectedProvider}
-                  onChange={(event) => setSelectedProvider(event.target.value)}
-                >
-                  {!selectedProvider ? <SelectItem text={t('selectProvider', 'Select a provider')} value="" /> : null}
-                  {filteredProviders.map((provider) => (
-                    <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
-                      {provider.display}
-                    </SelectItem>
-                  ))}
-                </Select>
-              </section>
-            )}
-
-            {status === QueueStatus.Completed && (
-              <section className={styles.section}>
-                <TextArea
-                  labelText={t('notes', 'Enter notes ')}
-                  id="nextNotes"
-                  name="nextNotes"
-                  invalidText="Required"
-                  helperText="Please enter notes"
-                  maxCount={500}
-                  enableCounter
-                />
-              </section>
+              <>
+                <section className={styles.section}>
+                  <Select
+                    labelText={t('selectNextQueueRoom', 'Select next queue room ')}
+                    id="nextQueueLocation"
+                    name="nextQueueLocation"
+                    invalidText="Required"
+                    value={selectedNextQueueLocation}
+                    onChange={(event) => setSelectedNextQueueLocation(event.target.value)}
+                  >
+                    {!selectedNextQueueLocation ? (
+                      <SelectItem text={t('selectNextServicePoint', 'Select next service point')} value="" />
+                    ) : null}
+                    {filteredlocations.map((location) => (
+                      <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
+                        {location.display}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </section>
+                <section className={styles.section}>
+                  <Select
+                    labelText={t('selectProvider', 'Select a provider')}
+                    id="providers-list"
+                    name="providers-list"
+                    invalidText="Required"
+                    value={selectedProvider}
+                    onChange={(event) => setSelectedProvider(event.target.value)}
+                  >
+                    {!selectedProvider ? <SelectItem text={t('selectProvider', 'Select a provider')} value="" /> : null}
+                    {filteredProviders.map((provider) => (
+                      <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
+                        {provider.display}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </section>
+                <section className={styles.section}>
+                  <TextArea
+                    labelText={t('notes', 'Enter notes ')}
+                    id="nextNotes"
+                    name="nextNotes"
+                    invalidText="Required"
+                    helperText="Please enter notes"
+                    maxCount={500}
+                    enableCounter
+                  />
+                </section>
+              </>
             )}
           </ModalBody>
           <ModalFooter>
