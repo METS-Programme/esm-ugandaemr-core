@@ -24,11 +24,7 @@
         {
             "component": "clinicalRoom",
             "route": "patient-queues/clinical-room"
-        },
-        {
-            "component": "testScreen",
-            "route": "form-render-test"
-        }
+        }   
     ],
     "extensions": [
         {

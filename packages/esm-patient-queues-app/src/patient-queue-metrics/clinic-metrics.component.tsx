@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { PRIVILEGE_RECEPTION_METRIC, PRIVILIGE_TRIAGE_METRIC } from '../constants';
 
 import {
-  useAppointmentList,
   usePatientsBeingServed,
   usePatientsServed,
   useServicePointCount,
@@ -23,7 +22,6 @@ const ClinicMetrics: React.FC = () => {
   const { location } = useParentLocation(session?.sessionLocation?.uuid);
   const { servedCount } = usePatientsServed(session?.sessionLocation?.uuid, 'picked');
   const { patientQueueCount: pendingCount } = usePatientQueuesList(location?.parentLocation?.uuid);
-  const { appointmentList } = useAppointmentList('Scheduled');
   const creatorUuid = session?.user?.person?.display;
   const { patientQueueCount } = usePatientsBeingServed(session?.sessionLocation?.uuid, 'pending', creatorUuid);
 
@@ -41,7 +39,7 @@ const ClinicMetrics: React.FC = () => {
           headerLabel={t('checkedInPatients', 'Checked in patients')}
         />
         <MetricsCard
-          values={[{ label: 'Expected Appointments', value: appointmentList?.length }]}
+          values={[{ label: 'Expected Appointments', value: 0 }]}
           headerLabel={t('noOfExpectedAppointments', 'No. Of Expected Appointments')}
         />
         <MetricsCard values={stats} headerLabel={t('currentlyServing', 'No. of Currently being Served')} />

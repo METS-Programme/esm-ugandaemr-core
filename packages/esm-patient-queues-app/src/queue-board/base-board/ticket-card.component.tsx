@@ -1,4 +1,4 @@
-import styles from '../../queue-screen/queue-screen.scss';
+import styles from '../queue-board.scss';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { PatientQueue } from '../../types/patient-queues';

@@ -28,7 +28,7 @@ import { NewVisitPayload } from '../../types';
 import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
 import { useQueueRoomLocations } from '../../hooks/useQueueRooms';
 import { addQueueEntry } from '../active-visits-table.resource';
-import Overlay from '../../overlay.component';
+import Overlay from '../../components/overlay/overlay.component';
 import { createVisit, useProviders } from '../patient-queues.resource';
 
 interface VisitFormProps {

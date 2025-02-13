@@ -8,13 +8,10 @@ import {
   parseDate,
   useSession,
   getGlobalStore,
-  OpenmrsResource,
 } from '@openmrs/esm-framework';
-import { Identifier, MappedQueueEntry, Provider, ServiceTypes, WaitTime } from '../types';
+import {  WaitTime } from '../types';
 import { PatientQueue } from '../types/patient-queues';
 import { omrsDateFormat } from '../constants';
-import { amPm } from '../helpers/time-helpers';
-import { configSchema } from '../config-schema';
 import { Value } from './metrics-card.component';
 import { getMetrics } from './clinic-metrics.component';
 
@@ -264,23 +261,7 @@ export type IQueueRoom = {
   resourceVersion: string;
 };
 
-interface AppointmentPatientList {
-  uuid: string;
-  appointmentNumber: number;
-  patient: {
-    phoneNumber: string;
-    gender: string;
-    dob: number;
-    name: string;
-    uuid: string;
-    age: number;
-    identifiers?: Array<Identifier>;
-  };
-  providers: Array<Provider>;
-  service: AppointmentService;
-  startDateTime: string;
-  identifier: string;
-}
+
 
 export function useActiveVisits() {
   const currentUserSession = useSession();
@@ -445,42 +426,6 @@ export function useQueuePatients(status: string) {
   };
 }
 
-// appointments by statuses
-export const useAppointmentList = (appointmentStatus: string, date?: string) => {
-  const { currentAppointmentDate } = useAppointmentDate();
-  const startDate = date ? date : currentAppointmentDate;
-  const endDate = dayjs(startDate).endOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ'); // TODO: fix? is this correct?
-  const searchUrl = `/ws/rest/v1/appointments/search`;
-  const abortController = new AbortController();
-
-  const fetcher = ([url, startDate, endDate, status]) =>
-    openmrsFetch(url, {
-      method: 'POST',
-      signal: abortController.signal,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: {
-        startDate: startDate,
-        endDate: endDate,
-        status: status,
-      },
-    });
-
-  const { data, error, isLoading, mutate } = useSWR<{
-    data: Array<AppointmentPatientList>;
-  }>([searchUrl, startDate, endDate, appointmentStatus], fetcher, {
-    errorRetryCount: 2,
-  });
-
-  const appointments = data?.data?.map((appointment) => toAppointmentObject(appointment));
-  return {
-    appointmentList: (appointments as Array<any>) ?? [],
-    isLoading,
-    error,
-    mutate,
-  };
-};
 
 // overall being served patients
 export function useQueueServingPatients(status: string) {
@@ -517,42 +462,7 @@ export function getStartDate() {
   return getGlobalStore<{ appointmentDate: string | Date }>('appointmentStartDate', initialState);
 }
 
-function toAppointmentObject(appointment: AppointmentPatientList) {
-  return {
-    name: appointment.patient.name,
-    patientUuid: appointment.patient.uuid,
-    identifier: appointment?.patient?.identifiers?.find(
-      (identifier) => identifier.identifierName === configSchema.patientIdentifierType._default,
-    ).identifier,
-    dateTime: appointment.startDateTime,
-    serviceType: appointment.service?.name,
-    provider: appointment?.providers[0]?.['name'] ?? '',
-    serviceTypeUuid: appointment?.service?.uuid,
-    gender: appointment.patient?.gender,
-    phoneNumber: appointment.patient?.phoneNumber,
-    age: appointment.patient?.age,
-    uuid: appointment.uuid,
-  };
-}
 
-export interface AppointmentService {
-  appointmentServiceId: number;
-  creatorName: string;
-  description: string;
-  durationMins?: string | null;
-  endTime: string;
-  initialAppointmentStatus: string;
-  location?: OpenmrsResource;
-  maxAppointmentsLimit: number | null;
-  name: string;
-  specialityUuid?: OpenmrsResource | {};
-  startTime: string;
-  uuid: string;
-  serviceTypes?: Array<ServiceTypes>;
-  color?: string;
-  startTimeTimeFormat?: amPm;
-  endTimeTimeFormat?: amPm;
-}
 
 export interface PatientStats {
   locationTag: LocationTag;
