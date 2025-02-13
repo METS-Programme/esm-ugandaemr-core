@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import StartVisitForm from './visit-form/visit-form.component';
+import StartVisitForm from '../components/visit-form/visit-form.component';
 import { Button } from '@carbon/react';
-import { usePatient } from '@openmrs/esm-framework';
 
 interface StartVisitFormProps {
   patientUuid? : string
