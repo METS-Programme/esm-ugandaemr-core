@@ -4,7 +4,8 @@ import ActiveVisitsReceptionTable from './active-visits/active-visits-patients-r
 import MetricsCard from './components/patient-queue-metrics/metrics-card.component';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
-import styles from './patient-queue-metrics/clinic-metrics.scss';
+
+import styles from "./components/patient-queue-metrics/clinic-metrics.scss"
 
 import { useParentLocation } from './active-visits/patient-queues.resource';
 import { usePatientQueuesList } from './active-visits/active-visits-patients-reception/active-visits-reception.resource';
