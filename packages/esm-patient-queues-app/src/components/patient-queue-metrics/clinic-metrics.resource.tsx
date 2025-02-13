@@ -10,9 +10,9 @@ import {
   getGlobalStore,
   restBaseUrl,
 } from '@openmrs/esm-framework';
-import {  WaitTime } from '../types';
-import { PatientQueue } from '../types/patient-queues';
-import { omrsDateFormat } from '../constants';
+import {  WaitTime } from '../../types';
+import { PatientQueue } from '../../types/patient-queues';
+import { omrsDateFormat } from '../../constants';
 import { Value } from './metrics-card.component';
 import { getMetrics } from './clinic-metrics.component';
 
@@ -276,7 +276,7 @@ export function useActiveVisits() {
     startDate +
     '&location=' +
     sessionLocation;
-  const url = `/ws/rest/v1/visit?includeInactive=false&v=${customRepresentation}`;
+  const url = `${restBaseUrl}/visit?includeInactive=false&v=${customRepresentation}`;
   const { data, error, isLoading, isValidating } = useSWR<{ data: { results: Array<Visit> } }, Error>(
     sessionLocation ? url : null,
     openmrsFetch,
@@ -295,7 +295,7 @@ export function useActiveVisits() {
 }
 
 export function useAverageWaitTime(serviceUuid: string, statusUuid: string) {
-  const apiUrl = `/ws/rest/v1/queue-metrics?queue=${serviceUuid}&status=${statusUuid}`;
+  const apiUrl = `${restBaseUrl}/queue-metrics?queue=${serviceUuid}&status=${statusUuid}`;
 
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: WaitTime }, Error>(
     serviceUuid && statusUuid ? apiUrl : null,
@@ -312,7 +312,7 @@ export function useAverageWaitTime(serviceUuid: string, statusUuid: string) {
 }
 
 export function usePatientsServed(currentQueueLocationUuid: string, status: string) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&room=${currentQueueLocationUuid}&status=${status}`;
+  const apiUrl = `${restBaseUrl}/patientqueue?v=full&room=${currentQueueLocationUuid}&status=${status}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,
@@ -354,7 +354,7 @@ export function usePatientsServed(currentQueueLocationUuid: string, status: stri
 
 // get Queue Item
 export function usePatientBeingServed(currentQueueLocationUuid: string, status: string) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&status=${status}`;
+  const apiUrl = `${restBaseUrl}/patientqueue?v=full&location=${currentQueueLocationUuid}&status=${status}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,
@@ -368,7 +368,7 @@ export function usePatientBeingServed(currentQueueLocationUuid: string, status: 
 }
 
 export function usePatientsBeingServed(currentQueueLocationUuid: string, status: string, loggedInProviderUuid: string) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&location=${currentQueueLocationUuid}&status=${status}`;
+  const apiUrl = `${restBaseUrl}/patientqueue?v=full&location=${currentQueueLocationUuid}&status=${status}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,
@@ -412,7 +412,7 @@ export function usePatientsBeingServed(currentQueueLocationUuid: string, status:
 
 // overall checked in patients
 export function useQueuePatients(status: string) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&status=${status}`;
+  const apiUrl = `${restBaseUrl}/patientqueue?v=full&status=${status}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,
@@ -430,7 +430,7 @@ export function useQueuePatients(status: string) {
 
 // overall being served patients
 export function useQueueServingPatients(status: string) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&status=${status}`;
+  const apiUrl = `${restBaseUrl}/patientqueue?v=full&status=${status}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,

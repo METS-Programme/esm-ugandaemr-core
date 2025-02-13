@@ -1,7 +1,7 @@
 import React from 'react';
 import { UserHasAccess, useSession } from '@openmrs/esm-framework';
 import { useTranslation } from 'react-i18next';
-import { PRIVILEGE_RECEPTION_METRIC, PRIVILIGE_TRIAGE_METRIC } from '../constants';
+import { PRIVILEGE_RECEPTION_METRIC, PRIVILIGE_TRIAGE_METRIC } from '../../constants';
 
 import {
   usePatientsBeingServed,
@@ -10,8 +10,8 @@ import {
 } from './clinic-metrics.resource';
 import styles from './clinic-metrics.scss';
 import MetricsCard from './metrics-card.component';
-import { useParentLocation } from '../active-visits/patient-queues.resource';
-import { usePatientQueuesList } from '../active-visits/active-visits-patients-reception/active-visits-reception.resource';
+import { useParentLocation } from '../../active-visits/patient-queues.resource';
+import { usePatientQueuesList } from '../../active-visits/active-visits-patients-reception/active-visits-reception.resource';
 import { CheckmarkOutline, Pending, ProgressBarRound } from '@carbon/react/icons';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import dayjs from 'dayjs';

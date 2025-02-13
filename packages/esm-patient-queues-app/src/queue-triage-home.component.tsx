@@ -1,14 +1,14 @@
 import React from 'react';
 
 import PatientQueueHeader from './components/patient-queue-header/patient-queue-header.component';
-import MetricsCard from './patient-queue-metrics/metrics-card.component';
+import MetricsCard from './components/patient-queue-metrics/metrics-card.component';
 import { useTranslation } from 'react-i18next';
 import { useSession } from '@openmrs/esm-framework';
 import styles from './patient-queue-metrics/clinic-metrics.scss';
 
 import { useParentLocation } from './active-visits/patient-queues.resource';
 import { usePatientQueuesList } from './active-visits/active-visits-patients-reception/active-visits-reception.resource';
-import { usePatientsBeingServed, usePatientsServed } from './patient-queue-metrics/clinic-metrics.resource';
+import { usePatientsBeingServed, usePatientsServed } from './components/patient-queue-metrics/clinic-metrics.resource';
 import ActiveTriageVisitsTabs from './active-visits/active-visits-triage-tab.component';
 
 const TriageHome: React.FC = () => {

@@ -4,7 +4,7 @@ import { MessageQueue } from '@carbon/react/icons';
 import { Button } from '@carbon/react';
 import styles from './metrics-header.scss';
 import { navigate } from '@openmrs/esm-framework';
-import { spaBasePath } from '../constants';
+import { spaBasePath } from '../../constants';
 
 const MetricsHeader = () => {
   const { t } = useTranslation();
