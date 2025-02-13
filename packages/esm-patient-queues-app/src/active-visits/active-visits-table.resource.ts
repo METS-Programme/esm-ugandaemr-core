@@ -267,17 +267,6 @@ export function generateVisitQueueNumber(location: string, patient: string) {
   });
 }
 
-export function useGenerateVisitQueueNumber(location: string, patient: string) {
-  const apiUrl = `${restBaseUrl}/queuenumber?patient=${patient}&location=${location}`;
-  const { data, error, isLoading } = useSWR<{ data: VisitNumberResponse }, Error>(apiUrl, openmrsFetch);
-
-  return {
-    visitNumber: data.data.queueNumber,
-    isLoading,
-    isError: error,
-  };
-}
-
 export function getCareProvider(provider: string) {
   const abortController = new AbortController();
 
