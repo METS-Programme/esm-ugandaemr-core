@@ -1,11 +1,11 @@
-import { usePatientQueueRequest } from '../active-visits/patient-queues.resource';
-import { QueueRoomsResponse } from '../hooks/useQueueRooms';
+import { usePatientQueueRequest } from '../../active-visits/patient-queues.resource';
+import { QueueRoomsResponse } from '../../hooks/useQueueRooms';
 import useSWR from 'swr';
-import { openmrsFetch, useSession } from '@openmrs/esm-framework';
-import { PatientQueue } from '../types/patient-queues';
+import { openmrsFetch, restBaseUrl, useSession } from '@openmrs/esm-framework';
+import { PatientQueue } from '../../types/patient-queues';
 
 export function usePatientQueuesListByStatus(status: string) {
-  const apiUrl = `/ws/rest/v1/patientqueue?v=full&status=${status}`;
+  const apiUrl = `${restBaseUrl}/patientqueue?v=full&status=${status}`;
   return usePatientQueueRequest(apiUrl);
 }
 
@@ -13,7 +13,7 @@ export function usePatientQueuesByParentLocation(status: string) {
   const session = useSession();
   const locationUuid = session?.sessionLocation?.uuid;
 
-  const locationApiUrl = locationUuid ? `/ws/rest/v1/location/${locationUuid}?v=full` : null;
+  const locationApiUrl = locationUuid ? `${restBaseUrl}/location/${locationUuid}?v=full` : null;
   const {
     data: queueRoomsData,
     error: queueRoomError,
@@ -25,7 +25,7 @@ export function usePatientQueuesByParentLocation(status: string) {
   const parentLocationUuid = queueRoomsData?.data?.parentLocation?.uuid;
 
   const queueApiUrl = parentLocationUuid
-    ? `/ws/rest/v1/patientqueue?status=${status}&parentLocation=${queueRoomsData?.data?.parentLocation?.uuid}`
+    ? `${restBaseUrl}/patientqueue?status=${status}&parentLocation=${queueRoomsData?.data?.parentLocation?.uuid}`
     : null;
 
   const {

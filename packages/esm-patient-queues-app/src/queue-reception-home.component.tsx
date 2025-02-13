@@ -1,5 +1,5 @@
 import React from 'react';
-import PatientQueueHeader from './patient-queue-header/patient-queue-header.component';
+import PatientQueueHeader from './components/patient-queue-header/patient-queue-header.component';
 import ActiveVisitsReceptionTable from './active-visits/active-visits-patients-reception/active-visits-reception-table.component';
 import MetricsCard from './patient-queue-metrics/metrics-card.component';
 import { useTranslation } from 'react-i18next';

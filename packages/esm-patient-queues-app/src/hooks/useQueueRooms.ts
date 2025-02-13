@@ -1,4 +1,4 @@
-import { openmrsFetch } from '@openmrs/esm-framework';
+import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
 import { useMemo } from 'react';
 import useSWR from 'swr';
 
@@ -129,7 +129,7 @@ export interface Links {
 }
 
 export function useQueueRoomLocations(currentQueueLocation: string) {
-  const apiUrl = `/ws/rest/v1/location/${currentQueueLocation}?v=full`;
+  const apiUrl = `${restBaseUrl}/location/${currentQueueLocation}?v=full`;
   const { data, error, isLoading, mutate } = useSWR<{ data: QueueRoomsResponse }>(apiUrl, openmrsFetch);
 
   const queueRoomLocations = useMemo(

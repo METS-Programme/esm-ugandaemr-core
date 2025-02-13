@@ -10,7 +10,7 @@ import moveToNextServicePointButtonComponent from './active-visits/move-to-next-
 import addPatientToQueueComponent from './active-visits/visit-form/visit-form.component';
 import notesModalComponent from './active-visits/notes-dialog.component';
 import pickPatientEntryQueueComponent from './active-visits/pick-patient-dialog.component';
-import queueScreenComponent from './queue-board/queue-board.component';
+import queueScreenComponent from './components/queue-board/queue-board.component';
 import rootComponent from './root.component';
 import homeDashboardComponent from './home.component';
 import outpatientSideNavExtComponent from './side-menu/side-menu.component';

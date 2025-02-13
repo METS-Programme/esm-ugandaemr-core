@@ -1,5 +1,5 @@
-import { PatientQueue } from '../types/patient-queues';
-import { trimVisitNumber } from '../helpers/functions';
+import { PatientQueue } from '../../types/patient-queues';
+import { trimVisitNumber } from '../../helpers/functions';
 
 function readTicketNumber(queue: PatientQueue) {
   let utterance = new SpeechSynthesisUtterance();

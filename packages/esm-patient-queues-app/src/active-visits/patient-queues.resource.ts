@@ -159,7 +159,7 @@ export function usePatientQueueRequest(apiUrl: string) {
 
 // get parentlocation
 export function useParentLocation(currentQueueLocationUuid: string) {
-  const apiUrl = `/ws/rest/v1/location/${currentQueueLocationUuid}`;
+  const apiUrl = `${restBaseUrl}/location/${currentQueueLocationUuid}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: LocationResponse }, Error>(
     apiUrl,
     openmrsFetch,
@@ -175,7 +175,7 @@ export function useParentLocation(currentQueueLocationUuid: string) {
 }
 
 export function useChildLocations(parentUuid: string) {
-  const apiUrl = `/ws/rest/v1/location/${parentUuid}`;
+  const apiUrl = `${restBaseUrl}/location/${parentUuid}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: LocationResponse }, Error>(
     apiUrl,
     openmrsFetch,

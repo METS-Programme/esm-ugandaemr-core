@@ -8,6 +8,7 @@ import {
   parseDate,
   useSession,
   getGlobalStore,
+  restBaseUrl,
 } from '@openmrs/esm-framework';
 import {  WaitTime } from '../types';
 import { PatientQueue } from '../types/patient-queues';
@@ -489,7 +490,7 @@ export interface Link {
 }
 
 export function useServicePointCount(parentLocation: string, beforeDate: String, afterDate: String) {
-  const apiUrl = `/ws/rest/v1/queuestatistics?parentLocation=${parentLocation}&toDate=${afterDate}&fromDate=${beforeDate}`;
+  const apiUrl = `${restBaseUrl}/queuestatistics?parentLocation=${parentLocation}&toDate=${afterDate}&fromDate=${beforeDate}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientStats> } }, Error>(
     apiUrl,
     openmrsFetch,

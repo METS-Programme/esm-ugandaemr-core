@@ -6,7 +6,7 @@ import BaseBoardComponent from './base-board/base-board.component';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 import { usePatientQueueBoard } from './queue-board.resource';
 import { BoardSkeleton } from './board-skeleton.component';
-import { getPatientQueueWaitingList, updatePatientQueueWaitingList } from '../helpers/helpers';
+import { getPatientQueueWaitingList, updatePatientQueueWaitingList } from '../../helpers/helpers';
 import { readTickets } from './voice.utils';
 
 const QueueBoardComponent: React.FC = () => {

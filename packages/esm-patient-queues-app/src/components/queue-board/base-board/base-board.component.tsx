@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './base-board.scss';
 import { TicketCard } from './ticket-card.component';
-import { PatientQueue } from '../../types/patient-queues';
+import { PatientQueue } from '../../../types/patient-queues';
 
 interface BaseBoardProps {
   title: string;

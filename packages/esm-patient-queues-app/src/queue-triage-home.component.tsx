@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PatientQueueHeader from './patient-queue-header/patient-queue-header.component';
+import PatientQueueHeader from './components/patient-queue-header/patient-queue-header.component';
 import MetricsCard from './patient-queue-metrics/metrics-card.component';
 import { useTranslation } from 'react-i18next';
 import { useSession } from '@openmrs/esm-framework';
