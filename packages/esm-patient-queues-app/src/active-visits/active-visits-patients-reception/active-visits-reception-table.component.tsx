@@ -29,7 +29,7 @@ import StatusIcon from '../../queue-entry-table-components/status-icon.component
 import { usePatientQueuesList } from './active-visits-reception.resource';
 import styles from './active-visits-reception.scss';
 import { useParentLocation } from '../patient-queues.resource';
-import QueueLauncher from '../../queue-launcher/queue-launcher.component';
+import QueueLauncher from '../../components/queue-launcher/queue-launcher.component';
 
 function ActiveVisitsReceptionTable() {
   const { t } = useTranslation();

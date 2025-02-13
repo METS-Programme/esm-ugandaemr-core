@@ -4,7 +4,7 @@ import styles from './queue-launcher.scss';
 import { Button } from '@carbon/react';
 import { MessageQueue } from '@carbon/react/icons';
 import { navigate } from '@openmrs/esm-framework';
-import { spaBasePath } from '../constants';
+import { spaBasePath } from '../../constants';
 
 const QueueLauncher: React.FC = () => {
   const { t } = useTranslation();
