@@ -12,6 +12,8 @@ import {
   Switch,
   InlineLoading,
   TextArea,
+  Layer,
+  InlineNotification,
 } from '@carbon/react';
 import {
   navigate,
@@ -19,6 +21,7 @@ import {
   showNotification,
   showSnackbar,
   showToast,
+  useLayoutType,
   useSession,
   useVisit,
 } from '@openmrs/esm-framework';
@@ -30,6 +33,9 @@ import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 import styles from './change-status-dialog.scss';
 import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
 import { updateVisit, useProviders } from './patient-queues.resource';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queue-validation-schema.resource';
 
 interface ChangeStatusDialogProps {
   queueEntry: MappedQueueEntry;
@@ -40,7 +46,9 @@ interface ChangeStatusDialogProps {
 const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEntry, closeModal }) => {
   const { t } = useTranslation();
 
-  const { providers } = useProviders();
+  const isTablet = useLayoutType() === 'tablet';
+
+  const { providers, error: errorLoadingProviders } = useProviders();
 
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
 
@@ -50,7 +58,11 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const sessionUser = useSession();
 
-  const { queueRoomLocations, mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
+  const {
+    queueRoomLocations,
+    mutate,
+    error: errorLoadingQueueRooms,
+  } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
 
@@ -101,6 +113,13 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     ],
     [],
   );
+
+  const { handleSubmit, control, formState } = useForm<CreateQueueEntryFormData>({
+    mode: 'all',
+    resolver: zodResolver(createQueueEntrySchema),
+  });
+
+  const { errors } = formState;
 
   useEffect(() => {
     setPriorityComment(priorityLabels[contentSwitcherIndex]);
@@ -176,8 +195,8 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     }
   };
 
-  const changeQueueStatus = useCallback(
-    async (event: { preventDefault: () => void; target: { [x: string]: { value: string } } }) => {
+  const onSubmit = useCallback(
+    async (event) => {
       event.preventDefault();
 
       try {
@@ -293,7 +312,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   if (queueEntry && Object.keys(queueEntry)?.length > 0) {
     return (
       <div>
-        <Form onSubmit={changeQueueStatus}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader closeModal={closeModal} />
           <ModalBody>
             <div className={styles.modalBody}>
@@ -335,86 +354,172 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             </div>
             <section className={styles.section}>
               <div className={styles.sectionTitle}>{t('priority', 'Priority')}</div>
-              <ContentSwitcher
-                selectedIndex={contentSwitcherIndex}
-                className={styles.contentSwitcher}
-                onChange={({ index }) => setContentSwitcherIndex(index)}
-              >
-                {priorityLabels.map((label, index) => (
-                  <Switch
-                    key={index}
-                    name={label.toLowerCase().replace(' ', '')}
-                    text={t(label.toLowerCase(), label)}
-                  />
-                ))}
-              </ContentSwitcher>
+              <Controller
+                name="priorityComment"
+                control={control}
+                render={({ field }) => (
+                  <ContentSwitcher
+                    {...field}
+                    selectedIndex={contentSwitcherIndex}
+                    className={styles.contentSwitcher}
+                    onChange={({ index }) => {
+                      field.onChange(index);
+                      setContentSwitcherIndex(index);
+                    }}
+                  >
+                    {priorityLabels.map((label, index) => (
+                      <Switch
+                        key={index}
+                        name={label.toLowerCase().replace(/\s+/g, '')}
+                        text={t(label.toLowerCase(), label)}
+                      />
+                    ))}
+                  </ContentSwitcher>
+                )}
+              />
             </section>
 
             <section className={styles.section}>
               <div className={styles.sectionTitle}>{t('status', 'Status')}</div>
-              <ContentSwitcher
-                selectedIndex={statusSwitcherIndex}
-                className={styles.contentSwitcher}
-                onChange={({ index }) => setStatusSwitcherIndex(index)}
-              >
-                {statusLabels.map((status, index) => (
-                  <Switch
-                    key={index}
-                    name={status.label.toLowerCase().replace(' ', '')}
-                    text={t(status.label.toLowerCase(), status.label)}
-                  />
-                ))}
-              </ContentSwitcher>
+              <Controller
+                name="status"
+                control={control}
+                render={({ field }) => (
+                  <ContentSwitcher
+                    {...field}
+                    selectedIndex={statusSwitcherIndex}
+                    className={styles.contentSwitcher}
+                    onChange={({ index }) => {
+                      field.onChange(index);
+                      setStatusSwitcherIndex(index);
+                    }}
+                  >
+                    {statusLabels.map((status, index) => (
+                      <Switch
+                        key={index}
+                        name={status.label.toLowerCase().replace(' ', '')}
+                        text={t(status.label.toLowerCase(), status.label)}
+                      />
+                    ))}
+                  </ContentSwitcher>
+                )}
+              />
             </section>
 
             {status === QueueStatus.Completed && (
               <>
                 <section className={styles.section}>
-                  <Select
-                    labelText={t('selectNextQueueRoom', 'Select next queue room ')}
-                    id="nextQueueLocation"
-                    name="nextQueueLocation"
-                    invalidText="Required"
-                    value={selectedNextQueueLocation}
-                    onChange={(event) => setSelectedNextQueueLocation(event.target.value)}
-                  >
-                    {!selectedNextQueueLocation ? (
-                      <SelectItem text={t('selectNextServicePoint', 'Select next service point')} value="" />
-                    ) : null}
-                    {filteredlocations.map((location) => (
-                      <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
-                        {location.display}
-                      </SelectItem>
-                    ))}
-                  </Select>
+                  <div className={styles.sectionTitle}>{t('nextServicePoint', 'Next service point')}</div>
+                  <ResponsiveWrapper isTablet={isTablet}>
+                    <Controller
+                      name="locationTo"
+                      control={control}
+                      defaultValue={filteredlocations.length > 0 ? filteredlocations[0].uuid : ''}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          labelText={''}
+                          id="nextQueueLocation"
+                          name="nextQueueLocation"
+                          disabled={errorLoadingQueueRooms}
+                          invalid={!!errors.locationTo}
+                          invalidText={errors.locationTo?.message}
+                          value={field.value}
+                          onChange={(event) => {
+                            field.onChange(event.target.value);
+                            setSelectedNextQueueLocation(event.target.value);
+                          }}
+                        >
+                          {!field.value ? (
+                            <SelectItem text={t('selectNextServicePoint', 'Choose next service point')} value="" />
+                          ) : null}
+                          {filteredlocations.map((location) => (
+                            <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
+                              {location.display}
+                            </SelectItem>
+                          ))}
+                        </Select>
+                      )}
+                    />
+
+                    {errorLoadingQueueRooms && (
+                      <InlineNotification
+                        className={styles.errorNotification}
+                        kind="error"
+                        onClick={() => {}}
+                        subtitle={errorLoadingQueueRooms}
+                        title={t('errorFetchingQueueRooms', 'Error fetching queue rooms')}
+                      />
+                    )}
+                  </ResponsiveWrapper>
                 </section>
                 <section className={styles.section}>
-                  <Select
-                    labelText={t('selectProvider', 'Select a provider')}
-                    id="providers-list"
-                    name="providers-list"
-                    invalidText="Required"
-                    value={selectedProvider}
-                    onChange={(event) => setSelectedProvider(event.target.value)}
-                  >
-                    {!selectedProvider ? <SelectItem text={t('selectProvider', 'Select a provider')} value="" /> : null}
-                    {filteredProviders.map((provider) => (
-                      <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
-                        {provider.display}
-                      </SelectItem>
-                    ))}
-                  </Select>
+                  <div className={styles.sectionTitle}>{t('selectAProvider', 'Select a provider')}</div>
+                  <ResponsiveWrapper isTablet={isTablet}>
+                    <Controller
+                      name="provider"
+                      control={control}
+                      defaultValue={filteredProviders.length > 0 ? filteredProviders[0].uuid : ''}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          labelText={''}
+                          id="providers-list"
+                          name="providers-list"
+                          disabled={errorLoadingProviders}
+                          invalid={!!errors.provider}
+                          invalidText={errors.provider?.message}
+                          value={field.value}
+                          onChange={(event) => {
+                            field.onChange(event.target.value);
+                            setSelectedProvider(event.target.value);
+                          }}
+                        >
+                          {!field.value ? (
+                            <SelectItem text={t('selectProvider', 'choose a provider')} value="" />
+                          ) : null}
+                          {filteredProviders.map((provider) => (
+                            <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
+                              {provider.display}
+                            </SelectItem>
+                          ))}
+                        </Select>
+                      )}
+                    />
+
+                    {errorLoadingProviders && (
+                      <InlineNotification
+                        className={styles.errorNotification}
+                        kind="error"
+                        onClick={() => {}}
+                        subtitle={errorLoadingProviders}
+                        title={t('errorFetchingQueueRooms', 'Error fetching providers')}
+                      />
+                    )}
+                  </ResponsiveWrapper>
                 </section>
                 <section className={styles.section}>
-                  <TextArea
-                    labelText={t('notes', 'Enter notes ')}
-                    id="nextNotes"
-                    name="nextNotes"
-                    invalidText="Required"
-                    helperText="Please enter notes"
-                    maxCount={500}
-                    enableCounter
-                  />
+                  <div className={styles.sectionTitle}>{t('notes', 'Notes')}</div>
+                  <ResponsiveWrapper isTablet={isTablet}>
+                    <Controller
+                      name="comment"
+                      control={control}
+                      defaultValue="NA"
+                      render={({ field }) => (
+                        <TextArea
+                          {...field}
+                          aria-label={t('comment', 'Comment')}
+                          invalid={!!errors.comment}
+                          invalidText={errors.comment?.message}
+                          labelText=""
+                          id="comment"
+                          name="comment"
+                          maxCount={500}
+                          enableCounter
+                        />
+                      )}
+                    />
+                  </ResponsiveWrapper>
                 </section>
               </>
             )}
@@ -437,5 +542,9 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     );
   }
 };
+
+function ResponsiveWrapper({ children, isTablet }) {
+  return isTablet ? <Layer>{children}</Layer> : <div>{children}</div>;
+}
 
 export default ChangeStatus;
