@@ -10,6 +10,8 @@ import {
   Stack,
   Switch,
   TextArea,
+  InlineLoading,
+  InlineNotification
 } from '@carbon/react';
 import {
   showNotification,
@@ -21,7 +23,7 @@ import {
   useVisitTypes,
 } from '@openmrs/esm-framework';
 import dayjs from 'dayjs';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './visit-form.scss';
 import { NewVisitPayload } from '../../types';
@@ -33,8 +35,6 @@ import { createVisit, useProviders } from '../../active-visits/patient-queues.re
 import { z } from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { InlineLoading } from '@carbon/react';
-import { InlineNotification } from '@carbon/react';
 
 interface VisitFormProps {
   patientUuid: string;
@@ -177,7 +177,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
           }
         }
       } catch (error) {
-        console.error(error);
         showNotification({
           title: t('startVisitError', 'Error starting visit'),
           kind: 'error',
