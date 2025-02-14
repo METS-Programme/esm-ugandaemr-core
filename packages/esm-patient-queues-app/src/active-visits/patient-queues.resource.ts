@@ -200,6 +200,7 @@ export function useProviders() {
 
   return {
     providers: data ? data.data?.results : [],
+    error,
     isLoading,
     isError: error,
     isValidating,

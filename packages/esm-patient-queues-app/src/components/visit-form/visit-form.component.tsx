@@ -30,12 +30,41 @@ import { useQueueRoomLocations } from '../../hooks/useQueueRooms';
 import { addQueueEntry } from '../../active-visits/active-visits-table.resource';
 import Overlay from '../overlay/overlay.component';
 import { createVisit, useProviders } from '../../active-visits/patient-queues.resource';
+import { z } from 'zod';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { InlineLoading } from '@carbon/react';
+import { InlineNotification } from '@carbon/react';
 
 interface VisitFormProps {
   patientUuid: string;
   closePanel: () => void;
-  header : string
+  header: string;
 }
+
+const visitSchema = z.object({
+  patient: z.string().min(1, 'Patient is required'),
+  startDatetime: z.string().min(1, 'Start date is required'),
+  visitType: z.string().min(1, 'Visit type is required'),
+  location: z.string().min(1, 'Location is required'),
+  attributes: z.array(z.object({})).nullable(),
+});
+
+const createQueueEntrySchema = z.object({
+  patient: z.string().min(1, 'Patient is required'),
+  provider: z.string().min(1, 'Provider is required'),
+  locationFrom: z.string().min(1, 'Origin location is required'),
+  locationTo: z.string().min(1, 'Destination location is required'),
+  status: z.string().min(1, 'Status is required'),
+  priority: z.string().optional(),
+  priorityComment: z.string().optional(), // Made optional as comments may not always be needed
+  comment: z.string().min(1, 'Comment is required'), // Same as above
+  queueRoom: z.string().min(1, 'Queue room is required'),
+});
+
+export type CreateQueueEntryFormData = z.infer<typeof createQueueEntrySchema>;
+
+// export type StartVisitFormData = z.infer<typeof visitSchema>;
 
 const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, header }) => {
   const { t } = useTranslation();
@@ -51,10 +80,26 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
   const [visitType, setVisitType] = useState('');
   const [priorityComment, setPriorityComment] = useState('');
   const priorityLevels = [1, 2, 3];
-  const { providers } = useProviders();
-  const { queueRoomLocations, mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
+  const { providers, error: errorLoadingProviders } = useProviders();
+  const {
+    queueRoomLocations,
+    error: errorLoadingQueueRooms,
+    mutate,
+  } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState('');
   const [selectedProvider, setSelectedProvider] = useState('');
+  const priorityLabels = ['Not Urgent', 'Urgent', 'Emergency'];
+
+  const { handleSubmit, control, formState } = useForm<CreateQueueEntryFormData>({
+    mode: 'all',
+    resolver: zodResolver(createQueueEntrySchema),
+  });
+
+  const { errors } = formState;
+
+  useEffect(() => {
+    setPriorityComment(priorityLabels[contentSwitcherIndex]);
+  }, [contentSwitcherIndex]);
 
   useEffect(() => {
     if (queueRoomLocations?.length && sessionUser) {
@@ -62,23 +107,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
       setVisitType(allVisitTypes?.length > 0 ? allVisitTypes[0].uuid : null);
     }
   }, [sessionUser, queueRoomLocations?.length, queueRoomLocations, allVisitTypes]);
-
-  useMemo(() => {
-    switch (contentSwitcherIndex) {
-      case 0: {
-        setPriorityComment('Not Urgent');
-        break;
-      }
-      case 1: {
-        setPriorityComment('Urgent');
-        break;
-      }
-      case 2: {
-        setPriorityComment('Emergency');
-        break;
-      }
-    }
-  }, [contentSwitcherIndex]);
 
   const filteredlocations = queueRoomLocations?.filter((location) => location.uuid != null);
 
@@ -93,10 +121,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
       : [],
   );
 
-  // Check if selectedNextQueueLocation has a value selected
-  const isFormValid = selectedNextQueueLocation;
-
-  const handleSubmit = useCallback(
+  const onSubmit = useCallback(
     async (event) => {
       event.preventDefault();
       setIsSubmitting(true);
@@ -148,10 +173,11 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
             });
             closePanel();
             mutate();
+            setIsSubmitting(false);
           }
         }
       } catch (error) {
-        console.log('error', error);
+        console.error(error);
         showNotification({
           title: t('startVisitError', 'Error starting visit'),
           kind: 'error',
@@ -182,86 +208,181 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
   return (
     <div>
       <Overlay closePanel={() => closePanel} header={header}>
-        <Form className={styles.form} onSubmit={handleSubmit}>
+        <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <div>
             <Stack gap={8} className={styles.container}>
               <section className={styles.section}>
                 <div className={styles.sectionTitle}>{t('priority', 'Priority')}</div>
-                <ContentSwitcher
-                  selectedIndex={contentSwitcherIndex}
-                  className={styles.contentSwitcher}
-                  onChange={({ index }) => setContentSwitcherIndex(index)}
-                >
-                  <Switch name="notUrgent" text={t('notUrgent', 'Not Urgent')} />
-                  <Switch name="urgent" text={t('urgent', 'Urgent')} />
-                  <Switch name="emergency" text={t('emergency', 'Emergency')} />
-                </ContentSwitcher>
+                <Controller
+                  name="priorityComment"
+                  control={control}
+                  render={({ field }) => (
+                    <ContentSwitcher
+                      {...field}
+                      selectedIndex={contentSwitcherIndex}
+                      className={styles.contentSwitcher}
+                      onChange={({ index }) => {
+                        field.onChange(index);
+                        setContentSwitcherIndex(index);
+                      }}
+                    >
+                      {priorityLabels.map((label, index) => (
+                        <Switch
+                          key={index}
+                          name={label.toLowerCase().replace(/\s+/g, '')}
+                          text={t(label.toLowerCase(), label)}
+                        />
+                      ))}
+                    </ContentSwitcher>
+                  )}
+                />
               </section>
               <section className={styles.section}>
                 {contentSwitcherIndex !== 0 && (
-                  <Dropdown
-                    id="priority-levels"
-                    titleText="Choose Priority Level"
-                    label="Select a priority level"
-                    items={priorityLevels}
-                    itemToString={(item) => (item ? String(item) : '')}
-                  />
+                  <>
+                    <div className={styles.sectionTitle}>{t('priorityLevel', 'Priority Levels')}</div>
+                    <ResponsiveWrapper isTablet={isTablet}>
+                      <Controller
+                        name="priority"
+                        control={control}
+                        render={({ field }) => (
+                          <Dropdown
+                            {...field}
+                            aria-label={t('prioritylevels', 'Priority Levels')}
+                            invalid={!!errors.priority}
+                            invalidText={errors.priority?.message}
+                            id="priority-levels"
+                            titleText=""
+                            label="Choose a priority level"
+                            items={priorityLevels ?? []}
+                            initialSelectedItem={priorityLevels[0]}
+                            itemToString={(item) => (item ? String(item) : '')}
+                            onChange={(e) => {
+                              if (!e.selectedItem) {
+                                return;
+                              }
+
+                              field.onChange(e.selectedItem?.id);
+                            }}
+                          />
+                        )}
+                      />
+                    </ResponsiveWrapper>
+                  </>
                 )}
               </section>
 
               <section className={styles.section}>
-                <TextArea
-                  labelText={t('notes', 'Enter notes ')}
-                  id="nextNotes"
-                  name="nextNotes"
-                  invalidText="Required"
-                  helperText="Please enter notes"
-                  maxCount={500}
-                  enableCounter
-                />
+                <div className={styles.sectionTitle}>{t('visitNotes', 'Visit Notes')}</div>
+                <ResponsiveWrapper isTablet={isTablet}>
+                  <Controller
+                    name="comment"
+                    control={control}
+                    defaultValue="NA"
+                    render={({ field }) => (
+                      <TextArea
+                        {...field}
+                        aria-label={t('comment', 'Comment')}
+                        invalid={!!errors.comment}
+                        invalidText={errors.comment?.message}
+                        labelText=""
+                        id="comment"
+                        name="comment"
+                        maxCount={500}
+                        enableCounter
+                      />
+                    )}
+                  />
+                </ResponsiveWrapper>
               </section>
 
               <section className={styles.section}>
-                <div className={styles.sectionTitle}>{t('nextServicePoint', 'Next Service Point')}</div>
+                <div className={styles.sectionTitle}>{t('nextServicePoint', 'Next service point')}</div>
                 <ResponsiveWrapper isTablet={isTablet}>
-                  <Select
-                    labelText={t('selectNextServicePoint', 'Select next service point')}
-                    id="nextQueueLocation"
-                    name="nextQueueLocation"
-                    invalidText="Required"
-                    value={selectedNextQueueLocation}
-                    onChange={(event) => setSelectedNextQueueLocation(event.target.value)}
-                  >
-                    {!selectedNextQueueLocation ? (
-                      <SelectItem text={t('selectNextServicePoint', 'Select next service point')} value="" />
-                    ) : null}
-                    {filteredlocations.map((location) => (
-                      <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
-                        {location.display}
-                      </SelectItem>
-                    ))}
-                  </Select>
+                  <Controller
+                    name="locationTo"
+                    control={control}
+                    defaultValue={filteredlocations.length > 0 ? filteredlocations[0].uuid : ''}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        labelText={''}
+                        id="nextQueueLocation"
+                        name="nextQueueLocation"
+                        disabled={errorLoadingQueueRooms}
+                        invalid={!!errors.locationTo}
+                        invalidText={errors.locationTo?.message}
+                        value={field.value}
+                        onChange={(event) => {
+                          field.onChange(event.target.value);
+                          setSelectedNextQueueLocation(event.target.value);
+                        }}
+                      >
+                        {!field.value ? (
+                          <SelectItem text={t('selectNextServicePoint', 'Choose next service point')} value="" />
+                        ) : null}
+                        {filteredlocations.map((location) => (
+                          <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
+                            {location.display}
+                          </SelectItem>
+                        ))}
+                      </Select>
+                    )}
+                  />
+
+                  {errorLoadingQueueRooms && (
+                    <InlineNotification
+                      className={styles.errorNotification}
+                      kind="error"
+                      onClick={() => {}}
+                      subtitle={errorLoadingQueueRooms}
+                      title={t('errorFetchingQueueRooms', 'Error fetching queue rooms')}
+                    />
+                  )}
                 </ResponsiveWrapper>
               </section>
 
               <section className={styles.section}>
                 <div className={styles.sectionTitle}>{t('selectAProvider', 'Select a provider')}</div>
                 <ResponsiveWrapper isTablet={isTablet}>
-                  <Select
-                    labelText={t('selectProvider', 'Select a provider')}
-                    id="providers-list"
-                    name="providers-list"
-                    invalidText="Required"
-                    value={selectedProvider}
-                    onChange={(event) => setSelectedProvider(event.target.value)}
-                  >
-                    {!selectedProvider ? <SelectItem text={t('selectProvider', 'Select a provider')} value="" /> : null}
-                    {filteredProviders.map((provider) => (
-                      <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
-                        {provider.display}
-                      </SelectItem>
-                    ))}
-                  </Select>
+                  <Controller
+                    name="provider"
+                    control={control}
+                    defaultValue={filteredProviders.length > 0 ? filteredProviders[0].uuid : ''}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        labelText={''}
+                        id="providers-list"
+                        name="providers-list"
+                        disabled={errorLoadingProviders}
+                        invalid={!!errors.provider}
+                        invalidText={errors.provider?.message}
+                        value={field.value}
+                        onChange={(event) => {
+                          field.onChange(event.target.value);
+                          setSelectedProvider(event.target.value);
+                        }}
+                      >
+                        {!field.value ? <SelectItem text={t('selectProvider', 'choose a provider')} value="" /> : null}
+                        {filteredProviders.map((provider) => (
+                          <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
+                            {provider.display}
+                          </SelectItem>
+                        ))}
+                      </Select>
+                    )}
+                  />
+
+                  {errorLoadingProviders && (
+                    <InlineNotification
+                      className={styles.errorNotification}
+                      kind="error"
+                      onClick={() => {}}
+                      subtitle={errorLoadingProviders}
+                      title={t('errorFetchingQueueRooms', 'Error fetching providers')}
+                    />
+                  )}
                 </ResponsiveWrapper>
               </section>
             </Stack>
@@ -270,8 +391,12 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
             <Button className={styles.button} kind="secondary" onClick={closePanel}>
               {t('discard', 'Discard')}
             </Button>
-            <Button className={styles.button} disabled={!isFormValid || isSubmitting} kind="primary" type="submit">
-              {t('startVisit', 'Start visit')}
+            <Button className={styles.button} disabled={isSubmitting} kind="primary" type="submit">
+              {isSubmitting ? (
+                <InlineLoading description={t('saving', 'Saving') + '...'} />
+              ) : (
+                <span>{t('startVisit', 'Start visit')}</span>
+              )}
             </Button>
           </ButtonSet>
         </Form>
