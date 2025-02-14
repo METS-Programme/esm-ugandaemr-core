@@ -271,7 +271,6 @@ export const updatePatientQueueWaitingList = (queue: PatientQueue[]) => {
   store.setState({ queue });
 };
 
-
 // patient
 const initialSelectedPatientUuid = { patientUuid: localStorage.getItem('patientUuid') };
 

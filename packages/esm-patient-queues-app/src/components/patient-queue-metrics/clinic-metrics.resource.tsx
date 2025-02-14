@@ -10,7 +10,7 @@ import {
   getGlobalStore,
   restBaseUrl,
 } from '@openmrs/esm-framework';
-import {  WaitTime } from '../../types';
+import { WaitTime } from '../../types';
 import { PatientQueue } from '../../types/patient-queues';
 import { omrsDateFormat } from '../../constants';
 import { Value } from './metrics-card.component';
@@ -262,8 +262,6 @@ export type IQueueRoom = {
   resourceVersion: string;
 };
 
-
-
 export function useActiveVisits() {
   const currentUserSession = useSession();
   const startDate = dayjs().format('YYYY-MM-DD');
@@ -427,7 +425,6 @@ export function useQueuePatients(status: string) {
   };
 }
 
-
 // overall being served patients
 export function useQueueServingPatients(status: string) {
   const apiUrl = `${restBaseUrl}/patientqueue?v=full&status=${status}`;
@@ -462,8 +459,6 @@ const initialState = {
 export function getStartDate() {
   return getGlobalStore<{ appointmentDate: string | Date }>('appointmentStartDate', initialState);
 }
-
-
 
 export interface PatientStats {
   locationTag: LocationTag;

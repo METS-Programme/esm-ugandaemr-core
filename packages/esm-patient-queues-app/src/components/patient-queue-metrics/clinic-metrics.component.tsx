@@ -3,11 +3,7 @@ import { UserHasAccess, useSession } from '@openmrs/esm-framework';
 import { useTranslation } from 'react-i18next';
 import { PRIVILEGE_RECEPTION_METRIC, PRIVILIGE_TRIAGE_METRIC } from '../../constants';
 
-import {
-  usePatientsBeingServed,
-  usePatientsServed,
-  useServicePointCount,
-} from './clinic-metrics.resource';
+import { usePatientsBeingServed, usePatientsServed, useServicePointCount } from './clinic-metrics.resource';
 import styles from './clinic-metrics.scss';
 import MetricsCard from './metrics-card.component';
 import { useParentLocation } from '../../active-visits/patient-queues.resource';

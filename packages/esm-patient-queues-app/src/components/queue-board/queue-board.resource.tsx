@@ -31,7 +31,8 @@ export function usePatientQueuesByParentLocation(status: string) {
   const {
     data,
     error: patientQueueErrors,
-    isLoading: patientQueueLoading, mutate
+    isLoading: patientQueueLoading,
+    mutate,
   } = useSWR<{
     data: { results: Array<PatientQueue> };
   }>(queueApiUrl, openmrsFetch);
@@ -40,7 +41,7 @@ export function usePatientQueuesByParentLocation(status: string) {
     isLoading: patientQueueLoading || queueRoomLoading,
     isError: patientQueueErrors || queueRoomError,
     patientQueues: data?.data?.results,
-    mutate
+    mutate,
   };
 }
 

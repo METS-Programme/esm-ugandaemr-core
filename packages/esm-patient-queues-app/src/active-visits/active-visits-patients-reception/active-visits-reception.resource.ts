@@ -7,7 +7,7 @@ export function usePatientQueuesList(currentQueueRoomLocationUuid: string) {
   const apiUrl = `${restBaseUrl}/patientqueue?v=full&status=pending&parentLocation=${currentQueueRoomLocationUuid}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
-    openmrsFetch
+    openmrsFetch,
   );
 
   const mapppedQueues = data?.data?.results.map((queue: PatientQueue) => {

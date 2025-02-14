@@ -7,7 +7,7 @@ import editQueueEntryStatusModalComponent from './active-visits/change-status-di
 import patientChartMoveToNextServicePointModalComponent from './active-visits/change-status-move-to-next-dialog.component';
 import queueTableMoveToNextServicePointModalComponent from './active-visits/queue-table-move-to-next-dialog.component';
 import moveToNextServicePointButtonComponent from './active-visits/move-to-next-service-point-action.components';
-import addPatientToQueueComponent from './components/visit-form/visit-form.component';
+// import addPatientToQueueComponent from './components/visit-form/visit-form.component';
 import notesModalComponent from './active-visits/notes-dialog.component';
 import pickPatientEntryQueueComponent from './active-visits/pick-patient-dialog.component';
 import queueScreenComponent from './components/queue-board/queue-board.component';
@@ -68,7 +68,7 @@ export const queueTableMoveToNextServicePointModal = getSyncLifecycle(
 
 export const moveToNextServicePointButton = getSyncLifecycle(moveToNextServicePointButtonComponent, options);
 
-export const addPatientToQueue = getSyncLifecycle(addPatientToQueueComponent, options);
+// export const addPatientToQueue = getSyncLifecycle(addPatientToQueueComponent, options);
 
 export const notesModal = getSyncLifecycle(notesModalComponent, options);
 
@@ -79,6 +79,3 @@ export const queueScreen = getSyncLifecycle(queueScreenComponent, options);
 export const startVisitForm = getSyncLifecycle(startVisitFormComponent, options);
 
 export const startVisitFormButton = getSyncLifecycle(startVisitFormButtonComponent, options);
-
-
-

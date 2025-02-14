@@ -11,7 +11,7 @@ import {
   Switch,
   TextArea,
   InlineLoading,
-  InlineNotification
+  InlineNotification,
 } from '@carbon/react';
 import {
   showNotification,
@@ -23,7 +23,7 @@ import {
   useVisitTypes,
 } from '@openmrs/esm-framework';
 import dayjs from 'dayjs';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './visit-form.scss';
 import { NewVisitPayload } from '../../types';
@@ -88,7 +88,15 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
   } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState('');
   const [selectedProvider, setSelectedProvider] = useState('');
-  const priorityLabels = ['Not Urgent', 'Urgent', 'Emergency'];
+  const priorityLabels = useMemo(() => ['Not Urgent', 'Urgent', 'Emergency'], []);
+
+  const statusLabels = useMemo(
+    () => [
+      { status: 'pending', label: 'Move to Pending' },
+      { status: 'completed', label: 'Move to Completed' },
+    ],
+    [],
+  );
 
   const { handleSubmit, control, formState } = useForm<CreateQueueEntryFormData>({
     mode: 'all',
@@ -99,7 +107,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
 
   useEffect(() => {
     setPriorityComment(priorityLabels[contentSwitcherIndex]);
-  }, [contentSwitcherIndex]);
+  }, [contentSwitcherIndex, priorityLabels]);
 
   useEffect(() => {
     if (queueRoomLocations?.length && sessionUser) {

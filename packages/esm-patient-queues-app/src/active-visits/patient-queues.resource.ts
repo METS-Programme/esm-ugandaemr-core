@@ -189,14 +189,13 @@ export function useChildLocations(parentUuid: string) {
   };
 }
 
-
 // fetch providers of a service point
 export function useProviders() {
   const apiUrl = `${restBaseUrl}/provider?q=&v=full`;
-  const { data, error, isLoading, isValidating,mutate } = useSWR<{ data: { results: Array<ProviderResponse> } }, Error>(
-    apiUrl,
-    openmrsFetch,
-  );
+  const { data, error, isLoading, isValidating, mutate } = useSWR<
+    { data: { results: Array<ProviderResponse> } },
+    Error
+  >(apiUrl, openmrsFetch);
 
   return {
     providers: data ? data.data?.results : [],
@@ -204,7 +203,7 @@ export function useProviders() {
     isLoading,
     isError: error,
     isValidating,
-    mutate
+    mutate,
   };
 }
 
@@ -220,7 +219,6 @@ export async function getCurrentPatientQueueByPatientUuid(patientUuid: string, c
     },
   });
 }
-
 
 // create visit
 export async function createVisit(payload: NewVisitPayload) {

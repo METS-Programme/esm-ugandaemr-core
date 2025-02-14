@@ -90,19 +90,23 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   useEffect(() => fetchProvider(), [fetchProvider]);
 
-  const priorityLabels = ['Not Urgent', 'Urgent', 'Emergency'];
-  const statusLabels = [
-    { status: 'pending', label: 'Move to Pending' },
-    { status: 'completed', label: 'Move to Completed' },
-  ];
+  const priorityLabels = useMemo(() => ['Not Urgent', 'Urgent', 'Emergency'], []);
+
+  const statusLabels = useMemo(
+    () => [
+      { status: 'pending', label: 'Move to Pending' },
+      { status: 'completed', label: 'Move to Completed' },
+    ],
+    [],
+  );
 
   useEffect(() => {
     setPriorityComment(priorityLabels[contentSwitcherIndex]);
-  }, [contentSwitcherIndex]);
+  }, [contentSwitcherIndex, priorityLabels]);
 
   useEffect(() => {
     setStatus(statusLabels[statusSwitcherIndex].status);
-  }, [statusSwitcherIndex]);
+  }, [statusSwitcherIndex, statusLabels]);
 
   const filteredlocations = queueRoomLocations?.filter((location) => location?.uuid != null);
 
