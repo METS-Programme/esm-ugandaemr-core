@@ -32,39 +32,18 @@ import { useQueueRoomLocations } from '../../hooks/useQueueRooms';
 import { addQueueEntry } from '../../active-visits/active-visits-table.resource';
 import Overlay from '../overlay/overlay.component';
 import { createVisit, useProviders } from '../../active-visits/patient-queues.resource';
-import { z } from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  CreateQueueEntryFormData,
+  createQueueEntrySchema,
+} from '../../active-visits/patient-queue-validation-schema.resource';
 
 interface VisitFormProps {
   patientUuid: string;
   closePanel: () => void;
   header: string;
 }
-
-const visitSchema = z.object({
-  patient: z.string().min(1, 'Patient is required'),
-  startDatetime: z.string().min(1, 'Start date is required'),
-  visitType: z.string().min(1, 'Visit type is required'),
-  location: z.string().min(1, 'Location is required'),
-  attributes: z.array(z.object({})).nullable(),
-});
-
-const createQueueEntrySchema = z.object({
-  patient: z.string().min(1, 'Patient is required'),
-  provider: z.string().min(1, 'Provider is required'),
-  locationFrom: z.string().min(1, 'Origin location is required'),
-  locationTo: z.string().min(1, 'Destination location is required'),
-  status: z.string().min(1, 'Status is required'),
-  priority: z.string().optional(),
-  priorityComment: z.string().optional(), // Made optional as comments may not always be needed
-  comment: z.string().min(1, 'Comment is required'), // Same as above
-  queueRoom: z.string().min(1, 'Queue room is required'),
-});
-
-export type CreateQueueEntryFormData = z.infer<typeof createQueueEntrySchema>;
-
-// export type StartVisitFormData = z.infer<typeof visitSchema>;
 
 const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, header }) => {
   const { t } = useTranslation();
@@ -135,10 +114,10 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
       setIsSubmitting(true);
 
       try {
-        // Retrieve values from queue extension
-        const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
+        // Retrieve values safely from the form
+        const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value || '';
+        const comment = event?.target['nextNotes']?.value || '';
         const status = 'pending';
-        const comment = event?.target['nextNotes']?.value;
 
         const [hours, minutes] = convertTime12to24(visitTime, timeFormat);
 
@@ -149,41 +128,42 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
               new Date(dayjs(visitDate).year(), dayjs(visitDate).month(), dayjs(visitDate).date(), hours, minutes),
             ),
           ),
-          visitType: visitType,
+          visitType,
           location: selectedNextQueueLocation,
           attributes: [],
         };
 
-        // // Attempt to save the visit
+        // Attempt to save the visit
         const response = await createVisit(payload);
-        if (response.status === 201) {
-          // Add new queue entry if visit was created successfully
-          const queueResponse = await addQueueEntry(
-            nextQueueLocationUuid,
-            patientUuid,
-            selectedProvider,
-            contentSwitcherIndex,
-            status,
-            selectedLocation,
-            priorityComment,
-            comment,
-          );
 
-          if (queueResponse.status === 201) {
-            showToast({
-              kind: 'success',
-              title: t('startVisit', 'Start a visit'),
-              description: t(
-                'startVisitQueueSuccessfully',
-                'Patient has been added to active visits list and queue.',
-                `${hours} : ${minutes}`,
-              ),
-            });
-            closePanel();
-            mutate();
-            setIsSubmitting(false);
-          }
+        if (response.status !== 201) {
+          throw new Error(t('visitCreationFailed', 'Failed to create visit.'));
         }
+
+        // Add new queue entry
+        const queueResponse = await addQueueEntry(
+          nextQueueLocationUuid,
+          patientUuid,
+          selectedProvider,
+          contentSwitcherIndex,
+          status,
+          selectedLocation,
+          priorityComment,
+          comment,
+        );
+
+        if (queueResponse.status !== 201) {
+          throw new Error(t('queueAdditionFailed', 'Failed to add patient to queue.'));
+        }
+
+        showToast({
+          kind: 'success',
+          title: t('startVisit', 'Start a visit'),
+          description: t('startVisitQueueSuccessfully', 'Patient has been added to active visits list and queue.'),
+        });
+
+        closePanel();
+        mutate();
       } catch (error) {
         showNotification({
           title: t('startVisitError', 'Error starting visit'),
