@@ -59,7 +59,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
   const [visitType, setVisitType] = useState('');
   const [priorityComment, setPriorityComment] = useState('');
   const priorityLevels = [1, 2, 3];
-  const { providers, error: errorLoadingProviders } = useProviders();
   const {
     queueRoomLocations,
     error: errorLoadingQueueRooms,
@@ -69,20 +68,18 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
   const [selectedProvider, setSelectedProvider] = useState('');
   const priorityLabels = useMemo(() => ['Not Urgent', 'Urgent', 'Emergency'], []);
 
-  const statusLabels = useMemo(
-    () => [
-      { status: 'pending', label: 'Move to Pending' },
-      { status: 'completed', label: 'Move to Completed' },
-    ],
-    [],
-  );
+  const { providers, error: errorLoadingProviders } = useProviders(selectedNextQueueLocation);
 
-  const { handleSubmit, control, formState } = useForm<CreateQueueEntryFormData>({
+
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<CreateQueueEntryFormData>({
     mode: 'all',
     resolver: zodResolver(createQueueEntrySchema),
   });
-
-  const { errors } = formState;
 
   useEffect(() => {
     setPriorityComment(priorityLabels[contentSwitcherIndex]);
@@ -94,19 +91,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
       setVisitType(allVisitTypes?.length > 0 ? allVisitTypes[0].uuid : null);
     }
   }, [sessionUser, queueRoomLocations?.length, queueRoomLocations, allVisitTypes]);
-
-  const filteredlocations = queueRoomLocations?.filter((location) => location.uuid != null);
-
-  const filteredProviders = providers?.flatMap((provider) =>
-    provider.attributes.filter(
-      (item) =>
-        item.attributeType.display === 'Default Location' &&
-        typeof item.value === 'object' &&
-        item?.value?.uuid === selectedNextQueueLocation,
-    ).length > 0
-      ? provider
-      : [],
-  );
 
   const onSubmit = useCallback(
     async (event) => {
@@ -289,7 +273,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
                   <Controller
                     name="locationTo"
                     control={control}
-                    defaultValue={filteredlocations.length > 0 ? filteredlocations[0].uuid : ''}
+                    defaultValue={queueRoomLocations.length > 0 ? queueRoomLocations[0].uuid : ''}
                     render={({ field }) => (
                       <Select
                         {...field}
@@ -308,7 +292,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
                         {!field.value ? (
                           <SelectItem text={t('selectNextServicePoint', 'Choose next service point')} value="" />
                         ) : null}
-                        {filteredlocations.map((location) => (
+                        {queueRoomLocations.map((location) => (
                           <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
                             {location.display}
                           </SelectItem>
@@ -335,7 +319,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
                   <Controller
                     name="provider"
                     control={control}
-                    defaultValue={filteredProviders.length > 0 ? filteredProviders[0].uuid : ''}
+                    defaultValue={providers.length > 0 ? providers[0].uuid : ''}
                     render={({ field }) => (
                       <Select
                         {...field}
@@ -352,7 +336,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
                         }}
                       >
                         {!field.value ? <SelectItem text={t('selectProvider', 'choose a provider')} value="" /> : null}
-                        {filteredProviders.map((provider) => (
+                        {providers.map((provider) => (
                           <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
                             {provider.display}
                           </SelectItem>

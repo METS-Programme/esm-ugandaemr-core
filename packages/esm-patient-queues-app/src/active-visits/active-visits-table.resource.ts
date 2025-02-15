@@ -2,7 +2,6 @@ import { openmrsFetch, restBaseUrl, Visit } from '@openmrs/esm-framework';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
 import last from 'lodash-es/last';
-import useSWR from 'swr';
 import { Identifer } from '../types';
 import { QueueStatus } from '../utils/utils';
 

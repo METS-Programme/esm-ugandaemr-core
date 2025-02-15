@@ -189,19 +189,30 @@ export function useChildLocations(parentUuid: string) {
   };
 }
 
-// fetch providers of a service point
-export function useProviders() {
+// Fetch providers of a service point
+export function useProviders(selectedNextQueueLocation: string) {
   const apiUrl = `${restBaseUrl}/provider?q=&v=full`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<
     { data: { results: Array<ProviderResponse> } },
     Error
   >(apiUrl, openmrsFetch);
 
+  // Filter providers based on the selected location
+  const providers =
+    data?.data?.results?.filter((provider) =>
+      provider.attributes.some(
+        (attr) =>
+          attr.attributeType.display === 'Default Location' &&
+          typeof attr.value === 'object' &&
+          attr.value.uuid === selectedNextQueueLocation,
+      ),
+    ) || [];
+
   return {
-    providers: data ? data.data?.results : [],
+    providers,
     error,
     isLoading,
-    isError: error,
+    isError: Boolean(error),
     isValidating,
     mutate,
   };

@@ -48,7 +48,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const isTablet = useLayoutType() === 'tablet';
 
-  const { providers, error: errorLoadingProviders } = useProviders();
 
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
 
@@ -75,6 +74,8 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   const { activeVisit } = useVisit(queueEntry.patientUuid);
 
   const [isLoading, setIsLoading] = useState(true);
+
+  const { providers, error: errorLoadingProviders } = useProviders(selectedNextQueueLocation);
 
   // Memoize the function to fetch the provider using useCallback
   const fetchProvider = useCallback(() => {
@@ -114,12 +115,14 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     [],
   );
 
-  const { handleSubmit, control, formState } = useForm<CreateQueueEntryFormData>({
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<CreateQueueEntryFormData>({
     mode: 'all',
     resolver: zodResolver(createQueueEntrySchema),
   });
-
-  const { errors } = formState;
 
   useEffect(() => {
     setPriorityComment(priorityLabels[contentSwitcherIndex]);
@@ -129,43 +132,31 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     setStatus(statusLabels[statusSwitcherIndex].status);
   }, [statusSwitcherIndex, statusLabels]);
 
-  const filteredlocations = queueRoomLocations?.filter((location) => location?.uuid != null);
-
-  const filteredProviders = providers?.flatMap((provider) =>
-    provider.attributes.filter(
-      (item) =>
-        item.attributeType.display === 'Default Location' &&
-        typeof item.value === 'object' &&
-        item?.value?.uuid === selectedNextQueueLocation,
-    ).length > 0
-      ? provider
-      : [],
-  );
   // endVisit
   const endCurrentVisit = async () => {
-    try {
-      const endVisitPayload = {
-        location: activeVisit.location.uuid,
-        startDatetime: parseDate(activeVisit.startDatetime),
-        visitType: activeVisit.visitType.uuid,
-        stopDatetime: new Date(),
-      };
+    const endVisitPayload = {
+      location: activeVisit.location.uuid,
+      startDatetime: parseDate(activeVisit.startDatetime),
+      visitType: activeVisit.visitType.uuid,
+      stopDatetime: new Date(),
+    };
 
-      const response = await updateVisit(activeVisit.uuid, endVisitPayload);
+    const response = await updateVisit(activeVisit.uuid, endVisitPayload);
 
-      if (response.status === 200) {
-        const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+    if (response.status === 200) {
+      const comment = event?.target['nextNotes']?.value ?? 'Not Set';
 
-        try {
-          await updateQueueEntry(
-            QueueStatus.Completed,
-            provider,
-            queueEntry?.id,
-            contentSwitcherIndex,
-            priorityComment,
-            comment,
-          );
+      try {
+        const response = await updateQueueEntry(
+          QueueStatus.Completed,
+          provider,
+          queueEntry?.id,
+          contentSwitcherIndex,
+          priorityComment,
+          comment,
+        );
 
+        if (response.status === 200) {
           showSnackbar({
             isLowContrast: true,
             kind: 'success',
@@ -176,22 +167,15 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
           navigate({ to: `\${openmrsSpaBase}/home` });
           closeModal();
           mutate();
-        } catch (error) {
-          showNotification({
-            title: t('queueEntryUpdateFailed', 'Error ending visit'),
-            kind: 'error',
-            critical: true,
-            description: error?.message,
-          });
         }
+      } catch (error) {
+        showNotification({
+          title: t('queueEntryUpdateFailed', 'Error ending visit'),
+          kind: 'error',
+          critical: true,
+          description: error?.message,
+        });
       }
-    } catch (error) {
-      showSnackbar({
-        title: t('errorEndingVisit', 'Error ending visit'),
-        kind: 'error',
-        isLowContrast: false,
-        subtitle: error?.message,
-      });
     }
   };
 
@@ -200,9 +184,9 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
       event.preventDefault();
 
       try {
+        const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+        const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
         if (status === QueueStatus.Pending) {
-          const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-
           await updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, comment);
 
           showToast({
@@ -214,10 +198,8 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
           closeModal();
           mutate();
-        } else if (status === QueueStatus.Completed) {
-          const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-          const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
-
+        }
+        if (status === QueueStatus.Completed) {
           await updateQueueEntry(
             QueueStatus.Completed,
             provider,
@@ -226,15 +208,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             priorityComment,
             comment,
           );
-
-          showToast({
-            critical: true,
-            title: t('updateEntry', 'Update entry'),
-            kind: 'success',
-            description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
-          });
-
-          mutate();
 
           await addQueueEntry(
             nextQueueLocationUuid,
@@ -246,15 +219,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             priorityComment,
             comment,
           );
-
-          showToast({
-            critical: true,
-            title: t('addQueueEntry', 'Add Queue Entry'),
-            kind: 'success',
-            description: t('queueEntryAddedSuccessfully', 'Queue Entry Added Successfully'),
-          });
-
-          mutate();
 
           // Pick and route
           await updateQueueEntry(
@@ -414,7 +378,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                     <Controller
                       name="locationTo"
                       control={control}
-                      defaultValue={filteredlocations.length > 0 ? filteredlocations[0].uuid : ''}
+                      defaultValue={queueRoomLocations.length > 0 ? queueRoomLocations[0].uuid : ''}
                       render={({ field }) => (
                         <Select
                           {...field}
@@ -433,7 +397,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                           {!field.value ? (
                             <SelectItem text={t('selectNextServicePoint', 'Choose next service point')} value="" />
                           ) : null}
-                          {filteredlocations.map((location) => (
+                          {queueRoomLocations.map((location) => (
                             <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
                               {location.display}
                             </SelectItem>
@@ -459,7 +423,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                     <Controller
                       name="provider"
                       control={control}
-                      defaultValue={filteredProviders.length > 0 ? filteredProviders[0].uuid : ''}
+                      defaultValue={providers.length > 0 ? providers[0].uuid : ''}
                       render={({ field }) => (
                         <Select
                           {...field}
@@ -478,7 +442,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                           {!field.value ? (
                             <SelectItem text={t('selectProvider', 'choose a provider')} value="" />
                           ) : null}
-                          {filteredProviders.map((provider) => (
+                          {providers.map((provider) => (
                             <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
                               {provider.display}
                             </SelectItem>

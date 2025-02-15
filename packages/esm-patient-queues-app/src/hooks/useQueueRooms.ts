@@ -136,5 +136,10 @@ export function useQueueRoomLocations(currentQueueLocation: string) {
     () => data?.data?.parentLocation?.childLocations?.map((response) => response) ?? [],
     [data?.data?.parentLocation?.childLocations],
   );
-  return { queueRoomLocations: queueRoomLocations ? queueRoomLocations : [], isLoading, error, mutate };
+  return {
+    queueRoomLocations: queueRoomLocations.filter((location) => location?.uuid != null) ? queueRoomLocations : [],
+    isLoading,
+    error,
+    mutate,
+  };
 }
