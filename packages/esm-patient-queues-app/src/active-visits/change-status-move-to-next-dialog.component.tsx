@@ -46,7 +46,6 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   const sessionUser = useSession();
 
-
   const [isLoading, setIsLoading] = useState(true);
 
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);

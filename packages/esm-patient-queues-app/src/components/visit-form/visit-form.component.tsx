@@ -70,8 +70,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
 
   const { providers, error: errorLoadingProviders } = useProviders(selectedNextQueueLocation);
 
-
-
   const {
     handleSubmit,
     control,

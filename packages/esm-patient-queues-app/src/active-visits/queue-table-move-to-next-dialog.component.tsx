@@ -46,8 +46,6 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
 
   const isTablet = useLayoutType() === 'tablet';
 
-  const { providers, error: errorLoadingProviders } = useProviders();
-
   const [isLoading, setIsLoading] = useState(true);
 
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
@@ -69,6 +67,8 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
   const [priorityComment, setPriorityComment] = useState('');
 
   const [selectedProvider, setSelectedProvider] = useState('');
+
+  const { providers, error: errorLoadingProviders } = useProviders(selectedNextQueueLocation);
 
   // Memoize the function to fetch the provider using useCallback
   const fetchProvider = useCallback(() => {
@@ -108,12 +108,14 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
     [],
   );
 
-  const { handleSubmit, control, formState } = useForm<CreateQueueEntryFormData>({
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<CreateQueueEntryFormData>({
     mode: 'all',
     resolver: zodResolver(createQueueEntrySchema),
   });
-
-  const { errors } = formState;
 
   useEffect(() => {
     setPriorityComment(priorityLabels[contentSwitcherIndex]);
@@ -122,19 +124,6 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
   useEffect(() => {
     setStatus(statusLabels[statusSwitcherIndex].status);
   }, [statusSwitcherIndex, statusLabels]);
-
-  const filteredlocations = queueRoomLocations?.filter((location) => location?.uuid != null);
-
-  const filteredProviders = providers?.flatMap((provider) =>
-    provider.attributes.filter(
-      (item) =>
-        item.attributeType.display === 'Default Location' &&
-        typeof item.value === 'object' &&
-        item?.value?.uuid === selectedNextQueueLocation,
-    ).length > 0
-      ? provider
-      : [],
-  );
 
   // change to picked
   const onSubmit = useCallback(
@@ -465,7 +454,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
                   <Controller
                     name="locationTo"
                     control={control}
-                    defaultValue={filteredlocations.length > 0 ? filteredlocations[0].uuid : ''}
+                    defaultValue={queueRoomLocations.length > 0 ? queueRoomLocations[0].uuid : ''}
                     render={({ field }) => (
                       <Select
                         {...field}
@@ -484,7 +473,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
                         {!field.value ? (
                           <SelectItem text={t('selectNextServicePoint', 'Choose next service point')} value="" />
                         ) : null}
-                        {filteredlocations.map((location) => (
+                        {queueRoomLocations.map((location) => (
                           <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
                             {location.display}
                           </SelectItem>
@@ -510,7 +499,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
                   <Controller
                     name="provider"
                     control={control}
-                    defaultValue={filteredProviders.length > 0 ? filteredProviders[0].uuid : ''}
+                    defaultValue={providers.length > 0 ? providers[0].uuid : ''}
                     render={({ field }) => (
                       <Select
                         {...field}
@@ -527,7 +516,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
                         }}
                       >
                         {!field.value ? <SelectItem text={t('selectProvider', 'choose a provider')} value="" /> : null}
-                        {filteredProviders.map((provider) => (
+                        {providers.map((provider) => (
                           <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
                             {provider.display}
                           </SelectItem>
