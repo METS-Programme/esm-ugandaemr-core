@@ -31,7 +31,7 @@ import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
 import { useQueueRoomLocations } from '../../hooks/useQueueRooms';
 import { addQueueEntry } from '../../active-visits/active-visits-table.resource';
 import Overlay from '../overlay/overlay.component';
-import { createVisit, useProviders } from '../../active-visits/patient-queues.resource';
+import { checkCurrentVisit, createVisit, getCurrentVisit, useProviders } from '../../active-visits/patient-queues.resource';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -100,6 +100,18 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
         const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value || '';
         const comment = event?.target['nextNotes']?.value || '';
         const status = 'pending';
+
+        // Check for an existing visit before proceeding
+        const existingVisit = await checkCurrentVisit(patientUuid);
+
+        if (existingVisit) {
+          showNotification({
+            title: t('visitExists', 'Visit already exists'),
+            kind: 'info',
+            description: t('activeVisitExists', 'An active visit already exists for this patient.'),
+          });
+          return;
+        }
 
         const [hours, minutes] = convertTime12to24(visitTime, timeFormat);
 

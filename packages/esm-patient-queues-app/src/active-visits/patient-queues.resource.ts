@@ -258,3 +258,21 @@ export async function updateVisit(uuid: string, payload: NewVisitPayload) {
     body: payload,
   });
 }
+
+// get current visit
+export async function getCurrentVisit(patient: string, date: string) {
+  const apiUrl = `${restBaseUrl}/visit?patient=${patient}&includeInactive=false&fromStartDate=${date}&v=default&limit=1`;
+  const abortController = new AbortController();
+  return await openmrsFetch(apiUrl, {
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
+export async function checkCurrentVisit(patientUuid) {
+    const date = dayjs().format('YYYY-MM-DD');
+    const resp = await getCurrentVisit(patientUuid, date);
+    return resp.data?.results !== null && resp.data?.results.length > 0;
+  }
