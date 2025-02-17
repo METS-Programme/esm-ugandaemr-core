@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { usePatientObservations } from './vl-history.resource';
-import { configSchema } from '../config-schema';
+import { parseValueString, useViralLoadOservations } from './vl-history.resource';
 import { usePagination } from '@openmrs/esm-framework';
 import {
   DataTable,
@@ -26,27 +25,7 @@ interface ViralLoadProps {
 const ViralLoadList: React.FC<ViralLoadProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
-  const observationConfig = useMemo(
-    () => [
-      {
-        key: 'hivViralLoadDate',
-        uuidConfig: configSchema.hivViralLoadDateUuid._default,
-      },
-      {
-        key: 'hivViralLoadQualitative',
-        uuidConfig: configSchema.hivViralLoadQualitativeUuid._default,
-      },
-      {
-        key: 'hivViralLoad',
-        uuidConfig: configSchema.hivViralLoadUuid._default,
-      },
-    ],
-    [],
-  );
-
-  const conceptUuids = observationConfig.map((config) => config.uuidConfig);
-
-  const { observations: groupedObservations, isLoading } = usePatientObservations(patientUuid, conceptUuids);
+  const { data, isLoading } = useViralLoadOservations(patientUuid);
 
   const pageSizes = [10, 20, 30, 40, 50];
   const [currentPageSize, setPageSize] = useState(10);
@@ -58,22 +37,17 @@ const ViralLoadList: React.FC<ViralLoadProps> = ({ patientUuid }) => {
   ];
 
   const tableRows = useMemo(() => {
-    const rows = [];
+    return data?.map((item) => {
+      const { date, qualitative, viralLoad } = parseValueString(item?.valueString || '');
 
-    if (groupedObservations) {
-      Object.keys(groupedObservations)?.forEach((dateTime, index) => {
-        const group = groupedObservations[dateTime];
-        rows.push({
-          id: index.toString(),
-          hivViralLoadDate: group.dateArray?.[0]?.split('T')[0] || '',
-          hivViralLoadQualitative: group.displayArray?.[0] || '',
-          hivViralLoad: group?.valuesArray?.[0] || '',
-        });
-      });
-    }
-
-    return rows;
-  }, [groupedObservations]);
+      return {
+        id: item?.id,
+        hivViralLoadDate: date,
+        hivViralLoadQualitative: qualitative,
+        hivViralLoad: viralLoad,
+      };
+    });
+  }, [data]);
 
   const { goTo, results: paginatedData, currentPage } = usePagination(tableRows, currentPageSize);
 
@@ -118,7 +92,7 @@ const ViralLoadList: React.FC<ViralLoadProps> = ({ patientUuid }) => {
             page={currentPage}
             pageSize={currentPageSize}
             pageSizes={pageSizes}
-            totalItems={tableRows.length}
+            totalItems={tableRows?.length}
             className={styles.pagination}
             onChange={({ pageSize, page }) => {
               if (pageSize !== currentPageSize) {
