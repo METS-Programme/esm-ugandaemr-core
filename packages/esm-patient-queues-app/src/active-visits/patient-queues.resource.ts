@@ -272,7 +272,7 @@ export async function getCurrentVisit(patient: string, date: string) {
 }
 
 export async function checkCurrentVisit(patientUuid) {
-    const date = dayjs().format('YYYY-MM-DD');
-    const resp = await getCurrentVisit(patientUuid, date);
-    return resp.data?.results !== null && resp.data?.results.length > 0;
-  }
+  const date = dayjs().format('YYYY-MM-DD');
+  const resp = await getCurrentVisit(patientUuid, date);
+  return resp.data?.results !== null && resp.data?.results.length > 0;
+}

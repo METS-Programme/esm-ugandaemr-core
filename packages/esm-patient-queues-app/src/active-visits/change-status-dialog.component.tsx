@@ -143,8 +143,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     const response = await updateVisit(activeVisit.uuid, endVisitPayload);
 
     if (response.status === 200) {
-      const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-
       try {
         const response = await updateQueueEntry(
           QueueStatus.Completed,
@@ -152,7 +150,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
           queueEntry?.id,
           contentSwitcherIndex,
           priorityComment,
-          comment,
+          'comment',
         );
 
         if (response.status === 200) {
@@ -179,14 +177,10 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   };
 
   const onSubmit = useCallback(
-    async (event) => {
-      event.preventDefault();
-
+    async () => {
       try {
-        const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-        const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value;
         if (status === QueueStatus.Pending) {
-          await updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, comment);
+          await updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, 'comment');
 
           showToast({
             critical: true,
@@ -205,18 +199,18 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             queueEntry?.id,
             contentSwitcherIndex,
             priorityComment,
-            comment,
+            'comment',
           );
 
           await addQueueEntry(
-            nextQueueLocationUuid,
+            selectedNextQueueLocation,
             queueEntry?.patientUuid,
             selectedProvider,
             contentSwitcherIndex,
             QueueStatus.Pending,
             sessionUser?.sessionLocation?.uuid,
             priorityComment,
-            comment,
+            'comment',
           );
 
           // Pick and route
@@ -226,7 +220,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             currentEntry?.id,
             contentSwitcherIndex,
             priorityComment,
-            comment,
+            'comment',
           );
 
           showToast({
@@ -479,6 +473,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                           name="comment"
                           maxCount={500}
                           enableCounter
+                          value={field.value}
                         />
                       )}
                     />

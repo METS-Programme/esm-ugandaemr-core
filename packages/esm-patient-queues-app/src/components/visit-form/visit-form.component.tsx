@@ -31,7 +31,7 @@ import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
 import { useQueueRoomLocations } from '../../hooks/useQueueRooms';
 import { addQueueEntry } from '../../active-visits/active-visits-table.resource';
 import Overlay from '../overlay/overlay.component';
-import { checkCurrentVisit, createVisit, getCurrentVisit, useProviders } from '../../active-visits/patient-queues.resource';
+import { checkCurrentVisit, createVisit, useProviders } from '../../active-visits/patient-queues.resource';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -76,6 +76,9 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
     formState: { errors },
   } = useForm<CreateQueueEntryFormData>({
     mode: 'all',
+    defaultValues: {
+      comment: 'NA',
+    },
     resolver: zodResolver(createQueueEntrySchema),
   });
 
@@ -92,15 +95,9 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
 
   const onSubmit = useCallback(
     async (event) => {
-      event.preventDefault();
       setIsSubmitting(true);
 
       try {
-        // Retrieve values safely from the form
-        const nextQueueLocationUuid = event?.target['nextQueueLocation']?.value || '';
-        const comment = event?.target['nextNotes']?.value || '';
-        const status = 'pending';
-
         // Check for an existing visit before proceeding
         const existingVisit = await checkCurrentVisit(patientUuid);
 
@@ -136,14 +133,14 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
 
         // Add new queue entry
         const queueResponse = await addQueueEntry(
-          nextQueueLocationUuid,
+          selectedNextQueueLocation,
           patientUuid,
           selectedProvider,
           contentSwitcherIndex,
-          status,
+          "pending",
           selectedLocation,
           priorityComment,
-          comment,
+          'comment',
         );
 
         if (queueResponse.status !== 201) {
