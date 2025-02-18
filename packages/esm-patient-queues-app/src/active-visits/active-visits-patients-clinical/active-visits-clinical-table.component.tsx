@@ -34,7 +34,6 @@ import StatusIcon from '../../queue-entry-table-components/status-icon.component
 import PickPatientActionMenu from '../../queue-entry-table-components/pick-patient-queue-entry-menu.component';
 import ViewActionsMenu from '../view-action-menu.components';
 import NotesActionsMenu from '../notes-action-menu.components';
-import MovetoNextPointAction from '../move-patient-to-next-action-menu.components';
 import styles from '../active-visits-table.scss';
 import { QueueStatus } from '../../utils/utils';
 import { getLocationByUuid, usePatientQueuesList } from './active-visits-clinical.resource';

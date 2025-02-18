@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { SWRConfig } from 'swr';
-import QueueBoardComponent from './queue-board/queue-board.component';
+import QueueBoardComponent from './components/queue-board/queue-board.component';
 import TriageHome from './queue-triage-home.component';
 import ReceptionHome from './queue-reception-home.component';
 import ClinicalRoomHome from './queue-clinical-room-home.component';

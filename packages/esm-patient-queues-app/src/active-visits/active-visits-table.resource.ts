@@ -2,7 +2,6 @@ import { openmrsFetch, restBaseUrl, Visit } from '@openmrs/esm-framework';
 import dayjs from 'dayjs';
 import isToday from 'dayjs/plugin/isToday';
 import last from 'lodash-es/last';
-import useSWR from 'swr';
 import { Identifer } from '../types';
 import { QueueStatus } from '../utils/utils';
 
@@ -206,7 +205,7 @@ export async function updateQueueEntry(
 ) {
   const abortController = new AbortController();
 
-  return openmrsFetch(`${restBaseUrl}/patientqueue/${queueUuid}`, {
+  return await openmrsFetch(`${restBaseUrl}/patientqueue/${queueUuid}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -224,20 +223,6 @@ export async function updateQueueEntry(
   });
 }
 
-export async function endPatientStatus(previousQueueUuid: string, queueEntryUuid: string, endedAt: Date) {
-  const abortController = new AbortController();
-  await openmrsFetch(`${restBaseUrl}/queue/${previousQueueUuid}/entry/${queueEntryUuid}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    signal: abortController.signal,
-    body: {
-      endedAt: endedAt,
-    },
-  });
-}
-
 export async function addQueueEntry(
   queueUuid: string,
   patientUuid: string,
@@ -250,7 +235,7 @@ export async function addQueueEntry(
 ) {
   const abortController = new AbortController();
 
-  return openmrsFetch(`${restBaseUrl}/patientqueue`, {
+  return await openmrsFetch(`${restBaseUrl}/patientqueue`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -279,17 +264,6 @@ export function generateVisitQueueNumber(location: string, patient: string) {
     },
     signal: abortController.signal,
   });
-}
-
-export function useGenerateVisitQueueNumber(location: string, patient: string) {
-  const apiUrl = `${restBaseUrl}/queuenumber?patient=${patient}&location=${location}`;
-  const { data, error, isLoading } = useSWR<{ data: VisitNumberResponse }, Error>(apiUrl, openmrsFetch);
-
-  return {
-    visitNumber: data.data.queueNumber,
-    isLoading,
-    isError: error,
-  };
 }
 
 export function getCareProvider(provider: string) {

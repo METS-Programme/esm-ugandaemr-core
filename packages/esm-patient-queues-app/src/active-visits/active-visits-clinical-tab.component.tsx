@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
-import ActiveVisitsTable from './active-visits-table.component';
 import styles from './active-visits-table.scss';
 import { QueueStatus } from '../utils/utils';
 import ActiveClinicalVisitsTable from './active-visits-patients-clinical/active-visits-clinical-table.component';

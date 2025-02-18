@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import useSWR from 'swr';
-
 import { formatDate, openmrsFetch, parseDate, restBaseUrl } from '@openmrs/esm-framework';
 import { PatientQueue, UuidDisplay } from '../types/patient-queues';
+import { NewVisitPayload, ProviderResponse } from '../types';
 
 export interface MappedPatientQueueEntry {
   id: string;
@@ -106,7 +106,6 @@ export function usePatientQueueRequest(apiUrl: string) {
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
     apiUrl,
     openmrsFetch,
-    { refreshInterval: 3000 },
   );
 
   const mapppedQueues = data?.data?.results.map((queue: PatientQueue) => {
@@ -159,7 +158,7 @@ export function usePatientQueueRequest(apiUrl: string) {
 
 // get parentlocation
 export function useParentLocation(currentQueueLocationUuid: string) {
-  const apiUrl = `/ws/rest/v1/location/${currentQueueLocationUuid}`;
+  const apiUrl = `${restBaseUrl}/location/${currentQueueLocationUuid}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: LocationResponse }, Error>(
     apiUrl,
     openmrsFetch,
@@ -175,7 +174,7 @@ export function useParentLocation(currentQueueLocationUuid: string) {
 }
 
 export function useChildLocations(parentUuid: string) {
-  const apiUrl = `/ws/rest/v1/location/${parentUuid}`;
+  const apiUrl = `${restBaseUrl}/location/${parentUuid}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: LocationResponse }, Error>(
     apiUrl,
     openmrsFetch,
@@ -188,4 +187,92 @@ export function useChildLocations(parentUuid: string) {
     isValidating,
     mutate,
   };
+}
+
+// Fetch providers of a service point
+export function useProviders(selectedNextQueueLocation: string) {
+  const apiUrl = `${restBaseUrl}/provider?q=&v=full`;
+  const { data, error, isLoading, isValidating, mutate } = useSWR<
+    { data: { results: Array<ProviderResponse> } },
+    Error
+  >(apiUrl, openmrsFetch);
+
+  // Filter providers based on the selected location
+  const providers =
+    data?.data?.results?.filter((provider) =>
+      provider.attributes.some(
+        (attr) =>
+          attr.attributeType.display === 'Default Location' &&
+          typeof attr.value === 'object' &&
+          attr.value.uuid === selectedNextQueueLocation,
+      ),
+    ) || [];
+
+  return {
+    providers,
+    error,
+    isLoading,
+    isError: Boolean(error),
+    isValidating,
+    mutate,
+  };
+}
+
+export async function getCurrentPatientQueueByPatientUuid(patientUuid: string, currentLocation: string) {
+  const apiUrl = `${restBaseUrl}/incompletequeue?queueRoom=${currentLocation}&patient=${patientUuid}&v=full`;
+
+  const abortController = new AbortController();
+
+  return await openmrsFetch(apiUrl, {
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
+// create visit
+export async function createVisit(payload: NewVisitPayload) {
+  const abortController = new AbortController();
+
+  return await openmrsFetch(`${restBaseUrl}/visit`, {
+    method: 'POST',
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: payload,
+  });
+}
+
+// update Visit
+export async function updateVisit(uuid: string, payload: NewVisitPayload) {
+  const abortController = new AbortController();
+
+  return await openmrsFetch(`${restBaseUrl}/visit/${uuid}`, {
+    method: 'POST',
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: payload,
+  });
+}
+
+// get current visit
+export async function getCurrentVisit(patient: string, date: string) {
+  const apiUrl = `${restBaseUrl}/visit?patient=${patient}&includeInactive=false&fromStartDate=${date}&v=default&limit=1`;
+  const abortController = new AbortController();
+  return await openmrsFetch(apiUrl, {
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
+export async function checkCurrentVisit(patientUuid) {
+  const date = dayjs().format('YYYY-MM-DD');
+  const resp = await getCurrentVisit(patientUuid, date);
+  return resp.data?.results !== null && resp.data?.results.length > 0;
 }

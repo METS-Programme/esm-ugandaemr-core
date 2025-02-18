@@ -5,7 +5,7 @@ import { showModal, useSession } from '@openmrs/esm-framework';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MappedPatientQueueEntry } from '../active-visits/patient-queues.resource';
-import { usePatientsServed } from '../patient-queue-metrics/clinic-metrics.resource';
+import { usePatientsServed } from '../components/patient-queue-metrics/clinic-metrics.resource';
 
 interface PickPatientActionMenuProps {
   queueEntry: MappedPatientQueueEntry;
