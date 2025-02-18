@@ -18,7 +18,7 @@ const StartVisitButton: React.FC<StartVisitFormProps> = ({ patientUuid }) => {
     <>
       <Button onClick={handleClick}>{t('startAVisit', 'Start a Visit')}</Button>
       {showOverlay && (
-        <StartVisitForm header={t('startAVisit', 'Start a Visit')} closePanel={() => true} patientUuid={patientUuid} />
+        <StartVisitForm header={t('startAVisit', 'Start a Visit')} closePanel={() => setShowOverlay(false)} patientUuid={patientUuid} />
       )}
     </>
   );

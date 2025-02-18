@@ -10,9 +10,9 @@ const visitSchema = z.object({
 
 export const createQueueEntrySchema = z.object({
   patient: z.string().optional(),
-  provider: z.string().optional(),
+  provider: z.string().min(1, 'Provider is required'),
   locationFrom: z.string().optional(),
-  locationTo: z.string().optional(),
+  locationTo: z.string().min(1, 'Destination is required'),
   status: z.string().optional(),
   priority: z.string().optional(),
   priorityComment: z.string().optional(),

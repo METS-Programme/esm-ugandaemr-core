@@ -14,11 +14,13 @@ import {
   InlineNotification,
 } from '@carbon/react';
 import {
+  ExtensionSlot,
   showNotification,
   showToast,
   toDateObjectStrict,
   toOmrsIsoString,
   useLayoutType,
+  usePatient,
   useSession,
   useVisitTypes,
 } from '@openmrs/esm-framework';
@@ -50,6 +52,8 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
   const isTablet = useLayoutType() === 'tablet';
   const sessionUser = useSession();
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(0);
+    const { patient } = usePatient(patientUuid);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [timeFormat, setTimeFormat] = useState<amPm>(new Date().getHours() >= 12 ? 'PM' : 'AM');
   const [visitDate, setVisitDate] = useState(new Date());
@@ -185,7 +189,17 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
 
   return (
     <div>
-      <Overlay closePanel={() => closePanel} header={header}>
+      <Overlay closePanel={closePanel} header={header}>
+        {patient && (
+          <ExtensionSlot
+            name="patient-header-slot"
+            state={{
+              patient,
+              patientUuid: patientUuid,
+              hideActionsOverflow: true,
+            }}
+          />
+        )}
         <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <div>
             <Stack gap={8} className={styles.container}>
