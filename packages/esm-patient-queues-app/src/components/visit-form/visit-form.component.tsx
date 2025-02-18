@@ -15,6 +15,7 @@ import {
 } from '@carbon/react';
 import {
   ExtensionSlot,
+  restBaseUrl,
   showNotification,
   showToast,
   toDateObjectStrict,
@@ -40,6 +41,7 @@ import {
   CreateQueueEntryFormData,
   createQueueEntrySchema,
 } from '../../active-visits/patient-queue-validation-schema.resource';
+import { handleMutate } from '../../utils/utils';
 
 interface VisitFormProps {
   patientUuid: string;
@@ -157,6 +159,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
           description: t('startVisitQueueSuccessfully', 'Patient has been added to active visits list and queue.'),
         });
 
+        handleMutate(`${restBaseUrl}/patientqueue`);
         closePanel();
         mutate();
       } catch (error) {
