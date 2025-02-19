@@ -39,7 +39,6 @@ export interface Resource {
   };
 }
 
-
 export interface NewVisitPayload {
   uuid?: string;
   location: string;
@@ -53,16 +52,12 @@ export interface NewVisitPayload {
   }>;
 }
 
-
-
-
 export interface Attribute {
   attributeType: OpenmrsResource;
   display: string;
   uuid: string;
   value: Location;
 }
-
 
 export interface ProviderResponse {
   uuid: string;
@@ -129,7 +124,6 @@ export interface Link {
   uri: string;
   resourceAlias: string;
 }
-
 
 export interface Tag {
   uuid: string;

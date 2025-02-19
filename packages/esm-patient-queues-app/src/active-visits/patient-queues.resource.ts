@@ -9,13 +9,10 @@ import { useEffect, useState } from 'react';
 import { QueueStatus } from '../utils/utils';
 import last from 'lodash-es/last';
 
-
 export interface PatientQueueFilter extends ResourceFilterCriteria {
   status?: string;
   parentLocation?: string;
 }
-
-
 
 export interface LocationResponse {
   uuid: string;
@@ -336,7 +333,6 @@ export function usePatientQueuePages(v?: ResourceRepresentation) {
     setParentLocation,
   };
 }
-
 
 export const getOriginFromPathName = (pathname = '') => {
   const from = pathname.split('/');

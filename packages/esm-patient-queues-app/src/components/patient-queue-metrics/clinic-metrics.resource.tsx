@@ -1,18 +1,11 @@
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import useSWR from 'swr';
-import {
-  formatDate,
-  openmrsFetch,
-  parseDate,
-  getGlobalStore,
-  restBaseUrl,
-} from '@openmrs/esm-framework';
+import { formatDate, openmrsFetch, parseDate, getGlobalStore, restBaseUrl } from '@openmrs/esm-framework';
 import { PatientQueue } from '../../types/patient-queues';
 import { omrsDateFormat } from '../../constants';
 import { Value } from './metrics-card.component';
 import { getMetrics } from './clinic-metrics.component';
-
 
 export function usePatientsServed(currentQueueLocationUuid: string, status: string) {
   const apiUrl = `${restBaseUrl}/patientqueue?v=full&room=${currentQueueLocationUuid}&status=${status}`;
