@@ -25,14 +25,12 @@ import {
   useSession,
   useVisit,
 } from '@openmrs/esm-framework';
-import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
-import { MappedQueueEntry } from '../types';
 import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 import styles from './change-status-dialog.scss';
 import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
-import { updateVisit, useProviders } from './patient-queues.resource';
+import { addQueueEntry, getCareProvider, updateQueueEntry, updateVisit, useProviders } from './patient-queues.resource';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queue-validation-schema.resource';

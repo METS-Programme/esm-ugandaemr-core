@@ -18,17 +18,17 @@ import { useTranslation } from 'react-i18next';
 import {
   getSessionStore,
   navigate,
+  restBaseUrl,
   showNotification,
   showToast,
   useLayoutType,
   useSession,
 } from '@openmrs/esm-framework';
-import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './change-status-dialog.scss';
-import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
+import { QueueStatus, extractErrorMessagesFromResponse, handleMutate } from '../utils/utils';
 import { PatientQueue } from '../types/patient-queues';
-import { getCurrentPatientQueueByPatientUuid, useProviders } from './patient-queues.resource';
+import { addQueueEntry, getCareProvider, getCurrentPatientQueueByPatientUuid, updateQueueEntry, useProviders } from './patient-queues.resource';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queue-validation-schema.resource';
@@ -54,11 +54,9 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
 
   const [status, setStatus] = useState('');
 
-  const {
-    queueRoomLocations,
-    mutate,
-    error: errorLoadingQueueRooms,
-  } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
+  const { queueRoomLocations, error: errorLoadingQueueRooms } = useQueueRoomLocations(
+    sessionUser?.sessionLocation?.uuid,
+  );
 
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
 
@@ -81,7 +79,6 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
         const uuid = response?.data?.results[0].uuid;
         setIsLoading(false);
         setProvider(uuid);
-        mutate();
       },
       (error) => {
         const errorMessages = extractErrorMessagesFromResponse(error);
@@ -94,7 +91,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
         });
       },
     );
-  }, [sessionUser?.user?.uuid, mutate]);
+  }, [sessionUser?.user?.uuid]);
 
   useEffect(() => fetchProvider(), [fetchProvider]);
 
@@ -146,7 +143,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
                   description: t('backToQueue', 'Successfully moved back patient to your service point'),
                 });
                 closeModal();
-                mutate();
+                handleMutate(`${restBaseUrl}/patientqueue`);
               });
             } else if (queueEntry.length === 1) {
               updateQueueEntry(status, provider, queueEntry[0]?.uuid, 0, priorityComment, comment).then(() => {
@@ -157,7 +154,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
                   description: t('backToQueue', 'Successfully moved back patient to your service point'),
                 });
                 closeModal();
-                mutate();
+                handleMutate(`${restBaseUrl}/patientqueue`);
               });
             }
           },
@@ -188,7 +185,6 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
                 comment,
               ).then(
                 () => {
-                  mutate();
                   addQueueEntry(
                     selectedNextQueueLocation,
                     patient,
@@ -200,7 +196,6 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
                     comment,
                   ).then(
                     (res) => {
-                      mutate();
                       updateQueueEntry(
                         QueueStatus.Pending,
                         selectedProvider,
@@ -234,7 +229,6 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
                             }
                           }
 
-                          mutate();
                           closeModal();
                         },
                         (error) => {
@@ -248,7 +242,6 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
                         },
                       );
                       closeModal();
-                      mutate();
                     },
                     (error) => {
                       const errorMessages = extractErrorMessagesFromResponse(error);
@@ -262,9 +255,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
                     },
                   );
                 },
-                () => {
-                  mutate();
-                },
+                () => {},
               );
             } else if (queueEntry.length === 1) {
               updateQueueEntry(
@@ -276,7 +267,6 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
                 comment,
               ).then(
                 () => {
-                  mutate();
                   addQueueEntry(
                     selectedNextQueueLocation,
                     patient,
@@ -288,7 +278,6 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
                     comment,
                   ).then(
                     (res) => {
-                      mutate();
                       updateQueueEntry(
                         QueueStatus.Pending,
                         selectedProvider,
@@ -320,7 +309,6 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
                               navigate({ to: `${window.getOpenmrsSpaBase()}home` });
                             }
                           }
-                          mutate();
                           closeModal();
                         },
                         (error) => {
@@ -334,7 +322,6 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
                         },
                       );
                       closeModal();
-                      mutate();
                     },
                     (error) => {
                       const errorMessages = extractErrorMessagesFromResponse(error);
@@ -348,9 +335,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
                     },
                   );
                 },
-                () => {
-                  mutate();
-                },
+                () => {},
               );
             }
           },
@@ -369,7 +354,6 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
     [
       closeModal,
       contentSwitcherIndex,
-      mutate,
       patient,
       priorityComment,
       provider,

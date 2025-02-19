@@ -26,11 +26,10 @@ import {
   useSession,
   useVisit,
 } from '@openmrs/esm-framework';
-import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './change-status-dialog.scss';
 import { QueueStatus, extractErrorMessagesFromResponse, handleMutate } from '../utils/utils';
-import { getCurrentPatientQueueByPatientUuid, updateVisit, useProviders } from './patient-queues.resource';
+import { addQueueEntry, getCareProvider, getCurrentPatientQueueByPatientUuid, updateQueueEntry, updateVisit, useProviders } from './patient-queues.resource';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queue-validation-schema.resource';
 import { Controller, useForm } from 'react-hook-form';

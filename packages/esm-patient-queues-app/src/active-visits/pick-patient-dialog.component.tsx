@@ -10,11 +10,11 @@ import {
   useSession,
 } from '@openmrs/esm-framework';
 
-import { getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { useTranslation } from 'react-i18next';
 import { trimVisitNumber } from '../helpers/functions';
 import { extractErrorMessagesFromResponse, handleMutate } from '../utils/utils';
 import { PatientQueue } from '../types/patient-queues';
+import { getCareProvider, updateQueueEntry } from './patient-queues.resource';
 
 interface PickPatientDialogProps {
   queueEntry: PatientQueue;

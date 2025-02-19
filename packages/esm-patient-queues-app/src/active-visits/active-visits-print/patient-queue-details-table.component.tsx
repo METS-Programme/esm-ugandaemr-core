@@ -1,11 +1,11 @@
 import React from 'react';
-import { MappedPatientQueueEntry } from '../patient-queues.resource';
 import styles from './active-visits-print.scss';
 import { trimVisitNumber } from '../../helpers/functions';
 import { formatDate, parseDate, useSession } from '@openmrs/esm-framework';
+import { PatientQueue } from '../../types/patient-queues';
 
 interface PrintTableProps {
-  queueEntry: MappedPatientQueueEntry;
+  queueEntry: PatientQueue;
 }
 
 const PatientQueueDetailsTable: React.FC<PrintTableProps> = ({ queueEntry }) => {

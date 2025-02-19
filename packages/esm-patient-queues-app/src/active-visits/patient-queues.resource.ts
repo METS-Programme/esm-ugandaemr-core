@@ -7,33 +7,15 @@ import { ResourceFilterCriteria, ResourceRepresentation, toQueryParams } from '.
 import { PageableResult } from '../pageable-result';
 import { useEffect, useState } from 'react';
 import { QueueStatus } from '../utils/utils';
+import last from 'lodash-es/last';
+
 
 export interface PatientQueueFilter extends ResourceFilterCriteria {
   status?: string;
   parentLocation?: string;
 }
 
-export interface MappedPatientQueueEntry {
-  id: string;
-  name: string;
-  patientAge: number;
-  patientSex: string;
-  patientDob: string;
-  patientUuid: string;
-  priority: string;
-  priorityComment: string;
-  comment: string;
-  status: string;
-  waitTime: string;
-  locationFrom?: string;
-  locationToName?: string;
-  visitNumber: string;
-  identifiers: Array<UuidDisplay>;
-  dateCreated: string;
-  creatorUuid: string;
-  creatorUsername: string;
-  creatorDisplay: string;
-}
+
 
 export interface LocationResponse {
   uuid: string;
@@ -353,4 +335,104 @@ export function usePatientQueuePages(v?: ResourceRepresentation) {
     parentLocation,
     setParentLocation,
   };
+}
+
+
+export const getOriginFromPathName = (pathname = '') => {
+  const from = pathname.split('/');
+  return last(from);
+};
+
+export async function updateQueueEntry(
+  status: string,
+  providerUuid: string,
+  queueUuid: string,
+  priority: number,
+  priorityComment: string,
+  comment: string,
+) {
+  const abortController = new AbortController();
+
+  return await openmrsFetch(`${restBaseUrl}/patientqueue/${queueUuid}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    signal: abortController.signal,
+    body: {
+      provider: {
+        uuid: providerUuid,
+      },
+      status: status,
+      priority: priority ? priority : 0,
+      priorityComment: priorityComment === 'Urgent' ? 'Priority' : priorityComment,
+      comment: comment,
+    },
+  });
+}
+
+export async function addQueueEntry(
+  queueUuid: string,
+  patientUuid: string,
+  provider: string,
+  priority: number,
+  status: string,
+  locationUuid: string,
+  priorityComment: string,
+  comment: string,
+) {
+  const abortController = new AbortController();
+
+  return await openmrsFetch(`${restBaseUrl}/patientqueue`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    signal: abortController.signal,
+    body: {
+      patient: patientUuid,
+      provider: provider,
+      locationFrom: locationUuid,
+      locationTo: queueUuid !== undefined ? queueUuid : 'Not Set',
+      status: status ? status : QueueStatus.Pending,
+      priority: priority ? priority : 0,
+      priorityComment: priorityComment ?? 'Not Set',
+      comment: comment ?? 'This is pending',
+      queueRoom: queueUuid !== undefined ? queueUuid : 'Not Set',
+    },
+  });
+}
+
+export function generateVisitQueueNumber(location: string, patient: string) {
+  const abortController = new AbortController();
+  return openmrsFetch(`${restBaseUrl}/queuenumber?patient=${patient}&location=${location}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    signal: abortController.signal,
+  });
+}
+
+export function getCareProvider(provider: string) {
+  const abortController = new AbortController();
+
+  return openmrsFetch(`${restBaseUrl}/provider?user=${provider}&v=full`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    signal: abortController.signal,
+  });
+}
+
+export function getLocation(uuid: string) {
+  const abortController = new AbortController();
+  return openmrsFetch(`${restBaseUrl}/location/${uuid}&v=full`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    signal: abortController.signal,
+  });
 }
