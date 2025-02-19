@@ -32,9 +32,13 @@ import styles from './visit-form.scss';
 import { NewVisitPayload } from '../../types';
 import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
 import { useQueueRoomLocations } from '../../hooks/useQueueRooms';
-import { addQueueEntry } from '../../active-visits/active-visits-table.resource';
 import Overlay from '../overlay/overlay.component';
-import { checkCurrentVisit, createVisit, useProviders } from '../../active-visits/patient-queues.resource';
+import {
+  addQueueEntry,
+  checkCurrentVisit,
+  createVisit,
+  useProviders,
+} from '../../active-visits/patient-queues.resource';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {

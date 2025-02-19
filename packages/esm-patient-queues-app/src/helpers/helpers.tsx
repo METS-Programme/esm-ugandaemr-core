@@ -2,8 +2,6 @@ import { getGlobalStore } from '@openmrs/esm-framework';
 import { useEffect, useState } from 'react';
 import { PatientQueue } from '../types/patient-queues';
 
-
-
 const initialServiceNameState = { serviceName: localStorage.getItem('queueServiceName') };
 const initialServiceUuidState = { serviceUuid: localStorage.getItem('queueServiceUuid') };
 const intialStatusNameState = { status: '' };

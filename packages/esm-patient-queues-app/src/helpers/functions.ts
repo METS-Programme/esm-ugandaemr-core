@@ -1,6 +1,5 @@
 import { OpenmrsResource } from '@openmrs/esm-framework';
 
-
 export const buildStatusString = (status: string) => {
   if (!status) {
     return '';
