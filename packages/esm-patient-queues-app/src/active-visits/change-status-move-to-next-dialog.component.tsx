@@ -19,6 +19,7 @@ import {
   getSessionStore,
   navigate,
   parseDate,
+  restBaseUrl,
   showNotification,
   showToast,
   useLayoutType,
@@ -28,7 +29,7 @@ import {
 import { addQueueEntry, getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './change-status-dialog.scss';
-import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
+import { QueueStatus, extractErrorMessagesFromResponse, handleMutate } from '../utils/utils';
 import { getCurrentPatientQueueByPatientUuid, updateVisit, useProviders } from './patient-queues.resource';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queue-validation-schema.resource';
@@ -54,11 +55,9 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   const [status, setStatus] = useState('');
 
-  const {
-    queueRoomLocations,
-    mutate,
-    error: errorLoadingQueueRooms,
-  } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
+  const { queueRoomLocations, error: errorLoadingQueueRooms } = useQueueRoomLocations(
+    sessionUser?.sessionLocation?.uuid,
+  );
 
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
 
@@ -83,7 +82,6 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
         const uuid = response?.data?.results[0].uuid;
         setIsLoading(false);
         setProvider(uuid);
-        mutate();
       },
       (error) => {
         const errorMessages = extractErrorMessagesFromResponse(error);
@@ -96,7 +94,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
         });
       },
     );
-  }, [sessionUser?.user?.uuid, mutate]);
+  }, [sessionUser?.user?.uuid]);
 
   useEffect(() => fetchProvider(), [fetchProvider]);
 
@@ -128,7 +126,8 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
   }, [statusSwitcherIndex, statusLabels]);
 
   // endVisit
-  const endCurrentVisit = async () => {
+  const endCurrentVisit = async (event) => {
+    event.preventDefault();
     const endVisitPayload = {
       location: activeVisit.location.uuid,
       startDatetime: parseDate(activeVisit.startDatetime),
@@ -182,7 +181,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
           closeModal();
           navigate({ to: navigateTo });
-          mutate();
+          handleMutate(`${restBaseUrl}/patientqueue`);
         }
       }
     } catch (error) {
@@ -221,7 +220,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
               description: t('backToQueue', 'Successfully moved back patient to your service point'),
             });
             closeModal();
-            mutate();
+            handleMutate(`${restBaseUrl}/patientqueue`);
           });
         }
       }
@@ -264,7 +263,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
               kind: 'success',
               description: t('movetonextservicepoint', 'Moved to next service point successfully'),
             });
-            mutate();
+            handleMutate(`${restBaseUrl}/patientqueue`);
             closeModal();
             // view patient summary
             // navigate({ to: `\${openmrsSpaBase}/home` });
@@ -290,7 +289,6 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
     [
       closeModal,
       contentSwitcherIndex,
-      mutate,
       patientUuid,
       priorityComment,
       provider,

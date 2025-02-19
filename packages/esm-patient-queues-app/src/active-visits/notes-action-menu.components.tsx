@@ -4,9 +4,10 @@ import { CatalogPublish } from '@carbon/react/icons';
 import { useTranslation } from 'react-i18next';
 import { showModal } from '@openmrs/esm-framework';
 import { MappedPatientQueueEntry } from './patient-queues.resource';
+import { PatientQueue } from '../types/patient-queues';
 
 interface NotesActionsMenuProps {
-  note: MappedPatientQueueEntry;
+  note: PatientQueue;
 }
 
 const NotesActionsMenu: React.FC<NotesActionsMenuProps> = ({ note }) => {

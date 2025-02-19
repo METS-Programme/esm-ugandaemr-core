@@ -36,10 +36,11 @@ import { updateVisit, useProviders } from './patient-queues.resource';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queue-validation-schema.resource';
+import { PatientQueue } from '../types/patient-queues';
 
 interface ChangeStatusDialogProps {
-  queueEntry: MappedQueueEntry;
-  currentEntry: MappedQueueEntry;
+  queueEntry: PatientQueue;
+  currentEntry: PatientQueue;
   closeModal: () => void;
 }
 
@@ -70,7 +71,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const [selectedProvider, setSelectedProvider] = useState('');
 
-  const { activeVisit } = useVisit(queueEntry.patientUuid);
+  const { activeVisit } = useVisit(queueEntry.patient.uuid);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -147,7 +148,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
         const response = await updateQueueEntry(
           QueueStatus.Completed,
           provider,
-          queueEntry?.id,
+          queueEntry?.uuid,
           contentSwitcherIndex,
           priorityComment,
           'comment',
@@ -176,91 +177,89 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     }
   };
 
-  const onSubmit = useCallback(
-    async () => {
-      try {
-        if (status === QueueStatus.Pending) {
-          await updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, 'comment');
+  const onSubmit = useCallback(async () => {
+    try {
+      if (status === QueueStatus.Pending) {
+        await updateQueueEntry(status, provider, queueEntry?.uuid, 0, priorityComment, 'comment');
 
-          showToast({
-            critical: true,
-            title: t('updateEntry', 'Update entry'),
-            kind: 'success',
-            description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
-          });
-
-          closeModal();
-          mutate();
-        }
-        if (status === QueueStatus.Completed) {
-          await updateQueueEntry(
-            QueueStatus.Completed,
-            provider,
-            queueEntry?.id,
-            contentSwitcherIndex,
-            priorityComment,
-            'comment',
-          );
-
-          await addQueueEntry(
-            selectedNextQueueLocation,
-            queueEntry?.patientUuid,
-            selectedProvider,
-            contentSwitcherIndex,
-            QueueStatus.Pending,
-            sessionUser?.sessionLocation?.uuid,
-            priorityComment,
-            'comment',
-          );
-
-          // Pick and route
-          await updateQueueEntry(
-            QueueStatus.Picked,
-            provider,
-            currentEntry?.id,
-            contentSwitcherIndex,
-            priorityComment,
-            'comment',
-          );
-
-          showToast({
-            critical: true,
-            title: t('updateEntry', 'Move to next queue'),
-            kind: 'success',
-            description: t('movetonextqueue', 'Move to next queue successfully'),
-          });
-
-          // View patient summary
-          navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry.patientUuid}/chart` });
-
-          closeModal();
-          mutate();
-        }
-      } catch (error: any) {
-        showNotification({
-          title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-          kind: 'error',
+        showToast({
           critical: true,
-          description: error?.message,
+          title: t('updateEntry', 'Update entry'),
+          kind: 'success',
+          description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
         });
+
+        closeModal();
+        mutate();
       }
-    },
-    [
-      status,
-      provider,
-      queueEntry?.id,
-      queueEntry?.patientUuid,
-      priorityComment,
-      t,
-      closeModal,
-      mutate,
-      contentSwitcherIndex,
-      selectedProvider,
-      sessionUser?.sessionLocation?.uuid,
-      currentEntry?.id,
-      currentEntry.patientUuid,
-    ],
-  );
+      if (status === QueueStatus.Completed) {
+        await updateQueueEntry(
+          QueueStatus.Completed,
+          provider,
+          queueEntry?.uuid,
+          contentSwitcherIndex,
+          priorityComment,
+          'comment',
+        );
+
+        await addQueueEntry(
+          selectedNextQueueLocation,
+          queueEntry?.patient?.uuid,
+          selectedProvider,
+          contentSwitcherIndex,
+          QueueStatus.Pending,
+          sessionUser?.sessionLocation?.uuid,
+          priorityComment,
+          'comment',
+        );
+
+        // Pick and route
+        await updateQueueEntry(
+          QueueStatus.Picked,
+          provider,
+          currentEntry?.uuid,
+          contentSwitcherIndex,
+          priorityComment,
+          'comment',
+        );
+
+        showToast({
+          critical: true,
+          title: t('updateEntry', 'Move to next queue'),
+          kind: 'success',
+          description: t('movetonextqueue', 'Move to next queue successfully'),
+        });
+
+        // View patient summary
+        navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry?.patient?.uuid}/chart` });
+
+        closeModal();
+        mutate();
+      }
+    } catch (error: any) {
+      showNotification({
+        title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+        kind: 'error',
+        critical: true,
+        description: error?.message,
+      });
+    }
+  }, [
+    status,
+    provider,
+    queueEntry?.uuid,
+    queueEntry?.patient?.uuid,
+    priorityComment,
+    t,
+    closeModal,
+    mutate,
+    contentSwitcherIndex,
+    selectedProvider,
+    sessionUser?.sessionLocation?.uuid,
+    currentEntry?.uuid,
+    currentEntry?.patient?.uuid,
+    selectedNextQueueLocation,
+  ]);
 
   if (queueEntry && Object.keys(queueEntry)?.length === 0) {
     return <ModalHeader closeModal={closeModal} title={t('patientNotInQueue', 'The patient is not in the queue')} />;
@@ -279,10 +278,11 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                   <ArrowDown size={20} />
                 </div>
               </div>
-              {currentEntry?.name ? (
+              {currentEntry?.patient?.display ? (
                 <h5 className={styles.section}>
-                  {currentEntry?.name} &nbsp; · &nbsp;{currentEntry?.patientSex} &nbsp; · &nbsp;
-                  {currentEntry?.patientAge}
+                  {currentEntry?.patient?.display} &nbsp; · &nbsp;{currentEntry?.patient?.person?.gender} &nbsp; ·
+                  &nbsp;
+                  {currentEntry?.patient?.person?.age}
                   &nbsp;
                   {t('years', 'Years')}
                 </h5>
@@ -299,9 +299,10 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                   <ArrowUp size={20} />
                 </div>
               </div>
-              {queueEntry?.name ? (
+              {queueEntry?.patient?.display ? (
                 <h5 className={styles.section}>
-                  {queueEntry?.name} &nbsp; · &nbsp;{queueEntry?.patientSex} &nbsp; · &nbsp;{queueEntry?.patientAge}
+                  {queueEntry?.patient?.display} &nbsp; · &nbsp;{queueEntry?.patient?.person?.gender} &nbsp; · &nbsp;
+                  {queueEntry?.patient?.person?.age}
                   &nbsp;
                   {t('years', 'Years')}
                 </h5>

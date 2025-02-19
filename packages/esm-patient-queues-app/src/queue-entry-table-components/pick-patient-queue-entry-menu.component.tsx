@@ -4,11 +4,11 @@ import { Notification } from '@carbon/react/icons';
 import { showModal, useSession } from '@openmrs/esm-framework';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MappedPatientQueueEntry } from '../active-visits/patient-queues.resource';
 import { usePatientsServed } from '../components/patient-queue-metrics/clinic-metrics.resource';
+import { PatientQueue } from '../types/patient-queues';
 
 interface PickPatientActionMenuProps {
-  queueEntry: MappedPatientQueueEntry;
+  queueEntry: PatientQueue;
   closeModal: () => void;
 }
 

@@ -1,8 +1,17 @@
 import dayjs from 'dayjs';
 import useSWR from 'swr';
-import { formatDate, openmrsFetch, parseDate, restBaseUrl } from '@openmrs/esm-framework';
+import { formatDate, openmrsFetch, parseDate, restBaseUrl, usePagination, useSession } from '@openmrs/esm-framework';
 import { PatientQueue, UuidDisplay } from '../types/patient-queues';
 import { NewVisitPayload, ProviderResponse } from '../types';
+import { ResourceFilterCriteria, ResourceRepresentation, toQueryParams } from '../resource-filter-criteria';
+import { PageableResult } from '../pageable-result';
+import { useEffect, useState } from 'react';
+import { QueueStatus } from '../utils/utils';
+
+export interface PatientQueueFilter extends ResourceFilterCriteria {
+  status?: string;
+  parentLocation?: string;
+}
 
 export interface MappedPatientQueueEntry {
   id: string;
@@ -275,4 +284,73 @@ export async function checkCurrentVisit(patientUuid) {
   const date = dayjs().format('YYYY-MM-DD');
   const resp = await getCurrentVisit(patientUuid, date);
   return resp.data?.results !== null && resp.data?.results.length > 0;
+}
+
+export function usePatientQueues(filter: PatientQueueFilter) {
+  const apiUrl = `${restBaseUrl}/patientqueue/${toQueryParams(filter)}`;
+  const { data, error, isLoading } = useSWR<
+    {
+      data: PageableResult<PatientQueue>;
+    },
+    Error
+  >(apiUrl, openmrsFetch);
+
+  return {
+    items: data?.data || <PageableResult<PatientQueue>>{},
+    isLoading,
+    error,
+  };
+}
+
+export function usePatientQueuePages(v?: ResourceRepresentation) {
+  const pageSizes = [10, 20, 30, 40, 50];
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageSize, setPageSize] = useState(10);
+  const [searchString, setSearchString] = useState(null);
+  const session = useSession();
+  const { location } = useParentLocation(session?.sessionLocation?.uuid);
+
+  const [parentLocation, setParentLocation] = useState(location?.uuid);
+  const [status, setStatus] = useState(QueueStatus.Pending);
+
+  const [patientQueueFilter, setPatientQueueFilter] = useState<PatientQueueFilter>({
+    startIndex: currentPage - 1,
+    v: v || ResourceRepresentation.Default,
+    limit: currentPageSize,
+    q: null,
+    totalCount: true,
+  });
+
+  const { items, isLoading, error } = usePatientQueues(patientQueueFilter);
+  const pagination = usePagination(items.results, currentPageSize);
+
+  useEffect(() => {
+    setPatientQueueFilter({
+      startIndex: currentPage - 1,
+      v: ResourceRepresentation.Default,
+      limit: currentPageSize,
+      q: searchString,
+      totalCount: true,
+      status: status,
+      parentLocation: parentLocation,
+    });
+  }, [searchString, currentPage, currentPageSize, status, parentLocation]);
+
+  return {
+    items: pagination.results,
+    pagination,
+    totalCount: items.totalCount,
+    currentPageSize,
+    currentPage,
+    setCurrentPage,
+    setPageSize,
+    pageSizes,
+    isLoading,
+    error,
+    setSearchString,
+    status,
+    setStatus,
+    parentLocation,
+    setParentLocation,
+  };
 }

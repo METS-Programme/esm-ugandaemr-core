@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { useReactToPrint } from 'react-to-print';
 import VisitCardToPrint from './active-visits-print/active-visits-print.component';
 import { MappedPatientQueueEntry } from './patient-queues.resource';
+import { PatientQueue } from '../types/patient-queues';
 
 interface PrintActionsMenuProps {
-  patient: MappedPatientQueueEntry;
+  patient: PatientQueue;
 }
 
 const PrintActionsMenu: React.FC<PrintActionsMenuProps> = ({ patient }) => {
@@ -40,7 +41,7 @@ const PrintActionsMenu: React.FC<PrintActionsMenuProps> = ({ patient }) => {
   return (
     <div>
       <div ref={contentToPrintRef}>
-        <VisitCardToPrint queueEntry={patient} />
+        {/* <VisitCardToPrint queueEntry={patient} /> */}
       </div>
       <Button
         kind="ghost"

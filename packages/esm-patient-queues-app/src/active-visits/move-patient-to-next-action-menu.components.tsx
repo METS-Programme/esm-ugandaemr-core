@@ -4,10 +4,11 @@ import { Button, Tooltip } from '@carbon/react';
 import { Send } from '@carbon/react/icons';
 import { useTranslation } from 'react-i18next';
 import { showModal } from '@openmrs/esm-framework';
+import { PatientQueue } from '../types/patient-queues';
 
 interface MovetoNextPointActionProps {
   patient: string;
-  entries: [];
+  entries: Array<PatientQueue>;
 }
 
 const MovetoNextPointAction: React.FC<MovetoNextPointActionProps> = ({ patient, entries }) => {

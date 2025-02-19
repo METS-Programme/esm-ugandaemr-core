@@ -54,7 +54,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
   const isTablet = useLayoutType() === 'tablet';
   const sessionUser = useSession();
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(0);
-    const { patient } = usePatient(patientUuid);
+  const { patient } = usePatient(patientUuid);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [timeFormat, setTimeFormat] = useState<amPm>(new Date().getHours() >= 12 ? 'PM' : 'AM');
@@ -143,7 +143,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
           patientUuid,
           selectedProvider,
           contentSwitcherIndex,
-          "pending",
+          'pending',
           selectedLocation,
           priorityComment,
           'comment',
