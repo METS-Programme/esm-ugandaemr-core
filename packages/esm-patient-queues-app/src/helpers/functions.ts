@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export const buildStatusString = (status: string) => {
   if (!status) {
     return '';
@@ -18,18 +20,24 @@ export const trimVisitNumber = (visitNumber: string) => {
   return visitNumber.substring(15);
 };
 
-export const formatWaitTime = (waitTime: string, t) => {
-  const num = parseInt(waitTime);
-  const hours = num / 60;
-  const rhours = Math.floor(hours);
-  const minutes = (hours - rhours) * 60;
-  const rminutes = Math.round(minutes);
-  if (rhours > 0) {
-    return rhours + ' ' + `${t('hoursAnd', 'hours and ')}` + rminutes + ' ' + `${t('minutes', 'minutes')}`;
+
+export const formatWaitTime = (dateCreated: string, t) => {
+  if (!dateCreated) return t('unknown', 'Unknown');
+
+  const now = dayjs();
+  const createdTime = dayjs(dateCreated);
+  const diffInMinutes = now.diff(createdTime, 'minute');
+
+  const hours = Math.floor(diffInMinutes / 60);
+  const minutes = diffInMinutes % 60; // Get the remainder after extracting hours
+
+  if (hours > 0) {
+    return `${hours} ${t('hoursAnd', 'hours and')} ${minutes} ${t('minutes', 'minutes')}`;
   } else {
-    return rminutes + ' ' + `${t('minutes', 'minutes')}`;
+    return `${minutes} ${t('minutes', 'minutes')}`;
   }
 };
+
 
 export const getTagColor = (waitTime: string) => {
   const num = parseInt(waitTime);
