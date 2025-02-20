@@ -39,7 +39,7 @@ const PrintActionsMenu: React.FC<PrintActionsMenuProps> = ({ patient }) => {
 
   return (
     <div>
-      <div ref={contentToPrintRef}>{/* <VisitCardToPrint queueEntry={patient} /> */}</div>
+      <div ref={contentToPrintRef}><VisitCardToPrint queueEntry={patient} /></div>
       <Button
         kind="ghost"
         onClick={handlePrint}

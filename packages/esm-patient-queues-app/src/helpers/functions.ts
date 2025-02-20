@@ -1,5 +1,3 @@
-import { OpenmrsResource } from '@openmrs/esm-framework';
-
 export const buildStatusString = (status: string) => {
   if (!status) {
     return '';
@@ -41,21 +39,6 @@ export const getTagColor = (waitTime: string) => {
     return 'orange';
   } else {
     return 'red';
-  }
-};
-
-export const getGender = (gender, t) => {
-  switch (gender) {
-    case 'M':
-      return t('male', 'Male');
-    case 'F':
-      return t('female', 'Female');
-    case 'O':
-      return t('other', 'Other');
-    case 'U':
-      return t('unknown', 'Unknown');
-    default:
-      return gender;
   }
 };
 

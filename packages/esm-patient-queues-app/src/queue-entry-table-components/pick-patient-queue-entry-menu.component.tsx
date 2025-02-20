@@ -1,11 +1,10 @@
 import { Button } from '@carbon/react';
 import { Notification } from '@carbon/react/icons';
-
 import { showModal, useSession } from '@openmrs/esm-framework';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { usePatientsServed } from '../components/patient-queue-metrics/clinic-metrics.resource';
 import { PatientQueue } from '../types/patient-queues';
+import { usePatientQueuePages } from '../active-visits/patient-queues.resource';
 
 interface PickPatientActionMenuProps {
   queueEntry: PatientQueue;
@@ -18,10 +17,11 @@ const PickPatientActionMenu: React.FC<PickPatientActionMenuProps> = ({ queueEntr
   const sessionLocationId = session?.sessionLocation?.uuid;
   const providerId = session?.user?.systemId;
 
-  const { servedQueuePatients } = usePatientsServed(sessionLocationId, 'picked');
+  const { items } = usePatientQueuePages(sessionLocationId, 'picked');
+
   const filteredByProvider = useMemo(
-    () => servedQueuePatients?.filter((item) => item?.provider === providerId) || [],
-    [servedQueuePatients, providerId],
+    () => items?.filter((item) => item?.provider.identifier === providerId) || [],
+    [items, providerId],
   );
 
   const launchPickPatientQueueModal = useCallback(() => {

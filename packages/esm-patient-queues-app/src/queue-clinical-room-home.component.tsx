@@ -12,7 +12,7 @@ const ClinicalRoomHome: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState(0);
 
   const getTabStatus = (selectedIndex) => {
-    return selectedIndex === 0 ? '' : QueueStatus.Completed;
+    return selectedIndex === 0 ? QueueStatus.Pending : QueueStatus.Completed;
   };
   return (
     <div>

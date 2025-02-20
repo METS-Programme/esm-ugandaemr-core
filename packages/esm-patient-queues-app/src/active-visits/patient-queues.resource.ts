@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import useSWR from 'swr';
-import {  openmrsFetch, restBaseUrl, usePagination } from '@openmrs/esm-framework';
+import { openmrsFetch, restBaseUrl, usePagination } from '@openmrs/esm-framework';
 import { PatientQueue } from '../types/patient-queues';
 import { NewVisitPayload, ProviderResponse } from '../types';
 import { ResourceFilterCriteria, ResourceRepresentation, toQueryParams } from '../resource-filter-criteria';
@@ -224,8 +224,8 @@ export function usePatientQueuePages(
   const [searchString, setSearchString] = useState<string | null>(null);
 
   const [patientQueueFilter, setPatientQueueFilter] = useState<PatientQueueFilter>({
-    startIndex: currentPage - 1,
-    v: ResourceRepresentation.Default,
+    startIndex: (currentPage - 1) * currentPageSize,
+    v: ResourceRepresentation.Full,
     limit: currentPageSize,
     q: null,
     totalCount: true,
@@ -239,8 +239,8 @@ export function usePatientQueuePages(
 
   useEffect(() => {
     setPatientQueueFilter({
-      startIndex: currentPage - 1,
-      v: ResourceRepresentation.Default,
+      startIndex: (currentPage - 1) * currentPageSize,
+      v: ResourceRepresentation.Full,
       limit: currentPageSize,
       q: searchString,
       totalCount: true,
