@@ -76,7 +76,7 @@ const ReceptionHome: React.FC = () => {
   );
 
   const filteredPatientQueueEntries = useMemo(() => {
-    let entries = [...items] || [];
+    let entries = items || [];
 
     if (searchTerm) {
       const lowercasedTerm = searchTerm.toLowerCase();

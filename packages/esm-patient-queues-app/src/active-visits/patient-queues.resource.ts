@@ -346,20 +346,9 @@ export function getCareProvider(provider: string) {
   });
 }
 
-export function getLocation(uuid: string) {
-  const abortController = new AbortController();
-  return openmrsFetch(`${restBaseUrl}/location/${uuid}&v=full`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    signal: abortController.signal,
-  });
-}
-
 export function getLocationByUuid(uuid: string) {
   const abortController = new AbortController();
-  const url = `${restBaseUrl}/location/${uuid}`;
+  const url = `${restBaseUrl}/location/${uuid}&v=full`;
   return openmrsFetch(url, {
     method: 'GET',
     signal: abortController.signal,
