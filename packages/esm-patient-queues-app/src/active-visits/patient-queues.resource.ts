@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import useSWR from 'swr';
 import { formatDate, openmrsFetch, parseDate, restBaseUrl, usePagination, useSession } from '@openmrs/esm-framework';
-import { PatientQueue, UuidDisplay } from '../types/patient-queues';
+import { PatientQueue } from '../types/patient-queues';
 import { NewVisitPayload, ProviderResponse } from '../types';
 import { ResourceFilterCriteria, ResourceRepresentation, toQueryParams } from '../resource-filter-criteria';
 import { PageableResult } from '../pageable-result';
@@ -266,7 +266,7 @@ export async function checkCurrentVisit(patientUuid) {
 }
 
 export function usePatientQueues(filter: PatientQueueFilter) {
-  const apiUrl = `${restBaseUrl}/patientqueue/${toQueryParams(filter)}`;
+  const apiUrl = `${restBaseUrl}/patientqueue${toQueryParams(filter)}`;
   const { data, error, isLoading } = useSWR<
     {
       data: PageableResult<PatientQueue>;

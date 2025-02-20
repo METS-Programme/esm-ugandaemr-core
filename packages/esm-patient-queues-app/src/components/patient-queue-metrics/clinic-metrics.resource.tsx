@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import useSWR from 'swr';
 import { formatDate, openmrsFetch, parseDate, getGlobalStore, restBaseUrl } from '@openmrs/esm-framework';
 import { PatientQueue } from '../../types/patient-queues';
-import { omrsDateFormat } from '../../constants';
 import { Value } from './metrics-card.component';
 import { getMetrics } from './clinic-metrics.component';
 
@@ -138,24 +136,6 @@ export function useQueueServingPatients(status: string) {
     isValidating,
     mutate,
   };
-}
-
-export const useAppointmentDate = () => {
-  const [currentAppointmentDate, setCurrentAppointmentDate] = useState(initialState.appointmentDate);
-
-  useEffect(() => {
-    getStartDate().subscribe(({ appointmentDate }) => setCurrentAppointmentDate(appointmentDate.toString()));
-  }, []);
-
-  return { currentAppointmentDate, setCurrentAppointmentDate };
-};
-
-const initialState = {
-  appointmentDate: dayjs(new Date().setHours(0, 0, 0, 0)).format(omrsDateFormat),
-};
-
-export function getStartDate() {
-  return getGlobalStore<{ appointmentDate: string | Date }>('appointmentStartDate', initialState);
 }
 
 export interface PatientStats {
