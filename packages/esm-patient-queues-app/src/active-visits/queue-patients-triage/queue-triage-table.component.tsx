@@ -109,12 +109,13 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
   );
 
   const filteredPatientQueueEntries = useMemo(() => {
-    let entries;
+    let entries = items;
+
     switch (status) {
       case QueueStatus.Completed:
         entries = items.filter((entry) => entry.status === 'COMPLETED');
         break;
-      case '':
+      case QueueStatus.Pending:
         entries = items.filter((entry) => entry.status === 'PENDING' || entry.status === 'PICKED');
         break;
       default:
@@ -124,19 +125,13 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
 
     if (searchTerm) {
       const lowercasedTerm = searchTerm.toLowerCase();
-      entries = entries.filter((entry) => entry.toLowerCase().includes(lowercasedTerm));
+      entries = entries.filter((entry) => entry.patient?.person?.display?.toLowerCase().includes(lowercasedTerm));
     }
 
     entries.sort((a, b) => {
-      if (a.status === 'PICKED' && b.status !== 'PICKED') {
-        return 1;
-      } else if (a.status !== 'PICKED' && b.status === 'PICKED') {
-        return -1;
-      }
-      const aCreatedTime = new Date(a.dateCreated).getTime();
-      const bCreatedTime = new Date(b.dateCreated).getTime();
-
-      return aCreatedTime - bCreatedTime;
+      if (a.status === 'PICKED' && b.status !== 'PICKED') return -1;
+      if (a.status !== 'PICKED' && b.status === 'PICKED') return 1;
+      return new Date(a.dateCreated).getTime() - new Date(b.dateCreated).getTime();
     });
 
     return entries;

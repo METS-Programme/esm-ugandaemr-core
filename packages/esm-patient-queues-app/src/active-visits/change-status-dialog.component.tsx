@@ -161,7 +161,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
           showSnackbar({
             isLowContrast: true,
             kind: 'success',
-            subtitle: t('visitEndSuccessfully', `${response?.data?.visitType?.display} ended successfully`),
+            subtitle: t('visitEndSuccessfully', 'Visit ended successfully'),
             title: t('visitEnded', 'Visit ended'),
           });
 

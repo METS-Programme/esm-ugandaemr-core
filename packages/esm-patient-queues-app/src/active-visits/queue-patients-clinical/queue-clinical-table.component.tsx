@@ -83,7 +83,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
   // Fetch location tags only once when the session location changes
   useEffect(() => {
     if (session?.sessionLocation?.uuid) {
-      getLocationByUuid(session.sessionLocation.uuid).then((resp) => {
+      getLocationByUuid(session?.sessionLocation?.uuid).then((resp) => {
         const excludedUuids = ['c0e1d1d8-c97d-4869-ba16-68d351d3d5f5', '1d3e4224-382a-11ee-be56-0242ac120002'];
         const filteredTags = resp.data?.tags.filter((tag) => !excludedUuids.includes(tag.uuid));
         if (filteredTags.length > 0) {
@@ -140,7 +140,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
       case QueueStatus.Completed:
         entries = entries.filter((entry) => entry.status === 'COMPLETED');
         break;
-      case '':
+      case QueueStatus.Pending: // Explicitly handle Pending status
         entries = entries.filter((entry) => entry.status === 'PENDING' || entry.status === 'PICKED');
         break;
       default:
@@ -148,17 +148,19 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
         break;
     }
 
-    // Filter by `locationTags` on the already filtered `entries`
+    // Filter by `locationTags` if provided
     if (locationTags?.length) {
-      entries = entries.filter((entry) =>
-        entry?.queueRoom?.tags?.some((tag) => locationTags.some((locTag) => locTag.uuid === tag.uuid)),
+      entries = entries.filter(
+        (entry) =>
+          entry?.queueRoom?.tags &&
+          entry.queueRoom.tags.some((tag) => locationTags.some((locTag) => locTag.uuid === tag.uuid)),
       );
     }
 
     // Filter by `searchTerm` if provided
     if (searchTerm) {
       const lowercasedTerm = searchTerm.toLowerCase();
-      entries = entries.filter((entry) => entry?.patient?.person?.display.toLowerCase().includes(lowercasedTerm));
+      entries = entries.filter((entry) => entry?.patient?.person?.display?.toLowerCase()?.includes(lowercasedTerm));
     }
 
     // Sort entries based on `status` and creation time
@@ -168,14 +170,11 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
       } else if (a.status !== 'PICKED' && b.status === 'PICKED') {
         return -1;
       }
-      const aCreatedTime = new Date(a.dateCreated).getTime();
-      const bCreatedTime = new Date(b.dateCreated).getTime();
-
-      return aCreatedTime - bCreatedTime;
+      return new Date(a.dateCreated).getTime() - new Date(b.dateCreated).getTime();
     });
 
     return entries;
-  }, [items, searchTerm, status, locationTags]); // Added `locationTags` as dependency
+  }, [items, searchTerm, status, locationTags]); // Ensure dependencies are correctly handled
 
   const tableRows = useMemo(() => {
     return filteredPatientQueueEntries.map((patientqueue, entry) => ({
