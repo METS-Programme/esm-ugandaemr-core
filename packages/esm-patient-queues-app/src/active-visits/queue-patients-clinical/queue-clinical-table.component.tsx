@@ -1,4 +1,4 @@
-import React, { AnchorHTMLAttributes, useCallback, useMemo, useState } from 'react';
+import React, { AnchorHTMLAttributes, useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   DataTable,
@@ -16,12 +16,17 @@ import {
   Tag,
   Tile,
   Toggle,
-  TableToolbarSearch
+  TableToolbarSearch,
 } from '@carbon/react';
 
 import { useTranslation } from 'react-i18next';
 import { useSession, useLayoutType, isDesktop } from '@openmrs/esm-framework';
-import { getLocationByUuid, getOriginFromPathName, useParentLocation, usePatientQueuePages } from '../patient-queues.resource';
+import {
+  getLocationByUuid,
+  getOriginFromPathName,
+  useParentLocation,
+  usePatientQueuePages,
+} from '../patient-queues.resource';
 import {
   buildStatusString,
   formatWaitTime,
@@ -50,35 +55,43 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
   const { t } = useTranslation();
   const session = useSession();
   const layout = useLayoutType();
-  const [searchTerm,setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
 
   const [isToggled, setIsToggled] = useState(false);
 
   const [locationTags, setLocationTags] = useState([]);
 
-  const handleToggleChange = () => {
-    setIsToggled(!isToggled);
-  };
-  const { location } = useParentLocation(session?.sessionLocation?.uuid);
-
-  const activeLocationUuid = isToggled ? location?.parentLocation?.uuid : session?.sessionLocation?.uuid;
-
-  const currentPathName: string = window.location.pathname;
-  const fromPage: string = getOriginFromPathName(currentPathName);
-
-  const handleSearchInputChange = useCallback((event) => {
-    const searchText = event?.target?.value?.trim().toLowerCase();
-    setSearchTerm(searchText);
+  // Use `useCallback` to prevent function recreation on re-renders
+  const handleToggleChange = useCallback(() => {
+    setIsToggled((prev) => !prev);
   }, []);
 
-  getLocationByUuid(session?.sessionLocation?.uuid).then((resp) => {
-    const excludedUuids = ['c0e1d1d8-c97d-4869-ba16-68d351d3d5f5', '1d3e4224-382a-11ee-be56-0242ac120002'];
-    const filteredTags = resp.data?.tags.filter((tag) => !excludedUuids.includes(tag.uuid));
+  const { location } = useParentLocation(session?.sessionLocation?.uuid);
 
-    if (filteredTags.length > 0) {
-      setLocationTags(filteredTags);
+  const activeLocationUuid = useMemo(
+    () => (isToggled ? location?.parentLocation?.uuid : session?.sessionLocation?.uuid),
+    [isToggled, location?.parentLocation?.uuid, session?.sessionLocation?.uuid],
+  );
+
+  const currentPathName = useMemo(() => window.location.pathname, []);
+  const fromPage = useMemo(() => getOriginFromPathName(currentPathName), [currentPathName]);
+
+  const handleSearchInputChange = useCallback((event) => {
+    setSearchTerm(event?.target?.value?.trim().toLowerCase());
+  }, []);
+
+  // Fetch location tags only once when the session location changes
+  useEffect(() => {
+    if (session?.sessionLocation?.uuid) {
+      getLocationByUuid(session.sessionLocation.uuid).then((resp) => {
+        const excludedUuids = ['c0e1d1d8-c97d-4869-ba16-68d351d3d5f5', '1d3e4224-382a-11ee-be56-0242ac120002'];
+        const filteredTags = resp.data?.tags.filter((tag) => !excludedUuids.includes(tag.uuid));
+        if (filteredTags.length > 0) {
+          setLocationTags(filteredTags);
+        }
+      });
     }
-  });
+  }, [session?.sessionLocation?.uuid]);
 
   const { isLoading, items, totalCount, currentPageSize, setPageSize, pageSizes, currentPage, setCurrentPage } =
     usePatientQueuePages(activeLocationUuid, status, isToggled);
@@ -220,7 +233,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
         ),
       },
     }));
-  }, [items, session.user, t, fromPage]);
+  }, [filteredPatientQueueEntries, session.user, t, fromPage]);
 
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;
@@ -251,12 +264,12 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
                 }}
               >
                 <TableToolbarSearch
-                expanded
-                className={styles.search}
-                onChange={handleSearchInputChange}
-                placeholder={t('searchThisList', 'Search this list')}
-                size="sm"
-              />
+                  expanded
+                  className={styles.search}
+                  onChange={handleSearchInputChange}
+                  placeholder={t('searchThisList', 'Search this list')}
+                  size="sm"
+                />
                 <Toggle
                   className={styles.toggle}
                   labelA="My Location"

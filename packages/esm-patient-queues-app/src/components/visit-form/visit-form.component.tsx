@@ -181,7 +181,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
       contentSwitcherIndex,
       patientUuid,
       priorityComment,
-      selectedLocation,
       selectedNextQueueLocation,
       selectedProvider,
       t,
@@ -189,6 +188,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
       visitDate,
       visitTime,
       visitType,
+      sessionUser?.sessionLocation?.uuid,
     ],
   );
 

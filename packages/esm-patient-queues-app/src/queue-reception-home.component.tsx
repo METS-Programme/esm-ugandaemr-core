@@ -90,7 +90,7 @@ const ReceptionHome: React.FC = () => {
     });
 
     return entries;
-  }, [items]);
+  }, [items, searchTerm]);
 
   // Prepare table rows
   const tableRows = useMemo(() => {
@@ -129,7 +129,7 @@ const ReceptionHome: React.FC = () => {
         ),
       },
     }));
-  }, [items, fromPage, t]);
+  }, [filteredPatientQueueEntries, fromPage, t]);
 
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;
@@ -195,12 +195,12 @@ const ReceptionHome: React.FC = () => {
                   >
                     <span style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>CheckedIn Patients</span>
                     <TableToolbarSearch
-                  expanded
-                  className={styles.search}
-                  onChange={handleSearchInputChange}
-                  placeholder={t('searchThisList', 'Search this list')}
-                  size="sm"
-                />
+                      expanded
+                      className={styles.search}
+                      onChange={handleSearchInputChange}
+                      placeholder={t('searchThisList', 'Search this list')}
+                      size="sm"
+                    />
                   </TableToolbarContent>
                 </TableToolbar>
                 <Table {...getTableProps()} className={styles.activeVisitsTable}>

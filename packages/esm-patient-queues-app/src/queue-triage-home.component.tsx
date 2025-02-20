@@ -10,8 +10,6 @@ import styles from './queue-triage-home.scss';
 const TriageHome: React.FC = () => {
   const { t } = useTranslation();
 
-  
-
   return (
     <div>
       <PatientQueueHeader title="Triage" />
@@ -28,9 +26,7 @@ const TriageHome: React.FC = () => {
       </div>
 
       <div className={styles.container}>
-        <Tabs
-          className={styles.tabs}
-        >
+        <Tabs className={styles.tabs}>
           <TabList style={{ paddingLeft: '1rem' }} aria-label="triage outpatient tabs" contained>
             <Tab style={{ width: '150px' }}>{t('pending', 'In Queue')}</Tab>
             <Tab style={{ width: '150px' }}>{t('completed', 'Completed')}</Tab>

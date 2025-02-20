@@ -61,7 +61,7 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
   const activeLocationUuid = isToggled ? location?.parentLocation?.uuid : session?.sessionLocation?.uuid;
 
   const currentPathName: string = window.location.pathname;
-  
+
   const fromPage: string = getOriginFromPathName(currentPathName);
 
   const handleSearchInputChange = useCallback((event) => {
@@ -140,7 +140,7 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
     });
 
     return entries;
-  }, [items, status]);
+  }, [items, status, searchTerm]);
 
   const tableRows = useMemo(() => {
     return filteredPatientQueueEntries.map((patientqueue, index) => ({
@@ -197,13 +197,13 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
             <NotesActionsMenu note={patientqueue} />
             {patientqueue?.status === 'SERVING' ||
               (patientqueue?.status === 'PENDING' && isToggled && (
-                <MovetoNextPointAction patient={patientqueue?.uuid} entries={items} />
+                <MovetoNextPointAction patient={patientqueue?.uuid} entries={filteredPatientQueueEntries} />
               ))}
           </div>
         ),
       },
     }));
-  }, [items, session.user, t, fromPage, isToggled]);
+  }, [filteredPatientQueueEntries, session.user, t, fromPage, isToggled]);
 
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;
