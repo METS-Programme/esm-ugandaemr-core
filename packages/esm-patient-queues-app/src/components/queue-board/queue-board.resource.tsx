@@ -1,13 +1,7 @@
-import { usePatientQueueRequest } from '../../active-visits/patient-queues.resource';
 import { QueueRoomsResponse } from '../../hooks/useQueueRooms';
 import useSWR from 'swr';
 import { openmrsFetch, restBaseUrl, useSession } from '@openmrs/esm-framework';
 import { PatientQueue } from '../../types/patient-queues';
-
-export function usePatientQueuesListByStatus(status: string) {
-  const apiUrl = `${restBaseUrl}/patientqueue?v=full&status=${status}`;
-  return usePatientQueueRequest(apiUrl);
-}
 
 export function usePatientQueuesByParentLocation(status: string) {
   const session = useSession();

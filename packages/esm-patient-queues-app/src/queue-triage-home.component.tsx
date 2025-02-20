@@ -4,7 +4,7 @@ import MetricsCard from './components/patient-queue-metrics/metrics-card.compone
 import { useTranslation } from 'react-i18next';
 import { QueueStatus } from './utils/utils';
 import { Tabs, TabPanel, TabList, Tab, TabPanels } from '@carbon/react';
-import ActiveTriageVisitsTable from './active-visits/active-visits-patients-triage/active-visits-triage-table.component';
+import ActiveTriageVisitsTable from './active-visits/queue-patients-triage/queue-triage-table.component';
 import styles from './queue-triage-home.scss';
 
 const TriageHome: React.FC = () => {

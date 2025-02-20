@@ -3,7 +3,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import styles from './active-visits-table.scss';
 import { QueueStatus } from '../utils/utils';
-import ActiveClinicalVisitsTable from './active-visits-patients-clinical/active-visits-clinical-table.component';
+import ActiveClinicalVisitsTable from '../active-visits/queue-patients-clinical/queue-clinical-table.component';
 
 const ActiveClinicalVisitsTabs = () => {
   const { t } = useTranslation();

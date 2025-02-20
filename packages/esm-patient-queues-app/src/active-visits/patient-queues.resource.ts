@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import useSWR from 'swr';
-import { formatDate, openmrsFetch, parseDate, restBaseUrl, usePagination, useSession } from '@openmrs/esm-framework';
+import {  openmrsFetch, restBaseUrl, usePagination } from '@openmrs/esm-framework';
 import { PatientQueue } from '../types/patient-queues';
 import { NewVisitPayload, ProviderResponse } from '../types';
 import { ResourceFilterCriteria, ResourceRepresentation, toQueryParams } from '../resource-filter-criteria';
@@ -73,76 +73,6 @@ export interface ChildLocation {
   uuid: string;
   display: string;
   links: Link[];
-}
-
-export function usePatientQueuesList(
-  currentQueueLocationUuid: string,
-  status: string,
-  isToggled: boolean,
-  isClinical: boolean,
-) {
-  const url =
-    isToggled && isClinical
-      ? `${restBaseUrl}/patientqueue?v=full&status=${status}`
-      : isToggled
-      ? `${restBaseUrl}/patientqueue?v=full&status=${status}&parentLocation=${currentQueueLocationUuid}`
-      : `${restBaseUrl}/patientqueue?v=full&status=${status}&room=${currentQueueLocationUuid}`;
-
-  return usePatientQueueRequest(url);
-}
-
-export function usePatientQueueRequest(apiUrl: string) {
-  const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
-    apiUrl,
-    openmrsFetch,
-  );
-
-  const mapppedQueues = data?.data?.results.map((queue: PatientQueue) => {
-    return {
-      ...queue,
-      id: queue.uuid,
-      name: queue.patient?.person.display,
-      patientUuid: queue.patient?.uuid,
-      provider: queue.provider?.person.display,
-      priorityComment: queue.priorityComment,
-      priority: queue.priorityComment === 'Urgent' ? 'Priority' : queue.priorityComment,
-      priorityLevel: queue.priority,
-      waitTime:
-        queue.status === 'COMPLETED'
-          ? queue.dateCreated && queue.dateChanged
-            ? `${dayjs(queue.dateChanged).diff(dayjs(queue.dateCreated), 'minutes')} Minutes`
-            : '--'
-          : queue.dateCreated
-          ? `${dayjs().diff(dayjs(queue.dateCreated), 'minutes')} Minutes`
-          : '--',
-      status: queue.status,
-      patientAge: queue.patient?.person?.age,
-      patientSex: queue.patient?.person?.gender === 'M' ? 'MALE' : 'FEMALE',
-      patientDob: queue.patient?.person?.birthdate
-        ? formatDate(parseDate(queue.patient.person.birthdate), { time: false })
-        : '--',
-      identifiers: queue.patient?.identifiers,
-      locationFrom: queue.locationFrom?.uuid,
-      locationTo: queue.locationTo?.uuid,
-      locationToName: queue.locationTo?.name,
-      queueRoom: queue.locationTo?.display,
-      locationTags: queue.queueRoom?.tags,
-      visitNumber: queue.visitNumber,
-      dateCreated: queue.dateCreated,
-      creatorUuid: queue.creator?.uuid,
-      creatorUsername: queue.creator?.username,
-      creatorDisplay: queue.creator?.display,
-    };
-  });
-
-  return {
-    patientQueueEntries: mapppedQueues || [],
-    patientQueueCount: mapppedQueues?.length,
-    isLoading,
-    isError: error,
-    isValidating,
-    mutate,
-  };
 }
 
 // get parentlocation
@@ -431,5 +361,17 @@ export function getLocation(uuid: string) {
       'Content-Type': 'application/json',
     },
     signal: abortController.signal,
+  });
+}
+
+export function getLocationByUuid(uuid: string) {
+  const abortController = new AbortController();
+  const url = `${restBaseUrl}/location/${uuid}`;
+  return openmrsFetch(url, {
+    method: 'GET',
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 }
