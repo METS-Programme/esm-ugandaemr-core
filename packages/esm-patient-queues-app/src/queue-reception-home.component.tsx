@@ -98,7 +98,7 @@ const ReceptionHome: React.FC = () => {
       ...patientqueue,
       id: patientqueue.uuid,
       visitNumber: { content: <span>{trimVisitNumber(patientqueue?.visitNumber)}</span> },
-      name: { content: <span>{patientqueue?.patient?.display}</span> },
+      name: { content: <span>{patientqueue?.patient?.person?.display}</span> },
       location: { content: <span>{patientqueue?.locationTo?.display}</span> },
       status: {
         content: (

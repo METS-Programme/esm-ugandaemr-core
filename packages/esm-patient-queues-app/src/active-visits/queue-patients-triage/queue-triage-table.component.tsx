@@ -150,7 +150,7 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
         content: <span>{trimVisitNumber(patientqueue.visitNumber)}</span>,
       },
       name: {
-        content: patientqueue?.patient?.display,
+        content: patientqueue?.patient?.person?.display,
       },
       provider: {
         content: (
