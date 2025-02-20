@@ -28,18 +28,24 @@ import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './change-status-dialog.scss';
 import { QueueStatus, extractErrorMessagesFromResponse, handleMutate } from '../utils/utils';
 import { PatientQueue } from '../types/patient-queues';
-import { addQueueEntry, getCareProvider, getCurrentPatientQueueByPatientUuid, updateQueueEntry, useProviders } from './patient-queues.resource';
+import {
+  addQueueEntry,
+  getCareProvider,
+  getCurrentPatientQueueByPatientUuid,
+  updateQueueEntry,
+  useProviders,
+} from './patient-queues.resource';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queue-validation-schema.resource';
 
 interface ChangeStatusDialogProps {
-  patient: string;
+  patientUuid: string;
   entries: PatientQueue[];
   closeModal: () => void;
 }
 
-const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entries, closeModal }) => {
+const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, entries, closeModal }) => {
   const { t } = useTranslation();
 
   const sessionUser = useSession();
@@ -124,244 +130,105 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patient, entr
 
   // change to picked
   const onSubmit = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault();
 
-      // check status
+      const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+      // get queue entry by patient id
+      const patientQueueEntryResponse = await getCurrentPatientQueueByPatientUuid(
+        patientUuid,
+        sessionUser?.sessionLocation?.uuid,
+      );
+
+      const queues = patientQueueEntryResponse.data?.results[0]?.patientQueues;
+      const queueEntry = queues?.filter((item) => item?.patient?.uuid === patientUuid);
+
       if (status === QueueStatus.Pending) {
-        const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-        getCurrentPatientQueueByPatientUuid(patient, sessionUser?.sessionLocation?.uuid).then(
-          () => {
-            const queueEntry = entries?.filter((item) => item?.patient?.uuid === patient);
-
-            if (queueEntry.length > 0) {
-              updateQueueEntry(status, provider, queueEntry[0]?.uuid, 0, priorityComment, comment).then(() => {
-                showToast({
-                  critical: true,
-                  title: t('moveToNextServicePoint', 'Move back your service point'),
-                  kind: 'success',
-                  description: t('backToQueue', 'Successfully moved back patient to your service point'),
-                });
-                closeModal();
-                handleMutate(`${restBaseUrl}/patientqueue`);
-              });
-            } else if (queueEntry.length === 1) {
-              updateQueueEntry(status, provider, queueEntry[0]?.uuid, 0, priorityComment, comment).then(() => {
-                showToast({
-                  critical: true,
-                  title: t('moveToNextServicePoint', 'Move back your service point'),
-                  kind: 'success',
-                  description: t('backToQueue', 'Successfully moved back patient to your service point'),
-                });
-                closeModal();
-                handleMutate(`${restBaseUrl}/patientqueue`);
-              });
-            }
-          },
-          (error) => {
-            const errorMessages = extractErrorMessagesFromResponse(error);
-            showNotification({
-              title: t('errorMovinPatientToNextServicePoint', 'Error Moving Patient to next service point'),
-              kind: 'error',
+        if (queueEntry.length > 0) {
+          await updateQueueEntry(status, provider, queueEntry[0]?.uuid, 0, priorityComment, comment).then(() => {
+            showToast({
               critical: true,
-              description: errorMessages.join(','),
+              title: t('moveToNextServicePoint', 'Move back your service point'),
+              kind: 'success',
+              description: t('backToQueue', 'Successfully moved back patient to your service point'),
             });
-          },
-        );
-      } else if (status === QueueStatus.Completed) {
-        const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+            closeModal();
+            handleMutate(`${restBaseUrl}/patientqueue`);
+          });
+        }
+      }
 
-        getCurrentPatientQueueByPatientUuid(patient, sessionUser?.sessionLocation?.uuid).then(
-          () => {
-            const queueEntry = entries?.filter((item) => item?.patient?.uuid === patient);
+      if (status === QueueStatus.Completed) {
+        if (queueEntry.length > 0) {
+          await updateQueueEntry(
+            QueueStatus.Completed,
+            provider,
+            queueEntry[0]?.uuid,
+            contentSwitcherIndex,
+            priorityComment,
+            comment,
+          );
 
-            if (queueEntry.length > 0) {
-              updateQueueEntry(
-                QueueStatus.Completed,
-                provider,
-                queueEntry[0]?.uuid,
-                contentSwitcherIndex,
-                priorityComment,
-                comment,
-              ).then(
-                () => {
-                  addQueueEntry(
-                    selectedNextQueueLocation,
-                    patient,
-                    selectedProvider,
-                    contentSwitcherIndex,
-                    QueueStatus.Pending,
-                    sessionUser?.sessionLocation?.uuid,
-                    priorityComment,
-                    comment,
-                  ).then(
-                    (res) => {
-                      updateQueueEntry(
-                        QueueStatus.Pending,
-                        selectedProvider,
-                        res.data?.uuid,
-                        contentSwitcherIndex,
-                        priorityComment,
-                        comment,
-                      ).then(
-                        () => {
-                          showToast({
-                            critical: true,
-                            title: t('moveToNextServicePoint', 'Move to next service point'),
-                            kind: 'success',
-                            description: t('movetonextservicepoint', 'Moved to next service point successfully'),
-                          });
-                          // view patient summary
-                          // navigate({ to: `\${openmrsSpaBase}/home` });
-                          const roles = getSessionStore().getState().session?.user?.roles;
-                          const roleName = roles[0]?.display;
-                          if (roles && roles?.length > 0) {
-                            if (roles?.filter((item) => item?.display === 'Organizational: Clinician').length > 0) {
-                              navigate({
-                                to: `${window.getOpenmrsSpaBase()}home/clinical-room-patient-queues`,
-                              });
-                            } else if (roleName === 'Triage') {
-                              navigate({
-                                to: `${window.getOpenmrsSpaBase()}home/triage-patient-queues`,
-                              });
-                            } else {
-                              navigate({ to: `${window.getOpenmrsSpaBase()}home` });
-                            }
-                          }
+          const createQueueResponse = await addQueueEntry(
+            selectedNextQueueLocation,
+            patientUuid,
+            selectedProvider,
+            contentSwitcherIndex,
+            QueueStatus.Pending,
+            sessionUser?.sessionLocation?.uuid,
+            priorityComment,
+            comment,
+          );
 
-                          closeModal();
-                        },
-                        (error) => {
-                          const errorMessages = extractErrorMessagesFromResponse(error);
-                          showNotification({
-                            title: t('queueEntryUpdateFailed', 'Error updating next service point'),
-                            kind: 'error',
-                            critical: true,
-                            description: errorMessages.join(','),
-                          });
-                        },
-                      );
-                      closeModal();
-                    },
-                    (error) => {
-                      const errorMessages = extractErrorMessagesFromResponse(error);
+          const response = await updateQueueEntry(
+            QueueStatus.Pending,
+            selectedProvider,
+            createQueueResponse.data?.uuid,
+            contentSwitcherIndex,
+            priorityComment,
+            comment,
+          );
 
-                      showNotification({
-                        title: t('queueEntryUpdateFailed', 'Error updating next service point'),
-                        kind: 'error',
-                        critical: true,
-                        description: errorMessages.join(','),
-                      });
-                    },
-                  );
-                },
-                () => {},
-              );
-            } else if (queueEntry.length === 1) {
-              updateQueueEntry(
-                QueueStatus.Completed,
-                provider,
-                queueEntry[0]?.uuid,
-                contentSwitcherIndex,
-                priorityComment,
-                comment,
-              ).then(
-                () => {
-                  addQueueEntry(
-                    selectedNextQueueLocation,
-                    patient,
-                    selectedProvider,
-                    contentSwitcherIndex,
-                    QueueStatus.Pending,
-                    sessionUser?.sessionLocation?.uuid,
-                    priorityComment,
-                    comment,
-                  ).then(
-                    (res) => {
-                      updateQueueEntry(
-                        QueueStatus.Pending,
-                        selectedProvider,
-                        res.data?.uuid,
-                        contentSwitcherIndex,
-                        priorityComment,
-                        comment,
-                      ).then(
-                        () => {
-                          showToast({
-                            critical: true,
-                            title: t('successfullyMovedToNextServicePoint', 'Moved to Next Service Point'),
-                            kind: 'success',
-                            description: t('movetonextservicepoint', 'Successfully moved to next service point'),
-                          });
-                          // view patient summary
-                          const roles = getSessionStore().getState().session?.user?.roles;
-                          const roleName = roles[0]?.display;
-                          if (roles && roles?.length > 0) {
-                            if (roles?.filter((item) => item?.display === 'Organizational: Clinician').length > 0) {
-                              navigate({
-                                to: `${window.getOpenmrsSpaBase()}home/clinical-room-patient-queues`,
-                              });
-                            } else if (roleName === 'Triage') {
-                              navigate({
-                                to: `${window.getOpenmrsSpaBase()}home/triage-patient-queues`,
-                              });
-                            } else {
-                              navigate({ to: `${window.getOpenmrsSpaBase()}home` });
-                            }
-                          }
-                          closeModal();
-                        },
-                        (error) => {
-                          const errorMessages = extractErrorMessagesFromResponse(error);
-                          showNotification({
-                            title: t('errorGettingPatientQueueEntry', 'Error Moving Patient to next service point'),
-                            kind: 'error',
-                            critical: true,
-                            description: errorMessages.join(','),
-                          });
-                        },
-                      );
-                      closeModal();
-                    },
-                    (error) => {
-                      const errorMessages = extractErrorMessagesFromResponse(error);
-
-                      showNotification({
-                        title: t('errorUpdatingServicePoint', 'Error updating next service point status'),
-                        kind: 'error',
-                        critical: true,
-                        description: errorMessages.join(','),
-                      });
-                    },
-                  );
-                },
-                () => {},
-              );
-            }
-          },
-          (error) => {
-            const errorMessages = extractErrorMessagesFromResponse(error);
-            showNotification({
-              title: t('errorUpdatingServicePoint', 'Error updating next service point status'),
-              kind: 'error',
+          if (response.status === 200) {
+            showToast({
               critical: true,
-              description: errorMessages.join(','),
+              title: t('moveToNextServicePoint', 'Move to next service point'),
+              kind: 'success',
+              description: t('movetonextservicepoint', 'Moved to next service point successfully'),
             });
-          },
-        );
+            handleMutate(`${restBaseUrl}/patientqueue`);
+            closeModal();
+            // view patient summary
+            // navigate({ to: `\${openmrsSpaBase}/home` });
+            const roles = getSessionStore().getState().session?.user?.roles;
+            const roleName = roles[0]?.display;
+            if (roles && roles?.length > 0) {
+              if (roles?.filter((item) => item?.display === 'Organizational: Clinician').length > 0) {
+                navigate({
+                  to: `${window.getOpenmrsSpaBase()}home/clinical-room-patient-queues`,
+                });
+              } else if (roleName === 'Triage') {
+                navigate({
+                  to: `${window.getOpenmrsSpaBase()}home/triage-patient-queues`,
+                });
+              } else {
+                navigate({ to: `${window.getOpenmrsSpaBase()}home` });
+              }
+            }
+          }
+        }
       }
     },
     [
       closeModal,
       contentSwitcherIndex,
-      patient,
+      patientUuid,
       priorityComment,
       provider,
       selectedNextQueueLocation,
       selectedProvider,
       sessionUser?.sessionLocation?.uuid,
       status,
-      entries,
       t,
     ],
   );

@@ -6,7 +6,7 @@ import { PRIVILEGE_RECEPTION_METRIC, PRIVILIGE_TRIAGE_METRIC } from '../../const
 import { useServicePointCount } from './clinic-metrics.resource';
 import styles from './clinic-metrics.scss';
 import MetricsCard from './metrics-card.component';
-import { useParentLocation } from '../../active-visits/patient-queues.resource';
+import { useParentLocation, usePatientQueuePages } from '../../active-visits/patient-queues.resource';
 import { CheckmarkOutline, Pending, ProgressBarRound } from '@carbon/react/icons';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import dayjs from 'dayjs';
