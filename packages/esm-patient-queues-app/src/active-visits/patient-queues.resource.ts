@@ -12,6 +12,7 @@ import last from 'lodash-es/last';
 export interface PatientQueueFilter extends ResourceFilterCriteria {
   status?: string;
   parentLocation?: string;
+  room?: string;
 }
 
 export interface LocationResponse {
@@ -281,23 +282,26 @@ export function usePatientQueues(filter: PatientQueueFilter) {
   };
 }
 
-export function usePatientQueuePages(v?: ResourceRepresentation) {
+export function usePatientQueuePages(
+  currentLocation: string,
+  currentStatus: string,
+  isToggled?: boolean,
+  isClinical?: boolean,
+) {
   const pageSizes = [10, 20, 30, 40, 50];
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageSize, setPageSize] = useState(10);
-  const [searchString, setSearchString] = useState(null);
-  const session = useSession();
-  const { location } = useParentLocation(session?.sessionLocation?.uuid);
-
-  const [parentLocation, setParentLocation] = useState(location?.uuid);
-  const [status, setStatus] = useState(QueueStatus.Pending);
+  const [searchString, setSearchString] = useState<string | null>(null);
 
   const [patientQueueFilter, setPatientQueueFilter] = useState<PatientQueueFilter>({
     startIndex: currentPage - 1,
-    v: v || ResourceRepresentation.Default,
+    v: ResourceRepresentation.Default,
     limit: currentPageSize,
     q: null,
     totalCount: true,
+    parentLocation: isToggled && !isClinical ? currentLocation : '',
+    status: isToggled ? currentStatus : '',
+    room: !isToggled ? currentLocation : '',
   });
 
   const { items, isLoading, error } = usePatientQueues(patientQueueFilter);
@@ -310,10 +314,11 @@ export function usePatientQueuePages(v?: ResourceRepresentation) {
       limit: currentPageSize,
       q: searchString,
       totalCount: true,
-      status: status,
-      parentLocation: parentLocation,
+      parentLocation: isToggled && !isClinical ? currentLocation : '',
+      status: isToggled ? currentStatus : '',
+      room: !isToggled ? currentLocation : '',
     });
-  }, [searchString, currentPage, currentPageSize, status, parentLocation]);
+  }, [searchString, currentPage, currentPageSize, currentLocation, currentStatus, isToggled, isClinical]);
 
   return {
     items: pagination.results,
@@ -327,10 +332,6 @@ export function usePatientQueuePages(v?: ResourceRepresentation) {
     isLoading,
     error,
     setSearchString,
-    status,
-    setStatus,
-    parentLocation,
-    setParentLocation,
   };
 }
 

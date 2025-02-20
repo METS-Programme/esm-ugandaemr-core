@@ -2,7 +2,7 @@ import { Button } from '@carbon/react';
 import { Notification } from '@carbon/react/icons';
 
 import { showModal, useSession } from '@openmrs/esm-framework';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { usePatientsServed } from '../components/patient-queue-metrics/clinic-metrics.resource';
 import { PatientQueue } from '../types/patient-queues';
@@ -14,37 +14,31 @@ interface PickPatientActionMenuProps {
 
 const PickPatientActionMenu: React.FC<PickPatientActionMenuProps> = ({ queueEntry }) => {
   const { t } = useTranslation();
-
   const session = useSession();
+  const sessionLocationId = session?.sessionLocation?.uuid;
+  const providerId = session?.user?.systemId;
 
-  const { servedQueuePatients } = usePatientsServed(session?.sessionLocation?.uuid, 'picked');
-
-  const filteredByProvider = servedQueuePatients?.filter((item) => item?.provider === session?.user?.systemId);
+  const { servedQueuePatients } = usePatientsServed(sessionLocationId, 'picked');
+  const filteredByProvider = useMemo(
+    () => servedQueuePatients?.filter((item) => item?.provider === providerId) || [],
+    [servedQueuePatients, providerId],
+  );
 
   const launchPickPatientQueueModal = useCallback(() => {
-    if (filteredByProvider.length === 1 || filteredByProvider.length > 0) {
-      const dispose = showModal('edit-queue-entry-status-modal', {
-        closeModal: () => dispose(),
-        queueEntry: filteredByProvider[0],
-        currentEntry: queueEntry,
-      });
-    } else {
-      const dispose = showModal('pick-patient-queue-entry', {
-        closeModal: () => dispose(),
-        queueEntry,
-      });
-    }
+    const modalType = filteredByProvider.length > 0 ? 'edit-queue-entry-status-modal' : 'pick-patient-queue-entry';
+    const modalProps =
+      filteredByProvider.length > 0 ? { queueEntry: filteredByProvider[0], currentEntry: queueEntry } : { queueEntry };
+
+    const dispose = showModal(modalType, { ...modalProps, closeModal: () => dispose() });
   }, [filteredByProvider, queueEntry]);
 
   return (
-    <div>
-      <Button
-        kind="ghost"
-        onClick={launchPickPatientQueueModal}
-        iconDescription={t('pickPatient', 'Pick Patient ')}
-        renderIcon={(props) => <Notification size={16} {...props} />}
-      />
-    </div>
+    <Button
+      kind="ghost"
+      onClick={launchPickPatientQueueModal}
+      iconDescription={t('pickPatient', 'Pick Patient')}
+      renderIcon={(props) => <Notification size={16} {...props} />}
+    />
   );
 };
 

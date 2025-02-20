@@ -3,11 +3,10 @@ import { UserHasAccess, useSession } from '@openmrs/esm-framework';
 import { useTranslation } from 'react-i18next';
 import { PRIVILEGE_RECEPTION_METRIC, PRIVILIGE_TRIAGE_METRIC } from '../../constants';
 
-import { usePatientsBeingServed, usePatientsServed, useServicePointCount } from './clinic-metrics.resource';
+import { useServicePointCount } from './clinic-metrics.resource';
 import styles from './clinic-metrics.scss';
 import MetricsCard from './metrics-card.component';
 import { useParentLocation } from '../../active-visits/patient-queues.resource';
-import { usePatientQueuesList } from '../../active-visits/active-visits-patients-reception/active-visits-reception.resource';
 import { CheckmarkOutline, Pending, ProgressBarRound } from '@carbon/react/icons';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import dayjs from 'dayjs';
@@ -16,10 +15,6 @@ const ClinicMetrics: React.FC = () => {
   const { t } = useTranslation();
   const session = useSession();
   const { location } = useParentLocation(session?.sessionLocation?.uuid);
-  const { servedCount } = usePatientsServed(session?.sessionLocation?.uuid, 'picked');
-  const { patientQueueCount: pendingCount } = usePatientQueuesList(location?.parentLocation?.uuid);
-  const creatorUuid = session?.user?.person?.display;
-  const { patientQueueCount } = usePatientsBeingServed(session?.sessionLocation?.uuid, 'pending', creatorUuid);
 
   const { stats } = useServicePointCount(
     location?.parentLocation?.uuid,
@@ -31,7 +26,7 @@ const ClinicMetrics: React.FC = () => {
     <div className={styles.cardContainer}>
       <UserHasAccess privilege={PRIVILEGE_RECEPTION_METRIC}>
         <MetricsCard
-          values={[{ label: 'Patients', value: pendingCount }]}
+          values={[{ label: 'Patients', value: 0 }]}
           headerLabel={t('checkedInPatients', 'Checked in patients')}
         />
         <MetricsCard
@@ -42,16 +37,13 @@ const ClinicMetrics: React.FC = () => {
       </UserHasAccess>
 
       <UserHasAccess privilege={PRIVILIGE_TRIAGE_METRIC}>
+        <MetricsCard values={[{ label: 'In Queue', value: 0 }]} headerLabel={t('inQueueTriage', 'Patients Waiting')} />
         <MetricsCard
-          values={[{ label: 'In Queue', value: pendingCount }]}
-          headerLabel={t('inQueueTriage', 'Patients Waiting')}
-        />
-        <MetricsCard
-          values={[{ label: t('byTriage', 'By you'), value: patientQueueCount }]}
+          values={[{ label: t('byTriage', 'By you'), value: 0 }]}
           headerLabel={t('pendingTriageServing', 'Patients waiting to be Served')}
         />
         <MetricsCard
-          values={[{ label: 'Patients Served', value: servedCount }]}
+          values={[{ label: 'Patients Served', value: 0 }]}
           headerLabel={t('noOfPatientsServed', 'No. of Patients Served')}
         />
       </UserHasAccess>
