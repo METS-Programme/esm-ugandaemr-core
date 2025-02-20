@@ -224,7 +224,7 @@ export function usePatientQueuePages(
   const [searchString, setSearchString] = useState<string | null>(null);
 
   const [patientQueueFilter, setPatientQueueFilter] = useState<PatientQueueFilter>({
-    startIndex: (currentPage - 1) * currentPageSize,
+    startIndex: currentPage - 1,
     v: ResourceRepresentation.Full,
     limit: currentPageSize,
     q: null,

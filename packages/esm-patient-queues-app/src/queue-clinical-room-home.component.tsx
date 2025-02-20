@@ -9,30 +9,22 @@ import { Tabs, TabPanel, TabList, Tab, TabPanels } from '@carbon/react';
 
 const ClinicalRoomHome: React.FC = () => {
   const { t } = useTranslation();
-  const [selectedTab, setSelectedTab] = useState(0);
 
-  const getTabStatus = (selectedIndex) => {
-    return selectedIndex === 0 ? QueueStatus.Pending : QueueStatus.Completed;
-  };
   return (
     <div>
       <PatientQueueHeader title="Clinical Room" />
       <div className={styles.container}>
-        <Tabs
-          selectedIndex={selectedTab}
-          onChange={({ selectedIndex }) => setSelectedTab(selectedIndex)}
-          className={styles.tabs}
-        >
+        <Tabs className={styles.tabs}>
           <TabList style={{ paddingLeft: '1rem' }} aria-label="clinical outpatient tabs" contained>
             <Tab style={{ width: '150px' }}>{t('pending', 'In Queue')}</Tab>
             <Tab style={{ width: '150px' }}>{t('completed', 'Completed')}</Tab>
           </TabList>
           <TabPanels>
             <TabPanel style={{ padding: 0 }}>
-              <ActiveClinicalVisitsTable status={getTabStatus(selectedTab)} />
+              <ActiveClinicalVisitsTable status={QueueStatus.Pending} />
             </TabPanel>
             <TabPanel style={{ padding: 0 }}>
-              <ActiveClinicalVisitsTable status={getTabStatus(selectedTab)} />
+              <ActiveClinicalVisitsTable status={QueueStatus.Completed} />
             </TabPanel>
           </TabPanels>
         </Tabs>

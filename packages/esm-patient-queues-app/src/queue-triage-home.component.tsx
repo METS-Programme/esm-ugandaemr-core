@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PatientQueueHeader from './components/patient-queue-header/patient-queue-header.component';
 import MetricsCard from './components/patient-queue-metrics/metrics-card.component';
 import { useTranslation } from 'react-i18next';
@@ -10,11 +10,7 @@ import styles from './queue-triage-home.scss';
 const TriageHome: React.FC = () => {
   const { t } = useTranslation();
 
-  const [selectedTab, setSelectedTab] = useState(0);
-
-  const getTabStatus = (selectedIndex) => {
-    return selectedIndex === 0 ? QueueStatus.Pending : QueueStatus.Completed;
-  };
+  
 
   return (
     <div>
@@ -33,8 +29,6 @@ const TriageHome: React.FC = () => {
 
       <div className={styles.container}>
         <Tabs
-          selectedIndex={selectedTab}
-          onChange={({ selectedIndex }) => setSelectedTab(selectedIndex)}
           className={styles.tabs}
         >
           <TabList style={{ paddingLeft: '1rem' }} aria-label="triage outpatient tabs" contained>
@@ -43,10 +37,10 @@ const TriageHome: React.FC = () => {
           </TabList>
           <TabPanels>
             <TabPanel style={{ padding: 0 }}>
-              <ActiveTriageVisitsTable status={getTabStatus(selectedTab)} />
+              <ActiveTriageVisitsTable status={QueueStatus.Pending} />
             </TabPanel>
             <TabPanel style={{ padding: 0 }}>
-              <ActiveTriageVisitsTable status={getTabStatus(selectedTab)} />
+              <ActiveTriageVisitsTable status={QueueStatus.Completed} />
             </TabPanel>
           </TabPanels>
         </Tabs>
