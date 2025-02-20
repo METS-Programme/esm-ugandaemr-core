@@ -15,6 +15,18 @@ export interface PatientQueueFilter extends ResourceFilterCriteria {
   room?: string;
 }
 
+export interface NewQueuePayload {
+  patient: string;
+  provider: string;
+  locationFrom: string;
+  locationTo: string;
+  status: string;
+  priority: number;
+  priorityComment: string;
+  comment: string;
+  queueRoom: string;
+}
+
 export interface LocationResponse {
   uuid: string;
   display: string;
@@ -298,16 +310,7 @@ export async function updateQueueEntry(
   });
 }
 
-export async function addQueueEntry(
-  queueUuid: string,
-  patientUuid: string,
-  provider: string,
-  priority: number,
-  status: string,
-  locationUuid: string,
-  priorityComment: string,
-  comment: string,
-) {
+export async function addQueueEntry(payload: NewQueuePayload) {
   const abortController = new AbortController();
 
   return await openmrsFetch(`${restBaseUrl}/patientqueue`, {
@@ -316,17 +319,7 @@ export async function addQueueEntry(
       'Content-Type': 'application/json',
     },
     signal: abortController.signal,
-    body: {
-      patient: patientUuid,
-      provider: provider,
-      locationFrom: locationUuid,
-      locationTo: queueUuid !== undefined ? queueUuid : 'Not Set',
-      status: status ? status : QueueStatus.Pending,
-      priority: priority ? priority : 0,
-      priorityComment: priorityComment ?? 'Not Set',
-      comment: comment ?? 'This is pending',
-      queueRoom: queueUuid !== undefined ? queueUuid : 'Not Set',
-    },
+    body: payload,
   });
 }
 

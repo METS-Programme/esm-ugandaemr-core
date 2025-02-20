@@ -30,6 +30,7 @@ import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './change-status-dialog.scss';
 import { QueueStatus, extractErrorMessagesFromResponse, handleMutate } from '../utils/utils';
 import {
+  NewQueuePayload,
   addQueueEntry,
   getCareProvider,
   getCurrentPatientQueueByPatientUuid,
@@ -242,16 +243,19 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             comment,
           );
 
-          const createQueueResponse = await addQueueEntry(
-            selectedNextQueueLocation,
-            patientUuid,
-            selectedProvider,
-            contentSwitcherIndex,
-            QueueStatus.Pending,
-            sessionUser?.sessionLocation?.uuid,
-            priorityComment,
-            comment,
-          );
+          const request: NewQueuePayload = {
+            patient: patientUuid,
+            provider: selectedProvider,
+            locationFrom: sessionUser?.sessionLocation?.uuid,
+            locationTo: selectedNextQueueLocation,
+            status: QueueStatus.Pending,
+            priority: contentSwitcherIndex,
+            priorityComment: priorityComment,
+            comment: 'NA',
+            queueRoom: selectedNextQueueLocation,
+          };
+
+          const createQueueResponse = await addQueueEntry(request);
 
           const response = await updateQueueEntry(
             QueueStatus.Pending,

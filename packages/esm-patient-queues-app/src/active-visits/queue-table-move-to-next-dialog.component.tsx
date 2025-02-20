@@ -29,6 +29,7 @@ import styles from './change-status-dialog.scss';
 import { QueueStatus, extractErrorMessagesFromResponse, handleMutate } from '../utils/utils';
 import { PatientQueue } from '../types/patient-queues';
 import {
+  NewQueuePayload,
   addQueueEntry,
   getCareProvider,
   getCurrentPatientQueueByPatientUuid,
@@ -169,50 +170,55 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
             comment,
           );
 
-          const createQueueResponse = await addQueueEntry(
-            selectedNextQueueLocation,
-            patientUuid,
-            selectedProvider,
-            contentSwitcherIndex,
-            QueueStatus.Pending,
-            sessionUser?.sessionLocation?.uuid,
-            priorityComment,
-            comment,
-          );
+          const request: NewQueuePayload = {
+            patient: patientUuid,
+            provider: selectedProvider,
+            locationFrom: sessionUser?.sessionLocation?.uuid,
+            locationTo: selectedNextQueueLocation ?? 'Not Set',
+            status: status ?? QueueStatus.Pending,
+            priority: contentSwitcherIndex ?? 0,
+            priorityComment: priorityComment ?? 'Not Set',
+            comment: comment ?? 'This is pending',
+            queueRoom: selectedNextQueueLocation ?? 'Not Set',
+          };
 
-          const response = await updateQueueEntry(
-            QueueStatus.Pending,
-            selectedProvider,
-            createQueueResponse.data?.uuid,
-            contentSwitcherIndex,
-            priorityComment,
-            comment,
-          );
+          const createQueueResponse = await addQueueEntry(request);
 
-          if (response.status === 200) {
-            showToast({
-              critical: true,
-              title: t('moveToNextServicePoint', 'Move to next service point'),
-              kind: 'success',
-              description: t('movetonextservicepoint', 'Moved to next service point successfully'),
-            });
-            handleMutate(`${restBaseUrl}/patientqueue`);
-            closeModal();
-            // view patient summary
-            // navigate({ to: `\${openmrsSpaBase}/home` });
-            const roles = getSessionStore().getState().session?.user?.roles;
-            const roleName = roles[0]?.display;
-            if (roles && roles?.length > 0) {
-              if (roles?.filter((item) => item?.display === 'Organizational: Clinician').length > 0) {
-                navigate({
-                  to: `${window.getOpenmrsSpaBase()}home/clinical-room-patient-queues`,
-                });
-              } else if (roleName === 'Triage') {
-                navigate({
-                  to: `${window.getOpenmrsSpaBase()}home/triage-patient-queues`,
-                });
-              } else {
-                navigate({ to: `${window.getOpenmrsSpaBase()}home` });
+          if (createQueueResponse.status === 201) {
+            const response = await updateQueueEntry(
+              QueueStatus.Pending,
+              selectedProvider,
+              createQueueResponse.data?.uuid,
+              contentSwitcherIndex,
+              priorityComment,
+              comment,
+            );
+
+            if (response.status === 200) {
+              showToast({
+                critical: true,
+                title: t('moveToNextServicePoint', 'Move to next service point'),
+                kind: 'success',
+                description: t('movetonextservicepoint', 'Moved to next service point successfully'),
+              });
+              handleMutate(`${restBaseUrl}/patientqueue`);
+              closeModal();
+              // view patient summary
+              // navigate({ to: `\${openmrsSpaBase}/home` });
+              const roles = getSessionStore().getState().session?.user?.roles;
+              const roleName = roles[0]?.display;
+              if (roles && roles?.length > 0) {
+                if (roles?.filter((item) => item?.display === 'Organizational: Clinician').length > 0) {
+                  navigate({
+                    to: `${window.getOpenmrsSpaBase()}home/clinical-room-patient-queues`,
+                  });
+                } else if (roleName === 'Triage') {
+                  navigate({
+                    to: `${window.getOpenmrsSpaBase()}home/triage-patient-queues`,
+                  });
+                } else {
+                  navigate({ to: `${window.getOpenmrsSpaBase()}home` });
+                }
               }
             }
           }

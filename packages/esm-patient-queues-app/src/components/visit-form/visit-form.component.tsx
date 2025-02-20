@@ -34,6 +34,7 @@ import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
 import { useQueueRoomLocations } from '../../hooks/useQueueRooms';
 import Overlay from '../overlay/overlay.component';
 import {
+  NewQueuePayload,
   addQueueEntry,
   checkCurrentVisit,
   createVisit,
@@ -45,7 +46,7 @@ import {
   CreateQueueEntryFormData,
   createQueueEntrySchema,
 } from '../../active-visits/patient-queue-validation-schema.resource';
-import { handleMutate } from '../../utils/utils';
+import { QueueStatus, handleMutate } from '../../utils/utils';
 
 interface VisitFormProps {
   patientUuid: string;
@@ -69,11 +70,9 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
   const [visitType, setVisitType] = useState('');
   const [priorityComment, setPriorityComment] = useState('');
   const priorityLevels = [1, 2, 3];
-  const {
-    queueRoomLocations,
-    error: errorLoadingQueueRooms,
-    mutate,
-  } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
+  const { queueRoomLocations, error: errorLoadingQueueRooms } = useQueueRoomLocations(
+    sessionUser?.sessionLocation?.uuid,
+  );
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState('');
   const [selectedProvider, setSelectedProvider] = useState('');
   const priorityLabels = useMemo(() => ['Not Urgent', 'Urgent', 'Emergency'], []);
@@ -142,30 +141,30 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
         }
 
         // Add new queue entry
-        const queueResponse = await addQueueEntry(
-          selectedNextQueueLocation,
-          patientUuid,
-          selectedProvider,
-          contentSwitcherIndex,
-          'pending',
-          selectedLocation,
-          priorityComment,
-          'comment',
-        );
+        const request: NewQueuePayload = {
+          patient: patientUuid,
+          provider: selectedProvider,
+          locationFrom: sessionUser?.sessionLocation?.uuid,
+          locationTo: selectedNextQueueLocation,
+          status: QueueStatus.Pending,
+          priority: contentSwitcherIndex,
+          priorityComment: priorityComment,
+          comment: 'NA',
+          queueRoom: selectedNextQueueLocation,
+        };
 
-        if (queueResponse.status !== 201) {
-          throw new Error(t('queueAdditionFailed', 'Failed to add patient to queue.'));
+        const createQueueResponse = await addQueueEntry(request);
+
+        if (createQueueResponse.status === 201) {
+          showToast({
+            kind: 'success',
+            title: t('startVisit', 'Start a visit'),
+            description: t('startVisitQueueSuccessfully', 'Patient has been added to active visits list and queue.'),
+          });
+
+          handleMutate(`${restBaseUrl}/patientqueue`);
+          closePanel();
         }
-
-        showToast({
-          kind: 'success',
-          title: t('startVisit', 'Start a visit'),
-          description: t('startVisitQueueSuccessfully', 'Patient has been added to active visits list and queue.'),
-        });
-
-        handleMutate(`${restBaseUrl}/patientqueue`);
-        closePanel();
-        mutate();
       } catch (error) {
         showNotification({
           title: t('startVisitError', 'Error starting visit'),
@@ -180,7 +179,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
     [
       closePanel,
       contentSwitcherIndex,
-      mutate,
       patientUuid,
       priorityComment,
       selectedLocation,

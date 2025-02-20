@@ -18,6 +18,7 @@ import {
 import {
   navigate,
   parseDate,
+  restBaseUrl,
   showNotification,
   showSnackbar,
   showToast,
@@ -29,8 +30,15 @@ import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 import styles from './change-status-dialog.scss';
-import { QueueStatus, extractErrorMessagesFromResponse } from '../utils/utils';
-import { addQueueEntry, getCareProvider, updateQueueEntry, updateVisit, useProviders } from './patient-queues.resource';
+import { QueueStatus, extractErrorMessagesFromResponse, handleMutate } from '../utils/utils';
+import {
+  NewQueuePayload,
+  addQueueEntry,
+  getCareProvider,
+  updateQueueEntry,
+  updateVisit,
+  useProviders,
+} from './patient-queues.resource';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queue-validation-schema.resource';
@@ -55,11 +63,9 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const sessionUser = useSession();
 
-  const {
-    queueRoomLocations,
-    mutate,
-    error: errorLoadingQueueRooms,
-  } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
+  const { queueRoomLocations, error: errorLoadingQueueRooms } = useQueueRoomLocations(
+    sessionUser?.sessionLocation?.uuid,
+  );
 
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
 
@@ -86,7 +92,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
         const uuid = response?.data?.results[0].uuid;
         setIsLoading(false);
         setProvider(uuid);
-        mutate();
       },
       (error) => {
         const errorMessages = extractErrorMessagesFromResponse(error);
@@ -99,7 +104,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
         });
       },
     );
-  }, [sessionUser?.user?.uuid, mutate]);
+  }, [sessionUser?.user?.uuid]);
 
   useEffect(() => fetchProvider(), [fetchProvider]);
 
@@ -162,7 +167,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
           navigate({ to: `\${openmrsSpaBase}/home` });
           closeModal();
-          mutate();
         }
       } catch (error) {
         showNotification({
@@ -188,7 +192,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
         });
 
         closeModal();
-        mutate();
+        handleMutate(`${restBaseUrl}/patientqueue`);
       }
       if (status === QueueStatus.Completed) {
         await updateQueueEntry(
@@ -200,39 +204,45 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
           'comment',
         );
 
-        await addQueueEntry(
-          selectedNextQueueLocation,
-          queueEntry?.patient?.uuid,
-          selectedProvider,
-          contentSwitcherIndex,
-          QueueStatus.Pending,
-          sessionUser?.sessionLocation?.uuid,
-          priorityComment,
-          'comment',
-        );
+        // Add new queue entry
+        const request: NewQueuePayload = {
+          patient: queueEntry?.patient?.uuid,
+          provider: selectedProvider,
+          locationFrom: sessionUser?.sessionLocation?.uuid,
+          locationTo: selectedNextQueueLocation,
+          status: QueueStatus.Pending,
+          priority: contentSwitcherIndex,
+          priorityComment: priorityComment,
+          comment: 'NA',
+          queueRoom: selectedNextQueueLocation,
+        };
 
-        // Pick and route
-        await updateQueueEntry(
-          QueueStatus.Picked,
-          provider,
-          currentEntry?.uuid,
-          contentSwitcherIndex,
-          priorityComment,
-          'comment',
-        );
+        const createQueueResponse = await addQueueEntry(request);
 
-        showToast({
-          critical: true,
-          title: t('updateEntry', 'Move to next queue'),
-          kind: 'success',
-          description: t('movetonextqueue', 'Move to next queue successfully'),
-        });
+        if (createQueueResponse.status === 201) {
+          // Pick and route
+          await updateQueueEntry(
+            QueueStatus.Picked,
+            provider,
+            currentEntry?.uuid,
+            contentSwitcherIndex,
+            priorityComment,
+            'comment',
+          );
 
-        // View patient summary
-        navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry?.patient?.uuid}/chart` });
+          showToast({
+            critical: true,
+            title: t('updateEntry', 'Move to next queue'),
+            kind: 'success',
+            description: t('movetonextqueue', 'Move to next queue successfully'),
+          });
 
-        closeModal();
-        mutate();
+          // View patient summary
+          navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry?.patient?.uuid}/chart` });
+
+          closeModal();
+          handleMutate(`${restBaseUrl}/patientqueue`);
+        }
       }
     } catch (error: any) {
       showNotification({
@@ -250,7 +260,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     priorityComment,
     t,
     closeModal,
-    mutate,
     contentSwitcherIndex,
     selectedProvider,
     sessionUser?.sessionLocation?.uuid,
