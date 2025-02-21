@@ -48,7 +48,6 @@ const ReceptionHome: React.FC = () => {
     dayjs(new Date()).format('YYYY-MM-DD'),
   );
 
-
   const [viewState, setViewState] = useState<{ selectedPatientUuid: string } | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 

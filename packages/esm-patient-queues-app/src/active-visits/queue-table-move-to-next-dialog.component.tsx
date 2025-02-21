@@ -132,7 +132,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
   // change to picked
   const onSubmit = useCallback(
     async (event) => {
-      event.preventDefault();
+      // event.preventDefault();
 
       const comment = event?.target['nextNotes']?.value ?? 'Not Set';
       // get queue entry by patient id
