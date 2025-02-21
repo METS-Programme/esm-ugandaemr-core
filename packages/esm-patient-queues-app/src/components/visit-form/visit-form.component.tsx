@@ -163,6 +163,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
           });
 
           handleMutate(`${restBaseUrl}/patientqueue`);
+          handleMutate(`${restBaseUrl}/queuestatistics`);
           closePanel();
         }
       } catch (error) {

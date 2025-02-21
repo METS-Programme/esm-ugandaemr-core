@@ -177,6 +177,29 @@
         {
             "name": "notes-dialog-modal",
             "component": "notesModal"
-        }
+        },
+
+        {
+        "name": "checked-in-tile-component",
+        "slot": "queue-tiles-slot",
+        "component": "checkInTile"
+      },
+        {
+        "name": "queue-completed-tile-component",
+        "slot": "queue-tiles-slot",
+        "component": "queueCompletedTile"
+      },
+        {
+        "name": "queue-in-queue-tile-component",
+        "slot": "queue-tiles-slot",
+        "component": "queueInQueueTile"
+      },
+        {
+        "name": "queue-waiting-tile-component",
+        "slot": "queue-tiles-slot",
+        "component": "queueWaitingTile"
+      }
+
+
     ]
 }

@@ -13,11 +13,10 @@ export function extractErrorMessagesFromResponse(errorObject) {
 export const QueueStatus = { Completed: 'completed', Pending: 'pending', Picked: 'picked' };
 
 export enum QueueEnumStatus {
-  COMPLETED = "COMPLETED",
-  PICKED = "PICKED",
-  PENDING = "PENDING"
+  COMPLETED = 'COMPLETED',
+  PICKED = 'PICKED',
+  PENDING = 'PENDING',
 }
-
 
 const refreshDashboardMetrics = debounce(
   () =>

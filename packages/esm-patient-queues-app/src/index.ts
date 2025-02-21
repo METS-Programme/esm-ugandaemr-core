@@ -19,6 +19,10 @@ import receptionRoomComponent from './queue-reception-home.component';
 import clinicalRoomComponent from './queue-clinical-room-home.component';
 import startVisitFormComponent from './components/visit-form/visit-form.component';
 import startVisitFormButtonComponent from './active-visits/start-visit-form-button.component';
+import checkedInTileComponent from './queue-tiles/checked-in-tile.component';
+import queueCompletedTileComponent from './queue-tiles/queue-completed-tile.component';
+import queueInQueueTileComponent from './queue-tiles/queue-in-queue-tile.component';
+import queueWaitingTileComponent from './queue-tiles/queue-waiting-tile.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -79,3 +83,13 @@ export const queueScreen = getSyncLifecycle(queueScreenComponent, options);
 export const startVisitForm = getSyncLifecycle(startVisitFormComponent, options);
 
 export const startVisitFormButton = getSyncLifecycle(startVisitFormButtonComponent, options);
+
+// summary tiles
+
+export const checkInTile = getSyncLifecycle(checkedInTileComponent, options);
+
+export const queueCompletedTile = getSyncLifecycle(queueCompletedTileComponent, options);
+
+export const queueInQueueTile = getSyncLifecycle(queueInQueueTileComponent, options);
+
+export const queueWaitingTile = getSyncLifecycle(queueWaitingTileComponent, options);

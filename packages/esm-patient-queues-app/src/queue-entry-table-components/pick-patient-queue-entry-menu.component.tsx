@@ -23,15 +23,16 @@ const PickPatientActionMenu: React.FC<PickPatientActionMenuProps> = ({ queueEntr
 
   // Filter by provider
   const filteredByProvider = useMemo(
-    () => items?.filter((item) => item?.provider?.identifier === providerId && item.status === QueueEnumStatus.PICKED) || [],
-    [items, providerId]
+    () =>
+      items?.filter((item) => item?.provider?.identifier === providerId && item.status === QueueEnumStatus.PICKED) ||
+      [],
+    [items, providerId],
   );
 
   const launchPickPatientQueueModal = useCallback(() => {
     const modalType = filteredByProvider.length > 0 ? 'edit-queue-entry-status-modal' : 'pick-patient-queue-entry';
-    const modalProps = filteredByProvider.length > 0
-      ? { queueEntry: filteredByProvider[0], currentEntry: queueEntry }
-      : { queueEntry };
+    const modalProps =
+      filteredByProvider.length > 0 ? { queueEntry: filteredByProvider[0], currentEntry: queueEntry } : { queueEntry };
 
     const dispose = showModal(modalType, { ...modalProps, closeModal: () => dispose() });
   }, [filteredByProvider, queueEntry]);
@@ -47,4 +48,3 @@ const PickPatientActionMenu: React.FC<PickPatientActionMenuProps> = ({ queueEntr
 };
 
 export default PickPatientActionMenu;
-

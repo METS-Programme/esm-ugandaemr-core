@@ -37,6 +37,7 @@ import {
 } from '@carbon/react';
 import { Add } from '@carbon/react/icons';
 import PrintActionsMenu from './active-visits/print-action-menu.components';
+import QueueSummaryTiles from './summary-tiles/queue-summary-tiles.component';
 
 const ReceptionHome: React.FC = () => {
   const { t } = useTranslation();
@@ -138,15 +139,9 @@ const ReceptionHome: React.FC = () => {
   return (
     <div>
       <PatientQueueHeader title="Reception" />
+      <QueueSummaryTiles/>
       <div className={styles.cardContainer}>
-        <MetricsCard
-          values={[{ label: 'Patients', value: 0 }]}
-          headerLabel={t('checkedInPatients', 'Checked in patients')}
-        />
-        <MetricsCard
-          values={[{ label: 'Expected Appointments', value: 0 }]}
-          headerLabel={t('noOfExpectedAppointments', 'No. Of Expected Appointments')}
-        />
+      
         <MetricsCard values={stats} headerLabel={t('currentlyServing', 'No. of Currently being Served')} />
       </div>
       <div className={styles.container}>

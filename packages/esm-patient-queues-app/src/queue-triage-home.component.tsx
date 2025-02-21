@@ -6,6 +6,7 @@ import { QueueStatus } from './utils/utils';
 import { Tabs, TabPanel, TabList, Tab, TabPanels } from '@carbon/react';
 import ActiveTriageVisitsTable from './active-visits/queue-patients-triage/queue-triage-table.component';
 import styles from './queue-triage-home.scss';
+import QueueSummaryTiles from './summary-tiles/queue-summary-tiles.component';
 
 const TriageHome: React.FC = () => {
   const { t } = useTranslation();
@@ -13,17 +14,7 @@ const TriageHome: React.FC = () => {
   return (
     <div>
       <PatientQueueHeader title="Triage" />
-      <div className={styles.cardContainer}>
-        <MetricsCard values={[{ label: 'In Queue', value: 0 }]} headerLabel={t('inQueueTriage', 'Patients Waiting')} />
-        <MetricsCard
-          values={[{ label: t('byTriage', 'By you'), value: 0 }]}
-          headerLabel={t('pendingTriageServing', 'Patients waiting to be Served')}
-        />
-        <MetricsCard
-          values={[{ label: 'Patients Served', value: 0 }]}
-          headerLabel={t('noOfPatientsServed', 'No. of Patients Served')}
-        />
-      </div>
+      <QueueSummaryTiles />
 
       <div className={styles.container}>
         <Tabs className={styles.tabs}>
