@@ -348,7 +348,7 @@ export function getCareProvider(provider: string) {
 
 export function getLocationByUuid(uuid: string) {
   const abortController = new AbortController();
-  const url = `${restBaseUrl}/location/${uuid}&v=full`;
+  const url = `${restBaseUrl}/location/${uuid}`;
   return openmrsFetch(url, {
     method: 'GET',
     signal: abortController.signal,

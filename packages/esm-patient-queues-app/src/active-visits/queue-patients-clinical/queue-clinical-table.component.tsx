@@ -190,7 +190,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
         content: (
           <Tag>
             <span
-              style={{ color: `${getProviderTagColor(patientqueue?.provider?.display, session.user.person.display)}` }}
+              style={{ color: `${getProviderTagColor(patientqueue?.provider?.display, session?.user?.person?.display)}` }}
             >
               {patientqueue?.provider?.display}
             </span>

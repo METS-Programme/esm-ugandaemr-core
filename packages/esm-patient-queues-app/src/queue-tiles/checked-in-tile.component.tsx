@@ -2,14 +2,11 @@ import React from 'react';
 import SummaryTile from '../summary-tiles/summary-tile.component';
 import { useTranslation } from 'react-i18next';
 import { usePatientQueuePages } from '../active-visits/patient-queues.resource';
-import { useSession } from '@openmrs/esm-framework';
 
 const CheckedInTile: React.FC = () => {
   const { t } = useTranslation();
 
-
   const { totalCount } = usePatientQueuePages('', '');
-
 
   return (
     <SummaryTile
