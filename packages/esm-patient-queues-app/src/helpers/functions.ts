@@ -20,7 +20,6 @@ export const trimVisitNumber = (visitNumber: string) => {
   return visitNumber.substring(15);
 };
 
-
 export const formatWaitTime = (dateCreated: string, t) => {
   if (!dateCreated) return t('unknown', 'Unknown');
 
@@ -37,7 +36,6 @@ export const formatWaitTime = (dateCreated: string, t) => {
     return `${minutes} ${t('minutes', 'minutes')}`;
   }
 };
-
 
 export const getTagColor = (waitTime: string) => {
   const num = parseInt(waitTime);

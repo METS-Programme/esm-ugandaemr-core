@@ -12,6 +12,13 @@ export function extractErrorMessagesFromResponse(errorObject) {
 
 export const QueueStatus = { Completed: 'completed', Pending: 'pending', Picked: 'picked' };
 
+export enum QueueEnumStatus {
+  COMPLETED = "COMPLETED",
+  PICKED = "PICKED",
+  PENDING = "PENDING"
+}
+
+
 const refreshDashboardMetrics = debounce(
   () =>
     mutate((key) => typeof key === 'string' && key.startsWith(`${restBaseUrl}/patientqueue`), undefined, {

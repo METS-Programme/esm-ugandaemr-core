@@ -5,6 +5,7 @@ import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PatientQueue } from '../types/patient-queues';
 import { usePatientQueuePages } from '../active-visits/patient-queues.resource';
+import { QueueEnumStatus, QueueStatus } from '../utils/utils';
 
 interface PickPatientActionMenuProps {
   queueEntry: PatientQueue;
@@ -17,17 +18,20 @@ const PickPatientActionMenu: React.FC<PickPatientActionMenuProps> = ({ queueEntr
   const sessionLocationId = session?.sessionLocation?.uuid;
   const providerId = session?.user?.systemId;
 
-  const { items } = usePatientQueuePages(sessionLocationId, 'picked');
+  // Fetch patient queue with status "Picked"
+  const { items } = usePatientQueuePages(sessionLocationId, QueueStatus.Picked);
 
+  // Filter by provider
   const filteredByProvider = useMemo(
-    () => items?.filter((item) => item?.provider.identifier === providerId) || [],
-    [items, providerId],
+    () => items?.filter((item) => item?.provider?.identifier === providerId && item.status === QueueEnumStatus.PICKED) || [],
+    [items, providerId]
   );
 
   const launchPickPatientQueueModal = useCallback(() => {
     const modalType = filteredByProvider.length > 0 ? 'edit-queue-entry-status-modal' : 'pick-patient-queue-entry';
-    const modalProps =
-      filteredByProvider.length > 0 ? { queueEntry: filteredByProvider[0], currentEntry: queueEntry } : { queueEntry };
+    const modalProps = filteredByProvider.length > 0
+      ? { queueEntry: filteredByProvider[0], currentEntry: queueEntry }
+      : { queueEntry };
 
     const dispose = showModal(modalType, { ...modalProps, closeModal: () => dispose() });
   }, [filteredByProvider, queueEntry]);
@@ -43,3 +47,4 @@ const PickPatientActionMenu: React.FC<PickPatientActionMenuProps> = ({ queueEntr
 };
 
 export default PickPatientActionMenu;
+
