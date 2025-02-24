@@ -192,7 +192,10 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
             <NotesActionsMenu note={patientqueue} />
             {patientqueue?.status === 'SERVING' ||
               (patientqueue?.status === 'PENDING' && isToggled && (
-                <MovetoNextPointAction patientUuid={patientqueue?.patient?.uuid} entries={filteredPatientQueueEntries} />
+                <MovetoNextPointAction
+                  patientUuid={patientqueue?.patient?.uuid}
+                  entries={filteredPatientQueueEntries}
+                />
               ))}
           </div>
         ),
