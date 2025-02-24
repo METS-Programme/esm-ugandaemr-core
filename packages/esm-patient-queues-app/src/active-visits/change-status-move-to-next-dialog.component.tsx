@@ -203,11 +203,8 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
   };
 
   // change to picked
-  const onSubmit = useCallback(
-    async (event) => {
-      event.preventDefault();
-
-      const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+  const onSubmit = useCallback(async () => {
+    try {
       // get queue entry by patient id
       const patientQueueEntryResponse = await getCurrentPatientQueueByPatientUuid(
         patientUuid,
@@ -219,7 +216,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
       if (status === QueueStatus.Pending) {
         if (queueEntry.length > 0) {
-          await updateQueueEntry(status, provider, queueEntry[0]?.uuid, 0, priorityComment, comment).then(() => {
+          await updateQueueEntry(status, provider, queueEntry[0]?.uuid, 0, priorityComment, 'NA').then(() => {
             showToast({
               critical: true,
               title: t('moveToNextServicePoint', 'Move back your service point'),
@@ -240,7 +237,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             queueEntry[0]?.uuid,
             contentSwitcherIndex,
             priorityComment,
-            comment,
+            'NA',
           );
 
           const request: NewQueuePayload = {
@@ -263,7 +260,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             createQueueResponse.data?.uuid,
             contentSwitcherIndex,
             priorityComment,
-            comment,
+            'NA',
           );
 
           if (response.status === 200) {
@@ -295,20 +292,27 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
           }
         }
       }
-    },
-    [
-      closeModal,
-      contentSwitcherIndex,
-      patientUuid,
-      priorityComment,
-      provider,
-      selectedNextQueueLocation,
-      selectedProvider,
-      sessionUser?.sessionLocation?.uuid,
-      status,
-      t,
-    ],
-  );
+    } catch (error) {
+      const errorMessages = extractErrorMessagesFromResponse(error);
+      showNotification({
+        title: t('moveToNextServicePoint', 'Error moving to next service point'),
+        kind: 'error',
+        critical: true,
+        description: errorMessages.join(','),
+      });
+    }
+  }, [
+    closeModal,
+    contentSwitcherIndex,
+    patientUuid,
+    priorityComment,
+    provider,
+    selectedNextQueueLocation,
+    selectedProvider,
+    sessionUser?.sessionLocation?.uuid,
+    status,
+    t,
+  ]);
 
   return (
     <div>
