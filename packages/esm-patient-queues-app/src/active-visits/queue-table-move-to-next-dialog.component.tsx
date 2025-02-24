@@ -47,9 +47,6 @@ interface ChangeStatusDialogProps {
 }
 
 const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, entries, closeModal }) => {
-
-
-  console.log('QueueTableMoveToNext', patientUuid, entries, closeModal);
   const { t } = useTranslation();
 
   const sessionUser = useSession();
