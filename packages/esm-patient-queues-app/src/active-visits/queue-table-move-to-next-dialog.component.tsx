@@ -47,6 +47,9 @@ interface ChangeStatusDialogProps {
 }
 
 const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, entries, closeModal }) => {
+
+
+  console.log('QueueTableMoveToNext', patientUuid, entries, closeModal);
   const { t } = useTranslation();
 
   const sessionUser = useSession();
@@ -130,12 +133,8 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
   }, [statusSwitcherIndex, statusLabels]);
 
   // change to picked
-  const onSubmit = useCallback(
-    async (event) => {
-      // event.preventDefault();
-
-      const comment = event?.target['nextNotes']?.value ?? 'Not Set';
-      // get queue entry by patient id
+  const onSubmit = useCallback(async () => {
+    try {
       const patientQueueEntryResponse = await getCurrentPatientQueueByPatientUuid(
         patientUuid,
         sessionUser?.sessionLocation?.uuid,
@@ -146,7 +145,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
 
       if (status === QueueStatus.Pending) {
         if (queueEntry.length > 0) {
-          await updateQueueEntry(status, provider, queueEntry[0]?.uuid, 0, priorityComment, comment).then(() => {
+          await updateQueueEntry(status, provider, queueEntry[0]?.uuid, 0, priorityComment, 'NA').then(() => {
             showToast({
               critical: true,
               title: t('moveToNextServicePoint', 'Move back your service point'),
@@ -167,19 +166,19 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
             queueEntry[0]?.uuid,
             contentSwitcherIndex,
             priorityComment,
-            comment,
+            'NA',
           );
 
           const request: NewQueuePayload = {
             patient: patientUuid,
             provider: selectedProvider,
             locationFrom: sessionUser?.sessionLocation?.uuid,
-            locationTo: selectedNextQueueLocation ?? 'Not Set',
+            locationTo: selectedNextQueueLocation,
             status: status ?? QueueStatus.Pending,
-            priority: contentSwitcherIndex ?? 0,
-            priorityComment: priorityComment ?? 'Not Set',
-            comment: comment ?? 'This is pending',
-            queueRoom: selectedNextQueueLocation ?? 'Not Set',
+            priority: contentSwitcherIndex,
+            priorityComment: priorityComment,
+            comment: 'NA',
+            queueRoom: selectedNextQueueLocation,
           };
 
           const createQueueResponse = await addQueueEntry(request);
@@ -191,7 +190,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
               createQueueResponse.data?.uuid,
               contentSwitcherIndex,
               priorityComment,
-              comment,
+              'NA',
             );
 
             if (response.status === 200) {
@@ -224,20 +223,27 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
           }
         }
       }
-    },
-    [
-      closeModal,
-      contentSwitcherIndex,
-      patientUuid,
-      priorityComment,
-      provider,
-      selectedNextQueueLocation,
-      selectedProvider,
-      sessionUser?.sessionLocation?.uuid,
-      status,
-      t,
-    ],
-  );
+    } catch (error) {
+      const errorMessages = extractErrorMessagesFromResponse(error);
+      showNotification({
+        title: t('moveToNextServicePoint', 'Error moving to next service point'),
+        kind: 'error',
+        critical: true,
+        description: errorMessages.join(','),
+      });
+    }
+  }, [
+    closeModal,
+    contentSwitcherIndex,
+    patientUuid,
+    priorityComment,
+    provider,
+    selectedNextQueueLocation,
+    selectedProvider,
+    sessionUser?.sessionLocation?.uuid,
+    status,
+    t,
+  ]);
 
   return (
     <div>
