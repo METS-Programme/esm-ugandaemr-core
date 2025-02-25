@@ -4,22 +4,23 @@ import { Button, Tooltip } from '@carbon/react';
 import { Send } from '@carbon/react/icons';
 import { useTranslation } from 'react-i18next';
 import { showModal } from '@openmrs/esm-framework';
+import { PatientQueue } from '../types/patient-queues';
 
 interface MovetoNextPointActionProps {
-  patient: string;
-  entries: [];
+  patientUuid: string;
+  entries: Array<PatientQueue>;
 }
 
-const MovetoNextPointAction: React.FC<MovetoNextPointActionProps> = ({ patient, entries }) => {
+const MovetoNextPointAction: React.FC<MovetoNextPointActionProps> = ({ patientUuid, entries }) => {
   const { t } = useTranslation();
 
   const openModal = useCallback(() => {
     const dispose = showModal('queue-table-move-to-next-service-point-modal', {
-      patient,
+      patientUuid,
       entries,
       closeModal: () => dispose(),
     });
-  }, [patient, entries]);
+  }, [patientUuid, entries]);
 
   return (
     <Tooltip label="Re-Assign">

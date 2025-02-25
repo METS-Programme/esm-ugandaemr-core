@@ -4,10 +4,10 @@ import { Printer } from '@carbon/react/icons';
 import { useTranslation } from 'react-i18next';
 import { useReactToPrint } from 'react-to-print';
 import VisitCardToPrint from './active-visits-print/active-visits-print.component';
-import { MappedPatientQueueEntry } from './patient-queues.resource';
+import { PatientQueue } from '../types/patient-queues';
 
 interface PrintActionsMenuProps {
-  patient: MappedPatientQueueEntry;
+  patient: PatientQueue;
 }
 
 const PrintActionsMenu: React.FC<PrintActionsMenuProps> = ({ patient }) => {
