@@ -149,6 +149,7 @@ const ReceptionHome: React.FC = () => {
         />
         <MetricsCard values={stats} headerLabel={t('currentlyServing', 'No. of Currently being Served')} />
       </div>
+
       <div className={styles.container}>
         <div className={styles.headerContainer}>
           <QueueLauncher />
