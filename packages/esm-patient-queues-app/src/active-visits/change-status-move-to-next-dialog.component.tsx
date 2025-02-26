@@ -78,6 +78,8 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   const { providers, error: errorLoadingProviders } = useProviders(selectedNextQueueLocation);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   // Memoize the function to fetch the provider using useCallback
   const fetchProvider = useCallback(() => {
     if (!sessionUser?.user?.uuid) return;
@@ -205,6 +207,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
   // change to picked
   const onSubmit = useCallback(async () => {
     try {
+      setIsSubmitting(true);
       // get queue entry by patient id
       const patientQueueEntryResponse = await getCurrentPatientQueueByPatientUuid(
         patientUuid,
@@ -225,6 +228,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             });
             closeModal();
             handleMutate(`${restBaseUrl}/patientqueue`);
+            setIsSubmitting(false);
           });
         }
       }
@@ -272,6 +276,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             });
             handleMutate(`${restBaseUrl}/patientqueue`);
             closeModal();
+            setIsSubmitting(false);
             // view patient summary
             // navigate({ to: `\${openmrsSpaBase}/home` });
             const roles = getSessionStore().getState().session?.user?.roles;
@@ -293,6 +298,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
         }
       }
     } catch (error) {
+      setIsSubmitting(false);
       const errorMessages = extractErrorMessagesFromResponse(error);
       showNotification({
         title: t('moveToNextServicePoint', 'Error moving to next service point'),
@@ -316,6 +322,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   return (
     <div>
+      {isLoading && <InlineLoading description={'Fetching Provider..'} />}
       <Form onSubmit={handleSubmit(onSubmit)}>
         <ModalHeader closeModal={closeModal} />
         <ModalBody>
@@ -500,8 +507,8 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
           <Button kind="danger" onClick={endCurrentVisit}>
             {t('endVisit', 'End Visit')}
           </Button>
-          {isLoading ? (
-            <InlineLoading description={'Fetching Provider..'} />
+          {isSubmitting ? (
+            <InlineLoading description={'Submitting...'} />
           ) : (
             <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
           )}
