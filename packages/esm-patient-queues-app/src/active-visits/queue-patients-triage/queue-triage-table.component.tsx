@@ -186,10 +186,12 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
                 <PickPatientActionMenu queueEntry={patientqueue} closeModal={() => true} />
               </>
             )}
+            {patientqueue?.status === 'COMPLETED' && (
+              <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${patientqueue?.patient?.uuid}/chart`} from={fromPage} />
+            )}
 
-            <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${patientqueue?.patient?.uuid}/chart`} from={fromPage} />
+            {patientqueue?.status === 'COMPLETED' && <NotesActionsMenu note={patientqueue} />}
 
-            <NotesActionsMenu note={patientqueue} />
             {patientqueue?.status === 'SERVING' ||
               (patientqueue?.status === 'PENDING' && isToggled && (
                 <MovetoNextPointAction

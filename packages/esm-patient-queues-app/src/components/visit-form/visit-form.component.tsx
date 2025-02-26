@@ -85,9 +85,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
     formState: { errors },
   } = useForm<CreateQueueEntryFormData>({
     mode: 'all',
-    defaultValues: {
-      comment: 'NA',
-    },
     resolver: zodResolver(createQueueEntrySchema),
   });
 
@@ -271,30 +268,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
               </section>
 
               <section className={styles.section}>
-                <div className={styles.sectionTitle}>{t('visitNotes', 'Visit Notes')}</div>
-                <ResponsiveWrapper isTablet={isTablet}>
-                  <Controller
-                    name="comment"
-                    control={control}
-                    defaultValue="NA"
-                    render={({ field }) => (
-                      <TextArea
-                        {...field}
-                        aria-label={t('comment', 'Comment')}
-                        invalid={!!errors.comment}
-                        invalidText={errors.comment?.message}
-                        labelText=""
-                        id="comment"
-                        name="comment"
-                        maxCount={500}
-                        enableCounter
-                      />
-                    )}
-                  />
-                </ResponsiveWrapper>
-              </section>
-
-              <section className={styles.section}>
                 <div className={styles.sectionTitle}>{t('nextServicePoint', 'Next service point')}</div>
                 <ResponsiveWrapper isTablet={isTablet}>
                   <Controller
@@ -381,6 +354,28 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
                       title={t('errorFetchingQueueRooms', 'Error fetching providers')}
                     />
                   )}
+                </ResponsiveWrapper>
+              </section>
+              <section className={styles.section}>
+                <div className={styles.sectionTitle}>{t('visitNotes', 'Visit Notes')}</div>
+                <ResponsiveWrapper isTablet={isTablet}>
+                  <Controller
+                    name="comment"
+                    control={control}
+                    render={({ field }) => (
+                      <TextArea
+                        {...field}
+                        aria-label={t('comment', 'Comment')}
+                        invalid={!!errors.comment}
+                        invalidText={errors.comment?.message}
+                        labelText=""
+                        id="comment"
+                        name="comment"
+                        maxCount={500}
+                        enableCounter
+                      />
+                    )}
+                  />
                 </ResponsiveWrapper>
               </section>
             </Stack>
