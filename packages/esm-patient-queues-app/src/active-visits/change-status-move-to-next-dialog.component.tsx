@@ -474,7 +474,6 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
                   <Controller
                     name="comment"
                     control={control}
-                    defaultValue="NA"
                     render={({ field }) => (
                       <TextArea
                         {...field}
