@@ -158,13 +158,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
       } else if (a.status !== 'PICKED' && b.status === 'PICKED') {
         return -1;
       }
-
-      const dateA = new Date(a.dateCreated).getTime();
-      const dateB = new Date(b.dateCreated).getTime();
-
-      if (isNaN(dateA) || isNaN(dateB)) return 0; // Handle invalid dates gracefully
-
-      return dateA - dateB;
+      return new Date(a.dateCreated).getTime() - new Date(b.dateCreated).getTime();
     });
 
     return entries;
