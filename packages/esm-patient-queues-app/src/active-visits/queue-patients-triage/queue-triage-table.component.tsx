@@ -149,7 +149,7 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
     });
 
     return entries;
-  }, [items, status, searchTerm]);
+  }, [items, status, searchTerm, triageRoomTag]);
 
   const tableRows = useMemo(() => {
     return filteredPatientQueueEntries.map((patientqueue, index) => ({

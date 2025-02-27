@@ -80,6 +80,8 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [isEndingVisit, setIsEndingVisit] = useState(false);
+
   // Memoize the function to fetch the provider using useCallback
   const fetchProvider = useCallback(() => {
     if (!sessionUser?.user?.uuid) return;
@@ -137,6 +139,8 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
   // endVisit
   const endCurrentVisit = async (event) => {
     event.preventDefault();
+
+    setIsEndingVisit(true);
     const endVisitPayload = {
       location: activeVisit.location.uuid,
       startDatetime: parseDate(activeVisit.startDatetime),
@@ -187,13 +191,14 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             kind: 'success',
             description: t('endedVisitSuccessfully', 'Successfully ended visit'),
           });
-
+          setIsEndingVisit(false);
           closeModal();
           navigate({ to: navigateTo });
           handleMutate(`${restBaseUrl}/patientqueue`);
         }
       }
     } catch (error) {
+      setIsEndingVisit(false);
       const errorMessages = extractErrorMessagesFromResponse(error);
       showNotification({
         title: t('endVisit', 'Error ending visit succcessfully'),
@@ -504,9 +509,14 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
           <Button kind="secondary" onClick={closeModal}>
             {t('cancel', 'Cancel')}
           </Button>
-          <Button kind="danger" onClick={endCurrentVisit}>
-            {t('endVisit', 'End Visit')}
-          </Button>
+          {isEndingVisit ? (
+            <InlineLoading description={'Ending...'} />
+          ) : (
+            <Button kind="danger" onClick={endCurrentVisit}>
+              {t('endVisit', 'End Visit')}
+            </Button>
+          )}
+
           {isSubmitting ? (
             <InlineLoading description={'Submitting...'} />
           ) : (
