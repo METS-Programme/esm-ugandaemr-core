@@ -165,7 +165,7 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
         content: (
           <Tag>
             <span
-              style={{ color: `${getProviderTagColor(patientqueue?.provider?.display, session.user.person.display)}` }}
+              style={{ color: `${getProviderTagColor(patientqueue?.provider?.identifier, session?.user?.systemId)}` }}
             >
               {patientqueue?.provider?.display}
             </span>
