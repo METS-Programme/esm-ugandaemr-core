@@ -49,8 +49,6 @@ export const getTagColor = (waitTime: string) => {
 };
 
 export const getProviderTagColor = (entryProvider: string, loggedInProviderName: string) => {
-
-  console.log('entryProvider', entryProvider, 'loggedInProviderName', loggedInProviderName);
   if (entryProvider === loggedInProviderName) {
     return '#07a862';
   } else {
