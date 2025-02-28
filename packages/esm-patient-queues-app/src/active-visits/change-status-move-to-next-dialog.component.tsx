@@ -152,7 +152,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
       const response = await updateVisit(activeVisit.uuid, endVisitPayload);
 
       if (response.status === 200) {
-        const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+        // const comment = event?.target['nextNotes']?.value ?? 'Not Set';
 
         const patientQueueEntryResponse = await getCurrentPatientQueueByPatientUuid(
           patientUuid,
@@ -169,7 +169,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             queueEntry[0]?.uuid,
             contentSwitcherIndex,
             priorityComment,
-            comment,
+            "comment",
           );
 
           let navigateTo = `${window.getOpenmrsSpaBase()}home`;
