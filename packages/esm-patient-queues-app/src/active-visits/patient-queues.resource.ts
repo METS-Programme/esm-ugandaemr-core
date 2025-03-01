@@ -1,29 +1,30 @@
 import dayjs from 'dayjs';
 import useSWR from 'swr';
+import { openmrsFetch, restBaseUrl, usePagination } from '@openmrs/esm-framework';
+import { PatientQueue } from '../types/patient-queues';
+import { NewVisitPayload, ProviderResponse } from '../types';
+import { ResourceFilterCriteria, ResourceRepresentation, toQueryParams } from '../resource-filter-criteria';
+import { PageableResult } from '../pageable-result';
+import { useEffect, useState } from 'react';
+import { QueueStatus } from '../utils/utils';
+import last from 'lodash-es/last';
 
-import { formatDate, openmrsFetch, parseDate, restBaseUrl } from '@openmrs/esm-framework';
-import { PatientQueue, UuidDisplay } from '../types/patient-queues';
+export interface PatientQueueFilter extends ResourceFilterCriteria {
+  status?: string;
+  parentLocation?: string;
+  room?: string;
+}
 
-export interface MappedPatientQueueEntry {
-  id: string;
-  name: string;
-  patientAge: number;
-  patientSex: string;
-  patientDob: string;
-  patientUuid: string;
-  priority: string;
+export interface NewQueuePayload {
+  patient: string;
+  provider: string;
+  locationFrom: string;
+  locationTo: string;
+  status: string;
+  priority: number;
   priorityComment: string;
   comment: string;
-  status: string;
-  waitTime: string;
-  locationFrom?: string;
-  locationToName?: string;
-  visitNumber: string;
-  identifiers: Array<UuidDisplay>;
-  dateCreated: string;
-  creatorUuid: string;
-  creatorUsername: string;
-  creatorDisplay: string;
+  queueRoom: string;
 }
 
 export interface LocationResponse {
@@ -86,73 +87,9 @@ export interface ChildLocation {
   links: Link[];
 }
 
-export function usePatientQueuesList(
-  currentQueueLocationUuid: string,
-  status: string,
-  isToggled: boolean,
-  isClinical: boolean,
-) {
-  const url =
-    isToggled && isClinical
-      ? `${restBaseUrl}/patientqueue?v=full&status=${status}`
-      : isToggled
-      ? `${restBaseUrl}/patientqueue?v=full&status=${status}&parentLocation=${currentQueueLocationUuid}`
-      : `${restBaseUrl}/patientqueue?v=full&status=${status}&room=${currentQueueLocationUuid}`;
-
-  return usePatientQueueRequest(url);
-}
-
-export function usePatientQueueRequest(apiUrl: string) {
-  const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: { results: Array<PatientQueue> } }, Error>(
-    apiUrl,
-    openmrsFetch,
-    { refreshInterval: 3000 },
-  );
-
-  const mapppedQueues = data?.data?.results.map((queue: PatientQueue) => {
-    return {
-      ...queue,
-      id: queue.uuid,
-      name: queue.patient?.person.display,
-      patientUuid: queue.patient?.uuid,
-      provider: queue.provider?.person.display,
-      priorityComment: queue.priorityComment,
-      priority: queue.priorityComment === 'Urgent' ? 'Priority' : queue.priorityComment,
-      priorityLevel: queue.priority,
-      waitTime: queue.dateCreated ? `${dayjs().diff(dayjs(queue.dateCreated), 'minutes')}` : '--',
-      status: queue.status,
-      patientAge: queue.patient?.person?.age,
-      patientSex: queue.patient?.person?.gender === 'M' ? 'MALE' : 'FEMALE',
-      patientDob: queue.patient?.person?.birthdate
-        ? formatDate(parseDate(queue.patient.person.birthdate), { time: false })
-        : '--',
-      identifiers: queue.patient?.identifiers,
-      locationFrom: queue.locationFrom?.uuid,
-      locationTo: queue.locationTo?.uuid,
-      locationToName: queue.locationTo?.name,
-      queueRoom: queue.locationTo?.display,
-      locationTags: queue.queueRoom?.tags,
-      visitNumber: queue.visitNumber,
-      dateCreated: queue.dateCreated,
-      creatorUuid: queue.creator?.uuid,
-      creatorUsername: queue.creator?.username,
-      creatorDisplay: queue.creator?.display,
-    };
-  });
-
-  return {
-    patientQueueEntries: mapppedQueues || [],
-    patientQueueCount: mapppedQueues?.length,
-    isLoading,
-    isError: error,
-    isValidating,
-    mutate,
-  };
-}
-
 // get parentlocation
 export function useParentLocation(currentQueueLocationUuid: string) {
-  const apiUrl = `/ws/rest/v1/location/${currentQueueLocationUuid}`;
+  const apiUrl = `${restBaseUrl}/location/${currentQueueLocationUuid}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: LocationResponse }, Error>(
     apiUrl,
     openmrsFetch,
@@ -168,7 +105,7 @@ export function useParentLocation(currentQueueLocationUuid: string) {
 }
 
 export function useChildLocations(parentUuid: string) {
-  const apiUrl = `/ws/rest/v1/location/${parentUuid}`;
+  const apiUrl = `${restBaseUrl}/location/${parentUuid}`;
   const { data, error, isLoading, isValidating, mutate } = useSWR<{ data: LocationResponse }, Error>(
     apiUrl,
     openmrsFetch,
@@ -181,4 +118,242 @@ export function useChildLocations(parentUuid: string) {
     isValidating,
     mutate,
   };
+}
+
+// Fetch providers of a service point
+export function useProviders(selectedNextQueueLocation: string) {
+  const apiUrl = `${restBaseUrl}/provider?q=&v=full`;
+  const { data, error, isLoading, isValidating, mutate } = useSWR<
+    { data: { results: Array<ProviderResponse> } },
+    Error
+  >(apiUrl, openmrsFetch);
+
+  // Filter providers based on the selected location
+  const providers =
+    data?.data?.results?.filter((provider) =>
+      provider.attributes.some(
+        (attr) =>
+          attr.attributeType.display === 'Default Location' &&
+          typeof attr.value === 'object' &&
+          attr.value.uuid === selectedNextQueueLocation,
+      ),
+    ) || [];
+
+  return {
+    providers,
+    error,
+    isLoading,
+    isError: Boolean(error),
+    isValidating,
+    mutate,
+  };
+}
+
+export async function getCurrentPatientQueueByPatientUuid(patientUuid: string, currentLocation: string) {
+  const apiUrl = `${restBaseUrl}/incompletequeue?queueRoom=${currentLocation}&patient=${patientUuid}&v=full`;
+
+  const abortController = new AbortController();
+
+  return await openmrsFetch(apiUrl, {
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
+// create visit
+export async function createVisit(payload: NewVisitPayload) {
+  const abortController = new AbortController();
+
+  return await openmrsFetch(`${restBaseUrl}/visit`, {
+    method: 'POST',
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: payload,
+  });
+}
+
+// update Visit
+export async function updateVisit(uuid: string, payload: NewVisitPayload) {
+  const abortController = new AbortController();
+
+  return await openmrsFetch(`${restBaseUrl}/visit/${uuid}`, {
+    method: 'POST',
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: payload,
+  });
+}
+
+// get current visit
+export async function getCurrentVisit(patient: string, date: string) {
+  const apiUrl = `${restBaseUrl}/visit?patient=${patient}&includeInactive=false&fromStartDate=${date}&v=default&limit=1`;
+  const abortController = new AbortController();
+  return await openmrsFetch(apiUrl, {
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
+export async function checkCurrentVisit(patientUuid) {
+  const date = dayjs().format('YYYY-MM-DD');
+  const resp = await getCurrentVisit(patientUuid, date);
+  return resp.data?.results !== null && resp.data?.results.length > 0;
+}
+
+export function usePatientQueues(filter: PatientQueueFilter) {
+  const apiUrl = `${restBaseUrl}/patientqueue${toQueryParams(filter)}`;
+  const { data, error, isLoading } = useSWR<
+    {
+      data: PageableResult<PatientQueue>;
+    },
+    Error
+  >(apiUrl, openmrsFetch);
+
+  return {
+    items: data?.data || <PageableResult<PatientQueue>>{},
+    isLoading,
+    error,
+  };
+}
+
+export function usePatientQueuePages(
+  currentLocation: string,
+  currentStatus: string,
+  isToggled?: boolean,
+  isClinical?: boolean,
+) {
+  const pageSizes = [10, 20, 30, 40, 50];
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageSize, setPageSize] = useState(10);
+  const [searchString, setSearchString] = useState<string | null>(null);
+
+  const [patientQueueFilter, setPatientQueueFilter] = useState<PatientQueueFilter>({
+    startIndex: currentPage - 1,
+    v: ResourceRepresentation.Full,
+    limit: currentPageSize,
+    q: null,
+    totalCount: true,
+    parentLocation: isToggled && !isClinical ? currentLocation : '',
+    status: isToggled ? currentStatus : '',
+    room: !isToggled ? currentLocation : '',
+  });
+
+  const { items, isLoading, error } = usePatientQueues(patientQueueFilter);
+  const pagination = usePagination(items.results, currentPageSize);
+
+  useEffect(() => {
+    setPatientQueueFilter({
+      startIndex: (currentPage - 1) * currentPageSize,
+      v: ResourceRepresentation.Full,
+      limit: currentPageSize,
+      q: searchString,
+      totalCount: true,
+      parentLocation: isToggled && !isClinical ? currentLocation : '',
+      status: isToggled ? currentStatus : '',
+      room: !isToggled ? currentLocation : '',
+    });
+  }, [searchString, currentPage, currentPageSize, currentLocation, currentStatus, isToggled, isClinical]);
+
+  return {
+    items: pagination.results,
+    pagination,
+    totalCount: items.totalCount,
+    currentPageSize,
+    currentPage,
+    setCurrentPage,
+    setPageSize,
+    pageSizes,
+    isLoading,
+    error,
+    setSearchString,
+  };
+}
+
+export const getOriginFromPathName = (pathname = '') => {
+  const from = pathname.split('/');
+  return last(from);
+};
+
+export async function updateQueueEntry(
+  status: string,
+  providerUuid: string,
+  queueUuid: string,
+  priority: number,
+  priorityComment: string,
+  comment: string,
+) {
+  const abortController = new AbortController();
+
+  return await openmrsFetch(`${restBaseUrl}/patientqueue/${queueUuid}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    signal: abortController.signal,
+    body: {
+      provider: {
+        uuid: providerUuid,
+      },
+      status: status,
+      priority: priority ? priority : 0,
+      priorityComment: priorityComment === 'Urgent' ? 'Priority' : priorityComment,
+      comment: comment,
+    },
+  });
+}
+
+export async function addQueueEntry(payload: NewQueuePayload) {
+  const abortController = new AbortController();
+
+  return await openmrsFetch(`${restBaseUrl}/patientqueue`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    signal: abortController.signal,
+    body: payload,
+  });
+}
+
+export function generateVisitQueueNumber(location: string, patient: string) {
+  const abortController = new AbortController();
+  return openmrsFetch(`${restBaseUrl}/queuenumber?patient=${patient}&location=${location}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    signal: abortController.signal,
+  });
+}
+
+export function getCareProvider(provider: string) {
+  const abortController = new AbortController();
+
+  return openmrsFetch(`${restBaseUrl}/provider?user=${provider}&v=full`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    signal: abortController.signal,
+  });
+}
+
+export function getLocationByUuid(uuid: string) {
+  const abortController = new AbortController();
+  const url = `${restBaseUrl}/location/${uuid}`;
+  return openmrsFetch(url, {
+    method: 'GET',
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 }

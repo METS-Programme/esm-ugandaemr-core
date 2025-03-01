@@ -1,16 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Form, ModalBody, ModalFooter, ModalHeader, InlineLoading } from '@carbon/react';
-import { formatDate, navigate, parseDate, showNotification, showToast, useSession } from '@openmrs/esm-framework';
+import {
+  formatDate,
+  navigate,
+  parseDate,
+  restBaseUrl,
+  showNotification,
+  showToast,
+  useSession,
+} from '@openmrs/esm-framework';
 
-import { getCareProvider, updateQueueEntry } from './active-visits-table.resource';
 import { useTranslation } from 'react-i18next';
-import { useQueueRoomLocations } from '../hooks/useQueueRooms';
-import { MappedQueueEntry } from '../types';
 import { trimVisitNumber } from '../helpers/functions';
-import { extractErrorMessagesFromResponse } from '../utils/utils';
+import { extractErrorMessagesFromResponse, handleMutate } from '../utils/utils';
+import { PatientQueue } from '../types/patient-queues';
+import { getCareProvider, updateQueueEntry } from './patient-queues.resource';
 
 interface PickPatientDialogProps {
-  queueEntry: MappedQueueEntry;
+  queueEntry: PatientQueue;
   closeModal: () => void;
 }
 
@@ -20,8 +27,6 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
   const sessionUser = useSession();
 
   const [isLoading, setIsLoading] = useState(true);
-
-  const { mutate } = useQueueRoomLocations(sessionUser?.sessionLocation?.uuid);
 
   const [provider, setProvider] = useState('');
 
@@ -38,7 +43,6 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
         const uuid = response?.data?.results[0].uuid;
         setIsLoading(false);
         setProvider(uuid);
-        mutate();
       },
       (error) => {
         const errorMessages = extractErrorMessagesFromResponse(error);
@@ -51,39 +55,38 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
         });
       },
     );
-  }, [sessionUser?.user?.uuid, mutate]);
+  }, [sessionUser?.user?.uuid]);
 
   useEffect(() => fetchProvider(), [fetchProvider]);
 
   const pickPatientQueueStatus = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault();
 
-      const status = 'Picked';
-      updateQueueEntry(status, provider, queueEntry?.id, 0, priorityComment, 'comment').then(
-        () => {
-          showToast({
-            critical: true,
-            title: t('updateEntry', 'Update entry'),
-            kind: 'success',
-            description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
-          });
+      try {
+        const status = 'Picked';
+        await updateQueueEntry(status, provider, queueEntry?.uuid, 0, priorityComment, 'comment');
 
-          navigate({ to: `\${openmrsSpaBase}/patient/${queueEntry.patientUuid}/chart` });
-          closeModal();
-          mutate();
-        },
-        (error) => {
-          showNotification({
-            title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
-            kind: 'error',
-            critical: true,
-            description: error?.message,
-          });
-        },
-      );
+        showToast({
+          critical: true,
+          title: t('updateEntry', 'Update entry'),
+          kind: 'success',
+          description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
+        });
+
+        navigate({ to: `\${openmrsSpaBase}/patient/${queueEntry?.patient?.uuid}/chart` });
+        closeModal();
+        handleMutate(`${restBaseUrl}/patientqueue`);
+      } catch (error: any) {
+        showNotification({
+          title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+          kind: 'error',
+          critical: true,
+          description: error?.message,
+        });
+      }
     },
-    [provider, queueEntry?.id, queueEntry.patientUuid, priorityComment, t, closeModal, mutate],
+    [provider, queueEntry?.uuid, queueEntry?.patient?.uuid, priorityComment, t, closeModal],
   );
 
   if (queueEntry && Object.keys(queueEntry)?.length === 0) {
@@ -96,11 +99,11 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
         <Form onSubmit={pickPatientQueueStatus}>
           <ModalHeader closeModal={closeModal} title={t('pickPatient', 'Pick Patient')} />
           <ModalBody>
-            <h5>{queueEntry.name}</h5>
-            <h5>VisitNo : {trimVisitNumber(queueEntry.visitNumber)}</h5>
+            <h5>{queueEntry?.patient?.person?.display}</h5>
+            <h5>VisitNo : {trimVisitNumber(queueEntry?.visitNumber)}</h5>
             <h5>
               Date Created :
-              {formatDate(parseDate(queueEntry.dateCreated), {
+              {formatDate(parseDate(queueEntry?.dateCreated), {
                 time: true,
               })}
             </h5>

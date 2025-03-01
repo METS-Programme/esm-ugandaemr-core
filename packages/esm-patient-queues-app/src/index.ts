@@ -7,17 +7,22 @@ import editQueueEntryStatusModalComponent from './active-visits/change-status-di
 import patientChartMoveToNextServicePointModalComponent from './active-visits/change-status-move-to-next-dialog.component';
 import queueTableMoveToNextServicePointModalComponent from './active-visits/queue-table-move-to-next-dialog.component';
 import moveToNextServicePointButtonComponent from './active-visits/move-to-next-service-point-action.components';
-import addPatientToQueueComponent from './active-visits/visit-form/visit-form.component';
+// import addPatientToQueueComponent from './components/visit-form/visit-form.component';
 import notesModalComponent from './active-visits/notes-dialog.component';
 import pickPatientEntryQueueComponent from './active-visits/pick-patient-dialog.component';
-import queueScreenComponent from './queue-board/queue-board.component';
-import testScreenComponent from './test.component';
+import queueScreenComponent from './components/queue-board/queue-board.component';
 import rootComponent from './root.component';
 import homeDashboardComponent from './home.component';
 import outpatientSideNavExtComponent from './side-menu/side-menu.component';
 import triageRoomComponent from './queue-triage-home.component';
 import receptionRoomComponent from './queue-reception-home.component';
 import clinicalRoomComponent from './queue-clinical-room-home.component';
+import startVisitFormComponent from './components/visit-form/visit-form.component';
+import startVisitFormButtonComponent from './active-visits/start-visit-form-button.component';
+import checkedInTileComponent from './queue-tiles/checked-in-tile.component';
+import queueCompletedTileComponent from './queue-tiles/queue-completed-tile.component';
+import queueInQueueTileComponent from './queue-tiles/queue-in-queue-tile.component';
+import queueWaitingTileComponent from './queue-tiles/queue-waiting-tile.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -67,7 +72,7 @@ export const queueTableMoveToNextServicePointModal = getSyncLifecycle(
 
 export const moveToNextServicePointButton = getSyncLifecycle(moveToNextServicePointButtonComponent, options);
 
-export const addPatientToQueue = getSyncLifecycle(addPatientToQueueComponent, options);
+// export const addPatientToQueue = getSyncLifecycle(addPatientToQueueComponent, options);
 
 export const notesModal = getSyncLifecycle(notesModalComponent, options);
 
@@ -75,4 +80,16 @@ export const pickPatientEntryQueue = getSyncLifecycle(pickPatientEntryQueueCompo
 
 export const queueScreen = getSyncLifecycle(queueScreenComponent, options);
 
-export const testScreen = getSyncLifecycle(testScreenComponent, options);
+export const startVisitForm = getSyncLifecycle(startVisitFormComponent, options);
+
+export const startVisitFormButton = getSyncLifecycle(startVisitFormButtonComponent, options);
+
+// summary tiles
+
+export const checkInTile = getSyncLifecycle(checkedInTileComponent, options);
+
+export const queueCompletedTile = getSyncLifecycle(queueCompletedTileComponent, options);
+
+export const queueInQueueTile = getSyncLifecycle(queueInQueueTileComponent, options);
+
+export const queueWaitingTile = getSyncLifecycle(queueWaitingTileComponent, options);

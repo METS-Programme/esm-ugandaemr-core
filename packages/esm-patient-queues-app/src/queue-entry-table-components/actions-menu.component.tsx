@@ -4,10 +4,10 @@ import { Logout } from '@carbon/react/icons';
 import { showModal } from '@openmrs/esm-framework';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MappedPatientQueueEntry } from '../active-visits/patient-queues.resource';
+import { PatientQueue } from '../types/patient-queues';
 
 interface ActionsMenuProps {
-  queueEntry: MappedPatientQueueEntry;
+  queueEntry: PatientQueue;
   closeModal: () => void;
 }
 

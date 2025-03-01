@@ -8,21 +8,15 @@
     {
       "name": "care-panel-patient-summary",
       "component": "carePanelPatientSummary",
-      "slot": "patient-chart-care-panel-dashboard-slot",
-      "order": 10,
-      "meta": {
-        "columnSpan": 4
-      }
+      "slot": "patient-chart-care-panel-dashboard-slot"
+      
     },
 
     {
       "name": "patient-program-summary",
       "slot": "patient-chart-summary-dashboard-slot",
-      "component": "patientProgramSummary",
-      "order": 1,
-      "meta": {
-        "columnSpan": 4
-      }
+      "component": "patientProgramSummary"
+      
     },
     {
       "name": "delete-regimen-confirmation-dialog",
