@@ -27,6 +27,9 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Clear Cache
+        run: rm -rf ~/.npm ~/.cache ~/.m2 ~/.cargo
+
       - name: Cache dependencies
         id: cache
         uses: actions/cache@v3
@@ -65,6 +68,9 @@ jobs:
         with:
           node-version: '16'
           registry-url: "https://registry.npmjs.org"
+
+      - name: Clear Cache
+        run: rm -rf ~/.npm ~/.cache ~/.m2 ~/.cargo
 
       - name: Cache dependencies
         id: cache
@@ -119,6 +125,9 @@ jobs:
         with:
           node-version: '16'
           registry-url: "https://registry.npmjs.org"
+
+      - name: Clear Cache
+        run: rm -rf ~/.npm ~/.cache ~/.m2 ~/.cargo
 
       - name: Cache dependencies
         id: cache
