@@ -20,7 +20,7 @@ import {
 } from '@carbon/react';
 
 import { useTranslation } from 'react-i18next';
-import { useSession, useLayoutType, isDesktop } from '@openmrs/esm-framework';
+import { useSession, useLayoutType, isDesktop, useConfig } from '@openmrs/esm-framework';
 import {
   getLocationByUuid,
   getOriginFromPathName,
@@ -41,6 +41,7 @@ import NotesActionsMenu from '../notes-action-menu.components';
 import styles from '../active-visits-table.scss';
 import dayjs from 'dayjs';
 import { QueueStatus } from '../../utils/utils';
+import { PatientQueueConfig } from '../../config-schema';
 
 interface ActiveVisitsTableProps {
   status: string;
@@ -57,9 +58,9 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
   const layout = useLayoutType();
   const [searchTerm, setSearchTerm] = useState('');
 
-  const [isToggled, setIsToggled] = useState(false);
+  const { clinicalRoomTag } = useConfig<PatientQueueConfig>();
 
-  const [locationTags, setLocationTags] = useState([]);
+  const [isToggled, setIsToggled] = useState(false);
 
   // Use `useCallback` to prevent function recreation on re-renders
   const handleToggleChange = useCallback(() => {
@@ -80,21 +81,9 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
     setSearchTerm(event?.target?.value?.trim().toLowerCase());
   }, []);
 
-  // Fetch location tags only once when the session location changes
-  useEffect(() => {
-    if (session?.sessionLocation?.uuid) {
-      getLocationByUuid(session?.sessionLocation?.uuid).then((resp) => {
-        const excludedUuids = ['c0e1d1d8-c97d-4869-ba16-68d351d3d5f5', '1d3e4224-382a-11ee-be56-0242ac120002'];
-        const filteredTags = resp.data?.tags.filter((tag) => !excludedUuids.includes(tag.uuid));
-        if (filteredTags.length > 0) {
-          setLocationTags(filteredTags);
-        }
-      });
-    }
-  }, [session?.sessionLocation?.uuid]);
 
   const { isLoading, items, totalCount, currentPageSize, setPageSize, pageSizes, currentPage, setCurrentPage } =
-    usePatientQueuePages(activeLocationUuid, status, isToggled);
+    usePatientQueuePages(activeLocationUuid, status, isToggled, true);
 
   const tableHeaders = useMemo(
     () => [
@@ -113,18 +102,20 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
         header: t('provider', 'Provider'),
         key: 'provider',
       },
+      { id: 3, header: t('currentlocation', 'Current Location'), key: 'location' },
+
       {
-        id: 3,
+        id: 4,
         header: t('status', 'Status'),
         key: 'status',
       },
       {
-        id: 4,
+        id: 5,
         header: t('waitTime', 'Wait time'),
         key: 'waitTime',
       },
       {
-        id: 5,
+        id: 6,
         header: t('actions', 'Actions'),
         key: 'actions',
       },
@@ -140,21 +131,14 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
       case QueueStatus.Completed:
         entries = entries.filter((entry) => entry.status === 'COMPLETED');
         break;
-      case QueueStatus.Pending: // Explicitly handle Pending status
+      case QueueStatus.Pending:
         entries = entries.filter((entry) => entry.status === 'PENDING' || entry.status === 'PICKED');
         break;
       default:
-        entries = entries.filter((entry) => entry.status === status);
+        if (status) {
+          entries = entries.filter((entry) => entry.status === status);
+        }
         break;
-    }
-
-    // Filter by `locationTags` if provided
-    if (locationTags?.length) {
-      entries = entries.filter(
-        (entry) =>
-          entry?.queueRoom?.tags &&
-          entry.queueRoom.tags.some((tag) => locationTags.some((locTag) => locTag.uuid === tag.uuid)),
-      );
     }
 
     // Filter by `searchTerm` if provided
@@ -162,6 +146,9 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
       const lowercasedTerm = searchTerm.toLowerCase();
       entries = entries.filter((entry) => entry?.patient?.person?.display?.toLowerCase()?.includes(lowercasedTerm));
     }
+
+    // Correct filtering for queueRoom tags
+    entries = entries.filter((entry) => entry?.queueRoom?.tags?.some((item) => item.uuid === clinicalRoomTag));
 
     // Sort entries based on `status` and creation time
     entries.sort((a, b) => {
@@ -174,7 +161,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
     });
 
     return entries;
-  }, [items, searchTerm, status, locationTags]); // Ensure dependencies are correctly handled
+  }, [items, searchTerm, status, clinicalRoomTag]);
 
   const tableRows = useMemo(() => {
     return filteredPatientQueueEntries.map((patientqueue, entry) => ({
@@ -191,7 +178,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
           <Tag>
             <span
               style={{
-                color: `${getProviderTagColor(patientqueue?.provider?.display, session?.user?.person?.display)}`,
+                color: `${getProviderTagColor(patientqueue?.provider?.identifier, session?.user?.systemId)}`,
               }}
             >
               {patientqueue?.provider?.display}
@@ -199,6 +186,8 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
           </Tag>
         ),
       },
+      location: { content: <span>{patientqueue?.locationTo?.display}</span> },
+
       status: {
         content: (
           <span className={styles.statusContainer}>
@@ -284,23 +273,25 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
             <Table {...getTableProps()} className={styles.activeVisitsTable}>
               <TableHead>
                 <TableRow>
-                  {headers.map((header) => (
-                    <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
-                  ))}
+                  {headers
+                    .filter((header) => isToggled || header.key !== 'provider')
+                    .map((header) => (
+                      <TableHeader key={header.key} {...getHeaderProps({ header })}>
+                        {header.header}
+                      </TableHeader>
+                    ))}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => {
-                  return (
-                    <React.Fragment key={row.id}>
-                      <TableRow {...getRowProps({ row })}>
-                        {row.cells.map((cell) => (
-                          <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
-                        ))}
-                      </TableRow>
-                    </React.Fragment>
-                  );
-                })}
+                {rows.map((row) => (
+                  <TableRow key={row.id}>
+                    {row.cells
+                      .filter((cell, index) => isToggled || headers[index]?.key !== 'provider')
+                      .map((cell) => (
+                        <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
+                      ))}
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
             {rows.length === 0 ? (
