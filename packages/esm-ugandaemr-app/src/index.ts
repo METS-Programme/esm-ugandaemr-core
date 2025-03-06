@@ -24,6 +24,7 @@ import {
   latestObs,
   patientDSDM,
 } from './custom-expressions/custom-expressions';
+import {getPatientEncounterDates} from "./custom-expressions/custom-apis";
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -45,6 +46,7 @@ export function startupApp() {
   registerExpressionHelper('cusGetLatestObs', latestObs);
   registerExpressionHelper('getPatientDSMD', patientDSDM);
   registerExpressionHelper('CustomMonthsOnARTCalc', CalcMonthsOnART);
+  registerExpressionHelper('getPreviousEncounterDates', getPatientEncounterDates);
 
   registerCustomDataSource({
     name: 'dsdm_categorization_datasource',
