@@ -101,8 +101,8 @@ jobs:
       - run: git config user.email "<>" && git config user.name "UgandaEMR CI"
       - run: git add . && git commit -m "Prerelease version" --no-verify
 
-      - name: 🚢 Pre-release
-        run: yarn config set npmAuthToken "${NODE_AUTH_TOKEN}" && yarn npm publish --access public --tag next
+      - name: Pre-release
+        run: yarn run ci:prepublish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
