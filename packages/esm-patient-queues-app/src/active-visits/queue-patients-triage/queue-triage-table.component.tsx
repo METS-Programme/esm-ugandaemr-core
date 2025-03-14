@@ -1,4 +1,4 @@
-import React, { AnchorHTMLAttributes, useCallback, useMemo, useState } from 'react';
+import React, { AnchorHTMLAttributes, useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   DataTable,
@@ -21,7 +21,12 @@ import {
 
 import { useTranslation } from 'react-i18next';
 import { useSession, useLayoutType, isDesktop } from '@openmrs/esm-framework';
-import { getOriginFromPathName, useParentLocation, usePatientQueuePages } from '../patient-queues.resource';
+import {
+  getLocationByUuid,
+  getOriginFromPathName,
+  useParentLocation,
+  usePatientQueuePages,
+} from '../patient-queues.resource';
 import {
   buildStatusString,
   formatWaitTime,
@@ -186,10 +191,10 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
                 <PickPatientActionMenu queueEntry={patientqueue} closeModal={() => true} />
               </>
             )}
-
             <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${patientqueue?.patient?.uuid}/chart`} from={fromPage} />
 
             <NotesActionsMenu note={patientqueue} />
+
             {patientqueue?.status === 'SERVING' ||
               (patientqueue?.status === 'PENDING' && isToggled && (
                 <MovetoNextPointAction
