@@ -79,6 +79,10 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const [isLoading, setIsLoading] = useState(true);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [isEndingVisit, setIsEndingVisit] = useState(false);
+
   const { providers, error: errorLoadingProviders } = useProviders(selectedNextQueueLocation);
 
   // Memoize the function to fetch the provider using useCallback
@@ -137,6 +141,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   // endVisit
   const endCurrentVisit = async () => {
+    setIsEndingVisit(true);
     const endVisitPayload = {
       location: activeVisit.location.uuid,
       startDatetime: parseDate(activeVisit.startDatetime),
@@ -167,8 +172,10 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
           navigate({ to: `\${openmrsSpaBase}/home` });
           closeModal();
+          setIsEndingVisit(false);
         }
       } catch (error) {
+        setIsEndingVisit(false);
         showNotification({
           title: t('queueEntryUpdateFailed', 'Error ending visit'),
           kind: 'error',
@@ -181,6 +188,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const onSubmit = useCallback(async () => {
     try {
+      setIsSubmitting(true);
       if (status === QueueStatus.Pending) {
         await updateQueueEntry(status, provider, queueEntry?.uuid, 0, priorityComment, 'comment');
 
@@ -193,6 +201,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
         closeModal();
         handleMutate(`${restBaseUrl}/patientqueue`);
+        setIsSubmitting(false);
       }
       if (status === QueueStatus.Completed) {
         await updateQueueEntry(
@@ -242,9 +251,11 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
           closeModal();
           handleMutate(`${restBaseUrl}/patientqueue`);
+          setIsSubmitting(false);
         }
       }
     } catch (error: any) {
+      setIsSubmitting(false);
       showNotification({
         title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
         kind: 'error',
@@ -275,6 +286,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   if (queueEntry && Object.keys(queueEntry)?.length > 0) {
     return (
       <div>
+        {isLoading && <InlineLoading description={'Fetching Provider..'} />}
         <Form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader closeModal={closeModal} />
           <ModalBody>
@@ -493,11 +505,16 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             <Button kind="secondary" onClick={closeModal}>
               {t('cancel', 'Cancel')}
             </Button>
-            <Button kind="danger" onClick={endCurrentVisit}>
-              {t('endVisit', 'End Visit')}
-            </Button>
-            {isLoading ? (
-              <InlineLoading description={'Fetching Provider..'} />
+            {isEndingVisit ? (
+              <InlineLoading description={'Ending...'} />
+            ) : (
+              <Button kind="danger" onClick={endCurrentVisit}>
+                {t('endVisit', 'End Visit')}
+              </Button>
+            )}
+
+            {isSubmitting ? (
+              <InlineLoading description={'Submitting...'} />
             ) : (
               <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
             )}

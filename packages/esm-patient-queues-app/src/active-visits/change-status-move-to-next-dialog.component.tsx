@@ -78,6 +78,10 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   const { providers, error: errorLoadingProviders } = useProviders(selectedNextQueueLocation);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [isEndingVisit, setIsEndingVisit] = useState(false);
+
   // Memoize the function to fetch the provider using useCallback
   const fetchProvider = useCallback(() => {
     if (!sessionUser?.user?.uuid) return;
@@ -135,6 +139,8 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
   // endVisit
   const endCurrentVisit = async (event) => {
     event.preventDefault();
+
+    setIsEndingVisit(true);
     const endVisitPayload = {
       location: activeVisit.location.uuid,
       startDatetime: parseDate(activeVisit.startDatetime),
@@ -146,7 +152,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
       const response = await updateVisit(activeVisit.uuid, endVisitPayload);
 
       if (response.status === 200) {
-        const comment = event?.target['nextNotes']?.value ?? 'Not Set';
+        // const comment = event?.target['nextNotes']?.value ?? 'Not Set';
 
         const patientQueueEntryResponse = await getCurrentPatientQueueByPatientUuid(
           patientUuid,
@@ -163,7 +169,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             queueEntry[0]?.uuid,
             contentSwitcherIndex,
             priorityComment,
-            comment,
+            "comment",
           );
 
           let navigateTo = `${window.getOpenmrsSpaBase()}home`;
@@ -185,13 +191,14 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             kind: 'success',
             description: t('endedVisitSuccessfully', 'Successfully ended visit'),
           });
-
+          setIsEndingVisit(false);
           closeModal();
           navigate({ to: navigateTo });
           handleMutate(`${restBaseUrl}/patientqueue`);
         }
       }
     } catch (error) {
+      setIsEndingVisit(false);
       const errorMessages = extractErrorMessagesFromResponse(error);
       showNotification({
         title: t('endVisit', 'Error ending visit succcessfully'),
@@ -205,6 +212,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
   // change to picked
   const onSubmit = useCallback(async () => {
     try {
+      setIsSubmitting(true);
       // get queue entry by patient id
       const patientQueueEntryResponse = await getCurrentPatientQueueByPatientUuid(
         patientUuid,
@@ -225,6 +233,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             });
             closeModal();
             handleMutate(`${restBaseUrl}/patientqueue`);
+            setIsSubmitting(false);
           });
         }
       }
@@ -272,6 +281,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             });
             handleMutate(`${restBaseUrl}/patientqueue`);
             closeModal();
+            setIsSubmitting(false);
             // view patient summary
             // navigate({ to: `\${openmrsSpaBase}/home` });
             const roles = getSessionStore().getState().session?.user?.roles;
@@ -293,6 +303,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
         }
       }
     } catch (error) {
+      setIsSubmitting(false);
       const errorMessages = extractErrorMessagesFromResponse(error);
       showNotification({
         title: t('moveToNextServicePoint', 'Error moving to next service point'),
@@ -316,6 +327,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
 
   return (
     <div>
+      {isLoading && <InlineLoading description={'Fetching Provider..'} />}
       <Form onSubmit={handleSubmit(onSubmit)}>
         <ModalHeader closeModal={closeModal} />
         <ModalBody>
@@ -497,11 +509,16 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
           <Button kind="secondary" onClick={closeModal}>
             {t('cancel', 'Cancel')}
           </Button>
-          <Button kind="danger" onClick={endCurrentVisit}>
-            {t('endVisit', 'End Visit')}
-          </Button>
-          {isLoading ? (
-            <InlineLoading description={'Fetching Provider..'} />
+          {isEndingVisit ? (
+            <InlineLoading description={'Ending...'} />
+          ) : (
+            <Button kind="danger" onClick={endCurrentVisit}>
+              {t('endVisit', 'End Visit')}
+            </Button>
+          )}
+
+          {isSubmitting ? (
+            <InlineLoading description={'Submitting...'} />
           ) : (
             <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
           )}

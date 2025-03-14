@@ -55,6 +55,8 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
 
   const [isLoading, setIsLoading] = useState(true);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
 
   const [statusSwitcherIndex, setStatusSwitcherIndex] = useState(1);
@@ -131,6 +133,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
 
   // change to picked
   const onSubmit = useCallback(async () => {
+    setIsSubmitting(true);
     try {
       const patientQueueEntryResponse = await getCurrentPatientQueueByPatientUuid(
         patientUuid,
@@ -151,6 +154,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
             });
             closeModal();
             handleMutate(`${restBaseUrl}/patientqueue`);
+            setIsSubmitting(false);
           });
         }
       }
@@ -199,6 +203,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
               });
               handleMutate(`${restBaseUrl}/patientqueue`);
               closeModal();
+              setIsSubmitting(false);
               // view patient summary
               // navigate({ to: `\${openmrsSpaBase}/home` });
               const roles = getSessionStore().getState().session?.user?.roles;
@@ -221,6 +226,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
         }
       }
     } catch (error) {
+      setIsSubmitting(false);
       const errorMessages = extractErrorMessagesFromResponse(error);
       showNotification({
         title: t('moveToNextServicePoint', 'Error moving to next service point'),
@@ -244,6 +250,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
 
   return (
     <div>
+      {isLoading && <InlineLoading description={'Fetching Provider..'} />}
       <Form onSubmit={handleSubmit(onSubmit)}>
         <ModalHeader closeModal={closeModal} />
         <ModalBody>
