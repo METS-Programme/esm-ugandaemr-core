@@ -1,0 +1,74 @@
+@use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/type';
+@import '~@openmrs/esm-styleguide/src/vars';
+@import '../root.scss';
+.desktopOverlay {
+    position: absolute;
+    top: spacing.$spacing-09;
+    right: 0;
+    width: 50%;
+    max-width: 30rem;
+    height: 25rem;
+    background-color: #FEFEFE;
+    border: 1px solid #CFCFCF;
+    padding: 0 0.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: spacing.$spacing-04;
+    z-index: 999;
+}
+
+.tabletOverlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background-color: white;
+    overflow: hidden;
+    padding-top: spacing.$spacing-09;
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+
+.tabletOverlayHeader {
+    button {
+        background-color: $brand-01 !important;
+    }
+    .headerContent {
+        color: $ui-02;
+    }
+}
+
+.desktopHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $ui-03;
+    border-bottom: 1px solid $text-03;
+}
+
+.headerContent {
+    @include type.type-style('heading-compact-02');
+    padding: 0 spacing.$spacing-05;
+    color: $ui-05;
+}
+
+.closeButton {
+    background-color: $ui-02;
+}
+
+.overlayContent {
+    overflow-y: auto;
+}
+
+.buttonsGroup {
+    align-self: end;
+}
+
+.buttonsGroup button {
+    max-width: unset !important;
+}
