@@ -128,9 +128,9 @@
             }
         },
         {
-            "name": "app-search-overlay",
+            "name": "app-search-button",
             "slot": "top-nav-app-menu-slot",
-            "component": "appSearchOverlay"
+            "component": "appSearchLaunch"
         }
     ]
 }
