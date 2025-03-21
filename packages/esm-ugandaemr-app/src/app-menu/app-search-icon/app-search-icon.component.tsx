@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { HeaderGlobalAction } from "@carbon/react";
-import { Close, Search, Switcher } from "@carbon/react/icons";
+import { Close, Switcher } from "@carbon/react/icons";
 import {
   isDesktop,
   navigate,
