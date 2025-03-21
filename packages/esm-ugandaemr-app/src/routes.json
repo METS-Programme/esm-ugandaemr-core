@@ -126,6 +126,11 @@
             "meta": {
                 "name": "Dispensing"
             }
+        },
+        {
+            "name": "app-search-overlay",
+            "slot": "top-nav-app-menu-slot",
+            "component": "appSearchOverlay"
         }
     ]
 }
