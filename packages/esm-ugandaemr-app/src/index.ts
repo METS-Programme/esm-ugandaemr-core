@@ -10,7 +10,7 @@ import cohortBuilderAppMenu from './menu-app-items/cohort-builder-item/cohort-bu
 import formRenderTestAppMenu from './menu-app-items/form-render-test-item/form-render-test-item.component';
 import dispensingAppMenu from './menu-app-items/despensing-app-menu-item/dispensing-app-menu-item.component';
 
-import AppSearchOverlayComponent from './app-menu/app-search-overlay/app-search-overlay.component';
+import AppSearchLaunchComponent from './app-menu/app-search-icon/app-search-icon.component';
 
 import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
 import { createHomeDashboardLink } from './create-dashboard-link';
@@ -110,4 +110,4 @@ export const treatmentPlanSection = getSyncLifecycle(TreatmentPlanComponent, opt
 
 export const assessmentSection = getSyncLifecycle(AssessmentComponent, options);
 
-export const appSearchOverlay = getSyncLifecycle(AppSearchOverlayComponent, options);
+export const appSearchLaunch = getSyncLifecycle(AppSearchLaunchComponent, options);
