@@ -47,7 +47,7 @@
     "zod": "^3.24.2"
   },
   "peerDependencies": {
-    "@openmrs/esm-framework": "next",
+    "@openmrs/esm-framework": "*",
     "react": "18.x",
     "react-i18next": "11.x",
     "react-router-dom": "6.x"

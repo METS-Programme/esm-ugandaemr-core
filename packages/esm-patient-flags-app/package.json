@@ -40,7 +40,7 @@
     "lodash-es": "^4.17.15"
   },
   "peerDependencies": {
-    "@openmrs/esm-framework": "next",
+    "@openmrs/esm-framework": "*",
     "react": "^18.1.0",
     "react-i18next": "11.x",
     "react-router-dom": "6.x"
