@@ -1,16 +1,11 @@
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Search } from "@carbon/react";
-import styles from "./app-search-bar.scss";
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Search } from '@carbon/react';
+import styles from './app-search-bar.scss';
 
-import {
-  AssignedExtension,
-  Extension,
-  useConnectedExtensions,
-} from "@openmrs/esm-framework";
-import { ComponentContext } from "@openmrs/esm-framework/src/internal";
+import { Extension, ExtensionSlot, useAssignedExtensions } from '@openmrs/esm-framework';
 
-const appMenuItemSlot = "app-menu-item-slot";
+const appMenuItemSlot = 'app-menu-item-slot';
 
 interface AppSearchBarProps {
   onChange?: (searchTerm: string) => void;
@@ -21,11 +16,9 @@ interface AppSearchBarProps {
 
 const AppSearchBar = React.forwardRef<HTMLInputElement, AppSearchBarProps>(
   ({ onChange, onClear, onSubmit, small }, ref) => {
+    const appMenuItems = useAssignedExtensions(appMenuItemSlot);
     const { t } = useTranslation();
-    const [searchTerm, setSearchTerm] = useState("");
-    const menuItemExtensions = useConnectedExtensions(
-      appMenuItemSlot
-    ) as AssignedExtension[];
+    const [searchTerm, setSearchTerm] = useState('');
 
     const handleChange = (val: string) => {
       setSearchTerm(val);
@@ -41,26 +34,15 @@ const AppSearchBar = React.forwardRef<HTMLInputElement, AppSearchBarProps>(
       }
     };
 
-    const filteredExtensions = menuItemExtensions
+    const filteredExtensions = appMenuItems
       .filter((extension) => {
-        const itemName = extension?.name ?? "";
+        const itemName = extension?.name ?? '';
         return itemName.toLowerCase().includes(searchTerm.toLowerCase());
       })
-      .map((extension) => (
-        <ComponentContext.Provider
-          key={extension?.id}
-          value={{
-            moduleName: extension?.moduleName,
-            featureName : extension?.name,
-            extension: {
-              extensionId: extension?.id,
-              extensionSlotName: appMenuItemSlot,
-              extensionSlotModuleName: extension?.moduleName,
-            },
-          }}
-        >
+      .map(() => (
+        <ExtensionSlot name={appMenuItemSlot}>
           <Extension />
-        </ComponentContext.Provider>
+        </ExtensionSlot>
       ));
 
     return (
@@ -69,12 +51,12 @@ const AppSearchBar = React.forwardRef<HTMLInputElement, AppSearchBarProps>(
           <Search
             autoFocus
             className={styles.appSearchInput}
-            closeButtonLabelText={t("clearSearch", "Clear")}
+            closeButtonLabelText={t('clearSearch', 'Clear')}
             labelText=""
             onChange={(event) => handleChange(event.target.value)}
             onClear={onClear}
-            placeholder={t("searchForApp", "Search for an application")}
-            size={small ? "sm" : "lg"}
+            placeholder={t('searchForApp', 'Search for an application')}
+            size={small ? 'sm' : 'lg'}
             value={searchTerm}
             ref={ref}
             data-testid="appSearchBar"
@@ -83,26 +65,15 @@ const AppSearchBar = React.forwardRef<HTMLInputElement, AppSearchBarProps>(
         <div className={styles.searchItems}>
           {searchTerm
             ? filteredExtensions
-            : menuItemExtensions.map((extension) => (
-                <ComponentContext.Provider
-                  key={extension?.id}
-                  value={{
-                    moduleName: extension?.moduleName,
-                    featureName : extension?.name,
-                    extension: {
-                      extensionId: extension?.id,
-                      extensionSlotName: appMenuItemSlot,
-                      extensionSlotModuleName: extension?.moduleName,
-                    },
-                  }}
-                >
+            : appMenuItems.map(() => (
+                <ExtensionSlot name={appMenuItemSlot}>
                   <Extension />
-                </ComponentContext.Provider>
+                </ExtensionSlot>
               ))}
         </div>
       </>
     );
-  }
+  },
 );
 
 export default AppSearchBar;
