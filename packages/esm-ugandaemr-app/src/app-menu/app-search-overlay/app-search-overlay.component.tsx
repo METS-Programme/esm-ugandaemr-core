@@ -38,7 +38,6 @@ const AppSearchOverlay: React.FC<AppSearchOverlayProps> = ({
         onSubmit={onSearchQueryChange}
         onChange={onSearchQueryChange}
         onClear={handleClear}
-        small={false}
       />
     </Overlay>
   );
