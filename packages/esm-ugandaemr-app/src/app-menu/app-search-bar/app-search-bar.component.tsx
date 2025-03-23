@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Search } from '@carbon/react';
 import styles from './app-search-bar.scss';
@@ -20,19 +20,23 @@ const AppSearchBar = React.forwardRef<HTMLInputElement, AppSearchBarProps>(
     const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState('');
 
-    const handleChange = (val: string) => {
-      setSearchTerm(val);
-      if (onChange) {
-        onChange(val);
-      }
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      setSearchTerm(value);
+      onChange?.(value);
     };
 
     const handleSubmit = (evt: React.FormEvent) => {
       evt.preventDefault();
-      if (onSubmit) {
-        onSubmit(searchTerm);
-      }
+      onSubmit?.(searchTerm);
     };
+
+    const filteredExtensions = useMemo(() => {
+      return appMenuItems.filter((extension) =>
+        (extension?.name ?? '').toLowerCase().includes(searchTerm.toLowerCase()),
+      );
+    }, [searchTerm, appMenuItems]);
+
     return (
       <>
         <form onSubmit={handleSubmit} className={styles.searchArea}>
@@ -41,7 +45,7 @@ const AppSearchBar = React.forwardRef<HTMLInputElement, AppSearchBarProps>(
             className={styles.appSearchInput}
             closeButtonLabelText={t('clearSearch', 'Clear')}
             labelText=""
-            onChange={(event) => handleChange(event.target.value)}
+            onChange={handleChange}
             onClear={onClear}
             placeholder={t('searchForApp', 'Search for an application')}
             size={small ? 'sm' : 'lg'}
@@ -51,17 +55,11 @@ const AppSearchBar = React.forwardRef<HTMLInputElement, AppSearchBarProps>(
           />
         </form>
         <div className={styles.searchItems}>
-          {appMenuItems
-            .filter((extension) => {
-              const itemName = extension?.name ?? '';
-              return itemName.toLowerCase().includes(searchTerm.toLowerCase());
-            })
-            .map(() => (
-              <ExtensionSlot name={appMenuItemSlot}>
-                <Extension />
-              </ExtensionSlot>
-            ))
-          }
+          <ExtensionSlot name={appMenuItemSlot}>
+            {filteredExtensions.map(() => (
+              <Extension />
+            ))}
+          </ExtensionSlot>
         </div>
       </>
     );
