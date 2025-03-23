@@ -73,7 +73,7 @@ const AppSearchLaunch: React.FC<AppSearchLaunchProps> = () => {
         />
       )}
 
-      <div className={`${showSearchInput && styles.closeButton}`}>
+      <div>
         <HeaderGlobalAction
           aria-label={t("searchApp", "Search App")}
           aria-labelledby="Search App"
