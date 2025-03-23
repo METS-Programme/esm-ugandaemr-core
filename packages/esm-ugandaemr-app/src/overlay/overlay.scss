@@ -3,7 +3,7 @@
 @import '~@openmrs/esm-styleguide/src/vars';
 @import '../root.scss';
 .desktopOverlay {
-    position: absolute;
+    position: fixed;
     top: spacing.$spacing-09;
     right: 0;
     width: 50%;

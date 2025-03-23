@@ -33,18 +33,6 @@ const AppSearchBar = React.forwardRef<HTMLInputElement, AppSearchBarProps>(
         onSubmit(searchTerm);
       }
     };
-
-    const filteredExtensions = appMenuItems
-      .filter((extension) => {
-        const itemName = extension?.name ?? '';
-        return itemName.toLowerCase().includes(searchTerm.toLowerCase());
-      })
-      .map(() => (
-        <ExtensionSlot name={appMenuItemSlot}>
-          <Extension />
-        </ExtensionSlot>
-      ));
-
     return (
       <>
         <form onSubmit={handleSubmit} className={styles.searchArea}>
@@ -63,13 +51,17 @@ const AppSearchBar = React.forwardRef<HTMLInputElement, AppSearchBarProps>(
           />
         </form>
         <div className={styles.searchItems}>
-          {searchTerm
-            ? filteredExtensions
-            : appMenuItems.map(() => (
-                <ExtensionSlot name={appMenuItemSlot}>
-                  <Extension />
-                </ExtensionSlot>
-              ))}
+          {appMenuItems
+            .filter((extension) => {
+              const itemName = extension?.name ?? '';
+              return itemName.toLowerCase().includes(searchTerm.toLowerCase());
+            })
+            .map(() => (
+              <ExtensionSlot name={appMenuItemSlot}>
+                <Extension />
+              </ExtensionSlot>
+            ))
+          }
         </div>
       </>
     );
