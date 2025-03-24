@@ -1,0 +1,89 @@
+{
+    "menuId": "familyTracking",
+    "tabDefinitions": [
+        {
+            "tabName": "Family Member",
+            "hasFilter": true,
+            "headerTitle": "Family Member",
+            "displayText": "Family Member",
+            "encounterType": "591cba6a-5c5f-11ee-8c99-0242ac120002",
+            "columns": [
+                {
+                    "id": "memberName",
+                    "title": "Member Name",
+                    "concept": "e96d0880-e80e-4088-9787-bb2623fd46af"
+                },
+                {
+                    "id": "memberAge",
+                    "title": "Member Age",
+                    "concept": "4049d989-b99e-440d-8f70-c222aa9fe45c"
+                },
+                {
+                    "id": "memberAgeUnit",
+                    "title": "Member Age",
+                    "concept": "4049d989-b99e-440d-8f70-c222aa9fe45c"
+                },
+                {
+                    "id": "memberRelationship",
+                    "title": "Member Relationship",
+                    "concept": "164352AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                {
+                    "id": "memberEIDCare",
+                    "title": "EID Care",
+                    "concept": "eidCareConceptUuid"
+                },
+                {
+                    "id": "memberStatus",
+                    "title": "Member Status",
+                    "concept": "1f98a7e6-4d0a-4008-a6f7-4ec118f08983"
+                },
+                {
+                    "id": "memberHIVCare",
+                    "title": "HIV Care",
+                    "concept": "dce13f66-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "memberEIDNo",
+                    "title": "EID No",
+                    "concept": "dce11a89-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "memberContact",
+                    "title": "Contact ",
+                    "concept": "159635AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                {
+                    "id": "memberStatusDate",
+                    "title": "HIV Status Date",
+                    "concept": "b7f597e7-39b5-419e-9ec5-de5901fffb52"
+                },
+                {
+                    "id": "actions",
+                    "title": "Actions",
+                    "actionOptions": [
+                        {
+                            "formName": "HMIS ACP HIV 003: HIV CARE/ART CARD - Family Tracking Form",
+                            "label": "View Details",
+                            "mode": "view"
+                        },
+                        {
+                            "formName": "HMIS ACP HIV 003: HIV CARE/ART CARD - Family Tracking Form",
+                            "label": "EditForm",
+                            "mode": "edit"
+                        }
+                    ]
+                }
+            ],
+            "launchOptions": {
+                "displayText": "Add"
+            },
+            "formList": [
+                {
+                    "uuid": "f2722150-5c5f-11ee-8c99-0242ac120002",
+                    "name": "HMIS ACP HIV 003: HIV CARE/ART CARD - Family Tracking Form"
+                }
+            ]
+        }
+    ]
+}

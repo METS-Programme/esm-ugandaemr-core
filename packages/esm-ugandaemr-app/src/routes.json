@@ -65,6 +65,71 @@
             "slot": "treatment-regimen-summary-slot",
             "component": "treatmentRegimenDashboard"
         },
+         {
+            "name": "family-tracking",
+            "slot": "hiv-care-and-treatment-slot",
+            "component": "familyTrackingDashboardLink",
+            "meta": {
+                "slot": "family-tracking-summary-slot",
+                "columns": 1,
+                "path": "family-tracking",
+                "layoutMode": "anchored"
+            }
+        },
+        {
+            "name": "family-tracking-summary-ext",
+            "slot": "family-tracking-summary-slot",
+            "component": "familyTrackingDashboard"
+        },
+           {
+            "name": "treatment",
+            "slot": "hiv-care-and-treatment-slot",
+            "component": "treatmentDashboardLink",
+            "meta": {
+                "slot": "treatment-summary-slot",
+                "columns": 1,
+                "path": "treatment",
+                "layoutMode": "anchored"
+            }
+        },
+        {
+            "name": "treatment-summary-ext",
+            "slot": "treatment-summary-slot",
+            "component": "treatmentDashboard"
+        },
+
+        {
+            "name": "patient-transfers",
+            "slot": "hiv-care-and-treatment-slot",
+            "component": "patientTranfersDashboardLink",
+            "meta": {
+                "slot": "patient-transfers-summary-slot",
+                "columns": 1,
+                "path": "patient-transfers",
+                "layoutMode": "anchored"
+            }
+        },
+        {
+            "name": "patient-transfers-summary-ext",
+            "slot": "patient-transfers-summary-slot",
+            "component": "patientTransfersDashboard"
+        },
+        {
+            "name": "patient-summary",
+            "slot": "hiv-care-and-treatment-slot",
+            "component": "patientSummaryDashboardLink",
+            "meta": {
+                "slot": "patient-summary-summary-slot",
+                "columns": 1,
+                "path": "patient-summary",
+                "layoutMode": "anchored"
+            }
+        },
+        {
+            "name": "patient-summary-summary-ext",
+            "slot": "patient-summary-summary-slot",
+            "component": "patientSummaryDashboard"
+        },
         {
             "name": "hiv-testing-services",
             "slot": "hiv-prevention-services-slot",

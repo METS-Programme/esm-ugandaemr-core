@@ -42,12 +42,12 @@
         }
       ],
       "launchOptions": {
-        "displayText": "Add",
-        "moduleName": "@ugandaemr/esm-ugandaemr-app"
+        "displayText": "Add"
       },
       "formList": [
         {
-          "uuid": "b8224534-7df0-4c00-ba8e-6b1f291087eb"
+          "uuid": "b8224534-7df0-4c00-ba8e-6b1f291087eb",
+          "name": "HMIS ACP 003: HIV Care ART Card - Health Education And Psychosocial support Page"
         }
       ]
     },
@@ -92,12 +92,12 @@
         }
       ],
       "launchOptions": {
-        "displayText": "Add",
-        "moduleName": "@ugandaemr/esm-ugandaemr-app"
+        "displayText": "Add"
       },
       "formList": [
         {
-          "uuid": "79cab593-632b-4193-b686-6de2efa4cc7c"
+          "uuid": "79cab593-632b-4193-b686-6de2efa4cc7c",
+          "name": "HMIS ACP 001 - Viral Load Non Suppressed Form"
         }
       ]
     }

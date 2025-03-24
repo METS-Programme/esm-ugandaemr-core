@@ -1,0 +1,47 @@
+{
+    "menuId": "patientSummary",
+    "columns": [
+        {
+            "id": "artStartDate",
+            "title": "ART Start Date",
+            "encounterType": "artStartDateEncounterType",
+            "concept": "artStartDateConceptUuid"
+        },
+        {
+            "id": "datePositiveHIVConfirmed",
+            "title": "Date Postive HIV Confirmed",
+            "encounterType": "datePositiveHIVConfirmedEncounterType",
+            "concept": "datePositiveHIVConfirmedConceptUuid"
+        },
+        {
+            "id": "baselineRegimen",
+            "title": "Baseline Regimen",
+            "encounterType": "baselineRegimenEncounterType",
+            "concept": "baselineRegimenConceptUuid"
+        },
+        {
+            "id": "baselineCD4",
+            "title": "Baseline CD4",
+            "encounterType": "baselineCD4EncounterType",
+            "concept": "baselineCD4ConceptUuid"
+        },
+        {
+            "id": "baselineHeight",
+            "title": "Baseline Height",
+            "encounterType": "baselineHeightEncounterType",
+            "concept": "baselineHeightConceptUuid"
+        },
+        {
+            "id": "baselineWeight",
+            "title": "Baseline Weight",
+            "encounterType": "baselineWeightEncounterType",
+            "concept": "baselineWeightConceptUuid"
+        },
+        {
+            "id": "baselineClinicalWhoStage",
+            "title": "Baseline WHO clinical Stage",
+            "encounterType": "baselineClinicalWhoStageEncounterType",
+            "concept": "baselineClinicalWhoStageConceptUuid"
+        }
+    ]
+}

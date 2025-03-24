@@ -49,3 +49,35 @@ export const treatmentRegimenDashboardMeta = {
   path: 'treatment-regimen',
   layoutMode: 'anchored'
 }
+
+export const familyTrackingDashboardMeta = {
+  slot: 'family-tracking-slot',
+  columns: 1,
+  title: 'Family Tracking',
+  path: "family-tracking",
+  layoutMode: "anchored"
+}
+
+export const treatmentDashboardMeta = {
+  slot: 'treatment-dashboard-slot',
+  columns: 1,
+  title: 'Treatment',
+  path: "treatment",
+  layoutmode: "anchored"
+}
+
+export const patientTransfersDashboardMeta = {
+  slot: 'patient-transfers-dashboard-slot',
+  columns: 1,
+  title: 'Patient Transfers',
+  path: "patient-transfers",
+  layoutmode: "anchored"
+}
+
+export const patientSummaryDashboardMeta = {
+  slot: 'patient-summary-dashboard-slot',
+  columns: 1,
+  title: 'Patient Summary',
+  path : "patient-summary",
+  layoutmode: "anchored"
+}
