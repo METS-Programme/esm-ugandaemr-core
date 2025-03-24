@@ -4,7 +4,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import characteristicsColumnConfigSchema from "./patient-summary-baseline-information-config.json"
 import hivMonitoringColumnsConfigSchema from "./patient-summary-hiv-monitoring-config.json"
-import tptColumnsConfigSchema from "./patient-summary-hiv-monitoring-config.json"
+import tptColumnsConfigSchema from "./patient-summary-tpt-config.json"
 import lastVisitColumnsConfigSchema from "./patient-summary-visit-config.json"
 
 
@@ -24,7 +24,7 @@ const PatientSummaryOverviewList: React.FC<OverviewListProps> = ({ patientUuid }
 
     // const columnsHIVMonitoring: EncounterTileColumn[] = getEncounterTileColumns(hivMonitoringColumnsConfigSchema, config);
 
-    // const columnsTPT: EncounterTileColumn[] = getEncounterTileColumns(tptColumnsConfigSchema, config);
+    const columnsTPT: EncounterTileColumn[] = getEncounterTileColumns(tptColumnsConfigSchema, config);
 
     const columnsLastVisitDetails: EncounterTileColumn[] = getEncounterTileColumns(lastVisitColumnsConfigSchema, config);
 
