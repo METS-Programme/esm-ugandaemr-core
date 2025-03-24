@@ -28,8 +28,9 @@ import {
   latestObs,
   patientDSDM,
 } from './custom-expressions/custom-expressions';
-import { generalCounsellingDashboardMeta, hivCareAndTreatmentDashboardDMeta } from './dashboard.meta';
+import { generalCounsellingDashboardMeta, hivCareAndTreatmentDashboardDMeta, hivPrevetionServicesboardDMeta, htsDashboardMeta } from './dashboard.meta';
 import GeneralCounsellingSummary from './views/hiv/hct/general-counselling/general-counselling-summary.component';
+import hivTestingServices from './views/hiv/hps/hiv-testing-services.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -114,6 +115,10 @@ export const patientChartHIVCareAndTreatmentDashboard = getSyncLifecycle(
   options,
 );
 
+export const patientChartHIVPreventionServicesDashboard = getSyncLifecycle(
+  createDashboardGroup(hivPrevetionServicesboardDMeta),
+  options,
+);
 
 export const generalCounsellingDashboardLink = getSyncLifecycle(
   createDashboardLink({ ...generalCounsellingDashboardMeta, moduleName }),
@@ -125,7 +130,15 @@ export const generalCounsellingDashboard = getSyncLifecycle(GeneralCounsellingSu
   moduleName,
 });
 
+export const htsDashboardLink = getSyncLifecycle(
+  createDashboardLink({ ...htsDashboardMeta, moduleName }),
+  options,
+);
 
+export const htsDashboard = getSyncLifecycle(hivTestingServices, {
+  featureName: 'hiv-testing-services',
+  moduleName,
+});
 
 
 export const clinicalPatientSummary = getSyncLifecycle(ClinicalPatientSummary, options);

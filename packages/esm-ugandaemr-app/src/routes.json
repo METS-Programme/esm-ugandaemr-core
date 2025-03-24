@@ -28,6 +28,12 @@
             "order": 21
         },
         {
+            "name": "hiv-prevention-services",
+            "slot": "patient-chart-dashboard-slot",
+            "component": "patientChartHIVPreventionServicesDashboard",
+            "order": 22
+        },
+        {
             "name": "general-counselling-summary",
             "slot": "hiv-care-and-treatment-slot",
             "component": "generalCounsellingDashboardLink",
@@ -42,6 +48,22 @@
             "name": "general-counselling-summary-ext",
             "slot": "general-counselling-summary-slot",
             "component": "generalCounsellingDashboard"
+        },
+        {
+            "name": "hiv-testing-services",
+            "slot": "hiv-prevention-services-slot",
+            "component": "htsDashboardLink",
+            "meta": {
+                "slot": "hiv-testing-services-slot",
+                "columns": 1,
+                "path": "hts",
+                "layoutMode": "anchored"
+            }
+        },
+        {
+            "name": "hiv-testing-services-ext",
+            "slot": "hiv-testing-services-slot",
+            "component": "htsDashboard"
         },
         {
             "name": "retrieve-facility-code-modal",
