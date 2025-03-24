@@ -81,7 +81,6 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
     setSearchTerm(event?.target?.value?.trim().toLowerCase());
   }, []);
 
-
   const { isLoading, items, totalCount, currentPageSize, setPageSize, pageSizes, currentPage, setCurrentPage } =
     usePatientQueuePages(activeLocationUuid, status, isToggled, true);
 

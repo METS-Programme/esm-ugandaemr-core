@@ -11,6 +11,12 @@ export const hivCareAndTreatmentDashboardDMeta = {
   isExpanded: false,
 };
 
+export const hivPrevetionServicesboardDMeta = {
+  title: 'HIV Prevention Services',
+  slotName: 'hiv-prevention-services-slot',
+  isExpanded: false,
+};
+
 export const generalCounsellingDashboardMeta = {
   slot: 'general-counselling-summary-slot',
   columns: 1,
@@ -18,6 +24,23 @@ export const generalCounsellingDashboardMeta = {
   path: 'general-counselling',
   layoutMode: 'anchored',
 };
+
+export const htsDashboardMeta = {
+  slot: 'hiv-testing-services-slot',
+  columns: 1,
+  title: 'HTS',
+  path: 'hts',
+  layoutMode: 'anchored',
+};
+
+export const vmmcDashboardMeta = {
+  slot: 'vmmc-services-slot',
+  columns: 1,
+  title: 'VMMC',
+  path: 'vmmc',
+  layoutMode: 'anchored',
+};
+
 
 export const treatmentRegimenDashboardMeta = {
   slot: 'treatment-regimen-slot',

@@ -1,0 +1,105 @@
+{
+    "menuId": "vmmcServices",
+    "tabDefinitions": [
+        {
+            "tabName": "SMC Client Form",
+            "hasFilter": true,
+            "headerTitle": "SMC Client Form",
+            "displayText": "SMC Client Form",
+            "encounterType": "244da86d-f80e-48fe-aba9-067f241905ee",
+            "columns": [
+                {
+                    "id": "contactDate",
+                    "isDate": true,
+                    "title": "contactDateTitle",
+                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                {
+                    "id": "contactMethod",
+                    "title": "contactMethodTitle",
+                    "concept": "166456AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                {
+                    "id": "contactOutcome",
+                    "title": "contactOutcomeTitle",
+                    "concept": "167011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                        {
+                            "formName": "HMIS ACP 029: Safe Male Circumcision Client Form",
+                            "label": "View Details",
+                            "mode": "view"
+                        },
+                        {
+                            "formName": "HMIS ACP 029: Safe Male Circumcision Client Form",
+                            "label": "EditForm",
+                            "mode": "edit"
+                        }
+                    ]
+                }
+            ],
+            "launchOptions": {
+                "displayText": "Add"
+            },
+            "formList": [
+                {
+                    "uuid": "b8224534-7df0-4c00-ba8e-6b1f291087eb",
+                    "name": "HMIS ACP 029: Safe Male Circumcision Client Form"
+                }
+            ]
+        },
+        {
+            "tabName": "SMC Follow up",
+            "hasFilter": true,
+            "headerTitle": "SMC Follow up",
+            "displayText": "SMC Follow up",
+            "encounterType": "d0f9e0b7-f336-43bd-bf50-0a7243857fa6",
+            "columns": [
+                {
+                    "id": "contactDate",
+                    "isDate": true,
+                    "title": "contactDateTitle",
+                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                {
+                    "id": "contactMethod",
+                    "title": "contactMethodTitle",
+                    "concept": "166456AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                {
+                    "id": "contactOutcome",
+                    "title": "contactOutcomeTitle",
+                    "concept": "167011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                {
+                    "id": "actions",
+                    "title": "Actions",
+                    "actionOptions": [
+                        {
+                            "formName": "HMIS ACP 029: Safe Male Circumcision Client Card Follow up",
+                            "label": "View Details",
+                            "mode": "view"
+                        },
+                        {
+                            "formName": "HMIS ACP 029: Safe Male Circumcision Client Card Follow up",
+                            "label": "EditForm",
+                            "mode": "edit"
+                        }
+                    ]
+                }
+            ],
+            "launchOptions": {
+                "displayText": "Add"
+            },
+            "formList": [
+                {
+                    "uuid": "79cab593-632b-4193-b686-6de2efa4cc7c",
+                    "name": "HMIS ACP 029: Safe Male Circumcision Client Form"
+                }
+            ]
+        }
+    ]
+}

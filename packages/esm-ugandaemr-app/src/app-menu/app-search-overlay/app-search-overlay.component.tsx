@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import Overlay from "../../overlay/overlay";
-import AppSearchBar from "../app-search-bar/app-search-bar.component";
-import debounce from "lodash-es/debounce";
+import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import Overlay from '../../overlay/overlay';
+import AppSearchBar from '../app-search-bar/app-search-bar.component';
+import debounce from 'lodash-es/debounce';
 
 interface AppSearchOverlayProps {
   onClose: () => void;
@@ -10,14 +10,10 @@ interface AppSearchOverlayProps {
   header?: string;
 }
 
-const AppSearchOverlay: React.FC<AppSearchOverlayProps> = ({
-  onClose,
-  query = "",
-  header,
-}) => {
+const AppSearchOverlay: React.FC<AppSearchOverlayProps> = ({ onClose, query = '', header }) => {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState(query);
-  const handleClear = useCallback(() => setSearchTerm(""), [setSearchTerm]);
+  const handleClear = useCallback(() => setSearchTerm(''), [setSearchTerm]);
 
   useEffect(() => {
     if (query) {
@@ -30,15 +26,8 @@ const AppSearchOverlay: React.FC<AppSearchOverlayProps> = ({
   }, 300);
 
   return (
-    <Overlay
-      header={header ?? t("searchResults", "Search results")}
-      close={onClose}
-    >
-      <AppSearchBar
-        onSubmit={onSearchQueryChange}
-        onChange={onSearchQueryChange}
-        onClear={handleClear}
-      />
+    <Overlay header={header ?? t('searchResults', 'Search results')} close={onClose}>
+      <AppSearchBar onSubmit={onSearchQueryChange} onChange={onSearchQueryChange} onClear={handleClear} />
     </Overlay>
   );
 };

@@ -20,7 +20,10 @@ import SubjectiveFindingsComponent from './pages/clinical-patient-summary/clinic
 import ObjectiveFindingsComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/objective-findings.component';
 import TreatmentPlanComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/treatment-plan.component';
 import AssessmentComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/assessment.component';
-import { createOHRIPatientChartSideNavLink, patientChartDivider_dashboardMeta } from "@ohri/openmrs-esm-ohri-commons-lib";
+import {
+  createOHRIPatientChartSideNavLink,
+  patientChartDivider_dashboardMeta,
+} from '@ohri/openmrs-esm-ohri-commons-lib';
 
 import {
   CalcMonthsOnART,
@@ -28,9 +31,17 @@ import {
   latestObs,
   patientDSDM,
 } from './custom-expressions/custom-expressions';
-import { generalCounsellingDashboardMeta, hivCareAndTreatmentDashboardDMeta, treatmentRegimenDashboardMeta } from './dashboard.meta';
+import {
+  generalCounsellingDashboardMeta,
+  hivCareAndTreatmentDashboardDMeta, treatmentRegimenDashboardMeta,
+  hivPrevetionServicesboardDMeta,
+  htsDashboardMeta,
+  vmmcDashboardMeta,
+} from './dashboard.meta';
 import GeneralCounsellingSummary from './views/hiv/hct/general-counselling/general-counselling-summary.component';
 import TreatmentRegimen from './views/hiv/hct/treatment-regimen/treatment-regimen.component';
+import HivTestingServices from './views/hiv/hps/hts/hiv-testing-services.component';
+import VmmcServices from './views/hiv/hps/vmmc/vmmc-services.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -114,6 +125,10 @@ export const patientChartHIVCareAndTreatmentDashboard = getSyncLifecycle(
   createDashboardGroup(hivCareAndTreatmentDashboardDMeta),
   options,
 );
+export const patientChartHIVPreventionServicesDashboard = getSyncLifecycle(
+  createDashboardGroup(hivPrevetionServicesboardDMeta),
+  options,
+);
 
 export const generalCounsellingDashboardLink = getSyncLifecycle(
   createDashboardLink({ ...generalCounsellingDashboardMeta, moduleName }),
@@ -122,6 +137,23 @@ export const generalCounsellingDashboardLink = getSyncLifecycle(
 
 export const generalCounsellingDashboard = getSyncLifecycle(GeneralCounsellingSummary, {
   featureName: 'general-counselling-summary',
+  moduleName,
+});
+
+export const vmmcDashboardLink = getSyncLifecycle(
+  createDashboardLink({ ...vmmcDashboardMeta, moduleName }),
+  options,
+);
+
+export const vmmcDashboard = getSyncLifecycle(VmmcServices, {
+  featureName: 'vmmc-services',
+  moduleName,
+});
+
+export const htsDashboardLink = getSyncLifecycle(createDashboardLink({ ...htsDashboardMeta, moduleName }), options);
+
+export const htsDashboard = getSyncLifecycle(HivTestingServices, {
+  featureName: 'hiv-testing-services',
   moduleName,
 });
 

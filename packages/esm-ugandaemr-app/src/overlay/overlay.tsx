@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import { isDesktop, useLayoutType } from "@openmrs/esm-framework";
-import styles from "./overlay.scss";
+import { isDesktop, useLayoutType } from '@openmrs/esm-framework';
+import styles from './overlay.scss';
 
 interface OverlayProps {
   close: () => void;
@@ -10,20 +10,11 @@ interface OverlayProps {
   buttonsGroup?: React.ReactElement;
 }
 
-const Overlay: React.FC<OverlayProps> = ({
-  close,
-  children,
-  header,
-  buttonsGroup,
-}) => {
+const Overlay: React.FC<OverlayProps> = ({ close, children, header, buttonsGroup }) => {
   const layout = useLayoutType();
 
   return (
-    <div
-      className={
-        isDesktop(layout) ? styles.desktopOverlay : styles.tabletOverlay
-      }
-    >
+    <div className={isDesktop(layout) ? styles.desktopOverlay : styles.tabletOverlay}>
       <div className={styles.overlayContent}>{children}</div>
       <div className={styles.buttonsGroup}>{buttonsGroup}</div>
     </div>
