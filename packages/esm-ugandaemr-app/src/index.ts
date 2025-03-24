@@ -31,14 +31,8 @@ import {
   latestObs,
   patientDSDM,
 } from './custom-expressions/custom-expressions';
-import {
-  generalCounsellingDashboardMeta,
-  hivCareAndTreatmentDashboardDMeta, treatmentRegimenDashboardMeta,
-  hivPrevetionServicesboardDMeta,
-  htsDashboardMeta,
-  vmmcDashboardMeta,
-} from './dashboard.meta';
-import { familyTrackingDashboardMeta, generalCounsellingDashboardMeta, hivCareAndTreatmentDashboardDMeta, patientSummaryDashboardMeta, patientTransfersDashboardMeta, treatmentDashboardMeta, treatmentRegimenDashboardMeta } from './dashboard.meta';
+
+import { familyTrackingDashboardMeta, generalCounsellingDashboardMeta, hivCareAndTreatmentDashboardDMeta, hivPrevetionServicesboardDMeta, htsDashboardMeta, patientSummaryDashboardMeta, patientTransfersDashboardMeta, treatmentDashboardMeta, treatmentRegimenDashboardMeta, vmmcDashboardMeta } from './dashboard.meta';
 import GeneralCounsellingSummary from './views/hiv/hct/general-counselling/general-counselling-summary.component';
 import TreatmentRegimen from './views/hiv/hct/treatment-regimen/treatment-regimen.component';
 import FamilyTrackingSummary from './views/hiv/hct/family-tracking/family-tracking-summary.component';
