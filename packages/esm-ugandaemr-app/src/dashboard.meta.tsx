@@ -40,3 +40,12 @@ export const vmmcDashboardMeta = {
   path: 'vmmc',
   layoutMode: 'anchored',
 };
+
+
+export const treatmentRegimenDashboardMeta = {
+  slot: 'treatment-regimen-slot',
+  columns: 1,
+  title: 'Treatment Regimen',
+  path: 'treatment-regimen',
+  layoutMode: 'anchored'
+}

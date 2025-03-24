@@ -50,6 +50,22 @@
             "component": "generalCounsellingDashboard"
         },
         {
+            "name": "treatment-regimen",
+            "slot": "hiv-care-and-treatment-slot",
+            "component": "treatmentRegimenDashboardLink",
+            "meta": {
+                "slot": "treatment-regimen-summary-slot",
+                "columns": 1,
+                "path": "treatment-regimen",
+                "layoutMode": "anchored"
+            }
+        },
+        {
+            "name": "treatment-regimen-summary-ext",
+            "slot": "treatment-regimen-summary-slot",
+            "component": "treatmentRegimenDashboard"
+        },
+        {
             "name": "hiv-testing-services",
             "slot": "hiv-prevention-services-slot",
             "component": "htsDashboardLink",

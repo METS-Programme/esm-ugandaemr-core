@@ -29,12 +29,12 @@
                     "title": "actionsTitle",
                     "actionOptions": [
                         {
-                            "formName": "HMIS ACP 003: HIV Care ART Card - Health Education And Psychosocial support Page",
+                            "formName": "HMIS ACP 029: Safe Male Circumcision Client Form",
                             "label": "View Details",
                             "mode": "view"
                         },
                         {
-                            "formName": "HMIS ACP 003: HIV Care ART Card - Health Education And Psychosocial support Page",
+                            "formName": "HMIS ACP 029: Safe Male Circumcision Client Form",
                             "label": "EditForm",
                             "mode": "edit"
                         }
@@ -46,7 +46,8 @@
             },
             "formList": [
                 {
-                    "uuid": "b8224534-7df0-4c00-ba8e-6b1f291087eb"
+                    "uuid": "b8224534-7df0-4c00-ba8e-6b1f291087eb",
+                    "name": "HMIS ACP 029: Safe Male Circumcision Client Form"
                 }
             ]
         },
@@ -78,12 +79,12 @@
                     "title": "Actions",
                     "actionOptions": [
                         {
-                            "formName": "HMIS ACP 001 - Viral Load Non Suppressed Form",
+                            "formName": "HMIS ACP 029: Safe Male Circumcision Client Card Follow up",
                             "label": "View Details",
                             "mode": "view"
                         },
                         {
-                            "formName": "HMIS ACP 001 - Viral Load Non Suppressed Form",
+                            "formName": "HMIS ACP 029: Safe Male Circumcision Client Card Follow up",
                             "label": "EditForm",
                             "mode": "edit"
                         }
@@ -95,7 +96,8 @@
             },
             "formList": [
                 {
-                    "uuid": "79cab593-632b-4193-b686-6de2efa4cc7c"
+                    "uuid": "79cab593-632b-4193-b686-6de2efa4cc7c",
+                    "name": "HMIS ACP 029: Safe Male Circumcision Client Form"
                 }
             ]
         }

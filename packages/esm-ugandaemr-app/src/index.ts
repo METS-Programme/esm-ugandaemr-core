@@ -33,12 +33,13 @@ import {
 } from './custom-expressions/custom-expressions';
 import {
   generalCounsellingDashboardMeta,
-  hivCareAndTreatmentDashboardDMeta,
+  hivCareAndTreatmentDashboardDMeta, treatmentRegimenDashboardMeta,
   hivPrevetionServicesboardDMeta,
   htsDashboardMeta,
   vmmcDashboardMeta,
 } from './dashboard.meta';
 import GeneralCounsellingSummary from './views/hiv/hct/general-counselling/general-counselling-summary.component';
+import TreatmentRegimen from './views/hiv/hct/treatment-regimen/treatment-regimen.component';
 import HivTestingServices from './views/hiv/hps/hts/hiv-testing-services.component';
 import VmmcServices from './views/hiv/hps/vmmc/vmmc-services.component';
 
@@ -124,7 +125,6 @@ export const patientChartHIVCareAndTreatmentDashboard = getSyncLifecycle(
   createDashboardGroup(hivCareAndTreatmentDashboardDMeta),
   options,
 );
-
 export const patientChartHIVPreventionServicesDashboard = getSyncLifecycle(
   createDashboardGroup(hivPrevetionServicesboardDMeta),
   options,
@@ -156,6 +156,12 @@ export const htsDashboard = getSyncLifecycle(HivTestingServices, {
   featureName: 'hiv-testing-services',
   moduleName,
 });
+
+
+export const treatmentRegimenDashboardLink = getSyncLifecycle(createDashboardLink({ ...treatmentRegimenDashboardMeta, moduleName }), options)
+
+export const treatmentRegimenDashboard = getSyncLifecycle(TreatmentRegimen, { featureName: 'treatment-regimen', moduleName })
+
 
 export const clinicalPatientSummary = getSyncLifecycle(ClinicalPatientSummary, options);
 
