@@ -16,6 +16,12 @@
     ],
     "extensions": [
         {
+            "name": "clinical-views-divider",
+            "slot": "patient-chart-dashboard-slot",
+            "component": "clinicalViewsDivider",
+            "order": 20
+        },
+        {
             "name": "retrieve-facility-code-modal",
             "component": "retrieveFacilityCodeModal"
         },

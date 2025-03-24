@@ -20,6 +20,8 @@ import SubjectiveFindingsComponent from './pages/clinical-patient-summary/clinic
 import ObjectiveFindingsComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/objective-findings.component';
 import TreatmentPlanComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/treatment-plan.component';
 import AssessmentComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/assessment.component';
+import { createOHRIPatientChartSideNavLink, patientChartDivider_dashboardMeta } from "@ohri/openmrs-esm-ohri-commons-lib";
+
 import {
   CalcMonthsOnART,
   DSDMCategorizationDatasource,
@@ -95,6 +97,11 @@ export const clinicalPatientDashboardLink = getSyncLifecycle(
     title: 'Clinical Patient Dashboard',
     moduleName,
   }),
+  options,
+);
+
+export const clinicalViewsDivider = getSyncLifecycle(
+  createOHRIPatientChartSideNavLink(patientChartDivider_dashboardMeta),
   options,
 );
 
