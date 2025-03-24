@@ -46,7 +46,8 @@
             },
             "formList": [
                 {
-                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003"
+                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003",
+                    "name": "ART Regimen Change"
                 }
             ]
         },
@@ -95,7 +96,8 @@
             },
             "formList": [
                 {
-                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003"
+                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003",
+                    "name": "ART Regimen Change"
                 }
             ]
         }
