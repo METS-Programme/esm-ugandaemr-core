@@ -42,7 +42,8 @@
         }
       ],
       "launchOptions": {
-        "displayText": "Add"
+        "displayText": "Add",
+        "moduleName": "@ugandaemr/esm-ugandaemr-app"
       },
       "formList": [
         {
@@ -91,7 +92,8 @@
         }
       ],
       "launchOptions": {
-        "displayText": "Add"
+        "displayText": "Add",
+        "moduleName": "@ugandaemr/esm-ugandaemr-app"
       },
       "formList": [
         {
