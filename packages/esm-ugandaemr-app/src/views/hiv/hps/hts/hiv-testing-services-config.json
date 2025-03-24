@@ -1,40 +1,38 @@
 {
-    "menuId": "vmmcServices",
+    "menuId": "htsServices",
     "tabDefinitions": [
         {
-            "tabName": "Enrollmment (Session 1)",
-            "hasFilter": true,
-            "headerTitle": "Enrollmment (Session 1)",
-            "displayText": "Enrollmment (Session 1)",
-            "encounterType": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "tabName": "HTS",
+            "headerTitle": "HTS",
+            "displayText": "HTS",
+            "encounterType": "264daIZd-f80e-48fe-nba9-P37f2W1905Pv",
             "columns": [
                 {
-                    "id": "substitutionDate",
-                    "isDate": true,
-                    "title": "Substitution Date",
-                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    "id": "serialNumber",
+                    "title": "Serial Number",
+                    "concept": "1646AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                 },
                 {
-                    "id": "New Regimen",
-                    "title": "New Regimen",
-                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                    "id": "htsDeliverModel",
+                    "title": "HTS delivery model",
+                    "concept": "46648b1d-b099-433b-8f9c-3815ff1e0a0f"
                 },
                 {
-                    "id": "reason",
-                    "title": "Reason",
-                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                    "id": "htsApproach",
+                    "title": "HTS Approach",
+                    "concept": "ff820a28-1adf-4530-bf27-537bfa9ce0b2"
                 },
                 {
                     "id": "actions",
-                    "title": "actionsTitle",
+                    "title": "Actions",
                     "actionOptions": [
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "HMIS ACP 018:HTS Client Card",
                             "label": "View Details",
                             "mode": "view"
                         },
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "HMIS ACP 018:HTS Client Card",
                             "label": "EditForm",
                             "mode": "edit"
                         }
@@ -46,56 +44,8 @@
             },
             "formList": [
                 {
-                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003"
-                }
-            ]
-        },
-        {
-            "tabName": "Follow Up",
-            "hasFilter": true,
-            "headerTitle": "Follow Up",
-            "displayText": "Follow Up",
-            "encounterType": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
-            "columns": [
-                {
-                    "id": "substitutionDate",
-                    "isDate": true,
-                    "title": "Substitution Date",
-                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                },
-                {
-                    "id": "New Regimen",
-                    "title": "New Regimen",
-                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
-                },
-                {
-                    "id": "reason",
-                    "title": "Reason",
-                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
-                },
-                {
-                    "id": "actions",
-                    "title": "actionsTitle",
-                    "actionOptions": [
-                        {
-                            "formName": "ART Regimen Change",
-                            "label": "View Details",
-                            "mode": "view"
-                        },
-                        {
-                            "formName": "ART Regimen Change",
-                            "label": "EditForm",
-                            "mode": "edit"
-                        }
-                    ]
-                }
-            ],
-            "launchOptions": {
-                "displayText": "Add"
-            },
-            "formList": [
-                {
-                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003"
+                    "uuid": "b5c62a98-84d3-43e8-a9be-972185070dd4",
+                    "name": "HMIS ACP 018:HTS Client Card"
                 }
             ]
         }
