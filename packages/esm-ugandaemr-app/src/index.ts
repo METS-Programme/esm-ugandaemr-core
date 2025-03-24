@@ -30,7 +30,7 @@ import {
 } from './custom-expressions/custom-expressions';
 import { generalCounsellingDashboardMeta, hivCareAndTreatmentDashboardDMeta, hivPrevetionServicesboardDMeta, htsDashboardMeta } from './dashboard.meta';
 import GeneralCounsellingSummary from './views/hiv/hct/general-counselling/general-counselling-summary.component';
-import hivTestingServices from './views/hiv/hps/hiv-testing-services.component';
+import hivTestingServices from './views/hiv/hps/hts/hiv-testing-services.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
