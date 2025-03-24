@@ -66,6 +66,22 @@
             "component": "htsDashboard"
         },
         {
+            "name": "vmmc-services",
+            "slot": "hiv-prevention-services-slot",
+            "component": "vmmcDashboardLink",
+            "meta": {
+                "slot": "vmmc-services-slot",
+                "columns": 1,
+                "path": "vmmc",
+                "layoutMode": "anchored"
+            }
+        },
+        {
+            "name": "vmmc-services-ext",
+            "slot": "vmmc-services-slot",
+            "component": "vmmcDashboard"
+        },
+        {
             "name": "retrieve-facility-code-modal",
             "component": "retrieveFacilityCodeModal"
         },

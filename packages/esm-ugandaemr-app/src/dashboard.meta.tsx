@@ -32,3 +32,11 @@ export const htsDashboardMeta = {
   path: 'hts',
   layoutMode: 'anchored',
 };
+
+export const vmmcDashboardMeta = {
+  slot: 'vmmc-services-slot',
+  columns: 1,
+  title: 'VMMC',
+  path: 'vmmc',
+  layoutMode: 'anchored',
+};

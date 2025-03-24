@@ -2,39 +2,39 @@
     "menuId": "vmmcServices",
     "tabDefinitions": [
         {
-            "tabName": "Enrollmment (Session 1)",
+            "tabName": "SMC Client Form",
             "hasFilter": true,
-            "headerTitle": "Enrollmment (Session 1)",
-            "displayText": "Enrollmment (Session 1)",
-            "encounterType": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "headerTitle": "SMC Client Form",
+            "displayText": "SMC Client Form",
+            "encounterType": "244da86d-f80e-48fe-aba9-067f241905ee",
             "columns": [
                 {
-                    "id": "substitutionDate",
+                    "id": "contactDate",
                     "isDate": true,
-                    "title": "Substitution Date",
+                    "title": "contactDateTitle",
                     "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                 },
                 {
-                    "id": "New Regimen",
-                    "title": "New Regimen",
-                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                    "id": "contactMethod",
+                    "title": "contactMethodTitle",
+                    "concept": "166456AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                 },
                 {
-                    "id": "reason",
-                    "title": "Reason",
-                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                    "id": "contactOutcome",
+                    "title": "contactOutcomeTitle",
+                    "concept": "167011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                 },
                 {
                     "id": "actions",
                     "title": "actionsTitle",
                     "actionOptions": [
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "HMIS ACP 003: HIV Care ART Card - Health Education And Psychosocial support Page",
                             "label": "View Details",
                             "mode": "view"
                         },
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "HMIS ACP 003: HIV Care ART Card - Health Education And Psychosocial support Page",
                             "label": "EditForm",
                             "mode": "edit"
                         }
@@ -46,44 +46,44 @@
             },
             "formList": [
                 {
-                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003"
+                    "uuid": "b8224534-7df0-4c00-ba8e-6b1f291087eb"
                 }
             ]
         },
         {
-            "tabName": "Follow Up",
+            "tabName": "SMC Follow up",
             "hasFilter": true,
-            "headerTitle": "Follow Up",
-            "displayText": "Follow Up",
-            "encounterType": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "headerTitle": "SMC Follow up",
+            "displayText": "SMC Follow up",
+            "encounterType": "d0f9e0b7-f336-43bd-bf50-0a7243857fa6",
             "columns": [
                 {
-                    "id": "substitutionDate",
+                    "id": "contactDate",
                     "isDate": true,
-                    "title": "Substitution Date",
+                    "title": "contactDateTitle",
                     "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                 },
                 {
-                    "id": "New Regimen",
-                    "title": "New Regimen",
-                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                    "id": "contactMethod",
+                    "title": "contactMethodTitle",
+                    "concept": "166456AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                 },
                 {
-                    "id": "reason",
-                    "title": "Reason",
-                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                    "id": "contactOutcome",
+                    "title": "contactOutcomeTitle",
+                    "concept": "167011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                 },
                 {
                     "id": "actions",
-                    "title": "actionsTitle",
+                    "title": "Actions",
                     "actionOptions": [
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "HMIS ACP 001 - Viral Load Non Suppressed Form",
                             "label": "View Details",
                             "mode": "view"
                         },
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "HMIS ACP 001 - Viral Load Non Suppressed Form",
                             "label": "EditForm",
                             "mode": "edit"
                         }
@@ -95,7 +95,7 @@
             },
             "formList": [
                 {
-                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003"
+                    "uuid": "79cab593-632b-4193-b686-6de2efa4cc7c"
                 }
             ]
         }

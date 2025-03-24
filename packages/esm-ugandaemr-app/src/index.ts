@@ -36,9 +36,11 @@ import {
   hivCareAndTreatmentDashboardDMeta,
   hivPrevetionServicesboardDMeta,
   htsDashboardMeta,
+  vmmcDashboardMeta,
 } from './dashboard.meta';
 import GeneralCounsellingSummary from './views/hiv/hct/general-counselling/general-counselling-summary.component';
 import HivTestingServices from './views/hiv/hps/hts/hiv-testing-services.component';
+import VmmcServices from './views/hiv/hps/vmmc/vmmc-services.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -135,6 +137,16 @@ export const generalCounsellingDashboardLink = getSyncLifecycle(
 
 export const generalCounsellingDashboard = getSyncLifecycle(GeneralCounsellingSummary, {
   featureName: 'general-counselling-summary',
+  moduleName,
+});
+
+export const vmmcDashboardLink = getSyncLifecycle(
+  createDashboardLink({ ...vmmcDashboardMeta, moduleName }),
+  options,
+);
+
+export const vmmcDashboard = getSyncLifecycle(VmmcServices, {
+  featureName: 'vmmc-services',
   moduleName,
 });
 
