@@ -22,6 +22,28 @@
             "order": 20
         },
         {
+            "name": "hiv-care-and-treatment",
+            "slot": "patient-chart-dashboard-slot",
+            "component": "patientChartHIVCareAndTreatmentDashboard",
+            "order": 21
+        },
+        {
+            "name": "general-counselling-summary",
+            "slot": "hiv-care-and-treatment-slot",
+            "component": "generalCounsellingDashboardLink",
+            "meta": {
+                "slot": "general-counselling-summary-slot",
+                "columns": 1,
+                "path": "general-counselling",
+                "layoutMode": "anchored"
+            }
+        },
+        {
+            "name": "general-counselling-summary-ext",
+            "slot": "general-counselling-summary-slot",
+            "component": "generalCounsellingDashboard"
+        },
+        {
             "name": "retrieve-facility-code-modal",
             "component": "retrieveFacilityCodeModal"
         },

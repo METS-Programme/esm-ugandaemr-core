@@ -12,7 +12,7 @@ import dispensingAppMenu from './menu-app-items/despensing-app-menu-item/dispens
 
 import AppSearchLaunchComponent from './app-menu/app-search-icon/app-search-icon.component';
 
-import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
+import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-common-lib';
 import { createHomeDashboardLink } from './create-dashboard-link';
 import ClinicalPatientSummary from './pages/clinical-patient-summary/clinical-patient-summary.component';
 import ClinicalPatientSummaryTabs from './pages/clinical-patient-summary/clinical-patient-summary-tabs/clinical-patient-summary-tabs.component';
@@ -28,6 +28,8 @@ import {
   latestObs,
   patientDSDM,
 } from './custom-expressions/custom-expressions';
+import { generalCounsellingDashboardMeta, hivCareAndTreatmentDashboardDMeta } from './dashboard.meta';
+import GeneralCounsellingSummary from './views/hiv/hct/general-counselling/general-counselling-summary.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -100,10 +102,31 @@ export const clinicalPatientDashboardLink = getSyncLifecycle(
   options,
 );
 
+// Patient Chart
+
 export const clinicalViewsDivider = getSyncLifecycle(
   createOHRIPatientChartSideNavLink(patientChartDivider_dashboardMeta),
   options,
 );
+
+export const patientChartHIVCareAndTreatmentDashboard = getSyncLifecycle(
+  createDashboardGroup(hivCareAndTreatmentDashboardDMeta),
+  options,
+);
+
+
+export const generalCounsellingDashboardLink = getSyncLifecycle(
+  createDashboardLink({ ...generalCounsellingDashboardMeta, moduleName }),
+  options,
+);
+
+export const generalCounsellingDashboard = getSyncLifecycle(GeneralCounsellingSummary, {
+  featureName: 'general-counselling-summary',
+  moduleName,
+});
+
+
+
 
 export const clinicalPatientSummary = getSyncLifecycle(ClinicalPatientSummary, options);
 

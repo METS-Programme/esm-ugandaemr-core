@@ -1,0 +1,103 @@
+{
+  "menuId": "generalConselling",
+  "tabDefinitions": [
+    {
+      "tabName": "Education and Psychosocial Support",
+      "hasFilter": true,
+      "headerTitle": "Education and Psychosocial Support",
+      "displayText": "Education and Psychosocial Support",
+      "encounterType": "6d88e370-f2ba-476b-bf1b-d8eaf3b1b67e",
+      "columns": [
+        {
+          "id": "contactDate",
+          "isDate": true,
+          "title": "contactDateTitle",
+          "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        {
+          "id": "contactMethod",
+          "title": "contactMethodTitle",
+          "concept": "166456AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        {
+          "id": "contactOutcome",
+          "title": "contactOutcomeTitle",
+          "concept": "167011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        {
+          "id": "actions",
+          "title": "actionsTitle",
+          "actionOptions": [
+            {
+              "formName": "HMIS ACP 003: HIV Care ART Card - Health Education And Psychosocial support Page",
+              "label": "View Details",
+              "mode": "view"
+            },
+            {
+              "formName": "HMIS ACP 003: HIV Care ART Card - Health Education And Psychosocial support Page",
+              "label": "EditForm",
+              "mode": "edit"
+            }
+          ]
+        }
+      ],
+      "launchOptions": {
+        "displayText": "Add"
+      },
+      "formList": [
+        {
+          "uuid": "b8224534-7df0-4c00-ba8e-6b1f291087eb"
+        }
+      ]
+    },
+    {
+      "tabName": "ViralLoad Non-Suppression",
+      "hasFilter": true,
+      "headerTitle": "ViralLoad Non-Suppression",
+      "displayText": "ViralLoad Non-Suppression",
+      "encounterType": "38cb2232-30fc-4b1f-8df1-47c795771ee9",
+      "columns": [
+        {
+          "id": "contactDate",
+          "isDate": true,
+          "title": "contactDateTitle",
+          "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        {
+          "id": "contactMethod",
+          "title": "contactMethodTitle",
+          "concept": "166456AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        {
+          "id": "contactOutcome",
+          "title": "contactOutcomeTitle",
+          "concept": "167011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        {
+          "id": "actions",
+          "title": "Actions",
+          "actionOptions": [
+            {
+              "formName": "HMIS ACP 001 - Viral Load Non Suppressed Form",
+              "label": "View Details",
+              "mode": "view"
+            },
+            {
+              "formName": "HMIS ACP 001 - Viral Load Non Suppressed Form",
+              "label": "EditForm",
+              "mode": "edit"
+            }
+          ]
+        }
+      ],
+      "launchOptions": {
+        "displayText": "Add"
+      },
+      "formList": [
+        {
+          "uuid": "79cab593-632b-4193-b686-6de2efa4cc7c"
+        }
+      ]
+    }
+  ]
+}
