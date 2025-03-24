@@ -1,0 +1,33 @@
+{
+    "menuId": "patientSummary",
+    "columns": [
+        {
+            "id": "dateBled",
+            "title": "Date Bled",
+            "header": "Date Bled",
+            "encounterTypeUuid": "dateBledEncounterType",
+            "concept": "datebledConceptUuid"
+        },
+        {
+            "id": "vlQualitative",
+            "title": "VL Qualitative",
+            "header": "VL Qualitative",
+            "encounterTypeUuid": "viralLoadQualitativeEncounterType",
+            "concept": "vlQualitativeConceptUuid"
+        },
+        {
+            "id": "vlQuantitative",
+            "title": "VL Quantitative",
+            "header": "VL Quantitative",
+            "encounterTypeUuid": "viralLoadQuantitativeEncounterType",
+            "concept": "viralLoadQuantitativeConceptUuid"
+        },
+        {
+            "id": "vlSuppression",
+            "title": "VL Suppression",
+            "header": "VL Suppression",
+            "encounterTypeUuid": "viralSuppressionEncounterType",
+            "concept": "viralLoadSuppressionConceptUuid"
+        }
+    ]
+}

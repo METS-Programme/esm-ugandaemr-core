@@ -1,0 +1,179 @@
+{
+    "menuId": "treatment",
+    "tabDefinitions": [
+        {
+            "tabName": "Summary Page (Enrollment)",
+            "hasFilter": true,
+            "headerTitle": "Summary Page(Enrollment)",
+            "displayText": "Summary Page(Enrollment)",
+            "encounterType": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "columns": [
+                {
+                    "id": "registrationDate",
+                    "isDate": true,
+                    "title": "Registration Date",
+                    "concept": "31c5c7aa-4948-473e-890b-67fe2fbbd71a"
+                },
+                {
+                    "id": "testType",
+                    "title": "Test Type",
+                    "concept": "166456AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                {
+                    "id": "verificationDate",
+                    "title": "Date of Verification Test",
+                    "concept": "verificationDateConceptUuid"
+                },
+                {
+                    "id": "specialCategory",
+                    "title": "Special Category",
+                    "concept": "specialCategoryConceptUuid"
+                },
+                {
+                    "id": "categoryEntryPoint",
+                    "title": "Category Entry",
+                    "concept": "categoryEntryPointConceptUuid"
+                },
+                {
+                    "id": "treatmentInterruptions",
+                    "title": "Treatment Interruptions",
+                    "concept": "treatmentInterruptionsConceptUuid"
+                },
+                {
+                    "id": "baselineARVRegimen",
+                    "title": "Baseline ARV Regimen",
+                    "concept": "baselineARVRegimenConceptUuid"
+                },
+                {
+                    "id": "baselineARTStartDate",
+                    "title": "Baseline ART StartDate",
+                    "concept": "baselineARTStartDateConceptUuid"
+                },
+                {
+                    "id": "baselineWeight",
+                    "title": "Baseline Weight",
+                    "concept": "baselineWeightConceptUuid"
+                },
+                {
+                    "id": "baselineClinicalStage",
+                    "title": "Baseline WHO clinical Stage",
+                    "concept": "baselineClinicalWhoStageConceptUuid"
+                },
+                {
+                    "id": "baselineCD4",
+                    "title": "Baseline CD4",
+                    "concept": "baselineCD4ConceptUuid"
+                },
+                {
+                    "id": "baselinePMTCT",
+                    "title": "Baseline PMTCT",
+                    "concept": "baselinePMTCTConceptUuid"
+                },
+                {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                        {
+                            "formName": "HMIS ACP HIV 003: HIV CARE/ART CARD - Summary Form",
+                            "label": "View Details",
+                            "mode": "view"
+                        },
+                        {
+                            "formName": "HMIS ACP HIV 003: HIV CARE/ART CARD - Summary Form",
+                            "label": "EditForm",
+                            "mode": "edit"
+                        }
+                    ]
+                }
+            ],
+            "launchOptions": {
+                "displayText": "Add"
+            },
+            "formList": [
+                {
+                    "uuid": "52653a60-8300-4c13-be4d-4b746da06fee",
+                    "name": "HMIS ACP HIV 003: HIV CARE/ART CARD - Summary Form"
+                }
+            ]
+        },
+        {
+            "tabName": "Clinical Assessment",
+            "hasFilter": true,
+            "headerTitle": "Clinical Assessment",
+            "displayText": "Clinical Assessment",
+            "encounterType": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "columns": [
+                {
+                    "id": "nutritionStatus",
+                    "title": "Nutrition Status",
+                    "concept": "nutritionStatusConceptUuid"
+                },
+                {
+                    "id": "nutritionSupport",
+                    "title": "Nutrition Support",
+                    "concept": "nutrittionSupportConceptUuid"
+                },
+                {
+                    "id": "pregnancyStatus",
+                    "title": "Pregnancy Status",
+                    "concept": "pregnancyStatusConceptUuid"
+                },
+                {
+                    "id": "syphilisStatus",
+                    "title": "Syphilis Status",
+                    "concept": "syphilisStatusConceptUuid"
+                },
+                {
+                    "id": "covidStatus",
+                    "title": "Covid19 Status",
+                    "concept": "covideStatusConceptUuid"
+                },
+                {
+                    "id": "hpvStatus",
+                    "title": "HPV Status",
+                    "concept": "hpvStatusConceptUuid"
+                },
+                {
+                    "id": "dateOfsampleCollection",
+                    "title": "Date of Sample Colection (HIV Drug Resistance)",
+                    "concept": "dateOfSampleCollectionConceptUuid"
+                },
+                {
+                    "id": "drug",
+                    "title": "Drug(HIV Drug Resistance)",
+                    "concept": "drugConceptUuid"
+                },
+                {
+                    "id": "drStatus",
+                    "title": "DR Status (HIV Drug Resistance)",
+                    "concept": "drStatusConceptUuid"
+                },
+                {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                        {
+                            "formName": "HMIS 003 HIV Care ART Card - Clinical Assessment",
+                            "label": "View Details",
+                            "mode": "view"
+                        },
+                        {
+                            "formName": "HMIS 003 HIV Care ART Card - Clinical Assessment",
+                            "label": "EditForm",
+                            "mode": "edit"
+                        }
+                    ]
+                }
+            ],
+            "launchOptions": {
+                "displayText": "Add"
+            },
+            "formList": [
+                {
+                    "uuid": "12de5bc5-352e-4faf-9961-a2125085a75c",
+                    "name": "HMIS 003 HIV Care ART Card - Clinical Assessment"
+                }
+            ]
+        }
+    ]
+}

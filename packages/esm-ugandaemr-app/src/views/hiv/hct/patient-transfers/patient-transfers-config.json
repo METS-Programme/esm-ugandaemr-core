@@ -1,11 +1,11 @@
 {
-    "menuId": "treatmentRegimen",
+    "menuId": "patientTransfers",
     "tabDefinitions": [
         {
-            "tabName": "Substitute Regimen",
+            "tabName": "Transfer In",
             "hasFilter": true,
-            "headerTitle": "Substitute Regimen",
-            "displayText": "Substitute Regimen",
+            "headerTitle": "Transfer In",
+            "displayText": "Tranfer In",
             "encounterType": "c11774c1-3b4a-4bdb-a847-6060895e006d",
             "columns": [
                 {
@@ -47,15 +47,15 @@
             "formList": [
                 {
                     "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003",
-                    "name": "ART Regimen Change"
+                    "name" :"ART Regimen Change"
                 }
             ]
         },
         {
-            "tabName": "Switch Regimen",
+            "tabName": "Transfer Out",
             "hasFilter": true,
-            "headerTitle": "Switch Regimen",
-            "displayText": "Switch Regimen",
+            "headerTitle": "Transfer Out",
+            "displayText": "Transfer Out",
             "encounterType": "c11774c1-3b4a-4bdb-a847-6060895e006d",
             "columns": [
                 {
@@ -97,7 +97,7 @@
             "formList": [
                 {
                     "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003",
-                    "name": "ART Regimen Change"
+                    "name" :"ART Regimen Change"
                 }
             ]
         }

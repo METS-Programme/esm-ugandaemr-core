@@ -1,0 +1,29 @@
+{
+    "menuId": "patientSummary",
+    "columns": [
+        {
+            "id": "tptStartDate",
+            "title": "TPT Start Date",
+            "encounterType": "tptStartDateEncounterType",
+            "concept": "tpeStartDateConceptUuid"
+        },
+        {
+            "id": "tptCompletionDate",
+            "title": "TPT Completion Date",
+            "encounterType": "tptCompletionDateEncounterType",
+            "concept": "tptCompletionDateConceptUuid"
+        },
+        {
+            "id": "tptDrug",
+            "title": "TPT Drug",
+            "encounterType": "tptDrugEncounterType",
+            "concept": "tptDrugConceptUuid"
+        },
+        {
+            "id": "tptStatus",
+            "title": "TPT Status",
+            "encounterType": "tptStatusEncounterType",
+            "concept": "tptStatusConceptUuid"
+        }
+    ]
+}

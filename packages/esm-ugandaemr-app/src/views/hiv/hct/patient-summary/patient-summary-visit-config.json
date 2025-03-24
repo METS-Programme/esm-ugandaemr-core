@@ -1,0 +1,23 @@
+{
+    "menuId": "patientSummary",
+    "columns": [
+        {
+            "id": "currentRegimen",
+            "title": "Current Regimen",
+            "encounterType": "currentRegimenEncounterType",
+            "concept": "currentRegimenConceptUuid"
+        },
+        {
+            "id": "whoClinicalStage",
+            "title": "WHO Clinical Stage",
+            "encounterType": "whoClinicalStageEncounterType",
+            "concept": "whoClinicalStageConceptUuid"
+        },
+        {
+            "id": "regimenLine",
+            "title": "Regimen Line",
+            "encounterType": "regimenLineEncounterType",
+            "concept": "regimenLineConceptUuid"
+        }
+    ]
+}
