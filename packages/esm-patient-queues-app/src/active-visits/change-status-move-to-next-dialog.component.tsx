@@ -169,7 +169,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
             queueEntry[0]?.uuid,
             contentSwitcherIndex,
             priorityComment,
-            "comment",
+            'comment',
           );
 
           let navigateTo = `${window.getOpenmrsSpaBase()}home`;

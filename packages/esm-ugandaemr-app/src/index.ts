@@ -20,7 +20,10 @@ import SubjectiveFindingsComponent from './pages/clinical-patient-summary/clinic
 import ObjectiveFindingsComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/objective-findings.component';
 import TreatmentPlanComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/treatment-plan.component';
 import AssessmentComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/assessment.component';
-import { createOHRIPatientChartSideNavLink, patientChartDivider_dashboardMeta } from "@ohri/openmrs-esm-ohri-commons-lib";
+import {
+  createOHRIPatientChartSideNavLink,
+  patientChartDivider_dashboardMeta,
+} from '@ohri/openmrs-esm-ohri-commons-lib';
 
 import {
   CalcMonthsOnART,
@@ -28,9 +31,14 @@ import {
   latestObs,
   patientDSDM,
 } from './custom-expressions/custom-expressions';
-import { generalCounsellingDashboardMeta, hivCareAndTreatmentDashboardDMeta, hivPrevetionServicesboardDMeta, htsDashboardMeta } from './dashboard.meta';
+import {
+  generalCounsellingDashboardMeta,
+  hivCareAndTreatmentDashboardDMeta,
+  hivPrevetionServicesboardDMeta,
+  htsDashboardMeta,
+} from './dashboard.meta';
 import GeneralCounsellingSummary from './views/hiv/hct/general-counselling/general-counselling-summary.component';
-import hivTestingServices from './views/hiv/hps/hts/hiv-testing-services.component';
+import HivTestingServices from './views/hiv/hps/hts/hiv-testing-services.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -130,16 +138,12 @@ export const generalCounsellingDashboard = getSyncLifecycle(GeneralCounsellingSu
   moduleName,
 });
 
-export const htsDashboardLink = getSyncLifecycle(
-  createDashboardLink({ ...htsDashboardMeta, moduleName }),
-  options,
-);
+export const htsDashboardLink = getSyncLifecycle(createDashboardLink({ ...htsDashboardMeta, moduleName }), options);
 
-export const htsDashboard = getSyncLifecycle(hivTestingServices, {
+export const htsDashboard = getSyncLifecycle(HivTestingServices, {
   featureName: 'hiv-testing-services',
   moduleName,
 });
-
 
 export const clinicalPatientSummary = getSyncLifecycle(ClinicalPatientSummary, options);
 

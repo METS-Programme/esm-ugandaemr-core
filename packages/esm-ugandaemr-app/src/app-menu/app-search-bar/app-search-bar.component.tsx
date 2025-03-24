@@ -18,10 +18,8 @@ interface AppSearchBarProps {
 const AppSearchBar = React.forwardRef<HTMLInputElement, AppSearchBarProps>(
   ({ onChange, onClear, onSubmit, small }, ref) => {
     const { t } = useTranslation();
-    const [searchTerm, setSearchTerm] = useState("");
-    const menuItemExtensions = useAssignedExtensions(
-      appMenuItemSlot
-    ) as AssignedExtension[];
+    const [searchTerm, setSearchTerm] = useState('');
+    const menuItemExtensions = useAssignedExtensions(appMenuItemSlot) as AssignedExtension[];
 
     const handleChange = (val: string) => {
       setSearchTerm(val);
@@ -39,7 +37,7 @@ const AppSearchBar = React.forwardRef<HTMLInputElement, AppSearchBarProps>(
 
     const filteredExtensions = menuItemExtensions
       .filter((extension) => {
-        const itemName = extension?.name ?? "";
+        const itemName = extension?.name ?? '';
         return itemName.toLowerCase().includes(searchTerm.toLowerCase());
       })
       .map((extension) => (
@@ -65,12 +63,12 @@ const AppSearchBar = React.forwardRef<HTMLInputElement, AppSearchBarProps>(
           <Search
             autoFocus
             className={styles.appSearchInput}
-            closeButtonLabelText={t("clearSearch", "Clear")}
+            closeButtonLabelText={t('clearSearch', 'Clear')}
             labelText=""
             onChange={(event) => handleChange(event.target.value)}
             onClear={onClear}
-            placeholder={t("searchForApp", "Search for an application")}
-            size={small ? "sm" : "lg"}
+            placeholder={t('searchForApp', 'Search for an application')}
+            size={small ? 'sm' : 'lg'}
             value={searchTerm}
             ref={ref}
             data-testid="appSearchBar"
@@ -80,26 +78,25 @@ const AppSearchBar = React.forwardRef<HTMLInputElement, AppSearchBarProps>(
           {searchTerm
             ? filteredExtensions
             : menuItemExtensions.map((extension) => (
-              <ComponentContext.Provider
-                key={extension?.id}
-                value={{
-                  featureName: extension?.moduleName,
-                  moduleName: extension?.moduleName,
-                  extension: {
-                    extensionId: extension?.id,
-                    extensionSlotName: appMenuItemSlot,
-                    extensionSlotModuleName: extension?.moduleName,
-                  },
-                }}
-              >
-                <Extension />
-              </ComponentContext.Provider>
-            ))}
+                <ComponentContext.Provider
+                  key={extension?.id}
+                  value={{
+                    featureName: extension?.moduleName,
+                    moduleName: extension?.moduleName,
+                    extension: {
+                      extensionId: extension?.id,
+                      extensionSlotName: appMenuItemSlot,
+                      extensionSlotModuleName: extension?.moduleName,
+                    },
+                  }}
+                >
+                  <Extension />
+                </ComponentContext.Provider>
+              ))}
         </div>
       </>
     );
-  }
+  },
 );
 
-export default AppSearchBar;;
-
+export default AppSearchBar;

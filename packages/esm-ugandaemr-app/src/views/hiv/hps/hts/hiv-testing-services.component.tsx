@@ -7,7 +7,7 @@ interface OverviewListProps {
     patientUuid: string;
 }
 
-const hivTestingServices: React.FC<OverviewListProps> = ({ patientUuid }) => {
+const HivTestingServices: React.FC<OverviewListProps> = ({ patientUuid }) => {
     const config = useConfig();
 
     const tabFilter = (encounter, formName) => {
@@ -24,4 +24,4 @@ const hivTestingServices: React.FC<OverviewListProps> = ({ patientUuid }) => {
     );
 };
 
-export default hivTestingServices;
+export default HivTestingServices;
