@@ -34,6 +34,7 @@ export const generalCounsellingDashboardMeta = {
   columns: 1,
   title: 'General Counselling',
   path: 'general-counselling',
+  icon: '',
   layoutMode: 'anchored',
 };
 
@@ -42,6 +43,8 @@ export const htsDashboardMeta = {
   columns: 1,
   title: 'HTS',
   path: 'hts',
+  icon: '',
+
   layoutMode: 'anchored',
 };
 
@@ -50,6 +53,8 @@ export const vmmcDashboardMeta = {
   columns: 1,
   title: 'VMMC',
   path: 'vmmc',
+  icon: '',
+
   layoutMode: 'anchored',
 };
 
@@ -58,6 +63,8 @@ export const treatmentRegimenDashboardMeta = {
   columns: 1,
   title: 'Treatment Regimen',
   path: 'treatment-regimen',
+  icon: '',
+
   layoutMode: 'anchored',
 };
 
@@ -66,6 +73,8 @@ export const familyTrackingDashboardMeta = {
   columns: 1,
   title: 'Family Tracking',
   path: 'family-tracking',
+  icon: '',
+
   layoutMode: 'anchored',
 };
 
@@ -74,6 +83,8 @@ export const treatmentDashboardMeta = {
   columns: 1,
   title: 'Treatment',
   path: 'treatment',
+  icon: '',
+
   layoutmode: 'anchored',
 };
 
@@ -83,11 +94,14 @@ export const patientTransfersDashboardMeta = {
   title: 'Patient Transfers',
   path: 'patient-transfers',
   layoutmode: 'anchored',
+  icon: '',
 };
 
 export const patientSummaryDashboardMeta = {
   slot: 'patient-summary-dashboard-slot',
   columns: 1,
+  icon: '',
+
   title: 'Patient Summary',
   path: 'patient-summary',
   layoutmode: 'anchored',
@@ -98,12 +112,16 @@ export const drtbSummaryDashboardMeta = {
   columns: 1,
   title: 'DR-TB',
   path: 'dr-tb-summary',
+  icon: '',
+
   layoutmode: 'anchored',
 };
 
 export const dstbSummaryDashboardMeta = {
   slot: 'dstb-summary-dashboard-slot',
   columns: 1,
+  icon: '',
+
   title: 'DS-TB',
   path: 'ds-tb-summary',
   layoutmode: 'anchored',

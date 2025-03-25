@@ -4948,17 +4948,17 @@ __metadata:
   linkType: hard
 
 "@openmrs/esm-patient-common-lib@npm:next":
-  version: 7.1.1-pre.4335
-  resolution: "@openmrs/esm-patient-common-lib@npm:7.1.1-pre.4335"
+  version: 9.2.3-pre.7078
+  resolution: "@openmrs/esm-patient-common-lib@npm:9.2.3-pre.7078"
   dependencies:
     "@carbon/react": ^1.12.0
     lodash-es: ^4.17.21
     uuid: ^8.3.2
   peerDependencies:
-    "@openmrs/esm-framework": 5.x
+    "@openmrs/esm-framework": 6.x
     react: 18.x
     single-spa: 6.x
-  checksum: 1314e70a9b3ee9f2864ae3b129afda5e054c0f4fd21f0e7acb60286ce857e9c672b86bd6312aef460fec517e5db518bd5154991742ffa401cf29dc72d91a1cea
+  checksum: 855fa97b04ce25f4f4d1dba79de0c5dc36121b28649ecefaa2bef4b0b66f67cb48c6ab2dffef4e421b39494b16e2959e93938c0c94e8e92af321e464443fda08
   languageName: node
   linkType: hard
 
@@ -9163,7 +9163,7 @@ __metadata:
     webpack: ^5.74.0
   peerDependencies:
     "@openmrs/esm-framework": "*"
-    "@openmrs/esm-patient-common-lib": 5.x
+    "@openmrs/esm-patient-common-lib": x
     react: ^18.1.0
     react-i18next: 11.x
     react-router-dom: 6.x
@@ -9218,6 +9218,7 @@ __metadata:
     webpack: ^5.83.1
   peerDependencies:
     "@openmrs/esm-framework": "*"
+    "@openmrs/esm-patient-common-lib": "*"
     react: 18.x
     react-i18next: 11.x
   languageName: unknown

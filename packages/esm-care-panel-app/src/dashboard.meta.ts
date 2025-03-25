@@ -3,4 +3,5 @@ export const dashboardMeta = {
   columns: 1,
   title: 'Care panel',
   path: 'Care panel',
+  icon: '',
 };
