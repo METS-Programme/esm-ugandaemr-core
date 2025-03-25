@@ -1,8 +1,8 @@
-import { EncounterListTabsComponent } from "@ohri/openmrs-esm-ohri-commons-lib";
-import { useConfig } from "@openmrs/esm-framework";
-import React from "react";
+import { EncounterListTabsComponent } from '@ohri/openmrs-esm-ohri-commons-lib';
+import { useConfig } from '@openmrs/esm-framework';
+import React from 'react';
 
-import dsTbConfigSchema from "./ds-tb-config.json";
+import dsTbConfigSchema from './ds-tb-config.json';
 
 interface OverviewListProps {
   patientUuid: string;

@@ -17,18 +17,17 @@ export const hivPrevetionServicesboardDMeta = {
   isExpanded: false,
 };
 
-
 export const eidDashboardMeta = {
   title: 'EID Program',
   slotName: 'eid-slot',
   isExpanded: false,
-}
+};
 
 export const tbDashboardMeta = {
   title: 'TB Program',
   slotName: 'tb-slot',
   isExpanded: false,
-}
+};
 
 export const generalCounsellingDashboardMeta = {
   slot: 'general-counselling-summary-slot',
@@ -54,59 +53,58 @@ export const vmmcDashboardMeta = {
   layoutMode: 'anchored',
 };
 
-
 export const treatmentRegimenDashboardMeta = {
   slot: 'treatment-regimen-slot',
   columns: 1,
   title: 'Treatment Regimen',
   path: 'treatment-regimen',
-  layoutMode: 'anchored'
-}
+  layoutMode: 'anchored',
+};
 
 export const familyTrackingDashboardMeta = {
   slot: 'family-tracking-slot',
   columns: 1,
   title: 'Family Tracking',
-  path: "family-tracking",
-  layoutMode: "anchored"
-}
+  path: 'family-tracking',
+  layoutMode: 'anchored',
+};
 
 export const treatmentDashboardMeta = {
   slot: 'treatment-dashboard-slot',
   columns: 1,
   title: 'Treatment',
-  path: "treatment",
-  layoutmode: "anchored"
-}
+  path: 'treatment',
+  layoutmode: 'anchored',
+};
 
 export const patientTransfersDashboardMeta = {
   slot: 'patient-transfers-dashboard-slot',
   columns: 1,
   title: 'Patient Transfers',
-  path: "patient-transfers",
-  layoutmode: "anchored"
-}
+  path: 'patient-transfers',
+  layoutmode: 'anchored',
+};
 
 export const patientSummaryDashboardMeta = {
   slot: 'patient-summary-dashboard-slot',
   columns: 1,
   title: 'Patient Summary',
-  path : "patient-summary",
-  layoutmode: "anchored"
-}
+  path: 'patient-summary',
+  layoutmode: 'anchored',
+};
 
 export const drtbSummaryDashboardMeta = {
   slot: 'drtb-summary-dashboard-slot',
   columns: 1,
   title: 'DR-TB',
-  path : "drtb-summary",
-  layoutmode: "anchored"
-}
+  path: 'drtb-summary',
+  layoutmode: 'anchored',
+};
 
 export const dstbSummaryDashboardMeta = {
   slot: 'dstb-summary-dashboard-slot',
   columns: 1,
   title: 'DS-TB',
-  path : "dstb-summary",
-  layoutmode: "anchored"
-}
+  path: 'dstb-summary',
+  layoutmode: 'anchored',
+};
