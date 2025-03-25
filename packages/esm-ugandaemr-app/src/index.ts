@@ -32,7 +32,22 @@ import {
   patientDSDM,
 } from './custom-expressions/custom-expressions';
 
-import { familyTrackingDashboardMeta, generalCounsellingDashboardMeta, hivCareAndTreatmentDashboardDMeta, hivPrevetionServicesboardDMeta, htsDashboardMeta, patientSummaryDashboardMeta, patientTransfersDashboardMeta, treatmentDashboardMeta, treatmentRegimenDashboardMeta, vmmcDashboardMeta } from './dashboard.meta';
+import {
+  drtbSummaryDashboardMeta,
+  dstbSummaryDashboardMeta,
+  eidDashboardMeta,
+  familyTrackingDashboardMeta,
+  generalCounsellingDashboardMeta,
+  hivCareAndTreatmentDashboardDMeta,
+  hivPrevetionServicesboardDMeta,
+  htsDashboardMeta,
+  patientSummaryDashboardMeta,
+  patientTransfersDashboardMeta,
+  tbDashboardMeta,
+  treatmentDashboardMeta,
+  treatmentRegimenDashboardMeta,
+  vmmcDashboardMeta,
+} from './dashboard.meta';
 import GeneralCounsellingSummary from './views/hiv/hct/general-counselling/general-counselling-summary.component';
 import TreatmentRegimen from './views/hiv/hct/treatment-regimen/treatment-regimen.component';
 import FamilyTrackingSummary from './views/hiv/hct/family-tracking/family-tracking-summary.component';
@@ -41,6 +56,8 @@ import PatientSummaryOverviewList from './views/hiv/hct/patient-summary/patient-
 import TreatmentSummary from './views/hiv/hct/treatment/treatment-summary.component';
 import HivTestingServices from './views/hiv/hps/hts/hiv-testing-services.component';
 import VmmcServices from './views/hiv/hps/vmmc/vmmc-services.component';
+import DSTBSummary from './views/tb/ds/ds-tb-summary.component';
+import DRTBSummary from './views/tb/dr/dr-tb-summary.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -129,6 +146,9 @@ export const patientChartHIVPreventionServicesDashboard = getSyncLifecycle(
   options,
 );
 
+export const patientChartEIDDashboard = getSyncLifecycle(createDashboardGroup(eidDashboardMeta), options);
+export const patientChartTBDashboard = getSyncLifecycle(createDashboardGroup(tbDashboardMeta), options);
+
 export const generalCounsellingDashboardLink = getSyncLifecycle(
   createDashboardLink({ ...generalCounsellingDashboardMeta, moduleName }),
   options,
@@ -139,10 +159,7 @@ export const generalCounsellingDashboard = getSyncLifecycle(GeneralCounsellingSu
   moduleName,
 });
 
-export const vmmcDashboardLink = getSyncLifecycle(
-  createDashboardLink({ ...vmmcDashboardMeta, moduleName }),
-  options,
-);
+export const vmmcDashboardLink = getSyncLifecycle(createDashboardLink({ ...vmmcDashboardMeta, moduleName }), options);
 
 export const vmmcDashboard = getSyncLifecycle(VmmcServices, {
   featureName: 'vmmc-services',
@@ -156,28 +173,66 @@ export const htsDashboard = getSyncLifecycle(HivTestingServices, {
   moduleName,
 });
 
+export const treatmentRegimenDashboardLink = getSyncLifecycle(
+  createDashboardLink({ ...treatmentRegimenDashboardMeta, moduleName }),
+  options,
+);
 
-export const treatmentRegimenDashboardLink = getSyncLifecycle(createDashboardLink({ ...treatmentRegimenDashboardMeta, moduleName }), options)
+export const treatmentRegimenDashboard = getSyncLifecycle(TreatmentRegimen, {
+  featureName: 'treatment-regimen',
+  moduleName,
+});
 
-export const treatmentRegimenDashboard = getSyncLifecycle(TreatmentRegimen, { featureName: 'treatment-regimen', moduleName })
+export const familyTrackingDashboardLink = getSyncLifecycle(
+  createDashboardLink({ ...familyTrackingDashboardMeta, moduleName }),
+  options,
+);
 
+export const familyTrackingDashboard = getSyncLifecycle(FamilyTrackingSummary, {
+  featureName: 'family-tracking',
+  moduleName,
+});
 
-export const familyTrackingDashboardLink = getSyncLifecycle(createDashboardLink({ ...familyTrackingDashboardMeta, moduleName }), options)
+export const treatmentDashboardLink = getSyncLifecycle(
+  createDashboardLink({ ...treatmentDashboardMeta, moduleName }),
+  options,
+);
 
-export const familyTrackingDashboard = getSyncLifecycle(FamilyTrackingSummary, { featureName: 'family-tracking', moduleName })
+export const treatmentDashboard = getSyncLifecycle(TreatmentSummary, { featureName: 'treatment-regimen', moduleName });
 
+export const patientTranfersDashboardLink = getSyncLifecycle(
+  createDashboardLink({ ...patientTransfersDashboardMeta, moduleName }),
+  options,
+);
 
-export const treatmentDashboardLink =  getSyncLifecycle(createDashboardLink({...treatmentDashboardMeta,moduleName}),options)
+export const patientTransfersDashboard = getSyncLifecycle(PatientTransfersSummary, {
+  featureName: 'patient-transfers',
+  moduleName,
+});
 
-export const treatmentDashboard =  getSyncLifecycle(TreatmentSummary,{featureName:'treatment-regimen',moduleName})
+export const patientSummaryDashboardLink = getSyncLifecycle(
+  createDashboardLink({ ...patientSummaryDashboardMeta, moduleName }),
+  options,
+);
 
-export const patientTranfersDashboardLink = getSyncLifecycle(createDashboardLink({...patientTransfersDashboardMeta,moduleName}),options)
+export const patientSummaryDashboard = getSyncLifecycle(PatientSummaryOverviewList, {
+  featureName: 'patient-summary',
+  moduleName,
+});
 
-export const patientTransfersDashboard = getSyncLifecycle(PatientTransfersSummary,{featureName:'patient-transfers',moduleName})
+export const dstbSummaryDashboardLink = getSyncLifecycle(
+  createDashboardLink({ ...dstbSummaryDashboardMeta, moduleName }),
+  options,
+);
 
-export const patientSummaryDashboardLink = getSyncLifecycle(createDashboardLink({...patientSummaryDashboardMeta,moduleName}),options)
+export const dstbSummaryDashboard = getSyncLifecycle(DSTBSummary, { featureName: 'ds-tb', moduleName });
 
-export const patientSummaryDashboard = getSyncLifecycle(PatientSummaryOverviewList,{featureName:'patient-summary',moduleName})
+export const drtbSummaryDashboardLink = getSyncLifecycle(
+  createDashboardLink({ ...drtbSummaryDashboardMeta, moduleName }),
+  options,
+);
+
+export const drtbSummaryDashboard = getSyncLifecycle(DRTBSummary, { featureName: 'dr-tb', moduleName });
 
 export const clinicalPatientSummary = getSyncLifecycle(ClinicalPatientSummary, options);
 
