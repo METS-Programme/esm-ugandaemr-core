@@ -97,7 +97,7 @@ export const drtbSummaryDashboardMeta = {
   slot: 'drtb-summary-dashboard-slot',
   columns: 1,
   title: 'DR-TB',
-  path: 'drtb-summary',
+  path: 'dr-tb-summary',
   layoutmode: 'anchored',
 };
 
@@ -105,6 +105,6 @@ export const dstbSummaryDashboardMeta = {
   slot: 'dstb-summary-dashboard-slot',
   columns: 1,
   title: 'DS-TB',
-  path: 'dstb-summary',
+  path: 'ds-tb-summary',
   layoutmode: 'anchored',
 };
