@@ -33,6 +33,18 @@
             "component": "patientChartHIVPreventionServicesDashboard",
             "order": 22
         },
+         {
+            "name": "eid-program",
+            "slot": "patient-chart-dashboard-slot",
+            "component": "patientChartEIDDashboard",
+            "order": 23
+        },
+         {
+            "name": "tb-program",
+            "slot": "patient-chart-dashboard-slot",
+            "component": "patientChartTBDashboard",
+            "order": 24
+        },
         {
             "name": "general-counselling-summary",
             "slot": "hiv-care-and-treatment-slot",
@@ -161,6 +173,39 @@
             "name": "vmmc-services-ext",
             "slot": "vmmc-services-slot",
             "component": "vmmcDashboard"
+        },
+        {
+            "name": "dr-tb-services",
+            "slot": "tb-slot",
+            "component": "drtbSummaryDashboardLink",
+            "meta": {
+                "slot": "drtb-summary-dashboard-slot",
+                "columns": 1,
+                "path": "dr-tb-summary",
+                "layoutMode": "anchored"
+            }
+        },
+        {
+            "name": "dr-tb-summary-ext",
+            "slot": "drtb-summary-dashboard-slot",
+            "component": "drtbSummaryDashboard"
+        },
+
+         {
+            "name": "ds-tb-services",
+            "slot": "tb-slot",
+            "component": "dstbSummaryDashboardLink",
+            "meta": {
+                "slot": "dstb-summary-dashboard-slot",
+                "columns": 1,
+                "path": "ds-tb-summary",
+                "layoutMode": "anchored"
+            }
+        },
+        {
+            "name": "ds-tb-summary-ext",
+            "slot": "dstb-summary-dashboard-slot",
+            "component": "dstbSummaryDashboard"
         },
         {
             "name": "retrieve-facility-code-modal",

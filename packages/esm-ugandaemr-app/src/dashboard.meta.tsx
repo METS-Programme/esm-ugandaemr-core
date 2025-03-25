@@ -17,6 +17,19 @@ export const hivPrevetionServicesboardDMeta = {
   isExpanded: false,
 };
 
+
+export const eidDashboardMeta = {
+  title: 'EID Program',
+  slotName: 'eid-slot',
+  isExpanded: false,
+}
+
+export const tbDashboardMeta = {
+  title: 'TB Program',
+  slotName: 'tb-slot',
+  isExpanded: false,
+}
+
 export const generalCounsellingDashboardMeta = {
   slot: 'general-counselling-summary-slot',
   columns: 1,
@@ -79,5 +92,21 @@ export const patientSummaryDashboardMeta = {
   columns: 1,
   title: 'Patient Summary',
   path : "patient-summary",
+  layoutmode: "anchored"
+}
+
+export const drtbSummaryDashboardMeta = {
+  slot: 'drtb-summary-dashboard-slot',
+  columns: 1,
+  title: 'DR-TB',
+  path : "drtb-summary",
+  layoutmode: "anchored"
+}
+
+export const dstbSummaryDashboardMeta = {
+  slot: 'dstb-summary-dashboard-slot',
+  columns: 1,
+  title: 'DS-TB',
+  path : "dstb-summary",
   layoutmode: "anchored"
 }

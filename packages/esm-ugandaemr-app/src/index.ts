@@ -32,7 +32,7 @@ import {
   patientDSDM,
 } from './custom-expressions/custom-expressions';
 
-import { familyTrackingDashboardMeta, generalCounsellingDashboardMeta, hivCareAndTreatmentDashboardDMeta, hivPrevetionServicesboardDMeta, htsDashboardMeta, patientSummaryDashboardMeta, patientTransfersDashboardMeta, treatmentDashboardMeta, treatmentRegimenDashboardMeta, vmmcDashboardMeta } from './dashboard.meta';
+import { drtbSummaryDashboardMeta, dstbSummaryDashboardMeta, eidDashboardMeta, familyTrackingDashboardMeta, generalCounsellingDashboardMeta, hivCareAndTreatmentDashboardDMeta, hivPrevetionServicesboardDMeta, htsDashboardMeta, patientSummaryDashboardMeta, patientTransfersDashboardMeta, tbDashboardMeta, treatmentDashboardMeta, treatmentRegimenDashboardMeta, vmmcDashboardMeta } from './dashboard.meta';
 import GeneralCounsellingSummary from './views/hiv/hct/general-counselling/general-counselling-summary.component';
 import TreatmentRegimen from './views/hiv/hct/treatment-regimen/treatment-regimen.component';
 import FamilyTrackingSummary from './views/hiv/hct/family-tracking/family-tracking-summary.component';
@@ -41,6 +41,8 @@ import PatientSummaryOverviewList from './views/hiv/hct/patient-summary/patient-
 import TreatmentSummary from './views/hiv/hct/treatment/treatment-summary.component';
 import HivTestingServices from './views/hiv/hps/hts/hiv-testing-services.component';
 import VmmcServices from './views/hiv/hps/vmmc/vmmc-services.component';
+import DSTBSummary from './views/tb/ds/ds-tb-summary.component';
+import DRTBSummary from './views/tb/dr/dr-tb-summary.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -129,6 +131,15 @@ export const patientChartHIVPreventionServicesDashboard = getSyncLifecycle(
   options,
 );
 
+export const patientChartEIDDashboard = getSyncLifecycle(
+  createDashboardGroup(eidDashboardMeta),
+  options,
+);
+export const patientChartTBDashboard = getSyncLifecycle(
+  createDashboardGroup(tbDashboardMeta),
+  options,
+);
+
 export const generalCounsellingDashboardLink = getSyncLifecycle(
   createDashboardLink({ ...generalCounsellingDashboardMeta, moduleName }),
   options,
@@ -178,6 +189,16 @@ export const patientTransfersDashboard = getSyncLifecycle(PatientTransfersSummar
 export const patientSummaryDashboardLink = getSyncLifecycle(createDashboardLink({...patientSummaryDashboardMeta,moduleName}),options)
 
 export const patientSummaryDashboard = getSyncLifecycle(PatientSummaryOverviewList,{featureName:'patient-summary',moduleName})
+
+
+export const dstbSummaryDashboardLink = getSyncLifecycle(createDashboardLink({ ...dstbSummaryDashboardMeta, moduleName }), options);
+
+export const dstbSummaryDashboard = getSyncLifecycle(DSTBSummary, {featureName:"ds-tb",moduleName})
+
+export const drtbSummaryDashboardLink = getSyncLifecycle(createDashboardLink({ ...drtbSummaryDashboardMeta, moduleName }), options);
+
+export const drtbSummaryDashboard = getSyncLifecycle(DRTBSummary, {featureName:"dr-tb",moduleName})
+
 
 export const clinicalPatientSummary = getSyncLifecycle(ClinicalPatientSummary, options);
 

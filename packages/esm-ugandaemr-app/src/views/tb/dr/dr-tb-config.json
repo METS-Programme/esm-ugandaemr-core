@@ -1,0 +1,105 @@
+{
+    "menuId": "tb.dr",
+    "tabDefinitions": [
+        {
+            "tabName": "DR TB Enrollment",
+            "hasFilter": true,
+            "headerTitle": "DR TB Enrollment",
+            "displayText": "DR TB Enrollment",
+            "encounterType": "c11774c1-3b4a-4bdb-a847-6060895e006d",
+            "columns": [
+                {
+                    "id": "substitutionDate",
+                    "isDate": true,
+                    "title": "Substitution Date",
+                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                {
+                    "id": "New Regimen",
+                    "title": "New Regimen",
+                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "reason",
+                    "title": "Reason",
+                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                        {
+                            "formName": "ART Regimen Change",
+                            "label": "View Details",
+                            "mode": "view"
+                        },
+                        {
+                            "formName": "ART Regimen Change",
+                            "label": "EditForm",
+                            "mode": "edit"
+                        }
+                    ]
+                }
+            ],
+            "launchOptions": {
+                "displayText": "Add"
+            },
+            "formList": [
+                {
+                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003",
+                    "name": "ART Regimen Change"
+                }
+            ]
+        },
+        {
+            "tabName": "DR TB Follow Up",
+            "hasFilter": true,
+            "headerTitle": "DR TB Follow Up",
+            "displayText": "DR TB Follow Up",
+            "encounterType": "c11774c1-3b4a-4bdb-a847-6060895e006d",
+            "columns": [
+                {
+                    "id": "substitutionDate",
+                    "isDate": true,
+                    "title": "Substitution Date",
+                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                {
+                    "id": "New Regimen",
+                    "title": "New Regimen",
+                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "reason",
+                    "title": "Reason",
+                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                        {
+                            "formName": "ART Regimen Change",
+                            "label": "View Details",
+                            "mode": "view"
+                        },
+                        {
+                            "formName": "ART Regimen Change",
+                            "label": "EditForm",
+                            "mode": "edit"
+                        }
+                    ]
+                }
+            ],
+            "launchOptions": {
+                "displayText": "Add"
+            },
+            "formList": [
+                {
+                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003",
+                    "name": "ART Regimen Change"
+                }
+            ]
+        }
+    ]
+}
