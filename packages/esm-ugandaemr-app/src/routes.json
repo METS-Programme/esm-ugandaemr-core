@@ -33,17 +33,49 @@
             "component": "patientChartHIVPreventionServicesDashboard",
             "order": 22
         },
-         {
+        {
             "name": "eid-program",
             "slot": "patient-chart-dashboard-slot",
             "component": "patientChartEIDDashboard",
             "order": 23
         },
-         {
+        {
             "name": "tb-program",
             "slot": "patient-chart-dashboard-slot",
             "component": "patientChartTBDashboard",
             "order": 24
+        },
+        {
+            "name": "patient-summary",
+            "slot": "hiv-care-and-treatment-slot",
+            "component": "patientSummaryDashboardLink",
+            "meta": {
+                "slot": "patient-summary-summary-slot",
+                "columns": 1,
+                "path": "patient-summary",
+                "layoutMode": "anchored"
+            }
+        },
+        {
+            "name": "patient-summary-summary-ext",
+            "slot": "patient-summary-summary-slot",
+            "component": "patientSummaryDashboard"
+        },
+        {
+            "name": "treatment",
+            "slot": "hiv-care-and-treatment-slot",
+            "component": "treatmentDashboardLink",
+            "meta": {
+                "slot": "treatment-summary-slot",
+                "columns": 1,
+                "path": "treatment",
+                "layoutMode": "anchored"
+            }
+        },
+        {
+            "name": "treatment-summary-ext",
+            "slot": "treatment-summary-slot",
+            "component": "treatmentDashboard"
         },
         {
             "name": "general-counselling-summary",
@@ -77,39 +109,6 @@
             "slot": "treatment-regimen-summary-slot",
             "component": "treatmentRegimenDashboard"
         },
-         {
-            "name": "family-tracking",
-            "slot": "hiv-care-and-treatment-slot",
-            "component": "familyTrackingDashboardLink",
-            "meta": {
-                "slot": "family-tracking-summary-slot",
-                "columns": 1,
-                "path": "family-tracking",
-                "layoutMode": "anchored"
-            }
-        },
-        {
-            "name": "family-tracking-summary-ext",
-            "slot": "family-tracking-summary-slot",
-            "component": "familyTrackingDashboard"
-        },
-           {
-            "name": "treatment",
-            "slot": "hiv-care-and-treatment-slot",
-            "component": "treatmentDashboardLink",
-            "meta": {
-                "slot": "treatment-summary-slot",
-                "columns": 1,
-                "path": "treatment",
-                "layoutMode": "anchored"
-            }
-        },
-        {
-            "name": "treatment-summary-ext",
-            "slot": "treatment-summary-slot",
-            "component": "treatmentDashboard"
-        },
-
         {
             "name": "patient-transfers",
             "slot": "hiv-care-and-treatment-slot",
@@ -127,20 +126,20 @@
             "component": "patientTransfersDashboard"
         },
         {
-            "name": "patient-summary",
+            "name": "family-tracking",
             "slot": "hiv-care-and-treatment-slot",
-            "component": "patientSummaryDashboardLink",
+            "component": "familyTrackingDashboardLink",
             "meta": {
-                "slot": "patient-summary-summary-slot",
+                "slot": "family-tracking-summary-slot",
                 "columns": 1,
-                "path": "patient-summary",
+                "path": "family-tracking",
                 "layoutMode": "anchored"
             }
         },
         {
-            "name": "patient-summary-summary-ext",
-            "slot": "patient-summary-summary-slot",
-            "component": "patientSummaryDashboard"
+            "name": "family-tracking-summary-ext",
+            "slot": "family-tracking-summary-slot",
+            "component": "familyTrackingDashboard"
         },
         {
             "name": "hiv-testing-services",
@@ -175,6 +174,22 @@
             "component": "vmmcDashboard"
         },
         {
+            "name": "ds-tb-services",
+            "slot": "tb-slot",
+            "component": "dstbSummaryDashboardLink",
+            "meta": {
+                "slot": "dstb-summary-dashboard-slot",
+                "columns": 1,
+                "path": "ds-tb-summary",
+                "layoutMode": "anchored"
+            }
+        },
+        {
+            "name": "ds-tb-summary-ext",
+            "slot": "dstb-summary-dashboard-slot",
+            "component": "dstbSummaryDashboard"
+        },
+        {
             "name": "dr-tb-services",
             "slot": "tb-slot",
             "component": "drtbSummaryDashboardLink",
@@ -190,22 +205,21 @@
             "slot": "drtb-summary-dashboard-slot",
             "component": "drtbSummaryDashboard"
         },
-
-         {
-            "name": "ds-tb-services",
-            "slot": "tb-slot",
-            "component": "dstbSummaryDashboardLink",
+        {
+            "name": "eid-encounter",
+            "slot": "eid-slot",
+            "component": "eidSummaryDashboardLink",
             "meta": {
-                "slot": "dstb-summary-dashboard-slot",
+                "slot": "eid-summary-dashboard-slot",
                 "columns": 1,
-                "path": "ds-tb-summary",
+                "path": "eid-summary",
                 "layoutMode": "anchored"
             }
         },
         {
-            "name": "ds-tb-summary-ext",
-            "slot": "dstb-summary-dashboard-slot",
-            "component": "dstbSummaryDashboard"
+            "name": "eid-summarry-ext",
+            "slot": "eid-summary-dashboard-slot",
+            "component": "eidSummaryDashboard"
         },
         {
             "name": "retrieve-facility-code-modal",

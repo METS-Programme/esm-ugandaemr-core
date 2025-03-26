@@ -46,7 +46,7 @@
             },
             "formList": [
                 {
-                    "uuid": "b8224534-7df0-4c00-ba8e-6b1f291087eb",
+                    "uuid": "9d9193e7-b038-4c44-a7a3-830baa288565",
                     "name": "HMIS ACP 029: Safe Male Circumcision Client Form"
                 }
             ]
@@ -96,8 +96,8 @@
             },
             "formList": [
                 {
-                    "uuid": "79cab593-632b-4193-b686-6de2efa4cc7c",
-                    "name": "HMIS ACP 029: Safe Male Circumcision Client Form"
+                    "uuid": "0292be15-3234-4b65-b5da-15a667da695f",
+                    "name": "HMIS ACP 029: Safe Male Circumcision Client Card Follow up"
                 }
             ]
         }

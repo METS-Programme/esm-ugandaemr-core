@@ -1,0 +1,105 @@
+{
+    "menuId": "eidEncounter",
+    "tabDefinitions": [
+        {
+            "tabName": "EID Summary",
+            "hasFilter": true,
+            "headerTitle": "EID Summary",
+            "displayText": "EID Summary",
+            "encounterType": "9fcfcc91-ad60-4d84-9710-11cc25258719",
+            "columns": [
+                {
+                    "id": "substitutionDate",
+                    "isDate": true,
+                    "title": "Substitution Date",
+                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                {
+                    "id": "New Regimen",
+                    "title": "New Regimen",
+                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "reason",
+                    "title": "Reason",
+                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                        {
+                            "formName": "HMIS ACP 015:Exposed Infant Card Summary Form",
+                            "label": "View Details",
+                            "mode": "view"
+                        },
+                        {
+                            "formName": "HMIS ACP 015:Exposed Infant Card Summary Form",
+                            "label": "EditForm",
+                            "mode": "edit"
+                        }
+                    ]
+                }
+            ],
+            "launchOptions": {
+                "displayText": "Add"
+            },
+            "formList": [
+                {
+                    "uuid": "860c5f2f-cf3c-4c3f-b0c4-9958b6a5a938",
+                    "name": "HMIS ACP 015:Exposed Infant Card Summary Form"
+                }
+            ]
+        },
+        {
+            "tabName": "EID Encounter",
+            "hasFilter": true,
+            "headerTitle": "EID Encounter",
+            "displayText": "EID Encounter",
+            "encounterType": "4345dacb-909d-429c-99aa-045f2db77e2b",
+            "columns": [
+                {
+                    "id": "substitutionDate",
+                    "isDate": true,
+                    "title": "Substitution Date",
+                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                {
+                    "id": "New Regimen",
+                    "title": "New Regimen",
+                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "reason",
+                    "title": "Reason",
+                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                        {
+                            "formName": "HMIS ACP 015 - Exposed Infant Card Encounter Form",
+                            "label": "View Details",
+                            "mode": "view"
+                        },
+                        {
+                            "formName": "HMIS ACP 015 - Exposed Infant Card Encounter Form",
+                            "label": "EditForm",
+                            "mode": "edit"
+                        }
+                    ]
+                }
+            ],
+            "launchOptions": {
+                "displayText": "Add"
+            },
+            "formList": [
+                {
+                    "uuid": "6f6b4802-7642-4226-84dc-ea7db01924b6",
+                    "name": "HMIS ACP 015 - Exposed Infant Card Encounter Form"
+                }
+            ]
+        }
+    ]
+}

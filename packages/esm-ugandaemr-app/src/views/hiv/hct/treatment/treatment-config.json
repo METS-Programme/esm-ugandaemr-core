@@ -6,7 +6,7 @@
             "hasFilter": true,
             "headerTitle": "Summary Page(Enrollment)",
             "displayText": "Summary Page(Enrollment)",
-            "encounterType": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
+            "encounterType": "8d5b27bc-c2cc-11de-8d13-0010c6dffd0f",
             "columns": [
                 {
                     "id": "registrationDate",
