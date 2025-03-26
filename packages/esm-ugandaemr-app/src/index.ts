@@ -36,6 +36,7 @@ import {
   drtbSummaryDashboardMeta,
   dstbSummaryDashboardMeta,
   eidDashboardMeta,
+  eidSummaryDashboardMeta,
   familyTrackingDashboardMeta,
   generalCounsellingDashboardMeta,
   hivCareAndTreatmentDashboardDMeta,
@@ -58,6 +59,7 @@ import HivTestingServices from './views/hiv/hps/hts/hiv-testing-services.compone
 import VmmcServices from './views/hiv/hps/vmmc/vmmc-services.component';
 import DSTBSummary from './views/tb/ds/ds-tb-summary.component';
 import DRTBSummary from './views/tb/dr/dr-tb-summary.component';
+import EidSummary from './views/eid/eid.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -125,7 +127,6 @@ export const clinicalPatientDashboardLink = getSyncLifecycle(
   createDashboardLink({
     path: 'clinical-patient-dashboard',
     title: 'Clinical Patient Dashboard',
-    icon: '',
     moduleName,
   }),
   options,
@@ -234,6 +235,13 @@ export const drtbSummaryDashboardLink = getSyncLifecycle(
 );
 
 export const drtbSummaryDashboard = getSyncLifecycle(DRTBSummary, { featureName: 'dr-tb', moduleName });
+
+export const eidSummaryDashboardLink = getSyncLifecycle(
+  createDashboardLink({ ...eidSummaryDashboardMeta, moduleName }),
+  options,
+);
+
+export const eidSummaryDashboard = getSyncLifecycle(EidSummary, { featureName: 'eid-summary', moduleName });
 
 export const clinicalPatientSummary = getSyncLifecycle(ClinicalPatientSummary, options);
 

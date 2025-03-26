@@ -6,7 +6,7 @@
             "hasFilter": true,
             "headerTitle": "Transfer In",
             "displayText": "Tranfer In",
-            "encounterType": "c11774c1-3b4a-4bdb-a847-6060895e006d",
+            "encounterType": "3e8354f7-31b3-4862-a52e-ff41a1ee60af",
             "columns": [
                 {
                     "id": "substitutionDate",
@@ -29,12 +29,12 @@
                     "title": "actionsTitle",
                     "actionOptions": [
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "HMIS ACP 008: HIV Care/ART Patient Transfer In Form",
                             "label": "View Details",
                             "mode": "view"
                         },
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "HMIS ACP 008: HIV Care/ART Patient Transfer In Form",
                             "label": "EditForm",
                             "mode": "edit"
                         }
@@ -46,8 +46,8 @@
             },
             "formList": [
                 {
-                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003",
-                    "name" :"ART Regimen Change"
+                    "uuid": "1306e612-3d25-4daa-b1f1-648e20804695",
+                    "name": "HMIS ACP 008: HIV Care/ART Patient Transfer In Form"
                 }
             ]
         },
@@ -56,7 +56,7 @@
             "hasFilter": true,
             "headerTitle": "Transfer Out",
             "displayText": "Transfer Out",
-            "encounterType": "c11774c1-3b4a-4bdb-a847-6060895e006d",
+            "encounterType": "e305d98a-d6a2-45ba-ba2a-682b497ce27c",
             "columns": [
                 {
                     "id": "substitutionDate",
@@ -79,12 +79,12 @@
                     "title": "actionsTitle",
                     "actionOptions": [
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "HMIS ACP 008: HIV Care/ART Patient Transfer Out Form",
                             "label": "View Details",
                             "mode": "view"
                         },
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "HMIS ACP 008: HIV Care/ART Patient Transfer Out Form",
                             "label": "EditForm",
                             "mode": "edit"
                         }
@@ -96,8 +96,8 @@
             },
             "formList": [
                 {
-                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003",
-                    "name" :"ART Regimen Change"
+                    "uuid": "37be0b17-c62c-4033-90ef-3cbedb7fe0a0s",
+                    "name": "HMIS ACP 008: HIV Care/ART Patient Transfer Out Form"
                 }
             ]
         }

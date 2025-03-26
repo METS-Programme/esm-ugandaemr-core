@@ -6,7 +6,7 @@
             "hasFilter": true,
             "headerTitle": "DR TB Enrollment",
             "displayText": "DR TB Enrollment",
-            "encounterType": "c11774c1-3b4a-4bdb-a847-6060895e006d",
+            "encounterType": "0271ee3d-f274-49d1-b376-c842f075413f",
             "columns": [
                 {
                     "id": "substitutionDate",
@@ -29,12 +29,12 @@
                     "title": "actionsTitle",
                     "actionOptions": [
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "DR TB: HMIS TB 001 Second Line TB Treatment Card - Enrollment Page",
                             "label": "View Details",
                             "mode": "view"
                         },
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "DR TB: HMIS TB 001 Second Line TB Treatment Card - Enrollment Page",
                             "label": "EditForm",
                             "mode": "edit"
                         }
@@ -46,8 +46,8 @@
             },
             "formList": [
                 {
-                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003",
-                    "name": "ART Regimen Change"
+                    "uuid": "4929f668-f8d0-11ea-adc1-0242ac120002",
+                    "name": "DR TB: HMIS TB 001 Second Line TB Treatment Card - Enrollment Page"
                 }
             ]
         },
@@ -56,7 +56,7 @@
             "hasFilter": true,
             "headerTitle": "DR TB Follow Up",
             "displayText": "DR TB Follow Up",
-            "encounterType": "c11774c1-3b4a-4bdb-a847-6060895e006d",
+            "encounterType": "41f8609d-e13b-4dff-8379-47ac5876512e",
             "columns": [
                 {
                     "id": "substitutionDate",
@@ -79,12 +79,12 @@
                     "title": "actionsTitle",
                     "actionOptions": [
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "DR TB: HMIS TB 001 Second Line TB Treatment Card - Followup Section",
                             "label": "View Details",
                             "mode": "view"
                         },
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "DR TB: HMIS TB 001 Second Line TB Treatment Card - Followup Section",
                             "label": "EditForm",
                             "mode": "edit"
                         }
@@ -96,8 +96,8 @@
             },
             "formList": [
                 {
-                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003",
-                    "name": "ART Regimen Change"
+                    "uuid": "5f69626e-fbe2-11ea-adc1-0242ac120002",
+                    "name": "DR TB: HMIS TB 001 Second Line TB Treatment Card - Followup Section"
                 }
             ]
         }

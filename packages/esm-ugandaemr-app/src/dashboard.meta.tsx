@@ -110,7 +110,7 @@ export const patientSummaryDashboardMeta = {
 export const drtbSummaryDashboardMeta = {
   slot: 'drtb-summary-dashboard-slot',
   columns: 1,
-  title: 'DR-TB',
+  title: 'DR TB',
   path: 'dr-tb-summary',
   icon: '',
 
@@ -122,7 +122,17 @@ export const dstbSummaryDashboardMeta = {
   columns: 1,
   icon: '',
 
-  title: 'DS-TB',
+  title: 'DS TB',
   path: 'ds-tb-summary',
+  layoutmode: 'anchored',
+};
+
+export const eidSummaryDashboardMeta = {
+  slot: 'eid-summary-dashboard-slot',
+  columns: 1,
+  icon: '',
+
+  title: 'EID Summary',
+  path: 'eid-summary',
   layoutmode: 'anchored',
 };

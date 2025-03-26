@@ -6,7 +6,7 @@
             "hasFilter": true,
             "headerTitle": "DS TB Enrollment",
             "displayText": "DS TB Enrollment",
-            "encounterType": "c11774c1-3b4a-4bdb-a847-6060895e006d",
+            "encounterType": "334bf97e-28e2-4a27-8727-a5ce31c7cd66",
             "columns": [
                 {
                     "id": "substitutionDate",
@@ -29,12 +29,12 @@
                     "title": "actionsTitle",
                     "actionOptions": [
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "DS TB: HMIS TB 003 - TB Client Card Enrollment Page",
                             "label": "View Details",
                             "mode": "view"
                         },
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "DS TB: HMIS TB 003 - TB Client Card Enrollment Page",
                             "label": "EditForm",
                             "mode": "edit"
                         }
@@ -46,8 +46,8 @@
             },
             "formList": [
                 {
-                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003",
-                    "name": "ART Regimen Change"
+                    "uuid": "b00452b6-bb7c-11ea-b3de-0242ac130004",
+                    "name": "DS TB: HMIS TB 003 - TB Client Card Enrollment Page"
                 }
             ]
         },
@@ -56,7 +56,7 @@
             "hasFilter": true,
             "headerTitle": "Switch Regimen",
             "displayText": "Switch Regimen",
-            "encounterType": "c11774c1-3b4a-4bdb-a847-6060895e006d",
+            "encounterType": "455bad1f-5e97-4ee9-9558-ff1df8808732",
             "columns": [
                 {
                     "id": "substitutionDate",
@@ -79,12 +79,12 @@
                     "title": "actionsTitle",
                     "actionOptions": [
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "DS TB: HMIS TB 003 - TB Client Card Followup Section",
                             "label": "View Details",
                             "mode": "view"
                         },
                         {
-                            "formName": "ART Regimen Change",
+                            "formName": "DS TB: HMIS TB 003 - TB Client Card Followup Section",
                             "label": "EditForm",
                             "mode": "edit"
                         }
@@ -96,8 +96,8 @@
             },
             "formList": [
                 {
-                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003",
-                    "name": "ART Regimen Change"
+                    "uuid": "0248cd00-bc53-11ea-b3de-0242ac130004",
+                    "name": "DS TB: HMIS TB 003 - TB Client Card Followup Section"
                 }
             ]
         }
