@@ -127,6 +127,7 @@ export const clinicalPatientDashboardLink = getSyncLifecycle(
   createDashboardLink({
     path: 'clinical-patient-dashboard',
     title: 'Clinical Patient Dashboard',
+    icon: '',
     moduleName,
   }),
   options,
