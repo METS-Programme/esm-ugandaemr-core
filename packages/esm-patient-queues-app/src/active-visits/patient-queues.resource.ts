@@ -6,7 +6,6 @@ import { NewVisitPayload, ProviderResponse } from '../types';
 import { ResourceFilterCriteria, ResourceRepresentation, toQueryParams } from '../resource-filter-criteria';
 import { PageableResult } from '../pageable-result';
 import { useEffect, useState } from 'react';
-import { QueueStatus } from '../utils/utils';
 import last from 'lodash-es/last';
 
 export interface PatientQueueFilter extends ResourceFilterCriteria {
@@ -25,6 +24,19 @@ export interface NewQueuePayload {
   priorityComment: string;
   comment: string;
   queueRoom: string;
+}
+
+export interface NewCheckInPayload {
+  patient: string;
+  provider: string;
+  currentLocation: string;
+  locationTo: string;
+  patientStatus: string;
+  priority: number;
+  priorityComment: string;
+  visitComment: string;
+  queueRoom: string;
+  visitType: string;
 }
 
 export interface LocationResponse {
@@ -314,6 +326,19 @@ export async function addQueueEntry(payload: NewQueuePayload) {
   const abortController = new AbortController();
 
   return await openmrsFetch(`${restBaseUrl}/patientqueue`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    signal: abortController.signal,
+    body: payload,
+  });
+}
+
+export async function checkInQueue(payload: NewCheckInPayload) {
+  const abortController = new AbortController();
+
+  return await openmrsFetch(`${restBaseUrl}/checkinpatient`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
