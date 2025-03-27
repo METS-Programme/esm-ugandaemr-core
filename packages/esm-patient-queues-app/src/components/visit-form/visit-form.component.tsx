@@ -18,26 +18,20 @@ import {
   restBaseUrl,
   showNotification,
   showToast,
-  toDateObjectStrict,
-  toOmrsIsoString,
   useLayoutType,
   usePatient,
   useSession,
   useVisitTypes,
 } from '@openmrs/esm-framework';
-import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './visit-form.scss';
-import { NewVisitPayload } from '../../types';
-import { amPm, convertTime12to24 } from '../../helpers/time-helpers';
 import { useQueueRoomLocations } from '../../hooks/useQueueRooms';
 import Overlay from '../overlay/overlay.component';
 import {
-  NewQueuePayload,
-  addQueueEntry,
+  NewCheckInPayload,
   checkCurrentVisit,
-  createVisit,
+  checkInQueue,
   useProviders,
 } from '../../active-visits/patient-queues.resource';
 import { Controller, useForm } from 'react-hook-form';
@@ -62,11 +56,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
   const { patient } = usePatient(patientUuid);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [timeFormat, setTimeFormat] = useState<amPm>(new Date().getHours() >= 12 ? 'PM' : 'AM');
-  const [visitDate, setVisitDate] = useState(new Date());
-  const [visitTime, setVisitTime] = useState(dayjs(new Date()).format('hh:mm'));
   const allVisitTypes = useVisitTypes();
-  const [selectedLocation, setSelectedLocation] = useState('');
   const [visitType, setVisitType] = useState('');
   const [priorityComment, setPriorityComment] = useState('');
   const priorityLevels = [1, 2, 3];
@@ -94,7 +84,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
 
   useEffect(() => {
     if (queueRoomLocations?.length && sessionUser) {
-      setSelectedLocation(sessionUser?.sessionLocation?.display);
       setVisitType(allVisitTypes?.length > 0 ? allVisitTypes[0].uuid : null);
     }
   }, [sessionUser, queueRoomLocations?.length, queueRoomLocations, allVisitTypes]);
@@ -115,42 +104,21 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
           });
           return;
         }
-
-        const [hours, minutes] = convertTime12to24(visitTime, timeFormat);
-
-        const payload: NewVisitPayload = {
-          patient: patientUuid,
-          startDatetime: toDateObjectStrict(
-            toOmrsIsoString(
-              new Date(dayjs(visitDate).year(), dayjs(visitDate).month(), dayjs(visitDate).date(), hours, minutes),
-            ),
-          ),
-          visitType,
-          location: selectedNextQueueLocation,
-          attributes: [],
-        };
-
-        // Attempt to save the visit
-        const response = await createVisit(payload);
-
-        if (response.status !== 201) {
-          throw new Error(t('visitCreationFailed', 'Failed to create visit.'));
-        }
-
         // Add new queue entry
-        const request: NewQueuePayload = {
+        const request: NewCheckInPayload = {
           patient: patientUuid,
           provider: selectedProvider,
-          locationFrom: sessionUser?.sessionLocation?.uuid,
+          currentLocation: sessionUser?.sessionLocation?.uuid,
           locationTo: selectedNextQueueLocation,
-          status: QueueStatus.Pending,
+          patientStatus: QueueStatus.Pending,
           priority: contentSwitcherIndex,
           priorityComment: priorityComment,
-          comment: 'NA',
+          visitComment: 'NA',
           queueRoom: selectedNextQueueLocation,
+          visitType: visitType,
         };
 
-        const createQueueResponse = await addQueueEntry(request);
+        const createQueueResponse = await checkInQueue(request);
 
         if (createQueueResponse.status === 201) {
           showToast({
@@ -182,9 +150,6 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
       selectedNextQueueLocation,
       selectedProvider,
       t,
-      timeFormat,
-      visitDate,
-      visitTime,
       visitType,
       sessionUser?.sessionLocation?.uuid,
     ],
