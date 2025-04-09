@@ -391,29 +391,29 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                     <Controller
                       name="locationTo"
                       control={control}
-                      defaultValue={queueRoomLocations.length > 0 ? queueRoomLocations[0].uuid : ''}
+                      defaultValue={queueRoomLocations[0]?.uuid || ''}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          labelText={''}
                           id="nextQueueLocation"
                           name="nextQueueLocation"
+                          labelText=""
                           disabled={errorLoadingQueueRooms}
                           invalid={!!errors.locationTo}
                           invalidText={errors.locationTo?.message}
                           value={field.value}
-                          onChange={(event) => {
-                            field.onChange(event.target.value);
-                            setSelectedNextQueueLocation(event.target.value);
+                          onChange={(e) => {
+                            const selectedValue = e.target.value;
+                            field.onChange(selectedValue);
+                            setSelectedNextQueueLocation(selectedValue);
                           }}
                         >
-                          {!field.value ? (
-                            <SelectItem text={t('selectNextServicePoint', 'Choose next service point')} value="" />
-                          ) : null}
-                          {queueRoomLocations.map((location) => (
-                            <SelectItem key={location.uuid} text={location.display} value={location.uuid}>
-                              {location.display}
-                            </SelectItem>
+                          {!field.value && (
+                            <SelectItem value="" text={t('selectNextServicePoint', 'Choose next service point')} />
+                          )}
+
+                          {queueRoomLocations.map(({ uuid, display }) => (
+                            <SelectItem key={uuid} value={uuid} text={display} />
                           ))}
                         </Select>
                       )}
@@ -423,12 +423,13 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                       <InlineNotification
                         className={styles.errorNotification}
                         kind="error"
-                        onClick={() => {}}
-                        subtitle={errorLoadingQueueRooms}
                         title={t('errorFetchingQueueRooms', 'Error fetching queue rooms')}
+                        subtitle={errorLoadingQueueRooms}
+                        onClick={() => { }}
                       />
                     )}
                   </ResponsiveWrapper>
+
                 </section>
                 <section className={styles.section}>
                   <div className={styles.sectionTitle}>{t('selectAProvider', 'Select a provider')}</div>
@@ -436,29 +437,29 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                     <Controller
                       name="provider"
                       control={control}
-                      defaultValue={providers.length > 0 ? providers[0].uuid : ''}
+                      defaultValue={providers[0]?.uuid || ''}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          labelText={''}
                           id="providers-list"
                           name="providers-list"
+                          labelText=""
                           disabled={errorLoadingProviders}
                           invalid={!!errors.provider}
                           invalidText={errors.provider?.message}
                           value={field.value}
-                          onChange={(event) => {
-                            field.onChange(event.target.value);
-                            setSelectedProvider(event.target.value);
+                          onChange={(e) => {
+                            const selectedValue = e.target.value;
+                            field.onChange(selectedValue);
+                            setSelectedProvider(selectedValue);
                           }}
                         >
-                          {!field.value ? (
-                            <SelectItem text={t('selectProvider', 'choose a provider')} value="" />
-                          ) : null}
-                          {providers.map((provider) => (
-                            <SelectItem key={provider.uuid} text={provider.display} value={provider.uuid}>
-                              {provider.display}
-                            </SelectItem>
+                          {!field.value && (
+                            <SelectItem value="" text={t('selectProvider', 'Choose a provider')} />
+                          )}
+
+                          {providers.map(({ uuid, display }) => (
+                            <SelectItem key={uuid} value={uuid} text={display} />
                           ))}
                         </Select>
                       )}
@@ -468,12 +469,13 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                       <InlineNotification
                         className={styles.errorNotification}
                         kind="error"
-                        onClick={() => {}}
-                        subtitle={errorLoadingProviders}
                         title={t('errorFetchingQueueRooms', 'Error fetching providers')}
+                        subtitle={errorLoadingProviders}
+                        onClick={() => { }}
                       />
                     )}
                   </ResponsiveWrapper>
+
                 </section>
                 <section className={styles.section}>
                   <div className={styles.sectionTitle}>{t('notes', 'Notes')}</div>
@@ -516,7 +518,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             {isSubmitting ? (
               <InlineLoading description={'Submitting...'} />
             ) : (
-              <Button type="submit">{status === 'pending' ? 'Save' : 'Move to the next queue room'}</Button>
+              <Button type="submit">{status === QueueStatus.Pending ? 'Save' : 'Move to the next queue room--1'}</Button>
             )}
           </ModalFooter>
         </Form>
