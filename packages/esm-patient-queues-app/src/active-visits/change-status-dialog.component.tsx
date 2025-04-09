@@ -518,7 +518,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             {isSubmitting ? (
               <InlineLoading description={'Submitting...'} />
             ) : (
-              <Button type="submit">{status === QueueStatus.Pending ? 'Save' : 'Move to the next queue room--1'}</Button>
+              <Button type="submit">{status === QueueStatus.Pending ? 'Save' : 'Move to the next queue room'}</Button>
             )}
           </ModalFooter>
         </Form>

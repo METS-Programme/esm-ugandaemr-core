@@ -523,7 +523,7 @@ const ChangeStatusMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid
           {isSubmitting ? (
             <InlineLoading description={'Submitting...'} />
           ) : (
-            <Button type="submit">{status === QueueStatus.Pending ? 'Save' : 'Move to the next queue room----2'}</Button>
+            <Button type="submit">{status === QueueStatus.Pending ? 'Save' : 'Move to the next queue room'}</Button>
           )}
         </ModalFooter>
       </Form>
