@@ -79,10 +79,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
 
   const { providers, error: errorLoadingProviders } = useProviders(selectedNextQueueLocation);
 
-  const {
-    setValue,
-    watch,
-  } = useFormContext();
+  const { setValue, watch } = useFormContext();
 
   const selectedProvider = watch('provider');
   const [isFetchingProvider, setIsFetchingProvider] = useState(false);
@@ -102,16 +99,16 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
         }
       } else {
         showNotification({
-          title: "Provider Not Found",
-          kind: "error",
+          title: 'Provider Not Found',
+          kind: 'error',
           critical: true,
-          description: "No care provider linked to your account.",
+          description: 'No care provider linked to your account.',
         });
       }
     } catch (error) {
       showNotification({
         title: "Couldn't fetch provider",
-        kind: "error",
+        kind: 'error',
         critical: true,
         description: extractErrorMessagesFromResponse(error).join(', '),
       });
@@ -128,7 +125,6 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   useEffect(() => {
     setValue('provider', '');
   }, [selectedNextQueueLocation, setValue]);
-
 
   const priorityLabels = useMemo(() => ['Not Urgent', 'Urgent', 'Emergency'], []);
 
@@ -283,7 +279,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     }
   }, [
     status,
-    selectedProvider,
+
     queueEntry?.uuid,
     queueEntry?.patient?.uuid,
     priorityComment,
@@ -443,11 +439,10 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                         kind="error"
                         title={t('errorFetchingQueueRooms', 'Error fetching queue rooms')}
                         subtitle={errorLoadingQueueRooms}
-                        onClick={() => { }}
+                        onClick={() => {}}
                       />
                     )}
                   </ResponsiveWrapper>
-
                 </section>
                 <section className={styles.section}>
                   <div className={styles.sectionTitle}>{t('selectAProvider', 'Select a provider')}</div>
@@ -468,9 +463,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                             field.onChange(e.target.value);
                           }}
                         >
-                          {!field.value && (
-                            <SelectItem value="" text={t('selectProvider', 'Choose a provider')} />
-                          )}
+                          {!field.value && <SelectItem value="" text={t('selectProvider', 'Choose a provider')} />}
 
                           {providers.map(({ uuid, display }) => (
                             <SelectItem key={uuid} value={uuid} text={display} />
@@ -479,18 +472,16 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                       )}
                     />
 
-
                     {errorLoadingProviders && (
                       <InlineNotification
                         className={styles.errorNotification}
                         kind="error"
                         title={t('errorFetchingQueueRooms', 'Error fetching providers')}
                         subtitle={errorLoadingProviders}
-                        onClick={() => { }}
+                        onClick={() => {}}
                       />
                     )}
                   </ResponsiveWrapper>
-
                 </section>
                 <section className={styles.section}>
                   <div className={styles.sectionTitle}>{t('notes', 'Notes')}</div>
@@ -533,8 +524,9 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
             {isSubmitting ? (
               <InlineLoading description={'Submitting...'} />
             ) : (
-              <Button disabled={!selectedProvider || isFetchingProvider || isSubmitting}
-                type="submit">{status === QueueStatus.Pending ? 'Save' : 'Move to the next queue room'}</Button>
+              <Button disabled={!selectedProvider || isFetchingProvider || isSubmitting} type="submit">
+                {status === QueueStatus.Pending ? 'Save' : 'Move to the next queue room'}
+              </Button>
             )}
           </ModalFooter>
         </Form>

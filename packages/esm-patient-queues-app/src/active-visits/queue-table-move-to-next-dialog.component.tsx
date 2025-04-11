@@ -69,15 +69,11 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
 
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
 
-
   const [priorityComment, setPriorityComment] = useState('');
 
   const { providers, error: errorLoadingProviders } = useProviders(selectedNextQueueLocation);
 
-  const {
-    setValue,
-    watch,
-  } = useFormContext();
+  const { setValue, watch } = useFormContext();
 
   const selectedProvider = watch('provider');
   const [isFetchingProvider, setIsFetchingProvider] = useState(false);
@@ -97,16 +93,16 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
         }
       } else {
         showNotification({
-          title: "Provider Not Found",
-          kind: "error",
+          title: 'Provider Not Found',
+          kind: 'error',
           critical: true,
-          description: "No care provider linked to your account.",
+          description: 'No care provider linked to your account.',
         });
       }
     } catch (error) {
       showNotification({
         title: "Couldn't fetch provider",
-        kind: "error",
+        kind: 'error',
         critical: true,
         description: extractErrorMessagesFromResponse(error).join(', '),
       });
@@ -260,7 +256,6 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
     contentSwitcherIndex,
     patientUuid,
     priorityComment,
-    selectedProvider,
     selectedNextQueueLocation,
     selectedProvider,
     sessionUser?.sessionLocation?.uuid,
@@ -375,7 +370,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
                       kind="error"
                       title={t('errorFetchingQueueRooms', 'Error fetching queue rooms')}
                       subtitle={errorLoadingQueueRooms}
-                      onCloseButtonClick={() => { }}
+                      onCloseButtonClick={() => {}}
                     />
                   )}
                 </ResponsiveWrapper>
@@ -399,9 +394,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
                           field.onChange(e.target.value);
                         }}
                       >
-                        {!field.value && (
-                          <SelectItem value="" text={t('selectProvider', 'Choose a provider')} />
-                        )}
+                        {!field.value && <SelectItem value="" text={t('selectProvider', 'Choose a provider')} />}
 
                         {providers.map(({ uuid, display }) => (
                           <SelectItem key={uuid} value={uuid} text={display} />
@@ -416,7 +409,7 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
                       kind="error"
                       title={t('errorFetchingQueueRooms', 'Error fetching providers')}
                       subtitle={errorLoadingProviders}
-                      onClick={() => { }}
+                      onClick={() => {}}
                     />
                   )}
                 </ResponsiveWrapper>
@@ -453,8 +446,9 @@ const QueueTableMoveToNext: React.FC<ChangeStatusDialogProps> = ({ patientUuid, 
           {isSubmitting ? (
             <InlineLoading description={'Submitting...'} />
           ) : (
-            <Button disabled={!selectedProvider || isFetchingProvider || isSubmitting}
-              type="submit">{status === QueueStatus.Pending ? 'Save' : 'Move to the next queue room'}</Button>
+            <Button disabled={!selectedProvider || isFetchingProvider || isSubmitting} type="submit">
+              {status === QueueStatus.Pending ? 'Save' : 'Move to the next queue room'}
+            </Button>
           )}
         </ModalFooter>
       </Form>
