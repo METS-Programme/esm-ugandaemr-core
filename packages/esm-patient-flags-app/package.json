@@ -1,6 +1,6 @@
 {
   "name": "@ugandaemr/esm-patient-flags-app",
-  "version": "5.1.0",
+  "version": "1.0.3",
   "description": "Patient flags microfrontend for UgandaEMR",
   "browser": "dist/esm-patient-flags-app.js",
   "main": "src/index.ts",
