@@ -11,13 +11,12 @@
                 {
                     "id": "encounterData",
                     "isDate": true,
-                    "title": "Encounter Date",
-                    "concept": "31c5c7aa-4948-473e-890b-67fe2fbbd71a"
+                    "title": "Encounter Date"
                 },
                 {
                     "id": "baselineRegimen",
                     "title": "Baseline Regimen",
-                    "concept": "verificationDateConceptUuid"
+                    "concept": "c3332e8d-2548-4ad6-931d-6855692694a3"
                 },
                 {
                     "id": "artStartDate",
@@ -31,7 +30,7 @@
                 },
                 {
                     "id": "actions",
-                    "title": "actionsTitle",
+                    "title": "Actions",
                     "actionOptions": [
                         {
                             "formName": "HMIS ACP HIV 003: HIV CARE/ART CARD - Summary Form",
@@ -69,11 +68,7 @@
                     "title": "Encounter Date",
                     "concept": "31c5c7aa-4948-473e-890b-67fe2fbbd71a"
                 },
-                {
-                    "id": "hivDrStatus",
-                    "title": "HIV DR Status",
-                    "concept": "nutrittionSupportConceptUuid"
-                },
+               
                 {
                     "id": "advancedDiseaseStatus",
                     "title": "Advanced Disease Status",

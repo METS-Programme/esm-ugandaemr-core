@@ -2,22 +2,32 @@
     "menuId": "treatmentRegimen",
     "tabDefinitions": [
         {
-            "tabName": "Substitute Regimen",
+            "tabName": "Substitute/Switch Regimen",
             "hasFilter": true,
-            "headerTitle": "Substitute Regimen",
-            "displayText": "Substitute Regimen",
+            "headerTitle": "Substitute/Switch Regimen",
+            "displayText": "Substitute/Switch Regimen",
             "encounterType": "c11774c1-3b4a-4bdb-a847-6060895e006d",
             "columns": [
                 {
-                    "id": "substitutionDate",
+                    "id": "date",
                     "isDate": true,
-                    "title": "Substitution Date",
-                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    "title": "Date",
+                    "concept": "31c5c7aa-4948-473e-890b-67fe2fbbd71a"
                 },
                 {
-                    "id": "New Regimen",
+                    "id": "currentRegimen",
+                    "title": "Current Regimen",
+                    "concept": "107bef04-bf05-4f41-9260-b167c1108f7e"
+                },
+                {
+                    "id": "newRegimen",
                     "title": "New Regimen",
                     "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "regimenChangeType",
+                    "title": "Regimen Change Type",
+                    "concept": "ca5a71aa-05f9-42a0-bf0d-65bcfd08036b"
                 },
                 {
                     "id": "reason",
@@ -26,57 +36,7 @@
                 },
                 {
                     "id": "actions",
-                    "title": "actionsTitle",
-                    "actionOptions": [
-                        {
-                            "formName": "ART Regimen Change",
-                            "label": "View Details",
-                            "mode": "view"
-                        },
-                        {
-                            "formName": "ART Regimen Change",
-                            "label": "EditForm",
-                            "mode": "edit"
-                        }
-                    ]
-                }
-            ],
-            "launchOptions": {
-                "displayText": "Add"
-            },
-            "formList": [
-                {
-                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003",
-                    "name": "ART Regimen Change"
-                }
-            ]
-        },
-        {
-            "tabName": "Switch Regimen",
-            "hasFilter": true,
-            "headerTitle": "Switch Regimen",
-            "displayText": "Switch Regimen",
-            "encounterType": "c11774c1-3b4a-4bdb-a847-6060895e006d",
-            "columns": [
-                {
-                    "id": "substitutionDate",
-                    "isDate": true,
-                    "title": "Substitution Date",
-                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                },
-                {
-                    "id": "New Regimen",
-                    "title": "New Regimen",
-                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
-                },
-                {
-                    "id": "reason",
-                    "title": "Reason",
-                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
-                },
-                {
-                    "id": "actions",
-                    "title": "actionsTitle",
+                    "title": "Actions",
                     "actionOptions": [
                         {
                             "formName": "ART Regimen Change",
