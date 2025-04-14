@@ -1,7 +1,6 @@
 import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
-import { registerCustomDataSource, registerExpressionHelper } from '@openmrs/openmrs-form-engine-lib';
 
 import formBuilderAppMenu from './menu-app-items/form-builder-app-item/form-builder-app-item.component';
 import systemInfoAppMenu from './menu-app-items/system-info-app-item/system-info-app-item.component';
@@ -24,13 +23,6 @@ import {
   createOHRIPatientChartSideNavLink,
   patientChartDivider_dashboardMeta,
 } from '@ohri/openmrs-esm-ohri-commons-lib';
-
-import {
-  CalcMonthsOnART,
-  DSDMCategorizationDatasource,
-  latestObs,
-  patientDSDM,
-} from './custom-expressions/custom-expressions';
 
 import {
   drtbSummaryDashboardMeta,
@@ -78,18 +70,6 @@ export const dispensingAppMenuItem = getSyncLifecycle(dispensingAppMenu, options
 
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
-  registerExpressionHelper('cusGetLatestObs', latestObs);
-  registerExpressionHelper('getPatientDSMD', patientDSDM);
-  registerExpressionHelper('CustomMonthsOnARTCalc', CalcMonthsOnART);
-
-  registerCustomDataSource({
-    name: 'dsdm_categorization_datasource',
-    load: () => {
-      return Promise.resolve({
-        default: new DSDMCategorizationDatasource(),
-      });
-    },
-  });
 }
 
 export const systemInfoPage = getAsyncLifecycle(() => import('./pages/system-info/system-info.component'), {

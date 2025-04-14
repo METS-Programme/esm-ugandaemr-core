@@ -9,20 +9,29 @@
       "encounterType": "6d88e370-f2ba-476b-bf1b-d8eaf3b1b67e",
       "columns": [
         {
-          "id": "contactDate",
-          "isDate": true,
-          "title": "contactDateTitle",
-          "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "id": "physcohologicalIssues",
+          "title": "Psychological issues",
+          "concept": "1760ea50-8f05-4675-aedd-d55f99541aa8"
         },
         {
-          "id": "contactMethod",
-          "title": "contactMethodTitle",
-          "concept": "166456AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "id": "socialIssues",
+          "title": "Social Issues",
+          "concept": "1760ea50-8f05-4675-aedd-d55f99541aa8"
         },
         {
-          "id": "contactOutcome",
-          "title": "contactOutcomeTitle",
-          "concept": "167011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "id": "patientCategorization",
+          "title": "Patient Categorization",
+          "concept": "cc183c11-0f94-4992-807c-84f33095ce37"
+        },
+        {
+          "id": "dsdModel",
+          "title": "DSDM Model",
+          "concept": "1e755463-df07-4f18-bc67-9e5527bc252f"
+        },
+        {
+          "id": "dsdApproach",
+          "title": "DSDM Approach",
+          "concept": "73312fee-c321-11e8-a355-529269fb1459"
         },
         {
           "id": "actions",
@@ -59,20 +68,37 @@
       "encounterType": "38cb2232-30fc-4b1f-8df1-47c795771ee9",
       "columns": [
         {
-          "id": "contactDate",
+          "id": "vlSampleCollectionDate",
           "isDate": true,
-          "title": "contactDateTitle",
-          "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "title": "VL Sample Collection Date",
+          "concept": "c4389c60-32f5-4390-b7c6-9095ff880df5"
         },
         {
-          "id": "contactMethod",
-          "title": "contactMethodTitle",
-          "concept": "166456AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "id": "vlInitiationCpoies",
+          "title": "VL Copes/ml at Initiation of IAC",
+          "concept": "dc8d83e3-30ab-102d-86b0-7a5022ba4115"
         },
         {
-          "id": "contactOutcome",
-          "title": "contactOutcomeTitle",
-          "concept": "167011AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          "id": "hivdr4SampleCollectionDate",
+          "isDate": true,
+          "title": "HIVDR Sample Collection Date",
+          "concept": "0b434cfa-b11c-4d14-aaa2-9aed6ca2da88"
+        },
+        {
+          "id": "vlResultsAfterIac",
+          "title": "VL Results after IAC",
+          "concept": "dca12261-30ab-102d-86b0-7a5022ba4115"
+        },
+        {
+          "id": "vlCopiesAfterIac",
+          "title": "VL copies/ml after IAC",
+          "concept": "dc8d83e3-30ab-102d-86b0-7a5022ba4115"
+        },
+        {
+          "id": "dateResultsReceivedAtFacility",
+          "isDate": true,
+          "title": "Date VL Results Received at facility",
+          "concept": "163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         },
         {
           "id": "actions",

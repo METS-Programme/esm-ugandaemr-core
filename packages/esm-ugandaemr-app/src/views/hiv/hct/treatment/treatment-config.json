@@ -51,7 +51,7 @@
             "formList": [
                 {
                     "uuid": "52653a60-8300-4c13-be4d-4b746da06fee",
-                    "name": "HMIS ACP HIV 003: HIV CARE/ART CARD - Summary Form"
+                    "name": "HMIS ACP HIV 003: HIV CARE ART CARD - Summary Form"
                 }
             ]
         },
@@ -63,21 +63,24 @@
             "encounterType": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
             "columns": [
                 {
-                    "id": "encounterData",
-                    "isDate": true,
-                    "title": "Encounter Date",
-                    "concept": "31c5c7aa-4948-473e-890b-67fe2fbbd71a"
+                    "id": "htnStatus",
+                    "title": "Hypertension Status",
+                    "concept": "c8f00db3-abb6-46a2-89a4-25acf95be863"
                 },
-               
+                {
+                    "id": "dmStatus",
+                    "title": "Diabetes Mellitus Status",
+                    "concept": "126aecd6-c4de-4b1f-bfa2-8f68380f9329"
+                },
                 {
                     "id": "advancedDiseaseStatus",
                     "title": "Advanced Disease Status",
                     "concept": "17def5f6-d6b4-444b-99ed-40eb05d2c4f8"
                 },
                 {
-                    "id": "treatmentInterruption",
-                    "title": "Treatment Interruptions",
-                    "concept": "65d1bdf6-e518-4400-9f61-b7f2b1e80169"
+                    "id": "whoClinicalStage",
+                    "title": "WHO Clinical Stage",
+                    "concept": "dcdff274-30ab-102d-86b0-7a5022ba4115"
                 },
                 {
                     "id": "tptStatus",
@@ -88,6 +91,11 @@
                     "id": "tbStatus",
                     "title": "TB Status",
                     "concept": "dce02aa1-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "adherenceStatus",
+                    "title": "Adherence",
+                    "concept": "dce03b2f-30ab-102d-86b0-7a5022ba4115"
                 },
                 {
                     "id": "returnVisitDate",

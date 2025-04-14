@@ -9,20 +9,41 @@
             "encounterType": "3e8354f7-31b3-4862-a52e-ff41a1ee60af",
             "columns": [
                 {
-                    "id": "substitutionDate",
+                    "id": "transferInDate",
                     "isDate": true,
-                    "title": "Substitution Date",
-                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    "title": "Transfer In Date",
+                    "concept": "f363f153-f659-438b-802f-9cc1828b5fa9"
                 },
                 {
-                    "id": "New Regimen",
-                    "title": "New Regimen",
-                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                    "id": "transferInPlace",
+                    "title": "Transfer In Place",
+                    "concept": "88e07e7c-f7e4-4ccf-8068-b770a3e3957b"
                 },
                 {
                     "id": "reason",
                     "title": "Reason",
                     "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "baselineRegimen",
+                    "title": "Baseline Regimen",
+                    "concept": "c3332e8d-2548-4ad6-931d-6855692694a3"
+                },
+                {
+                    "id": "artStartDate",
+                    "isDate": true,
+                    "title": "ART Start Date",
+                    "concept": "ab505422-26d9-41f1-a079-c3d222000440"
+                },
+                {
+                    "id": "currentRegimen",
+                    "title": "Current Regimen",
+                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "recentVlCopies",
+                    "title": "Most Recent VL Copies/ml",
+                    "concept": "dc8d83e3-30ab-102d-86b0-7a5022ba4115"
                 },
                 {
                     "id": "actions",
@@ -59,20 +80,51 @@
             "encounterType": "e305d98a-d6a2-45ba-ba2a-682b497ce27c",
             "columns": [
                 {
-                    "id": "substitutionDate",
+                    "id": "transferOutDate",
                     "isDate": true,
-                    "title": "Substitution Date",
-                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    "title": "Transfer Out Date",
+                    "concept": "fc1b1e96-4afb-423b-87e5-bb80d451c967"
                 },
                 {
-                    "id": "New Regimen",
-                    "title": "New Regimen",
-                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                    "id": "transferOutPlace",
+                    "title": "Transfer Out Place",
+                    "concept": "dce015bb-30ab-102d-86b0-7a5022ba4115"
                 },
                 {
                     "id": "reason",
                     "title": "Reason",
                     "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "baselineRegimen",
+                    "title": "Baseline Regimen",
+                    "concept": "c3332e8d-2548-4ad6-931d-6855692694a3"
+                },
+                {
+                    "id": "artStartDate",
+                    "isDate": true,
+                    "title": "ART Start Date",
+                    "concept": "ab505422-26d9-41f1-a079-c3d222000440"
+                },
+                {
+                    "id": "currentRegimen",
+                    "title": "Current Regimen",
+                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "recentVlCopies",
+                    "title": "Most Recent VL Copies/ml",
+                    "concept": "dc8d83e3-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "recentCd4",
+                    "title": "Most Recent CD4",
+                    "concept": "dcbcba2c-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "whoClinicalStage",
+                    "title": "Current WHO Clinical Stage",
+                    "concept": "dcdff274-30ab-102d-86b0-7a5022ba4115"
                 },
                 {
                     "id": "actions",

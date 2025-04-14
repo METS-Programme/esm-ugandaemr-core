@@ -9,12 +9,6 @@
             "encounterType": "c11774c1-3b4a-4bdb-a847-6060895e006d",
             "columns": [
                 {
-                    "id": "date",
-                    "isDate": true,
-                    "title": "Date",
-                    "concept": "31c5c7aa-4948-473e-890b-67fe2fbbd71a"
-                },
-                {
                     "id": "currentRegimen",
                     "title": "Current Regimen",
                     "concept": "107bef04-bf05-4f41-9260-b167c1108f7e"
