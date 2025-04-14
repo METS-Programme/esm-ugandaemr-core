@@ -9,65 +9,30 @@
             "encounterType": "8d5b27bc-c2cc-11de-8d13-0010c6dffd0f",
             "columns": [
                 {
-                    "id": "registrationDate",
+                    "id": "encounterData",
                     "isDate": true,
-                    "title": "Registration Date",
+                    "title": "Encounter Date",
                     "concept": "31c5c7aa-4948-473e-890b-67fe2fbbd71a"
                 },
                 {
-                    "id": "testType",
-                    "title": "Test Type",
+                    "id": "specialCategory",
+                    "title": "Special Category(Client Type)",
                     "concept": "166456AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                 },
                 {
-                    "id": "verificationDate",
-                    "title": "Date of Verification Test",
+                    "id": "baselineRegimen",
+                    "title": "Baseline Regimen",
                     "concept": "verificationDateConceptUuid"
                 },
                 {
-                    "id": "specialCategory",
-                    "title": "Special Category",
+                    "id": "artStartDate",
+                    "title": "ART Start Date",
                     "concept": "specialCategoryConceptUuid"
                 },
                 {
-                    "id": "categoryEntryPoint",
-                    "title": "Category Entry",
+                    "id": "emtctStatus",
+                    "title": "EMTCT Status",
                     "concept": "categoryEntryPointConceptUuid"
-                },
-                {
-                    "id": "treatmentInterruptions",
-                    "title": "Treatment Interruptions",
-                    "concept": "treatmentInterruptionsConceptUuid"
-                },
-                {
-                    "id": "baselineARVRegimen",
-                    "title": "Baseline ARV Regimen",
-                    "concept": "baselineARVRegimenConceptUuid"
-                },
-                {
-                    "id": "baselineARTStartDate",
-                    "title": "Baseline ART StartDate",
-                    "concept": "baselineARTStartDateConceptUuid"
-                },
-                {
-                    "id": "baselineWeight",
-                    "title": "Baseline Weight",
-                    "concept": "baselineWeightConceptUuid"
-                },
-                {
-                    "id": "baselineClinicalStage",
-                    "title": "Baseline WHO clinical Stage",
-                    "concept": "baselineClinicalWhoStageConceptUuid"
-                },
-                {
-                    "id": "baselineCD4",
-                    "title": "Baseline CD4",
-                    "concept": "baselineCD4ConceptUuid"
-                },
-                {
-                    "id": "baselinePMTCT",
-                    "title": "Baseline PMTCT",
-                    "concept": "baselinePMTCTConceptUuid"
                 },
                 {
                     "id": "actions",
@@ -104,49 +69,40 @@
             "encounterType": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
             "columns": [
                 {
-                    "id": "nutritionStatus",
-                    "title": "Nutrition Status",
+                    "id": "encounterDate",
+                    "title": "Encounter Date",
+                    "isDate": true,
                     "concept": "nutritionStatusConceptUuid"
                 },
                 {
-                    "id": "nutritionSupport",
-                    "title": "Nutrition Support",
+                    "id": "hivDrStatus",
+                    "title": "HIV DR Status",
                     "concept": "nutrittionSupportConceptUuid"
                 },
                 {
-                    "id": "pregnancyStatus",
-                    "title": "Pregnancy Status",
+                    "id": "advancedDiseaseStatus",
+                    "title": "Advanced Disease Status",
                     "concept": "pregnancyStatusConceptUuid"
                 },
                 {
-                    "id": "syphilisStatus",
-                    "title": "Syphilis Status",
+                    "id": "treatmentInterruption",
+                    "title": "Treatment Interruptions",
                     "concept": "syphilisStatusConceptUuid"
                 },
                 {
-                    "id": "covidStatus",
-                    "title": "Covid19 Status",
+                    "id": "tptStatus",
+                    "title": "TPT Status",
                     "concept": "covideStatusConceptUuid"
                 },
                 {
-                    "id": "hpvStatus",
-                    "title": "HPV Status",
+                    "id": "tbStatus",
+                    "title": "TB Status",
                     "concept": "hpvStatusConceptUuid"
                 },
                 {
-                    "id": "dateOfsampleCollection",
-                    "title": "Date of Sample Colection (HIV Drug Resistance)",
+                    "id": "returnVisitDate",
+                    "title": "Return Visit Date",
                     "concept": "dateOfSampleCollectionConceptUuid"
-                },
-                {
-                    "id": "drug",
-                    "title": "Drug(HIV Drug Resistance)",
-                    "concept": "drugConceptUuid"
-                },
-                {
-                    "id": "drStatus",
-                    "title": "DR Status (HIV Drug Resistance)",
-                    "concept": "drStatusConceptUuid"
                 },
                 {
                     "id": "actions",
