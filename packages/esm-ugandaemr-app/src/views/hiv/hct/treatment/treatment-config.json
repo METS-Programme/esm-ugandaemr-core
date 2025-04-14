@@ -15,11 +15,6 @@
                     "concept": "31c5c7aa-4948-473e-890b-67fe2fbbd71a"
                 },
                 {
-                    "id": "specialCategory",
-                    "title": "Special Category(Client Type)",
-                    "concept": "166456AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                },
-                {
                     "id": "baselineRegimen",
                     "title": "Baseline Regimen",
                     "concept": "verificationDateConceptUuid"
