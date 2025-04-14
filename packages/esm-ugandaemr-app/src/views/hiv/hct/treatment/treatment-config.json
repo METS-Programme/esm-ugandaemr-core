@@ -27,12 +27,12 @@
                 {
                     "id": "artStartDate",
                     "title": "ART Start Date",
-                    "concept": "specialCategoryConceptUuid"
+                    "concept": "ab505422-26d9-41f1-a079-c3d222000440"
                 },
                 {
                     "id": "emtctStatus",
                     "title": "EMTCT Status",
-                    "concept": "categoryEntryPointConceptUuid"
+                    "concept": "f838147d-277d-421a-9c6f-202aa30e799c"
                 },
                 {
                     "id": "actions",
@@ -69,10 +69,10 @@
             "encounterType": "8d5b2be0-c2cc-11de-8d13-0010c6dffd0f",
             "columns": [
                 {
-                    "id": "encounterDate",
-                    "title": "Encounter Date",
+                    "id": "encounterData",
                     "isDate": true,
-                    "concept": "nutritionStatusConceptUuid"
+                    "title": "Encounter Date",
+                    "concept": "31c5c7aa-4948-473e-890b-67fe2fbbd71a"
                 },
                 {
                     "id": "hivDrStatus",
@@ -82,27 +82,27 @@
                 {
                     "id": "advancedDiseaseStatus",
                     "title": "Advanced Disease Status",
-                    "concept": "pregnancyStatusConceptUuid"
+                    "concept": "17def5f6-d6b4-444b-99ed-40eb05d2c4f8"
                 },
                 {
                     "id": "treatmentInterruption",
                     "title": "Treatment Interruptions",
-                    "concept": "syphilisStatusConceptUuid"
+                    "concept": "65d1bdf6-e518-4400-9f61-b7f2b1e80169"
                 },
                 {
                     "id": "tptStatus",
                     "title": "TPT Status",
-                    "concept": "covideStatusConceptUuid"
+                    "concept": "37d4ac43-b3b4-4445-b63b-e3acf47c8910"
                 },
                 {
                     "id": "tbStatus",
                     "title": "TB Status",
-                    "concept": "hpvStatusConceptUuid"
+                    "concept": "dce02aa1-30ab-102d-86b0-7a5022ba4115"
                 },
                 {
                     "id": "returnVisitDate",
                     "title": "Return Visit Date",
-                    "concept": "dateOfSampleCollectionConceptUuid"
+                    "concept": "dcac04cf-30ab-102d-86b0-7a5022ba4115"
                 },
                 {
                     "id": "actions",
