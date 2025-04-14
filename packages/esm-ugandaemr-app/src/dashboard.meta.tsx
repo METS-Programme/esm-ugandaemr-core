@@ -44,7 +44,6 @@ export const htsDashboardMeta = {
   title: 'HTS',
   path: 'hts',
   icon: '',
-
   layoutMode: 'anchored',
 };
 
@@ -54,7 +53,6 @@ export const vmmcDashboardMeta = {
   title: 'SMC',
   path: 'smc',
   icon: '',
-
   layoutMode: 'anchored',
 };
 
@@ -64,7 +62,6 @@ export const treatmentRegimenDashboardMeta = {
   title: 'Treatment Regimen',
   path: 'treatment-regimen',
   icon: '',
-
   layoutMode: 'anchored',
 };
 
@@ -74,7 +71,6 @@ export const familyTrackingDashboardMeta = {
   title: 'Family Tracking',
   path: 'family-tracking',
   icon: '',
-
   layoutMode: 'anchored',
 };
 
@@ -84,7 +80,6 @@ export const treatmentDashboardMeta = {
   title: 'Treatment',
   path: 'treatment',
   icon: '',
-
   layoutmode: 'anchored',
 };
 
@@ -101,7 +96,6 @@ export const patientSummaryDashboardMeta = {
   slot: 'patient-summary-dashboard-slot',
   columns: 1,
   icon: '',
-
   title: 'Patient Summary',
   path: 'patient-summary',
   layoutmode: 'anchored',
@@ -113,7 +107,6 @@ export const drtbSummaryDashboardMeta = {
   title: 'DR TB',
   path: 'dr-tb-summary',
   icon: '',
-
   layoutmode: 'anchored',
 };
 
@@ -121,7 +114,6 @@ export const dstbSummaryDashboardMeta = {
   slot: 'dstb-summary-dashboard-slot',
   columns: 1,
   icon: '',
-
   title: 'DS TB',
   path: 'ds-tb-summary',
   layoutmode: 'anchored',
@@ -131,7 +123,6 @@ export const eidSummaryDashboardMeta = {
   slot: 'eid-summary-dashboard-slot',
   columns: 1,
   icon: '',
-
   title: 'EID Summary',
   path: 'eid-summary',
   layoutmode: 'anchored',

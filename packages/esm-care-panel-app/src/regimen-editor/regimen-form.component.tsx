@@ -19,7 +19,7 @@ import {
   showNotification,
   showToast,
   useConfig,
-  showModal,
+  restBaseUrl,
 } from '@openmrs/esm-framework';
 import styles from './standard-regimen.scss';
 import StandardRegimen from './standard-regimen.component';
@@ -198,10 +198,10 @@ const RegimenForm: React.FC<RegimenFormProps> = ({
                 description: t('regimenUpdatedSuccessfully', `Regimen updated successfully.`),
               });
               setIsSubmitting(false);
-              mutate(`/ws/rest/v1/currentProgramDetails?patientUuid=${patientUuid}`);
-              mutate(`/ws/rest/v1/patientSummary?patientUuid=${patientUuid}`);
-              mutate(`/ws/rest/v1/regimenHistory?patientUuid=${patientUuid}&category=${category}`);
-              mutate(`/ws/rest/v1/lastRegimenEncounter?patientUuid=${patientUuid}&category=${category}`);
+              mutate(`${restBaseUrl}/currentProgramDetails?patientUuid=${patientUuid}`);
+              mutate(`${restBaseUrl}/patientSummary?patientUuid=${patientUuid}`);
+              mutate(`${restBaseUrl}/regimenHistory?patientUuid=${patientUuid}&category=${category}`);
+              mutate(`${restBaseUrl}/lastRegimenEncounter?patientUuid=${patientUuid}&category=${category}`);
 
               closeWorkspace();
             }
@@ -232,21 +232,8 @@ const RegimenForm: React.FC<RegimenFormProps> = ({
     ],
   );
 
-  const handleOnChange = () => {
-    // setIgnoreChanges((prevState) => !prevState);
-  };
-  const launchDeleteRegimenDialog = () => {
-    const dispose = showModal('delete-regimen-confirmation-dialog', {
-      closeCancelModal: () => dispose(),
-      regimenEncounterUuid: regimenEncounter.uuid,
-      patientUuid: patientUuid,
-      category: category,
-      closeWorkspace,
-    });
-  };
-
   return (
-    <Form className={styles.form} onChange={handleOnChange} onSubmit={handleSubmit}>
+    <Form className={styles.form} onSubmit={handleSubmit}>
       <div>
         <Stack gap={8} className={styles.container}>
           <h4 className={styles.regimenTitle}>Current Regimen: {onRegimen}</h4>
@@ -284,13 +271,6 @@ const RegimenForm: React.FC<RegimenFormProps> = ({
                 labelText={t('stopRegimen', 'Stop')}
                 value={Regimen.stopRegimenConcept}
                 disabled={lastRegimenEncounter.endDate || (!lastRegimenEncounter.uuid && !lastRegimenEncounter.endDate)}
-              />
-              <RadioButton
-                key={'undo-regimen'}
-                labelText={t('undoRegimen', 'Undo')}
-                value={'undo'}
-                disabled={!lastRegimenEncounter.uuid}
-                onClick={launchDeleteRegimenDialog}
               />
             </RadioButtonGroup>
             {regimenEvent ? (

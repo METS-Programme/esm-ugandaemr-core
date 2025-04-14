@@ -14,8 +14,6 @@ import { ProgramEnrollmentProps } from '../hooks/useCarePrograms';
 const ProgramEnrollmentTB: React.FC<ProgramEnrollmentProps> = ({ enrollments = [], patientUuid }) => {
   const { t } = useTranslation();
 
-  const { patient } = usePatient(patientUuid);
-
   const observationConfig = useMemo(
     () => [
       {

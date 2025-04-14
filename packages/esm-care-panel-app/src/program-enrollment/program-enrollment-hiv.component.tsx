@@ -13,8 +13,6 @@ import RegimenButton from '../regimen-editor/regimen-button.component';
 const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [], patientUuid }) => {
   const { t } = useTranslation();
 
-  const { patient } = usePatient(patientUuid);
-
   const observationConfig = useMemo(
     () => [
       {
