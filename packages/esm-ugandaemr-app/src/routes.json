@@ -58,8 +58,7 @@
         },
         {
             "name": "patient-summary-summary-ext",
-            "slot": "patient-summary-summary-slot",
-            "component": "patientSummaryDashboard"
+            "slot": "patient-summary-summary-slot"
         },
         {
             "name": "treatment",

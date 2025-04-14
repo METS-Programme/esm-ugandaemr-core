@@ -1,5 +1,5 @@
 export const dashboardMeta = {
-  slot: 'patient-chart-care-panel-dashboard-slot',
+  slot: 'patient-summary-dashboard-slot',
   columns: 1,
   title: 'Care panel',
   path: 'Care panel',

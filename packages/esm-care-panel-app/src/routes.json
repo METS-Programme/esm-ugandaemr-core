@@ -7,20 +7,12 @@
   "extensions": [
     {
       "name": "care-panel-patient-summary",
-      "component": "carePanelPatientSummary",
-      "slot": "patient-chart-care-panel-dashboard-slot"
-      
+      "component": "carePanelPatientSummary"
     },
-
     {
       "name": "patient-program-summary",
-      "slot": "patient-chart-summary-dashboard-slot",
+      "slot": "patient-summary-summary-slot",
       "component": "patientProgramSummary"
-      
-    },
-    {
-      "name": "delete-regimen-confirmation-dialog",
-      "component": "deleteRegimenConfirmationDialog"
     }
   ]
 }
