@@ -26,7 +26,7 @@
                 },
                 {
                     "id": "actions",
-                    "title": "actionsTitle",
+                    "title": "Actions",
                     "actionOptions": [
                         {
                             "formName": "DS TB: HMIS TB 003 - TB Client Card Enrollment Page",
@@ -54,8 +54,8 @@
         {
             "tabName": "DS TB Follow Up",
             "hasFilter": true,
-            "headerTitle": "Switch Regimen",
-            "displayText": "Switch Regimen",
+            "headerTitle": "DS TB Follow Up",
+            "displayText": "DS TB Follow Up",
             "encounterType": "455bad1f-5e97-4ee9-9558-ff1df8808732",
             "columns": [
                 {

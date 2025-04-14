@@ -26,7 +26,7 @@
                 },
                 {
                     "id": "actions",
-                    "title": "actionsTitle",
+                    "title": "Actions",
                     "actionOptions": [
                         {
                             "formName": "DR TB: HMIS TB 001 Second Line TB Treatment Card - Enrollment Page",

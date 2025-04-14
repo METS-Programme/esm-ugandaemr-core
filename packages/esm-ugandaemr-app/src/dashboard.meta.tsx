@@ -51,8 +51,8 @@ export const htsDashboardMeta = {
 export const vmmcDashboardMeta = {
   slot: 'vmmc-services-slot',
   columns: 1,
-  title: 'VMMC',
-  path: 'vmmc',
+  title: 'SMC',
+  path: 'smc',
   icon: '',
 
   layoutMode: 'anchored',

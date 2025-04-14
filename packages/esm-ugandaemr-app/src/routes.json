@@ -164,7 +164,7 @@
             "meta": {
                 "slot": "vmmc-services-slot",
                 "columns": 1,
-                "path": "vmmc",
+                "path": "smc",
                 "layoutMode": "anchored"
             }
         },

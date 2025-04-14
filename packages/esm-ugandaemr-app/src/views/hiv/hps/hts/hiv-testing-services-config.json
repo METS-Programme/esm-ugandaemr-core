@@ -23,6 +23,21 @@
                     "concept": "ff820a28-1adf-4530-bf27-537bfa9ce0b2"
                 },
                 {
+                    "id": "hivTestResult",
+                    "title": "HIV Test Result",
+                    "concept": "3d292447-d7df-417f-8a71-e53e869ec89d"
+                },
+                {
+                    "id": "recencyResult",
+                    "title": "Recency Result",
+                    "concept": "141520BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+                },
+                {
+                    "id": "linkedToCare",
+                    "title": "Link To Care",
+                    "concept": "3d620422-0641-412e-ab31-5e45b98bc459"
+                },
+                {
                     "id": "actions",
                     "title": "Actions",
                     "actionOptions": [
