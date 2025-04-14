@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { openmrsFetch } from '@openmrs/esm-framework';
+import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
 
 export type PatientCarePrograms = {
   uuid: string;
@@ -20,7 +20,7 @@ export interface ProgramEnrollmentProps {
 }
 
 export const useCarePrograms = (patientUuid: string) => {
-  const url = `/ws/rest/v1/ugandaemr/patientCohorts?patientUuid=${patientUuid}`;
+  const url = `${restBaseUrl}/ugandaemr/patientCohorts?patientUuid=${patientUuid}`;
   const { data, error, isLoading, isValidating } = useSWR<{ data: Array<PatientCarePrograms> }>(url, openmrsFetch);
 
   return {
