@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { StructuredListSkeleton } from '@carbon/react';
+import { StructuredListSkeleton, InlineLoading } from '@carbon/react';
 import styles from './care-panel.scss';
 import { usePatientPrograms } from '../hooks/usePatientPrograms';
 import ProgramEnrollment from '../program-enrollment/program-enrollment-hiv.component';
@@ -8,7 +8,6 @@ import { ErrorState } from '@openmrs/esm-framework';
 import { programs } from '../constants';
 import CarePanelTabs from './care-panel-tabs/care-panel-tabs.component';
 import { CardHeader } from '@openmrs/esm-patient-common-lib';
-import { InlineLoading } from '@carbon/react';
 
 interface CarePanelProps {
   patientUuid: string;
@@ -33,7 +32,7 @@ const CarePanel: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, launch
   }
   return (
     <div className={styles.widgetCard}>
-       <CardHeader title={t('hivProgram', 'HIV Program')}>
+      <CardHeader title={t('hivProgram', 'HIV Program')}>
         {isLoading && (
           <InlineLoading
             status="active"
