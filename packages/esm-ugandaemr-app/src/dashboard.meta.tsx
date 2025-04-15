@@ -101,29 +101,46 @@ export const patientSummaryDashboardMeta = {
   layoutmode: 'anchored',
 };
 
-export const drtbSummaryDashboardMeta = {
-  slot: 'drtb-summary-dashboard-slot',
+export const tbPatientSummaryDashboardMeta = {
+  slot: 'tb-summary-dashboard-slot',
   columns: 1,
-  title: 'DR TB',
-  path: 'dr-tb-summary',
+  title: 'Patient Summary',
+  path: 'tb-summary',
   icon: '',
   layoutmode: 'anchored',
 };
 
-export const dstbSummaryDashboardMeta = {
-  slot: 'dstb-summary-dashboard-slot',
+export const drtbDashboardMeta = {
+  slot: 'drtb-dashboard-slot',
+  columns: 1,
+  title: 'DR TB',
+  path: 'dr-tb',
+  icon: '',
+  layoutmode: 'anchored',
+};
+
+export const dstbDashboardMeta = {
+  slot: 'dstb-dashboard-slot',
   columns: 1,
   icon: '',
   title: 'DS TB',
-  path: 'ds-tb-summary',
+  path: 'ds-tb',
   layoutmode: 'anchored',
 };
 
-export const eidSummaryDashboardMeta = {
+export const eidPatientSummaryDashboardMeta = {
   slot: 'eid-summary-dashboard-slot',
   columns: 1,
   icon: '',
-  title: 'EID Summary',
-  path: 'eid-summary',
+  title: 'Patient Summary',
+  path: 'eid-patient-summary',
+  layoutmode: 'anchored',
+};
+export const eidboardMeta = {
+  slot: 'eid-dashboard-slot',
+  columns: 1,
+  icon: '',
+  title: 'EID',
+  path: 'eid',
   layoutmode: 'anchored',
 };

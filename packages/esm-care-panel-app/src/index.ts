@@ -11,7 +11,7 @@ const options = {
 };
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
-export const patientProgramSummary = getAsyncLifecycle(() => import('./care-panel/care-panel.component'), options);
+export const patientProgramSummary = getAsyncLifecycle(() => import('./care-panel/care-panel.hiv.component'), options);
 
 export const ViralLoadList = getAsyncLifecycle(() => import('./vl-history/vl-history.component'), options);
 
@@ -31,7 +31,17 @@ export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
 }
 
-export const patientCareProgram = getAsyncLifecycle(() => import('./care-programs/care-programs.component'), {
-  moduleName: 'patient-care-programs',
+export const patientCareProgram = getAsyncLifecycle(() => import('./care-panel/care-panel.hiv.component'), {
+  moduleName: 'patient-care-programs-hiv',
+  featureName: 'care-programs',
+});
+
+export const patientCareProgramTB = getAsyncLifecycle(() => import('./care-panel/care-panel.tb.component'), {
+  moduleName: 'patient-care-programs-tb',
+  featureName: 'care-programs',
+});
+
+export const patientCareProgramMCH = getAsyncLifecycle(() => import('./care-panel/care-panel.mch.component'), {
+  moduleName: 'patient-care-programs-mch',
   featureName: 'care-programs',
 });

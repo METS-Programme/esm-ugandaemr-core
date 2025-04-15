@@ -172,53 +172,76 @@
             "slot": "vmmc-services-slot",
             "component": "vmmcDashboard"
         },
+           {
+            "name": "tb-services",
+            "slot": "tb-slot",
+            "component": "tbDashboardLink",
+            "meta": {
+                "slot": "tb-summary-dashboard-slot",
+                "columns": 1,
+                "path": "tb-summary",
+                "layoutMode": "anchored"
+            }
+        },
         {
             "name": "ds-tb-services",
             "slot": "tb-slot",
-            "component": "dstbSummaryDashboardLink",
+            "component": "dstbDashboardLink",
             "meta": {
-                "slot": "dstb-summary-dashboard-slot",
+                "slot": "dstb-dashboard-slot",
                 "columns": 1,
-                "path": "ds-tb-summary",
+                "path": "ds-tb",
                 "layoutMode": "anchored"
             }
         },
         {
             "name": "ds-tb-summary-ext",
-            "slot": "dstb-summary-dashboard-slot",
-            "component": "dstbSummaryDashboard"
+            "slot": "dstb-dashboard-slot",
+            "component": "dstbDashboard"
         },
         {
             "name": "dr-tb-services",
             "slot": "tb-slot",
-            "component": "drtbSummaryDashboardLink",
+            "component": "drtbDashboardLink",
             "meta": {
-                "slot": "drtb-summary-dashboard-slot",
+                "slot": "drtb-dashboard-slot",
                 "columns": 1,
-                "path": "dr-tb-summary",
+                "path": "dr-tb",
                 "layoutMode": "anchored"
             }
         },
         {
             "name": "dr-tb-summary-ext",
-            "slot": "drtb-summary-dashboard-slot",
-            "component": "drtbSummaryDashboard"
+            "slot": "drtb-dashboard-slot",
+            "component": "drtbDashboard"
         },
-        {
-            "name": "eid-encounter",
+
+          {
+            "name": "eid-patient-summary",
             "slot": "eid-slot",
-            "component": "eidSummaryDashboardLink",
+            "component": "eidPatientSummaryDashboardLink",
             "meta": {
                 "slot": "eid-summary-dashboard-slot",
                 "columns": 1,
-                "path": "eid-summary",
+                "path": "eid-patient-summary",
                 "layoutMode": "anchored"
             }
         },
         {
-            "name": "eid-summarry-ext",
-            "slot": "eid-summary-dashboard-slot",
-            "component": "eidSummaryDashboard"
+            "name": "eid-encounter",
+            "slot": "eid-slot",
+            "component": "eidDashboardLink",
+            "meta": {
+                "slot": "eid-dashboard-slot",
+                "columns": 1,
+                "path": "eid",
+                "layoutMode": "anchored"
+            }
+        },
+        {
+            "name": "eid-ext",
+            "slot": "eid-dashboard-slot",
+            "component": "eidDashboard"
         },
         {
             "name": "retrieve-facility-code-modal",
