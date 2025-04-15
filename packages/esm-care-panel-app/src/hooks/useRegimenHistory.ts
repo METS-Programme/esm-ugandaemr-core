@@ -1,4 +1,4 @@
-import { openmrsFetch } from '@openmrs/esm-framework';
+import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
 import useSWR from 'swr';
 
 interface PatientRegimenReturnType {
@@ -19,8 +19,8 @@ interface RegimenHistory {
 }
 
 export const useRegimenHistory = (patientUuid: string, category: string) => {
-  const regimenHistoryHistoryUrl = `/ws/rest/v1/ugandaemr/regimenHistory?patientUuid=${patientUuid}&category=${category}`;
-  const { data, mutate, error, isLoading } = useSWR<{ data: { results: Array<RegimenHistory> } }>(
+  const regimenHistoryHistoryUrl = `${restBaseUrl}/ugandaemr/regimenHistory?patientUuid=${patientUuid}&category=${category}`;
+  const { data, error, isLoading } = useSWR<{ data: { results: Array<RegimenHistory> } }>(
     regimenHistoryHistoryUrl,
     openmrsFetch,
   );

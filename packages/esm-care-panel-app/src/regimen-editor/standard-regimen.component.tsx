@@ -18,7 +18,7 @@ const StandardRegimen: React.FC<StandardRegimenProps> = ({
   selectedRegimenType,
 }) => {
   const { t } = useTranslation();
-  const { standardRegimen, isLoading, error } = useStandardRegimen();
+  const { standardRegimen } = useStandardRegimen();
 
   const [selectedRegimenLine, setSelectedRegimenLine] = useState('');
   const [selectedRegimen, setSelectedRegimen] = useState('');

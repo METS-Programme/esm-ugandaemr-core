@@ -1,10 +1,10 @@
-import { openmrsFetch } from '@openmrs/esm-framework';
+import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
 import { Encounter, UpdateObs } from '../types';
 
 export function saveEncounter(encounter: Encounter) {
   const abortController = new AbortController();
 
-  return openmrsFetch(`/ws/rest/v1/encounter`, {
+  return openmrsFetch(`${restBaseUrl}/encounter`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -17,7 +17,7 @@ export function saveEncounter(encounter: Encounter) {
 export function updateEncounter(encounter: UpdateObs, encounterUuid) {
   const abortController = new AbortController();
 
-  return openmrsFetch(`/ws/rest/v1/encounter/${encounterUuid}`, {
+  return openmrsFetch(`${restBaseUrl}/encounter/${encounterUuid}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -30,7 +30,7 @@ export function updateEncounter(encounter: UpdateObs, encounterUuid) {
 export function deleteEncounter(encounterUuid) {
   const abortController = new AbortController();
 
-  return openmrsFetch(`/ws/rest/v1/encounter/${encounterUuid}`, {
+  return openmrsFetch(`${restBaseUrl}/encounter/${encounterUuid}`, {
     headers: {
       'Content-Type': 'application/json',
     },

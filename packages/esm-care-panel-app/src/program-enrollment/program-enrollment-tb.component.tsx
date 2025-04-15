@@ -1,20 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './program-enrollment.scss';
-import { launchPatientWorkspace } from '@openmrs/esm-patient-common-lib';
 import dayjs from 'dayjs';
 import orderBy from 'lodash/orderBy';
-import { mutate } from 'swr';
-import { parseStageFromDisplay, usePatientObservations } from './program-enrollment.resource';
+import { usePatientObservations } from './program-enrollment.resource';
 import { ProgramData } from '../types/index';
-import { usePatient } from '@openmrs/esm-framework';
 import { configSchema } from '../config-schema';
 import { ProgramEnrollmentProps } from '../hooks/useCarePrograms';
 
 const ProgramEnrollmentTB: React.FC<ProgramEnrollmentProps> = ({ enrollments = [], patientUuid }) => {
   const { t } = useTranslation();
-
-  const { patient } = usePatient(patientUuid);
 
   const observationConfig = useMemo(
     () => [

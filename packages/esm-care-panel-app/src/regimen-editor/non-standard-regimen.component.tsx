@@ -21,7 +21,7 @@ const NonStandardRegimen: React.FC<NonStandardRegimenProps> = ({
 }) => {
   const { t } = useTranslation();
   const { standardRegimen } = useStandardRegimen();
-  const { nonStandardRegimen, isLoading, error } = useNonStandardRegimen();
+  const { nonStandardRegimen } = useNonStandardRegimen();
   const [selectedRegimenLine, setSelectedRegimenLine] = useState('');
   const matchingCategory = standardRegimen.find((item) => item.categoryCode === 'ARV'); // Non standard regimen will be exclusively for ARVs
   const [selectedRegimens, setSelectedRegimens] = useState(Array(5).fill(''));

@@ -1,4 +1,4 @@
-import { openmrsFetch } from '@openmrs/esm-framework';
+import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
 import useSWR from 'swr';
 
 interface StandardRegimen {
@@ -18,8 +18,8 @@ interface Regimen {
 }
 
 export const useStandardRegimen = () => {
-  const standardRegimenUrl = `/ws/rest/v1/ugandaemr/standardRegimen`;
-  const { data, mutate, error, isLoading } = useSWR<{ data: { results: Array<StandardRegimen> } }>(
+  const standardRegimenUrl = `${restBaseUrl}/ugandaemr/standardRegimen`;
+  const { data, error, isLoading } = useSWR<{ data: { results: Array<StandardRegimen> } }>(
     standardRegimenUrl,
     openmrsFetch,
   );

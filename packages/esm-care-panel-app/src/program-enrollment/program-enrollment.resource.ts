@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { openmrsFetch } from '@openmrs/esm-framework';
+import { fhirBaseUrl, openmrsFetch } from '@openmrs/esm-framework';
 import { useMemo } from 'react';
 
 export function extractValue(observation) {
@@ -15,7 +15,7 @@ export function extractValue(observation) {
 
 export function usePatientObservations(patientUuid, conceptUuids) {
   const conceptsQueryParam = conceptUuids.join('%2C');
-  const apiUrl = `/ws/fhir2/R4/Observation?patient=${patientUuid}&code=${conceptsQueryParam}&_summary=data&_sort=-date&_count=500`;
+  const apiUrl = `${fhirBaseUrl}/Observation?patient=${patientUuid}&code=${conceptsQueryParam}&_summary=data&_sort=-date&_count=500`;
 
   const { data, error, isValidating, mutate } = useSWR<{ data: any }, Error>(apiUrl, openmrsFetch);
 

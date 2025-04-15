@@ -1,10 +1,10 @@
-import { openmrsFetch } from '@openmrs/esm-framework';
+import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
 import useSWR from 'swr';
 import { PatientSummary } from '../types/index';
 
 export const usePatientSummary = (patientUuid: string) => {
-  const programSummaryUrl = `/ws/rest/v1/patientSummary?patientUuid=${patientUuid}`;
-  const { data, mutate, error, isLoading } = useSWR<{ data: PatientSummary }>(programSummaryUrl, openmrsFetch);
+  const programSummaryUrl = `${restBaseUrl}/patientSummary?patientUuid=${patientUuid}`;
+  const { data, error, isLoading } = useSWR<{ data: PatientSummary }>(programSummaryUrl, openmrsFetch);
 
   return {
     data: data?.data ? data?.data : null,

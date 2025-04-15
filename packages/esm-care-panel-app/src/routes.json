@@ -6,21 +6,19 @@
   "pages": [],
   "extensions": [
     {
-      "name": "care-panel-patient-summary",
-      "component": "carePanelPatientSummary",
-      "slot": "patient-chart-care-panel-dashboard-slot"
-      
-    },
-
-    {
       "name": "patient-program-summary",
-      "slot": "patient-chart-summary-dashboard-slot",
-      "component": "patientProgramSummary"
-      
+      "slot": "patient-summary-summary-slot",
+      "component": "patientCareProgram"
     },
     {
-      "name": "delete-regimen-confirmation-dialog",
-      "component": "deleteRegimenConfirmationDialog"
+      "name": "tb-patient-program-summary",
+      "slot": "tb-summary-dashboard-slot",
+      "component": "patientCareProgramTB"
+    },
+    {
+      "name": "hiv-patient-program-summary",
+      "slot": "eid-summary-dashboard-slot",
+      "component": "patientCareProgramMCH"
     }
   ]
 }
