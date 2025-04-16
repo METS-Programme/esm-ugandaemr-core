@@ -9,20 +9,74 @@
             "encounterType": "9fcfcc91-ad60-4d84-9710-11cc25258719",
             "columns": [
                 {
-                    "id": "substitutionDate",
+                    "id": "mothersFirstName",
+                    "title": "Mother's First Name",
+                    "concept": "137a9d5c-25cc-4a3c-98ad-328a89c6e681"
+                },
+                {
+                    "id": "mothersSecondName",
+                    "title": "Mother's Second Name",
+                    "concept": "71828cbc-c13c-43a1-9cbe-f3eaf164019a"
+                },
+                {
+                    "id": "firstPcrDate",
                     "isDate": true,
-                    "title": "Substitution Date",
-                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    "title": "Date of 1st PCR",
+                    "concept": "51941f01-307f-44ca-9351-401bc008a208"
                 },
                 {
-                    "id": "New Regimen",
-                    "title": "New Regimen",
-                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                    "id": "firstPcrResult",
+                    "title": "1st PCR Result",
+                    "concept": "b6a6210b-ccdf-45fc-80dd-1567f65e2d98"
                 },
                 {
-                    "id": "reason",
-                    "title": "Reason",
-                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                    "id": "secondPcrDate",
+                    "isDate": true,
+                    "title": "Date of PCR at 9 months",
+                    "concept": "1f627527-2f97-4f21-9b61-2b79d887950f"
+                },
+                {
+                    "id": "secondPcrResult",
+                    "title": "PCR at 9 months Result",
+                    "concept": "e1b4efbf-0dff-4e9e-a2f2-34edcb02a5d0"
+                },
+                {
+                    "id": "thirdPcrDate",
+                    "isDate": true,
+                    "title": "Date of PCR at 6wks",
+                    "concept": "b28177ee-d386-466e-82fb-4ad041cf97a2"
+                },
+                {
+                    "id": "thirdPcrResult",
+                    "title": "PCR at 6wks Result",
+                    "concept": "e82cd146-9b6d-4c24-8085-80e96d2e1357"
+                },
+                {
+                    "id": "fourthPcrDate",
+                    "isDate": true,
+                    "title": "Date at Repeat PCR",
+                    "concept": "4092ad52-3db3-47f5-b497-126e1202f1eb"
+                },
+                {
+                    "id": "fourthPcrResult",
+                    "title": "Result at Repeat PCR",
+                    "concept": "6591b4ae-1a85-44a6-abf7-1dc6ff25f45a"
+                },
+                {
+                    "id": "fifthPcrDate",
+                    "isDate": true,
+                    "title": "Date at 18 Month Rapid Test",
+                    "concept": "7065b181-abb0-4ad6-8082-62e99398f735"
+                },
+                {
+                    "id": "fifthPcrResult",
+                    "title": "Result at 18 Month Rapid Test",
+                    "concept": "71e135e8-cf63-4031-adc7-09a0a9b61c33"
+                },
+                {
+                    "id": "finalHivResult",
+                    "title": "Final HIV Status",
+                    "concept": "977b16f4-2d3e-40d2-ba51-54794c98f7ef"
                 },
                 {
                     "id": "actions",
@@ -59,20 +113,30 @@
             "encounterType": "4345dacb-909d-429c-99aa-045f2db77e2b",
             "columns": [
                 {
-                    "id": "substitutionDate",
+                    "id": "visitNumber",
+                    "title": "Visit Number",
+                    "concept": "046b5fd4-3840-409b-9edb-5e05f2d81bd6"
+                },
+                {
+                    "id": "hivTest",
+                    "title": "HIV Test",
+                    "concept": "ddcd8aad-9085-4a88-a411-f19521be4785"
+                },
+                {
+                    "id": "cotrim",
+                    "title": "Cotrim",
+                    "concept": "c3d744f6-00ef-4774-b9a7-d33c58f5b014"
+                },
+                {
+                    "id": "nvp",
+                    "title": "NVP",
+                    "concept": "7148f054-fa36-4746-8791-63ea32c06e1c"
+                },
+                {
+                    "id": "nextAppointmentDate",
                     "isDate": true,
-                    "title": "Substitution Date",
-                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                },
-                {
-                    "id": "New Regimen",
-                    "title": "New Regimen",
-                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
-                },
-                {
-                    "id": "reason",
-                    "title": "Reason",
-                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                    "title": "Next Appointment Date",
+                    "concept": "dcac04cf-30ab-102d-86b0-7a5022ba4115"
                 },
                 {
                     "id": "actions",

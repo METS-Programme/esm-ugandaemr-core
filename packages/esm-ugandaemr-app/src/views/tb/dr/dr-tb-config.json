@@ -9,20 +9,46 @@
             "encounterType": "0271ee3d-f274-49d1-b376-c842f075413f",
             "columns": [
                 {
-                    "id": "substitutionDate",
+                    "id": "drTbNo",
+                    "title": "DR TB Reg No",
+                    "concept": "2c64410a-9f08-4b4f-9d00-23105e8730d4"
+                },
+                {
+                    "id": "treatmentHistoryAtRegistration",
+                    "title": "Treatment History at Registration",
+                    "concept": "6b62ecbf-1f91-4fd3-8cda-56d4fdcf8b13"
+                },
+                {
+                    "id": "sputumCollectionDate",
                     "isDate": true,
-                    "title": "Substitution Date",
-                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    "title": "Sputum Sample Collection Date",
+                    "concept": "487af85d-de3b-4a90-9928-96516a315ce6"
                 },
                 {
-                    "id": "New Regimen",
-                    "title": "New Regimen",
-                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                    "id": "genepertResults",
+                    "title": "GeneXpert Results",
+                    "concept": "35adf460-19b8-4247-b575-1bad5562d5e9"
                 },
                 {
-                    "id": "reason",
-                    "title": "Reason",
-                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                    "id": "patientType",
+                    "title": "Type of Patient",
+                    "concept": "e077f196-c19a-417f-adc6-b175a3343bfd"
+                },
+                {
+                    "id": "secondLineStartDate",
+                    "isDate": true,
+                    "title": "Date start RX 2nd Line",
+                    "concept": "dc980e0b-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "tbRegimenType",
+                    "title": "Type of Regimen",
+                    "concept": "fcb90c43-aeb9-4bc1-9fa4-d779397d9be2"
+                },
+                {
+                    "id": "tbTreatmentPhase",
+                    "title": "TB Treatment Phase",
+                    "concept": "159792AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                 },
                 {
                     "id": "actions",
@@ -59,20 +85,35 @@
             "encounterType": "41f8609d-e13b-4dff-8379-47ac5876512e",
             "columns": [
                 {
-                    "id": "substitutionDate",
+                    "id": "followupVisit",
+                    "title": "Followup Visit",
+                    "concept": "5356c00a-b20e-436c-a0dd-6bfab6174296"
+                },
+                {
+                    "id": "treatmentOutcome",
+                    "title": "Treatment Outcome",
+                    "concept": "e44c8c4c-db50-4d1e-9d6e-092d3b31cfd6"
+                },
+                {
+                    "id": "listedContactsNumber",
+                    "title": "No of Contacts listed",
+                    "concept": "73a52d1b-e6d1-46b1-be97-55fdfee2bf75"
+                },
+                {
+                    "id": "screendContactsNumber",
+                    "title": "No of Contacts Screened on visit",
+                    "concept": "3fcca96c-1a2d-46df-80b7-52b3ea23e713"
+                },
+                {
+                    "id": "diagnosedContactsNumber",
+                    "title": "No of Contacts Diagnosed on visit",
+                    "concept": "e9085395-c9a9-4939-b9d8-0f4dbb4fa572"
+                },
+                {
+                    "id": "treatmentOutcomeDate",
                     "isDate": true,
-                    "title": "Substitution Date",
-                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                },
-                {
-                    "id": "New Regimen",
-                    "title": "New Regimen",
-                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
-                },
-                {
-                    "id": "reason",
-                    "title": "Reason",
-                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                    "title": "Treatment Outcome Date",
+                    "concept": "dfbf41ad-44de-48db-b653-54273789c0c6"
                 },
                 {
                     "id": "actions",
