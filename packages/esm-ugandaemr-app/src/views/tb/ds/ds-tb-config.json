@@ -9,20 +9,40 @@
             "encounterType": "334bf97e-28e2-4a27-8727-a5ce31c7cd66",
             "columns": [
                 {
-                    "id": "substitutionDate",
+                    "id": "unitTbNumber",
+                    "title": "Unit TB No",
+                    "concept": "2e2ec250-f5d3-4de7-8c70-a458f42441e6"
+                },
+                {
+                    "id": "districtTbNumber",
+                    "title": "District TB No",
+                    "concept": "67e9ec2f-4c72-408b-8122-3706909d77ec"
+                },
+                {
+                    "id": "diseaseClassification",
+                    "title": "Disease Classification",
+                    "concept": "d45871ee-62d6-4d4d-b905-f7b75a3fd3bb"
+                },
+                {
+                    "id": "firstLineTreatmentDate",
                     "isDate": true,
-                    "title": "Substitution Date",
-                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    "title": "Date Started on first line Treatment",
+                    "concept": "7326297e-0ccd-4355-9b86-dde1c056e2c2"
                 },
                 {
-                    "id": "New Regimen",
-                    "title": "New Regimen",
-                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                    "id": "regimen",
+                    "title": "Regimen",
+                    "concept": "159958AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                 },
                 {
-                    "id": "reason",
-                    "title": "Reason",
-                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                    "id": "tbPatientType",
+                    "title": "Type of TB Patient",
+                    "concept": "e077f196-c19a-417f-adc6-b175a3343bfd"
+                },
+                {
+                    "id": "tbPatientType",
+                    "title": "Type of TB Patient",
+                    "concept": "e077f196-c19a-417f-adc6-b175a3343bfd"
                 },
                 {
                     "id": "actions",
@@ -59,20 +79,48 @@
             "encounterType": "455bad1f-5e97-4ee9-9558-ff1df8808732",
             "columns": [
                 {
-                    "id": "substitutionDate",
+                    "id": "followUpMonth",
+                    "title": "Month of Follow Up",
+                    "concept": "4d1cc565-ae34-4bb2-92e7-681614218b7b"
+                },
+                {
+                    "id": "treatmentOutcomeDate",
                     "isDate": true,
-                    "title": "Substitution Date",
-                    "concept": "160753AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    "title": "Treatment Outcome Date",
+                    "concept": "dfbf41ad-44de-48db-b653-54273789c0c6"
                 },
                 {
-                    "id": "New Regimen",
-                    "title": "New Regimen",
-                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                    "id": "tbTreatmentOutcome",
+                    "title": "Treatment Outcome",
+                    "concept": "e44c8c4c-db50-4d1e-9d6e-092d3b31cfd6"
                 },
                 {
-                    "id": "reason",
-                    "title": "Reason",
-                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                    "id": "drTbDiagnosis",
+                    "title": "Diagnosed with DR TB",
+                    "concept": "c069ca01-e8e2-4ae2-ac36-ab0ee4540347"
+                },
+                {
+                    "id": "drTbConfirmedDate",
+                    "isDate": true,
+                    "title": "DR TB Confirmed Date",
+                    "concept": "67ac3702-5ec1-4c52-8e80-405ec99b723b"
+                },
+                {
+                    "id": "secondLineTransfer",
+                    "title": "Transferred to 2nd line Treatment",
+                    "concept": "d96ee5b5-7723-4f9e-8442-3b6aa1276f6d"
+                },
+                {
+                    "id": "secondLineTransferDate",
+                    "isDate": true,
+                    "title": "Date Transferred to 2nd line",
+                    "concept": "9fc8ca19-4892-4560-87b1-439446346d63"
+                },
+                {
+                    "id": "nextAppointmentDate",
+                    "isDate": true,
+                    "title": "Next Appointment Date",
+                    "concept": "dcac04cf-30ab-102d-86b0-7a5022ba4115"
                 },
                 {
                     "id": "actions",

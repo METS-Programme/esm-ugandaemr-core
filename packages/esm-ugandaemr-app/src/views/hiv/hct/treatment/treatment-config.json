@@ -104,7 +104,7 @@
                 },
                 {
                     "id": "actions",
-                    "title": "actionsTitle",
+                    "title": "Actions",
                     "actionOptions": [
                         {
                             "formName": "HMIS 003 HIV Care ART Card - Clinical Assessment",
