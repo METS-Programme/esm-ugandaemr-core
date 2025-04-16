@@ -68,7 +68,6 @@
                     "title": "Encounter Date",
                     "concept": "31c5c7aa-4948-473e-890b-67fe2fbbd71a"
                 },
-               
                 {
                     "id": "advancedDiseaseStatus",
                     "title": "Advanced Disease Status",
@@ -96,7 +95,7 @@
                 },
                 {
                     "id": "actions",
-                    "title": "actionsTitle",
+                    "title": "Actions",
                     "actionOptions": [
                         {
                             "formName": "HMIS 003 HIV Care ART Card - Clinical Assessment",
