@@ -33,12 +33,12 @@
                     "title": "Actions",
                     "actionOptions": [
                         {
-                            "formName": "HMIS ACP HIV 003: HIV CARE/ART CARD - Summary Form",
+                            "formName": "HMIS ACP HIV 003: HIV CARE ART CARD - Summary Form",
                             "label": "View Details",
                             "mode": "view"
                         },
                         {
-                            "formName": "HMIS ACP HIV 003: HIV CARE/ART CARD - Summary Form",
+                            "formName": "HMIS ACP HIV 003: HIV CARE ART CARD - Summary Form",
                             "label": "EditForm",
                             "mode": "edit"
                         }
