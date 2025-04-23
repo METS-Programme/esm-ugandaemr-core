@@ -53,12 +53,12 @@
                     "title": "Actions",
                     "actionOptions": [
                         {
-                            "formName": "HMIS ACP HIV 003: HIV CARE/ART CARD - Family Tracking Form",
+                            "formName": "HMIS ACP HIV 003: HIV CARE ART CARD - Family Tracking Form",
                             "label": "View Details",
                             "mode": "view"
                         },
                         {
-                            "formName": "HMIS ACP HIV 003: HIV CARE/ART CARD - Family Tracking Form",
+                            "formName": "HMIS ACP HIV 003: HIV CARE ART CARD - Family Tracking Form",
                             "label": "EditForm",
                             "mode": "edit"
                         }
@@ -71,7 +71,7 @@
             "formList": [
                 {
                     "uuid": "f2722150-5c5f-11ee-8c99-0242ac120002",
-                    "name": "HMIS ACP HIV 003: HIV CARE/ART CARD - Family Tracking Form"
+                    "name": "HMIS ACP HIV 003: HIV CARE ART CARD - Family Tracking Form"
                 }
             ]
         }
