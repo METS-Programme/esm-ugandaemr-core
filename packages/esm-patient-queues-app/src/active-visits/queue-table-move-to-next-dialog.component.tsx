@@ -26,7 +26,6 @@ import {
 } from '@openmrs/esm-framework';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import styles from './change-status-dialog.scss';
-import { QueueStatus, extractErrorMessagesFromResponse, handleMutate } from '../utils/utils';
 import { PatientQueue } from '../types/patient-queues';
 import {
   NewQueuePayload,
@@ -39,6 +38,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queue-validation-schema.resource';
+import { QueueStatus, extractErrorMessagesFromResponse, handleMutate } from '../helpers/functions';
 
 interface ChangeStatusDialogProps {
   patientUuid: string;

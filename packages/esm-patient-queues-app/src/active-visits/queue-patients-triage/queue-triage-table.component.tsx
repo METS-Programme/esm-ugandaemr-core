@@ -1,4 +1,4 @@
-import React, { AnchorHTMLAttributes, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { AnchorHTMLAttributes, useMemo, useState } from 'react';
 
 import {
   DataTable,
@@ -25,21 +25,20 @@ import {
   useParentLocation,
   usePatientQueuePages,
 } from '../patient-queues.resource';
-import {
+import StatusIcon, {
+  QueueStatus,
   buildStatusString,
   formatWaitTime,
   getProviderTagColor,
   getTagColor,
   trimVisitNumber,
 } from '../../helpers/functions';
-import StatusIcon from '../../queue-entry-table-components/status-icon.component';
 import PickPatientActionMenu from '../../queue-entry-table-components/pick-patient-queue-entry-menu.component';
 import ViewActionsMenu from '../view-action-menu.components';
 import NotesActionsMenu from '../notes-action-menu.components';
 import MovetoNextPointAction from '../move-patient-to-next-action-menu.components';
 import styles from '../active-visits-table.scss';
 import dayjs from 'dayjs';
-import { QueueStatus } from '../../utils/utils';
 import { PatientQueueConfig } from '../../config-schema';
 
 interface ActiveVisitsTableProps {

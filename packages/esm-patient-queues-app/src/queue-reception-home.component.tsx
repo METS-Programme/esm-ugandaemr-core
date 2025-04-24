@@ -13,8 +13,7 @@ import {
 } from './active-visits/patient-queues.resource';
 import { useServicePointCount } from './components/patient-queue-metrics/clinic-metrics.resource';
 import { ExtensionSlot, useSession } from '@openmrs/esm-framework';
-import { buildStatusString, formatWaitTime, getTagColor, trimVisitNumber } from './helpers/functions';
-import StatusIcon from './queue-entry-table-components/status-icon.component';
+import StatusIcon, { buildStatusString, formatWaitTime, getTagColor, trimVisitNumber } from './helpers/functions';
 import EditActionsMenu from './active-visits/edit-action-menu.components';
 import QueueLauncher from './components/queue-launcher/queue-launcher.component';
 

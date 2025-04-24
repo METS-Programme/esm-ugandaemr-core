@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import SummaryTile from '../summary-tiles/summary-tile.component';
 import { usePatientQueuePages } from '../active-visits/patient-queues.resource';
 import { useSession } from '@openmrs/esm-framework';
-import { QueueEnumStatus, QueueStatus } from '../utils/utils';
+import { QueueEnumStatus } from '../helpers/functions';
 
 const QueueCompletedTile: React.FC = () => {
   const { t } = useTranslation();

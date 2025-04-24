@@ -3,10 +3,9 @@ import useSWR from 'swr';
 import { openmrsFetch, restBaseUrl, usePagination } from '@openmrs/esm-framework';
 import { PatientQueue } from '../types/patient-queues';
 import { NewVisitPayload, ProviderResponse } from '../types';
-import { ResourceFilterCriteria, ResourceRepresentation, toQueryParams } from '../resource-filter-criteria';
-import { PageableResult } from '../pageable-result';
 import { useEffect, useState } from 'react';
 import last from 'lodash-es/last';
+import { PageableResult, ResourceFilterCriteria, ResourceRepresentation, toQueryParams } from '../helpers/functions';
 
 export interface PatientQueueFilter extends ResourceFilterCriteria {
   status?: string;

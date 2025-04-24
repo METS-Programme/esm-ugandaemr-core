@@ -40,7 +40,7 @@ import {
   CreateQueueEntryFormData,
   createQueueEntrySchema,
 } from '../../active-visits/patient-queue-validation-schema.resource';
-import { QueueStatus, handleMutate } from '../../utils/utils';
+import { QueueStatus, handleMutate } from '../../helpers/functions';
 
 interface VisitFormProps {
   patientUuid: string;

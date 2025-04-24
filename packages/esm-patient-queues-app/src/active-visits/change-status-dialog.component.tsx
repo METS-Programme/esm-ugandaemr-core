@@ -30,7 +30,6 @@ import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { ArrowUp, ArrowDown } from '@carbon/react/icons';
 import styles from './change-status-dialog.scss';
-import { QueueStatus, extractErrorMessagesFromResponse, handleMutate } from '../utils/utils';
 import {
   NewQueuePayload,
   addQueueEntry,
@@ -43,6 +42,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queue-validation-schema.resource';
 import { PatientQueue } from '../types/patient-queues';
+import { QueueStatus, extractErrorMessagesFromResponse, handleMutate } from '../helpers/functions';
 
 interface ChangeStatusDialogProps {
   queueEntry: PatientQueue;
