@@ -241,7 +241,6 @@ export function usePatientQueuePages(
   isToggled?: boolean,
   isClinical?: boolean,
 ) {
-
   const [patientQueueFilter, setPatientQueueFilter] = useState<PatientQueueFilter>({
     v: ResourceRepresentation.Full,
     totalCount: true,
@@ -264,7 +263,7 @@ export function usePatientQueuePages(
       status: isToggled ? currentStatus : '',
       room: !isToggled ? currentLocation : '',
     });
-  }, [ currentPage, currentPageSize, currentLocation, currentStatus, isToggled, isClinical]);
+  }, [currentPage, currentPageSize, currentLocation, currentStatus, isToggled, isClinical]);
 
   return {
     items: paginatedItems,

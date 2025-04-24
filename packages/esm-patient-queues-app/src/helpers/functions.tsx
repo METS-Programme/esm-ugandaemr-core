@@ -1,14 +1,12 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { restBaseUrl ,getGlobalStore} from '@openmrs/esm-framework';
+import { restBaseUrl, getGlobalStore } from '@openmrs/esm-framework';
 import debounce from 'lodash-es/debounce';
 import { mutate } from 'swr';
 import { Group, InProgress } from '@carbon/react/icons';
 import { PatientQueue } from '../types/patient-queues';
 
-
 export type amPm = 'AM' | 'PM';
-
 
 export const buildStatusString = (status: string) => {
   if (!status) {
@@ -66,8 +64,6 @@ export const getProviderTagColor = (entryProvider: string, loggedInProviderName:
   }
 };
 
-
-
 function StatusIcon({ status }) {
   switch (status) {
     case 'pending':
@@ -83,7 +79,6 @@ function StatusIcon({ status }) {
 
 export default StatusIcon;
 
-
 export const convertTime12to24 = (time12h, timeFormat: amPm) => {
   let [hours, minutes] = time12h.split(':');
 
@@ -97,7 +92,6 @@ export const convertTime12to24 = (time12h, timeFormat: amPm) => {
 
   return [hours, minutes];
 };
-
 
 export function extractErrorMessagesFromResponse(errorObject) {
   const fieldErrors = errorObject?.responseBody?.error?.fieldErrors;
@@ -146,7 +140,6 @@ export interface PagingCriteria {
   limit?: number | null;
 }
 
-
 export enum ResourceRepresentation {
   Default = 'default',
   Full = 'full',
@@ -178,8 +171,6 @@ export function toQueryParams<T extends ResourceFilterCriteria>(
     .join('&');
   return queryParams.length > 0 ? '?' + queryParams : '';
 }
-
-
 
 export function getPatientQueueWaitingList() {
   return getGlobalStore<{ queue: PatientQueue[] }>('patientQueueWaitingList', { queue: [] });
