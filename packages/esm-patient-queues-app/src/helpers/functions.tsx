@@ -1,11 +1,10 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { restBaseUrl } from '@openmrs/esm-framework';
+import { restBaseUrl ,getGlobalStore} from '@openmrs/esm-framework';
 import debounce from 'lodash-es/debounce';
 import { mutate } from 'swr';
 import { Group, InProgress } from '@carbon/react/icons';
 import { PatientQueue } from '../types/patient-queues';
-import { getGlobalStore } from '@openmrs/esm-framework';
 
 
 export type amPm = 'AM' | 'PM';
