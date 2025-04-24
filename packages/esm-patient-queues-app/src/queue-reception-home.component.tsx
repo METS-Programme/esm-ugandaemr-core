@@ -55,7 +55,7 @@ const ReceptionHome: React.FC = () => {
 
   const fromPage: string = getOriginFromPathName(currentPathName);
 
-  const { isLoading, items, totalCount, currentPageSize, setPageSize, pageSizes, currentPage, setCurrentPage } =
+  const { items, currentPage, pageSizes, goTo, currentPageSize, setPageSize, isLoading, totalCount } =
     usePatientQueuePages('', '');
 
   const handleSearchInputChange = useCallback((event) => {
@@ -246,9 +246,13 @@ const ReceptionHome: React.FC = () => {
             pageSize={currentPageSize}
             pageSizes={pageSizes}
             totalItems={totalCount}
-            onChange={({ page, pageSize }) => {
-              setCurrentPage(page);
-              setPageSize(pageSize);
+            onChange={({ pageSize, page }) => {
+              if (pageSize !== currentPageSize) {
+                setPageSize(pageSize);
+              }
+              if (page !== currentPage) {
+                goTo(page);
+              }
             }}
             className={styles.paginationOverride}
           />
