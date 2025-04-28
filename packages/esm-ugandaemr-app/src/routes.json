@@ -172,7 +172,7 @@
             "slot": "vmmc-services-slot",
             "component": "vmmcDashboard"
         },
-           {
+        {
             "name": "tb-services",
             "slot": "tb-slot",
             "component": "tbDashboardLink",
@@ -215,8 +215,7 @@
             "slot": "drtb-dashboard-slot",
             "component": "drtbDashboard"
         },
-
-          {
+        {
             "name": "eid-patient-summary",
             "slot": "eid-slot",
             "component": "eidPatientSummaryDashboardLink",
@@ -246,11 +245,6 @@
         {
             "name": "retrieve-facility-code-modal",
             "component": "retrieveFacilityCodeModal"
-        },
-        {
-            "name": "update-facility-code-alert",
-            "slot": "homepage-widgets-slot",
-            "component": "updateFacilityCodeAlert"
         },
         {
             "name": "dispensing-dashboard-link",
