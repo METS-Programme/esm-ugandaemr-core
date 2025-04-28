@@ -4,12 +4,14 @@
         {
             "id": "artStartDate",
             "title": "ART Start Date",
+            "isDate": true,
             "encounterType": "artStartDateEncounterType",
             "concept": "artStartDateConceptUuid"
         },
         {
             "id": "datePositiveHIVConfirmed",
             "title": "Date Postive HIV Confirmed",
+            "isDate": true,
             "encounterType": "datePositiveHIVConfirmedEncounterType",
             "concept": "datePositiveHIVConfirmedConceptUuid"
         },

@@ -41,6 +41,7 @@
                 {
                     "id": "memberStatusDate",
                     "title": "HIV Status Date",
+                    "isDate": true,
                     "concept": "b7f597e7-39b5-419e-9ec5-de5901fffb52"
                 },
                 {

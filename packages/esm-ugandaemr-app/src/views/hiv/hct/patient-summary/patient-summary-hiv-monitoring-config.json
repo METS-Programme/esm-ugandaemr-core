@@ -5,6 +5,7 @@
             "id": "dateBled",
             "title": "Date Bled",
             "header": "Date Bled",
+            "isDate": true,
             "encounterTypeUuid": "dateBledEncounterType",
             "concept": "datebledConceptUuid"
         },

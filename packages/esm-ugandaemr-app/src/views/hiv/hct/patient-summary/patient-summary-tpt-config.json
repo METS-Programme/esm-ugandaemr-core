@@ -4,12 +4,14 @@
         {
             "id": "tptStartDate",
             "title": "TPT Start Date",
+            "isDate": true,
             "encounterType": "tptStartDateEncounterType",
             "concept": "tpeStartDateConceptUuid"
         },
         {
             "id": "tptCompletionDate",
             "title": "TPT Completion Date",
+            "isDate": true,
             "encounterType": "tptCompletionDateEncounterType",
             "concept": "tptCompletionDateConceptUuid"
         },
