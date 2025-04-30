@@ -21,6 +21,7 @@
                 {
                     "id": "artStartDate",
                     "title": "ART Start Date",
+                    "isDate": true,
                     "concept": "ab505422-26d9-41f1-a079-c3d222000440"
                 },
                 {
@@ -83,16 +84,6 @@
                     "concept": "dcdff274-30ab-102d-86b0-7a5022ba4115"
                 },
                 {
-                    "id": "tptStatus",
-                    "title": "TPT Status",
-                    "concept": "37d4ac43-b3b4-4445-b63b-e3acf47c8910"
-                },
-                {
-                    "id": "tbStatus",
-                    "title": "TB Status",
-                    "concept": "dce02aa1-30ab-102d-86b0-7a5022ba4115"
-                },
-                {
                     "id": "adherenceStatus",
                     "title": "Adherence",
                     "concept": "dce03b2f-30ab-102d-86b0-7a5022ba4115"
@@ -127,6 +118,71 @@
                 {
                     "uuid": "12de5bc5-352e-4faf-9961-a2125085a75c",
                     "name": "HMIS 003 HIV Care ART Card - Clinical Assessment"
+                }
+            ]
+        },
+        {
+            "tabName": "Viral Load Monitoring",
+            "hasFilter": true,
+            "headerTitle": "VL Monitoring",
+            "displayText": "vlMonitoring",
+            "encounterType": "cbf01392-ca29-11e9-a32f-2a2ae2dbcce4",
+            "columns": [
+                {
+                    "id": "artStartDate",
+                    "title": "ART Start Date",
+                    "isDate": true,
+                    "concept": "ab505422-26d9-41f1-a079-c3d222000440"
+                },
+                {
+                    "id": "whoClinicalStage",
+                    "title": "WHO Clinical Stage",
+                    "concept": "dcdff274-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "curentRegimen",
+                    "title": "Current Regimen",
+                    "concept": "107bef04-bf05-4f41-9260-b167c1108f7e"
+                },
+                {
+                    "id": "adherenceStatus",
+                    "title": "Adherence",
+                    "concept": "dce03b2f-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "careApproach",
+                    "title": "Treatment Care Approach",
+                    "concept": "1e755463-df07-4f18-bc67-9e5527bc252f"
+                },
+                {
+                    "id": "vlTestingIndication",
+                    "title": "Indication for VL Testing",
+                    "concept": "59f36196-3ebe-4fea-be92-6fc9551c3a11"
+                },
+                {
+                    "id": "actions",
+                    "title": "Actions",
+                    "actionOptions": [
+                        {
+                            "formName": "HMIS ACP 002: Viral Load Request Form",
+                            "label": "View Details",
+                            "mode": "view"
+                        },
+                        {
+                            "formName": "HMIS ACP 002: Viral Load Request Form",
+                            "label": "EditForm",
+                            "mode": "edit"
+                        }
+                    ]
+                }
+            ],
+            "launchOptions": {
+                "displayText": "Add"
+            },
+            "formList": [
+                {
+                    "uuid": "12de5bc5-352e-4faf-9961-a2125085a75c",
+                    "name": "HMIS ACP 002: Viral Load Request Form"
                 }
             ]
         }
