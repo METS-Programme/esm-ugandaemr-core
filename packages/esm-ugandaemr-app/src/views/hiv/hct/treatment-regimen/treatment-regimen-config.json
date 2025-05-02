@@ -9,8 +9,8 @@
             "encounterType": "c11774c1-3b4a-4bdb-a847-6060895e006d",
             "columns": [
                 {
-                    "id": "currentRegimen",
-                    "title": "Current Regimen",
+                    "id": "previousRegimen",
+                    "title": "Previous Regimen",
                     "concept": "107bef04-bf05-4f41-9260-b167c1108f7e"
                 },
                 {
