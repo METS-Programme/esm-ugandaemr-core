@@ -185,6 +185,287 @@
                     "name": "HMIS ACP 002: Viral Load Request Form"
                 }
             ]
+        },
+        {
+            "tabName": "Substitute/Switch Regimen",
+            "hasFilter": true,
+            "headerTitle": "Substitute/Switch Regimen",
+            "displayText": "Substitute/Switch Regimen",
+            "encounterType": "c11774c1-3b4a-4bdb-a847-6060895e006d",
+            "columns": [
+                {
+                    "id": "previousRegimen",
+                    "title": "Previous Regimen",
+                    "concept": "107bef04-bf05-4f41-9260-b167c1108f7e"
+                },
+                {
+                    "id": "newRegimen",
+                    "title": "New Regimen",
+                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "regimenChangeType",
+                    "title": "Regimen Change Type",
+                    "concept": "ca5a71aa-05f9-42a0-bf0d-65bcfd08036b"
+                },
+                {
+                    "id": "reason",
+                    "title": "Reason",
+                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "actions",
+                    "title": "Actions",
+                    "actionOptions": [
+                        {
+                            "formName": "ART Regimen Change",
+                            "label": "View Details",
+                            "mode": "view"
+                        },
+                        {
+                            "formName": "ART Regimen Change",
+                            "label": "EditForm",
+                            "mode": "edit"
+                        }
+                    ]
+                }
+            ],
+            "launchOptions": {
+                "displayText": "Add"
+            },
+            "formList": [
+                {
+                    "uuid": "53a3850c-855a-11eb-8dcd-0242ac130003",
+                    "name": "ART Regimen Change"
+                }
+            ]
+        },
+        {
+            "tabName": "Family Member",
+            "hasFilter": true,
+            "headerTitle": "Family Member",
+            "displayText": "Family Member",
+            "encounterType": "591cba6a-5c5f-11ee-8c99-0242ac120002",
+            "columns": [
+                {
+                    "id": "memberName",
+                    "title": "Member Name",
+                    "concept": "e96d0880-e80e-4088-9787-bb2623fd46af"
+                },
+                {
+                    "id": "memberAge",
+                    "title": "Member Age",
+                    "concept": "4049d989-b99e-440d-8f70-c222aa9fe45c"
+                },
+                {
+                    "id": "memberAgeUnit",
+                    "title": "Member Age",
+                    "concept": "33b18e88-0eb9-48f0-8023-2e90caad4469"
+                },
+                {
+                    "id": "memberRelationship",
+                    "title": "Member Relationship",
+                    "concept": "164352AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                {
+                    "id": "memberStatus",
+                    "title": "Member Status",
+                    "concept": "1f98a7e6-4d0a-4008-a6f7-4ec118f08983"
+                },
+                {
+                    "id": "memberHIVCare",
+                    "title": "HIV Care",
+                    "concept": "1f98a7e6-4d0a-4008-a6f7-4ec118f08983"
+                },
+                {
+                    "id": "memberStatusDate",
+                    "title": "HIV Status Date",
+                    "isDate": true,
+                    "concept": "b7f597e7-39b5-419e-9ec5-de5901fffb52"
+                },
+                {
+                    "id": "memberContact",
+                    "title": "Contact ",
+                    "concept": "159635AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                {
+                    "id": "actions",
+                    "title": "Actions",
+                    "actionOptions": [
+                        {
+                            "formName": "HMIS ACP HIV 003: HIV CARE ART CARD - Family Tracking Form",
+                            "label": "View Details",
+                            "mode": "view"
+                        },
+                        {
+                            "formName": "HMIS ACP HIV 003: HIV CARE ART CARD - Family Tracking Form",
+                            "label": "EditForm",
+                            "mode": "edit"
+                        }
+                    ]
+                }
+            ],
+            "launchOptions": {
+                "displayText": "Add"
+            },
+            "formList": [
+                {
+                    "uuid": "f2722150-5c5f-11ee-8c99-0242ac120002",
+                    "name": "HMIS ACP HIV 003: HIV CARE ART CARD - Family Tracking Form"
+                }
+            ]
+        },{
+            "tabName": "Transfer In",
+            "hasFilter": true,
+            "headerTitle": "Transfer In",
+            "displayText": "Tranfer In",
+            "encounterType": "3e8354f7-31b3-4862-a52e-ff41a1ee60af",
+            "columns": [
+                {
+                    "id": "transferInDate",
+                    "isDate": true,
+                    "title": "Transfer In Date",
+                    "concept": "f363f153-f659-438b-802f-9cc1828b5fa9"
+                },
+                {
+                    "id": "transferInPlace",
+                    "title": "Transfer In Place",
+                    "concept": "88e07e7c-f7e4-4ccf-8068-b770a3e3957b"
+                },
+                {
+                    "id": "reason",
+                    "title": "Reason",
+                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "baselineRegimen",
+                    "title": "Baseline Regimen",
+                    "concept": "c3332e8d-2548-4ad6-931d-6855692694a3"
+                },
+                {
+                    "id": "artStartDate",
+                    "isDate": true,
+                    "title": "ART Start Date",
+                    "concept": "ab505422-26d9-41f1-a079-c3d222000440"
+                },
+                {
+                    "id": "currentRegimen",
+                    "title": "Current Regimen",
+                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "recentVlCopies",
+                    "title": "Most Recent VL Copies/ml",
+                    "concept": "dc8d83e3-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "actions",
+                    "title": "Actions",
+                    "actionOptions": [
+                        {
+                            "formName": "HMIS ACP 008: HIV Care ART Patient Transfer In Form",
+                            "label": "View Details",
+                            "mode": "view"
+                        },
+                        {
+                            "formName": "HMIS ACP 008: HIV Care ART Patient Transfer In Form",
+                            "label": "EditForm",
+                            "mode": "edit"
+                        }
+                    ]
+                }
+            ],
+            "launchOptions": {
+                "displayText": "Add"
+            },
+            "formList": [
+                {
+                    "uuid": "1306e612-3d25-4daa-b1f1-648e20804695",
+                    "name": "HMIS ACP 008: HIV Care ART Patient Transfer In Form"
+                }
+            ]
+        },
+        {
+            "tabName": "Transfer Out",
+            "hasFilter": true,
+            "headerTitle": "Transfer Out",
+            "displayText": "Transfer Out",
+            "encounterType": "e305d98a-d6a2-45ba-ba2a-682b497ce27c",
+            "columns": [
+                {
+                    "id": "transferOutDate",
+                    "isDate": true,
+                    "title": "Transfer Out Date",
+                    "concept": "fc1b1e96-4afb-423b-87e5-bb80d451c967"
+                },
+                {
+                    "id": "transferOutPlace",
+                    "title": "Transfer Out Place",
+                    "concept": "dce015bb-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "reason",
+                    "title": "Reason",
+                    "concept": "dce0c977-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "baselineRegimen",
+                    "title": "Baseline Regimen",
+                    "concept": "c3332e8d-2548-4ad6-931d-6855692694a3"
+                },
+                {
+                    "id": "artStartDate",
+                    "isDate": true,
+                    "title": "ART Start Date",
+                    "concept": "ab505422-26d9-41f1-a079-c3d222000440"
+                },
+                {
+                    "id": "currentRegimen",
+                    "title": "Current Regimen",
+                    "concept": "dd2b0b4d-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "recentVlCopies",
+                    "title": "Most Recent VL Copies/ml",
+                    "concept": "dc8d83e3-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "recentCd4",
+                    "title": "Most Recent CD4",
+                    "concept": "dcbcba2c-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "whoClinicalStage",
+                    "title": "Current WHO Clinical Stage",
+                    "concept": "dcdff274-30ab-102d-86b0-7a5022ba4115"
+                },
+                {
+                    "id": "actions",
+                    "title": "actionsTitle",
+                    "actionOptions": [
+                        {
+                            "formName": "HMIS ACP 008: HIV Care ART Patient Transfer Out Form",
+                            "label": "View Details",
+                            "mode": "view"
+                        },
+                        {
+                            "formName": "HMIS ACP 008: HIV Care ART Patient Transfer Out Form",
+                            "label": "EditForm",
+                            "mode": "edit"
+                        }
+                    ]
+                }
+            ],
+            "launchOptions": {
+                "displayText": "Add"
+            },
+            "formList": [
+                {
+                    "uuid": "37be0b17-c62c-4033-90ef-3cbedb7fe0a0s",
+                    "name": "HMIS ACP 008: HIV Care ART Patient Transfer Out Form"
+                }
+            ]
         }
+
     ]
 }
