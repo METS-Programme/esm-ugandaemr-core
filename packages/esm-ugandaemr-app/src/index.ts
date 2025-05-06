@@ -44,9 +44,6 @@ import {
   vmmcDashboardMeta,
 } from './dashboard.meta';
 import GeneralCounsellingSummary from './views/hiv/hct/general-counselling/general-counselling-summary.component';
-import TreatmentRegimen from './views/hiv/hct/treatment-regimen/treatment-regimen.component';
-import FamilyTrackingSummary from './views/hiv/hct/family-tracking/family-tracking-summary.component';
-import PatientTransfersSummary from './views/hiv/hct/patient-transfers/patient-transfers-summary.component';
 import PatientSummaryOverviewList from './views/hiv/hct/patient-summary/patient-summary-summary.component';
 import TreatmentSummary from './views/hiv/hct/treatment/treatment-summary.component';
 import HivTestingServices from './views/hiv/hps/hts/hiv-testing-services.component';
@@ -158,25 +155,7 @@ export const htsDashboard = getSyncLifecycle(HivTestingServices, {
   moduleName,
 });
 
-export const treatmentRegimenDashboardLink = getSyncLifecycle(
-  createDashboardLink({ ...treatmentRegimenDashboardMeta, moduleName }),
-  options,
-);
 
-export const treatmentRegimenDashboard = getSyncLifecycle(TreatmentRegimen, {
-  featureName: 'treatment-regimen',
-  moduleName,
-});
-
-export const familyTrackingDashboardLink = getSyncLifecycle(
-  createDashboardLink({ ...familyTrackingDashboardMeta, moduleName }),
-  options,
-);
-
-export const familyTrackingDashboard = getSyncLifecycle(FamilyTrackingSummary, {
-  featureName: 'family-tracking',
-  moduleName,
-});
 
 export const treatmentDashboardLink = getSyncLifecycle(
   createDashboardLink({ ...treatmentDashboardMeta, moduleName }),
@@ -185,15 +164,7 @@ export const treatmentDashboardLink = getSyncLifecycle(
 
 export const treatmentDashboard = getSyncLifecycle(TreatmentSummary, { featureName: 'treatment-regimen', moduleName });
 
-export const patientTranfersDashboardLink = getSyncLifecycle(
-  createDashboardLink({ ...patientTransfersDashboardMeta, moduleName }),
-  options,
-);
 
-export const patientTransfersDashboard = getSyncLifecycle(PatientTransfersSummary, {
-  featureName: 'patient-transfers',
-  moduleName,
-});
 
 export const patientSummaryDashboardLink = getSyncLifecycle(
   createDashboardLink({ ...patientSummaryDashboardMeta, moduleName }),
