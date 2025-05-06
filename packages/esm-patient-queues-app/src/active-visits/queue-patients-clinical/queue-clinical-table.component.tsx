@@ -1,4 +1,4 @@
-import React, { AnchorHTMLAttributes, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { AnchorHTMLAttributes, useCallback, useMemo, useState } from 'react';
 
 import {
   DataTable,
@@ -16,31 +16,24 @@ import {
   Tag,
   Tile,
   Toggle,
-  TableToolbarSearch,
 } from '@carbon/react';
 
 import { useTranslation } from 'react-i18next';
 import { useSession, useLayoutType, isDesktop, useConfig } from '@openmrs/esm-framework';
-import {
-  getLocationByUuid,
-  getOriginFromPathName,
-  useParentLocation,
-  usePatientQueuePages,
-} from '../patient-queues.resource';
-import {
+import { getOriginFromPathName, useParentLocation, usePatientQueuePages } from '../patient-queues.resource';
+import StatusIcon, {
+  QueueStatus,
   buildStatusString,
   formatWaitTime,
   getProviderTagColor,
   getTagColor,
   trimVisitNumber,
 } from '../../helpers/functions';
-import StatusIcon from '../../queue-entry-table-components/status-icon.component';
 import PickPatientActionMenu from '../../queue-entry-table-components/pick-patient-queue-entry-menu.component';
 import ViewActionsMenu from '../view-action-menu.components';
 import NotesActionsMenu from '../notes-action-menu.components';
 import styles from '../active-visits-table.scss';
 import dayjs from 'dayjs';
-import { QueueStatus } from '../../utils/utils';
 import { PatientQueueConfig } from '../../config-schema';
 
 interface ActiveVisitsTableProps {
@@ -56,7 +49,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
   const { t } = useTranslation();
   const session = useSession();
   const layout = useLayoutType();
-  const [searchTerm, setSearchTerm] = useState('');
+  // const [searchTerm, setSearchTerm] = useState('');
 
   const { clinicalRoomTag } = useConfig<PatientQueueConfig>();
 
@@ -77,11 +70,11 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
   const currentPathName = useMemo(() => window.location.pathname, []);
   const fromPage = useMemo(() => getOriginFromPathName(currentPathName), [currentPathName]);
 
-  const handleSearchInputChange = useCallback((event) => {
-    setSearchTerm(event?.target?.value?.trim().toLowerCase());
-  }, []);
+  // const handleSearchInputChange = useCallback((event) => {
+  //   setSearchTerm(event?.target?.value?.trim().toLowerCase());
+  // }, []);
 
-  const { isLoading, items, totalCount, currentPageSize, setPageSize, pageSizes, currentPage, setCurrentPage } =
+  const { items, currentPage, pageSizes, goTo, currentPageSize, setPageSize, isLoading, totalCount } =
     usePatientQueuePages(activeLocationUuid, status, isToggled, true);
 
   const tableHeaders = useMemo(
@@ -141,10 +134,10 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
     }
 
     // Filter by `searchTerm` if provided
-    if (searchTerm) {
-      const lowercasedTerm = searchTerm.toLowerCase();
-      entries = entries.filter((entry) => entry?.patient?.person?.display?.toLowerCase()?.includes(lowercasedTerm));
-    }
+    // if (searchTerm) {
+    //   const lowercasedTerm = searchTerm.toLowerCase();
+    //   entries = entries.filter((entry) => entry?.patient?.person?.display?.toLowerCase()?.includes(lowercasedTerm));
+    // }
 
     // Correct filtering for queueRoom tags
     entries = entries.filter((entry) => entry?.queueRoom?.tags?.some((item) => item.uuid === clinicalRoomTag));
@@ -160,10 +153,10 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
     });
 
     return entries;
-  }, [items, searchTerm, status, clinicalRoomTag]);
+  }, [items, status, clinicalRoomTag]);
 
   const tableRows = useMemo(() => {
-    return filteredPatientQueueEntries.map((patientqueue, entry) => ({
+    return filteredPatientQueueEntries.map((patientqueue) => ({
       ...patientqueue,
       id: patientqueue.uuid,
       visitNumber: {
@@ -229,7 +222,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
   }
 
   return (
-    <>
+    <div className={styles.container}>
       <DataTable
         data-floating-menu-container
         headers={tableHeaders}
@@ -237,7 +230,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
         rows={tableRows}
         useZebraStyles
       >
-        {({ rows, headers, getHeaderProps, getTableProps, getRowProps }) => (
+        {({ rows, headers, getHeaderProps, getTableProps }) => (
           <TableContainer className={styles.tableContainer}>
             <TableToolbar
               style={{
@@ -252,13 +245,13 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
                   alignItems: 'center',
                 }}
               >
-                <TableToolbarSearch
+                {/* <TableToolbarSearch
                   expanded
                   className={styles.search}
                   onChange={handleSearchInputChange}
                   placeholder={t('searchThisList', 'Search this list')}
                   size="sm"
-                />
+                /> */}
                 <Toggle
                   className={styles.toggle}
                   labelA="My Location"
@@ -311,13 +304,17 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
         pageSize={currentPageSize}
         pageSizes={pageSizes}
         totalItems={totalCount}
-        onChange={({ page, pageSize }) => {
-          setCurrentPage(page);
-          setPageSize(pageSize);
+        onChange={({ pageSize, page }) => {
+          if (pageSize !== currentPageSize) {
+            setPageSize(pageSize);
+          }
+          if (page !== currentPage) {
+            goTo(page);
+          }
         }}
         className={styles.paginationOverride}
       />
-    </>
+    </div>
   );
 };
 export default ActiveClinicalVisitsTable;

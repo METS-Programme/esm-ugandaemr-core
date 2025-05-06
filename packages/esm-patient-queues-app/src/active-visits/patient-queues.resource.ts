@@ -3,10 +3,9 @@ import useSWR from 'swr';
 import { openmrsFetch, restBaseUrl, usePagination } from '@openmrs/esm-framework';
 import { PatientQueue } from '../types/patient-queues';
 import { NewVisitPayload, ProviderResponse } from '../types';
-import { ResourceFilterCriteria, ResourceRepresentation, toQueryParams } from '../resource-filter-criteria';
-import { PageableResult } from '../pageable-result';
 import { useEffect, useState } from 'react';
 import last from 'lodash-es/last';
+import { PageableResult, ResourceFilterCriteria, ResourceRepresentation, toQueryParams } from '../helpers/functions';
 
 export interface PatientQueueFilter extends ResourceFilterCriteria {
   status?: string;
@@ -242,50 +241,40 @@ export function usePatientQueuePages(
   isToggled?: boolean,
   isClinical?: boolean,
 ) {
-  const pageSizes = [10, 20, 30, 40, 50];
-  const [currentPage, setCurrentPage] = useState(1);
-  const [currentPageSize, setPageSize] = useState(10);
-  const [searchString, setSearchString] = useState<string | null>(null);
-
   const [patientQueueFilter, setPatientQueueFilter] = useState<PatientQueueFilter>({
-    startIndex: currentPage - 1,
     v: ResourceRepresentation.Full,
-    limit: currentPageSize,
-    q: null,
     totalCount: true,
     parentLocation: isToggled && !isClinical ? currentLocation : '',
     status: isToggled ? currentStatus : '',
     room: !isToggled ? currentLocation : '',
   });
 
+  const pageSizes = [10, 20, 30, 40, 50];
+  const [currentPageSize, setPageSize] = useState(10);
+
   const { items, isLoading, error } = usePatientQueues(patientQueueFilter);
-  const pagination = usePagination(items.results, currentPageSize);
+  const { goTo, results: paginatedItems, currentPage } = usePagination(items.results, currentPageSize);
 
   useEffect(() => {
     setPatientQueueFilter({
-      startIndex: (currentPage - 1) * currentPageSize,
       v: ResourceRepresentation.Full,
-      limit: currentPageSize,
-      q: searchString,
       totalCount: true,
       parentLocation: isToggled && !isClinical ? currentLocation : '',
       status: isToggled ? currentStatus : '',
       room: !isToggled ? currentLocation : '',
     });
-  }, [searchString, currentPage, currentPageSize, currentLocation, currentStatus, isToggled, isClinical]);
+  }, [currentPage, currentPageSize, currentLocation, currentStatus, isToggled, isClinical]);
 
   return {
-    items: pagination.results,
-    pagination,
+    items: paginatedItems,
     totalCount: items.totalCount,
     currentPageSize,
     currentPage,
-    setCurrentPage,
     setPageSize,
+    goTo,
     pageSizes,
     isLoading,
     error,
-    setSearchString,
   };
 }
 

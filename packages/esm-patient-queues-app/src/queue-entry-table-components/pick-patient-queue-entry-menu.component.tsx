@@ -5,7 +5,7 @@ import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PatientQueue } from '../types/patient-queues';
 import { usePatientQueuePages } from '../active-visits/patient-queues.resource';
-import { QueueEnumStatus, QueueStatus } from '../utils/utils';
+import { QueueEnumStatus, QueueStatus } from '../helpers/functions';
 
 interface PickPatientActionMenuProps {
   queueEntry: PatientQueue;

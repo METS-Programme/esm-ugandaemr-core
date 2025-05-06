@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import SummaryTile from '../summary-tiles/summary-tile.component';
 import { useSession } from '@openmrs/esm-framework';
 import { usePatientQueuePages } from '../active-visits/patient-queues.resource';
-import { QueueEnumStatus } from '../utils/utils';
+import { QueueEnumStatus } from '../helpers/functions';
 const QueueInQueueTile: React.FC = () => {
   const { t } = useTranslation();
 
@@ -14,7 +14,7 @@ const QueueInQueueTile: React.FC = () => {
   return (
     <SummaryTile
       label={t('patientsWaitingToBeServed', 'Patients waiting to be Served')}
-      value={items.filter((item) => item.status === (QueueEnumStatus.PICKED || QueueEnumStatus.PENDING)).length}
+      value={items.filter((item) => item?.status === (QueueEnumStatus.PICKED || QueueEnumStatus.PENDING)).length}
       headerLabel={t('byYou', 'By You')}
     />
   );

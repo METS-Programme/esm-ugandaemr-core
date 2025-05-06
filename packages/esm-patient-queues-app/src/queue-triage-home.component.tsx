@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PatientQueueHeader from './components/patient-queue-header/patient-queue-header.component';
-import MetricsCard from './components/patient-queue-metrics/metrics-card.component';
 import { useTranslation } from 'react-i18next';
-import { QueueStatus } from './utils/utils';
 import { Tabs, TabPanel, TabList, Tab, TabPanels } from '@carbon/react';
 import ActiveTriageVisitsTable from './active-visits/queue-patients-triage/queue-triage-table.component';
 import styles from './queue-triage-home.scss';
 import QueueSummaryTiles from './summary-tiles/queue-summary-tiles.component';
 import { useSession, userHasAccess } from '@openmrs/esm-framework';
 import { APP_PATIENTQUEUE_TRIAGE_DASHBOARD } from './config/privileges';
+import { QueueStatus } from './helpers/functions';
 
 const TriageHome: React.FC = () => {
   const { t } = useTranslation();
