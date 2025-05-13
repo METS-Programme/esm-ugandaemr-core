@@ -111,18 +111,6 @@
             }
         },
         {
-            "name": "edit-queue-entry-status-modal",
-            "component": "editQueueEntryStatusModal"
-        },
-        {
-            "name": "patient-move-to-next-service-point-modal",
-            "component": "patientChartMoveToNextServicePointModal"
-        },
-        {
-            "name": "queue-table-move-to-next-service-point-modal",
-            "component": "queueTableMoveToNextServicePointModal"
-        },
-        {
             "name": "patient-move-to-next-service-point",
             "slot": "patient-actions-slot",
             "component": "moveToNextServicePointButton",
@@ -151,30 +139,14 @@
             "component": "pickPatientEntryQueue"
         },
         {
-            "name": "add-visit-to-queue-modal",
-            "component": "addVisitToQueueModal"
-        },
-        {
-            "name": "transition-queue-entry-status-modal",
-            "component": "transitionQueueEntryStatusModal"
-        },
-        {
             "name": "previous-visit-summary-widget",
             "slot": "previous-visit-summary-slot",
             "component": "previousVisitSummaryWidget"
         },
         {
-            "name": "add-provider-to-room-modal",
-            "component": "addProviderToRoomModal"
-        },
-        {
             "name": "add-queue-entry-widget",
             "slot": "add-queue-entry-slot",
             "component": "addQueueEntryWidget"
-        },
-        {
-            "name": "notes-dialog-modal",
-            "component": "notesModal"
         },
         {
             "name": "queue-waiting-tile-component",
@@ -185,6 +157,22 @@
             "name": "queue-completed-tile-component",
             "slot": "queue-tiles-slot",
             "component": "queueCompletedTile"
+        }
+    ],
+    "modals": [
+        {
+            "name": "notes-dialog-modal",
+            "component": "notesModal"
+        }
+    ],
+    "workspaces": [
+        {
+            "name": "move-to-next-service-point-form-workspace",
+            "component": "moveToNextServicePointFormWorkspace",
+            "title": "Move to next service oint",
+            "type": "form",
+            "canMaximize": true,
+            "width": "extra-wide"
         }
     ]
 }

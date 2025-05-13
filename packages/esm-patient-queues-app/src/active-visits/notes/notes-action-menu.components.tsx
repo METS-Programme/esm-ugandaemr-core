@@ -3,7 +3,7 @@ import { Button } from '@carbon/react';
 import { CatalogPublish } from '@carbon/react/icons';
 import { useTranslation } from 'react-i18next';
 import { showModal } from '@openmrs/esm-framework';
-import { PatientQueue } from '../types/patient-queues';
+import { PatientQueue } from '../../types/patient-queues';
 
 interface NotesActionsMenuProps {
   note: PatientQueue;

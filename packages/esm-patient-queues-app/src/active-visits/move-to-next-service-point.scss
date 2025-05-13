@@ -33,3 +33,9 @@ section {
 :global(.cds--modal-container) {
     overflow: auto;
 }
+
+.errorMessage {
+    color: #d93025;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}

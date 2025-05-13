@@ -37,11 +37,13 @@ import {
 import StatusIcon from '../../queue-entry-table-components/status-icon.component';
 import PickPatientActionMenu from '../../queue-entry-table-components/pick-patient-queue-entry-menu.component';
 import ViewActionsMenu from '../view-action-menu.components';
-import NotesActionsMenu from '../notes-action-menu.components';
+import NotesActionsMenu from '../notes/notes-action-menu.components';
 import styles from '../active-visits-table.scss';
 import dayjs from 'dayjs';
 import { QueueStatus } from '../../utils/utils';
 import { PatientQueueConfig } from '../../config-schema';
+import MovetoNextServicePointAction from '../move-to-next-service-point-reassign-action.component';
+import MovetoNextServicePointReassignAction from '../move-to-next-service-point-reassign-action.component';
 
 interface ActiveVisitsTableProps {
   status: string;
@@ -211,13 +213,18 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
         content: (
           <div style={{ display: 'flex' }}>
             {patientqueue?.status === 'PENDING' && (
-              <>
-                <PickPatientActionMenu queueEntry={patientqueue} closeModal={() => true} />
-              </>
+              <PickPatientActionMenu queueEntry={patientqueue} closeModal={() => true} />
             )}
-            <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${patientqueue?.patient?.uuid}/chart`} from={fromPage} />
+
+            {(patientqueue?.status === 'COMPLETED' || patientqueue?.status === 'PICKED') && (
+              <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${patientqueue?.patient?.uuid}/chart`} from={fromPage} />
+            )}
 
             <NotesActionsMenu note={patientqueue} />
+
+            {((patientqueue?.status === 'PENDING' && isToggled)) && (
+              <MovetoNextServicePointReassignAction />
+            )}
           </div>
         ),
       },

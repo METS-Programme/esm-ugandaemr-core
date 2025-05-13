@@ -21,12 +21,7 @@ import {
 
 import { useTranslation } from 'react-i18next';
 import { useSession, useLayoutType, isDesktop, useConfig } from '@openmrs/esm-framework';
-import {
-  getLocationByUuid,
-  getOriginFromPathName,
-  useParentLocation,
-  usePatientQueuePages,
-} from '../patient-queues.resource';
+import { getOriginFromPathName, useParentLocation, usePatientQueuePages } from '../patient-queues.resource';
 import {
   buildStatusString,
   formatWaitTime,
@@ -37,12 +32,14 @@ import {
 import StatusIcon from '../../queue-entry-table-components/status-icon.component';
 import PickPatientActionMenu from '../../queue-entry-table-components/pick-patient-queue-entry-menu.component';
 import ViewActionsMenu from '../view-action-menu.components';
-import NotesActionsMenu from '../notes-action-menu.components';
-import MovetoNextPointAction from '../move-patient-to-next-action-menu.components';
+import NotesActionsMenu from '../notes/notes-action-menu.components';
 import styles from '../active-visits-table.scss';
 import dayjs from 'dayjs';
 import { QueueStatus } from '../../utils/utils';
 import { PatientQueueConfig } from '../../config-schema';
+import MovetoNextServicePointActionButton from '../move-to-next-service-point-patient-action.components';
+import MovetoNextServicePointAction from '../move-to-next-service-point-reassign-action.component';
+import MovetoNextServicePointReassignAction from '../move-to-next-service-point-reassign-action.component';
 
 interface ActiveVisitsTableProps {
   status: string;
@@ -198,21 +195,18 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
         content: (
           <div style={{ display: 'flex' }}>
             {patientqueue?.status === 'PENDING' && (
-              <>
-                <PickPatientActionMenu queueEntry={patientqueue} closeModal={() => true} />
-              </>
+              <PickPatientActionMenu queueEntry={patientqueue} closeModal={() => true} />
             )}
 
-            <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${patientqueue?.patient?.uuid}/chart`} from={fromPage} />
+            {(patientqueue?.status === 'COMPLETED' || patientqueue?.status === 'PICKED') && (
+              <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${patientqueue?.patient?.uuid}/chart`} from={fromPage} />
+            )}
 
             <NotesActionsMenu note={patientqueue} />
-            {patientqueue?.status === 'SERVING' ||
-              (patientqueue?.status === 'PENDING' && isToggled && (
-                <MovetoNextPointAction
-                  patientUuid={patientqueue?.patient?.uuid}
-                  entries={filteredPatientQueueEntries}
-                />
-              ))}
+
+            {((patientqueue?.status === 'PENDING' && isToggled)) && (
+              <MovetoNextServicePointReassignAction />
+            )}
           </div>
         ),
       },

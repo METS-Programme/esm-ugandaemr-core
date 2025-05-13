@@ -16,6 +16,7 @@ import {
   InlineNotification,
 } from '@carbon/react';
 import {
+  type DefaultWorkspaceProps,
   navigate,
   parseDate,
   restBaseUrl,
@@ -29,7 +30,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
 import { ArrowUp, ArrowDown } from '@carbon/react/icons';
-import styles from './change-status-dialog.scss';
+import styles from './move-to-next-service-point.scss';
 import { QueueStatus, extractErrorMessagesFromResponse, handleMutate } from '../utils/utils';
 import {
   NewQueuePayload,
@@ -44,13 +45,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queue-validation-schema.resource';
 import { PatientQueue } from '../types/patient-queues';
 
-interface ChangeStatusDialogProps {
-  queueEntry: PatientQueue;
-  currentEntry: PatientQueue;
-  closeModal: () => void;
-}
+type MoveToNextServicePointFormProps = DefaultWorkspaceProps & {
+  queueEntry?: PatientQueue;
+  currentEntry?: PatientQueue;
+};
 
-const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEntry, closeModal }) => {
+const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
+  queueEntry,
+  currentEntry,
+  closeWorkspace,
+}) => {
   const { t } = useTranslation();
 
   const isTablet = useLayoutType() === 'tablet';
@@ -170,7 +174,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
           });
 
           navigate({ to: `\${openmrsSpaBase}/home` });
-          closeModal();
+          closeWorkspace();
           setIsEndingVisit(false);
         }
       } catch (error) {
@@ -198,7 +202,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
           description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
         });
 
-        closeModal();
+        closeWorkspace();
         handleMutate(`${restBaseUrl}/patientqueue`);
         setIsSubmitting(false);
       }
@@ -248,7 +252,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
           // View patient summary
           navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry?.patient?.uuid}/chart` });
 
-          closeModal();
+          closeWorkspace();
           handleMutate(`${restBaseUrl}/patientqueue`);
           setIsSubmitting(false);
         }
@@ -269,7 +273,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
     queueEntry?.patient?.uuid,
     priorityComment,
     t,
-    closeModal,
+    closeWorkspace,
     contentSwitcherIndex,
     selectedProvider,
     provider,
@@ -280,7 +284,9 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
   ]);
 
   if (queueEntry && Object.keys(queueEntry)?.length === 0) {
-    return <ModalHeader closeModal={closeModal} title={t('patientNotInQueue', 'The patient is not in the queue')} />;
+    return (
+      <ModalHeader closeModal={closeWorkspace} title={t('patientNotInQueue', 'The patient is not in the queue')} />
+    );
   }
 
   if (queueEntry && Object.keys(queueEntry)?.length > 0) {
@@ -289,7 +295,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
         <div>
           {isLoading && <InlineLoading description={'Fetching Provider..'} />}
           <Form onSubmit={handleSubmit(onSubmit)}>
-            <ModalHeader closeModal={closeModal} />
+            <ModalHeader closeModal={closeWorkspace} />
             <ModalBody>
               <div className={styles.modalBody}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -336,23 +342,28 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                   name="priorityComment"
                   control={control}
                   render={({ field }) => (
-                    <ContentSwitcher
-                      {...field}
-                      selectedIndex={contentSwitcherIndex}
-                      className={styles.contentSwitcher}
-                      onChange={({ index }) => {
-                        field.onChange(index);
-                        setContentSwitcherIndex(index);
-                      }}
-                    >
-                      {priorityLabels.map((label, index) => (
-                        <Switch
-                          key={index}
-                          name={label.toLowerCase().replace(/\s+/g, '')}
-                          text={t(label.toLowerCase(), label)}
-                        />
-                      ))}
-                    </ContentSwitcher>
+                    <>
+                      <ContentSwitcher
+                        {...field}
+                        selectedIndex={contentSwitcherIndex}
+                        className={styles.contentSwitcher}
+                        onChange={({ index }) => {
+                          field.onChange(priorityLabels[index]);
+                          setContentSwitcherIndex(index);
+                        }}
+                      >
+                        {priorityLabels.map((label, index) => (
+                          <Switch
+                            key={index}
+                            name={label.toLowerCase().replace(/\s+/g, '')}
+                            text={t(label.toLowerCase(), label)}
+                          />
+                        ))}
+                      </ContentSwitcher>
+                      {errors.priorityComment && (
+                        <p className={styles.errorMessage}>{errors.priorityComment.message}</p>
+                      )}
+                    </>
                   )}
                 />
               </section>
@@ -363,23 +374,26 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
                   name="status"
                   control={control}
                   render={({ field }) => (
-                    <ContentSwitcher
-                      {...field}
-                      selectedIndex={statusSwitcherIndex}
-                      className={styles.contentSwitcher}
-                      onChange={({ index }) => {
-                        field.onChange(index);
-                        setStatusSwitcherIndex(index);
-                      }}
-                    >
-                      {statusLabels.map((status, index) => (
-                        <Switch
-                          key={index}
-                          name={status.label.toLowerCase().replace(' ', '')}
-                          text={t(status.label.toLowerCase(), status.label)}
-                        />
-                      ))}
-                    </ContentSwitcher>
+                    <>
+                      <ContentSwitcher
+                        {...field}
+                        selectedIndex={statusSwitcherIndex}
+                        className={styles.contentSwitcher}
+                        onChange={({ index }) => {
+                          field.onChange(statusLabels[index].status);
+                          setStatusSwitcherIndex(index);
+                        }}
+                      >
+                        {statusLabels.map((status, index) => (
+                          <Switch
+                            key={index}
+                            name={status.label.toLowerCase().replace(/\s+/g, '')}
+                            text={t(status.label.toLowerCase(), status.label)}
+                          />
+                        ))}
+                      </ContentSwitcher>
+                      {errors.status && <p className={styles.errorMessage}>{errors.status.message}</p>}
+                    </>
                   )}
                 />
               </section>
@@ -502,7 +516,7 @@ const ChangeStatus: React.FC<ChangeStatusDialogProps> = ({ queueEntry, currentEn
               )}
             </ModalBody>
             <ModalFooter>
-              <Button kind="secondary" onClick={closeModal}>
+              <Button kind="secondary" onClick={closeWorkspace}>
                 {t('cancel', 'Cancel')}
               </Button>
               {isEndingVisit ? (
@@ -532,4 +546,4 @@ function ResponsiveWrapper({ children, isTablet }) {
   return isTablet ? <Layer>{children}</Layer> : <div>{children}</div>;
 }
 
-export default ChangeStatus;
+export default MoveToNextServicePointForm;
