@@ -23,9 +23,7 @@ const PickQueuePatientActionButton: React.FC<PickPatientActionMenuProps> = ({ qu
   const hasPickedPatient = useMemo(() => {
     if (!pickedQueueItems || !providerId) return false;
     return pickedQueueItems.some(
-      (item) =>
-        item?.provider?.identifier === providerId &&
-        item?.status === QueueEnumStatus.PICKED,
+      (item) => item?.provider?.identifier === providerId && item?.status === QueueEnumStatus.PICKED,
     );
   }, [pickedQueueItems, providerId]);
 
@@ -70,4 +68,3 @@ const PickQueuePatientActionButton: React.FC<PickPatientActionMenuProps> = ({ qu
 };
 
 export default PickQueuePatientActionButton;
-

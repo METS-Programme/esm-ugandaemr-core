@@ -21,11 +21,7 @@ import {
 
 import { useTranslation } from 'react-i18next';
 import { useSession, useLayoutType, isDesktop, useConfig } from '@openmrs/esm-framework';
-import {
-  getOriginFromPathName,
-  useParentLocation,
-  usePatientQueuePages,
-} from '../patient-queues.resource';
+import { getOriginFromPathName, useParentLocation, usePatientQueuePages } from '../patient-queues.resource';
 import {
   buildStatusString,
   formatWaitTime,
@@ -215,7 +211,10 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
             )}
 
             {(patientqueue?.status === 'COMPLETED' || patientqueue?.status === 'PICKED') && (
-              <ViewQueuePatientActionMenu to={`\${openmrsSpaBase}/patient/${patientqueue?.patient?.uuid}/chart`} from={fromPage} />
+              <ViewQueuePatientActionMenu
+                to={`\${openmrsSpaBase}/patient/${patientqueue?.patient?.uuid}/chart`}
+                from={fromPage}
+              />
             )}
 
             <NotesActionsMenu note={patientqueue} />

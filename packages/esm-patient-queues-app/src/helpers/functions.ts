@@ -56,7 +56,6 @@ export const getProviderTagColor = (entryProvider: string, loggedInProviderName:
   }
 };
 
-
 export type amPm = 'AM' | 'PM';
 
 export const convertTime12to24 = (time12h, timeFormat: amPm) => {

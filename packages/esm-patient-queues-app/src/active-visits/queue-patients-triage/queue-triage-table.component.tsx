@@ -197,7 +197,10 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
             )}
 
             {(patientqueue?.status === 'COMPLETED' || patientqueue?.status === 'PICKED') && (
-              <ViewQueuePatientActionMenu to={`\${openmrsSpaBase}/patient/${patientqueue?.patient?.uuid}/chart`} from={fromPage} />
+              <ViewQueuePatientActionMenu
+                to={`\${openmrsSpaBase}/patient/${patientqueue?.patient?.uuid}/chart`}
+                from={fromPage}
+              />
             )}
 
             <NotesActionsMenu note={patientqueue} />

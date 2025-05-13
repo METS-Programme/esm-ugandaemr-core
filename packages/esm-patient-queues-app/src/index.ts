@@ -3,7 +3,7 @@ import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 import { createDashboardLink } from './createDashboardLink';
 import { ClinicalRoomMeta, ReceptionMeta, TriageMeta } from './dashboard.meta';
-import moveToNextServicePointButtonComponent from './active-visits/move-to-next-service-point-patient-action.components';
+import moveToNextServicePointButtonComponent from './active-visits/move-to-next-service-point-patient-action.component';
 import notesModalComponent from './active-visits/notes/notes-action-menu.components';
 import pickPatientEntryQueueComponent from './active-visits/pick-patient-dialog.component';
 import queueScreenComponent from './components/queue-board/queue-board.component';
@@ -57,19 +57,7 @@ export const queueClinicalRoomDashboardLink = getSyncLifecycle(createDashboardLi
 
 export const moveToNextServicePointFormWorkspace = getSyncLifecycle(moveToNextServicePointWorkspace, options);
 
-// export const patientChartMoveToNextServicePointModal = getSyncLifecycle(
-//   patientChartMoveToNextServicePointModalComponent,
-//   options,
-// );
-
-// export const queueTableMoveToNextServicePointModal = getSyncLifecycle(
-//   queueTableMoveToNextServicePointModalComponent,
-//   options,
-// );
-
 export const moveToNextServicePointButton = getSyncLifecycle(moveToNextServicePointButtonComponent, options);
-
-// export const addPatientToQueue = getSyncLifecycle(addPatientToQueueComponent, options);
 
 export const notesModal = getSyncLifecycle(notesModalComponent, options);
 

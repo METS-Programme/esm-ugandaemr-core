@@ -35,9 +35,6 @@ export const handleMutate = (url: string) => {
   refreshDashboardMetrics();
 };
 
-
-
-
 function StatusIcon({ status }) {
   switch (status) {
     case 'pending':
