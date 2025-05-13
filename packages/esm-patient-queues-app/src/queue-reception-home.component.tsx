@@ -14,7 +14,6 @@ import {
 import { useServicePointCount } from './components/patient-queue-metrics/clinic-metrics.resource';
 import { ExtensionSlot, useSession } from '@openmrs/esm-framework';
 import { buildStatusString, formatWaitTime, getTagColor, trimVisitNumber } from './helpers/functions';
-import StatusIcon from './queue-entry-table-components/status-icon.component';
 import EditActionsMenu from './active-visits/edit-action-menu.components';
 import QueueLauncher from './components/queue-launcher/queue-launcher.component';
 
@@ -37,6 +36,7 @@ import {
 } from '@carbon/react';
 import { Add } from '@carbon/react/icons';
 import PrintActionsMenu from './active-visits/print-action-menu.components';
+import StatusIcon from './utils/utils';
 
 const ReceptionHome: React.FC = () => {
   const { t } = useTranslation();

@@ -30,7 +30,6 @@ import {
   trimVisitNumber,
 } from '../../helpers/functions';
 import PickPatientActionMenu from '../pick-queue-patient-action-action.component';
-import ViewActionsMenu from '../view-queue-patient-action-menu.component';
 import NotesActionsMenu from '../notes/notes-action-menu.components';
 import styles from '../active-visits-table.scss';
 import dayjs from 'dayjs';
@@ -159,7 +158,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
   }, [items, searchTerm, status, clinicalRoomTag]);
 
   const tableRows = useMemo(() => {
-    return filteredPatientQueueEntries.map((patientqueue, entry) => ({
+    return filteredPatientQueueEntries.map((patientqueue, index) => ({
       ...patientqueue,
       id: patientqueue.uuid,
       visitNumber: {
@@ -219,12 +218,14 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
 
             <NotesActionsMenu note={patientqueue} />
 
-            {patientqueue?.status === 'PENDING' && isToggled && <MovetoNextServicePointReassignAction />}
+            {patientqueue?.status === 'PENDING' && isToggled && (
+              <MovetoNextServicePointReassignAction queueEntry={filteredPatientQueueEntries[index]} />
+            )}
           </div>
         ),
       },
     }));
-  }, [filteredPatientQueueEntries, session.user, t, fromPage]);
+  }, [filteredPatientQueueEntries, session.user, t, fromPage, isToggled]);
 
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;

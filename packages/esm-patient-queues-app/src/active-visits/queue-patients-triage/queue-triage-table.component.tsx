@@ -30,7 +30,6 @@ import {
   trimVisitNumber,
 } from '../../helpers/functions';
 import PickQueuePatientActionMenu from '../pick-queue-patient-action-action.component';
-import ViewActionsMenu from '../view-queue-patient-action-menu.component';
 import NotesActionsMenu from '../notes/notes-action-menu.components';
 import styles from '../active-visits-table.scss';
 import dayjs from 'dayjs';
@@ -205,7 +204,9 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
 
             <NotesActionsMenu note={patientqueue} />
 
-            {patientqueue?.status === 'PENDING' && isToggled && <MovetoNextServicePointReassignAction />}
+            {patientqueue?.status === 'PENDING' && isToggled && (
+              <MovetoNextServicePointReassignAction queueEntry={filteredPatientQueueEntries[index]} />
+            )}
           </div>
         ),
       },

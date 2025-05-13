@@ -46,16 +46,13 @@ import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queu
 import { PatientQueue } from '../types/patient-queues';
 
 type MoveToNextServicePointFormProps = DefaultWorkspaceProps & {
-  queueEntry?: PatientQueue;
-  currentEntry?: PatientQueue;
+  queueEntry: PatientQueue;
 };
 
-const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
-  queueEntry,
-  currentEntry,
-  closeWorkspace,
-}) => {
+const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({ queueEntry, closeWorkspace }) => {
   const { t } = useTranslation();
+
+  console.log('queueEntry--->', queueEntry);
 
   const isTablet = useLayoutType() === 'tablet';
 
@@ -72,7 +69,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
   );
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
 
-  const { activeVisit } = useVisit(queueEntry.patient.uuid);
+  const { activeVisit } = useVisit(queueEntry?.uuid);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -236,7 +233,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
           await updateQueueEntry(
             QueueStatus.Picked,
             provider,
-            currentEntry?.uuid,
+            queueEntry?.uuid,
             contentSwitcherIndex,
             priorityComment,
             'comment',
@@ -250,7 +247,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
           });
 
           // View patient summary
-          navigate({ to: `\${openmrsSpaBase}/patient/${currentEntry?.patient?.uuid}/chart` });
+          navigate({ to: `\${openmrsSpaBase}/patient/${queueEntry?.patient?.uuid}/chart` });
 
           closeWorkspace();
           handleMutate(`${restBaseUrl}/patientqueue`);
@@ -278,8 +275,6 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
     selectedProvider,
     provider,
     sessionUser?.sessionLocation?.uuid,
-    currentEntry?.uuid,
-    currentEntry?.patient?.uuid,
     selectedNextQueueLocation,
   ]);
 
@@ -298,7 +293,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
             <ModalHeader closeModal={closeWorkspace} />
             <ModalBody>
               <div className={styles.modalBody}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                {/* <div style={{ display: 'flex', alignItems: 'center' }}>
                   <h4 className={styles.section}> Currently Picked :</h4>
                   <div style={{ margin: '10px' }}>
                     <ArrowDown size={20} />
@@ -316,7 +311,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
                   '--'
                 )}
 
-                <br></br>
+                <br></br> */}
                 <hr />
                 <br></br>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
