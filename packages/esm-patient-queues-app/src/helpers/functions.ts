@@ -28,7 +28,7 @@ export const formatWaitTime = (dateCreated: string, t) => {
   const diffInMinutes = now.diff(createdTime, 'minute');
 
   const hours = Math.floor(diffInMinutes / 60);
-  const minutes = diffInMinutes % 60; // Get the remainder after extracting hours
+  const minutes = diffInMinutes % 60;
 
   if (hours > 0) {
     return `${hours} ${t('hoursAnd', 'hours and')} ${minutes} ${t('minutes', 'minutes')}`;
@@ -54,4 +54,21 @@ export const getProviderTagColor = (entryProvider: string, loggedInProviderName:
   } else {
     return '#942509';
   }
+};
+
+
+export type amPm = 'AM' | 'PM';
+
+export const convertTime12to24 = (time12h, timeFormat: amPm) => {
+  let [hours, minutes] = time12h.split(':');
+
+  if (hours === '12' && timeFormat === 'AM') {
+    hours = '00';
+  }
+
+  if (timeFormat === 'PM') {
+    hours = hours === '12' ? hours : parseInt(hours, 10) + 12;
+  }
+
+  return [hours, minutes];
 };

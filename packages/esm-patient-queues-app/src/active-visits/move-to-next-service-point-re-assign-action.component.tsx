@@ -17,12 +17,12 @@ const MovetoNextServicePointReassignAction: React.FC<MovetoNextServicePointPatie
   }, []);
 
   return (
-     <Button
-        kind="ghost"
-        onClick={handleClick}
-        iconDescription={t('reassignPatient', 'ReAssign Patient')}
-        renderIcon={(props) => <Send size={16} {...props} />}
-      />
+    <Button
+      kind="ghost"
+      onClick={handleClick}
+      iconDescription={t('reassignPatient', 'Re-assign patient')}
+      renderIcon={(props) => <Send size={16} {...props} />}
+    />
   );
 };
 export default MovetoNextServicePointReassignAction;

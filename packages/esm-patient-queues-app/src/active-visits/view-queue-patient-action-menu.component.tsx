@@ -10,7 +10,7 @@ interface NameLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   from: string;
 }
 
-const ViewActionsMenu: React.FC<NameLinkProps> = ({ from, to }) => {
+const ViewQueuePatientActionMenu: React.FC<NameLinkProps> = ({ from, to }) => {
   const { t } = useTranslation();
 
   const handleNameClick = (event: MouseEvent, to: string) => {
@@ -30,4 +30,4 @@ const ViewActionsMenu: React.FC<NameLinkProps> = ({ from, to }) => {
     </div>
   );
 };
-export default ViewActionsMenu;
+export default ViewQueuePatientActionMenu;

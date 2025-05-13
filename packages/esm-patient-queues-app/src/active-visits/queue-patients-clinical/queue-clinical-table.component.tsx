@@ -22,7 +22,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useSession, useLayoutType, isDesktop, useConfig } from '@openmrs/esm-framework';
 import {
-  getLocationByUuid,
   getOriginFromPathName,
   useParentLocation,
   usePatientQueuePages,
@@ -34,16 +33,15 @@ import {
   getTagColor,
   trimVisitNumber,
 } from '../../helpers/functions';
-import StatusIcon from '../../queue-entry-table-components/status-icon.component';
-import PickPatientActionMenu from '../../queue-entry-table-components/pick-patient-queue-entry-menu.component';
-import ViewActionsMenu from '../view-action-menu.components';
+import PickPatientActionMenu from '../pick-queue-patient-action-action.component';
+import ViewActionsMenu from '../view-queue-patient-action-menu.component';
 import NotesActionsMenu from '../notes/notes-action-menu.components';
 import styles from '../active-visits-table.scss';
 import dayjs from 'dayjs';
-import { QueueStatus } from '../../utils/utils';
+import StatusIcon, { QueueStatus } from '../../utils/utils';
 import { PatientQueueConfig } from '../../config-schema';
-import MovetoNextServicePointAction from '../move-to-next-service-point-reassign-action.component';
-import MovetoNextServicePointReassignAction from '../move-to-next-service-point-reassign-action.component';
+import MovetoNextServicePointReassignAction from '../move-to-next-service-point-re-assign-action.component';
+import ViewQueuePatientActionMenu from '../view-queue-patient-action-menu.component';
 
 interface ActiveVisitsTableProps {
   status: string;
@@ -217,14 +215,12 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
             )}
 
             {(patientqueue?.status === 'COMPLETED' || patientqueue?.status === 'PICKED') && (
-              <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${patientqueue?.patient?.uuid}/chart`} from={fromPage} />
+              <ViewQueuePatientActionMenu to={`\${openmrsSpaBase}/patient/${patientqueue?.patient?.uuid}/chart`} from={fromPage} />
             )}
 
             <NotesActionsMenu note={patientqueue} />
 
-            {((patientqueue?.status === 'PENDING' && isToggled)) && (
-              <MovetoNextServicePointReassignAction />
-            )}
+            {patientqueue?.status === 'PENDING' && isToggled && <MovetoNextServicePointReassignAction />}
           </div>
         ),
       },

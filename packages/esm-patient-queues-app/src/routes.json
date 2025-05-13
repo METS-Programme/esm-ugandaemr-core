@@ -134,10 +134,7 @@
             "name": "clear-all-queue-entries",
             "component": "clearAllQueueEntries"
         },
-        {
-            "name": "pick-patient-queue-entry",
-            "component": "pickPatientEntryQueue"
-        },
+    
         {
             "name": "previous-visit-summary-widget",
             "slot": "previous-visit-summary-slot",
@@ -163,6 +160,10 @@
         {
             "name": "notes-dialog-modal",
             "component": "notesModal"
+        },
+            {
+            "name": "pick-patient-queue-entry",
+            "component": "pickPatientEntryQueue"
         }
     ],
     "workspaces": [

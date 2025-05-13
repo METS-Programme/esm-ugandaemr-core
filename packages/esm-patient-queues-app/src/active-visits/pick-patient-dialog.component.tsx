@@ -16,12 +16,12 @@ import { extractErrorMessagesFromResponse, handleMutate } from '../utils/utils';
 import { PatientQueue } from '../types/patient-queues';
 import { getCareProvider, updateQueueEntry } from './patient-queues.resource';
 
-interface PickPatientDialogProps {
+interface PickQueuePatientDialogProps {
   queueEntry: PatientQueue;
   closeModal: () => void;
 }
 
-const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, closeModal }) => {
+const PickQueuePatientDialog: React.FC<PickQueuePatientDialogProps> = ({ queueEntry, closeModal }) => {
   const { t } = useTranslation();
 
   const sessionUser = useSession();
@@ -134,4 +134,4 @@ const PickPatientStatus: React.FC<PickPatientDialogProps> = ({ queueEntry, close
   }
 };
 
-export default PickPatientStatus;
+export default PickQueuePatientDialog;
