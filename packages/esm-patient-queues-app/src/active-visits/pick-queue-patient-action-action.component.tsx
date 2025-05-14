@@ -1,11 +1,12 @@
 import { Button } from '@carbon/react';
 import { Notification } from '@carbon/react/icons';
 import { showModal, showSnackbar, useSession } from '@openmrs/esm-framework';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PatientQueue } from '../types/patient-queues';
 import { usePatientQueuePages } from './patient-queues.resource';
 import { QueueEnumStatus, QueueStatus } from '../utils/utils';
+import { updateSelectedPatientQueueUuid } from '../helpers/helpers';
 
 interface PickPatientActionMenuProps {
   queueEntry: PatientQueue;
@@ -17,6 +18,15 @@ const PickQueuePatientActionButton: React.FC<PickPatientActionMenuProps> = ({ qu
   const { sessionLocation, user } = useSession() || {};
   const sessionLocationId = sessionLocation?.uuid;
   const providerId = user?.systemId;
+
+    console.log('queueUuid--> 1', queueEntry?.uuid);
+
+
+  useEffect(() => {
+    if (queueEntry?.uuid) {
+      updateSelectedPatientQueueUuid(queueEntry?.uuid);
+    }
+  }, [queueEntry?.uuid]);
 
   const { items: pickedQueueItems } = usePatientQueuePages(sessionLocationId, QueueStatus.Picked);
 

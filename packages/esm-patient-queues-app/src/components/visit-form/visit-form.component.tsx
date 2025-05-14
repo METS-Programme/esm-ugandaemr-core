@@ -76,6 +76,9 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
   } = useForm<CreateQueueEntryFormData>({
     mode: 'all',
     resolver: zodResolver(createQueueEntrySchema),
+    defaultValues: {
+      status: QueueStatus.Pending,
+    },
   });
 
   useEffect(() => {
@@ -168,39 +171,58 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
             }}
           />
         )}
-        <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <Form className={styles.form}>
           <div>
+            {Object.keys(errors).length > 0 && (
+              <div className={styles.errorMessage}>
+                <ul>
+                  {Object.entries(errors).map(([key, error]) => (
+                    <li key={key}>
+                      {key}: {error?.message}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             <Stack gap={8} className={styles.container}>
               <section className={styles.section}>
                 <div className={styles.sectionTitle}>{t('priority', 'Priority')}</div>
+
                 <Controller
                   name="priorityComment"
                   control={control}
                   render={({ field }) => (
-                    <ContentSwitcher
-                      {...field}
-                      selectedIndex={contentSwitcherIndex}
-                      className={styles.contentSwitcher}
-                      onChange={({ index }) => {
-                        field.onChange(index);
-                        setContentSwitcherIndex(index);
-                      }}
-                    >
-                      {priorityLabels.map((label, index) => (
-                        <Switch
-                          key={index}
-                          name={label.toLowerCase().replace(/\s+/g, '')}
-                          text={t(label.toLowerCase(), label)}
-                        />
-                      ))}
-                    </ContentSwitcher>
+                    <>
+                      <ContentSwitcher
+                        {...field}
+                        selectedIndex={contentSwitcherIndex}
+                        className={styles.contentSwitcher}
+                        onChange={({ index }) => {
+                          field.onChange(priorityLabels[index]);
+                          setContentSwitcherIndex(index);
+                        }}
+                      >
+                        {priorityLabels.map((label, index) => (
+                          <Switch
+                            key={index}
+                            name={label.toLowerCase().replace(/\s+/g, '')}
+                            text={t(label.toLowerCase(), label)}
+                          />
+                        ))}
+                      </ContentSwitcher>
+
+                      {errors.priorityComment && <div className={styles.error}>{errors.priorityComment.message}</div>}
+                    </>
                   )}
                 />
               </section>
+
               <section className={styles.section}>
                 {contentSwitcherIndex !== 0 && (
                   <>
                     <div className={styles.sectionTitle}>{t('priorityLevel', 'Priority Levels')}</div>
+
                     <ResponsiveWrapper isTablet={isTablet}>
                       <Controller
                         name="priority"
@@ -209,21 +231,18 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
                           <Dropdown
                             {...field}
                             aria-label={t('prioritylevels', 'Priority Levels')}
-                            invalid={!!errors.priority}
-                            invalidText={errors.priority?.message}
                             id="priority-levels"
                             titleText=""
                             label="Choose a priority level"
                             items={priorityLevels ?? []}
                             initialSelectedItem={priorityLevels[0]}
-                            itemToString={(item) => (item ? String(item) : '')}
-                            onChange={(e) => {
-                              if (!e.selectedItem) {
-                                return;
-                              }
-
-                              field.onChange(e.selectedItem?.id);
+                            itemToString={(item) => (item ? String(item.name || item.label || item) : '')}
+                            onChange={({ selectedItem }) => {
+                              if (!selectedItem) return;
+                              field.onChange(selectedItem.id);
                             }}
+                            invalid={!!errors.priority}
+                            invalidText={errors.priority?.message}
                           />
                         )}
                       />
@@ -349,7 +368,13 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
             <Button className={styles.button} kind="secondary" onClick={closePanel}>
               {t('discard', 'Discard')}
             </Button>
-            <Button className={styles.button} disabled={isSubmitting} kind="primary" type="submit">
+            <Button
+              className={styles.button}
+              disabled={isSubmitting}
+              kind="primary"
+              type="submit"
+              onClick={handleSubmit(onSubmit)}
+            >
               {isSubmitting ? (
                 <InlineLoading description={t('saving', 'Saving') + '...'} />
               ) : (

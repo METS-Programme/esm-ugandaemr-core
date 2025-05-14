@@ -36,6 +36,7 @@ import {
   NewQueuePayload,
   addQueueEntry,
   getCareProvider,
+  getPatientQueueUuid,
   updateQueueEntry,
   updateVisit,
   useProviders,
@@ -43,75 +44,41 @@ import {
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queue-validation-schema.resource';
+import { getSelectedPatientQueueUuid, useSelectedPatientQueueUuid } from '../helpers/helpers';
 import { PatientQueue } from '../types/patient-queues';
 
-type MoveToNextServicePointFormProps = DefaultWorkspaceProps & {
-  queueEntry?: PatientQueue;
-};
+type MoveToNextServicePointFormProps = DefaultWorkspaceProps & {};
 
-const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({ queueEntry, closeWorkspace }) => {
+const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({ closeWorkspace }) => {
+  // Hooks
   const { t } = useTranslation();
-
   const isTablet = useLayoutType() === 'tablet';
-
-  const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
-
-  const [statusSwitcherIndex, setStatusSwitcherIndex] = useState(1);
-
-  const [status, setStatus] = useState('');
-
   const sessionUser = useSession();
+  const patientQueueUuid = getSelectedPatientQueueUuid().getState();
 
+
+  // States
+  const [queueEntry, setQueueEntry] = useState<PatientQueue>();
+  const [contentSwitcherIndex, setContentSwitcherIndex] = useState(1);
+  const [statusSwitcherIndex, setStatusSwitcherIndex] = useState(1);
+  const [status, setStatus] = useState('');
+  const [provider, setProvider] = useState('');
+  const [selectedProvider, setSelectedProvider] = useState('');
+  const [priorityComment, setPriorityComment] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isEndingVisit, setIsEndingVisit] = useState(false);
+
+  // Data Fetching Hooks
   const { queueRoomLocations, error: errorLoadingQueueRooms } = useQueueRoomLocations(
     sessionUser?.sessionLocation?.uuid,
   );
   const [selectedNextQueueLocation, setSelectedNextQueueLocation] = useState(queueRoomLocations[0]?.uuid);
-
+  const { providers, error: errorLoadingProviders } = useProviders(selectedNextQueueLocation);
   const { activeVisit } = useVisit(queueEntry?.uuid);
 
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [provider, setProvider] = useState('');
-
-  const [selectedProvider, setSelectedProvider] = useState('');
-
-  const [priorityComment, setPriorityComment] = useState('');
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [isEndingVisit, setIsEndingVisit] = useState(false);
-
-  const { providers, error: errorLoadingProviders } = useProviders(selectedNextQueueLocation);
-
-  // Memoize the function to fetch the provider using useCallback
-  const fetchProvider = useCallback(() => {
-    if (!sessionUser?.user?.uuid) return;
-
-    setIsLoading(true);
-
-    getCareProvider(sessionUser?.user?.uuid).then(
-      (response) => {
-        const uuid = response?.data?.results[0].uuid;
-        setIsLoading(false);
-        setProvider(uuid);
-      },
-      (error) => {
-        const errorMessages = extractErrorMessagesFromResponse(error);
-        setIsLoading(false);
-        showNotification({
-          title: "Couldn't get provider",
-          kind: 'error',
-          critical: true,
-          description: errorMessages.join(','),
-        });
-      },
-    );
-  }, [sessionUser?.user?.uuid]);
-
-  useEffect(() => fetchProvider(), [fetchProvider]);
-
+  // Memoized constants
   const priorityLabels = useMemo(() => ['Not Urgent', 'Urgent', 'Emergency'], []);
-
   const statusLabels = useMemo(
     () => [
       { status: 'pending', label: 'Move to Pending' },
@@ -119,6 +86,64 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
     ],
     [],
   );
+
+  // Fetch provider info
+  const fetchProvider = useCallback(() => {
+    if (!sessionUser?.user?.uuid) return;
+
+    setIsLoading(true);
+    getCareProvider(sessionUser.user.uuid)
+      .then((response) => {
+        const uuid = response?.data?.results?.[0]?.uuid;
+        setProvider(uuid);
+      })
+      .catch((error) => {
+        const errorMessages = extractErrorMessagesFromResponse(error);
+        showNotification({
+          title: "Couldn't get provider",
+          kind: 'error',
+          critical: true,
+          description: errorMessages.join(','),
+        });
+      })
+      .finally(() => setIsLoading(false));
+  }, [sessionUser?.user?.uuid]);
+
+  // Fetch queue entry
+  const fetchQueueEntry = useCallback(async () => {
+    try {
+      const response = await getPatientQueueUuid(patientQueueUuid.patientQueueUuid);
+
+      if (response?.status === 200 && response?.data) {
+        setQueueEntry(response.data);
+      } else {
+        showNotification({
+          title: 'Queue entry not found',
+          kind: 'warning',
+          description: 'The server did not return a valid queue entry.',
+        });
+      }
+    } catch (error) {
+      const errorMessages = extractErrorMessagesFromResponse(error);
+      showNotification({
+        title: "Couldn't get queue entry",
+        kind: 'error',
+        critical: true,
+        description: errorMessages.join(', '),
+      });
+    }
+  }, [patientQueueUuid]);
+
+  // Effects
+  useEffect(() => {
+    fetchProvider();
+  }, [fetchProvider]);
+
+  useEffect(() => {
+    if (patientQueueUuid) {
+      fetchQueueEntry();
+    }
+  }, [patientQueueUuid, fetchQueueEntry]);
 
   const {
     handleSubmit,
@@ -279,7 +304,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
     selectedNextQueueLocation,
   ]);
 
-  if (queueEntry && Object.keys(queueEntry)?.length === 0) {
+  if (queueEntry === null || queueEntry === undefined) {
     return (
       <ModalHeader closeModal={closeWorkspace} title={t('patientNotInQueue', 'The patient is not in the queue')} />
     );

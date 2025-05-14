@@ -7,20 +7,20 @@ import { launchWorkspace } from '@openmrs/esm-framework';
 import { PatientQueue } from '../types/patient-queues';
 
 type MovetoNextServicePointReassignPatientActionProps = {
-  queueEntry: PatientQueue;
+  patientUuid: string;
 };
 
 const MovetoNextServicePointReassignAction: React.FC<MovetoNextServicePointReassignPatientActionProps> = ({
-  queueEntry,
+  patientUuid,
 }) => {
   const { t } = useTranslation();
 
   const handleClick = useCallback(() => {
     launchWorkspace('move-to-next-service-point-form-workspace', {
       workspaceTitle: t('moveToNextServicePoint', 'Move to next service point'),
-      queueEntry: queueEntry,
+      patientUuid: patientUuid,
     });
-  }, [t, queueEntry]);
+  }, [t, patientUuid]);
 
   return (
     <Button

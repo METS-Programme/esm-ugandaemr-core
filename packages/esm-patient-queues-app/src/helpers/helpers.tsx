@@ -2,213 +2,28 @@ import { getGlobalStore } from '@openmrs/esm-framework';
 import { useEffect, useState } from 'react';
 import { PatientQueue } from '../types/patient-queues';
 
-const initialServiceNameState = { serviceName: localStorage.getItem('queueServiceName') };
-const initialServiceUuidState = { serviceUuid: localStorage.getItem('queueServiceUuid') };
-const intialStatusNameState = { status: '' };
-const initialQueueLocationNameState = { queueLocationName: localStorage.getItem('queueLocationName') };
-const initialQueueLocationUuidState = { queueLocationUuid: localStorage.getItem('queueLocationUuid') };
-const initialSelectedQueueRoomTimestamp = { providerQueueRoomTimestamp: new Date() };
-const initialPermanentProviderQueueRoomState = {
-  isPermanentProviderQueueRoom: localStorage.getItem('isPermanentProviderQueueRoom'),
-};
+// selected queue patient uuid
+const initialPatientQueueUuidState = { patientQueueUuid: localStorage.getItem('patientQueueUuid') };
 
-// queue room
-const initialQueueRoomLocationNameState = { queueRoomLocationName: localStorage.getItem('queueRoomLocationName') };
-const initialQueueRoomLocationUuidState = { queueRoomLocationUuid: localStorage.getItem('queueRoomLocationUuid') };
-
-export function getSelectedQueueRoomLocationName() {
-  return getGlobalStore<{ queueRoomLocationName: string }>('queueRoomLocationName', initialQueueRoomLocationNameState);
+export function getSelectedPatientQueueUuid() {
+  return getGlobalStore<{ patientQueueUuid: string }>('patientQueueUuid', initialPatientQueueUuidState);
 }
 
-export function getSelectedQueueRoomLocationUuid() {
-  return getGlobalStore<{ queueRoomLocationUuid: string }>('queueRoomLocationUuid', initialQueueRoomLocationUuidState);
-}
-
-export const updateSelectedQueueRoomLocationName = (currentQueueRoomLocationName: string) => {
-  const store = getSelectedQueueRoomLocationName();
-  store.setState({ queueRoomLocationName: currentQueueRoomLocationName });
+export const updateSelectedPatientQueueUuid = (currentPatientQueueUuid: string) => {
+  const store = getSelectedPatientQueueUuid();
+  store.setState({ patientQueueUuid: currentPatientQueueUuid });
 };
 
-export const updateSelectedQueueRoomLocationUuid = (currentQueueRoomLocationUuid: string) => {
-  const store = getSelectedQueueRoomLocationUuid();
-  store.setState({ queueRoomLocationUuid: currentQueueRoomLocationUuid });
-};
-
-export const useSelectedQueueRoomLocationName = () => {
-  const [currentQueueRoomLocationName, setCurrentQueueRoomLocationName] = useState(
-    initialQueueRoomLocationNameState.queueRoomLocationName,
-  );
+export const useSelectedPatientQueueUuid = () => {
+  const [currentPatientQueueUuid, setCurrentPatientQueueUuid] = useState(initialPatientQueueUuidState.patientQueueUuid);
 
   useEffect(() => {
-    getSelectedQueueRoomLocationName().subscribe(({ queueRoomLocationName }) =>
-      setCurrentQueueRoomLocationName(queueRoomLocationName),
-    );
+    getSelectedPatientQueueUuid().subscribe(({ patientQueueUuid }) => setCurrentPatientQueueUuid(patientQueueUuid));
   }, []);
-  return currentQueueRoomLocationName;
+  return currentPatientQueueUuid;
 };
 
-export const useSelectedQueueRoomLocationUuid = () => {
-  const [currentQueueRoomLocationUuid, setCurrentQueueRoomLocationUuid] = useState(
-    initialQueueRoomLocationUuidState.queueRoomLocationUuid,
-  );
 
-  useEffect(() => {
-    getSelectedQueueRoomLocationUuid().subscribe(({ queueRoomLocationUuid }) =>
-      setCurrentQueueRoomLocationUuid(queueRoomLocationUuid),
-    );
-  }, []);
-  return currentQueueRoomLocationUuid;
-};
-
-//
-
-export function getSelectedServiceName() {
-  return getGlobalStore<{ serviceName: string }>('queueSelectedServiceName', initialServiceNameState);
-}
-
-export function getSelectedServiceUuid() {
-  return getGlobalStore<{ serviceUuid: string }>('queueSelectedServiceUuid', initialServiceUuidState);
-}
-
-export function getSelectedAppointmentStatus() {
-  return getGlobalStore<{ status: string }>('appointmentSelectedStatus', intialStatusNameState);
-}
-
-export function getSelectedQueueLocationName() {
-  return getGlobalStore<{ queueLocationName: string }>('queueLocationNameSelected', initialQueueLocationNameState);
-}
-
-export function getSelectedQueueLocationUuid() {
-  return getGlobalStore<{ queueLocationUuid: string }>('queueLocationUuidSelected', initialQueueLocationUuidState);
-}
-
-export function getPatientQueueWaitingList() {
-  return getGlobalStore<{ queue: PatientQueue[] }>('patientQueueWaitingList', { queue: [] });
-}
-
-export function getSelectedQueueRoomTimestamp() {
-  return getGlobalStore<{ providerQueueRoomTimestamp: Date }>(
-    'queueProviderRoomTimestamp',
-    initialSelectedQueueRoomTimestamp,
-  );
-}
-
-export function getIsPermanentProviderQueueRoom() {
-  return getGlobalStore<{ isPermanentProviderQueueRoom: string }>(
-    'isPermanentProviderQueueRoom',
-    initialPermanentProviderQueueRoomState,
-  );
-}
-
-export const updateSelectedServiceName = (currentServiceName: string) => {
-  const store = getSelectedServiceName();
-  store.setState({ serviceName: currentServiceName });
-};
-
-export const updateSelectedServiceUuid = (currentServiceUuid: string) => {
-  const store = getSelectedServiceUuid();
-  store.setState({ serviceUuid: currentServiceUuid });
-};
-
-export const updateSelectedAppointmentStatus = (currentAppointmentStatus: string) => {
-  const store = getSelectedAppointmentStatus();
-  store.setState({ status: currentAppointmentStatus });
-};
-
-export const updateSelectedQueueLocationName = (currentLocationName: string) => {
-  const store = getSelectedQueueLocationName();
-  store.setState({ queueLocationName: currentLocationName });
-};
-
-export const updateSelectedQueueLocationUuid = (currentLocationUuid: string) => {
-  const store = getSelectedQueueLocationUuid();
-  store.setState({ queueLocationUuid: currentLocationUuid });
-};
-
-export const updatedSelectedQueueRoomTimestamp = (currentProviderRoomTimestamp: Date) => {
-  const store = getSelectedQueueRoomTimestamp();
-  store.setState({ providerQueueRoomTimestamp: currentProviderRoomTimestamp });
-};
-
-export const updateIsPermanentProviderQueueRoom = (currentIsPermanentProviderQueueRoom) => {
-  const store = getIsPermanentProviderQueueRoom();
-  store.setState({ isPermanentProviderQueueRoom: currentIsPermanentProviderQueueRoom });
-};
-
-export const useSelectedServiceName = () => {
-  const [currentServiceName, setCurrentServiceName] = useState(initialServiceNameState.serviceName);
-
-  useEffect(() => {
-    getSelectedServiceName().subscribe(({ serviceName }) => setCurrentServiceName(serviceName));
-  }, []);
-  return currentServiceName;
-};
-
-export const useSelectedServiceUuid = () => {
-  const [currentServiceUuid, setCurrentServiceUuid] = useState(initialServiceUuidState.serviceUuid);
-
-  useEffect(() => {
-    getSelectedServiceUuid().subscribe(({ serviceUuid }) => setCurrentServiceUuid(serviceUuid));
-  }, []);
-  return currentServiceUuid;
-};
-
-export const useSelectedAppointmentStatus = () => {
-  const [currentAppointmentStatus, setCurrentAppointmentStatus] = useState(intialStatusNameState.status);
-
-  useEffect(() => {
-    getSelectedAppointmentStatus().subscribe(({ status }) => setCurrentAppointmentStatus(status));
-  }, []);
-  return currentAppointmentStatus;
-};
-
-export const useSelectedQueueLocationName = () => {
-  const [currentQueueLocationName, setCurrentQueueLocationName] = useState(
-    initialQueueLocationNameState.queueLocationName,
-  );
-
-  useEffect(() => {
-    getSelectedQueueLocationName().subscribe(({ queueLocationName }) => setCurrentQueueLocationName(queueLocationName));
-  }, []);
-  return currentQueueLocationName;
-};
-
-export const useSelectedQueueLocationUuid = () => {
-  const [currentQueueLocationUuid, setCurrentQueueLocationUuid] = useState(
-    initialQueueLocationUuidState.queueLocationUuid,
-  );
-
-  useEffect(() => {
-    getSelectedQueueLocationUuid().subscribe(({ queueLocationUuid }) => setCurrentQueueLocationUuid(queueLocationUuid));
-  }, []);
-  return currentQueueLocationUuid;
-};
-
-export const useSelectedProviderRoomTimestamp = () => {
-  const [currentProviderRoomTimestamp, setCurrentProviderRoomTimestamp] = useState(
-    initialSelectedQueueRoomTimestamp.providerQueueRoomTimestamp,
-  );
-
-  useEffect(() => {
-    getSelectedQueueRoomTimestamp().subscribe(({ providerQueueRoomTimestamp }) =>
-      setCurrentProviderRoomTimestamp(providerQueueRoomTimestamp),
-    );
-  }, []);
-  return currentProviderRoomTimestamp;
-};
-
-export const useIsPermanentProviderQueueRoom = () => {
-  const [currentIsPermanentProviderQueueRoom, setCurrentIsPermanentProviderQueueRoom] = useState(
-    initialPermanentProviderQueueRoomState.isPermanentProviderQueueRoom,
-  );
-
-  useEffect(() => {
-    getIsPermanentProviderQueueRoom().subscribe(({ isPermanentProviderQueueRoom }) =>
-      setCurrentIsPermanentProviderQueueRoom(isPermanentProviderQueueRoom),
-    );
-  }, []);
-  return currentIsPermanentProviderQueueRoom;
-};
 
 // facility
 const initialFacilityNameState = { facilityName: localStorage.getItem('facilityName') };
@@ -254,13 +69,7 @@ export const useSelectedFacilityIdentifier = () => {
   return currentFacilityIdentifier;
 };
 
-// Patient Queue stores
-export const updatePatientQueueWaitingList = (queue: PatientQueue[]) => {
-  const store = getPatientQueueWaitingList();
-  store.setState({ queue });
-};
-
-// patient
+// patient 
 const initialSelectedPatientUuid = { patientUuid: localStorage.getItem('patientUuid') };
 
 export function getSelectedPatientUuid() {
@@ -279,4 +88,14 @@ export const useSelectedPatientUuid = () => {
     getSelectedPatientUuid().subscribe(({ patientUuid }) => setCurrentPatientUuid(patientUuid));
   }, []);
   return currentPatientUuid;
+};
+
+
+// Patient Queue stores
+export function getPatientQueueWaitingList() {
+  return getGlobalStore<{ queue: PatientQueue[] }>('patientQueueWaitingList', { queue: [] });
+}
+export const updatePatientQueueWaitingList = (queue: PatientQueue[]) => {
+  const store = getPatientQueueWaitingList();
+  store.setState({ queue });
 };

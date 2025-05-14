@@ -213,13 +213,14 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
               <ViewQueuePatientActionMenu
                 to={`\${openmrsSpaBase}/patient/${patientqueue?.patient?.uuid}/chart`}
                 from={fromPage}
+                queueUuid={filteredPatientQueueEntries[index]?.uuid}
               />
             )}
 
             <NotesActionsMenu note={patientqueue} />
 
             {patientqueue?.status === 'PENDING' && isToggled && (
-              <MovetoNextServicePointReassignAction queueEntry={filteredPatientQueueEntries[index]} />
+              <MovetoNextServicePointReassignAction patientUuid={filteredPatientQueueEntries[index].uuid} />
             )}
           </div>
         ),
