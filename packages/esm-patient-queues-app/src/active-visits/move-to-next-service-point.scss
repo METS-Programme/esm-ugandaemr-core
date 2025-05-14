@@ -1,19 +1,29 @@
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
 @use '@openmrs/esm-styleguide/src/vars' as *;
-.radioButtonGroup {
+
+.container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin-top: spacing.$spacing-03;
-    min-height: spacing.$spacing-10;
-    width: 100%;
-    @include type.type-style('body-compact-01');
+    justify-content: space-between;
+    height: 100%;
 }
 
-.radioButton {
-    padding: spacing.$spacing-02 spacing.$spacing-02;
-    margin: spacing.$spacing-03 0;
+.button {
+    display: flex;
+    align-content: flex-start;
+    align-items: baseline;
+    min-width: 50%;
+}
+
+.buttonSet {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.body {
+    padding: 1.2rem;
 }
 
 section {

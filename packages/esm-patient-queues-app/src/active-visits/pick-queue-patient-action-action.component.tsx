@@ -19,9 +19,6 @@ const PickQueuePatientActionButton: React.FC<PickPatientActionMenuProps> = ({ qu
   const sessionLocationId = sessionLocation?.uuid;
   const providerId = user?.systemId;
 
-    console.log('queueUuid--> 1', queueEntry?.uuid);
-
-
   useEffect(() => {
     if (queueEntry?.uuid) {
       updateSelectedPatientQueueUuid(queueEntry?.uuid);

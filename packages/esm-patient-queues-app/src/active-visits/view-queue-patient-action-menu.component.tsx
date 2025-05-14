@@ -15,8 +15,6 @@ interface NameLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 const ViewQueuePatientActionMenu: React.FC<NameLinkProps> = ({ from, to, queueUuid }) => {
   const { t } = useTranslation();
 
-  console.log('queueUuid-->2', queueUuid);
-
   useEffect(() => {
     if (queueUuid) {
       updateSelectedPatientQueueUuid(queueUuid);
