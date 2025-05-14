@@ -1,18 +1,20 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { launchWorkspace, showModal } from '@openmrs/esm-framework';
+import { launchWorkspace } from '@openmrs/esm-framework';
 import { PatientQueue } from '../types/patient-queues';
 
-interface PatientMoveToNextServicePointProps {
+interface PatientMoveToNextServicePointPatientActionProps {
   queueEntry?: PatientQueue;
 }
 
-const MovetoNextServicePointPatientActionButton: React.FC<PatientMoveToNextServicePointProps> = ({ queueEntry }) => {
+const MovetoNextServicePointPatientActionButton: React.FC<PatientMoveToNextServicePointPatientActionProps> = ({
+  queueEntry,
+}) => {
   const { t } = useTranslation();
   const handleClick = useCallback(() => {
     launchWorkspace('move-to-next-service-point-form-workspace', {
       workspaceTitle: t('moveToNextServicePoint', 'Move to next service point'),
-      queueEntry,
+      queueEntry: queueEntry,
     });
   }, [queueEntry, t]);
   return (

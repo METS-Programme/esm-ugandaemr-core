@@ -89,6 +89,7 @@ const PickQueuePatientDialog: React.FC<PickQueuePatientDialogProps> = ({ queueEn
           critical: true,
           description: error?.message,
         });
+        handleMutate(`${restBaseUrl}/patientqueue`);
       }
     },
     [provider, queueEntry?.uuid, queueEntry?.patient?.uuid, priorityComment, t, closeModal],

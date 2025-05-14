@@ -10,13 +10,15 @@ type MovetoNextServicePointReassignPatientActionProps = {
   queueEntry: PatientQueue;
 };
 
-const MovetoNextServicePointReassignAction: React.FC<MovetoNextServicePointReassignPatientActionProps> = ({ queueEntry }) => {
+const MovetoNextServicePointReassignAction: React.FC<MovetoNextServicePointReassignPatientActionProps> = ({
+  queueEntry,
+}) => {
   const { t } = useTranslation();
 
   const handleClick = useCallback(() => {
     launchWorkspace('move-to-next-service-point-form-workspace', {
       workspaceTitle: t('moveToNextServicePoint', 'Move to next service point'),
-      queueEntry,
+      queueEntry: queueEntry,
     });
   }, [t, queueEntry]);
 

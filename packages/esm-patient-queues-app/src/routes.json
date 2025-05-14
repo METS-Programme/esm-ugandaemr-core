@@ -113,7 +113,7 @@
         {
             "name": "patient-move-to-next-service-point",
             "slot": "patient-actions-slot",
-            "component": "moveToNextServicePointButton",
+            "component": "moveToNextServicePointPatientAction",
             "online": true,
             "offline": true
         },

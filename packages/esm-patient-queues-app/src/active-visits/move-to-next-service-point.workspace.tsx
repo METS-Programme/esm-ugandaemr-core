@@ -29,7 +29,7 @@ import {
 } from '@openmrs/esm-framework';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
-import { ArrowUp, ArrowDown } from '@carbon/react/icons';
+import { ArrowUp } from '@carbon/react/icons';
 import styles from './move-to-next-service-point.scss';
 import { QueueStatus, extractErrorMessagesFromResponse, handleMutate } from '../utils/utils';
 import {
@@ -46,13 +46,11 @@ import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queu
 import { PatientQueue } from '../types/patient-queues';
 
 type MoveToNextServicePointFormProps = DefaultWorkspaceProps & {
-  queueEntry: PatientQueue;
+  queueEntry?: PatientQueue;
 };
 
 const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({ queueEntry, closeWorkspace }) => {
   const { t } = useTranslation();
-
-  console.log('queueEntry--->', queueEntry);
 
   const isTablet = useLayoutType() === 'tablet';
 
@@ -173,6 +171,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
           navigate({ to: `\${openmrsSpaBase}/home` });
           closeWorkspace();
           setIsEndingVisit(false);
+          handleMutate(`${restBaseUrl}/patientqueue`);
         }
       } catch (error) {
         setIsEndingVisit(false);
@@ -182,6 +181,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
           critical: true,
           description: error?.message,
         });
+        handleMutate(`${restBaseUrl}/patientqueue`);
       }
     }
   };
@@ -262,6 +262,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
         critical: true,
         description: error?.message,
       });
+      handleMutate(`${restBaseUrl}/patientqueue`);
     }
   }, [
     status,
