@@ -11,6 +11,7 @@ import {
   TextArea,
   Layer,
   InlineNotification,
+  ButtonSet,
 } from '@carbon/react';
 import {
   type DefaultWorkspaceProps,
@@ -36,9 +37,8 @@ import {
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queue-validation-schema.resource';
-import { getSelectedPatientQueueUuid, useSelectedPatientQueueUuid } from '../helpers/helpers';
+import { getSelectedPatientQueueUuid } from '../helpers/helpers';
 import { PatientQueue } from '../types/patient-queues';
-import { ButtonSet } from '@carbon/react';
 
 type MoveToNextServicePointFormProps = DefaultWorkspaceProps & {};
 
@@ -248,6 +248,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
     provider,
     sessionUser?.sessionLocation?.uuid,
     selectedNextQueueLocation,
+    comment,
   ]);
 
   return (
