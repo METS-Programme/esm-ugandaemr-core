@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Button,
   ContentSwitcher,
-  ModalHeader,
   Select,
   SelectItem,
   Switch,
@@ -21,6 +20,7 @@ import {
   showToast,
   useLayoutType,
   useSession,
+  getSessionStore,
 } from '@openmrs/esm-framework';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
@@ -30,6 +30,7 @@ import {
   NewQueuePayload,
   addQueueEntry,
   getCareProvider,
+  getCurrentPatientQueueByPatientUuid,
   getPatientQueueUuid,
   updateQueueEntry,
   useProviders,
@@ -40,9 +41,11 @@ import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queu
 import { getSelectedPatientQueueUuid } from '../helpers/helpers';
 import { PatientQueue } from '../types/patient-queues';
 
-type MoveToNextServicePointFormProps = DefaultWorkspaceProps & {};
+type MoveToNextServicePointFormProps = DefaultWorkspaceProps & {
+  patientUuid: string;
+};
 
-const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({ closeWorkspace }) => {
+const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({ patientUuid, closeWorkspace }) => {
   // Hooks
   const { t } = useTranslation();
   const isTablet = useLayoutType() === 'tablet';
@@ -160,95 +163,119 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
   const handleSave = useCallback(async () => {
     try {
       setIsSubmitting(true);
+      // get queue entry by patient id
+      const patientQueueEntryResponse = await getCurrentPatientQueueByPatientUuid(
+        patientUuid,
+        sessionUser?.sessionLocation?.uuid,
+      );
+
+      const queues = patientQueueEntryResponse.data?.results[0]?.patientQueues;
+      const queueEntry = queues?.filter((item) => item?.patient?.uuid === patientUuid);
+
       if (status === QueueStatus.Pending) {
-        await updateQueueEntry(status, provider, queueEntry?.uuid, 0, priorityComment, 'comment');
-
-        showToast({
-          critical: true,
-          title: t('updateEntry', 'Update entry'),
-          kind: 'success',
-          description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
-        });
-
-        closeWorkspace();
-        handleMutate(`${restBaseUrl}/patientqueue`);
-        setIsSubmitting(false);
+        if (queueEntry.length > 0) {
+          await updateQueueEntry(status, provider, queueEntry[0]?.uuid, 0, priorityComment, comment).then(() => {
+            showToast({
+              critical: true,
+              title: t('moveToNextServicePoint', 'Move back your service point'),
+              kind: 'success',
+              description: t('backToQueue', 'Successfully moved back patient to your service point'),
+            });
+            closeWorkspace();
+            handleMutate(`${restBaseUrl}/patientqueue`);
+            setIsSubmitting(false);
+          });
+        }
       }
+
       if (status === QueueStatus.Completed) {
-        await updateQueueEntry(
-          QueueStatus.Completed,
-          provider,
-          queueEntry?.uuid,
-          contentSwitcherIndex,
-          priorityComment,
-          comment,
-        );
-
-        // Add new queue entry
-        const request: NewQueuePayload = {
-          patient: queueEntry?.patient?.uuid,
-          provider: selectedProvider,
-          locationFrom: sessionUser?.sessionLocation?.uuid,
-          locationTo: selectedNextQueueLocation,
-          status: QueueStatus.Pending,
-          priority: contentSwitcherIndex,
-          priorityComment: priorityComment,
-          comment: comment,
-          queueRoom: selectedNextQueueLocation,
-        };
-
-        const createQueueResponse = await addQueueEntry(request);
-
-        if (createQueueResponse.status === 201) {
-          // Pick and route
+        if (queueEntry.length > 0) {
           await updateQueueEntry(
-            QueueStatus.Picked,
+            QueueStatus.Completed,
             provider,
-            queueEntry?.uuid,
+            queueEntry[0]?.uuid,
             contentSwitcherIndex,
             priorityComment,
             comment,
           );
 
-          showToast({
-            critical: true,
-            title: t('updateEntry', 'Move to next queue'),
-            kind: 'success',
-            description: t('movetonextqueue', 'Move to next queue successfully'),
-          });
+          const request: NewQueuePayload = {
+            patient: patientUuid,
+            provider: selectedProvider ?? '',
+            locationFrom: sessionUser?.sessionLocation?.uuid,
+            locationTo: selectedNextQueueLocation,
+            status: QueueStatus.Pending,
+            priority: contentSwitcherIndex,
+            priorityComment: priorityComment,
+            comment: comment,
+            queueRoom: selectedNextQueueLocation,
+          };
 
-          // View patient summary
-          navigate({ to: `\${openmrsSpaBase}/patient/${queueEntry?.patient?.uuid}/chart` });
+          const createQueueResponse = await addQueueEntry(request);
 
-          closeWorkspace();
-          handleMutate(`${restBaseUrl}/patientqueue`);
-          setIsSubmitting(false);
+          const response = await updateQueueEntry(
+            QueueStatus.Pending,
+            provider,
+            createQueueResponse.data?.uuid,
+            contentSwitcherIndex,
+            priorityComment,
+            comment,
+          );
+
+          if (response.status === 200) {
+            showToast({
+              critical: true,
+              title: t('moveToNextServicePoint', 'Move to next service point'),
+              kind: 'success',
+              description: t('movetonextservicepoint', 'Moved to next service point successfully'),
+            });
+            handleMutate(`${restBaseUrl}/patientqueue`);
+            closeWorkspace();
+            setIsSubmitting(false);
+            // view patient summary
+            // navigate({ to: `\${openmrsSpaBase}/home` });
+            const roles = getSessionStore().getState().session?.user?.roles;
+            const roleName = roles[0]?.display;
+            if (roles && roles?.length > 0) {
+              if (roles?.filter((item) => item?.display === 'Organizational: Clinician').length > 0) {
+                navigate({
+                  to: `${window.getOpenmrsSpaBase()}home/clinical-room-patient-queues`,
+                });
+              } else if (roleName === 'Triage') {
+                navigate({
+                  to: `${window.getOpenmrsSpaBase()}home/triage-patient-queues`,
+                });
+              } else {
+                navigate({ to: `${window.getOpenmrsSpaBase()}home` });
+              }
+            }
+          }
         }
       }
-    } catch (error: any) {
+    } catch (error) {
       setIsSubmitting(false);
+      const errorMessages = extractErrorMessagesFromResponse(error);
       showNotification({
-        title: t('queueEntryUpdateFailed', 'Error updating queue entry status'),
+        title: t('moveToNextServicePoint', 'Error moving to next service point'),
         kind: 'error',
         critical: true,
-        description: error?.message,
+        description: errorMessages.join(','),
       });
       handleMutate(`${restBaseUrl}/patientqueue`);
+      closeWorkspace();
     }
   }, [
-    status,
-
-    queueEntry?.uuid,
-    queueEntry?.patient?.uuid,
-    priorityComment,
-    t,
     closeWorkspace,
     contentSwitcherIndex,
-    selectedProvider,
+    patientUuid,
+    priorityComment,
     provider,
-    sessionUser?.sessionLocation?.uuid,
     selectedNextQueueLocation,
+    selectedProvider,
+    sessionUser?.sessionLocation?.uuid,
+    status,
     comment,
+    t,
   ]);
 
   return (
