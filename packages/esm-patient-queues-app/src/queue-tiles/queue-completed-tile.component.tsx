@@ -10,11 +10,14 @@ const QueueCompletedTile: React.FC = () => {
   const session = useSession();
 
   const { items } = usePatientQueuePages(session.sessionLocation.uuid, '');
-
   return (
     <SummaryTile
-      label={t('noOfPatientsServed', 'No. of Patients Served')}
-      value={items.filter((item) => item.status === QueueEnumStatus.COMPLETED).length}
+      values={[
+        {
+          label: t('noOfPatientsServed', 'No. of Patients Served'),
+          value: items.filter((item) => item.status === QueueEnumStatus.COMPLETED).length,
+        },
+      ]}
       headerLabel={t('finished', 'Finished')}
     />
   );

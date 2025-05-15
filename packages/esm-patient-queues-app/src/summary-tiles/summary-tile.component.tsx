@@ -1,46 +1,62 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Tile } from '@carbon/react';
+import { Tile, Layer } from '@carbon/react';
 import styles from './summary-tile.scss';
 
-export interface KeyPerformanceIndicator {
-  value: any;
+interface Status {
+  status: any;
+  value: number;
+  color: string;
+}
+export interface Value {
   label: string;
+  value: number;
+  status?: Array<Status>;
 }
 
 interface SummaryTileProps {
-  label: string;
-  value: number;
+  values: Array<Value>;
   headerLabel: string;
-  children?: React.ReactNode;
-  additionalKpis?: Array<KeyPerformanceIndicator>;
 }
 
-const SummaryTile: React.FC<SummaryTileProps> = ({ label, value, headerLabel, children, additionalKpis }) => {
-  const { t } = useTranslation();
-
+const SummaryTile: React.FC<SummaryTileProps> = ({ values, headerLabel }) => {
   return (
-    <Tile className={styles.tileContainer} light={true}>
-      <div className={styles.tileHeader}>
-        <div className={styles.headerLabelContainer}>
-          <label className={styles.headerLabel}>{headerLabel}</label>
-          {children}
-        </div>
-        <div></div>
-      </div>
-      <div className={styles.kpis}>
-        <div>
-          <label className={styles.totalsLabel}>{label}</label>
-          <p className={styles.totalsValue}>{value}</p>
-        </div>
-        {additionalKpis?.map((p) => (
-          <div>
-            <label className={styles.totalsLabel}>{p.label}</label>
-            <p className={styles.totalsValue}>{p.value}</p>
+    <Layer className={`${styles.cardWithChildren} ${styles.container}`}>
+      <Tile className={styles.tileContainer}>
+        <div className={styles.tileHeader}>
+          <div className={styles.headerLabelContainer}>
+            <label className={styles.headerLabel}>{headerLabel}</label>
           </div>
-        ))}
-      </div>
-    </Tile>
+        </div>
+        <div className={styles.valueContainer}>
+          {values?.map((value) => (
+            <div className={styles.valueInnerContainer}>
+              <div key={value.label}>
+                <label className={styles.totalsLabel}>{value.label}</label>
+                <p className={styles.totalsValue}>{value.value}</p>
+              </div>
+              <div className={styles.valueStatus}>
+                {value?.status?.map((status, index) => (
+                  <div key={index} className={styles.status}>
+                    <p className={styles.statusValue}>{status.value}</p>
+                    <label
+                      className={`${styles.statusLabel} ${
+                        status.color === 'orange'
+                          ? styles.statusOrange
+                          : status.color === 'green'
+                          ? styles.statusGreen
+                          : styles.statusBlue
+                      }`}
+                    >
+                      {status.status}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </Tile>
+    </Layer>
   );
 };
 

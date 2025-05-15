@@ -92,9 +92,6 @@
             "slot": "general-counselling-summary-slot",
             "component": "generalCounsellingDashboard"
         },
-   
-     
-     
         {
             "name": "hiv-testing-services",
             "slot": "hiv-prevention-services-slot",
@@ -196,10 +193,6 @@
             "name": "eid-ext",
             "slot": "eid-dashboard-slot",
             "component": "eidDashboard"
-        },
-        {
-            "name": "retrieve-facility-code-modal",
-            "component": "retrieveFacilityCodeModal"
         },
         {
             "name": "dispensing-dashboard-link",
@@ -308,6 +301,12 @@
             "name": "app-search-button",
             "slot": "top-nav-app-menu-slot",
             "component": "appSearchLaunch"
+        }
+    ],
+    "modals": [
+        {
+            "name": "retrieve-facility-code-modal",
+            "component": "retrieveFacilityCodeModal"
         }
     ]
 }

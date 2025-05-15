@@ -1,7 +1,6 @@
 @use '@carbon/styles/scss/type';
 @use '@carbon/styles/scss/spacing';
-@import '~@openmrs/esm-styleguide/src/vars';
-
+@use '@openmrs/esm-styleguide/src/vars' as *;
 .container {
   :global(.cds--tabs.cds--tabs--contained .cds--tabs__nav-item--selected) {
     background-color: transparent;

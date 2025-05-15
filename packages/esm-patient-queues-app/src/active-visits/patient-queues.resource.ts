@@ -382,3 +382,15 @@ export function getLocationByUuid(uuid: string) {
     },
   });
 }
+
+export function getPatientQueueUuid(uuid: string) {
+  const abortController = new AbortController();
+  const url = `${restBaseUrl}/patientqueue/${uuid}?v=full`;
+  return openmrsFetch<PatientQueue>(url, {
+    method: 'GET',
+    signal: abortController.signal,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}

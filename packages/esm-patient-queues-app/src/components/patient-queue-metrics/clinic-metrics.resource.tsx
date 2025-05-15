@@ -1,8 +1,8 @@
 import useSWR from 'swr';
 import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
 import { PatientQueue } from '../../types/patient-queues';
-import { Value } from './metrics-card.component';
 import { getMetrics } from './clinic-metrics.component';
+import { Value } from '../../summary-tiles/summary-tile.component';
 export interface PatientStats {
   locationTag: LocationTag;
   pending: number;
