@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PatientQueueHeader from './components/patient-queue-header/patient-queue-header.component';
-import MetricsCard from './components/patient-queue-metrics/metrics-card.component';
 import { useTranslation } from 'react-i18next';
 import { QueueStatus } from './utils/utils';
 import { Tabs, TabPanel, TabList, Tab, TabPanels } from '@carbon/react';

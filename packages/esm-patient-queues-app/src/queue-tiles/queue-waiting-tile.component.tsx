@@ -13,8 +13,9 @@ const QueueWaitingTile: React.FC = () => {
 
   return (
     <SummaryTile
-      label={t('patientsWaiting', 'Patients Waiting')}
-      value={items.filter((item) => item.status === QueueEnumStatus.PENDING).length}
+      values={[
+        { label: 'Patients Waiting', value: items.filter((item) => item.status === QueueEnumStatus.PENDING).length },
+      ]}
       headerLabel={t('inQueue', 'In Queue')}
     />
   );

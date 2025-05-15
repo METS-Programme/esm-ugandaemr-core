@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import PatientQueueHeader from './components/patient-queue-header/patient-queue-header.component';
-import MetricsCard from './components/patient-queue-metrics/metrics-card.component';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 
@@ -37,6 +36,7 @@ import {
 import { Add } from '@carbon/react/icons';
 import PrintActionsMenu from './active-visits/print-action-menu.components';
 import StatusIcon from './utils/utils';
+import SummaryTile from './summary-tiles/summary-tile.component';
 
 const ReceptionHome: React.FC = () => {
   const { t } = useTranslation();
@@ -139,15 +139,15 @@ const ReceptionHome: React.FC = () => {
     <div>
       <PatientQueueHeader title="Reception" />
       <div className={styles.cardContainer}>
-        <MetricsCard
+        <SummaryTile
           values={[{ label: 'Patients', value: totalCount }]}
           headerLabel={t('checkedInPatients', 'Checked in patients')}
         />
-        <MetricsCard
+        <SummaryTile
           values={[{ label: 'Expected Appointments', value: 0 }]}
           headerLabel={t('noOfExpectedAppointments', 'No. Of Expected Appointments')}
         />
-        <MetricsCard values={stats} headerLabel={t('currentlyServing', 'No. of Currently being Served')} />
+        <SummaryTile values={stats} headerLabel={t('currentlyServing', 'No. of Currently being Served')} />
       </div>
 
       <div className={styles.container}>

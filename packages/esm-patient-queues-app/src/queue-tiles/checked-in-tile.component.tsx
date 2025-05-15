@@ -10,8 +10,7 @@ const CheckedInTile: React.FC = () => {
 
   return (
     <SummaryTile
-      label={t('checkedInPatients', 'Checked In Patients')}
-      value={totalCount}
+      values={[{ label: t('checkedInPatients', 'Checked In Patients'), value: totalCount }]}
       headerLabel={t('pending', 'Pending')}
     />
   );
