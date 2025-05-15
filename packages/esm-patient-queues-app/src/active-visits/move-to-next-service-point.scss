@@ -23,7 +23,7 @@
 }
 
 .body {
-    padding: 1.2rem;
+    padding: 1rem;
 }
 
 section {
@@ -34,14 +34,6 @@ section {
     @include type.type-style('heading-compact-02');
     color: $text-02;
     margin-bottom: spacing.$spacing-04;
-}
-
-.modalBody {
-    padding-bottom: spacing.$spacing-05;
-}
-
-:global(.cds--modal-container) {
-    overflow: auto;
 }
 
 .errorMessage {
