@@ -1,8 +1,6 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Tile } from '@carbon/react';
+import { Tile, Layer } from '@carbon/react';
 import styles from './summary-tile.scss';
-import { Layer } from '@carbon/react';
 
 interface Status {
   status: any;
@@ -21,7 +19,6 @@ interface SummaryTileProps {
 }
 
 const SummaryTile: React.FC<SummaryTileProps> = ({ values, headerLabel }) => {
-
   return (
     <Layer className={`${styles.cardWithChildren} ${styles.container}`}>
       <Tile className={styles.tileContainer}>
