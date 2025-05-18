@@ -21,6 +21,11 @@ import queueInQueueTileComponent from './queue-tiles/queue-in-queue-tile.compone
 import queueWaitingTileComponent from './queue-tiles/queue-waiting-tile.component';
 import moveToNextServicePointWorkspace from './active-visits/move-to-next-service-point.workspace';
 
+// modal
+import endVisitModalComponent from './active-visits/end-visit/end-visit-modal.component';
+
+import endVisitActionButtonComponent from './active-visits/end-visit/end-visit-action-button.component';
+
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
 const options = {
@@ -78,3 +83,8 @@ export const queueCompletedTile = getSyncLifecycle(queueCompletedTileComponent, 
 export const queueInQueueTile = getSyncLifecycle(queueInQueueTileComponent, options);
 
 export const queueWaitingTile = getSyncLifecycle(queueWaitingTileComponent, options);
+
+// end visit
+export const endVisitModal = getSyncLifecycle(endVisitModalComponent, options);
+
+export const endVisitActionButton = getSyncLifecycle(endVisitActionButtonComponent, options);

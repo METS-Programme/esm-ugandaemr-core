@@ -38,6 +38,15 @@
             "slot": "start-visit-button-slot"
         },
         {
+            "name" : "end-visit-form-button",
+            "component": "endVisitActionButton",
+            "slot": "patient-actions-slot"
+        },
+        {
+            "name" : "end-visit-modal",
+            "component": "endVisitModal"
+        },
+        {
             "name": "patient-queues-dashboard-link",
             "component": "patientQueuesDashboardLink",
             "slot": "homepage-dashboard-slot",
