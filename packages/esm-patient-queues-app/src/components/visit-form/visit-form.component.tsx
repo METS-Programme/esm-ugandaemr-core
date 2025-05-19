@@ -78,6 +78,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
     resolver: zodResolver(createQueueEntrySchema),
     defaultValues: {
       status: QueueStatus.Pending,
+      priorityComment: priorityLabels[contentSwitcherIndex] 
     },
   });
 
