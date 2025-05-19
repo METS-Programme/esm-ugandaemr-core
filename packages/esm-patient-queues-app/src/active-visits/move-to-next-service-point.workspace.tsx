@@ -149,6 +149,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
     defaultValues: {
       priorityComment: priorityLabels[contentSwitcherIndex],
       status: statusLabels[statusSwitcherIndex].status,
+
     },
   });
 
@@ -362,7 +363,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
                 <Controller
                   name="locationTo"
                   control={control}
-                  defaultValue={queueRoomLocations[0]?.uuid || ''}
+                  defaultValue={queueRoomLocations[0]?.uuid || sessionUser?.sessionLocation?.uuid}
                   render={({ field }) => (
                     <Select
                       {...field}
@@ -407,6 +408,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
                 <Controller
                   name="provider"
                   control={control}
+                  defaultValue={providers[0]?.uuid || sessionUser?.currentProvider?.uuid}
                   render={({ field }) => (
                     <Select
                       {...field}
