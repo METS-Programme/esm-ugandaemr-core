@@ -24,14 +24,14 @@ const EndVisitActionButton: React.FC<EndVisitActionButtonProps> = ({ uuid, patie
       <button
         className="cds--overflow-menu-options__btn"
         role="menuitem"
-        title={t('endAVisit', 'End a Visit')}
+        title={t('endAVisit', 'End a visit')}
         data-floating-menu-primary-focus
         onClick={launchEndVisitModal}
         style={{
           maxWidth: '100vw',
         }}
       >
-        <span className="cds--overflow-menu-options__option-content">{t('endAVisit', 'End a Visit')}</span>
+        <span className="cds--overflow-menu-options__option-content">{t('endAVisit', 'End a visit')}</span>
       </button>
     </li>
   );
