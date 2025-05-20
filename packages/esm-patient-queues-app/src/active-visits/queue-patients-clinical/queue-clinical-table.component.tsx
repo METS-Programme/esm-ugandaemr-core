@@ -21,12 +21,7 @@ import {
 
 import { useTranslation } from 'react-i18next';
 import { useSession, useLayoutType, isDesktop, useConfig } from '@openmrs/esm-framework';
-import {
-  getLocationByUuid,
-  getOriginFromPathName,
-  useParentLocation,
-  usePatientQueuePages,
-} from '../patient-queues.resource';
+import { getOriginFromPathName, useParentLocation, usePatientQueuePages } from '../patient-queues.resource';
 import {
   buildStatusString,
   formatWaitTime,
@@ -34,14 +29,14 @@ import {
   getTagColor,
   trimVisitNumber,
 } from '../../helpers/functions';
-import StatusIcon from '../../queue-entry-table-components/status-icon.component';
-import PickPatientActionMenu from '../../queue-entry-table-components/pick-patient-queue-entry-menu.component';
-import ViewActionsMenu from '../view-action-menu.components';
-import NotesActionsMenu from '../notes-action-menu.components';
+import PickPatientActionMenu from '../pick-queue-patient-action-action.component';
+import NotesActionsMenu from '../notes/notes-action-menu.components';
 import styles from '../active-visits-table.scss';
 import dayjs from 'dayjs';
-import { QueueStatus } from '../../utils/utils';
+import StatusIcon, { QueueStatus } from '../../utils/utils';
 import { PatientQueueConfig } from '../../config-schema';
+import MovetoNextServicePointReassignAction from '../move-to-next-service-point-re-assign-action.component';
+import ViewQueuePatientActionMenu from '../view-queue-patient-action-menu.component';
 
 interface ActiveVisitsTableProps {
   status: string;
@@ -163,7 +158,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
   }, [items, searchTerm, status, clinicalRoomTag]);
 
   const tableRows = useMemo(() => {
-    return filteredPatientQueueEntries.map((patientqueue, entry) => ({
+    return filteredPatientQueueEntries.map((patientqueue, index) => ({
       ...patientqueue,
       id: patientqueue.uuid,
       visitNumber: {
@@ -211,18 +206,27 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
         content: (
           <div style={{ display: 'flex' }}>
             {patientqueue?.status === 'PENDING' && (
-              <>
-                <PickPatientActionMenu queueEntry={patientqueue} closeModal={() => true} />
-              </>
+              <PickPatientActionMenu queueEntry={patientqueue} closeModal={() => true} />
             )}
-            <ViewActionsMenu to={`\${openmrsSpaBase}/patient/${patientqueue?.patient?.uuid}/chart`} from={fromPage} />
+
+            {(patientqueue?.status === 'COMPLETED' || patientqueue?.status === 'PICKED') && (
+              <ViewQueuePatientActionMenu
+                to={`\${openmrsSpaBase}/patient/${patientqueue?.patient?.uuid}/chart`}
+                from={fromPage}
+                queueUuid={filteredPatientQueueEntries[index]?.uuid}
+              />
+            )}
 
             <NotesActionsMenu note={patientqueue} />
+
+            {patientqueue?.status === 'PENDING' && isToggled && (
+              <MovetoNextServicePointReassignAction patientUuid={filteredPatientQueueEntries[index].uuid} />
+            )}
           </div>
         ),
       },
     }));
-  }, [filteredPatientQueueEntries, session.user, t, fromPage]);
+  }, [filteredPatientQueueEntries, session.user, t, fromPage, isToggled]);
 
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;

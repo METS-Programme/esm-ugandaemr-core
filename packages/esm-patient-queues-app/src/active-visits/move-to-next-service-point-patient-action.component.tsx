@@ -1,19 +1,14 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { showModal } from '@openmrs/esm-framework';
+import { launchWorkspace } from '@openmrs/esm-framework';
 
-interface PatientMoveToNextServicePointProps {
-  patientUuid: string;
-}
-
-const PatientMovetoNextPoint: React.FC<PatientMoveToNextServicePointProps> = ({ patientUuid }) => {
+const MovetoNextServicePointPatientActionButton: React.FC = () => {
   const { t } = useTranslation();
-  const openModal = useCallback(() => {
-    const dispose = showModal('patient-move-to-next-service-point-modal', {
-      patientUuid,
-      closeModal: () => dispose(),
+  const handleClick = useCallback(() => {
+    launchWorkspace('move-to-next-service-point-form-workspace', {
+      workspaceTitle: t('moveToNextServicePoint', 'Move to next service point'),
     });
-  }, [patientUuid]);
+  }, [t]);
   return (
     <li className="cds--overflow-menu-options__option">
       <button
@@ -21,7 +16,7 @@ const PatientMovetoNextPoint: React.FC<PatientMoveToNextServicePointProps> = ({ 
         role="menuitem"
         title={t('moveToNext', 'Move to Next Service Point')}
         data-floating-menu-primary-focus
-        onClick={openModal}
+        onClick={handleClick}
         style={{
           maxWidth: '100vw',
         }}
@@ -33,4 +28,4 @@ const PatientMovetoNextPoint: React.FC<PatientMoveToNextServicePointProps> = ({ 
     </li>
   );
 };
-export default PatientMovetoNextPoint;
+export default MovetoNextServicePointPatientActionButton;

@@ -1,0 +1,9 @@
+@use '@carbon/styles/scss/type';
+@use '@carbon/styles/scss/spacing';
+
+.section {
+    margin: spacing.$spacing-03;
+}
+.modalBody {
+    padding-bottom: spacing.$spacing-05;
+}

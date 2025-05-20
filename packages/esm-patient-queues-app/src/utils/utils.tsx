@@ -1,3 +1,5 @@
+import { Group, InProgress } from '@carbon/react/icons';
+import React from 'react';
 import { restBaseUrl } from '@openmrs/esm-framework';
 import debounce from 'lodash-es/debounce';
 import { mutate } from 'swr';
@@ -32,3 +34,18 @@ export const handleMutate = (url: string) => {
   });
   refreshDashboardMetrics();
 };
+
+function StatusIcon({ status }) {
+  switch (status) {
+    case 'pending':
+      return <InProgress size={16} />;
+    case 'picked':
+      return <Group size={16} />;
+    case 'completed':
+      return <Group size={16} />;
+    default:
+      return null;
+  }
+}
+
+export default StatusIcon;

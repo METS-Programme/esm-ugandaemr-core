@@ -1,0 +1,43 @@
+@use '@carbon/styles/scss/spacing';
+@use '@carbon/styles/scss/type';
+@use '@openmrs/esm-styleguide/src/vars' as *;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.button {
+    display: flex;
+    align-content: flex-start;
+    align-items: baseline;
+    min-width: 50%;
+}
+
+.buttonSet {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.body {
+    padding: 1rem;
+}
+
+section {
+    margin: spacing.$spacing-03;
+}
+
+.sectionTitle {
+    @include type.type-style('heading-compact-02');
+    color: $text-02;
+    margin-bottom: spacing.$spacing-04;
+}
+
+.errorMessage {
+    color: #d93025;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}

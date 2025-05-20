@@ -3,12 +3,8 @@ import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 import { createDashboardLink } from './createDashboardLink';
 import { ClinicalRoomMeta, ReceptionMeta, TriageMeta } from './dashboard.meta';
-import editQueueEntryStatusModalComponent from './active-visits/change-status-dialog.component';
-import patientChartMoveToNextServicePointModalComponent from './active-visits/change-status-move-to-next-dialog.component';
-import queueTableMoveToNextServicePointModalComponent from './active-visits/queue-table-move-to-next-dialog.component';
-import moveToNextServicePointButtonComponent from './active-visits/move-to-next-service-point-action.components';
-// import addPatientToQueueComponent from './components/visit-form/visit-form.component';
-import notesModalComponent from './active-visits/notes-dialog.component';
+import moveToNextServicePointActionComponent from './active-visits/move-to-next-service-point-patient-action.component';
+import notesModalComponent from './active-visits/notes/notes-dialog.component';
 import pickPatientEntryQueueComponent from './active-visits/pick-patient-dialog.component';
 import queueScreenComponent from './components/queue-board/queue-board.component';
 import rootComponent from './root.component';
@@ -23,6 +19,7 @@ import checkedInTileComponent from './queue-tiles/checked-in-tile.component';
 import queueCompletedTileComponent from './queue-tiles/queue-completed-tile.component';
 import queueInQueueTileComponent from './queue-tiles/queue-in-queue-tile.component';
 import queueWaitingTileComponent from './queue-tiles/queue-waiting-tile.component';
+import moveToNextServicePointWorkspace from './active-visits/move-to-next-service-point.workspace';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -58,21 +55,9 @@ export const queueTriageDashboardLink = getSyncLifecycle(createDashboardLink(Tri
 // clinical room side nav item
 export const queueClinicalRoomDashboardLink = getSyncLifecycle(createDashboardLink(ClinicalRoomMeta), options);
 
-export const editQueueEntryStatusModal = getSyncLifecycle(editQueueEntryStatusModalComponent, options);
+export const moveToNextServicePointFormWorkspace = getSyncLifecycle(moveToNextServicePointWorkspace, options);
 
-export const patientChartMoveToNextServicePointModal = getSyncLifecycle(
-  patientChartMoveToNextServicePointModalComponent,
-  options,
-);
-
-export const queueTableMoveToNextServicePointModal = getSyncLifecycle(
-  queueTableMoveToNextServicePointModalComponent,
-  options,
-);
-
-export const moveToNextServicePointButton = getSyncLifecycle(moveToNextServicePointButtonComponent, options);
-
-// export const addPatientToQueue = getSyncLifecycle(addPatientToQueueComponent, options);
+export const moveToNextServicePointPatientAction = getSyncLifecycle(moveToNextServicePointActionComponent, options);
 
 export const notesModal = getSyncLifecycle(notesModalComponent, options);
 

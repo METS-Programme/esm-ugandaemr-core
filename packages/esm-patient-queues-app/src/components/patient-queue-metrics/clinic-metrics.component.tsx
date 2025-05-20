@@ -5,11 +5,11 @@ import { PRIVILEGE_RECEPTION_METRIC, PRIVILIGE_TRIAGE_METRIC } from '../../const
 
 import { useServicePointCount } from './clinic-metrics.resource';
 import styles from './clinic-metrics.scss';
-import MetricsCard from './metrics-card.component';
-import { useParentLocation, usePatientQueuePages } from '../../active-visits/patient-queues.resource';
+import { useParentLocation } from '../../active-visits/patient-queues.resource';
 import { CheckmarkOutline, Pending, ProgressBarRound } from '@carbon/react/icons';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import dayjs from 'dayjs';
+import SummaryTile from '../../summary-tiles/summary-tile.component';
 
 const ClinicMetrics: React.FC = () => {
   const { t } = useTranslation();
@@ -25,24 +25,24 @@ const ClinicMetrics: React.FC = () => {
   return (
     <div className={styles.cardContainer}>
       <UserHasAccess privilege={PRIVILEGE_RECEPTION_METRIC}>
-        <MetricsCard
+        <SummaryTile
           values={[{ label: 'Patients', value: 0 }]}
           headerLabel={t('checkedInPatients', 'Checked in patients')}
         />
-        <MetricsCard
+        <SummaryTile
           values={[{ label: 'Expected Appointments', value: 0 }]}
           headerLabel={t('noOfExpectedAppointments', 'No. Of Expected Appointments')}
         />
-        <MetricsCard values={stats} headerLabel={t('currentlyServing', 'No. of Currently being Served')} />
+        <SummaryTile values={stats} headerLabel={t('currentlyServing', 'No. of Currently being Served')} />
       </UserHasAccess>
 
       <UserHasAccess privilege={PRIVILIGE_TRIAGE_METRIC}>
-        <MetricsCard values={[{ label: 'In Queue', value: 0 }]} headerLabel={t('inQueueTriage', 'Patients Waiting')} />
-        <MetricsCard
+        <SummaryTile values={[{ label: 'In Queue', value: 0 }]} headerLabel={t('inQueueTriage', 'Patients Waiting')} />
+        <SummaryTile
           values={[{ label: t('byTriage', 'By you'), value: 0 }]}
           headerLabel={t('pendingTriageServing', 'Patients waiting to be Served')}
         />
-        <MetricsCard
+        <SummaryTile
           values={[{ label: 'Patients Served', value: 0 }]}
           headerLabel={t('noOfPatientsServed', 'No. of Patients Served')}
         />

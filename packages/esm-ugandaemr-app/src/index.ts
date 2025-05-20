@@ -155,16 +155,12 @@ export const htsDashboard = getSyncLifecycle(HivTestingServices, {
   moduleName,
 });
 
-
-
 export const treatmentDashboardLink = getSyncLifecycle(
   createDashboardLink({ ...treatmentDashboardMeta, moduleName }),
   options,
 );
 
 export const treatmentDashboard = getSyncLifecycle(TreatmentSummary, { featureName: 'treatment-regimen', moduleName });
-
-
 
 export const patientSummaryDashboardLink = getSyncLifecycle(
   createDashboardLink({ ...patientSummaryDashboardMeta, moduleName }),
