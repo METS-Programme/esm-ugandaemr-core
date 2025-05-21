@@ -6,7 +6,7 @@ import {
   parseDate,
   restBaseUrl,
   showNotification,
-  showToast,
+  showSnackbar,
   useSession,
 } from '@openmrs/esm-framework';
 
@@ -54,6 +54,7 @@ const PickQueuePatientDialog: React.FC<PickQueuePatientDialogProps> = ({ queueEn
           kind: 'error',
           critical: true,
           description: errorMessages.join(','),
+          millis: 3000,
         });
       },
     );
@@ -70,11 +71,11 @@ const PickQueuePatientDialog: React.FC<PickQueuePatientDialogProps> = ({ queueEn
         const status = 'Picked';
         await updateQueueEntry(status, provider, queueEntry?.uuid, 0, priorityComment, 'comment');
 
-        showToast({
-          critical: true,
+        showSnackbar({
           title: t('updateEntry', 'Update entry'),
           kind: 'success',
-          description: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
+          subtitle: t('queueEntryUpdateSuccessfully', 'Queue Entry Updated Successfully'),
+          autoClose: true,
         });
 
         navigate({ to: `\${openmrsSpaBase}/patient/${queueEntry?.patient?.uuid}/chart` });
@@ -88,6 +89,7 @@ const PickQueuePatientDialog: React.FC<PickQueuePatientDialogProps> = ({ queueEn
           kind: 'error',
           critical: true,
           description: error?.message,
+          millis: 3000,
         });
         handleMutate(`${restBaseUrl}/patientqueue`);
       }

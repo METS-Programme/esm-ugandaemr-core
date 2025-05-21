@@ -17,10 +17,10 @@ import {
   navigate,
   restBaseUrl,
   showNotification,
-  showToast,
   useLayoutType,
   useSession,
   getSessionStore,
+  showSnackbar,
 } from '@openmrs/esm-framework';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
@@ -98,6 +98,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
           kind: 'error',
           critical: true,
           description: errorMessages.join(','),
+          millis: 3000,
         });
       })
       .finally(() => setIsLoading(false));
@@ -115,6 +116,8 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
           title: 'Queue entry not found',
           kind: 'warning',
           description: 'The server did not return a valid queue entry.',
+          critical: true,
+          millis: 3000,
         });
       }
     } catch (error) {
@@ -124,6 +127,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
         kind: 'error',
         critical: true,
         description: errorMessages.join(', '),
+        millis: 3000,
       });
     }
   }, [patientQueueUuid]);
@@ -149,7 +153,6 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
     defaultValues: {
       priorityComment: priorityLabels[contentSwitcherIndex],
       status: statusLabels[statusSwitcherIndex].status,
-
     },
   });
 
@@ -176,11 +179,11 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
       if (status === QueueStatus.Pending) {
         if (queueEntry.length > 0) {
           await updateQueueEntry(status, provider, queueEntry[0]?.uuid, 0, priorityComment, comment).then(() => {
-            showToast({
-              critical: true,
+            showSnackbar({
               title: t('moveToNextServicePoint', 'Move back your service point'),
               kind: 'success',
-              description: t('backToQueue', 'Successfully moved back patient to your service point'),
+              subtitle: t('backToQueue', 'Successfully moved back patient to your service point'),
+              autoClose: true,
             });
             closeWorkspace();
             handleMutate(`${restBaseUrl}/patientqueue`);
@@ -240,11 +243,11 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
           );
 
           if (response.status === 200) {
-            showToast({
-              critical: true,
+            showSnackbar({
               title: t('moveToNextServicePoint', 'Move to next service point'),
               kind: 'success',
-              description: t('movetonextservicepoint', 'Moved to next service point successfully'),
+              subtitle: t('movetonextservicepoint', 'Moved to next service point successfully'),
+              autoClose: true,
             });
             handleMutate(`${restBaseUrl}/patientqueue`);
             closeWorkspace();
@@ -277,6 +280,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
         kind: 'error',
         critical: true,
         description: errorMessages.join(','),
+        millis: 3000,
       });
       handleMutate(`${restBaseUrl}/patientqueue`);
       closeWorkspace();

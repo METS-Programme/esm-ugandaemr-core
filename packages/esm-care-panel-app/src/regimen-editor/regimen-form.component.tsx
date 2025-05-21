@@ -17,9 +17,9 @@ import {
   toOmrsIsoString,
   toDateObjectStrict,
   showNotification,
-  showToast,
   useConfig,
   restBaseUrl,
+  showSnackbar,
 } from '@openmrs/esm-framework';
 import styles from './standard-regimen.scss';
 import StandardRegimen from './standard-regimen.component';
@@ -192,10 +192,11 @@ const RegimenForm: React.FC<RegimenFormProps> = ({
         saveEncounter(encounterToSave).then(
           (response) => {
             if (response.status === 201) {
-              showToast({
+              showSnackbar({
                 kind: 'success',
                 title: t('regimenUpdated', 'Regimen updated'),
-                description: t('regimenUpdatedSuccessfully', `Regimen updated successfully.`),
+                subtitle: t('regimenUpdatedSuccessfully', `Regimen updated successfully.`),
+                autoClose: true,
               });
               setIsSubmitting(false);
               mutate(`${restBaseUrl}/currentProgramDetails?patientUuid=${patientUuid}`);
@@ -212,6 +213,7 @@ const RegimenForm: React.FC<RegimenFormProps> = ({
               kind: 'error',
               critical: true,
               description: error?.message,
+              millis: 3000,
             });
           },
         );
