@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, InlineLoading } from '@carbon/react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Button, Form, ModalBody, ModalFooter, ModalHeader, InlineLoading } from '@carbon/react';
 import styles from './end-visit-modal.scss';
 import { useTranslation } from 'react-i18next';
 import {
@@ -21,19 +21,19 @@ import {
 } from '../patient-queues.resource';
 import { QueueStatus, extractErrorMessagesFromResponse, handleMutate } from '../../utils/utils';
 
-type EndVisitStatus = 'inactive' | 'active' | 'finished' | 'error';
-
 interface EndVisitConfirmationProps {
-  uuid: string;
   patientUuid: string;
+  closeModal: () => void;
 }
 
-const EndVisitConfirmation: React.FC<EndVisitConfirmationProps> = ({ uuid, patientUuid }) => {
+const EndVisitConfirmation: React.FC<EndVisitConfirmationProps> = ({ closeModal, patientUuid }) => {
   const { t } = useTranslation();
 
   const [isFetchingProvider, setIsFetchingProvider] = useState(false);
 
-  const [endVisitStatus, setEndVisitStatus] = useState<EndVisitStatus>('inactive');
+  const [isEndingVisit, setIsEndingVisit] = useState(false);
+
+  const priorityLabels = useMemo(() => ['Not Urgent', 'Urgent', 'Emergency'], []);
 
   const [provider, setProvider] = useState('');
 
@@ -68,10 +68,8 @@ const EndVisitConfirmation: React.FC<EndVisitConfirmationProps> = ({ uuid, patie
 
   useEffect(() => fetchProvider(), [fetchProvider]);
 
-  const isEndingVisit = endVisitStatus === 'active';
-
   const handleEndVisit = async () => {
-    setEndVisitStatus('active');
+    setIsEndingVisit(true);
 
     const endVisitPayload = {
       location: activeVisit.location.uuid,
@@ -81,11 +79,9 @@ const EndVisitConfirmation: React.FC<EndVisitConfirmationProps> = ({ uuid, patie
     };
 
     try {
-
       const response = await updateVisit(activeVisit.uuid, endVisitPayload);
 
       if (response.status === 200) {
-
         const patientQueueEntryResponse = await getCurrentPatientQueueByPatientUuid(
           patientUuid,
           sessionUser?.sessionLocation?.uuid,
@@ -95,14 +91,14 @@ const EndVisitConfirmation: React.FC<EndVisitConfirmationProps> = ({ uuid, patie
         const queueEntry = queues?.filter((item) => item?.patient?.uuid === patientUuid);
 
         if (queueEntry.length > 0) {
-          // await updateQueueEntry(
-          //   QueueStatus.Completed,
-          //   provider,
-          //   queueEntry[0]?.uuid,
-          //   contentSwitcherIndex,
-          //   priorityComment,
-          //   'comment',
-          // );
+          await updateQueueEntry(
+            QueueStatus.Completed,
+            provider,
+            queueEntry[0]?.uuid,
+            0,
+            priorityLabels[0],
+            'visit-ended',
+          );
 
           let navigateTo = `${window.getOpenmrsSpaBase()}home`;
 
@@ -116,25 +112,19 @@ const EndVisitConfirmation: React.FC<EndVisitConfirmationProps> = ({ uuid, patie
               navigateTo = `${window.getOpenmrsSpaBase()}home/triage-patient-queues`;
             }
           }
-          // closeModal();
+          closeModal();
           navigate({ to: navigateTo });
           handleMutate(`${restBaseUrl}/patientqueue`);
-
-          setEndVisitStatus('finished');
+          setIsEndingVisit(false);
           showSnackbar({
             title: 'Visit Ended',
-            subtitle: t('endVisitError', 'Failed to end visit'),
-            kind: 'error',
+            subtitle: t('endedSuccessfully', 'Visit ended successfully'),
+            kind: 'success',
           });
-          // Optional: wait briefly before closing modal or resetting state
-          setTimeout(() => {
-            close(); // or reset state
-            setEndVisitStatus('inactive');
-          }, 1000);
         }
       }
     } catch (error) {
-      setEndVisitStatus('error');
+      setIsEndingVisit(false);
       const errorMessages = extractErrorMessagesFromResponse(error);
       showNotification({
         title: t('endVisit', 'Error ending visit'),
@@ -142,17 +132,12 @@ const EndVisitConfirmation: React.FC<EndVisitConfirmationProps> = ({ uuid, patie
         critical: true,
         description: errorMessages.join(','),
       });
-      // Optional: reset to allow retry
-      setTimeout(() => {
-        setEndVisitStatus('inactive');
-      }, 2000);
     }
   };
 
   return (
-    <Modal>
-
-      {isFetchingProvider && (<InlineLoading status = "active" description= "Is Fetching"/>)}
+    <Form>
+      {isFetchingProvider && <InlineLoading status="active" description="Is Fetching" />}
       <ModalHeader closeModal={close} className={styles.modalHeader}>
         {t('endVisit', 'End Visit')}?
       </ModalHeader>
@@ -162,28 +147,18 @@ const EndVisitConfirmation: React.FC<EndVisitConfirmationProps> = ({ uuid, patie
         </p>
       </ModalBody>
       <ModalFooter>
-        <Button size="lg" kind="secondary" disabled={isEndingVisit}>
+        <Button size="lg" kind="secondary" onClick={closeModal}>
           {getCoreTranslation('cancel')}
         </Button>
-
         <Button autoFocus kind="danger" onClick={handleEndVisit} size="lg" disabled={isEndingVisit}>
-          {endVisitStatus !== 'inactive' ? (
-            <InlineLoading
-              description={
-                endVisitStatus === 'active'
-                  ? t('endingVisit', 'Ending visit...')
-                  : endVisitStatus === 'finished'
-                  ? t('visitEnded', 'Visit ended')
-                  : t('visitEndError', 'Failed to end visit')
-              }
-              status={endVisitStatus}
-            />
+          {isEndingVisit ? (
+            <InlineLoading description={t('endingVisit', 'Ending visit...')} />
           ) : (
             t('endAVisit', 'End a visit')
           )}
         </Button>
       </ModalFooter>
-    </Modal>
+    </Form>
   );
 };
 
