@@ -17,7 +17,7 @@ import {
   ExtensionSlot,
   restBaseUrl,
   showNotification,
-  showToast,
+  showSnackbar,
   useLayoutType,
   usePatient,
   useSession,
@@ -78,7 +78,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
     resolver: zodResolver(createQueueEntrySchema),
     defaultValues: {
       status: QueueStatus.Pending,
-      priorityComment: priorityLabels[contentSwitcherIndex] 
+      priorityComment: priorityLabels[contentSwitcherIndex],
     },
   });
 
@@ -105,6 +105,8 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
             title: t('visitExists', 'Visit already exists'),
             kind: 'info',
             description: t('activeVisitExists', 'An active visit already exists for this patient.'),
+            millis: 3000,
+            critical: true,
           });
           return;
         }
@@ -125,10 +127,11 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
         const createQueueResponse = await checkInQueue(request);
 
         if (createQueueResponse.status === 201) {
-          showToast({
+          showSnackbar({
             kind: 'success',
             title: t('startVisit', 'Start a visit'),
-            description: t('startVisitQueueSuccessfully', 'Patient has been added to active visits list and queue.'),
+            subtitle: t('startVisitQueueSuccessfully', 'Patient has been added to active visits list and queue.'),
+            autoClose: true,
           });
 
           handleMutate(`${restBaseUrl}/patientqueue`);
@@ -141,6 +144,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ patientUuid, closePanel, hea
           kind: 'error',
           critical: true,
           description: error?.message || t('unexpectedError', 'An unexpected error occurred'),
+          millis: 3000,
         });
       } finally {
         setIsSubmitting(false);

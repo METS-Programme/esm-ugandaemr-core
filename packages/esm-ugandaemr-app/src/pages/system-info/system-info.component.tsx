@@ -13,7 +13,7 @@ import {
   TableCell,
   Tile,
 } from '@carbon/react';
-import { ErrorState, UserHasAccess, showToast, showNotification, showSnackbar } from '@openmrs/esm-framework';
+import { ErrorState, UserHasAccess, showNotification, showSnackbar } from '@openmrs/esm-framework';
 import { updatePropertyValue, useGetSystemInformation, useRetrieveFacilityCode } from './system-info.resources';
 import styles from './system-info.scss';
 import coatOfArms from '../../images/coat_of_arms.png';
@@ -161,6 +161,7 @@ const SystemInfoPage = () => {
             kind: 'success',
             title: t('Updating Facility Code', 'Updating Facility Code'),
             subtitle: t('UpdatingFacilityCode', `Updated Facility Code ${response?.value}`),
+            autoClose: true,
           });
         },
         (error) => {
@@ -169,6 +170,7 @@ const SystemInfoPage = () => {
             kind: 'error',
             critical: true,
             description: error?.message,
+            millis: 3000,
           });
         },
       );
