@@ -1,30 +1,25 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import StartVisitForm from '../components/visit-form/visit-form.component';
+import StartVisitForm from '../components/visit-form/start-a-visit-form.workspace';
 import { Button } from '@carbon/react';
+import { launchWorkspace } from '@openmrs/esm-framework';
 
 interface StartVisitFormProps {
-  patientUuid?: string;
+  patientUuid: string;
 }
 
 const StartVisitButton: React.FC<StartVisitFormProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
-  const [showOverlay, setShowOverlay] = useState(false);
-  const handleClick = () => {
-    setShowOverlay(true);
-  };
 
+  const handleLaunchWorkspace = () => {
+    launchWorkspace('start-visit-form-workspace', {
+      patientUuid,
+    });
+  };
   return (
-    <>
-      <Button onClick={handleClick}>{t('startAVisit', 'Start a Visit')}</Button>
-      {showOverlay && (
-        <StartVisitForm
-          header={t('startAVisit', 'Start a Visit')}
-          closePanel={() => setShowOverlay(false)}
-          patientUuid={patientUuid}
-        />
-      )}
-    </>
+    <Button onClick={handleLaunchWorkspace} aria-label={t('startAVisit', 'Start a Visit')}>
+      {t('startAVisit', 'Start a Visit')}
+    </Button>
   );
 };
 

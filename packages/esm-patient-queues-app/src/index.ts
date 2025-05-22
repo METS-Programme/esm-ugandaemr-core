@@ -13,7 +13,7 @@ import outpatientSideNavExtComponent from './side-menu/side-menu.component';
 import triageRoomComponent from './queue-triage-home.component';
 import receptionRoomComponent from './queue-reception-home.component';
 import clinicalRoomComponent from './queue-clinical-room-home.component';
-import startVisitFormComponent from './components/visit-form/visit-form.component';
+import startVisitFormComponent from './components/visit-form/start-a-visit-form.workspace';
 import startVisitFormButtonComponent from './active-visits/start-visit-form-button.component';
 import checkedInTileComponent from './queue-tiles/checked-in-tile.component';
 import queueCompletedTileComponent from './queue-tiles/queue-completed-tile.component';
@@ -68,7 +68,7 @@ export const pickPatientEntryQueue = getSyncLifecycle(pickPatientEntryQueueCompo
 
 export const queueScreen = getSyncLifecycle(queueScreenComponent, options);
 
-export const startVisitForm = getSyncLifecycle(startVisitFormComponent, options);
+export const startVisitFormWorkspace = getSyncLifecycle(startVisitFormComponent, options);
 
 export const startVisitFormButton = getSyncLifecycle(startVisitFormButtonComponent, options);
 
