@@ -13,13 +13,18 @@ import outpatientSideNavExtComponent from './side-menu/side-menu.component';
 import triageRoomComponent from './queue-triage-home.component';
 import receptionRoomComponent from './queue-reception-home.component';
 import clinicalRoomComponent from './queue-clinical-room-home.component';
-import startVisitFormComponent from './components/visit-form/visit-form.component';
+import startVisitFormComponent from './components/visit-form/start-a-visit-form.workspace';
 import startVisitFormButtonComponent from './active-visits/start-visit-form-button.component';
 import checkedInTileComponent from './queue-tiles/checked-in-tile.component';
 import queueCompletedTileComponent from './queue-tiles/queue-completed-tile.component';
 import queueInQueueTileComponent from './queue-tiles/queue-in-queue-tile.component';
 import queueWaitingTileComponent from './queue-tiles/queue-waiting-tile.component';
 import moveToNextServicePointWorkspace from './active-visits/move-to-next-service-point.workspace';
+
+// modal
+import endVisitConfirmationModalComponent from './active-visits/end-visit/end-visit-modal.component';
+
+import endVisitActionButtonComponent from './active-visits/end-visit/end-visit-action-button.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -59,15 +64,15 @@ export const moveToNextServicePointFormWorkspace = getSyncLifecycle(moveToNextSe
 
 export const moveToNextServicePointPatientAction = getSyncLifecycle(moveToNextServicePointActionComponent, options);
 
-export const notesModal = getSyncLifecycle(notesModalComponent, options);
-
 export const pickPatientEntryQueue = getSyncLifecycle(pickPatientEntryQueueComponent, options);
 
 export const queueScreen = getSyncLifecycle(queueScreenComponent, options);
 
-export const startVisitForm = getSyncLifecycle(startVisitFormComponent, options);
+export const startVisitFormWorkspace = getSyncLifecycle(startVisitFormComponent, options);
 
 export const startVisitFormButton = getSyncLifecycle(startVisitFormButtonComponent, options);
+
+export const notesModal = getSyncLifecycle(notesModalComponent, options);
 
 // summary tiles
 
@@ -78,3 +83,8 @@ export const queueCompletedTile = getSyncLifecycle(queueCompletedTileComponent, 
 export const queueInQueueTile = getSyncLifecycle(queueInQueueTileComponent, options);
 
 export const queueWaitingTile = getSyncLifecycle(queueWaitingTileComponent, options);
+
+// end visit
+export const endVisitModal = getSyncLifecycle(endVisitConfirmationModalComponent, options);
+
+export const endVisitActionButton = getSyncLifecycle(endVisitActionButtonComponent, options);
