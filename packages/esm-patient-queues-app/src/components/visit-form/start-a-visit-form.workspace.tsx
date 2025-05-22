@@ -143,6 +143,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ closeWorkspace, patientUuid 
       setIsSubmitting(false);
     }
   }, [
+    visitComment,
     closeWorkspace,
     contentSwitcherIndex,
     patientUuid,
