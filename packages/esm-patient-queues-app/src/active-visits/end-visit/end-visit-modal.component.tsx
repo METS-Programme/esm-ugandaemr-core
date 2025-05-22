@@ -69,110 +69,94 @@ const EndVisitConfirmation: React.FC<EndVisitConfirmationProps> = ({ closeModal,
   useEffect(() => fetchProvider(), [fetchProvider]);
 
   const handleEndVisit = async () => {
-  setIsEndingVisit(true);
+    setIsEndingVisit(true);
 
-  const endVisitPayload = {
-    location: activeVisit?.location?.uuid,
-    startDatetime: parseDate(activeVisit?.startDatetime),
-    visitType: activeVisit?.visitType?.uuid,
-    stopDatetime: new Date(),
-  };
+    const endVisitPayload = {
+      location: activeVisit?.location?.uuid,
+      startDatetime: parseDate(activeVisit?.startDatetime),
+      visitType: activeVisit?.visitType?.uuid,
+      stopDatetime: new Date(),
+    };
 
-  try {
-    let hasEndedVisit = false;
-    let hasEndedQueue = false;
-    let queueEntry;
+    try {
+      let hasEndedVisit = false;
+      let hasEndedQueue = false;
+      let queueEntry;
 
-    // 1. Attempt to end the visit if it exists
-    if (activeVisit?.uuid) {
-      const visitResponse = await updateVisit(activeVisit.uuid, endVisitPayload);
-      if (visitResponse.status === 200) {
-        hasEndedVisit = true;
-      }
-    }
-
-    // 2. Get queue entry and end it if found
-    const queueResponse = await getCurrentPatientQueueByPatientUuid(
-      patientUuid,
-      sessionUser?.sessionLocation?.uuid,
-    );
-
-    const queues = queueResponse?.data?.results?.[0]?.patientQueues || [];
-    queueEntry = queues.find((item) => item?.patient?.uuid === patientUuid);
-
-    if (queueEntry) {
-      await updateQueueEntry(
-        QueueStatus.Completed,
-        provider,
-        queueEntry.uuid,
-        0,
-        priorityLabels[0],
-        'visit-ended',
-      );
-      hasEndedQueue = true;
-    }
-
-    // 3. If anything was ended, proceed with navigation and feedback
-    if (hasEndedVisit || hasEndedQueue) {
-      let navigateTo = `${window.getOpenmrsSpaBase()}home`;
-
-      if (queueEntry) {
-        const roles = getSessionStore().getState().session?.user?.roles || [];
-        const hasClinicianRole = roles.some((role) => role?.display === 'Organizational: Clinician');
-        const hasTriageRole = roles.some((role) => role?.display === 'Triage');
-
-        if (hasClinicianRole) {
-          navigateTo = `${window.getOpenmrsSpaBase()}home/clinical-room-patient-queues`;
-        } else if (hasTriageRole) {
-          navigateTo = `${window.getOpenmrsSpaBase()}home/triage-patient-queues`;
+      // 1. Attempt to end the visit if it exists
+      if (activeVisit?.uuid) {
+        const visitResponse = await updateVisit(activeVisit.uuid, endVisitPayload);
+        if (visitResponse.status === 200) {
+          hasEndedVisit = true;
         }
       }
 
-      closeModal();
-      navigate({ to: navigateTo });
-      handleMutate(`${restBaseUrl}/patientqueue`);
-      setIsEndingVisit(false);
+      // 2. Get queue entry and end it if found
+      const queueResponse = await getCurrentPatientQueueByPatientUuid(patientUuid, sessionUser?.sessionLocation?.uuid);
 
-      showSnackbar({
-        title: hasEndedVisit ? 'Visit Ended' : 'Queue Completed',
-        subtitle: t(
-          hasEndedVisit && hasEndedQueue
-            ? 'endedSuccessfully'
-            : hasEndedVisit
-            ? 'visitEndedOnly'
-            : 'queueEndedOnly',
-          hasEndedVisit && hasEndedQueue
-            ? 'Visit and queue ended successfully'
-            : hasEndedVisit
-            ? 'Visit ended successfully'
-            : 'Queue ended successfully',
-        ),
-        kind: 'success',
-      });
-    } else {
-      // Nothing was ended
+      const queues = queueResponse?.data?.results?.[0]?.patientQueues || [];
+      queueEntry = queues.find((item) => item?.patient?.uuid === patientUuid);
+
+      if (queueEntry) {
+        await updateQueueEntry(QueueStatus.Completed, provider, queueEntry.uuid, 0, priorityLabels[0], 'visit-ended');
+        hasEndedQueue = true;
+      }
+
+      // 3. If anything was ended, proceed with navigation and feedback
+      if (hasEndedVisit || hasEndedQueue) {
+        let navigateTo = `${window.getOpenmrsSpaBase()}home`;
+
+        if (queueEntry) {
+          const roles = getSessionStore().getState().session?.user?.roles || [];
+          const hasClinicianRole = roles.some((role) => role?.display === 'Organizational: Clinician');
+          const hasTriageRole = roles.some((role) => role?.display === 'Triage');
+
+          if (hasClinicianRole) {
+            navigateTo = `${window.getOpenmrsSpaBase()}home/clinical-room-patient-queues`;
+          } else if (hasTriageRole) {
+            navigateTo = `${window.getOpenmrsSpaBase()}home/triage-patient-queues`;
+          }
+        }
+
+        closeModal();
+        navigate({ to: navigateTo });
+        handleMutate(`${restBaseUrl}/patientqueue`);
+        setIsEndingVisit(false);
+
+        showSnackbar({
+          title: hasEndedVisit ? 'Visit Ended' : 'Queue Completed',
+          subtitle: t(
+            hasEndedVisit && hasEndedQueue ? 'endedSuccessfully' : hasEndedVisit ? 'visitEndedOnly' : 'queueEndedOnly',
+            hasEndedVisit && hasEndedQueue
+              ? 'Visit and queue ended successfully'
+              : hasEndedVisit
+              ? 'Visit ended successfully'
+              : 'Queue ended successfully',
+          ),
+          kind: 'success',
+        });
+      } else {
+        // Nothing was ended
+        closeModal();
+        setIsEndingVisit(false);
+        showSnackbar({
+          title: 'No Action Taken',
+          subtitle: t('noVisitOrQueueToEnd', 'No active visit or queue found to end.'),
+          kind: 'info',
+        });
+      }
+    } catch (error) {
       closeModal();
       setIsEndingVisit(false);
-      showSnackbar({
-        title: 'No Action Taken',
-        subtitle: t('noVisitOrQueueToEnd', 'No active visit or queue found to end.'),
-        kind: 'info',
+      const errorMessages = extractErrorMessagesFromResponse(error);
+      showNotification({
+        title: t('endVisit', 'Error ending visit'),
+        kind: 'error',
+        critical: true,
+        description: errorMessages.join(','),
       });
-
     }
-  } catch (error) {
-    closeModal();
-    setIsEndingVisit(false);
-    const errorMessages = extractErrorMessagesFromResponse(error);
-    showNotification({
-      title: t('endVisit', 'Error ending visit'),
-      kind: 'error',
-      critical: true,
-      description: errorMessages.join(','),
-    });
-  }
-};
-
+  };
 
   return (
     <Form>
