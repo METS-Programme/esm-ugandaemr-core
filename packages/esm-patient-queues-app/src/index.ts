@@ -21,6 +21,8 @@ import queueInQueueTileComponent from './queue-tiles/queue-in-queue-tile.compone
 import queueWaitingTileComponent from './queue-tiles/queue-waiting-tile.component';
 import moveToNextServicePointWorkspace from './active-visits/move-to-next-service-point.workspace';
 
+import deathNotificationActionsButtonComponent from './components/actions/death/death-notification-actions-button.component'
+
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
 const options = {
@@ -68,6 +70,8 @@ export const queueScreen = getSyncLifecycle(queueScreenComponent, options);
 export const startVisitForm = getSyncLifecycle(startVisitFormComponent, options);
 
 export const startVisitFormButton = getSyncLifecycle(startVisitFormButtonComponent, options);
+
+export const deathNotificationActionsButton = getSyncLifecycle(deathNotificationActionsButtonComponent, options);
 
 // summary tiles
 
