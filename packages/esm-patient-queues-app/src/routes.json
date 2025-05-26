@@ -38,6 +38,11 @@
             "slot": "start-visit-button-slot"
         },
         {
+            "name": "end-visit-form-button",
+            "component": "endVisitActionButton",
+            "slot": "patient-actions-slot"
+        },
+        {
             "name": "patient-queues-dashboard-link",
             "component": "patientQueuesDashboardLink",
             "slot": "homepage-dashboard-slot",
@@ -118,34 +123,6 @@
             "offline": true
         },
         {
-            "name": "patient-info-banner-slot",
-            "component": "patientInfoBannerSlot"
-        },
-        {
-            "name": "add-patient-to-queue",
-            "slot": "add-patient-to-queue-slot",
-            "component": "addPatientToQueue"
-        },
-        {
-            "name": "remove-queue-entry",
-            "component": "removeQueueEntry"
-        },
-        {
-            "name": "clear-all-queue-entries",
-            "component": "clearAllQueueEntries"
-        },
-    
-        {
-            "name": "previous-visit-summary-widget",
-            "slot": "previous-visit-summary-slot",
-            "component": "previousVisitSummaryWidget"
-        },
-        {
-            "name": "add-queue-entry-widget",
-            "slot": "add-queue-entry-slot",
-            "component": "addQueueEntryWidget"
-        },
-        {
             "name": "queue-waiting-tile-component",
             "slot": "queue-tiles-slot",
             "component": "queueWaitingTile"
@@ -161,9 +138,13 @@
             "name": "notes-dialog-modal",
             "component": "notesModal"
         },
-            {
+        {
             "name": "pick-patient-queue-entry",
             "component": "pickPatientEntryQueue"
+        },
+        {
+            "name": "end-visit-modal",
+            "component": "endVisitModal"
         }
     ],
     "workspaces": [
@@ -175,15 +156,13 @@
             "canMaximize": true,
             "width": "extra-wide"
         },
-
         {
-            "name" : "start-visit-form-workspace",
+            "name": "start-visit-form-workspace",
             "component": "startVisitFormWorkspace",
             "title": "Start Visit",
             "type": "form",
             "canMaximize": true,
             "width": "extra-wide"
-            
         }
     ]
 }
