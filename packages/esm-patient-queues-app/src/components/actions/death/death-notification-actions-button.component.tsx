@@ -1,7 +1,7 @@
 import { launchWorkspace } from "@openmrs/esm-framework";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import styles from "./death-notification-actions-button.module.css";
+import styles from "./death-notification-actions.css";
 
 
 const DeathNotificationActionsButton : React.FC = () => {
