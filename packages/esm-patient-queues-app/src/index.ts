@@ -26,6 +26,8 @@ import endVisitConfirmationModalComponent from './active-visits/end-visit/end-vi
 
 import endVisitActionButtonComponent from './active-visits/end-visit/end-visit-action-button.component';
 
+import deathNotificationActionsButtonComponent from './components/actions/death/death-notification-actions-button.component'
+
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
 const options = {
@@ -71,6 +73,8 @@ export const queueScreen = getSyncLifecycle(queueScreenComponent, options);
 export const startVisitFormWorkspace = getSyncLifecycle(startVisitFormComponent, options);
 
 export const startVisitFormButton = getSyncLifecycle(startVisitFormButtonComponent, options);
+
+export const deathNotificationActionsButton = getSyncLifecycle(deathNotificationActionsButtonComponent, options);
 
 export const notesModal = getSyncLifecycle(notesModalComponent, options);
 
