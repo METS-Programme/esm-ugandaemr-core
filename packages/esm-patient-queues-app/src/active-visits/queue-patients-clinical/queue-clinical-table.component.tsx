@@ -27,6 +27,7 @@ import {
   formatWaitTime,
   getProviderTagColor,
   getTagColor,
+  getWaitTimeInMinutes,
   trimVisitNumber,
 } from '../../helpers/functions';
 import PickPatientActionMenu from '../pick-queue-patient-action-action.component';
@@ -52,6 +53,7 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
   const session = useSession();
   const layout = useLayoutType();
   const [searchTerm, setSearchTerm] = useState('');
+  const [tick, setTick] = useState(0);
 
   const { clinicalRoomTag } = useConfig<PatientQueueConfig>();
 
@@ -157,6 +159,14 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
     return entries;
   }, [items, searchTerm, status, clinicalRoomTag]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTick((prev) => prev + 1);
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const tableRows = useMemo(() => {
     return filteredPatientQueueEntries.map((patientqueue, index) => ({
       ...patientqueue,
@@ -191,16 +201,22 @@ const ActiveClinicalVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status })
         ),
       },
       waitTime: {
-        content: (
-          <Tag>
-            <span
-              className={styles.statusContainer}
-              style={{ color: getTagColor(`${dayjs().diff(dayjs(patientqueue?.dateCreated), 'minutes')}`) }}
-            >
-              {formatWaitTime(patientqueue?.dateCreated, t)}
-            </span>
-          </Tag>
-        ),
+        content: (() => {
+          const minutes = getWaitTimeInMinutes(patientqueue);
+
+          return (
+            <Tag>
+              <span
+                className={styles.statusContainer}
+                style={{
+                  color: getTagColor((minutes ?? 0).toString()),
+                }}
+              >
+                {formatWaitTime(minutes, t)}
+              </span>
+            </Tag>
+          );
+        })(),
       },
       actions: {
         content: (

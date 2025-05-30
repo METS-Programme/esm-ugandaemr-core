@@ -20,20 +20,16 @@ export const trimVisitNumber = (visitNumber: string) => {
   return visitNumber.substring(15);
 };
 
-export const formatWaitTime = (dateCreated: string, t) => {
-  if (!dateCreated) return t('unknown', 'Unknown');
+export const formatWaitTime = (minutes: number | null, t) => {
+  if (minutes === null || isNaN(minutes)) return t('unknown', 'Unknown');
 
-  const now = dayjs();
-  const createdTime = dayjs(dateCreated);
-  const diffInMinutes = now.diff(createdTime, 'minute');
-
-  const hours = Math.floor(diffInMinutes / 60);
-  const minutes = diffInMinutes % 60;
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
 
   if (hours > 0) {
-    return `${hours} ${t('hoursAnd', 'hours and')} ${minutes} ${t('minutes', 'minutes')}`;
+    return `${hours} ${t('hoursAnd', 'hours and')} ${remainingMinutes} ${t('minutes', 'minutes')}`;
   } else {
-    return `${minutes} ${t('minutes', 'minutes')}`;
+    return `${remainingMinutes} ${t('minutes', 'minutes')}`;
   }
 };
 
@@ -70,4 +66,18 @@ export const convertTime12to24 = (time12h, timeFormat: amPm) => {
   }
 
   return [hours, minutes];
+};
+
+export const getWaitTimeInMinutes = (queue) => {
+  if (!queue) return null;
+
+  if (queue.status === 'COMPLETED') {
+    if (queue.dateCreated && queue.dateChanged) {
+      return dayjs(queue.dateChanged).diff(dayjs(queue.dateCreated), 'minutes');
+    }
+  } else if (queue.dateCreated) {
+    return dayjs().diff(dayjs(queue.dateCreated), 'minutes');
+  }
+
+  return null;
 };

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PatientQueueHeader from './components/patient-queue-header/patient-queue-header.component';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
@@ -12,7 +12,13 @@ import {
 } from './active-visits/patient-queues.resource';
 import { useServicePointCount } from './components/patient-queue-metrics/clinic-metrics.resource';
 import { ExtensionSlot, useSession, closeWorkspace } from '@openmrs/esm-framework';
-import { buildStatusString, formatWaitTime, getTagColor, trimVisitNumber } from './helpers/functions';
+import {
+  buildStatusString,
+  formatWaitTime,
+  getTagColor,
+  getWaitTimeInMinutes,
+  trimVisitNumber,
+} from './helpers/functions';
 import EditActionsMenu from './active-visits/edit-action-menu.components';
 import QueueLauncher from './components/queue-launcher/queue-launcher.component';
 
@@ -43,6 +49,7 @@ const ReceptionHome: React.FC = () => {
   const { t } = useTranslation();
   const session = useSession();
   const { location } = useParentLocation(session?.sessionLocation?.uuid);
+  const [tick, setTick] = useState(0);
 
   const { isPatientSearchOpen, hidePatientSearch, showPatientSearch } = usePatientSearchVisibility();
 
@@ -100,6 +107,14 @@ const ReceptionHome: React.FC = () => {
     return entries;
   }, [items, searchTerm]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTick((prev) => prev + 1);
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   // Prepare table rows
   const tableRows = useMemo(() => {
     return filteredPatientQueueEntries.map((patientqueue, index) => ({
@@ -117,16 +132,22 @@ const ReceptionHome: React.FC = () => {
         ),
       },
       waitTime: {
-        content: (
-          <Tag>
-            <span
-              className={styles.statusContainer}
-              style={{ color: `${getTagColor(`${dayjs().diff(dayjs(patientqueue?.dateCreated), 'minutes')}`)}` }}
-            >
-              {formatWaitTime(patientqueue?.dateCreated, t)}
-            </span>
-          </Tag>
-        ),
+        content: (() => {
+          const minutes = getWaitTimeInMinutes(patientqueue);
+
+          return (
+            <Tag>
+              <span
+                className={styles.statusContainer}
+                style={{
+                  color: getTagColor((minutes ?? 0).toString()),
+                }}
+              >
+                {formatWaitTime(minutes, t)}
+              </span>
+            </Tag>
+          );
+        })(),
       },
       actions: {
         content: (
