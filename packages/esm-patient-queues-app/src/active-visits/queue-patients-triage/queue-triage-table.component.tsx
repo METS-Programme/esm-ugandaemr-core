@@ -27,6 +27,7 @@ import {
   formatWaitTime,
   getProviderTagColor,
   getTagColor,
+  getWaitTimeInMinutes,
   trimVisitNumber,
 } from '../../helpers/functions';
 import PickQueuePatientActionMenu from '../pick-queue-patient-action-action.component';
@@ -53,6 +54,7 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
   const layout = useLayoutType();
 
   const { triageRoomTag } = useConfig<PatientQueueConfig>();
+  const [tick, setTick] = useState(0);
 
   const [isToggled, setIsToggled] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -145,6 +147,14 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
     return entries;
   }, [items, status, searchTerm, triageRoomTag]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTick((prev) => prev + 1);
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const tableRows = useMemo(() => {
     return filteredPatientQueueEntries.map((patientqueue, index) => ({
       ...patientqueue,
@@ -177,16 +187,22 @@ const ActiveTriageVisitsTable: React.FC<ActiveVisitsTableProps> = ({ status }) =
         ),
       },
       waitTime: {
-        content: (
-          <Tag>
-            <span
-              className={styles.statusContainer}
-              style={{ color: getTagColor(`${dayjs().diff(dayjs(patientqueue?.dateCreated), 'minutes')}`) }}
-            >
-              {formatWaitTime(patientqueue?.dateCreated, t)}
-            </span>
-          </Tag>
-        ),
+        content: (() => {
+          const minutes = getWaitTimeInMinutes(patientqueue);
+
+          return (
+            <Tag>
+              <span
+                className={styles.statusContainer}
+                style={{
+                  color: getTagColor((minutes ?? 0).toString()),
+                }}
+              >
+                {formatWaitTime(minutes, t)}
+              </span>
+            </Tag>
+          );
+        })(),
       },
       actions: {
         content: (
