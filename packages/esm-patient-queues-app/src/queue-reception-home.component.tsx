@@ -158,7 +158,7 @@ const ReceptionHome: React.FC = () => {
         ),
       },
     }));
-  }, [filteredPatientQueueEntries, fromPage, t, tick]);
+  }, [filteredPatientQueueEntries, fromPage, t]);
 
   if (isLoading) {
     return <DataTableSkeleton role="progressbar" />;
