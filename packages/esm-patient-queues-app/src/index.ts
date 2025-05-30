@@ -26,7 +26,7 @@ import endVisitConfirmationModalComponent from './active-visits/end-visit/end-vi
 
 import endVisitActionButtonComponent from './active-visits/end-visit/end-visit-action-button.component';
 
-import deathNotificationActionsButtonComponent from './components/actions/death/death-notification-actions-button.component'
+import deathNotificationActionsButtonComponent from './components/actions/death/death-notification-actions-button.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
