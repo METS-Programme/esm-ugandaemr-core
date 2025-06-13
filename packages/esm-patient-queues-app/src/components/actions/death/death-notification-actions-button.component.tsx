@@ -2,6 +2,7 @@ import { launchWorkspace } from '@openmrs/esm-framework';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './death-notification-actions.scss';
+import { DeathNotificationEncounterType_UUID, DeathNotificationForm_UUID } from '../../../constants';
 
 const DeathNotificationActionsButton: React.FC = () => {
   const { t } = useTranslation();
@@ -9,7 +10,8 @@ const DeathNotificationActionsButton: React.FC = () => {
   const handleLaunchWorkspace = useCallback(() => {
     launchWorkspace('patient-form-entry-workspace', {
       formInfo: {
-        formUuid: 'bb282ac8-d8b6-4d76-88b9-86da83efec41',
+        encounterUuid: DeathNotificationEncounterType_UUID,
+        formUuid: DeathNotificationForm_UUID,
       },
       workspaceTitle: 'Notification and Certification of Death',
     });
