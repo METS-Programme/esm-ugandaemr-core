@@ -360,6 +360,11 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ closeWorkspace, patientUuid 
             />
           </ResponsiveWrapper>
         </section>
+        <section className={styles.section}>
+          <ResponsiveWrapper isTablet={isTablet}>
+            <ExtensionSlot name="extra-visit-attribute-slot" />
+          </ResponsiveWrapper>
+        </section>
       </div>
       <ButtonSet className={styles.buttonSet}>
         <Button className={styles.button} kind="secondary" onClick={closeWorkspace}>
