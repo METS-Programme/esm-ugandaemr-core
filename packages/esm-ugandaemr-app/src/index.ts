@@ -51,6 +51,8 @@ import VmmcServices from './views/hiv/hps/vmmc/vmmc-services.component';
 import DSTBSummary from './views/tb/ds/ds-tb-summary.component';
 import DRTBSummary from './views/tb/dr/dr-tb-summary.component';
 import EidSummary from './views/eid/eid.component';
+import { registerCustomDataSource } from '@openmrs/openmrs-form-engine-lib';
+import { DSDMCategorizationDatasource } from './custom-expressions/custom-expressions';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -69,6 +71,15 @@ export const dispensingAppMenuItem = getSyncLifecycle(dispensingAppMenu, options
 
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
+
+  registerCustomDataSource({
+    name: 'dsdm_categorization_datasource',
+    load: () => {
+      return Promise.resolve({
+        default: new DSDMCategorizationDatasource(),
+      });
+    },
+  });
 }
 
 export const systemInfoPage = getAsyncLifecycle(() => import('./pages/system-info/system-info.component'), {
