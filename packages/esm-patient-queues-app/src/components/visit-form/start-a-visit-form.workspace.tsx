@@ -17,6 +17,7 @@ import {
   restBaseUrl,
   showNotification,
   showSnackbar,
+  useConfig,
   useLayoutType,
   usePatient,
   useSession,
@@ -39,6 +40,7 @@ import {
   createQueueEntrySchema,
 } from '../../active-visits/patient-queue-validation-schema.resource';
 import { QueueStatus, handleMutate } from '../../utils/utils';
+import { type PatientQueueConfig } from '../../config-schema';
 
 type VisitFormProps = DefaultWorkspaceProps & {
   patientUuid: string;
@@ -50,6 +52,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ closeWorkspace, patientUuid 
   const sessionUser = useSession();
   const [contentSwitcherIndex, setContentSwitcherIndex] = useState(0);
   const { patient } = usePatient(patientUuid);
+  const config = useConfig<PatientQueueConfig>();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const allVisitTypes = useVisitTypes();
@@ -65,7 +68,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ closeWorkspace, patientUuid 
   const priorityLabels = useMemo(() => ['Not Urgent', 'Urgent', 'Emergency'], []);
 
   const { providers, error: errorLoadingProviders } = useProviders(selectedNextQueueLocation);
-
+  const [extraVisitInfo, setExtraVisitInfo] = useState(null);
   const {
     handleSubmit,
     control,
@@ -104,6 +107,9 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ closeWorkspace, patientUuid 
         });
         return;
       }
+
+      const { handleCreateExtraVisitInfo, attributes: extraAttributes } = extraVisitInfo ?? {};
+
       // Add new queue entry
       const request: NewCheckInPayload = {
         patient: patientUuid,
@@ -116,6 +122,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ closeWorkspace, patientUuid 
         visitComment: visitComment,
         queueRoom: selectedNextQueueLocation,
         visitType: visitType,
+        ...(config.showExtraVisitAttributesSlot && extraAttributes && { attributes: extraAttributes }),
       };
 
       const createQueueResponse = await checkInQueue(request);
@@ -126,6 +133,11 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ closeWorkspace, patientUuid 
           title: t('startVisit', 'Start a visit'),
           subtitle: t('startVisitQueueSuccessfully', 'Patient has been added to active visits list and queue.'),
         });
+
+        if (config?.showExtraVisitAttributesSlot) {
+          // Trigger save billable item selected
+          handleCreateExtraVisitInfo?.();
+        }
 
         handleMutate(`${restBaseUrl}/patientqueue`);
         handleMutate(`${restBaseUrl}/queuestatistics`);
@@ -143,16 +155,18 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ closeWorkspace, patientUuid 
       setIsSubmitting(false);
     }
   }, [
-    visitComment,
-    closeWorkspace,
-    contentSwitcherIndex,
     patientUuid,
-    priorityComment,
-    selectedNextQueueLocation,
+    extraVisitInfo,
     selectedProvider,
-    t,
-    visitType,
     sessionUser?.sessionLocation?.uuid,
+    selectedNextQueueLocation,
+    contentSwitcherIndex,
+    priorityComment,
+    visitComment,
+    visitType,
+    t,
+    config.showExtraVisitAttributesSlot,
+    closeWorkspace,
   ]);
 
   return (
@@ -362,7 +376,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ closeWorkspace, patientUuid 
         </section>
         <section className={styles.section}>
           <ResponsiveWrapper isTablet={isTablet}>
-            <ExtensionSlot name="extra-visit-attribute-slot" />
+            <ExtensionSlot state={{ patientUuid, setExtraVisitInfo }} name="extra-visit-attribute-slot" />
           </ResponsiveWrapper>
         </section>
       </div>

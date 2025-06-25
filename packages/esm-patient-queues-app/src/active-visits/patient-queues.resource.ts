@@ -37,6 +37,10 @@ export interface NewCheckInPayload {
   visitComment: string;
   queueRoom: string;
   visitType: string;
+  attributes?: Array<{
+    attributeType: string;
+    value: string;
+  }>;
 }
 
 export interface LocationResponse {

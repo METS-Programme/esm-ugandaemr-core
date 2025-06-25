@@ -11,9 +11,16 @@ export const configSchema = {
     _description: 'This is clinical room tag',
     _default: '96be1b53-e65c-494b-be41-b36899cb5d09',
   },
+  showExtraVisitAttributesSlot: {
+    _type: Type.Boolean,
+    _description:
+      'Whether on start visit form should handle submission of the extra visit attributes from the extra visit attributes slot',
+    _default: false,
+  },
 };
 
 export interface PatientQueueConfig {
   triageRoomTag: string;
   clinicalRoomTag: string;
+  showExtraVisitAttributesSlot?: boolean;
 }
