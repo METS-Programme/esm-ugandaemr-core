@@ -9,7 +9,6 @@ import pickPatientEntryQueueComponent from './active-visits/pick-patient-dialog.
 import queueScreenComponent from './components/queue-board/queue-board.component';
 import rootComponent from './root.component';
 import homeDashboardComponent from './home.component';
-import outpatientSideNavExtComponent from './side-menu/side-menu.component';
 import triageRoomComponent from './queue-triage-home.component';
 import receptionRoomComponent from './queue-reception-home.component';
 import clinicalRoomComponent from './queue-clinical-room-home.component';
@@ -51,7 +50,6 @@ export const clinicalRoom = getSyncLifecycle(clinicalRoomComponent, options);
 export const homeDashboard = getSyncLifecycle(homeDashboardComponent, options);
 
 // extensions
-export const outpatientSideNavExt = getSyncLifecycle(outpatientSideNavExtComponent, options);
 
 // reception side nav item
 export const queueReceptionDashboardLink = getSyncLifecycle(createDashboardLink(ReceptionMeta), options);
