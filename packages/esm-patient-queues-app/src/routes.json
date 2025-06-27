@@ -27,11 +27,7 @@
         }
     ],
     "extensions": [
-        {
-            "name": "outpatient-side-nav-ext",
-            "slot": "outpatient-sidebar-slot",
-            "component": "outpatientSideNavExt"
-        },
+    
         {
             "name": "start-visit-form-button",
             "component": "startVisitFormButton",
