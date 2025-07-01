@@ -1,8 +1,3 @@
-export const dashboardMeta = {
-  name: 'patient-queues',
-  slot: 'patient-queues-dashboard-slot',
-  title: 'Patient Queues',
-};
 
 export const ReceptionMeta = {
   name: 'reception-patient-queues',
