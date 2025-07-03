@@ -16,6 +16,12 @@
     ],
     "extensions": [
         {
+            "name": "homepage-dashboard-link",
+            "slot": "homepage-dashboard-slot",
+            "component": "homepageDashboardLink",
+            "order": 1
+        },
+        {
             "name": "clinical-views-divider",
             "slot": "patient-chart-dashboard-slot",
             "component": "clinicalViewsDivider",

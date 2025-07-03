@@ -14,7 +14,7 @@ const Root: React.FC = () => {
   return (
     <main>
       <SWRConfig value={swrConfiguration}>
-        <BrowserRouter basename={`${window.getOpenmrsSpaBase()}` + 'home/patient-queues'}>
+        <BrowserRouter basename={`${window.getOpenmrsSpaBase()}` + 'home/initial-page'}>
           <Routes>
             <Route path="/triage" element={<TriageHome />} />
             <Route path="/reception" element={<ReceptionHome />} />

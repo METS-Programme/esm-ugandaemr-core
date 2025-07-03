@@ -1,6 +1,6 @@
 import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
-import { moduleName } from './constants';
+import { moduleName, openmrsSpaBase, spaBasePath } from './constants';
 
 import formBuilderAppMenu from './menu-app-items/form-builder-app-item/form-builder-app-item.component';
 import systemInfoAppMenu from './menu-app-items/system-info-app-item/system-info-app-item.component';
@@ -109,6 +109,15 @@ export const dispensingDashboardLink = getSyncLifecycle(
     slot: 'dispensing-dashboard-slot',
     title: 'Pharmacy',
     customSpaBasePath: `${window.spaBase}`,
+  }),
+  options,
+);
+
+export const homepageDashboardLink = getSyncLifecycle(
+  createHomeDashboardLink({
+    name: 'initial-page',
+    slot: 'homepage-dashboard-slot',
+    title: 'Home',
   }),
   options,
 );
