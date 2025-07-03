@@ -30,17 +30,14 @@ import {
   eidDashboardMeta,
   eidPatientSummaryDashboardMeta,
   eidboardMeta,
-  familyTrackingDashboardMeta,
   generalCounsellingDashboardMeta,
   hivCareAndTreatmentDashboardDMeta,
   hivPrevetionServicesboardDMeta,
   htsDashboardMeta,
   patientSummaryDashboardMeta,
-  patientTransfersDashboardMeta,
   tbDashboardMeta,
   tbPatientSummaryDashboardMeta,
   treatmentDashboardMeta,
-  treatmentRegimenDashboardMeta,
   vmmcDashboardMeta,
 } from './dashboard.meta';
 import GeneralCounsellingSummary from './views/hiv/hct/general-counselling/general-counselling-summary.component';
@@ -109,6 +106,15 @@ export const dispensingDashboardLink = getSyncLifecycle(
     slot: 'dispensing-dashboard-slot',
     title: 'Pharmacy',
     customSpaBasePath: `${window.spaBase}`,
+  }),
+  options,
+);
+
+export const homepageDashboardLink = getSyncLifecycle(
+  createHomeDashboardLink({
+    name: 'initial-page',
+    slot: 'homepage-dashboard-slot',
+    title: 'Home',
   }),
   options,
 );

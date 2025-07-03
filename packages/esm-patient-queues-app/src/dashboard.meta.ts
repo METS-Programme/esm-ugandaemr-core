@@ -1,4 +1,3 @@
-
 export const ReceptionMeta = {
   name: 'reception-patient-queues',
   slot: 'patient-queues-reception-room-dashboard-slot',
