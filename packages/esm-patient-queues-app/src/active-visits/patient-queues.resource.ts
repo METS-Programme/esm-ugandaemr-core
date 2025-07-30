@@ -225,7 +225,7 @@ export async function checkCurrentVisit(patientUuid) {
 }
 
 export function usePatientQueues(filter: PatientQueueFilter) {
-  const apiUrl = `${restBaseUrl}/patientqueue${toQueryParams(filter)}`;
+  const apiUrl = `${restBaseUrl}/patientqueue${toQueryParams(filter)}&onlyInQueueRooms=true&totalCount=true&v=full`;
   const { data, error, isLoading } = useSWR<
     {
       data: PageableResult<PatientQueue>;
