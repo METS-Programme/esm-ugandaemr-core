@@ -27,7 +27,7 @@
         }
     ],
     "extensions": [
-    
+
         {
             "name": "start-visit-form-button",
             "component": "startVisitFormButton",
@@ -37,20 +37,6 @@
             "name": "end-visit-form-button",
             "component": "endVisitActionButton",
             "slot": "patient-actions-slot"
-        },
-        {
-            "name": "patient-queues-dashboard-link",
-            "component": "patientQueuesDashboardLink",
-            "slot": "homepage-dashboard-slot",
-            "order": 1,
-            "privilege": [
-                "Queue Patients"
-            ],
-            "meta": {
-                "name": "patient-queues",
-                "slot": "patient-queues-dashboard-slot",
-                "title": "Patient queues"
-            }
         },
         {
             "name": "patient-queues",

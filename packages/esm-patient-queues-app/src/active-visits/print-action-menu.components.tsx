@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button } from '@carbon/react';
+import { Button, Tooltip } from '@carbon/react';
 import { Printer } from '@carbon/react/icons';
 import { useTranslation } from 'react-i18next';
 import { useReactToPrint } from 'react-to-print';
@@ -42,12 +42,14 @@ const PrintActionsMenu: React.FC<PrintActionsMenuProps> = ({ patient }) => {
       <div ref={contentToPrintRef}>
         <VisitCardToPrint queueEntry={patient} />
       </div>
-      <Button
-        kind="ghost"
-        onClick={handlePrint}
-        iconDescription={t('printVisit', 'Print Visit')}
-        renderIcon={(props) => <Printer size={16} {...props} />}
-      />
+      <Tooltip align="bottom-start" label={t('printVisitDetails', 'Print visit details')}>
+        <Button
+          kind="ghost"
+          onClick={handlePrint}
+          iconDescription={t('printVisit', 'Print Visit')}
+          renderIcon={(props) => <Printer size={16} {...props} />}
+        />
+      </Tooltip>
     </div>
   );
 };

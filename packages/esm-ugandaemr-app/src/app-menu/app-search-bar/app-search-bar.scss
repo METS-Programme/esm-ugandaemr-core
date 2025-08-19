@@ -1,6 +1,7 @@
 @use '@carbon/styles/scss/colors';
 @use '@carbon/styles/scss/spacing';
-@import '~@openmrs/esm-styleguide/src/vars';
+@use '@openmrs/esm-styleguide/src/vars' as *;
+
 .appSearchInput {
     border: none;
 }

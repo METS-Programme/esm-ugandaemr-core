@@ -63,10 +63,6 @@
             }
         },
         {
-            "name": "patient-summary-summary-ext",
-            "slot": "patient-summary-summary-slot"
-        },
-        {
             "name": "treatment",
             "slot": "hiv-care-and-treatment-slot",
             "component": "treatmentDashboardLink",
@@ -305,8 +301,10 @@
         },
         {
             "name": "app-search-button",
-            "slot": "top-nav-app-menu-slot",
-            "component": "appSearchLaunch"
+            "component": "appMenuButton",
+            "online": true,
+            "offline": true,
+            "slot": "top-nav-actions-slot"
         }
     ],
     "modals": [

@@ -324,6 +324,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
               <>
                 <ContentSwitcher
                   {...field}
+                  size="md"
                   selectedIndex={contentSwitcherIndex}
                   className={styles.contentSwitcher}
                   onChange={({ index }) => {
@@ -354,6 +355,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
               <>
                 <ContentSwitcher
                   {...field}
+                  size="md"
                   selectedIndex={statusSwitcherIndex}
                   className={styles.contentSwitcher}
                   onChange={({ index }) => {

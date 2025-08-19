@@ -1,7 +1,8 @@
 @use '@carbon/styles/scss/type';
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/colors';
-@import '~@openmrs/esm-styleguide/src/vars';
+@use '@openmrs/esm-styleguide/src/vars' as *;
+
 .desktopHeading {
     h4 {
         @include type.type-style('heading-compact-02');
@@ -65,11 +66,13 @@
 .content {
     width: 30%;
     margin: spacing.$spacing-01 0;
+
     &>p:first-child {
         @include type.type-style('label-01');
         color: colors.$gray-70;
         margin-bottom: spacing.$spacing-02;
     }
+
     & span {
         @include type.type-style('body-short-02');
         color: colors.$gray-100;
@@ -80,6 +83,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     &>h4 {
         @include type.type-style('productive-heading-02');
         color: colors.$gray-80;
@@ -92,7 +96,8 @@
 
 .layer {
     height: 100%;
-     :global(.cds--btn--primary) {
+
+    :global(.cds--btn--primary) {
         background-color: unset;
     }
 }
@@ -164,6 +169,7 @@
     width: 30%;
     margin: spacing.$spacing-03 0;
     padding-left: 0.5rem;
+
     &>p:first-child {
         @include type.type-style('label-01');
         font-size: var(--cds-label-01-font-size, 1rem);
@@ -171,6 +177,7 @@
         color: colors.$gray-70;
         margin-bottom: spacing.$spacing-02;
     }
+
     & span {
         @include type.type-style('body-short-02');
         color: colors.$gray-100;

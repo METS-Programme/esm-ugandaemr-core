@@ -36,16 +36,16 @@
     "url": "https://github.com/METS-Programme/esm-ugandaemr-core/issues"
   },
   "dependencies": {
-    "@carbon/react": "^1.64.1",
+    "@carbon/react": "^1.83.0",
     "lodash-es": "^4.17.15"
   },
   "peerDependencies": {
-    "@openmrs/esm-framework": "*",
+    "@openmrs/esm-framework": "7.x",
     "react": "^18.1.0",
     "react-i18next": "11.x",
     "react-router-dom": "6.x"
   },
   "devDependencies": {
-    "webpack": "^5.74.0"
+    "webpack": "^5.99.9"
   }
 }

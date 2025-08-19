@@ -8,10 +8,7 @@ import legacyAdminAppMenu from './menu-app-items/legacy-admin-item/legacy-admin-
 import cohortBuilderAppMenu from './menu-app-items/cohort-builder-item/cohort-builder-item.component';
 import formRenderTestAppMenu from './menu-app-items/form-render-test-item/form-render-test-item.component';
 import dispensingAppMenu from './menu-app-items/despensing-app-menu-item/dispensing-app-menu-item.component';
-
-import AppSearchLaunchComponent from './app-menu/app-search-icon/app-search-icon.component';
-
-import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-common-lib';
+import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
 import { createHomeDashboardLink } from './create-dashboard-link';
 import ClinicalPatientSummary from './pages/clinical-patient-summary/clinical-patient-summary.component';
 import ClinicalPatientSummaryTabs from './pages/clinical-patient-summary/clinical-patient-summary-tabs/clinical-patient-summary-tabs.component';
@@ -50,6 +47,7 @@ import DRTBSummary from './views/tb/dr/dr-tb-summary.component';
 import EidSummary from './views/eid/eid.component';
 import { registerCustomDataSource } from '@openmrs/openmrs-form-engine-lib';
 import { DSDMCategorizationDatasource } from './custom-expressions/custom-expressions';
+import AppSearchLaunch from './app-menu/app-search-icon/app-search-icon.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -136,17 +134,17 @@ export const clinicalViewsDivider = getSyncLifecycle(
   options,
 );
 
-export const patientChartHIVCareAndTreatmentDashboard = getSyncLifecycle(
-  createDashboardGroup(hivCareAndTreatmentDashboardDMeta),
-  options,
-);
-export const patientChartHIVPreventionServicesDashboard = getSyncLifecycle(
-  createDashboardGroup(hivPrevetionServicesboardDMeta),
-  options,
-);
+// export const patientChartHIVCareAndTreatmentDashboard = getSyncLifecycle(
+//   createDashboardGroup(hivCareAndTreatmentDashboardDMeta),
+//   options,
+// );
+// export const patientChartHIVPreventionServicesDashboard = getSyncLifecycle(
+//   createDashboardGroup(hivPrevetionServicesboardDMeta),
+//   options,
+// );
 
-export const patientChartEIDDashboard = getSyncLifecycle(createDashboardGroup(eidDashboardMeta), options);
-export const patientChartTBDashboard = getSyncLifecycle(createDashboardGroup(tbDashboardMeta), options);
+// export const patientChartEIDDashboard = getSyncLifecycle(createDashboardGroup(eidDashboardMeta), options);
+// export const patientChartTBDashboard = getSyncLifecycle(createDashboardGroup(tbDashboardMeta), options);
 
 export const generalCounsellingDashboardLink = getSyncLifecycle(
   createDashboardLink({ ...generalCounsellingDashboardMeta, moduleName }),
@@ -223,4 +221,7 @@ export const treatmentPlanSection = getSyncLifecycle(TreatmentPlanComponent, opt
 
 export const assessmentSection = getSyncLifecycle(AssessmentComponent, options);
 
-export const appSearchLaunch = getSyncLifecycle(AppSearchLaunchComponent, options);
+export const appMenuButton = getSyncLifecycle(AppSearchLaunch, {
+  featureName: 'app-search-button',
+  moduleName,
+});

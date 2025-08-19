@@ -59,7 +59,7 @@ const PatientSummary: React.FC<PatientSummaryProps> = ({ patientUuid }) => {
                 size="sm"
                 className={styles.btnShow}
                 onClick={() => {
-                  handlePrint(), setPrintMode(true);
+                  (handlePrint(), setPrintMode(true));
                 }}
                 kind="tertiary"
                 renderIcon={(props) => <Printer size={16} {...props} />}

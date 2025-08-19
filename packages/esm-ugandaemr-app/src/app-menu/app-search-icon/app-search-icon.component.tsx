@@ -19,17 +19,16 @@ const AppSearchLaunch: React.FC<AppSearchLaunchProps> = () => {
     }
   }, [setShowSearchInput, showSearchInput]);
 
+  console.log('app mounted');
   return (
-    <div className={styles.appSearchIconWrapper}>
+    <div>
       {showSearchInput && <AppSearchOverlay onClose={handleGlobalAction} query={''} />}
 
-      <div className={`${showSearchInput && styles.closeButton}`}>
+      <div>
         <HeaderGlobalAction
           aria-label={t('searchApp', 'Search App')}
           aria-labelledby="Search App"
           className={`${showSearchInput ? styles.activeSearchIconButton : styles.searchIconButton}`}
-          enterDelayMs={500}
-          name="SearchAppIcon"
           data-testid="searchAppIcon"
           onClick={handleGlobalAction}
         >
