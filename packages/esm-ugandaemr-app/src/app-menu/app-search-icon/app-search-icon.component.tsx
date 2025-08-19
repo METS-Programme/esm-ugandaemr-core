@@ -19,7 +19,6 @@ const AppSearchLaunch: React.FC<AppSearchLaunchProps> = () => {
     }
   }, [setShowSearchInput, showSearchInput]);
 
-  console.log('app mounted');
   return (
     <div>
       {showSearchInput && <AppSearchOverlay onClose={handleGlobalAction} query={''} />}

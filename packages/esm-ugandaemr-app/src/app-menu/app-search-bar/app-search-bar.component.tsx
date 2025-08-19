@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Search } from '@carbon/react';
 import styles from './app-search-bar.scss';
 
-import { AssignedExtension, Extension, useConnectedExtensions } from '@openmrs/esm-framework';
+import { AssignedExtension, Extension, useAssignedExtensions } from '@openmrs/esm-framework';
 import { ComponentContext } from '@openmrs/esm-framework/src/internal';
 
 const appMenuItemSlot = 'app-menu-item-slot';
@@ -19,7 +19,7 @@ const AppSearchBar = React.forwardRef<HTMLInputElement, AppSearchBarProps>(
   ({ onChange, onClear, onSubmit, small }, ref) => {
     const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState('');
-    const menuItemExtensions = useConnectedExtensions(appMenuItemSlot) as AssignedExtension[];
+    const menuItemExtensions = useAssignedExtensions(appMenuItemSlot) as AssignedExtension[];
 
     const handleChange = (val: string) => {
       setSearchTerm(val);

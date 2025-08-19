@@ -14,6 +14,18 @@
         "^test"
       ]
     },
+    "test:watch": {
+      "dependsOn": [
+        "^test:watch"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "coverage": {
+      "dependsOn": [
+        "^coverage"
+      ]
+    },
     "lint": {
       "dependsOn": [
         "^lint"

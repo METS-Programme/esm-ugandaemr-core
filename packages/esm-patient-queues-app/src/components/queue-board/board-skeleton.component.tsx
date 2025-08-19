@@ -8,13 +8,7 @@ export const BoardSkeleton: React.FC<{ tiles: number }> = ({ tiles = 1 }: { tile
       <SkeletonText />
       <div className={styles.gridFlow}>
         {[...Array(tiles).keys()].map(() => (
-          <SkeletonPlaceholder
-            style={{
-              width: '30%',
-              margin: '1.5rem',
-              padding: '1.3rem',
-            }}
-          />
+          <SkeletonPlaceholder className={styles.skeletonPlaceHolder} />
         ))}
       </div>
     </div>

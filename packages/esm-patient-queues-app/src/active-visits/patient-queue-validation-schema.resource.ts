@@ -14,7 +14,7 @@ export const createQueueEntrySchema = z.object({
   locationFrom: z.string().optional(),
   locationTo: z.string().min(1, 'Destination is required'),
   status: z.string().min(1, 'Status is required'),
-  priority: z.string().optional(),
+  priority: z.number().optional(),
   priorityComment: z.string().min(1, 'Priority is required'),
   comment: z.string().optional(),
   queueRoom: z.string().optional(),

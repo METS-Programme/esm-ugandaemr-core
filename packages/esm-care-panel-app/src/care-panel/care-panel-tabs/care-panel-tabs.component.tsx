@@ -15,11 +15,7 @@ const CarePanelTabs: React.FC<CarePanelTabsProps> = ({ patientUuid }) => {
   const [selectedTab, setSelectedTab] = useState(0);
   return (
     <div className={styles.tabContainer}>
-      <Tabs
-        selectedIndex={selectedTab}
-        onChange={({ selectedIndex }) => setSelectedTab(selectedIndex)}
-        className={styles.tabs}
-      >
+      <Tabs selectedIndex={selectedTab} onChange={({ selectedIndex }) => setSelectedTab(selectedIndex)}>
         <TabList contained className={styles.tabList}>
           <Tab>{t('dsdmHistory', 'DSDM History')}</Tab>
           <Tab>{t('vlHistory', 'Viral Load History')}</Tab>

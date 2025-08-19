@@ -36,7 +36,7 @@ const PatientSummary: React.FC<PatientSummaryProps> = ({ patientUuid }) => {
   };
 
   if (isLoading) {
-    return <StructuredListSkeleton role="progressbar" />;
+    return <StructuredListSkeleton />;
   }
 
   if (isError) {

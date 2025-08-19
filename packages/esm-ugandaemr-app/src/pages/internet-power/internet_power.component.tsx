@@ -78,6 +78,7 @@ const InternetPowerModal: React.FC<InternetPowerModalProps> = ({ closeModal }) =
           <div className={styles.modalContent}>
             <Dropdown
               id="internetConnection"
+              label={t('internetAccess', 'Internet Access')}
               titleText={t('internetAccess', 'Internet Access')}
               initialSelectedItem={items[0]}
               items={items}
