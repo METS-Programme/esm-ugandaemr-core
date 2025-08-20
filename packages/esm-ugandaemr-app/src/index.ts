@@ -17,6 +17,7 @@ import ObjectiveFindingsComponent from './pages/clinical-patient-summary/clinica
 import TreatmentPlanComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/treatment-plan.component';
 import AssessmentComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/assessment.component';
 import {
+  createDashboardGroup,
   createOHRIPatientChartSideNavLink,
   patientChartDivider_dashboardMeta,
 } from '@ohri/openmrs-esm-ohri-commons-lib';
@@ -45,7 +46,7 @@ import VmmcServices from './views/hiv/hps/vmmc/vmmc-services.component';
 import DSTBSummary from './views/tb/ds/ds-tb-summary.component';
 import DRTBSummary from './views/tb/dr/dr-tb-summary.component';
 import EidSummary from './views/eid/eid.component';
-import { registerCustomDataSource } from '@openmrs/openmrs-form-engine-lib';
+import { registerCustomDataSource } from '@openmrs/esm-form-engine-lib';
 import { DSDMCategorizationDatasource } from './custom-expressions/custom-expressions';
 import AppSearchLaunch from './app-menu/app-search-icon/app-search-icon.component';
 
@@ -134,17 +135,17 @@ export const clinicalViewsDivider = getSyncLifecycle(
   options,
 );
 
-// export const patientChartHIVCareAndTreatmentDashboard = getSyncLifecycle(
-//   createDashboardGroup(hivCareAndTreatmentDashboardDMeta),
-//   options,
-// );
-// export const patientChartHIVPreventionServicesDashboard = getSyncLifecycle(
-//   createDashboardGroup(hivPrevetionServicesboardDMeta),
-//   options,
-// );
+export const patientChartHIVCareAndTreatmentDashboard = getSyncLifecycle(
+  createDashboardGroup(hivCareAndTreatmentDashboardDMeta),
+  options,
+);
+export const patientChartHIVPreventionServicesDashboard = getSyncLifecycle(
+  createDashboardGroup(hivPrevetionServicesboardDMeta),
+  options,
+);
 
-// export const patientChartEIDDashboard = getSyncLifecycle(createDashboardGroup(eidDashboardMeta), options);
-// export const patientChartTBDashboard = getSyncLifecycle(createDashboardGroup(tbDashboardMeta), options);
+export const patientChartEIDDashboard = getSyncLifecycle(createDashboardGroup(eidDashboardMeta), options);
+export const patientChartTBDashboard = getSyncLifecycle(createDashboardGroup(tbDashboardMeta), options);
 
 export const generalCounsellingDashboardLink = getSyncLifecycle(
   createDashboardLink({ ...generalCounsellingDashboardMeta, moduleName }),
