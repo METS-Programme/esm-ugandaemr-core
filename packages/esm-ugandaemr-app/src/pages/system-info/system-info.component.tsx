@@ -113,14 +113,14 @@ function SystemInfoTable({ moduleInfo, error, loading }): React.JSX.Element {
           <Table {...getTableProps()} className={styles['system-info-table']}>
             <TableHead>
               <TableRow>
-                {headers.map((header: { header }) => (
+                {headers.map((header) => (
                   <TableHeader {...getHeaderProps({ header })}>{header.header}</TableHeader>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row: { cells }) => (
-                <TableRow {...getRowProps({ row })}>
+              {rows.map((row) => (
+                <TableRow key={row.id}>
                   {row.cells.map((cell) => (
                     <TableCell key={cell.id}>{cell.value}</TableCell>
                   ))}

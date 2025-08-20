@@ -1,8 +1,11 @@
 import { OpenmrsResource } from '@openmrs/esm-framework';
-import { DataSource } from '@openmrs/openmrs-form-engine-lib';
+import { DataSource } from '@openmrs/esm-form-engine-lib';
 import { getCohortCategorization } from './custom-apis';
 
 export class DSDMCategorizationDatasource implements DataSource<OpenmrsResource> {
+  fetchSingleItem(uuid: string): Promise<OpenmrsResource> {
+    throw new Error('Method not implemented.');
+  }
   fetchData(searchTerm: string, config?: Record<string, any>): Promise<any[]> {
     return getCohortCategorization(config?.cohortUuid).then((response) => {
       let data = [];

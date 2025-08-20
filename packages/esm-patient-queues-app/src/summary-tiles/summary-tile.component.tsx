@@ -43,8 +43,8 @@ const SummaryTile: React.FC<SummaryTileProps> = ({ values, headerLabel }) => {
                         status.color === 'orange'
                           ? styles.statusOrange
                           : status.color === 'green'
-                          ? styles.statusGreen
-                          : styles.statusBlue
+                            ? styles.statusGreen
+                            : styles.statusBlue
                       }`}
                     >
                       {status.status}

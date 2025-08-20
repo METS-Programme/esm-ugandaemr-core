@@ -21,7 +21,7 @@ const CarePanelMCH: React.FC<CarePanelProps> = ({ patientUuid, formEntrySub, lau
   if (isLoading) {
     return (
       <div className={styles.widgetCard}>
-        <StructuredListSkeleton role="progressbar" />
+        <StructuredListSkeleton />
       </div>
     );
   }

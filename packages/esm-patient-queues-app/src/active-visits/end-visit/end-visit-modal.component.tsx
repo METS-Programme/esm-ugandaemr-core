@@ -130,8 +130,8 @@ const EndVisitConfirmation: React.FC<EndVisitConfirmationProps> = ({ closeModal,
             hasEndedVisit && hasEndedQueue
               ? 'Visit and queue ended successfully'
               : hasEndedVisit
-              ? 'Visit ended successfully'
-              : 'Queue ended successfully',
+                ? 'Visit ended successfully'
+                : 'Queue ended successfully',
           ),
           kind: 'success',
         });

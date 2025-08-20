@@ -36,7 +36,7 @@ const PatientSummary: React.FC<PatientSummaryProps> = ({ patientUuid }) => {
   };
 
   if (isLoading) {
-    return <StructuredListSkeleton role="progressbar" />;
+    return <StructuredListSkeleton />;
   }
 
   if (isError) {
@@ -59,7 +59,7 @@ const PatientSummary: React.FC<PatientSummaryProps> = ({ patientUuid }) => {
                 size="sm"
                 className={styles.btnShow}
                 onClick={() => {
-                  handlePrint(), setPrintMode(true);
+                  (handlePrint(), setPrintMode(true));
                 }}
                 kind="tertiary"
                 renderIcon={(props) => <Printer size={16} {...props} />}

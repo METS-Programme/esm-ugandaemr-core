@@ -9,7 +9,7 @@ const QueueWaitingTile: React.FC = () => {
 
   const session = useSession();
 
-  const { items } = usePatientQueuePages(session.sessionLocation.uuid, '');
+  const { items } = usePatientQueuePages(session?.sessionLocation?.uuid, '');
 
   return (
     <SummaryTile

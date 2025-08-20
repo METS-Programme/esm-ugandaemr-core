@@ -8,10 +8,7 @@ import legacyAdminAppMenu from './menu-app-items/legacy-admin-item/legacy-admin-
 import cohortBuilderAppMenu from './menu-app-items/cohort-builder-item/cohort-builder-item.component';
 import formRenderTestAppMenu from './menu-app-items/form-render-test-item/form-render-test-item.component';
 import dispensingAppMenu from './menu-app-items/despensing-app-menu-item/dispensing-app-menu-item.component';
-
-import AppSearchLaunchComponent from './app-menu/app-search-icon/app-search-icon.component';
-
-import { createDashboardGroup, createDashboardLink } from '@openmrs/esm-patient-common-lib';
+import { createDashboardLink } from '@openmrs/esm-patient-common-lib';
 import { createHomeDashboardLink } from './create-dashboard-link';
 import ClinicalPatientSummary from './pages/clinical-patient-summary/clinical-patient-summary.component';
 import ClinicalPatientSummaryTabs from './pages/clinical-patient-summary/clinical-patient-summary-tabs/clinical-patient-summary-tabs.component';
@@ -20,6 +17,7 @@ import ObjectiveFindingsComponent from './pages/clinical-patient-summary/clinica
 import TreatmentPlanComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/treatment-plan.component';
 import AssessmentComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/assessment.component';
 import {
+  createDashboardGroup,
   createOHRIPatientChartSideNavLink,
   patientChartDivider_dashboardMeta,
 } from '@ohri/openmrs-esm-ohri-commons-lib';
@@ -48,8 +46,9 @@ import VmmcServices from './views/hiv/hps/vmmc/vmmc-services.component';
 import DSTBSummary from './views/tb/ds/ds-tb-summary.component';
 import DRTBSummary from './views/tb/dr/dr-tb-summary.component';
 import EidSummary from './views/eid/eid.component';
-import { registerCustomDataSource } from '@openmrs/openmrs-form-engine-lib';
+import { registerCustomDataSource } from '@openmrs/esm-form-engine-lib';
 import { DSDMCategorizationDatasource } from './custom-expressions/custom-expressions';
+import AppSearchLaunch from './app-menu/app-search-icon/app-search-icon.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -223,4 +222,7 @@ export const treatmentPlanSection = getSyncLifecycle(TreatmentPlanComponent, opt
 
 export const assessmentSection = getSyncLifecycle(AssessmentComponent, options);
 
-export const appSearchLaunch = getSyncLifecycle(AppSearchLaunchComponent, options);
+export const appMenuButton = getSyncLifecycle(AppSearchLaunch, {
+  featureName: 'app-search-button',
+  moduleName,
+});

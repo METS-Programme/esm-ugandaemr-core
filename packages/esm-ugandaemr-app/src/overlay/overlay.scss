@@ -1,7 +1,7 @@
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
-@import '~@openmrs/esm-styleguide/src/vars';
-@import '../root.scss';
+@use '@openmrs/esm-styleguide/src/vars' as *;
+
 .desktopOverlay {
     position: fixed;
     top: spacing.$spacing-09;
@@ -38,6 +38,7 @@
     button {
         background-color: $brand-01 !important;
     }
+
     .headerContent {
         color: $ui-02;
     }

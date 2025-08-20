@@ -6,7 +6,7 @@ export const AssessmentComponent = () => {
   return (
     <>
       <div className={styles.tabContent}>
-        <TextInput type="text" labelText="Test Ordered" />
+        <TextInput id="testOrdered" type="text" labelText="Test Ordered" />
       </div>
       <div className={styles.tabContent}>
         <TextArea labelText="Results" />

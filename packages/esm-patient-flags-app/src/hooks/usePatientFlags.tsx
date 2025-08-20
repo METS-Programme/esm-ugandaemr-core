@@ -16,6 +16,6 @@ export interface Link {
 export const usePatientFlags = (patientUuid: string) => {
   const patientFlagsUrl = `/ws/rest/v1/patientflags/patientflag?patient=${patientUuid}`;
   const { data, error, isLoading } = useSWR<{ data: { results: Array<Result> } }, Error>(patientFlagsUrl, openmrsFetch);
-  const patientFlags = typeof data?.data === 'string' ? [] : data?.data?.results ?? [];
+  const patientFlags = typeof data?.data === 'string' ? [] : (data?.data?.results ?? []);
   return { patientFlags, isLoading, error };
 };
