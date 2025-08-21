@@ -302,9 +302,9 @@
         {
             "name": "app-search-button",
             "component": "appMenuButton",
+            "slot": "top-nav-actions-slot",
             "online": true,
-            "offline": true,
-            "slot": "top-nav-actions-slot"
+            "offline": true
         }
     ],
     "modals": [
