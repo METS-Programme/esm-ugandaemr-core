@@ -222,7 +222,4 @@ export const treatmentPlanSection = getSyncLifecycle(TreatmentPlanComponent, opt
 
 export const assessmentSection = getSyncLifecycle(AssessmentComponent, options);
 
-export const appMenuButton = getSyncLifecycle(AppSearchLaunch, {
-  featureName: 'app-search-button',
-  moduleName,
-});
+export const appMenuButton = getSyncLifecycle(AppSearchLaunch, options);
