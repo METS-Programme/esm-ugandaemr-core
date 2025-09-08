@@ -109,15 +109,6 @@ export const dispensingDashboardLink = getSyncLifecycle(
   options,
 );
 
-export const homepageDashboardLink = getSyncLifecycle(
-  createHomeDashboardLink({
-    name: 'initial-page',
-    slot: 'homepage-dashboard-slot',
-    title: 'Home',
-  }),
-  options,
-);
-
 export const clinicalPatientDashboardLink = getSyncLifecycle(
   createDashboardLink({
     path: 'clinical-patient-dashboard',
