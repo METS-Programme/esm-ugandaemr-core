@@ -1,7 +1,7 @@
 @use '@carbon/styles/scss/type';
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/colors';
-@import '~@openmrs/esm-styleguide/src/vars';
+@use '@openmrs/esm-styleguide/src/vars' as *;
 
 .bodyShort01 {
   @include type.type-style('body-compact-01');
@@ -15,6 +15,7 @@
     padding-top: spacing.$spacing-02;
   }
 }
+
 .desktopHeading,
 .tabletHeading {
   text-align: left;
@@ -22,6 +23,7 @@
   background-color: $ui-background;
   padding-top: spacing.$spacing-02;
 }
+
 .structuredList {
   padding: 0.5rem 0.5rem 0.5rem;
 }
@@ -36,5 +38,6 @@
   :global(.cds--structured-list-td) {
     padding: 0.2rem 0.2rem 0.5rem;
   }
+
   background-color: $ui-background;
 }

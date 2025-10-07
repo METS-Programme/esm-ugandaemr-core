@@ -1,7 +1,7 @@
 @use '@carbon/styles/scss/type';
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/colors';
-@import '~@openmrs/esm-styleguide/src/vars';
+@use '@openmrs/esm-styleguide/src/vars' as *;
 
 .desktopHeading {
   h4 {
@@ -66,7 +66,7 @@
   width: 30%;
   margin: spacing.$spacing-03 0;
 
-  & > p:first-child {
+  &>p:first-child {
     @include type.type-style('label-01');
     color: colors.$gray-70;
     margin-bottom: spacing.$spacing-02;
