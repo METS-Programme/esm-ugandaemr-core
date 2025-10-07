@@ -16,12 +16,6 @@
     ],
     "extensions": [
         {
-            "name": "homepage-dashboard-link",
-            "slot": "homepage-dashboard-slot",
-            "component": "homepageDashboardLink",
-            "order": 1
-        },
-        {
             "name": "clinical-views-divider",
             "slot": "patient-chart-dashboard-slot",
             "component": "clinicalViewsDivider",
@@ -61,10 +55,6 @@
                 "path": "patient-summary",
                 "layoutMode": "anchored"
             }
-        },
-        {
-            "name": "patient-summary-summary-ext",
-            "slot": "patient-summary-summary-slot"
         },
         {
             "name": "treatment",
@@ -305,8 +295,10 @@
         },
         {
             "name": "app-search-button",
-            "slot": "top-nav-app-menu-slot",
-            "component": "appSearchLaunch"
+            "component": "appMenuButton",
+            "slot": "top-nav-actions-slot",
+            "online": true,
+            "offline": true
         }
     ],
     "modals": [

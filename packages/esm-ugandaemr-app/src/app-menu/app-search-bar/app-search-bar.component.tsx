@@ -44,8 +44,8 @@ const AppSearchBar = React.forwardRef<HTMLInputElement, AppSearchBarProps>(
         <ComponentContext.Provider
           key={extension?.id}
           value={{
-            featureName: extension?.moduleName,
             moduleName: extension?.moduleName,
+            featureName: 'app-search-button',
             extension: {
               extensionId: extension?.id,
               extensionSlotName: appMenuItemSlot,
@@ -81,8 +81,8 @@ const AppSearchBar = React.forwardRef<HTMLInputElement, AppSearchBarProps>(
                 <ComponentContext.Provider
                   key={extension?.id}
                   value={{
-                    featureName: extension?.moduleName,
                     moduleName: extension?.moduleName,
+                    featureName: 'app-search-button',
                     extension: {
                       extensionId: extension?.id,
                       extensionSlotName: appMenuItemSlot,

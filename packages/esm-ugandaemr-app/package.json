@@ -37,17 +37,17 @@
         "url": "https://github.com/METS-Programme/esm-ugandaemr-core/issues"
     },
     "dependencies": {
-        "@carbon/react": "^1.64.1",
-        "@openmrs/openmrs-form-engine-lib": "^2.1.0",
+        "@carbon/react": "^1.83.0",
+        "@openmrs/esm-form-engine-lib": "^3.1.5-pre.2075",
         "lodash-es": "^4.17.15"
     },
     "peerDependencies": {
-        "@openmrs/esm-framework": "*",
-        "@openmrs/esm-patient-common-lib": "*",
+        "@openmrs/esm-framework": "7.x",
+        "@openmrs/esm-patient-common-lib": "10.x",
         "react": "18.x",
         "react-i18next": "11.x"
     },
     "devDependencies": {
-        "webpack": "^5.83.1"
+        "webpack": "^5.99.9"
     }
 }

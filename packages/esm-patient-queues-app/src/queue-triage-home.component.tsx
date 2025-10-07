@@ -27,7 +27,7 @@ const TriageHome: React.FC = () => {
 
       {canViewDashboard && (
         <div className={styles.container}>
-          <Tabs className={styles.tabs}>
+          <Tabs>
             <TabList style={{ paddingLeft: '1rem' }} aria-label="triage outpatient tabs" contained>
               <Tab style={{ width: '150px' }}>{t('pending', 'In Queue')}</Tab>
               <Tab style={{ width: '150px' }}>{t('completed', 'Completed')}</Tab>

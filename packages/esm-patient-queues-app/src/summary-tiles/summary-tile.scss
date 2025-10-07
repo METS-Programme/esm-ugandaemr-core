@@ -1,7 +1,8 @@
 @use '@carbon/styles/scss/spacing';
 @use '@carbon/styles/scss/type';
 @use '@carbon/styles/scss/colors';
-@import '~@openmrs/esm-styleguide/src/vars';
+@use '@openmrs/esm-styleguide/src/vars' as *;
+
 .tileContainer {
   border: 0.0625rem solid $ui-03;
   flex-grow: 1;
@@ -42,14 +43,14 @@
   fill: var(--cds-link-primary, #0f62fe) !important;
 }
 
-.kpis{
+.kpis {
   display: flex;
-  flex-direction: row;  
+  flex-direction: row;
   justify-content: space-between;
 }
 
 
-.kpis > div {
+.kpis>div {
   text-align: left;
 }
 

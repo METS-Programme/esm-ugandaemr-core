@@ -6,7 +6,7 @@ export const SubjectiveFindingsComponent = () => {
   return (
     <>
       <div className={styles.tabContent}>
-        <TextInput type="text" labelText="Reason for today's patient visit" />
+        <TextInput id="visitReason" type="text" labelText="Reason for today's patient visit" />
       </div>
       <div className={styles.tabContent}>
         <TextArea labelText="Narrative explaining the progression of the presenting complaint" />

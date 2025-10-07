@@ -67,7 +67,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ closeWorkspace, patientUuid 
   const [selectedProvider, setSelectedProvider] = useState('');
   const priorityLabels = useMemo(() => ['Not Urgent', 'Urgent', 'Emergency'], []);
 
-  const { providers, error: errorLoadingProviders } = useProviders(selectedNextQueueLocation);
+  const { providers, error: errorLoadingProviders, isLoading } = useProviders(selectedNextQueueLocation);
   const [extraVisitInfo, setExtraVisitInfo] = useState(null);
   const {
     handleSubmit,
@@ -204,6 +204,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ closeWorkspace, patientUuid 
               <>
                 <ContentSwitcher
                   {...field}
+                  size="md"
                   selectedIndex={contentSwitcherIndex}
                   className={styles.contentSwitcher}
                   onChange={({ index }) => {
@@ -244,11 +245,9 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ closeWorkspace, patientUuid 
                       label="Choose a priority level"
                       items={priorityLevels ?? []}
                       initialSelectedItem={priorityLevels[0]}
-                      itemToString={(item) => (item ? String(item.name || item.label || item) : '')}
-                      onChange={({ selectedItem }) => {
-                        if (!selectedItem) return;
-                        field.onChange(selectedItem.id);
-                      }}
+                      selectedItem={priorityLevels.find((n) => n === field.value) ?? priorityLevels[0]}
+                      itemToString={(item: number | null) => (item ? String(item) : '')}
+                      onChange={({ selectedItem }) => field.onChange(selectedItem as number)}
                       invalid={!!errors.priority}
                       invalidText={errors.priority?.message}
                     />
@@ -318,7 +317,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ closeWorkspace, patientUuid 
                   labelText={''}
                   id="providers-list"
                   name="providers-list"
-                  disabled={errorLoadingProviders}
+                  disabled={isLoading}
                   invalid={!!errors.provider}
                   invalidText={errors.provider?.message}
                   value={field.value}
@@ -342,7 +341,9 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ closeWorkspace, patientUuid 
                 className={styles.errorNotification}
                 kind="error"
                 onClick={() => {}}
-                subtitle={errorLoadingProviders}
+                subtitle={t('errorLoadingPatientWorkspace', 'Error loading patient workspace {{errorMessage}}', {
+                  errorMessage: errorLoadingProviders?.message,
+                })}
                 title={t('errorFetchingQueueRooms', 'Error fetching providers')}
               />
             )}
@@ -381,7 +382,7 @@ const StartVisitForm: React.FC<VisitFormProps> = ({ closeWorkspace, patientUuid 
         </section>
       </div>
       <ButtonSet className={styles.buttonSet}>
-        <Button className={styles.button} kind="secondary" onClick={closeWorkspace}>
+        <Button className={styles.button} kind="secondary" onClick={() => closeWorkspace()}>
           {t('discard', 'Discard')}
         </Button>
         <Button

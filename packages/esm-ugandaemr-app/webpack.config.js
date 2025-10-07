@@ -9,7 +9,7 @@ config.overrides.resolve = {
   alias: {
     '@openmrs/esm-framework': '@openmrs/esm-framework/src/internal',
     '@ohri/openmrs-esm-ohri-commons-lib': '@ohri/openmrs-esm-ohri-commons-lib/src/index',
-    '@openmrs/openmrs-form-engine-lib': '@openmrs/openmrs-form-engine-lib/src/index',
+    '@openmrs/esm-form-engine-lib': '@openmrs/esm-form-engine-lib/src/index',
   },
 };
 

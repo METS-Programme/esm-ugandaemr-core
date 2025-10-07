@@ -245,14 +245,14 @@ const RegimenForm: React.FC<RegimenFormProps> = ({
               className={styles.radioButtonWrapper}
               name="regimenEvent"
               onChange={(uuid) => {
-                setRegimenEvent(uuid);
+                setRegimenEvent(uuid as string);
               }}
             >
               <RadioButton
                 key={'start-regimen'}
                 labelText={t('startRegimen', 'Start')}
                 value={Regimen.startOrRestartConcept}
-                disabled={lastRegimenEncounter.uuid}
+                disabled={!lastRegimenEncounter.uuid}
               />
 
               <RadioButton
@@ -272,7 +272,9 @@ const RegimenForm: React.FC<RegimenFormProps> = ({
                 key={'stop-regimen'}
                 labelText={t('stopRegimen', 'Stop')}
                 value={Regimen.stopRegimenConcept}
-                disabled={lastRegimenEncounter.endDate || (!lastRegimenEncounter.uuid && !lastRegimenEncounter.endDate)}
+                disabled={
+                  !lastRegimenEncounter.endDate || (!lastRegimenEncounter.uuid && !lastRegimenEncounter.endDate)
+                }
               />
             </RadioButtonGroup>
             {regimenEvent ? (
@@ -281,8 +283,6 @@ const RegimenForm: React.FC<RegimenFormProps> = ({
                   <DatePicker
                     dateFormat="d/m/Y"
                     datePickerType="single"
-                    id="regimenDate"
-                    style={{ paddingBottom: '1rem' }}
                     maxDate={new Date().toISOString()}
                     onChange={([date]) => setVisitDate(date)}
                     value={visitDate}
@@ -302,7 +302,7 @@ const RegimenForm: React.FC<RegimenFormProps> = ({
                       className={styles.radioButtonWrapper}
                       name="regimenType"
                       onChange={(uuid) => {
-                        setSelectedRegimenType(uuid);
+                        setSelectedRegimenType(uuid as string);
                       }}
                     >
                       <RadioButton key={'standardUuid'} labelText={'Use standard regimen'} value={'standardUuid'} />

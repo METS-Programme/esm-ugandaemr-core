@@ -324,6 +324,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
               <>
                 <ContentSwitcher
                   {...field}
+                  size="md"
                   selectedIndex={contentSwitcherIndex}
                   className={styles.contentSwitcher}
                   onChange={({ index }) => {
@@ -354,6 +355,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
               <>
                 <ContentSwitcher
                   {...field}
+                  size="md"
                   selectedIndex={statusSwitcherIndex}
                   className={styles.contentSwitcher}
                   onChange={({ index }) => {
@@ -435,7 +437,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
                       labelText={''}
                       id="providers-list"
                       name="providers-list"
-                      disabled={errorLoadingProviders}
+                      disabled={isLoading}
                       invalid={!!errors.provider}
                       invalidText={errors.provider?.message}
                       value={field.value}
@@ -459,7 +461,9 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
                     className={styles.errorNotification}
                     kind="error"
                     title={t('errorFetchingQueueRooms', 'Error fetching providers')}
-                    subtitle={errorLoadingProviders}
+                    subtitle={t('errorLoadingPatientWorkspace', 'Error loading patient workspace {{errorMessage}}', {
+                      errorMessage: errorLoadingProviders?.message,
+                    })}
                     onClick={() => {}}
                   />
                 )}
@@ -495,7 +499,7 @@ const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({
         )}
       </div>
       <ButtonSet className={styles.buttonSet}>
-        <Button kind="secondary" onClick={closeWorkspace} className={styles.button}>
+        <Button kind="secondary" onClick={() => closeWorkspace()} className={styles.button}>
           {t('cancel', 'Cancel')}
         </Button>
         {isSubmitting ? (

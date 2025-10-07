@@ -134,7 +134,7 @@ const ProgramEnrollment: React.FC<ProgramEnrollmentProps> = ({ enrollments = [],
 
             <span className={styles.value}>{programData.currentRegimen}</span>
             <span>
-              <RegimenButton />
+              <RegimenButton patientUuid={patientUuid} />
             </span>
           </div>
           <div className={styles.content}>

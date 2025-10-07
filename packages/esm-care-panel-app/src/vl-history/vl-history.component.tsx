@@ -29,6 +29,7 @@ const ViralLoadList: React.FC<ViralLoadProps> = ({ patientUuid }) => {
 
   const pageSizes = [10, 20, 30, 40, 50];
   const [currentPageSize, setPageSize] = useState(10);
+  const [allRows, setAllRows] = useState([]);
 
   const tableHeaders = [
     { id: 0, header: t('hivViralLoadDate', 'Viral Load Date'), key: 'hivViralLoadDate' },
@@ -56,7 +57,7 @@ const ViralLoadList: React.FC<ViralLoadProps> = ({ patientUuid }) => {
   }
 
   return (
-    <DataTable rows={paginatedData} headers={tableHeaders} useZebraStyles overflowMenuOnHover={true}>
+    <DataTable rows={allRows} headers={tableHeaders} useZebraStyles overflowMenuOnHover={true}>
       {({ rows, headers, getHeaderProps, getTableProps, getRowProps }) => (
         <TableContainer className={styles.tableContainer}>
           <Table {...getTableProps()} className={styles.activePatientsTable}>
@@ -92,7 +93,7 @@ const ViralLoadList: React.FC<ViralLoadProps> = ({ patientUuid }) => {
             page={currentPage}
             pageSize={currentPageSize}
             pageSizes={pageSizes}
-            totalItems={tableRows?.length}
+            totalItems={paginatedData?.length}
             className={styles.pagination}
             onChange={({ pageSize, page }) => {
               if (pageSize !== currentPageSize) {
