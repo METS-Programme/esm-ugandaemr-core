@@ -21,173 +21,49 @@
             "component": "clinicalViewsDivider",
             "order": 20
         },
-        {
-            "name": "hiv-care-and-treatment",
-            "slot": "patient-chart-dashboard-slot",
-            "component": "patientChartHIVCareAndTreatmentDashboard",
-            "order": 21
-        },
-        {
-            "name": "hiv-prevention-services",
-            "slot": "patient-chart-dashboard-slot",
-            "component": "patientChartHIVPreventionServicesDashboard",
-            "order": 22
-        },
-        {
-            "name": "eid-program",
-            "slot": "patient-chart-dashboard-slot",
-            "component": "patientChartEIDDashboard",
-            "order": 23
-        },
-        {
-            "name": "tb-program",
-            "slot": "patient-chart-dashboard-slot",
-            "component": "patientChartTBDashboard",
-            "order": 24
-        },
-        {
-            "name": "patient-summary",
-            "slot": "hiv-care-and-treatment-slot",
-            "component": "patientSummaryDashboardLink",
-            "meta": {
-                "slot": "patient-summary-summary-slot",
-                "columns": 1,
-                "path": "patient-summary",
-                "layoutMode": "anchored"
-            }
-        },
-        {
-            "name": "treatment",
-            "slot": "hiv-care-and-treatment-slot",
-            "component": "treatmentDashboardLink",
-            "meta": {
-                "slot": "treatment-summary-slot",
-                "columns": 1,
-                "path": "treatment",
-                "layoutMode": "anchored"
-            }
-        },
+
         {
             "name": "treatment-summary-ext",
-            "slot": "treatment-summary-slot",
+            "slot": "patient-summary-dashboard-slot",
             "component": "treatmentDashboard"
         },
         {
-            "name": "general-counselling-summary",
-            "slot": "hiv-care-and-treatment-slot",
-            "component": "generalCounsellingDashboardLink",
-            "meta": {
-                "slot": "general-counselling-summary-slot",
-                "columns": 1,
-                "path": "general-counselling",
-                "layoutMode": "anchored"
-            }
-        },
-        {
             "name": "general-counselling-summary-ext",
-            "slot": "general-counselling-summary-slot",
+            "slot": "patient-general-counselling-dashboard-slot",
             "component": "generalCounsellingDashboard"
         },
-        {
-            "name": "hiv-testing-services",
-            "slot": "hiv-prevention-services-slot",
-            "component": "htsDashboardLink",
-            "meta": {
-                "slot": "hiv-testing-services-slot",
-                "columns": 1,
-                "path": "hts",
-                "layoutMode": "anchored"
-            }
-        },
+  
         {
             "name": "hiv-testing-services-ext",
-            "slot": "hiv-testing-services-slot",
+            "slot": "patient-hts-dashboard-slot",
             "component": "htsDashboard"
         },
-        {
-            "name": "vmmc-services",
-            "slot": "hiv-prevention-services-slot",
-            "component": "vmmcDashboardLink",
-            "meta": {
-                "slot": "vmmc-services-slot",
-                "columns": 1,
-                "path": "smc",
-                "layoutMode": "anchored"
-            }
-        },
+    
         {
             "name": "vmmc-services-ext",
-            "slot": "vmmc-services-slot",
+            "slot": "patient-smc-dashboard-slot",
             "component": "vmmcDashboard"
         },
-        {
-            "name": "tb-services",
-            "slot": "tb-slot",
-            "component": "tbDashboardLink",
-            "meta": {
-                "slot": "tb-summary-dashboard-slot",
-                "columns": 1,
-                "path": "tb-summary",
-                "layoutMode": "anchored"
-            }
-        },
-        {
-            "name": "ds-tb-services",
-            "slot": "tb-slot",
-            "component": "dstbDashboardLink",
-            "meta": {
-                "slot": "dstb-dashboard-slot",
-                "columns": 1,
-                "path": "ds-tb",
-                "layoutMode": "anchored"
-            }
-        },
+  
         {
             "name": "ds-tb-summary-ext",
-            "slot": "dstb-dashboard-slot",
+            "slot": "patient-ds-tb-dashboard-slot",
             "component": "dstbDashboard"
         },
         {
-            "name": "dr-tb-services",
-            "slot": "tb-slot",
-            "component": "drtbDashboardLink",
-            "meta": {
-                "slot": "drtb-dashboard-slot",
-                "columns": 1,
-                "path": "dr-tb",
-                "layoutMode": "anchored"
-            }
-        },
-        {
             "name": "dr-tb-summary-ext",
-            "slot": "drtb-dashboard-slot",
+            "slot": "patient-dr-tb-dashboard-slot",
             "component": "drtbDashboard"
         },
-        {
-            "name": "eid-patient-summary",
-            "slot": "eid-slot",
-            "component": "eidPatientSummaryDashboardLink",
-            "meta": {
-                "slot": "eid-summary-dashboard-slot",
-                "columns": 1,
-                "path": "eid-patient-summary",
-                "layoutMode": "anchored"
-            }
+ {
+            "name": "eid-summary-ext",
+            "slot": "patient-eid-program-summary-dashboard-slot",
+            "component": "eidDashboard"
         },
+    
         {
-            "name": "eid-encounter",
-            "slot": "eid-slot",
-            "component": "eidDashboardLink",
-            "meta": {
-                "slot": "eid-dashboard-slot",
-                "columns": 1,
-                "path": "eid",
-                "layoutMode": "anchored"
-            }
-        },
-        {
-            "name": "eid-ext",
-            "slot": "eid-dashboard-slot",
+            "name": "eid-encounter-ext",
+            "slot": "patient-eid-program-dashboard-slot",
             "component": "eidDashboard"
         },
         {
