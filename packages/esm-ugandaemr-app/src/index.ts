@@ -1,4 +1,4 @@
-import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
+import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 
@@ -17,27 +17,10 @@ import ObjectiveFindingsComponent from './pages/clinical-patient-summary/clinica
 import TreatmentPlanComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/treatment-plan.component';
 import AssessmentComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/assessment.component';
 import {
-  createDashboardGroup,
   createOHRIPatientChartSideNavLink,
   patientChartDivider_dashboardMeta,
 } from '@ohri/openmrs-esm-ohri-commons-lib';
 
-import {
-  drtbDashboardMeta,
-  dstbDashboardMeta,
-  eidDashboardMeta,
-  eidPatientSummaryDashboardMeta,
-  eidboardMeta,
-  generalCounsellingDashboardMeta,
-  hivCareAndTreatmentDashboardDMeta,
-  hivPrevetionServicesboardDMeta,
-  htsDashboardMeta,
-  patientSummaryDashboardMeta,
-  tbDashboardMeta,
-  tbPatientSummaryDashboardMeta,
-  treatmentDashboardMeta,
-  vmmcDashboardMeta,
-} from './dashboard.meta';
 import GeneralCounsellingSummary from './views/hiv/hct/general-counselling/general-counselling-summary.component';
 import PatientSummaryOverviewList from './views/hiv/hct/patient-summary/patient-summary-summary.component';
 import TreatmentSummary from './views/hiv/hct/treatment/treatment-summary.component';

@@ -21,18 +21,24 @@
             "component": "clinicalViewsDivider",
             "order": 20
         },
-
         {
-            "name": "treatment-summary-ext",
+
+            "name": "hiv-care-and-treatment-ext",
             "slot": "patient-summary-dashboard-slot",
+            "component": "clinicalPatientSummary"
+
+        },
+        {
+            "name": "hiv-care-and-treatment-treatment-summary-ext",
+            "slot": "patient-treatment-dashboard-slot",
             "component": "treatmentDashboard"
         },
         {
-            "name": "general-counselling-summary-ext",
+            "name": "hiv-care-and-treatment-general-counselling-summary-ext",
             "slot": "patient-general-counselling-dashboard-slot",
             "component": "generalCounsellingDashboard"
         },
-  
+
         {
             "name": "hiv-testing-services-ext",
             "slot": "patient-hts-dashboard-slot",
@@ -44,6 +50,8 @@
             "slot": "patient-smc-dashboard-slot",
             "component": "vmmcDashboard"
         },
+
+
   
         {
             "name": "ds-tb-summary-ext",
@@ -55,7 +63,10 @@
             "slot": "patient-dr-tb-dashboard-slot",
             "component": "drtbDashboard"
         },
- {
+
+
+
+        {
             "name": "eid-summary-ext",
             "slot": "patient-eid-program-summary-dashboard-slot",
             "component": "eidDashboard"
@@ -66,6 +77,8 @@
             "slot": "patient-eid-program-dashboard-slot",
             "component": "eidDashboard"
         },
+
+
         {
             "name": "dispensing-dashboard-link",
             "slot": "homepage-dashboard-slot",
