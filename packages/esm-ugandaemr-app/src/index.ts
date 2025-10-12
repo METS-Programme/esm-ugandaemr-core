@@ -1,4 +1,4 @@
-import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle, provide } from '@openmrs/esm-framework';
+import { defineConfigSchema, getAsyncLifecycle, getSyncLifecycle } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 import { moduleName } from './constants';
 
@@ -17,27 +17,10 @@ import ObjectiveFindingsComponent from './pages/clinical-patient-summary/clinica
 import TreatmentPlanComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/treatment-plan.component';
 import AssessmentComponent from './pages/clinical-patient-summary/clinical-patient-summary-tabs/assessment.component';
 import {
-  createDashboardGroup,
   createOHRIPatientChartSideNavLink,
   patientChartDivider_dashboardMeta,
 } from '@ohri/openmrs-esm-ohri-commons-lib';
 
-import {
-  drtbDashboardMeta,
-  dstbDashboardMeta,
-  eidDashboardMeta,
-  eidPatientSummaryDashboardMeta,
-  eidboardMeta,
-  generalCounsellingDashboardMeta,
-  hivCareAndTreatmentDashboardDMeta,
-  hivPrevetionServicesboardDMeta,
-  htsDashboardMeta,
-  patientSummaryDashboardMeta,
-  tbDashboardMeta,
-  tbPatientSummaryDashboardMeta,
-  treatmentDashboardMeta,
-  vmmcDashboardMeta,
-} from './dashboard.meta';
 import GeneralCounsellingSummary from './views/hiv/hct/general-counselling/general-counselling-summary.component';
 import PatientSummaryOverviewList from './views/hiv/hct/patient-summary/patient-summary-summary.component';
 import TreatmentSummary from './views/hiv/hct/treatment/treatment-summary.component';
@@ -109,37 +92,10 @@ export const dispensingDashboardLink = getSyncLifecycle(
   options,
 );
 
-export const clinicalPatientDashboardLink = getSyncLifecycle(
-  createDashboardLink({
-    path: 'clinical-patient-dashboard',
-    title: 'Clinical Patient Dashboard',
-    icon: '',
-    moduleName,
-  }),
-  options,
-);
-
 // Patient Chart
 
 export const clinicalViewsDivider = getSyncLifecycle(
   createOHRIPatientChartSideNavLink(patientChartDivider_dashboardMeta),
-  options,
-);
-
-export const patientChartHIVCareAndTreatmentDashboard = getSyncLifecycle(
-  createDashboardGroup(hivCareAndTreatmentDashboardDMeta),
-  options,
-);
-export const patientChartHIVPreventionServicesDashboard = getSyncLifecycle(
-  createDashboardGroup(hivPrevetionServicesboardDMeta),
-  options,
-);
-
-export const patientChartEIDDashboard = getSyncLifecycle(createDashboardGroup(eidDashboardMeta), options);
-export const patientChartTBDashboard = getSyncLifecycle(createDashboardGroup(tbDashboardMeta), options);
-
-export const generalCounsellingDashboardLink = getSyncLifecycle(
-  createDashboardLink({ ...generalCounsellingDashboardMeta, moduleName }),
   options,
 );
 
@@ -148,56 +104,26 @@ export const generalCounsellingDashboard = getSyncLifecycle(GeneralCounsellingSu
   moduleName,
 });
 
-export const vmmcDashboardLink = getSyncLifecycle(createDashboardLink({ ...vmmcDashboardMeta, moduleName }), options);
-
 export const vmmcDashboard = getSyncLifecycle(VmmcServices, {
   featureName: 'vmmc-services',
   moduleName,
 });
-
-export const htsDashboardLink = getSyncLifecycle(createDashboardLink({ ...htsDashboardMeta, moduleName }), options);
 
 export const htsDashboard = getSyncLifecycle(HivTestingServices, {
   featureName: 'hiv-testing-services',
   moduleName,
 });
 
-export const treatmentDashboardLink = getSyncLifecycle(
-  createDashboardLink({ ...treatmentDashboardMeta, moduleName }),
-  options,
-);
-
 export const treatmentDashboard = getSyncLifecycle(TreatmentSummary, { featureName: 'treatment-regimen', moduleName });
-
-export const patientSummaryDashboardLink = getSyncLifecycle(
-  createDashboardLink({ ...patientSummaryDashboardMeta, moduleName }),
-  options,
-);
 
 export const patientSummaryDashboard = getSyncLifecycle(PatientSummaryOverviewList, {
   featureName: 'patient-summary',
   moduleName,
 });
 
-export const tbDashboardLink = getSyncLifecycle(
-  createDashboardLink({ ...tbPatientSummaryDashboardMeta, moduleName }),
-  options,
-);
-
-export const dstbDashboardLink = getSyncLifecycle(createDashboardLink({ ...dstbDashboardMeta, moduleName }), options);
-
 export const dstbDashboard = getSyncLifecycle(DSTBSummary, { featureName: 'ds-tb', moduleName });
 
-export const drtbDashboardLink = getSyncLifecycle(createDashboardLink({ ...drtbDashboardMeta, moduleName }), options);
-
 export const drtbDashboard = getSyncLifecycle(DRTBSummary, { featureName: 'dr-tb', moduleName });
-
-export const eidPatientSummaryDashboardLink = getSyncLifecycle(
-  createDashboardLink({ ...eidPatientSummaryDashboardMeta, moduleName }),
-  options,
-);
-
-export const eidDashboardLink = getSyncLifecycle(createDashboardLink({ ...eidboardMeta, moduleName }), options);
 
 export const eidDashboard = getSyncLifecycle(EidSummary, { featureName: 'eid-summary', moduleName });
 
