@@ -92,16 +92,6 @@ export const dispensingDashboardLink = getSyncLifecycle(
   options,
 );
 
-export const clinicalPatientDashboardLink = getSyncLifecycle(
-  createDashboardLink({
-    path: 'clinical-patient-dashboard',
-    title: 'Clinical Patient Dashboard',
-    icon: '',
-    moduleName,
-  }),
-  options,
-);
-
 // Patient Chart
 
 export const clinicalViewsDivider = getSyncLifecycle(
