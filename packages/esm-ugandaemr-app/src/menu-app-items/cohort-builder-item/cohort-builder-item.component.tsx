@@ -1,17 +1,9 @@
-import { ClickableTile } from '@carbon/react';
 import React from 'react';
-import styles from './cohort-builder-item.scss';
+import styles from '../item.scss';
 import { Events } from '@carbon/react/icons';
+import Item from '../item.component';
 
-const Item = () => {
-  // items
-  const openmrsSpaBase = window['getOpenmrsSpaBase']();
-
-  return (
-    <ClickableTile className={styles.customTile} id="menu-item" href={`${openmrsSpaBase}cohort-builder`}>
-      <div className="customTileTitle">{<Events size={24} />}</div>
-      <div>Cohort Builder</div>
-    </ClickableTile>
-  );
+const CohortBuilderApp = () => {
+  return <Item className={styles.customTile} icon={Events} title="Cohort Builder" to="cohort-builder" />;
 };
-export default Item;
+export default CohortBuilderApp;

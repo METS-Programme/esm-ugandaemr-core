@@ -1,17 +1,9 @@
-import { ClickableTile } from '@carbon/react';
 import React from 'react';
-import styles from './form-render-test.scss';
+import styles from '../item.scss';
 import { DocumentImport } from '@carbon/react/icons';
+import Item from '../item.component';
 
-const Item = () => {
-  // items
-  const openmrsSpaBase = window['getOpenmrsSpaBase']();
-
-  return (
-    <ClickableTile className={styles.customTile} id="menu-item" href={`${openmrsSpaBase}form-render-test`}>
-      <div className="customTileTitle">{<DocumentImport size={24} />}</div>
-      <div>Form Render Test</div>
-    </ClickableTile>
-  );
+const FormRenderApp = () => {
+  return <Item className={styles.customTile} to="form-render-test" title="Form Render" icon={DocumentImport} />;
 };
-export default Item;
+export default FormRenderApp;

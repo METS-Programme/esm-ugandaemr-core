@@ -1,17 +1,9 @@
-import { ClickableTile } from '@carbon/react';
 import React from 'react';
-import styles from './system-info-app-item.scss';
+import styles from '../item.scss';
 import { VolumeFileStorage } from '@carbon/react/icons';
+import Item from '../item.component';
 
-const Item = () => {
-  // items
-  const openmrsSpaBase = window['getOpenmrsSpaBase']();
-
-  return (
-    <ClickableTile className={styles.customTile} id="menu-item" href={`${openmrsSpaBase}about`}>
-      <div className="customTileTitle">{<VolumeFileStorage size={24} />}</div>
-      <div>System Info</div>
-    </ClickableTile>
-  );
+const SystemInfoApp = () => {
+  return <Item className={styles.customTile} title="System Info" to="about" icon={VolumeFileStorage} />;
 };
-export default Item;
+export default SystemInfoApp;
