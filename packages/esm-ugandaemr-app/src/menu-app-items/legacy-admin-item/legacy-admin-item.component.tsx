@@ -1,17 +1,9 @@
-import { ClickableTile } from '@carbon/react';
 import React from 'react';
-import styles from './legacy-admin-item.scss';
+import styles from '../item.scss';
 import { User } from '@carbon/react/icons';
+import Item from '../item.component';
 
-const Item = () => {
-  // items
-  const openmrsSpaBase = window['getOpenmrsSpaBase']();
-
-  return (
-    <ClickableTile className={styles.customTile} id="menu-item" href={`/openmrs/index.htm`}>
-      <div className="customTileTitle">{<User size={24} />}</div>
-      <div>Legacy Admin</div>
-    </ClickableTile>
-  );
+const LegacyAdminApp = () => {
+  return <Item className={styles.customTile} title="Legacy Admin" href="/openmrs/index.htm" icon={User} />;
 };
-export default Item;
+export default LegacyAdminApp;
