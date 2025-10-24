@@ -1,0 +1,9 @@
+@use '@carbon/styles/scss/colors';
+@use '@carbon/styles/scss/type';
+@use '@carbon/styles/scss/spacing';
+@use '@openmrs/esm-styleguide/src/vars' as *;
+.noficationButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
