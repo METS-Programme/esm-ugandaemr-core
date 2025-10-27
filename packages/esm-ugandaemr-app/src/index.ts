@@ -32,6 +32,7 @@ import EidSummary from './views/eid/eid.component';
 import { registerCustomDataSource } from '@openmrs/esm-form-engine-lib';
 import { DSDMCategorizationDatasource } from './custom-expressions/custom-expressions';
 import AppSearchLaunch from './app-menu/app-search-icon/app-search-icon.component';
+import NotificationsMenuButton from './notifications-menu/notifications-menu-button.component';
 
 export const importTranslation = require.context('../translations', false, /.json$/, 'lazy');
 
@@ -141,3 +142,5 @@ export const treatmentPlanSection = getSyncLifecycle(TreatmentPlanComponent, opt
 export const assessmentSection = getSyncLifecycle(AssessmentComponent, options);
 
 export const appMenuButton = getSyncLifecycle(AppSearchLaunch, options);
+
+export const notificationsMenuButton = getSyncLifecycle(NotificationsMenuButton, options);

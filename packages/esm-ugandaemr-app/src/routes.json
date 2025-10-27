@@ -183,6 +183,13 @@
             "slot": "top-nav-actions-slot",
             "online": true,
             "offline": true
+        },
+        {
+            "name": "notifications-menu-button",
+            "component": "notificationsMenuButton",
+            "slot": "top-nav-actions-slot",
+            "online": true,
+            "offline": true
         }
     ],
     "modals": [
