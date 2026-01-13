@@ -135,22 +135,23 @@
             "component": "endVisitModal"
         }
     ],
-    "workspaces": [
+    "workspaces2": [
         {
             "name": "move-to-next-service-point-form-workspace",
             "component": "moveToNextServicePointFormWorkspace",
-            "title": "Move to next service oint",
-            "type": "form",
-            "canMaximize": true,
-            "width": "extra-wide"
+            "window": "patient-chart-clinical-forms"
         },
         {
             "name": "start-visit-form-workspace",
-            "component": "startVisitFormWorkspace",
-            "title": "Start Visit",
-            "type": "form",
-            "canMaximize": true,
-            "width": "extra-wide"
+            "component": "startVisitFormWorkspace", 
+            "window": "patient-chart-clinical-forms"
+        },
+
+         {
+            "name": "patient-form-entry-workspace",
+            "component": "startVisitFormWorkspace", 
+            "window": "patient-chart-clinical-forms"
         }
     ]
 }
+
