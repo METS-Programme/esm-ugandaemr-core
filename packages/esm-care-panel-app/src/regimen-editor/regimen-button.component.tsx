@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useLaunchWorkspaceRequiringVisit } from '@openmrs/esm-patient-common-lib';
 import { Link } from '@carbon/react';
 import styles from './standard-regimen.scss';
-import { launchWorkspace, launchWorkspace2 } from '@openmrs/esm-framework';
+import { launchWorkspace2 } from '@openmrs/esm-framework';
 
 interface RegimenButtonProps {
   patientUuid: string;

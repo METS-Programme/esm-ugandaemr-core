@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { launchWorkspace, launchWorkspace2 } from '@openmrs/esm-framework';
+import { launchWorkspace2 } from '@openmrs/esm-framework';
 
 const MovetoNextServicePointPatientActionButton: React.FC = () => {
   const { t } = useTranslation();
