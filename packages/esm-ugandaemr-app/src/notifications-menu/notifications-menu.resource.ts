@@ -1,5 +1,5 @@
-import { openmrsFetch, restBaseUrl } from "@openmrs/esm-framework";
-import useSWR from "swr";
+import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
+import useSWR from 'swr';
 
 export interface Notifications {
   uuid: string;
@@ -13,10 +13,7 @@ export interface Notifications {
 
 export function useGetAlerts() {
   const apiURL = `${restBaseUrl}/alert?v=full&limit=200`;
-  const { data, error, isLoading } = useSWR<
-    { data: { results: Array<Notifications> } },
-    Error
-  >(apiURL, openmrsFetch);
+  const { data, error, isLoading } = useSWR<{ data: { results: Array<Notifications> } }, Error>(apiURL, openmrsFetch);
 
   const alerts = data?.data?.results.filter((alert) => alert.dateToExpire !== null) || [];
 
@@ -42,12 +39,12 @@ function calculateTimeDifference(date1: Date, date2: Date): string {
   const days = Math.floor(hours / 24);
 
   if (days > 0) {
-    return `${days} day${days > 1 ? "s" : ""} ago`;
+    return `${days} day${days > 1 ? 's' : ''} ago`;
   } else if (hours > 0) {
-    return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
   } else if (minutes > 0) {
-    return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
   } else {
-    return `${seconds} second${seconds !== 1 ? "s" : ""} ago`;
+    return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
   }
 }

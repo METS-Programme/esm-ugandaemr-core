@@ -1,11 +1,11 @@
-import React, { useState, useCallback } from "react";
-import { HeaderGlobalAction } from "@carbon/react";
-import { Close, Notification, NotificationNew } from "@carbon/react/icons";
-import styles from "./notifications-menu-button.scss";
-import { useLayoutType } from "@openmrs/esm-framework";
-import { useTranslation } from "react-i18next";
-import NotificationMenuOverlay from "./notifications-menu-overlay.component";
-import { useGetAlerts } from "./notifications-menu.resource";
+import React, { useState, useCallback } from 'react';
+import { HeaderGlobalAction } from '@carbon/react';
+import { Close, Notification, NotificationNew } from '@carbon/react/icons';
+import styles from './notifications-menu-button.scss';
+import { useLayoutType } from '@openmrs/esm-framework';
+import { useTranslation } from 'react-i18next';
+import NotificationMenuOverlay from './notifications-menu-overlay.component';
+import { useGetAlerts } from './notifications-menu.resource';
 
 const NotificationsMenuButton: React.FC = () => {
   const [isNotificationPanelOpen, setIsNotificationPanelOpen] = useState(false);
@@ -23,13 +23,9 @@ const NotificationsMenuButton: React.FC = () => {
     <div className={styles.noficationButtonContainer}>
       {isNotificationPanelOpen && <NotificationMenuOverlay />}
       <HeaderGlobalAction
-        aria-label={t("notifications", "Notifications")}
+        aria-label={t('notifications', 'Notifications')}
         aria-labelledby="Notifications Icon"
-        className={`${
-          isNotificationPanelOpen
-            ? styles.activeNotificationButton
-            : styles.notificationButton
-        }`}
+        className={`${isNotificationPanelOpen ? styles.activeNotificationButton : styles.notificationButton}`}
         onClick={toggleNotificationPanel}
       >
         {isNotificationPanelOpen ? (
