@@ -27,7 +27,6 @@
         }
     ],
     "extensions": [
-
         {
             "name": "start-visit-form-button",
             "component": "startVisitFormButton",
@@ -97,9 +96,8 @@
                 "title": "Clinical Room"
             }
         },
-
         {
-            "name" : "death-certification-notification",
+            "name": "death-certification-notification",
             "component": "deathNotificationActionsButton",
             "slot": "patient-actions-slot"
         },
@@ -135,22 +133,31 @@
             "component": "endVisitModal"
         }
     ],
-    "workspaces": [
+    "workspaces2": [
         {
             "name": "move-to-next-service-point-form-workspace",
             "component": "moveToNextServicePointFormWorkspace",
-            "title": "Move to next service oint",
-            "type": "form",
-            "canMaximize": true,
-            "width": "extra-wide"
+            "window": "patient-chart-clinical-forms"
         },
         {
             "name": "start-visit-form-workspace",
             "component": "startVisitFormWorkspace",
-            "title": "Start Visit",
-            "type": "form",
-            "canMaximize": true,
-            "width": "extra-wide"
+            "window": "patient-chart-clinical-forms"
+        },
+        {
+            "name": "patient-form-entry-workspace",
+            "component": "startVisitFormWorkspace",
+            "window": "patient-chart-clinical-forms"
+        }
+    ],
+    "workspaceWindows2": [
+        {
+            "name": "patient-chart-clinical-forms",
+            "icon": "clinicalFormActionButton",
+            "order": 3,
+            "width": "extra-wide",
+            "group": "patient-chart",
+            "canMaximize": true
         }
     ]
 }
