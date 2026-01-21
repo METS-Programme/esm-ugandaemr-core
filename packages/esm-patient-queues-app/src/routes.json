@@ -140,7 +140,7 @@
             "window": "patient-chart-clinical-forms"
         },
         {
-            "name": "start-visit-form-workspace",
+            "name": "patient-queues-start-visit-form-workspace",
             "component": "startVisitFormWorkspace",
             "window": "patient-chart-clinical-forms"
         },
