@@ -75,7 +75,7 @@ const ReceptionHome: React.FC = () => {
 
   const handleReturnToSearchList = useCallback(() => {
     showPatientSearch();
-    closeWorkspace('start-visit-form-workspace');
+    closeWorkspace('patient-queues-start-visit-form-workspace');
   }, [showPatientSearch]);
 
   const tableHeaders = useMemo(
