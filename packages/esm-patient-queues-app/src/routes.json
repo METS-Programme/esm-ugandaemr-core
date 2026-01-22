@@ -30,7 +30,7 @@
         {
             "name": "start-visit-form-button",
             "component": "startVisitFormButton",
-            "slot": "start-visit-button-slot"
+            "slot": "start-visit-button-slot2"
         },
         {
             "name": "end-visit-form-button",
@@ -154,7 +154,6 @@
         {
             "name": "patient-queues-manage-queues-windows",
             "width": "extra-wide",
-            "canMaximize": true,
             "group": "patient-queues-manage-queues-group"
         }
     ],
