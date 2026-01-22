@@ -11,7 +11,7 @@ const StartVisitButton: React.FC<StartVisitFormProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
 
   const handleLaunchWorkspace = () => {
-    launchWorkspace2('start-visit-form-workspace', {
+    launchWorkspace2('patient-queues-start-visit-form-workspace', {
       patientUuid,
     });
   };
