@@ -140,6 +140,11 @@
             "window": "patient-queues-manage-queues-windows"
         },
         {
+            "name": "patient-queues-patient-search-workspace",
+            "component": "@openmrs/esm-patient-search-app#patientSearchWorkspace2",
+            "window": "patient-queues-manage-queues-windows"
+        },
+        {
             "name": "patient-queues-start-visit-form-workspace",
             "component": "startVisitFormWorkspace",
             "window": "patient-queues-manage-queues-windows"

@@ -14,7 +14,6 @@ import { PageableResult } from '../pageable-result';
 import { useEffect, useState } from 'react';
 import last from 'lodash-es/last';
 export const patientQueueStartVisitFormWorkspace = 'patient-queues-start-visit-form-workspace';
-import { type TFunction } from 'i18next';
 
 export interface PatientQueueFilter extends ResourceFilterCriteria {
   status?: string;
@@ -409,9 +408,10 @@ export function getPatientQueueUuid(uuid: string) {
 
 export const launchStartVisitForm = () => {
   launchWorkspace2(
-    'patient-queues-start-visit-form-workspace',
+    'patient-queues-patient-search-workspace',
     {
       initialQuery: '',
+      workspaceTitle: 'Start Visit',
       onPatientSelected(
         patientUuid: string,
         patient: fhir.Patient,
