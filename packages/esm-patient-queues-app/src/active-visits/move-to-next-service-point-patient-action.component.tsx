@@ -2,11 +2,16 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { launchWorkspace2 } from '@openmrs/esm-framework';
 
-const MovetoNextServicePointPatientActionButton: React.FC = () => {
+interface MovetoNextServicePointPatientProps {
+  patientUuid: string;
+}
+
+const MovetoNextServicePointPatientActionButton: React.FC<MovetoNextServicePointPatientProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
   const handleClick = useCallback(() => {
     launchWorkspace2('move-to-next-service-point-form-workspace', {
-      workspaceTitle: t('moveToNextServicePoint', 'Move to next service point'),
+      patientUuid: patientUuid,
+      showPatientHeader: true,
     });
   }, [t]);
   return (
