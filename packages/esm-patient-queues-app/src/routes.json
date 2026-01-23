@@ -30,7 +30,7 @@
         {
             "name": "start-visit-form-button",
             "component": "startVisitFormButton",
-            "slot": "start-visit-button-slot"
+            "slot": "start-visit-button-slot2"
         },
         {
             "name": "end-visit-form-button",
@@ -137,27 +137,29 @@
         {
             "name": "move-to-next-service-point-form-workspace",
             "component": "moveToNextServicePointFormWorkspace",
-            "window": "patient-chart-clinical-forms"
+            "window": "patient-queues-manage-queues-windows"
+        },
+        {
+            "name": "patient-queues-patient-search-workspace",
+            "component": "@openmrs/esm-patient-search-app#patientSearchWorkspace2",
+            "window": "patient-queues-manage-queues-windows"
         },
         {
             "name": "patient-queues-start-visit-form-workspace",
             "component": "startVisitFormWorkspace",
-            "window": "patient-chart-clinical-forms"
-        },
-        {
-            "name": "patient-form-entry-workspace",
-            "component": "startVisitFormWorkspace",
-            "window": "patient-chart-clinical-forms"
+            "window": "patient-queues-manage-queues-windows"
         }
     ],
     "workspaceWindows2": [
         {
-            "name": "patient-chart-clinical-forms",
-            "icon": "clinicalFormActionButton",
-            "order": 3,
+            "name": "patient-queues-manage-queues-windows",
             "width": "extra-wide",
-            "group": "patient-chart",
-            "canMaximize": true
+            "group": "patient-queues-manage-queues-group"
+        }
+    ],
+    "workspaceGroups2": [
+        {
+            "name": "patient-queues-manage-queues-group"
         }
     ]
 }

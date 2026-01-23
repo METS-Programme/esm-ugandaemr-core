@@ -11,7 +11,7 @@ import {
   usePatientQueuePages,
 } from './active-visits/patient-queues.resource';
 import { useServicePointCount } from './components/patient-queue-metrics/clinic-metrics.resource';
-import { ExtensionSlot, useSession, closeWorkspace } from '@openmrs/esm-framework';
+import { useSession } from '@openmrs/esm-framework';
 import {
   buildStatusString,
   formatWaitTime,
@@ -44,14 +44,13 @@ import PrintActionsMenu from './active-visits/print-action-menu.components';
 import StatusIcon from './utils/utils';
 import SummaryTile from './summary-tiles/summary-tile.component';
 import usePatientSearchVisibility from './utils/usePatientSearchVisibility';
+import CheckInLauncher from './components/check-in/check-in.component';
 
 const ReceptionHome: React.FC = () => {
   const { t } = useTranslation();
   const session = useSession();
   const { location } = useParentLocation(session?.sessionLocation?.uuid);
   const [tick, setTick] = useState(0);
-
-  const { isPatientSearchOpen, hidePatientSearch, showPatientSearch } = usePatientSearchVisibility();
 
   const { stats } = useServicePointCount(
     location?.parentLocation?.uuid,
@@ -72,11 +71,6 @@ const ReceptionHome: React.FC = () => {
     const searchText = event?.target?.value?.trim().toLowerCase();
     setSearchTerm(searchText);
   }, []);
-
-  const handleReturnToSearchList = useCallback(() => {
-    showPatientSearch();
-    closeWorkspace('start-visit-form-workspace');
-  }, [showPatientSearch]);
 
   const tableHeaders = useMemo(
     () => [
@@ -183,21 +177,7 @@ const ReceptionHome: React.FC = () => {
         <div className={styles.headerContainer}>
           <QueueLauncher />
           <div className={styles.headerButtons}>
-            <ExtensionSlot
-              name="patient-search-button-slot"
-              state={{
-                buttonText: t('checkIn', 'CheckIn'),
-                overlayHeader: t('checkIn', 'CheckIn'),
-                handleReturnToSearchList,
-                hidePatientSearch,
-                isOpen: isPatientSearchOpen,
-                selectPatientAction: (selectedPatientUuid) => {
-                  selectedPatientUuid;
-                  hidePatientSearch();
-                },
-                showPatientSearch,
-              }}
-            />
+            <CheckInLauncher />
           </div>
         </div>
         <div>

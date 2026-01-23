@@ -1,12 +1,19 @@
 import dayjs from 'dayjs';
 import useSWR from 'swr';
-import { openmrsFetch, restBaseUrl, usePagination } from '@openmrs/esm-framework';
+import {
+  Workspace2DefinitionProps,
+  launchWorkspace2,
+  openmrsFetch,
+  restBaseUrl,
+  usePagination,
+} from '@openmrs/esm-framework';
 import { PatientQueue } from '../types/patient-queues';
 import { NewVisitPayload, ProviderResponse } from '../types';
 import { ResourceFilterCriteria, ResourceRepresentation, toQueryParams } from '../resource-filter-criteria';
 import { PageableResult } from '../pageable-result';
 import { useEffect, useState } from 'react';
 import last from 'lodash-es/last';
+export const patientQueueStartVisitFormWorkspace = 'patient-queues-start-visit-form-workspace';
 
 export interface PatientQueueFilter extends ResourceFilterCriteria {
   status?: string;
@@ -398,3 +405,26 @@ export function getPatientQueueUuid(uuid: string) {
     },
   });
 }
+
+export const launchStartVisitForm = () => {
+  launchWorkspace2(
+    'patient-queues-patient-search-workspace',
+    {
+      initialQuery: '',
+      workspaceTitle: 'Start Visit',
+      onPatientSelected(
+        patientUuid: string,
+        patient: fhir.Patient,
+        launchChildWorkspace: Workspace2DefinitionProps['launchChildWorkspace'],
+        closeWorkspace: Workspace2DefinitionProps['closeWorkspace'],
+      ) {
+        launchChildWorkspace(patientQueueStartVisitFormWorkspace, {
+          patientUuid: patient.id,
+        });
+      },
+    },
+    {
+      startVisitWorkspaceName: 'patient-queues-start-visit-form-workspace',
+    },
+  );
+};
