@@ -12,8 +12,8 @@ import {
   InlineNotification,
 } from '@carbon/react';
 import {
-  DefaultWorkspaceProps,
   ExtensionSlot,
+  Workspace2DefinitionProps,
   restBaseUrl,
   showNotification,
   showSnackbar,
@@ -42,11 +42,19 @@ import {
 import { QueueStatus, handleMutate } from '../../utils/utils';
 import { type PatientQueueConfig } from '../../config-schema';
 
-type VisitFormProps = DefaultWorkspaceProps & {
+type VisitFormProps = {
   patientUuid: string;
 };
 
-const StartVisitForm: React.FC<VisitFormProps> = ({ closeWorkspace, patientUuid }) => {
+const StartVisitForm: React.FC<
+  Workspace2DefinitionProps<
+    VisitFormProps,
+    {
+      startVisitWorkspaceName: string;
+    },
+    {}
+  >
+> = ({ closeWorkspace, workspaceProps: { patientUuid } }) => {
   const { t } = useTranslation();
   const isTablet = useLayoutType() === 'tablet';
   const sessionUser = useSession();

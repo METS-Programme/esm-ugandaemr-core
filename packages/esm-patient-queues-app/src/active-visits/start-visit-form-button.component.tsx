@@ -9,12 +9,13 @@ interface StartVisitFormProps {
 
 const StartVisitButton: React.FC<StartVisitFormProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
-
   const handleLaunchWorkspace = () => {
     launchWorkspace2('patient-queues-start-visit-form-workspace', {
-      patientUuid,
+      patientUuid: patientUuid,
+      showPatientHeader: true,
     });
   };
+
   return (
     <Button onClick={handleLaunchWorkspace} aria-label={t('startAVisit', 'Start a Visit')}>
       {t('startAVisit', 'Start a Visit')}
