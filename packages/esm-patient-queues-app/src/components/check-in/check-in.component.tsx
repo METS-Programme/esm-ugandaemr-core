@@ -4,7 +4,6 @@ import styles from './check-in.scss';
 import { launchStartVisitForm } from '../../active-visits/patient-queues.resource';
 
 const CheckInLauncher: React.FC = () => {
-  
   return (
     <div className={styles.launcherContainer}>
       <Button

@@ -13,7 +13,7 @@ const MovetoNextServicePointPatientActionButton: React.FC<MovetoNextServicePoint
       patientUuid: patientUuid,
       showPatientHeader: true,
     });
-  }, [t]);
+  }, [patientUuid]);
   return (
     <li className="cds--overflow-menu-options__option">
       <button
