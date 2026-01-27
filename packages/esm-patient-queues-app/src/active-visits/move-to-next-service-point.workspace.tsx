@@ -21,6 +21,7 @@ import {
   useSession,
   getSessionStore,
   showSnackbar,
+  Workspace2DefinitionProps,
 } from '@openmrs/esm-framework';
 import { useTranslation } from 'react-i18next';
 import { useQueueRoomLocations } from '../hooks/useQueueRooms';
@@ -41,11 +42,19 @@ import { CreateQueueEntryFormData, createQueueEntrySchema } from './patient-queu
 import { getSelectedPatientQueueUuid } from '../helpers/helpers';
 import { PatientQueue } from '../types/patient-queues';
 
-type MoveToNextServicePointFormProps = DefaultWorkspaceProps & {
+type MoveToNextServicePointFormProps = {
   patientUuid: string;
 };
 
-const MoveToNextServicePointForm: React.FC<MoveToNextServicePointFormProps> = ({ patientUuid, closeWorkspace }) => {
+const MoveToNextServicePointForm: React.FC<
+  Workspace2DefinitionProps<
+    MoveToNextServicePointFormProps,
+    {
+      startVisitWorkspaceName: string;
+    },
+    {}
+  >
+> = ({ closeWorkspace, workspaceProps: { patientUuid } }) => {
   // Hooks
   const { t } = useTranslation();
   const isTablet = useLayoutType() === 'tablet';
