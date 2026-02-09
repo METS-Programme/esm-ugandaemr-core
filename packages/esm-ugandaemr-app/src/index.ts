@@ -9,6 +9,7 @@ import cohortBuilderAppMenu from './menu-app-items/cohort-builder-item/cohort-bu
 import formRenderTestAppMenu from './menu-app-items/form-render-test-item/form-render-test-item.component';
 import dispensingAppMenu from './menu-app-items/despensing-app-menu-item/dispensing-app-menu-item.component';
 import bedManagementAppMenu from './menu-app-items/bed-mgt-item/bed-mgt.component';
+import suppliesDispensingAppMenu from './menu-app-items/supply-dispensing-app-item/supply-dispensing.component';
 import { createHomeDashboardLink } from './create-dashboard-link';
 import ClinicalPatientSummary from './pages/clinical-patient-summary/clinical-patient-summary.component';
 import ClinicalPatientSummaryTabs from './pages/clinical-patient-summary/clinical-patient-summary-tabs/clinical-patient-summary-tabs.component';
@@ -49,6 +50,7 @@ export const cohortBuilderAppMenuItem = getSyncLifecycle(cohortBuilderAppMenu, o
 export const formRenderTestAppMenuItem = getSyncLifecycle(formRenderTestAppMenu, options);
 export const dispensingAppMenuItem = getSyncLifecycle(dispensingAppMenu, options);
 export const bedManagementMenuItem = getSyncLifecycle(bedManagementAppMenu, options);
+export const suppliesDispensingMenuItem = getSyncLifecycle(suppliesDispensingAppMenu, options);
 
 export function startupApp() {
   defineConfigSchema(moduleName, configSchema);
