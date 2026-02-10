@@ -130,6 +130,14 @@
             }
         },
         {
+          "name": "supply-dispensing-app-menu-item",
+          "component": "suppliesDispensingMenuItem",
+          "slot": "app-menu-item-slot",
+          "meta": {
+            "name": "Supplies Dispensing"
+          }
+        },
+        {
             "name": "form-builder-app-menu-item",
             "component": "formBuilderAppMenuItem",
             "slot": "app-menu-item-slot",
